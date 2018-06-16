@@ -1,0 +1,137 @@
+Orbit, attitude, access.
+
+\href{https://travis-ci.com/open-space-collective/library-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/library-astrodynamics}{\tt } \href{https://open-space-collective.github.io/library-astrodynamics}{\tt }
+
+\subsection*{Warning}
+
+Library {\bfseries name} and {\bfseries license} are yet to be defined.
+
+Please check the following projects\+:
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/orgs/open-space-collective/projects/1}{\tt Naming Project}
+\item \href{https://github.com/orgs/open-space-collective/projects/2}{\tt Licensing Project}
+\end{DoxyItemize}
+
+{\itshape ⚠ This library is still under heavy development. Do not use!}
+
+\subsection*{Structure}
+
+The {\bfseries Astrodynamics} library exhibits the following structure\+:
+
+
+\begin{DoxyCode}
+├── Trajectory
+│   ├── State
+│   ├── Orbit
+│   │   ├── Models
+│   │   │   ├── Kepler
+│   │   │   │   └── Classical Orbital Elements (COE)
+│   │   │   ├── SGP4
+│   │   │   │   └── Two-Line Element \textcolor{keyword}{set} (TLE)
+│   │   │   └── Propagator
+│   │   ├── Pass
+│   │   └── Utilities
+│   └── Composite
+├── Access
+└── State Profile
+\end{DoxyCode}
+
+
+\subsection*{Documentation}
+
+The documentation can be found \href{https://open-space-collective.github.io/library-astrodynamics}{\tt here}.
+
+\subsection*{Setup}
+
+\subsubsection*{Development}
+
+Using \href{https://www.docker.com}{\tt Docker} is recommended, as the development tools and dependencies setup is described in the provided \href{./tools/development/docker/Dockerfile}{\tt Dockerfile}.
+
+Instructions to install Docker can be found \href{https://docs.docker.com/install/}{\tt here}.
+
+Start the development environment\+:
+
+
+\begin{DoxyCode}
+./tools/development/start.sh
+\end{DoxyCode}
+
+
+This will also build the {\ttfamily openspacecollective/library-\/astrodynamics\+:latest} Docker image, if not present already.
+
+If installing Docker is not an option, please manually install the development tools (G\+CC, C\+Make) and the dependencies. The procedure should be similar to the one described in the \href{./tools/development/docker/Dockerfile}{\tt Dockerfile}.
+
+\subsubsection*{Build}
+
+From the development environment\+:
+
+
+\begin{DoxyCode}
+./build.sh
+\end{DoxyCode}
+
+
+Manually\+:
+
+
+\begin{DoxyCode}
+mkdir -p build
+cd build
+cmake ..
+make
+\end{DoxyCode}
+
+
+\subsubsection*{Test}
+
+From the development environment\+:
+
+
+\begin{DoxyCode}
+./test.sh
+\end{DoxyCode}
+
+
+Manually\+:
+
+
+\begin{DoxyCode}
+./bin/library-astrodynamics.test
+\end{DoxyCode}
+
+
+\subsection*{Dependencies}
+
+The {\bfseries Astrodynamics} library internally uses the following dependencies\+:
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Name }&\textbf{ Version }&\textbf{ License }&\textbf{ Link  }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ Name }&\textbf{ Version }&\textbf{ License }&\textbf{ Link  }\\\cline{1-4}
+\endhead
+Boost &1.\+67.\+0 &Boost Software License &\href{https://www.boost.org}{\tt boost.\+org} \\\cline{1-4}
+Eigen &3.\+3.\+4 &M\+P\+L2 &\href{http://eigen.tuxfamily.org/index.php}{\tt eigen.\+tuxfamily.\+org} \\\cline{1-4}
+Core &master &T\+BD &\href{https://github.com/open-space-collective/library-core}{\tt github.\+com/open-\/space-\/collective/library-\/core} \\\cline{1-4}
+Mathematics &master &T\+BD &\href{https://github.com/open-space-collective/library-mathematics}{\tt github.\+com/open-\/space-\/collective/library-\/mathematics} \\\cline{1-4}
+Physics &master &T\+BD &\href{https://github.com/open-space-collective/library-physic}{\tt github.\+com/open-\/space-\/collective/library-\/physic} \\\cline{1-4}
+\end{longtabu}
+\subsection*{Contribution}
+
+Contributions are more than welcome!
+
+Please read our \hyperlink{_c_o_n_t_r_i_b_u_t_i_n_g_8md}{contributing guide} to learn about our development process, how to propose fixes and improvements, and how to build and test the code.
+
+\subsection*{Special Thanks}
+
+{\itshape To be completed...}
+
+\subsection*{License}
+
+{\itshape To be defined...} 
