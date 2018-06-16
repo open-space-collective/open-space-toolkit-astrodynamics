@@ -1,0 +1,21 @@
+{
+  "generator-cpp": {
+    "projectName": "Library",
+    "projectDescription": "Astrodynamics library.",
+    "projectPath": "Library/Astrodynamics",
+    "projectPackage": "library-astrodynamics",
+    "projectLicense": "TBD",
+    "authorName": "Lucas Brémond",
+    "authorEmail": "contact@open-space-collective.org",
+    "companyName": "Open Space Collective",
+    "companyId": "org.open-space-collective",
+    "companyWebsite": "open-space-collective.org",
+    "buildSharedLib": true,
+    "buildStaticLib": false,
+    "buildUtility": false,
+    "buildTest": true,
+    "unitTestType": "gtest",
+    "buildCodeCoverage": true,
+    "buildDocumentation": true
+  }
+}

@@ -1,0 +1,53 @@
+################################################################################################################################################################
+
+# @project        Library/Mathematics
+# @file           .gitignore
+# @author         Lucas Brémond <lucas@loftorbital.com>
+# @license        TBD
+
+################################################################################################################################################################
+
+# Operating Systems
+
+## Mac OS
+
+**/.DS_Store
+
+# Editors
+
+## Visual Studio Code
+
+.vscode/
+
+## Sublime Text
+
+*.sublime-workspace
+*.sublime-project
+
+# Project
+
+## Common
+
+!.gitignore
+!.gitkeep
+
+## Binaries
+
+bin/*
+lib/*
+build/
+*.so*
+*.a
+*.exe*
+*.rpm*
+
+## Documentation
+
+docs/html/
+docs/latex/
+
+## Misc.
+
+tmp/
+
+################################################################################################################################################################
