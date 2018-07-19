@@ -29,4 +29,8 @@ docker build \
 --file="${script_directory}/Dockerfile" \
 "${script_directory}"
 
+# Tag Docker image
+
+docker tag "${image_name}" "${repository_name}/${project_name}:latest"
+
 ################################################################################################################################################################

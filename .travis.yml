@@ -48,10 +48,9 @@ jobs:
 
           script:
 
-                # Pull Docker image from repository
+                # Login to the Docker registry
                 
                 - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-                - docker pull openspacecollective/library-astrodynamics:latest || true
 
                 # Run tests
 
@@ -61,10 +60,9 @@ jobs:
         
           script:
 
-                # Pull Docker image from repository
+                # Login to the Docker registry
                 
                 - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-                - docker pull openspacecollective/library-astrodynamics:latest || true
 
                 # Run coverage
 
@@ -74,10 +72,9 @@ jobs:
 
           script:
 
-                # Pull Docker image from repository
+                # Login to the Docker registry
                 
                 - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-                - docker pull openspacecollective/library-astrodynamics:latest || true
 
                 # Generate and deploy documentation
 

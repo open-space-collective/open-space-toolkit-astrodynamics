@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:latest
+FROM openspacecollective/library-physics:0.1.0
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -30,11 +30,6 @@ RUN pushd /tmp > /dev/null \
     && make install \
     && rm -rf /tmp/library-physics \
     && popd > /dev/null
-
-## NumPy
-
-RUN pip install --upgrade pip \
-    && pip install numpy
 
 # Labels
 

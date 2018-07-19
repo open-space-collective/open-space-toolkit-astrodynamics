@@ -54,8 +54,8 @@
 // 		.def(int() * self)
 // 		.def(int() / self)
 
-// 		.def("__str__", +[] (const library::core::types::Integer& anInteger) -> std::string { return anInteger.getString() ; })
-// 		.def("__repr__", +[] (const library::core::types::Integer& anInteger) -> std::string { return anInteger.getString() ; })
+// 		.def("__str__", +[] (const library::core::types::Integer& anInteger) -> std::string { return anInteger.toString() ; })
+// 		.def("__repr__", +[] (const library::core::types::Integer& anInteger) -> std::string { return anInteger.toString() ; })
 
 // 		.def("isDefined", &Integer::isDefined)
 // 		.def("isZero", &Integer::isZero)
@@ -67,7 +67,7 @@
 // 		.def("isPositiveInfinity", &Integer::isPositiveInfinity)
 // 		.def("isNegativeInfinity", &Integer::isNegativeInfinity)
 // 		.def("getSign", &Integer::getSign)
-// 		.def("getString", &Integer::getString)
+// 		.def("toString", &Integer::toString)
 // 		// .def("getObject", &Integer::getObject)
 
 // 		.def("Undefined", &Integer::Undefined).staticmethod("Undefined")
@@ -129,8 +129,8 @@
 // 		.def(double() * self)
 // 		.def(double() / self)
 
-// 		.def("__str__", +[] (const library::core::types::Real& aReal) -> std::string { return aReal.getString() ; })
-// 		.def("__repr__", +[] (const library::core::types::Real& aReal) -> std::string { return aReal.getString() ; })
+// 		.def("__str__", +[] (const library::core::types::Real& aReal) -> std::string { return aReal.toString() ; })
+// 		.def("__repr__", +[] (const library::core::types::Real& aReal) -> std::string { return aReal.toString() ; })
 
 // 		.def("isDefined", &Real::isDefined)
 // 		.def("isZero", &Real::isZero)
@@ -142,7 +142,7 @@
 // 		.def("isPositiveInfinity", &Real::isPositiveInfinity)
 // 		.def("isNegativeInfinity", &Real::isNegativeInfinity)
 // 		.def("getSign", &Real::getSign)
-// 		.def("getString", &Real::getString)
+// 		.def("toString", &Real::toString)
 // 		// .def("getObject", &Real::getObject)
 
 // 		.def("Undefined", &Real::Undefined)

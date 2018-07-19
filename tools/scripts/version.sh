@@ -3,7 +3,7 @@
 ################################################################################################################################################################
 
 # @project        Library/Astrodynamics
-# @file           tools/development/docker/push.sh
+# @file           tools/development/scripts/version.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        TBD
 
@@ -11,10 +11,10 @@
 
 script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source "${script_directory}/../../.env"
+# Setup environment
 
-docker push ${image_name}
+source "${script_directory}/../.env"
 
-docker push "${repository_name}/${project_name}:latest"
+echo "Version: ${version}"
 
 ################################################################################################################################################################
