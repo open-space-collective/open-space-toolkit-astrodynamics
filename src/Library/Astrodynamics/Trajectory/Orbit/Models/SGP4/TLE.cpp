@@ -82,30 +82,28 @@ std::ostream&                   operator <<                                 (   
 
     library::core::utils::Print::Header(anOutputStream, "Two-Line Elements") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Line 1:" << aTle.getFirstLine() ;
-    library::core::utils::Print::Line(anOutputStream) << "Line 2:" << aTle.getSecondLine() ;
+    library::core::utils::Print::Line(anOutputStream) << "Line 1:"                                                  << aTle.getFirstLine() ;
+    library::core::utils::Print::Line(anOutputStream) << "Line 2:"                                                  << aTle.getSecondLine() ;
 
     library::core::utils::Print::Separator(anOutputStream) ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Satellite Name:" << aTle.getSatelliteName() ;
-    library::core::utils::Print::Line(anOutputStream) << "Satellite Number:" << aTle.getSatelliteNumber() ;
-    library::core::utils::Print::Line(anOutputStream) << "Classification:" << aTle.getClassification() ;
-    library::core::utils::Print::Line(anOutputStream) << "International Designator:" << aTle.getInternationalDesignator() ;
-    // library::core::utils::Print::Line(anOutputStream) << "Epoch Year:" << aTle.getEpochYear() ;
-    // library::core::utils::Print::Line(anOutputStream) << "Epoch:" << aTle.getEpoch() ;
-    // library::core::utils::Print::Line(anOutputStream) << "Epoch UTC (Gregorian):" << aTle.getEpochTime().getCalendarDate(Time::Scale::UTC).toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion First Time Der. / 2:" << aTle.getMeanMotionFirstTimeDerivativeDividedByTwo() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion Second Time Der. / 6:" << aTle.getMeanMotionSecondTimeDerivativeDividedBySix() ;
-    library::core::utils::Print::Line(anOutputStream) << "B* Drag Term:" << aTle.getBStarDragTerm() ;
-    library::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:" << aTle.getEphemerisType() ;
-    library::core::utils::Print::Line(anOutputStream) << "Element Set Number:" << aTle.getElementSetNumber() ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:" << aTle.getInclination().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Right Ascension of the Ascending Node :" << aTle.getRaan().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << aTle.getEccentricity() ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:" << aTle.getAop().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:" << aTle.getMeanAnomaly().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion:" << aTle.getMeanMotion().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Revolution Number at Epoch:" << aTle.getRevolutionNumberAtEpoch() ;
+    library::core::utils::Print::Line(anOutputStream) << "Satellite Name:"                                          << aTle.getSatelliteName() ;
+    library::core::utils::Print::Line(anOutputStream) << "Satellite Number:"                                        << aTle.getSatelliteNumber().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Classification:"                                          << aTle.getClassification() ;
+    library::core::utils::Print::Line(anOutputStream) << "International Designator:"                                << aTle.getInternationalDesignator() ;
+    library::core::utils::Print::Line(anOutputStream) << "Epoch:"                                                   << aTle.getEpoch().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Mean Motion First Time Der. / 2:"                         << aTle.getMeanMotionFirstTimeDerivativeDividedByTwo().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Mean Motion Second Time Der. / 6:"                        << aTle.getMeanMotionSecondTimeDerivativeDividedBySix().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "B* Drag Term:"                                            << aTle.getBStarDragTerm().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:"                                          << aTle.getEphemerisType().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Element Set Number:"                                      << aTle.getElementSetNumber().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                                             << aTle.getInclination().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Right Ascension of the Ascending Node :"                  << aTle.getRaan().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                                            << aTle.getEccentricity().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:"                                   << aTle.getAop().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:"                                            << aTle.getMeanAnomaly().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Mean Motion:"                                             << aTle.getMeanMotion().toString() ;
+    library::core::utils::Print::Line(anOutputStream) << "Revolution Number at Epoch:"                              << aTle.getRevolutionNumberAtEpoch().toString() ;
 
     library::core::utils::Print::Footer(anOutputStream) ;
 
@@ -169,10 +167,31 @@ String                          TLE::getInternationalDesignator             ( ) 
 
 }
 
-// Instant                         TLE::getEpoch                               ( ) const
-// {
+Instant                         TLE::getEpoch                               ( ) const
+{
 
-// }
+    using library::physics::time::Scale ;
+    using library::physics::time::Duration ;
+    using library::physics::time::DateTime ;
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("TLE") ;
+    }
+
+    const String epochYearTwoDigitsString = firstLine_.getSubstring(18, 2).trim() ;
+    const String epochDayString = firstLine_.getSubstring(20, 12).trim() ;
+
+    const Integer epochYearTwoDigits = Integer::Parse(epochYearTwoDigitsString) ;
+
+    // See: https://www.celestrak.com/columns/v04n03/
+
+    const Integer epochYear = (((epochYearTwoDigits >= 57) && (epochYearTwoDigits <= 99)) ? 1900 : 2000) + epochYearTwoDigits ;
+    const Real epochDay = Real::Parse(epochDayString) ;
+
+    return Instant::DateTime(DateTime(epochYear, 1, 1, 0, 0, 0), Scale::UTC) + Duration::Days(epochDay - 1.0) ;
+
+}
 
 Real                            TLE::getMeanMotionFirstTimeDerivativeDividedByTwo ( ) const
 {

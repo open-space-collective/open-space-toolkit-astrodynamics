@@ -221,30 +221,35 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDe
 
 }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
-// {
+TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
+{
 
-//     using library::core::types::String ;
-//     using library::astro::TLE ;
+    using library::core::types::String ;
 
-//     {
+    using library::physics::time::Instant ;
+    using library::physics::time::Scale ;
+    using library::physics::time::DateTime ;
 
-//         const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
-//         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+    using library::astro::TLE ;
 
-//         const TLE tle(firstLine, secondLine) ;
+    {
 
-//         EXPECT_EQ(25544, tle.getEpoch()) ;
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
 
-//     }
+        const TLE tle(firstLine, secondLine) ;
 
-//     {
+        EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch()) ;
 
-//         EXPECT_ANY_THROW(TLE::Undefined().getEpoch()) ;
+    }
 
-//     }
+    {
 
-// }
+        EXPECT_ANY_THROW(TLE::Undefined().getEpoch()) ;
+
+    }
+
+}
 
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
 {

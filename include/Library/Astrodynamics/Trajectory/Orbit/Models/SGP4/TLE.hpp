@@ -10,7 +10,7 @@
 #ifndef __Library_Mathematics_Trajectory_Orbit_Models_SGP4_TLE__
 #define __Library_Mathematics_Trajectory_Orbit_Models_SGP4_TLE__
 
-// #include <Library/Physics/Time/Instant.hpp>
+#include <Library/Physics/Time/Instant.hpp>
 #include <Library/Physics/Units/Derived.hpp>
 #include <Library/Physics/Units/Derived/Angle.hpp>
 #include <Library/Core/Types/String.hpp>
@@ -31,7 +31,7 @@ using library::core::types::Real ;
 using library::core::types::String ;
 using library::physics::units::Angle ;
 using library::physics::units::Derived ;
-// using library::physics::time::Instant ;
+using library::physics::time::Instant ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -179,7 +179,7 @@ class TLE
         ///
         /// @return             Epoch
 
-        // Instant                 getEpoch                                    ( ) const ;
+        Instant                 getEpoch                                    ( ) const ;
 
         /// @brief              Get first time derivative of the mean motion divided by two
         ///
