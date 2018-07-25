@@ -11,6 +11,7 @@
 
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,7 +104,7 @@ State                           Tabulated::calculateStateAt                 (   
         throw library::core::error::runtime::Undefined("Tabulated") ;
     }
 
-    const Pair<const State*, const State*> stateRange = this->accessStateRange(anInstant) ;
+    const Pair<const State*, const State*> stateRange = this->accessStateRangeAt(anInstant) ;
 
     if ((stateRange.first != nullptr) && (stateRange.second != nullptr))
     {
@@ -123,6 +124,14 @@ State                           Tabulated::calculateStateAt                 (   
 
         return state ;
 
+    }
+    else if (stateRange.first != nullptr)
+    {
+        return *(stateRange.first) ;
+    }
+    else if (stateRange.second != nullptr)
+    {
+        return *(stateRange.second) ;
     }
 
     throw library::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString()) ;
@@ -180,37 +189,123 @@ bool                            Tabulated::operator !=                      (   
     return !((*this) == aModel) ;
 }
 
-Pair<const State*, const State*> Tabulated::accessStateRange                (   const   Instant&                    anInstant                                   ) const
+Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::physics::time::Scale ;
+    using library::core::ctnr::Unpack ;
 
-    // ... stateIndex_
+    State const* previousStatePtr = nullptr ;
+    State const* nextStatePtr = nullptr ;
 
-    // const Real instantMjd = anInstant.getModifiedJulianDate(Scale::UTC) ;
-    
-    // const auto nextDataIt = data_.lower_bound(instantMjd) ;
+    while (true) // To be improved
+    {
 
-    // if (nextDataIt == data_.end())
-    // {
-    //     return { &(data_.rbegin()->second), nullptr } ;
-    // }
-    // else if (nextDataIt == data_.begin())
-    // {
-    //     return { nullptr, &(nextDataIt->second) } ;
-    // }
-    // else
-    // {
+        Unpack(previousStatePtr, nextStatePtr) = this->accessStateRangeAtIndex(stateIndex_) ; // Check index cache
 
-    //     const auto previousDataIt = std::prev(nextDataIt) ;
+        if ((previousStatePtr != nullptr) && (nextStatePtr != nullptr))
+        {
 
-    //     return { &(previousDataIt->second), &(nextDataIt->second) } ;
+            if ((previousStatePtr->accessInstant() <= anInstant) && (anInstant <= nextStatePtr->accessInstant()))
+            {
 
-    // }
+                if (previousStatePtr->accessInstant() == anInstant)
+                {
+                    return { nullptr, previousStatePtr } ;
+                }
+                else if (nextStatePtr->accessInstant() == anInstant)
+                {
+                    return { nextStatePtr, nullptr } ;
+                }
+                
+                return { previousStatePtr, nextStatePtr } ;
 
-    throw library::core::error::runtime::ToBeImplemented("Tabulated :: accessStateRange") ;
+            }
+            else
+            {
+
+                if (anInstant < previousStatePtr->accessInstant())
+                {
+                    
+                    if (stateIndex_ > 0)
+                    {
+                        stateIndex_-- ;
+                    }
+                    else
+                    {
+                        break ;
+                    }
+
+                }
+                else
+                {
+
+                    if ((states_.getSize() > 0) && (stateIndex_ < (states_.getSize() - 1)))
+                    {
+                        stateIndex_++ ;
+                    }
+                    else
+                    {
+                        break ;
+                    }
+
+                }
+
+            }
+
+        }
+        else if (previousStatePtr != nullptr)
+        {
+
+            if (previousStatePtr->accessInstant() == anInstant)
+            {
+                return { nullptr, previousStatePtr } ;
+            }
+            else
+            {
+
+                if (anInstant < previousStatePtr->accessInstant())
+                {
+                    
+                    if (stateIndex_ > 0)
+                    {
+                        stateIndex_-- ;
+                    }
+                    else
+                    {
+                        break ;
+                    }
+
+                }
+                else
+                {
+                    return { nullptr, nullptr } ;
+                }
+
+            }
+
+        }
+        else
+        {
+
+            stateIndex_ = 0 ;
+
+            break ;
+
+        }
+
+    }
 
     return { nullptr, nullptr } ;
+
+}
+
+Pair<const State*, const State*> Tabulated::accessStateRangeAtIndex         (   const   Index&                      anIndex                                     ) const
+{
+
+    const State* previousStatePtr = (anIndex < states_.getSize()) ? &(states_.at(anIndex)) : nullptr ;
+    const State* nextStatePtr = ((anIndex + 1) < states_.getSize()) ? &(states_.at(anIndex + 1)) : nullptr ;
+
+    return { previousStatePtr, nextStatePtr } ;
 
 }
 

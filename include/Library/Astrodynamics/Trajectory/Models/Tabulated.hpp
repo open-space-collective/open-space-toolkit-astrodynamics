@@ -16,6 +16,7 @@
 #include <Library/Physics/Time/Interval.hpp>
 #include <Library/Physics/Time/Instant.hpp>
 
+#include <Library/Core/FileSystem/File.hpp>
 #include <Library/Core/Containers/Array.hpp>
 #include <Library/Core/Containers/Pair.hpp>
 #include <Library/Core/Types/Index.hpp>
@@ -36,6 +37,7 @@ namespace models
 using library::core::types::Index ;
 using library::core::ctnr::Pair ;
 using library::core::ctnr::Array ;
+using library::core::fs::File ;
 
 using library::physics::time::Instant ;
 using library::physics::time::Interval ;
@@ -70,6 +72,8 @@ class Tabulated : public virtual Model
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
+        static Tabulated        Load                                        (   const   File&                       aFile                                       ) ;
+
     protected:
 
         virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const override ;
@@ -81,7 +85,9 @@ class Tabulated : public virtual Model
         Array<State>            states_ ;
         mutable Index           stateIndex_ ;
 
-        Pair<const State*, const State*> accessStateRange                   (   const   Instant&                    anInstant                                   ) const ;
+        Pair<const State*, const State*> accessStateRangeAt                 (   const   Instant&                    anInstant                                   ) const ;
+
+        Pair<const State*, const State*> accessStateRangeAtIndex            (   const   Index&                      anIndex                                     ) const ;
 
 } ;
 

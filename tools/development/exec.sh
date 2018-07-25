@@ -3,22 +3,23 @@
 ################################################################################################################################################################
 
 # @project        Library/Astrodynamics
-# @file           tools/development/helpers/build.sh
+# @file           tools/development/exec.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        TBD
 
 ################################################################################################################################################################
 
-if [[ ! -z $1 ]] && [[ $1 == "--debug" ]]; then
+script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-    cmake -DCMAKE_BUILD_TYPE=Debug ..
+# Setup environment
 
-else
+source "${script_directory}/../.env"
 
-    cmake ..
+# Exec Docker container
 
-fi
-
-make -j ${cpu_count}
+docker exec \
+-it \
+${container_name} \
+/bin/bash
 
 ################################################################################################################################################################

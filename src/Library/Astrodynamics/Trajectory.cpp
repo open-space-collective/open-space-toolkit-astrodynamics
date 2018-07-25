@@ -26,12 +26,6 @@ using library::astro::trajectory::models::Tabulated ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Trajectory::Trajectory                      ( )
-                                :   modelUPtr_(nullptr)
-{
-
-}
-
                                 Trajectory::Trajectory                      (   const   Model&                      aModel                                      )
                                 :   modelUPtr_(aModel.clone())
 {
@@ -110,11 +104,6 @@ Array<State>                    Trajectory::getStatesAt                     (   
 
 }
 
-Position                        Trajectory::getPositionAt                   (   const   Instant&                    anInstant                                   ) const
-{
-    return this->getStateAt(anInstant).accessPosition() ;
-}
-
 void                            Trajectory::print                           (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
@@ -147,6 +136,14 @@ const Model&                    Trajectory::accessModel                     ( ) 
     return *modelUPtr_ ;
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                Trajectory::Trajectory                      ( )
+                                :   modelUPtr_(nullptr)
+{
+
+}                               
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
