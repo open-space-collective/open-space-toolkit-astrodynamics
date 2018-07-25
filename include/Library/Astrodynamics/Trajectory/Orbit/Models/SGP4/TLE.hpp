@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Mathematics_Trajectory_Orbit_Models_SGP4_TLE__
-#define __Library_Mathematics_Trajectory_Orbit_Models_SGP4_TLE__
+#ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE__
+#define __Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE__
 
 #include <Library/Physics/Time/Instant.hpp>
 #include <Library/Physics/Units/Derived.hpp>

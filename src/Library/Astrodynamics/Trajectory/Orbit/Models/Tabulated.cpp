@@ -1,0 +1,128 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @project        Library/Astrodynamics
+/// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.cpp
+/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @license        TBD
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
+
+#include <Library/Core/Error.hpp>
+#include <Library/Core/Utilities.hpp>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+namespace library
+{
+namespace astro
+{
+namespace trajectory
+{
+namespace orbit
+{
+namespace models
+{
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                Tabulated::Tabulated                        (   const   Array<State>&               aStateArray,
+                                                                                const   Integer&                    anInitialRevolutionNumber                   )
+                                :   trajectory::orbit::Model(),
+                                    trajectory::models::Tabulated(aStateArray),
+                                    initialRevolutionNumber_(anInitialRevolutionNumber)
+{
+
+}
+
+Tabulated*                      Tabulated::clone                            ( ) const
+{
+    return new Tabulated(*this) ;
+}
+
+bool                            Tabulated::operator ==                      (   const   Tabulated&                  aTabulatedModel                             ) const
+{
+
+    if ((!this->isDefined()) || (!aTabulatedModel.isDefined()))
+    {
+        return false ;
+    }
+
+    return (trajectory::models::Tabulated::operator == (aTabulatedModel))
+        && (initialRevolutionNumber_ == aTabulatedModel.initialRevolutionNumber_) ;
+
+}
+
+bool                            Tabulated::operator !=                      (   const   Tabulated&                  aTabulatedModel                             ) const
+{
+    return !((*this) == aTabulatedModel) ;
+}
+
+bool                            Tabulated::isDefined                        ( ) const
+{
+    return trajectory::models::Tabulated::isDefined() && initialRevolutionNumber_.isDefined() ;
+}
+
+Integer                         Tabulated::getInitialRevolutionNumber       ( ) const
+{
+    return initialRevolutionNumber_ ;
+}
+
+State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const
+{
+    return trajectory::models::Tabulated::calculateStateAt(anInstant) ;
+}
+
+Integer                         Tabulated::calculateRevolutionNumberAt      (   const   Instant&                    anInstant                                   ) const
+{
+
+    if (!anInstant.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Instant") ;
+    }
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Tabulated") ;
+    }
+
+    throw library::core::error::runtime::ToBeImplemented("Kepler::calculateRevolutionNumberAt") ;
+
+    // [TBI]
+
+    return Integer::Undefined() ;
+
+}
+
+void                            Tabulated::print                            (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
+{
+    trajectory::models::Tabulated::print(anOutputStream, displayDecorator) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool                            Tabulated::operator ==                      (   const   trajectory::Model&          aModel                                      ) const
+{
+
+    const Tabulated* tabulatedModelPtr = dynamic_cast<const Tabulated*>(&aModel) ;
+
+    return (tabulatedModelPtr != nullptr) && this->operator == (*tabulatedModelPtr) ;
+
+}
+
+bool                            Tabulated::operator !=                      (   const   trajectory::Model&          aModel                                      ) const
+{
+    return !((*this) == aModel) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+}
+}
+}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

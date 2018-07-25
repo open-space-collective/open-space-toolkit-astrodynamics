@@ -1,21 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Library/Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Orbit/Model.hpp
+/// @file           Library/Astrodynamics/Trajectory/Model.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        TBD
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Model__
-#define __Library_Astrodynamics_Trajectory_Orbit_Model__
+#ifndef __Library_Astrodynamics_Trajectory_Model__
+#define __Library_Astrodynamics_Trajectory_Model__
 
 #include <Library/Astrodynamics/Trajectory/State.hpp>
-#include <Library/Astrodynamics/Trajectory/Model.hpp>
 
 #include <Library/Physics/Time/Instant.hpp>
-
-#include <Library/Core/Types/Integer.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,12 +22,8 @@ namespace astro
 {
 namespace trajectory
 {
-namespace orbit
-{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-using library::core::types::Integer ;
 
 using library::physics::time::Instant ;
 
@@ -38,7 +31,9 @@ using library::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class Model : public virtual library::astro::trajectory::Model
+/// @brief                      Trajectory model (abstract)
+
+class Model
 {
 
     public:
@@ -49,11 +44,16 @@ class Model : public virtual library::astro::trajectory::Model
 
         virtual Model*          clone                                       ( ) const = 0 ;
 
+        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const = 0 ;
+
+        virtual bool            operator !=                                 (   const   Model&                      aModel                                      ) const = 0 ;
+
+        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
+                                                                                const   Model&                      aModel                                      ) ;
+
         virtual bool            isDefined                                   ( ) const = 0 ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const = 0 ;
-
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const = 0 ;
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const = 0 ;
@@ -62,7 +62,6 @@ class Model : public virtual library::astro::trajectory::Model
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
 }
 }
 }

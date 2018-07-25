@@ -1,0 +1,42 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @project        Library/Astrodynamics
+/// @file           Library/Astrodynamics/Trajectory/Orbit.test.cpp
+/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @license        TBD
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Library/Astrodynamics/Trajectory/Orbit.hpp>
+
+#include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <Library/Physics/Time/DateTime.hpp>
+#include <Library/Physics/Time/Interval.hpp>
+#include <Library/Physics/Time/Duration.hpp>
+#include <Library/Physics/Time/Instant.hpp>
+#include <Library/Physics/Time/Scale.hpp>
+#include <Library/Physics/Units/Derived/Angle.hpp>
+#include <Library/Physics/Units/Derived.hpp>
+#include <Library/Physics/Units/Length.hpp>
+
+#include <Library/Core/Containers/Array.hpp>
+#include <Library/Core/Types/Real.hpp>
+
+#include <Global.test.hpp>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
+{
+
+    using library::astro::trajectory::Orbit ;
+
+    {
+
+        FAIL() ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

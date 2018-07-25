@@ -604,8 +604,6 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumbe
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 {
 
-    using library::core::types::String ;
-
     using library::astro::TLE ;
 
     {
