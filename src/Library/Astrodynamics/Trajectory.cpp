@@ -128,9 +128,9 @@ Trajectory                      Trajectory::Undefined                       ( )
 const Model&                    Trajectory::accessModel                     ( ) const
 {
 
-    if (!this->isDefined())
+    if (modelUPtr_ == nullptr)
     {
-        throw library::core::error::runtime::Undefined("Trajectory") ;
+        throw library::core::error::runtime::Undefined("Model") ;
     }
     
     return *modelUPtr_ ;

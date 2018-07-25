@@ -47,6 +47,11 @@ using library::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/// @brief                      Tabulated trajectory model
+///
+///                             For now, a simple linear interpolation is performed between steps.
+///                             In a future release, more advanced interpolation schemes (quadratic, spline, ...) will be provided.
+
 class Tabulated : public virtual Model
 {
 
