@@ -11,6 +11,7 @@
 
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -127,6 +128,18 @@ Instant                         Kepler::getEpoch                            ( ) 
 
 }
 
+Integer                         Kepler::getRevolutionNumberAtEpoch          ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Kepler") ;
+    }
+    
+    return 1 ; // [TBI] With param
+
+}
+
 Derived                         Kepler::getGravitationalParameter           ( ) const
 {
 
@@ -221,7 +234,7 @@ Integer                         Kepler::calculateRevolutionNumberAt         (   
 
     if (anInstant == epoch_)
     {
-        return 1 ;
+        return this->getRevolutionNumberAtEpoch() ;
     }
 
     switch (perturbationType_)
@@ -466,7 +479,132 @@ Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   
 
     using library::physics::time::Duration ;
 
-    return Integer::Undefined() ;
+    const Real R_m = anEquatorialRadius.inMeters() ;
+
+    const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
+    const Real e = aClassicalOrbitalElementSet.getEccentricity() ;
+    const Real i_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
+
+    // std::cout << "T0 = " << aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).toString() << " == " << aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds().toString() << " [s]" << std::endl ;
+
+    Duration orbitalPeriod = Duration::Undefined() ;
+
+    // {
+
+    //     // https://en.wikipedia.org/wiki/Nodal_period
+    //     // https://space.stackexchange.com/questions/25868/equation-for-orbital-period-around-oblate-bodies-based-on-j2
+
+    //     if (e > 0.1)
+    //     {
+    //         throw library::core::error::runtime::ToBeImplemented("Kepler::CalculateJ2RevolutionNumberAt -> Only near-circular orbits are supported.") ;
+    //     }
+
+    //     const Real w_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
+
+    //     const Real sin_i = std::sin(i_rad) ;
+    //     const Real sin_i_2 = sin_i * sin_i ;
+
+    //     const Real correctionFactor = 1.0
+    //                                 - ((3.0 * aJ2 * (4.0 - 5.0 * sin_i_2)) / (4.0 * std::pow(a_m / R_m, 2) * std::sqrt(1.0 - e * e) * std::pow(1.0 + e * std::cos(w_rad), 2)))
+    //                                 - ((3.0 * aJ2 * std::pow(1.0 - e * std::cos(w_rad), 3)) / (2.0 * std::pow(a_m / R_m, 2) * std::pow(1.0 - e * e, 3))) ;
+        
+    //     orbitalPeriod = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter) * correctionFactor ;
+        
+    //     std::cout << "B - T = " << orbitalPeriod.toString() << " == " << orbitalPeriod.inSeconds().toString() << " [s]" << std::endl ;
+    //     std::cout << "A - DT = " << (orbitalPeriod - aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString() << std::endl ;
+
+    // }
+
+    // {
+
+    //     // https://www.mathworks.com/matlabcentral/fileexchange/39550-orbital-periods-of-a-satellite
+
+    //     using library::physics::units::Mass ;
+    //     using library::physics::units::Time ;
+    //     using library::physics::units::Derived ;
+    //     using library::physics::units::Angle ;
+
+    //     const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
+    //     const Real ecc = aClassicalOrbitalElementSet.getEccentricity() ;
+    //     const Real inc = aClassicalOrbitalElementSet.getInclination().inRadians() ;
+    //     const Real argper = aClassicalOrbitalElementSet.getAop().inRadians() ;
+
+    //     static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+
+    //     const Real gravitationParameter_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+
+    //     const double sma = a_m ;
+    //     const double mu = gravitationParameter_SI ;
+    //     const double req = R_m ;
+    //     const double j2 = aJ2 ;
+
+    //     const double tkepler = 2.0 * M_PI * sma * std::sqrt(sma / mu) ;
+    //     const double mm = 2.0 * M_PI / tkepler ;
+
+    //     const double slr = sma * (1.0 - ecc * ecc) ;
+
+    //     const double b = std::sqrt(1.0 - ecc * ecc) ;
+    //     const double c = req / slr ;
+    //     const double d = c * c ;
+    //     const double e = std::sin(inc) * std::sin(inc) ;
+
+    //     const double pmm = mm * (1.0 + 1.5 * j2 * d * std::sqrt(1.0 - ecc * ecc) * (1.0 - 1.5 * e));
+
+    //     const double ar = (sma / req) * (sma / req) ;
+    //     const double ep = 1.0 - ecc * ecc ;
+    //     const double sw = std::sin(argper) ;
+    //     const double pp = 1.0 + ecc * std::cos(argper) ;
+
+    //     const double a = -0.75 * j2 * (4.0 - 5.0 * e) / (ar * std::sqrt(ep) * pp * pp) ;
+    //     const double bb = -1.5 * j2 * pp * pp * pp / (ar * ep * ep * ep) ;
+
+    //     const double tnodal = tkepler * (1.0 + a + bb) ;
+
+    //     std::cout << "tnodal = " << tnodal << std::endl ;
+        
+    // }
+
+    // {
+
+    //     // https://books.google.com/books?id=tLU-wjQktoMC&pg=PA50&lpg=PA50&dq=draconic+period+j2&source=bl&ots=GF-KGM4jIr&sig=NG77REHR3SpC4FhRLpX8AfoeBAo&hl=en&sa=X&ved=2ahUKEwia5YTd6L3cAhUDKnwKHfSoCwEQ6AEwAnoECAQQAQ#v=onepage&q=draconic%20period%20j2&f=false
+
+    //     const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds() ;
+
+    //     const double n_0 = Real::TwoPi() / T_0 ;
+    //     const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) * (1.0 - 3.0 * std::cos(i_rad) * std::cos(i_rad)) ;
+    //     const double w_dot = - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) * (1.0 - 5.0 * std::cos(i_rad) * std::cos(i_rad)) ;
+
+    //     const double T = Real::TwoPi() / (n + w_dot) ;
+
+    //     orbitalPeriod = Duration::Seconds(T) ;
+
+    //     std::cout << "B - T = " << orbitalPeriod.toString() << " == " << orbitalPeriod.inSeconds().toString() << " [s]" << std::endl ;
+    //     std::cout << "B - DT = " << (orbitalPeriod - aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString() << std::endl ;
+
+    // }
+
+    {
+
+        // https://arxiv.org/pdf/1609.00915.pdf (7.37)
+
+        const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds() ;
+
+        const double n_0 = Real::TwoPi() / T_0 ;
+        const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 3.0 / 2.0) * (1.0 - 3.0 * std::cos(i_rad) * std::cos(i_rad)) ;
+        const double w_dot = - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 2) * (1.0 - 5.0 * std::cos(i_rad) * std::cos(i_rad)) ;
+
+        const double T = Real::TwoPi() / (n + w_dot) ;
+
+        orbitalPeriod = Duration::Seconds(T) ;
+
+        // std::cout << "B - T = " << orbitalPeriod.toString() << " == " << orbitalPeriod.inSeconds().toString() << " [s]" << std::endl ;
+        // std::cout << "B - DT = " << (orbitalPeriod - aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter)).toString() << std::endl ;
+
+    }
+
+    const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant) ;
+
+    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1 ;
 
 }
 

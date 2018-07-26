@@ -64,9 +64,28 @@ bool                            Tabulated::isDefined                        ( ) 
     return trajectory::models::Tabulated::isDefined() && initialRevolutionNumber_.isDefined() ;
 }
 
-Integer                         Tabulated::getInitialRevolutionNumber       ( ) const
+Instant                         Tabulated::getEpoch                         ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Tabulated") ;
+    }
+
+    return this->getInterval().accessStart() ;
+
+}
+
+Integer                         Tabulated::getRevolutionNumberAtEpoch       ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Tabulated") ;
+    }
+    
     return initialRevolutionNumber_ ;
+
 }
 
 State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const

@@ -10,9 +10,12 @@
 #ifndef __Library_Astrodynamics_Trajectory_State__
 #define __Library_Astrodynamics_Trajectory_State__
 
+#include <Library/Physics/Coordinate/Frame.hpp>
 #include <Library/Physics/Coordinate/Velocity.hpp>
 #include <Library/Physics/Coordinate/Position.hpp>
 #include <Library/Physics/Time/Instant.hpp>
+
+#include <Library/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,9 +28,12 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::core::types::Shared ;
+
 using library::physics::time::Instant ;
 using library::physics::coord::Position ;
 using library::physics::coord::Velocity ;
+using library::physics::coord::Frame ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,6 +62,8 @@ class State
         const Position&         accessPosition                              ( ) const ;
 
         const Velocity&         accessVelocity                              ( ) const ;
+
+        State                   inFrame                                     (   const   Shared<Frame>&              aFrame                                      ) const ;
 
         static State            Undefined                                   ( ) ;
 

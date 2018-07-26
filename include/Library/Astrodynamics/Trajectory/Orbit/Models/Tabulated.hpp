@@ -60,7 +60,9 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
 
         virtual bool            isDefined                                   ( ) const override ;
 
-        Integer                 getInitialRevolutionNumber                  ( ) const ;
+        virtual Instant         getEpoch                                    ( ) const override ;
+
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 

@@ -105,10 +105,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const Real referenceRevolutionNumber = referenceRow[13].accessReal() ;
 
-            const State state = orbit.getStateAt(instant) ;
+            const State state_GCRF = orbit.getStateAt(instant) ;
 
-            const Position position_GCRF = state.accessPosition() ;
-            const Velocity velocity_GCRF = state.accessVelocity() ;
+            const Position position_GCRF = state_GCRF.accessPosition() ;
+            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
             EXPECT_EQ(Frame::GCRF(), *position_GCRF.accessFrame()) ;
             EXPECT_EQ(Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
@@ -118,8 +118,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const Shared<Frame> itrfFrame = std::make_shared<Frame>(Frame::ITRF()) ;
 
-            const Position position_ITRF = position_GCRF.inFrame(itrfFrame, instant) ;
-            const Velocity velocity_ITRF = velocity_GCRF.inFrame(position_GCRF, itrfFrame, instant) ;
+            const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
+
+            const Position position_ITRF = state_ITRF.accessPosition() ;
+            const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
 
             EXPECT_EQ(Frame::ITRF(), *position_ITRF.accessFrame()) ;
             EXPECT_EQ(Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
@@ -218,10 +220,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const Real referenceRevolutionNumber = referenceRow[13].accessReal() ;
 
-            const State state = orbit.getStateAt(instant) ;
+            const State state_GCRF = orbit.getStateAt(instant) ;
 
-            const Position position_GCRF = state.accessPosition() ;
-            const Velocity velocity_GCRF = state.accessVelocity() ;
+            const Position position_GCRF = state_GCRF.accessPosition() ;
+            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
             EXPECT_EQ(Frame::GCRF(), *position_GCRF.accessFrame()) ;
             EXPECT_EQ(Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
@@ -231,8 +233,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const Shared<Frame> itrfFrame = std::make_shared<Frame>(Frame::ITRF()) ;
 
-            const Position position_ITRF = position_GCRF.inFrame(itrfFrame, instant) ;
-            const Velocity velocity_ITRF = velocity_GCRF.inFrame(position_GCRF, itrfFrame, instant) ;
+            const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
+
+            const Position position_ITRF = state_ITRF.accessPosition() ;
+            const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
 
             EXPECT_EQ(Frame::ITRF(), *position_ITRF.accessFrame()) ;
             EXPECT_EQ(Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
@@ -240,7 +244,16 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
             EXPECT_GT(1e-0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()) ;
             EXPECT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()) ;
 
-            // EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
+            EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
+
+            if (referenceRevolutionNumber.floor() != orbit.getRevolutionNumberAt(instant))
+            {
+
+                std::cout << "instant = " << instant.toString() << std::endl ;
+
+                FAIL() ;
+
+            }
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " << position_GCRF.accessCoordinates().toString(10) << std::endl ;
             // std::cout << "x @ ITRF = " << referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) << std::endl ;

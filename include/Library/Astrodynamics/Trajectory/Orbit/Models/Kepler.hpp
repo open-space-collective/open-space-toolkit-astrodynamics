@@ -88,7 +88,9 @@ class Kepler : public library::astro::trajectory::orbit::Model
 
         COE                     getClassicalOrbitalElements                 ( ) const ;
 
-        Instant                 getEpoch                                    ( ) const ;
+        virtual Instant         getEpoch                                    ( ) const override ;
+
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
         Derived                 getGravitationalParameter                   ( ) const ;
 
@@ -100,7 +102,7 @@ class Kepler : public library::astro::trajectory::orbit::Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ;
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;

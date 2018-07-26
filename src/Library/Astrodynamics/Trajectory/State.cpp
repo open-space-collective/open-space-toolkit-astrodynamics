@@ -107,6 +107,26 @@ const Velocity&                 State::accessVelocity                       ( ) 
 
 }
 
+State                           State::inFrame                              (   const   Shared<Frame>&              aFrame                                      ) const
+{
+
+    if ((aFrame == nullptr) || (!aFrame->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Frame") ;
+    }
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("State") ;
+    }
+
+    const Position position = position_.inFrame(aFrame, instant_) ;
+    const Velocity velocity = velocity_.inFrame(position_, aFrame, instant_) ;
+
+    return { instant_, position, velocity } ;
+
+}
+
 State                           State::Undefined                            ( )
 {
     return State(Instant::Undefined(), Position::Undefined(), Velocity::Undefined()) ;

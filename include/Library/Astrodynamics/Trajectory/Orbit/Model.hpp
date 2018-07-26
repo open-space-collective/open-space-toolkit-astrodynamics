@@ -51,9 +51,13 @@ class Model : public virtual library::astro::trajectory::Model
 
         virtual bool            isDefined                                   ( ) const = 0 ;
 
+        virtual Instant         getEpoch                                    ( ) const = 0 ;
+
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const = 0 ;
+
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const = 0 ;
 
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const = 0 ;
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const = 0 ; // [TBR]
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const = 0 ;
