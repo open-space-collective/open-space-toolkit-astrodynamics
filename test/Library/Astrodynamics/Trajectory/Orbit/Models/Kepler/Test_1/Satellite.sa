@@ -3,7 +3,7 @@ WrittenBy    STK_v11.3.0
 
 BEGIN Satellite
 
-    Name		 Satellite1
+    Name		 Satellite
 
     BEGIN VehiclePath
         CentralBody		 Earth
@@ -1881,12 +1881,6 @@ BEGIN Satellite
         END ObjectCoverage
 
         BEGIN Desc
-            BEGIN ShortText
-
-            END ShortText
-            BEGIN LongText
-
-            END LongText
         END Desc
 
         BEGIN Ellipse

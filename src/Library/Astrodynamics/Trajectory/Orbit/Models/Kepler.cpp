@@ -27,14 +27,37 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static const Real Tolerance = 1e-30 ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                                 Kepler::Kepler                              (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
                                                                                 const   Kepler::PerturbationType&   aPerturbationType                           )
                                 :   Model(),
                                     coe_(aClassicalOrbitalElementSet),
                                     epoch_(anEpoch),
                                     gravitationalParameter_(aGravitationalParameter),
+                                    equatorialRadius_(anEquatorialRadius),
+                                    j2_(aJ2),
+                                    perturbationType_(aPerturbationType)
+{
+
+}
+
+                                Kepler::Kepler                              (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject,
+                                                                                const   Kepler::PerturbationType&   aPerturbationType                           )
+                                :   Model(),
+                                    coe_(aClassicalOrbitalElementSet),
+                                    epoch_(anEpoch),
+                                    gravitationalParameter_(aCelestialObject.getGravitationalConstant()),
+                                    equatorialRadius_(aCelestialObject.getEquatorialRadius()),
+                                    j2_(aCelestialObject.getJ2()),
                                     perturbationType_(aPerturbationType)
 {
 
@@ -116,6 +139,30 @@ Derived                         Kepler::getGravitationalParameter           ( ) 
 
 }
 
+Length                          Kepler::getEquatorialRadius                 ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Kepler") ;
+    }
+    
+    return equatorialRadius_ ;
+
+}
+
+Real                            Kepler::getJ2                               ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Kepler") ;
+    }
+    
+    return j2_ ;
+
+}
+
 Kepler::PerturbationType        Kepler::getPerturbationType                 ( ) const
 {
 
@@ -148,7 +195,7 @@ State                           Kepler::calculateStateAt                    (   
             return Kepler::CalculateNoneStateAt(coe_, epoch_, gravitationalParameter_, anInstant) ;
 
         case Kepler::PerturbationType::J2:
-            throw library::core::error::runtime::ToBeImplemented("J2") ;
+            return Kepler::CalculateJ2StateAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
 
         default:
             throw library::core::error::runtime::Wrong("Perturbation type") ;
@@ -184,7 +231,7 @@ Integer                         Kepler::calculateRevolutionNumberAt         (   
             return Kepler::CalculateNoneRevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant) ;
 
         case Kepler::PerturbationType::J2:
-            throw library::core::error::runtime::ToBeImplemented("J2") ;
+            return Kepler::CalculateJ2RevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
 
         default:
             throw library::core::error::runtime::Wrong("Perturbation type") ;
@@ -258,8 +305,6 @@ State                           Kepler::CalculateNoneStateAt                (   
                                                                                 const   Instant&                    anInstant                                   )
 {
 
-    using library::core::types::Real ;
-    using library::physics::units::Length ;
     using library::physics::units::Time ;
     using library::physics::units::Derived ;
     using library::physics::units::Angle ;
@@ -283,7 +328,7 @@ State                           Kepler::CalculateNoneStateAt                (   
     
     const Real meanMotion_radSec = aClassicalOrbitalElementSet.getMeanMotion(aGravitationalParameter).in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
     
-    if (eccentricity.abs() < Real::Epsilon()) // Circular orbit
+    if (eccentricity.abs() < Tolerance) // Circular orbit
     {
         trueAnomaly_rad += meanMotion_radSec * durationFromEpoch_s ;
     }
@@ -299,7 +344,7 @@ State                           Kepler::CalculateNoneStateAt                (   
 
         // Eccentric anomaly    
         
-        const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Real::Epsilon()) ;
+        const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance) ;
         
         // True anomaly    
         
@@ -333,6 +378,95 @@ Integer                         Kepler::CalculateNoneRevolutionNumberAt     (   
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant) ;
 
     return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1 ;
+
+}
+
+State                           Kepler::CalculateJ2StateAt                  (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2                                         )
+{
+
+    using library::physics::units::Mass ;
+    using library::physics::units::Time ;
+    using library::physics::units::Derived ;
+    using library::physics::units::Angle ;
+    using library::physics::time::Duration ;
+
+    // Setup
+
+    const Real equatorialRadius_m = anEquatorialRadius.inMeters() ;
+
+    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+
+	const Real gravitationParameter_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+
+    // Duration from epoch
+
+    const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds() ;
+
+    // Orbital parameters at epoch
+
+    const Real semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
+    const Real eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity() ;
+    const Real inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
+    const Real raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians() ;
+    const Real aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
+    const Real meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians() ;
+    
+    // Calculation
+    // Ref: http://www.ltas-vis.ulg.ac.be/cmsms/uploads/File/Lecture06_AnalyticNumeric_2016-2017.pdf
+
+    const Real n = std::sqrt(gravitationParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)) ;
+    const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch) ;
+
+    const Real cosInclination = std::cos(inclinationAtEpoch_rad) ;
+    const Real sinInclination = std::sin(inclinationAtEpoch_rad) ;
+    const Real sinInclinationSquared = sinInclination * sinInclination ;
+
+    const Real expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2) ;
+
+    const Real n_bar = n * (1.0 + expr * std::sqrt(1.0 - eccentricityAtEpoch * eccentricityAtEpoch) * (1.0 - (3.0 / 2.0) * sinInclinationSquared)) ;
+    
+    const Real aop_bar_rad = aopAtEpoch_rad + expr * (2.0 - (5.0 / 2.0) * sinInclinationSquared) * n_bar * durationFromEpoch_s ;
+    const Real raan_bar_rad = raanAtEpoch_rad - expr * cosInclination * n_bar * durationFromEpoch_s ;
+    const Real meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s ;
+
+    // Orbital parameters at instant
+
+    const Real semiMajorAxis_m = semiMajorAxisAtEpoch_m ;
+    const Real eccentricity = eccentricityAtEpoch ;
+    const Real inclination_rad = inclinationAtEpoch_rad ;
+    const Real raan_rad = raan_bar_rad ;
+    const Real aop_rad = aop_bar_rad ;
+    const Real trueAnomaly_rad = COE::TrueAnomalyFromEccentricAnomaly(COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity).inRadians() ;
+
+    const COE coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
+
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter) ;
+
+    const Position& position = cartesianState.first ;
+    const Velocity& velocity = cartesianState.second ;
+    
+    const State state = { anInstant, position, velocity } ;
+    
+    return state ;
+
+}
+
+Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2                                         )
+{
+
+    using library::physics::time::Duration ;
+
+    return Integer::Undefined() ;
 
 }
 

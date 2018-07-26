@@ -77,8 +77,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel } ;
 
@@ -150,8 +152,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel } ;
 
@@ -214,8 +218,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel } ;
 
@@ -277,8 +283,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel } ;
 
@@ -377,8 +385,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel } ;
 

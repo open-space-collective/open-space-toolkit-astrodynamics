@@ -34,6 +34,10 @@ namespace kepler
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static const Real Tolerance = 1e-30 ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                                 COE::COE                                    (   const   Length&                     aSemiMajorAxis,
                                                                                 const   Real&                       anEccentricity,
                                                                                 const   Angle&                      anInclination,
@@ -328,7 +332,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
     Real eccentricAnomaly_rad = Real::Undefined() ;
     Real m = Real::Undefined() ;
 
-    if (anEccentricity.abs() < Real::Epsilon()) // Circular trajectory
+    if (anEccentricity.abs() < Tolerance) // Circular trajectory
     {
 
         m = trueAnomaly_rad ;
@@ -338,7 +342,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
     else
     {
 
-        if (anEccentricity < (1.0 - Real::Epsilon())) // Elliptical trajectory
+        if (anEccentricity < (1.0 - Tolerance)) // Elliptical trajectory
         {
 
             const Real sinE = (std::sqrt(1.0 - anEccentricity * anEccentricity) * std::sin(trueAnomaly_rad)) / (1.0 + anEccentricity * std::cos(trueAnomaly_rad)) ;
@@ -351,7 +355,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
         else
         {
 
-            if (anEccentricity > (1.0 + Real::Epsilon())) // Hyperbolic trajectory
+            if (anEccentricity > (1.0 + Tolerance)) // Hyperbolic trajectory
             {
 
                 if ((anEccentricity > 1.0 ) && (std::fabs(trueAnomaly_rad) + 0.00001 < (M_PI - std::acos(1.0 / anEccentricity))))

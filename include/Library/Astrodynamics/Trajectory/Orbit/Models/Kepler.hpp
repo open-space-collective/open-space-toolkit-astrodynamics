@@ -14,10 +14,13 @@
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <Library/Astrodynamics/Trajectory/State.hpp>
 
+#include <Library/Physics/Environment/Objects/Celestial.hpp>
 #include <Library/Physics/Units/Derived.hpp>
+#include <Library/Physics/Units/Length.hpp>
 #include <Library/Physics/Time/Instant.hpp>
 
 #include <Library/Core/Types/String.hpp>
+#include <Library/Core/Types/Real.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,10 +37,13 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::core::types::Real ;
 using library::core::types::String ;
 
 using library::physics::time::Instant ;
+using library::physics::units::Length ;
 using library::physics::units::Derived ;
+using library::physics::env::obj::Celestial ;
 
 using library::astro::trajectory::State ;
 using library::astro::trajectory::orbit::models::kepler::COE ;
@@ -60,6 +66,13 @@ class Kepler : public library::astro::trajectory::orbit::Model
                                 Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
+                                                                                const   Kepler::PerturbationType&   aPerturbationType                           ) ;
+
+                                Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject,
                                                                                 const   Kepler::PerturbationType&   aPerturbationType                           ) ;
 
         virtual Model*          clone                                       ( ) const override ;
@@ -78,6 +91,10 @@ class Kepler : public library::astro::trajectory::orbit::Model
         Instant                 getEpoch                                    ( ) const ;
 
         Derived                 getGravitationalParameter                   ( ) const ;
+
+        Length                  getEquatorialRadius                         ( ) const ;
+        
+        Real                    getJ2                                       ( ) const ;
 
         Kepler::PerturbationType getPerturbationType                        ( ) const ;
 
@@ -101,6 +118,8 @@ class Kepler : public library::astro::trajectory::orbit::Model
         COE                     coe_ ;
         Instant                 epoch_ ;
         Derived                 gravitationalParameter_ ;
+        Length                  equatorialRadius_ ;
+        Real                    j2_ ;
         Kepler::PerturbationType perturbationType_ ;
 
         static State            CalculateNoneStateAt                        (   const   COE&                        aClassicalOrbitalElementSet,
@@ -112,6 +131,20 @@ class Kepler : public library::astro::trajectory::orbit::Model
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Instant&                    anInstant                                   ) ;
+
+        static State            CalculateJ2StateAt                          (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2                                         ) ;
+
+        static Integer          CalculateJ2RevolutionNumberAt               (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2                                         ) ;
 
 } ;
 

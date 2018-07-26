@@ -1,7 +1,7 @@
 stk.v.11.0
 WrittenBy    STK_v11.3.0
 BEGIN Scenario
-    Name		 Test1
+    Name		 Scenario
 
     BEGIN Epoch
 
@@ -97,7 +97,7 @@ BEGIN Scenario
             BaseDir		 User
             Style		 Orbit
             AGIViewer		 Yes
-            Instance		 Satellite/Satellite1
+            Instance		 Satellite/Satellite
             BEGIN TimeData
                 BEGIN Section
                     SectionNumber		 1
@@ -136,7 +136,46 @@ BEGIN Scenario
             BaseDir		 User
             Style		 Orbit
             AGIViewer		 Yes
-            Instance		 Satellite/Satellite1
+            Instance		 Satellite/Satellite
+            BEGIN TimeData
+                BEGIN Section
+                    SectionNumber		 1
+                    SectionType		 2
+                    ShowIntervals		 No
+                    BEGIN IntervalList
+
+                        DateUnitAbrv		 UTCG
+
+                        BEGIN Intervals
+
+"1 Jan 2018 00:00:00.000000000" "2 Jan 2018 00:00:00.000000000"
+                        END Intervals
+
+                    END IntervalList
+
+                    TimeType		 Interval
+                    TimeInterval		                    IntervalTimePeriod		
+                    SamplingType		 Default
+                    TimeBound		 0
+                END Section
+            END TimeData
+            DisplayOnLoad		 No
+            FrameType		 0
+            DockCircleID		 0
+            DockID		 0
+            WindowRectLeft		 330
+            WindowRectTop		 235
+            WindowRectRight		 2321
+            WindowRectBottom		 929
+        END Report
+
+        BEGIN Report
+            Name		 Orbit2
+            Type		 Report
+            BaseDir		 User
+            Style		 Orbit
+            AGIViewer		 Yes
+            Instance		 Satellite/Satellite
             BEGIN TimeData
                 BEGIN Section
                     SectionNumber		 1
@@ -163,10 +202,10 @@ BEGIN Scenario
             FrameType		 0
             DockCircleID		 0
             DockID		 0
-            WindowRectLeft		 304
-            WindowRectTop		 209
-            WindowRectRight		 1733
-            WindowRectBottom		 741
+            WindowRectLeft		 410
+            WindowRectTop		 315
+            WindowRectRight		 2401
+            WindowRectBottom		 1009
         END Report
     END QuickReports
 
@@ -566,12 +605,6 @@ BEGIN Scenario
         END ExportDataFile
 
         BEGIN Desc
-            BEGIN ShortText
-
-            END ShortText
-            BEGIN LongText
-
-            END LongText
         END Desc
 
         BEGIN RfEnv
@@ -1663,7 +1696,7 @@ BEGIN Scenario
 
         Class Satellite
 
-            Satellite1		
+            Satellite		
 
         END Class
 
@@ -1673,8 +1706,8 @@ BEGIN Scenario
         Instance *
             *		
         END Instance
-        Instance Satellite/Satellite1
-            Satellite/Satellite1		
+        Instance Satellite/Satellite
+            Satellite/Satellite		
         END Instance
     END References
 
