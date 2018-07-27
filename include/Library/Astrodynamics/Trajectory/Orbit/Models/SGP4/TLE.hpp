@@ -13,6 +13,8 @@
 #include <Library/Physics/Time/Instant.hpp>
 #include <Library/Physics/Units/Derived.hpp>
 #include <Library/Physics/Units/Derived/Angle.hpp>
+
+#include <Library/Core/FileSystem/File.hpp>
 #include <Library/Core/Types/String.hpp>
 #include <Library/Core/Types/Real.hpp>
 #include <Library/Core/Types/Integer.hpp>
@@ -23,12 +25,22 @@ namespace library
 {
 namespace astro
 {
+namespace trajectory
+{
+namespace orbit
+{
+namespace models
+{
+namespace sgp4
+{
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using library::core::types::Integer ;
 using library::core::types::Real ;
 using library::core::types::String ;
+using library::core::fs::File ;
+
 using library::physics::units::Angle ;
 using library::physics::units::Derived ;
 using library::physics::time::Instant ;
@@ -270,18 +282,6 @@ class TLE
 
         static TLE              Undefined                                   ( ) ;
 
-        /// @brief              Constructs a TLE from a given string
-        ///
-        /// @code
-        ///                     TLE tle = TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n
-        ///                                           2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537") ;
-        /// @endcode
-        ///
-        /// @param              [in] aString A string
-        /// @return             TLE
-
-        static TLE              Parse                                       (   const   String&                     aString                                     ) ;
-
         /// @brief              Returns true if TLE can be generated from the given string
         ///
         /// @code
@@ -308,6 +308,29 @@ class TLE
         static bool             CanParse                                    (   const   String&                     aFirstLine,
                                                                                 const   String&                     aSecondLine                                 ) ;
 
+        /// @brief              Constructs a TLE from a given string
+        ///
+        /// @code
+        ///                     TLE tle = TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n
+        ///                                           2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537") ;
+        /// @endcode
+        ///
+        /// @param              [in] aString A string
+        /// @return             TLE
+
+        static TLE              Parse                                       (   const   String&                     aString                                     ) ;
+
+        /// @brief              Load a TLE from a given file
+        ///
+        /// @code
+        ///                     TLE tle = TLE::File(File::Path(Path::String("/path/to/file.tle"))) ;
+        /// @endcode
+        ///
+        /// @param              [in] aFile A file
+        /// @return             TLE
+
+        static TLE              Load                                        (   const   File&                       aFile                                       ) ;
+
     private:
 
         String                  satelliteName_ ;
@@ -323,6 +346,10 @@ class TLE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+}
+}
+}
+}
 }
 }
 

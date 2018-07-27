@@ -11,14 +11,24 @@
 
 #include <Library/Physics/Units/Time.hpp>
 
+#include <Library/Core/Containers/Array.hpp>
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace library
 {
 namespace astro
+{
+namespace trajectory
+{
+namespace orbit
+{
+namespace models
+{
+namespace sgp4
 {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,44 +364,38 @@ TLE                             TLE::Undefined                              ( )
     return TLE(String::Empty(), String::Empty(), String::Empty()) ;
 }
 
-TLE                             TLE::Parse                                  (   const   String&                     aString                                     )
+bool                            TLE::CanParse                               (   const   String&                     aString                                     )
 {
 
-    if (aString.getLength() >= 139)
+    using library::core::types::Size ;
+    using library::core::ctnr::Array ;
+    
+    Array<String> lines = Array<String>::Empty() ;
+
+    std::istringstream stringStream(aString) ;
+    
+    String lineBuffer ;
+
+    while (std::getline(stringStream, lineBuffer))
     {
 
-        if (aString[69] == '\n')
+        lineBuffer.erase(std::remove(lineBuffer.begin(), lineBuffer.end(), '\r'), lineBuffer.end()) ;
+        lineBuffer.erase(std::remove(lineBuffer.begin(), lineBuffer.end(), '\n'), lineBuffer.end()) ;
+
+        if (!lineBuffer.isEmpty())
         {
-            return TLE(aString.getSubstring(0, 69), aString.getSubstring(70, 69)) ;
-        }
-        else if ((aString.getLength() >= 140) && (aString[69] == '\r') && (aString[70] == '\n'))
-        {
-            return TLE(aString.getSubstring(0, 69), aString.getSubstring(71, 69)) ;
+            lines.add(lineBuffer) ;
         }
         
     }
-    
-    throw library::core::error::runtime::Wrong("String", aString) ;
 
-    return TLE::Undefined() ;
-
-}
-
-bool                            TLE::CanParse                               (   const   String&                     aString                                     )
-{
-    
-    if (aString.getLength() >= 139)
+    if (lines.getSize() == 2)
     {
-
-        if (aString[69] == '\n')
-        {
-            return TLE::CanParse(aString.getSubstring(0, 69), aString.getSubstring(70, 69)) ;
-        }
-        else if ((aString.getLength() >= 140) && (aString[69] == '\r') && (aString[70] == '\n'))
-        {
-            return TLE::CanParse(aString.getSubstring(0, 69), aString.getSubstring(71, 69)) ;
-        }
-        
+        return TLE::CanParse(lines.at(0), lines.at(1)) ;
+    }
+    else if (lines.getSize() >= 3)
+    {
+        return TLE::CanParse(lines.at(1), lines.at(2)) ;
     }
 
     return false ;
@@ -401,17 +405,91 @@ bool                            TLE::CanParse                               (   
 bool                            TLE::CanParse                               (   const   String&                     aFirstLine,
                                                                                 const   String&                     aSecondLine                                 )
 {
+
+    String firstLine = aFirstLine ;
+
+    firstLine.erase(std::remove(firstLine.begin(), firstLine.end(), '\r'), firstLine.end()) ;
+    firstLine.erase(std::remove(firstLine.begin(), firstLine.end(), '\n'), firstLine.end()) ;
     
-    if ((aFirstLine.getLength() == 69) && (aSecondLine.getLength() == 69))
+    String secondLine = aSecondLine ;
+
+    secondLine.erase(std::remove(secondLine.begin(), secondLine.end(), '\r'), secondLine.end()) ;
+    secondLine.erase(std::remove(secondLine.begin(), secondLine.end(), '\n'), secondLine.end()) ;
+
+    if ((firstLine.getLength() == 69) && (secondLine.getLength() == 69))
     {
-        if (Integer::CanParse(aFirstLine[68]) && Integer::CanParse(aSecondLine[68]))
+        if (Integer::CanParse(firstLine[68]) && Integer::CanParse(secondLine[68]))
         {
-            return (Integer::Parse(aFirstLine[68]) == TLE::GenerateChecksum(aFirstLine)) && (Integer::Parse(aSecondLine[68]) == TLE::GenerateChecksum(aSecondLine)) ;
-        } 
+            return (Integer::Parse(firstLine[68]) == TLE::GenerateChecksum(firstLine)) && (Integer::Parse(secondLine[68]) == TLE::GenerateChecksum(secondLine)) ;
+        }
     }
 
     return false ;
     
+}
+
+TLE                             TLE::Parse                                  (   const   String&                     aString                                     )
+{
+
+    using library::core::types::Size ;
+    using library::core::ctnr::Array ;
+
+    if (aString.isEmpty())
+    {
+        throw library::core::error::runtime::Undefined("String") ;
+    }
+
+    Array<String> lines = Array<String>::Empty() ;
+
+    std::istringstream stringStream(aString) ;
+    
+    String lineBuffer ;
+
+    while (std::getline(stringStream, lineBuffer))
+    {
+
+        lineBuffer.erase(std::remove(lineBuffer.begin(), lineBuffer.end(), '\r'), lineBuffer.end()) ;
+        lineBuffer.erase(std::remove(lineBuffer.begin(), lineBuffer.end(), '\n'), lineBuffer.end()) ;
+
+        if (!lineBuffer.isEmpty())
+        {
+            lines.add(lineBuffer) ;
+        }
+        
+    }
+
+    if (lines.getSize() == 2)
+    {
+        return TLE(lines.at(0), lines.at(1)) ;
+    }
+    else if (lines.getSize() >= 3)
+    {
+        return TLE(lines.at(0), lines.at(1), lines.at(2)) ;
+    }
+    
+    throw library::core::error::runtime::Wrong("String", aString) ;
+
+    return TLE::Undefined() ;
+
+}
+
+TLE                             TLE::Load                                   (   const   File&                       aFile                                       )
+{
+
+    if (!aFile.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("File") ;
+    }
+
+    if (!aFile.exists())
+    {
+        throw library::core::error::RuntimeError("File [{}] does not exist.", aFile.toString()) ;
+    }
+
+    const String tleString = aFile.getContents() ;
+
+    return TLE::Parse(tleString) ;
+
 }
 
 Integer                         TLE::GenerateChecksum                       (   const   String&                     aLine                                       )
@@ -487,6 +565,10 @@ Real                            TLE::ParseReal                              (   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+}
+}
+}
+}
 }
 }
 

@@ -18,7 +18,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructor)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -55,7 +55,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOperator)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -89,7 +89,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -123,7 +123,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -148,7 +148,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -174,7 +174,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassification)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -200,7 +200,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDe
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -230,7 +230,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
     using library::physics::time::Scale ;
     using library::physics::time::DateTime ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -256,7 +256,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirst
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -282,7 +282,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionSecon
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -308,7 +308,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDragTerm)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -334,7 +334,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemerisType)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -360,7 +360,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElementSetNumbe
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -386,7 +386,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLineChecks
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -414,7 +414,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
     
     using library::physics::units::Angle ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -442,7 +442,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
     
     using library::physics::units::Angle ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -468,7 +468,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentricity)
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -496,7 +496,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
 
     using library::physics::units::Angle ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -524,7 +524,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAnomaly)
 
     using library::physics::units::Angle ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -554,7 +554,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
     using library::physics::units::Angle ;
     using library::physics::units::Derived ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -580,7 +580,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumbe
 
     using library::core::types::String ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
@@ -604,12 +604,82 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumbe
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 {
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
         EXPECT_NO_THROW(TLE::Undefined()) ;
         EXPECT_FALSE(TLE::Undefined().isDefined()) ;
+
+    }
+
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
+{
+
+    using library::core::types::String ;
+
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n")) ;
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n\n")) ;
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n")) ;
+        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n\r\n")) ;
+
+    }
+
+    {
+
+        EXPECT_FALSE(TLE::CanParse("")) ;
+        EXPECT_FALSE(TLE::CanParse("abc")) ;
+        EXPECT_FALSE(TLE::CanParse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2928\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563536")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353")) ;
+        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292a\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353b")) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        EXPECT_TRUE(TLE::CanParse(firstLine, secondLine)) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n" ;
+
+        EXPECT_TRUE(TLE::CanParse(firstLine, secondLine)) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n" ;
+
+        EXPECT_TRUE(TLE::CanParse(firstLine, secondLine)) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n0" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n" ;
+
+        EXPECT_FALSE(TLE::CanParse(firstLine, secondLine)) ;
 
     }
 
@@ -624,11 +694,61 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     using library::physics::units::Angle ;
     using library::physics::units::Derived ;
 
-    using library::astro::TLE ;
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
         const TLE tle = TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537") ;
+
+        EXPECT_TRUE(tle.isDefined()) ;
+
+        EXPECT_EQ(25544, tle.getSatelliteNumber()) ;
+        EXPECT_EQ("U", tle.getClassification()) ;
+        EXPECT_EQ("98067A", tle.getInternationalDesignator()) ;
+        EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo()) ;
+        EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix()) ;
+        EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm()) ;
+        EXPECT_EQ(0, tle.getEphemerisType()) ;
+        EXPECT_EQ(292, tle.getElementSetNumber()) ;
+        EXPECT_EQ(7, tle.getFirstLineChecksum()) ;
+        EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination()) ;
+        EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan()) ;
+        EXPECT_EQ(0.0006703, tle.getEccentricity()) ;
+        EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop()) ;
+        EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
+        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+
+    }
+
+    {
+
+        const TLE tle = TLE::Parse("ISS (ZARYA)\n1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537") ;
+
+        EXPECT_TRUE(tle.isDefined()) ;
+
+        EXPECT_EQ(25544, tle.getSatelliteNumber()) ;
+        EXPECT_EQ("U", tle.getClassification()) ;
+        EXPECT_EQ("98067A", tle.getInternationalDesignator()) ;
+        EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo()) ;
+        EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix()) ;
+        EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm()) ;
+        EXPECT_EQ(0, tle.getEphemerisType()) ;
+        EXPECT_EQ(292, tle.getElementSetNumber()) ;
+        EXPECT_EQ(7, tle.getFirstLineChecksum()) ;
+        EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination()) ;
+        EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan()) ;
+        EXPECT_EQ(0.0006703, tle.getEccentricity()) ;
+        EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop()) ;
+        EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
+        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+
+    }
+
+    {
+
+        const TLE tle = TLE::Parse("ISS (ZARYA)\n1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n") ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 
@@ -662,50 +782,98 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
+TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 {
 
     using library::core::types::String ;
+    using library::core::fs::Path ;
+    using library::core::fs::File ;
 
-    using library::astro::TLE ;
+    using library::physics::units::Time ;
+    using library::physics::units::Angle ;
+    using library::physics::units::Derived ;
+
+    using library::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
-        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
-        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
-        EXPECT_TRUE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537\n")) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))) ;
+
+        EXPECT_TRUE(tle.isDefined()) ;
+
+        EXPECT_EQ(25544, tle.getSatelliteNumber()) ;
+        EXPECT_EQ("U", tle.getClassification()) ;
+        EXPECT_EQ("98067A", tle.getInternationalDesignator()) ;
+        EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo()) ;
+        EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix()) ;
+        EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm()) ;
+        EXPECT_EQ(0, tle.getEphemerisType()) ;
+        EXPECT_EQ(292, tle.getElementSetNumber()) ;
+        EXPECT_EQ(7, tle.getFirstLineChecksum()) ;
+        EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination()) ;
+        EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan()) ;
+        EXPECT_EQ(0.0006703, tle.getEccentricity()) ;
+        EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop()) ;
+        EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
+        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
 
     }
 
     {
 
-        EXPECT_FALSE(TLE::CanParse("")) ;
-        EXPECT_FALSE(TLE::CanParse("abc")) ;
-        EXPECT_FALSE(TLE::CanParse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2928\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563536")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353")) ;
-        EXPECT_FALSE(TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292a\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.7212539156353b")) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))) ;
+
+        EXPECT_TRUE(tle.isDefined()) ;
+
+        EXPECT_EQ(25544, tle.getSatelliteNumber()) ;
+        EXPECT_EQ("U", tle.getClassification()) ;
+        EXPECT_EQ("98067A", tle.getInternationalDesignator()) ;
+        EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo()) ;
+        EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix()) ;
+        EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm()) ;
+        EXPECT_EQ(0, tle.getEphemerisType()) ;
+        EXPECT_EQ(292, tle.getElementSetNumber()) ;
+        EXPECT_EQ(7, tle.getFirstLineChecksum()) ;
+        EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination()) ;
+        EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan()) ;
+        EXPECT_EQ(0.0006703, tle.getEccentricity()) ;
+        EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop()) ;
+        EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
+        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
 
     }
 
     {
 
-        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
-        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))) ;
 
-        EXPECT_TRUE(TLE::CanParse(firstLine, secondLine)) ;
+        EXPECT_TRUE(tle.isDefined()) ;
+
+        EXPECT_EQ(25544, tle.getSatelliteNumber()) ;
+        EXPECT_EQ("U", tle.getClassification()) ;
+        EXPECT_EQ("98067A", tle.getInternationalDesignator()) ;
+        EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo()) ;
+        EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix()) ;
+        EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm()) ;
+        EXPECT_EQ(0, tle.getEphemerisType()) ;
+        EXPECT_EQ(292, tle.getElementSetNumber()) ;
+        EXPECT_EQ(7, tle.getFirstLineChecksum()) ;
+        EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination()) ;
+        EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan()) ;
+        EXPECT_EQ(0.0006703, tle.getEccentricity()) ;
+        EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop()) ;
+        EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
+        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
 
     }
 
     {
 
-        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n" ;
-        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
-
-        EXPECT_FALSE(TLE::CanParse(firstLine, secondLine)) ;
+        EXPECT_ANY_THROW(TLE::Load(File::Undefined())) ;
+        EXPECT_ANY_THROW(TLE::Load(File::Path(Path::Parse("/path/to/satellite.tle")))) ;
 
     }
 

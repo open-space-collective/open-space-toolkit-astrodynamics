@@ -11,6 +11,7 @@
 
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
+
 #include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +65,7 @@ static const Real Tolerance = 1e-30 ;
 
 }
 
-Model*                          Kepler::clone                               ( ) const
+Kepler*                         Kepler::clone                               ( ) const
 {
     return new Kepler(*this) ;
 }
@@ -77,9 +78,9 @@ bool                            Kepler::operator ==                         (   
         return false ;
     }
 
-    return (coe_ == aKeplerianModel.coe_) 
-        && (epoch_ == aKeplerianModel.epoch_) 
-        && (gravitationalParameter_ == aKeplerianModel.gravitationalParameter_) 
+    return (coe_ == aKeplerianModel.coe_)
+        && (epoch_ == aKeplerianModel.epoch_)
+        && (gravitationalParameter_ == aKeplerianModel.gravitationalParameter_)
         && (perturbationType_ == aKeplerianModel.perturbationType_) ;
 
 }

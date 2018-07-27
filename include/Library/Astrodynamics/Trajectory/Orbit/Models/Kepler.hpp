@@ -21,6 +21,7 @@
 
 #include <Library/Core/Types/String.hpp>
 #include <Library/Core/Types/Real.hpp>
+#include <Library/Core/Types/Integer.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +38,7 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::core::types::Integer ;
 using library::core::types::Real ;
 using library::core::types::String ;
 
@@ -75,7 +77,7 @@ class Kepler : public library::astro::trajectory::orbit::Model
                                                                                 const   Celestial&                  aCelestialObject,
                                                                                 const   Kepler::PerturbationType&   aPerturbationType                           ) ;
 
-        virtual Model*          clone                                       ( ) const override ;
+        virtual Kepler*         clone                                       ( ) const override ;
 
         bool                    operator ==                                 (   const   Kepler&                     aKeplerianModel                             ) const ;
 
