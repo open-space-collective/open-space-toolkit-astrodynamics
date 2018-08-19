@@ -27,7 +27,7 @@ OPTION (BUILD_SHARED_LIBRARY "Build shared library." ON)
 OPTION (BUILD_STATIC_LIBRARY "Build static library." OFF)
 OPTION (BUILD_UTILITY "Build utility." OFF)
 OPTION (BUILD_UNIT_TESTS "Build tests" ON)
-OPTION (BUILD_PYTHON_BINDINGS "Build Python bindings." OFF)
+OPTION (BUILD_PYTHON_BINDINGS "Build Python bindings." ON)
 OPTION (BUILD_CODE_COVERAGE "Build code coverage" OFF)
 OPTION (BUILD_DOCUMENTATION "Build documentation" OFF)
 OPTION (INSTALL_DATA "Install data" ON)
@@ -54,7 +54,7 @@ CMAKE_POLICY (SET "CMP0048" NEW)
 
 INCLUDE ("GetGitRevisionDescription" OPTIONAL)
 
-IF (EXISTS "${PROJECT_SOURCE_DIR}/.git/packed-refs" AND COMMAND "GET_GIT_HEAD_REVISION" AND COMMAND "GIT_DESCRIBE")
+IF (COMMAND "GET_GIT_HEAD_REVISION" AND COMMAND "GIT_DESCRIBE")
 
     # Versioning using current git branch tag
 
@@ -522,7 +522,7 @@ SET (CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${C
 SET (CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 SET (CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.md")
 
-SET (CPACK_COMPONENTS_ALL "applications" "headers" "libraries" "documentation" "tests" "data")
+SET (CPACK_COMPONENTS_ALL "applications" "headers" "libraries" "documentation" "tests" "data" "python")
 
 SET (CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Applications")
 SET (CPACK_COMPONENT_HEADERS_DISPLAY_NAME "Headers")

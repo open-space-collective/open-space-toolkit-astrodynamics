@@ -94,8 +94,7 @@ jobs:
                 api_key: ${GITHUB_API_KEY}
                 file_glob: true
                 file:
-                    - ./bin/*
-                    - ./lib/*
+                    - ./package/*
                 skip_cleanup: true
                 on:
                     branch: master
