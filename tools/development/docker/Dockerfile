@@ -7,13 +7,12 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:0.1.0
+FROM openspacecollective/library-physics:0.1.3
 
 LABEL maintainer="lucas@loftorbital.com"
 
 # Arguments
 
-ARG version
 ARG cpu_count=1
 
 # Dependencies
@@ -33,20 +32,20 @@ RUN pushd /tmp > /dev/null \
     && rm -rf /tmp/sgp4 \
     && popd > /dev/null
 
-## Library :: Physics [master]
+## Library :: Physics [0.1.1]
 
-RUN pushd /tmp > /dev/null \
-    && git clone https://github.com/open-space-collective/library-physics.git \
-    && cd library-physics \
-    && mkdir build \
-    && cd build \
-    && cmake -DBUILD_UNIT_TESTS=OFF .. \
-    && make -j ${cpu_count} \
-    && make install \
-    && rm -rf /tmp/library-physics \
-    && popd > /dev/null
+RUN mkdir -p /tmp/library-physics \
+ && pushd /tmp/library-physics > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-devel.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-python.rpm \
+ && dnf install -y ./*.rpm \
+ && rm -rf /tmp/library-physics \
+ && popd > /dev/null
 
 # Labels
+
+ARG version
 
 ENV version ${version}
 

@@ -1,36 +1,28 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Library/Astrodynamics
-/// @file           Library/Astrodynamics/LibraryMathematicsPy.hpp
+/// @file           LibraryAstrodynamicsPy/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        TBD
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <boost/python.hpp>
-
-// #include <boost/numpy.hpp>
-
-// #include <eigen_numpy.h>
-
-#include <LibraryMathematicsPy/Types.cpp>
+#include <LibraryAstrodynamicsPy/Trajectory/Model.cpp>
+#include <LibraryAstrodynamicsPy/Trajectory/Orbit.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_PYTHON_MODULE (LibraryMathematicsPy)
+inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 {
-
-	// boost::numpy::initialize() ;
-
-	// boost::python::numeric::array::set_module_and_type("numpy", "ndarray") ;
-
-	// SetupEigenConverters() ;
-
-	boost::python::object package = boost::python::scope() ;
-	
-	package.attr("__path__") = "Library" ;
-
-	LibraryMathematicsPy_Types() ;
+    
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Trajectory")))) ;
+    
+    boost::python::scope().attr("Trajectory") = module ;
+    
+    boost::python::scope scope = module ;
+    
+    LibraryAstrodynamicsPy_Trajectory_Orbit() ;
+    LibraryAstrodynamicsPy_Trajectory_Model() ;
 
 }
 

@@ -265,15 +265,15 @@ ENDIF ()
 
 ### Library :: Core [master]
 
-FIND_PACKAGE ("LibraryCore" "2018.6.14" REQUIRED)
+FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
 
 ### Library :: Mathematics [master]
 
-FIND_PACKAGE ("LibraryMathematics" "2018.6.14" REQUIRED)
+FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
 
 ### Library :: Physics [master]
 
-FIND_PACKAGE ("LibraryPhysics" "2018.6.14" REQUIRED)
+FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
 
 #####################################################################################3###########################################################################
 

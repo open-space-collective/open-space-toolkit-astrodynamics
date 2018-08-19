@@ -59,7 +59,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     cp -as /mnt/library-core/include/Library/Core /usr/local/include/Library/Core; \
     cp -as /mnt/library-core/src/Library/Core/* /usr/local/include/Library/Core/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
-    ln -s /mnt/library-core/lib/liblibrary-core.so.2018 /usr/local/lib/;"
+    ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
     ## Library :: Mathematics
 
@@ -83,7 +83,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     cp -as /mnt/library-mathematics/include/Library/Mathematics /usr/local/include/Library/Mathematics; \
     cp -as /mnt/library-mathematics/src/Library/Mathematics/* /usr/local/include/Library/Mathematics/; \
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so /usr/local/lib/; \
-    ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.2018 /usr/local/lib/;"
+    ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.0 /usr/local/lib/;"
 
     ## Library :: Physics
 
@@ -107,7 +107,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     cp -as /mnt/library-physics/include/Library/Physics /usr/local/include/Library/Physics; \
     cp -as /mnt/library-physics/src/Library/Physics/* /usr/local/include/Library/Physics/; \
     ln -s /mnt/library-physics/lib/liblibrary-physics.so /usr/local/lib/; \
-    ln -s /mnt/library-physics/lib/liblibrary-physics.so.2018 /usr/local/lib/;"
+    ln -s /mnt/library-physics/lib/liblibrary-physics.so.0 /usr/local/lib/;"
 
     # Output
 
