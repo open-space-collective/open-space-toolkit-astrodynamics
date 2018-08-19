@@ -57,8 +57,8 @@ std::ostream&                   operator <<                                 (   
     library::core::utils::Print::Header(anOutputStream, "Trajectory :: State") ;
 
     library::core::utils::Print::Line(anOutputStream) << "Instant:" << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Position:" << (aState.position_.isDefined() ? aState.position_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Velocity:" << (aState.velocity_.isDefined() ? aState.velocity_.toString() : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Position:" << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Velocity:" << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
 
     library::core::utils::Print::Footer(anOutputStream) ;
 
