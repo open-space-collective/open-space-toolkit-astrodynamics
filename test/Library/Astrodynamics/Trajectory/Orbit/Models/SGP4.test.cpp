@@ -116,13 +116,13 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
             const Position position_GCRF = state_GCRF.accessPosition() ;
             const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            EXPECT_EQ(Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
             EXPECT_GT(10.0, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
             // EXPECT_GT(1e-6, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
 
-            const Shared<Frame> temeOfEpochFrame = std::make_shared<Frame>(Frame::TEMEOfEpoch(tle.getEpoch())) ;
+            const Shared<const Frame> temeOfEpochFrame = Frame::TEMEOfEpoch(tle.getEpoch()) ;
 
             const State state_TEME = state_GCRF.inFrame(temeOfEpochFrame) ;
 
@@ -135,7 +135,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
             // OUT
 
-            const Quaternion q_TEME_GCRF = Frame::GCRF().getTransformTo(Frame::TEME(), instant).getOrientation() ;
+            const Quaternion q_TEME_GCRF = Frame::GCRF()->getTransformTo(Frame::TEME(), instant).getOrientation() ;
 
             // std::cout << "[REF] q_TEME_GCRF = " << ref_q_TEME_GCRF.toString(12) << std::endl ;
 
@@ -155,26 +155,26 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
             // std::cout << "x_GCRF B: " << (q_TEME_GCRF.toConjugate() * position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl ;
 
             // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl ;
-            // std::cout << "position_GCRF 2 = " << std::endl << state_GCRF.inFrame(temeOfEpochFrame).inFrame(std::make_shared<Frame>(Frame::GCRF())).accessPosition() << std::endl ;
+            // std::cout << "position_GCRF 2 = " << std::endl << state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF())).accessPosition() << std::enl ;
 
             // std::cout << "position_TEME 1 = " << std::endl << position_TEME << std::endl ;
-            // std::cout << "position_TEME 2 = " << std::endl << state_TEME.inFrame(std::make_shared<Frame>(Frame::GCRF())).inFrame(temeOfEpochFrame).accessPosition() << std::endl ;
+            // std::cout << "position_TEME 2 = " << std::endl << state_TEME.inFrame(Frame::GCRF())).inFrame(temeOfEpochFrame).accessPosition() << std::enl ;
 
-            EXPECT_EQ(Frame::TEMEOfEpoch(tle.getEpoch()), *position_TEME.accessFrame()) ;
-            EXPECT_EQ(Frame::TEMEOfEpoch(tle.getEpoch()), *velocity_TEME.accessFrame()) ;
+            EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *position_TEME.accessFrame()) ;
+            EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *velocity_TEME.accessFrame()) ;
 
             EXPECT_GT(10.0, (position_TEME.accessCoordinates() - referencePosition_TEME).norm()) ;
             // EXPECT_GT(1e-6, (velocity_TEME.accessCoordinates() - referenceVelocity_TEME).norm()) ;
 
-            const Shared<Frame> itrfFrame = std::make_shared<Frame>(Frame::ITRF()) ;
+            const Shared<const Frame> itrfFrame = Frame::ITRF() ;
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
 
             const Position position_ITRF = state_ITRF.accessPosition() ;
             const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::ITRF(), *position_ITRF.accessFrame()) ;
-            EXPECT_EQ(Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
 
             EXPECT_GT(10.0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()) ;
             // EXPECT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()) ;

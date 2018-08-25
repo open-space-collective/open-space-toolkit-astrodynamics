@@ -63,7 +63,7 @@ class State
 
         const Velocity&         accessVelocity                              ( ) const ;
 
-        State                   inFrame                                     (   const   Shared<Frame>&              aFrame                                      ) const ;
+        State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
         static State            Undefined                                   ( ) ;
 

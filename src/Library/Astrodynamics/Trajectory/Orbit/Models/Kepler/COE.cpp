@@ -282,7 +282,7 @@ COE::CartesianState             COE::getCartesianState                      (   
 	const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
 	const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
 
-    static const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
     const Position position = { x_ECI, Position::Unit::Meter, gcrfSPtr } ;
     const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, gcrfSPtr } ;

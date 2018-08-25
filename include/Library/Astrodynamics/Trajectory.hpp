@@ -38,7 +38,6 @@ using library::core::ctnr::Array ;
 
 using library::physics::time::Instant ;
 using library::physics::time::Interval ;
-using library::physics::coord::Position ;
 
 using library::astro::trajectory::Model ;
 using library::astro::trajectory::State ;
@@ -179,6 +178,17 @@ class Trajectory
         /// @return             Undefined trajectory
 
         static Trajectory       Undefined                                   ( ) ;
+
+        /// @brief              Constructs a trajectory from a given position
+        ///
+        /// @code
+        ///                     Position position = Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()) ;
+        ///                     Trajectory trajectory = Trajectory::Position(position) ;
+        /// @endcode
+        ///
+        /// @return             Static trajectory
+
+        static Trajectory       Position                                    (   const   physics::coord::Position&   aPosition                                   ) ;
 
     protected:
 

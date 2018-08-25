@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Library/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <Library/Astrodynamics/Trajectory/Models/Static.hpp>
 #include <Library/Astrodynamics/Trajectory.hpp>
 
 #include <Library/Core/Error.hpp>
@@ -121,6 +122,20 @@ void                            Trajectory::print                           (   
 Trajectory                      Trajectory::Undefined                       ( )
 {
     return Trajectory() ;
+}
+
+Trajectory                      Trajectory::Position                        (   const   physics::coord::Position&   aPosition                                   )
+{
+
+    using library::astro::trajectory::models::Static ;
+
+    if (!aPosition.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Position") ;
+    }
+
+    return Trajectory(Static(aPosition)) ;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -90,7 +90,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {

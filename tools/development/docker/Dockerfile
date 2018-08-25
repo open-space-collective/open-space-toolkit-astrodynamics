@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:0.1.3
+FROM openspacecollective/library-physics:0.1.6
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -32,13 +32,12 @@ RUN pushd /tmp > /dev/null \
     && rm -rf /tmp/sgp4 \
     && popd > /dev/null
 
-## Library :: Physics [0.1.1]
+## Library :: Physics [0.1.3]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-devel.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.1/library-physics-0.1.1-1.x86_64-python.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.3/library-physics-0.1.3-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.3/library-physics-0.1.3-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-physics \
  && popd > /dev/null

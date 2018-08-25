@@ -13,14 +13,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Access, DefaultConstructor)
+TEST (Library_Astrodynamics_Access, Constructor)
 {
 
     using library::astro::Access ;
 
     {
 
-        EXPECT_NO_THROW(Access()) ;
+        FAIL() ;
 
     }
 

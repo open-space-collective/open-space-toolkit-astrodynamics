@@ -23,12 +23,13 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
 
     using library::astro::trajectory::Orbit ;
 
-    scope in_Orbit = class_<Orbit>("Orbit", init<const library::astro::trajectory::orbit::Model&>())
+    scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&>())
 
         .def(self == self)
         .def(self != self)
 
         .def(self_ns::str(self_ns::self))
+        .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &Orbit::isDefined)
 

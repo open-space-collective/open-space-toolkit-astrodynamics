@@ -28,7 +28,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
-    scope in_Kepler = class_<Kepler>("Kepler", init<COE, Instant, Derived, Length, Real, Kepler::PerturbationType>())
+    scope in_Kepler = class_<Kepler, bases<library::astro::trajectory::orbit::Model>>("Kepler", init<COE, Instant, Derived, Length, Real, Kepler::PerturbationType>())
 
         .def(init<COE, Instant, Celestial, Kepler::PerturbationType>())
 
@@ -36,6 +36,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def(self != self)
 
         .def(self_ns::str(self_ns::self))
+        .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &Kepler::isDefined)
 
@@ -56,7 +57,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
 
     enum_<Kepler::PerturbationType>("PerturbationType")
 
-        .value("None", Kepler::PerturbationType::None)
+        .value("No", Kepler::PerturbationType::None)
         .value("J2", Kepler::PerturbationType::J2)
 
     ;

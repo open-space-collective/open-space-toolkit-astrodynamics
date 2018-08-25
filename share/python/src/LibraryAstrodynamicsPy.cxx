@@ -9,6 +9,7 @@
 
 #include <boost/python.hpp>
 
+#include <LibraryAstrodynamicsPy/Access.cpp>
 #include <LibraryAstrodynamicsPy/Trajectory.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,6 +22,7 @@ BOOST_PYTHON_MODULE (LibraryAstrodynamicsPy)
 	package.attr("__path__") = "Library" ;
 
 	LibraryAstrodynamicsPy_Trajectory() ;
+	LibraryAstrodynamicsPy_Access() ;
 
 }
 

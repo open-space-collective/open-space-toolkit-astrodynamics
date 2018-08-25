@@ -29,6 +29,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def(self != self)
 
         .def(self_ns::str(self_ns::self))
+        .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &COE::isDefined)
         

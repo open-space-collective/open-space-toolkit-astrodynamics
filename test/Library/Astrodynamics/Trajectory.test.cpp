@@ -35,7 +35,7 @@ TEST (Library_Astrodynamics_Trajectory, Constructor)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -53,7 +53,7 @@ TEST (Library_Astrodynamics_Trajectory, Constructor)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -88,7 +88,7 @@ TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -106,7 +106,7 @@ TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states_A =
         {
@@ -162,7 +162,7 @@ TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -180,7 +180,7 @@ TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states_A =
         {
@@ -236,7 +236,7 @@ TEST (Library_Astrodynamics_Trajectory, StreamOperator)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -277,7 +277,7 @@ TEST (Library_Astrodynamics_Trajectory, IsDefined)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -320,7 +320,7 @@ TEST (Library_Astrodynamics_Trajectory, GetStateAt)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -386,7 +386,7 @@ TEST (Library_Astrodynamics_Trajectory, GetStatesAt)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
@@ -461,7 +461,7 @@ TEST (Library_Astrodynamics_Trajectory, Print)
 
     {
 
-        const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {

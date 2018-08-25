@@ -55,7 +55,7 @@ class SGP4::Impl
         const TLE&              tle_ ;
         ::SGP4                  sgp4_ ;
 
-        Shared<Frame>           temeFrameOfEpochSPtr_ ;
+        Shared<const Frame>     temeFrameOfEpochSPtr_ ;
 
 } ;
 
@@ -64,7 +64,7 @@ class SGP4::Impl
                                 SGP4::Impl::Impl                            (   const   TLE&                        aTle                                        )
                                 :   tle_(aTle),
                                     sgp4_(::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
-                                    temeFrameOfEpochSPtr_(std::make_shared<Frame>(Frame::TEMEOfEpoch(tle_.getEpoch())))
+                                    temeFrameOfEpochSPtr_(Frame::TEMEOfEpoch(tle_.getEpoch()))
 {
 
 }
@@ -91,7 +91,7 @@ State                           SGP4::Impl::calculateStateAt                (   
     
     const State state_TEME = { anInstant, position_TEME, velocity_TEME } ;
 
-    static const Shared<Frame> gcrfSPtr = std::make_shared<Frame>(Frame::GCRF()) ;
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
     const State state_GCRF = state_TEME.inFrame(gcrfSPtr) ;
 

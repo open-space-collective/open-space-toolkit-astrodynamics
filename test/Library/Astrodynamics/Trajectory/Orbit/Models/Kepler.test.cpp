@@ -110,21 +110,21 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
             const Position position_GCRF = state_GCRF.accessPosition() ;
             const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            EXPECT_EQ(Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
             EXPECT_GT(1e-3, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
             EXPECT_GT(1e-6, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
 
-            const Shared<Frame> itrfFrame = std::make_shared<Frame>(Frame::ITRF()) ;
+            const Shared<const Frame> itrfFrame = Frame::ITRF() ;
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
 
             const Position position_ITRF = state_ITRF.accessPosition() ;
             const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::ITRF(), *position_ITRF.accessFrame()) ;
-            EXPECT_EQ(Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
 
             EXPECT_GT(1e-1, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()) ;
             EXPECT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()) ;
@@ -225,21 +225,21 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
             const Position position_GCRF = state_GCRF.accessPosition() ;
             const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            EXPECT_EQ(Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
             EXPECT_GT(1e-0, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
             EXPECT_GT(1e-0, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
 
-            const Shared<Frame> itrfFrame = std::make_shared<Frame>(Frame::ITRF()) ;
+            const Shared<const Frame> itrfFrame = Frame::ITRF() ;
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
 
             const Position position_ITRF = state_ITRF.accessPosition() ;
             const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
 
-            EXPECT_EQ(Frame::ITRF(), *position_ITRF.accessFrame()) ;
-            EXPECT_EQ(Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame()) ;
+            EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
 
             EXPECT_GT(1e-0, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()) ;
             EXPECT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()) ;
