@@ -11,6 +11,7 @@
 #define __Library_Astrodynamics_Access__
 
 #include <Library/Physics/Time/Interval.hpp>
+#include <Library/Physics/Time/Duration.hpp>
 #include <Library/Physics/Time/Instant.hpp>
 
 #include <Library/Core/Containers/Array.hpp>
@@ -29,9 +30,12 @@ using library::core::types::String ;
 using library::core::ctnr::Array ;
 
 using library::physics::time::Instant ;
+using library::physics::time::Duration ;
 using library::physics::time::Interval ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @brief                      Object-to-object visibility
 
 class Access
 {
@@ -72,6 +76,8 @@ class Access
         Instant                 getLossOfSignal                             ( ) const ;
 
         Interval                getInterval                                 ( ) const ;
+
+        Duration                getDuration                                 ( ) const ;
 
         static Access           Undefined                                   ( ) ;
 

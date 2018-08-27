@@ -76,32 +76,86 @@ bool                            Access::isDefined                           ( ) 
 
 bool                            Access::isComplete                          ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return type_ == Access::Type::Complete ;
+
 }
 
 Access::Type                    Access::getType                             ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return type_ ;
+
 }
 
 Instant                         Access::getAcquisitionOfSignal              ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return acquisitionOfSignal_ ;
+
 }
 
 Instant                         Access::getTimeOfClosestApproach            ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return timeOfClosestApproach_ ;
+
 }
 
 Instant                         Access::getLossOfSignal                     ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return lossOfSignal_ ;
+
 }
 
 Interval                        Access::getInterval                         ( ) const
 {
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
     return Interval::Closed(acquisitionOfSignal_, lossOfSignal_) ;
+
+}
+
+Duration                        Access::getDuration                         ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Access") ;
+    }
+    
+    return Duration::Between(acquisitionOfSignal_, lossOfSignal_) ;
+
 }
 
 Access                          Access::Undefined                           ( )

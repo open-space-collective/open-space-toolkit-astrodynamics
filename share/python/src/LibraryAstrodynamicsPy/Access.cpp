@@ -39,6 +39,7 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
         .def("getTimeOfClosestApproach", &Access::getTimeOfClosestApproach)
         .def("getLossOfSignal", &Access::getLossOfSignal)
         .def("getInterval", &Access::getInterval)
+        .def("getDuration", &Access::getDuration)
 
         .def("Undefined", &Access::Undefined).staticmethod("Undefined")
         

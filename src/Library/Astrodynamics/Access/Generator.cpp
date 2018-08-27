@@ -154,6 +154,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                 acquisitionOfSignalCache = Instant::Undefined() ;
                 timeOfClosestApproachCache = Instant::Undefined() ;
+                fromToDistanceCache_m = Real::Undefined() ;
 
                 inAccess = false ;
             
@@ -174,7 +175,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
             }
 
-            if (inAccess && ((!fromToDistanceCache_m.isDefined()) || (fromToDistanceCache_m > fromToDistance_m)))
+            if (inAccess && ((!timeOfClosestApproachCache.isDefined()) || (fromToDistanceCache_m > fromToDistance_m)))
             {
 
                 timeOfClosestApproachCache = instant ;
