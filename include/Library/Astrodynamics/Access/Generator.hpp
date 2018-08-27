@@ -55,13 +55,21 @@ class Generator
 
     public:
 
+                                Generator                                   (   const   Environment&                anEnvironment                               ) ;
+
                                 Generator                                   (   const   Environment&                anEnvironment,
-                                                                                const   std::function<bool (const AER&)>& anAerFilter                           =   {},
-                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     =   {} ) ;
+                                                                                const   std::function<bool (const AER&)>& anAerFilter,
+                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
+
+        bool                    isDefined                                   ( ) const ;
 
         Array<Access>           computeAccesses                             (   const   physics::time::Interval&    anInterval,
                                                                                 const   Trajectory&                 aFromTrajectory,
                                                                                 const   Trajectory&                 aToTrajectory                               ) const ;
+
+        void                    setAerFilter                                (   const   std::function<bool (const AER&)>& anAerFilter                           ) ;
+        
+        void                    setAccessFilter                             (   const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
 
         static Generator        Undefined                                   ( ) ;
 

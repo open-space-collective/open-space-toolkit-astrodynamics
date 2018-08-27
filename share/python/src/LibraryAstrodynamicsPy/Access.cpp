@@ -7,6 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <LibraryAstrodynamicsPy/Access/Generator.cpp>
+#include <LibraryAstrodynamicsPy/Utilities/IterableConverter.hpp>
+
 #include <Library/Astrodynamics/Access.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +53,17 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
         .value("Partial", Access::Type::Partial)
 
     ;
+
+    using library::core::ctnr::Array ;
+
+    IterableConverter()
+
+        .from_python<Array<Access>>()
+        .to_python<Array<Access>>()
+        
+    ;
+
+    LibraryAstrodynamicsPy_Access_Generator() ;
     
 }
 

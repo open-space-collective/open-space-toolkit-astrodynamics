@@ -23,6 +23,14 @@ namespace access
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+                                Generator::Generator                        (   const   Environment&                anEnvironment                               )
+                                :   environment_(anEnvironment),
+                                    aerFilter_({}),
+                                    accessFilter_({})
+{
+
+}
+
                                 Generator::Generator                        (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
                                                                                 const   std::function<bool (const Access&)>& anAccessFilter                     )
@@ -31,6 +39,11 @@ namespace access
                                     accessFilter_(anAccessFilter)
 {
 
+}
+
+bool                            Generator::isDefined                        ( ) const
+{
+    return environment_.isDefined() ;
 }
 
 Array<Access>                   Generator::computeAccesses                  (   const   physics::time::Interval&    anInterval,
@@ -45,6 +58,7 @@ Array<Access>                   Generator::computeAccesses                  (   
     using library::math::geom::d3::objects::Point ;
     using library::math::geom::d3::objects::Segment ;
 
+    using library::physics::coord::Position ;
     using library::physics::coord::Frame ;
     using library::physics::env::Object ;
     
@@ -63,6 +77,11 @@ Array<Access>                   Generator::computeAccesses                  (   
     if (!aToTrajectory.isDefined())
     {
         throw library::core::error::runtime::Undefined("To Trajectory") ;
+    }
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Generator") ;
     }
 
     Environment environment = environment_ ;
@@ -91,24 +110,29 @@ Array<Access>                   Generator::computeAccesses                  (   
         const State fromState = aFromTrajectory.getStateAt(instant) ;
         const State toState = aToTrajectory.getStateAt(instant) ;
 
-        const Point fromPosition = fromState.accessPosition().inFrame(Frame::GCRF(), instant).accessCoordinates() ;
-        const Point toPosition = toState.accessPosition().inFrame(Frame::GCRF(), instant).accessCoordinates() ;
+        const Position fromPosition = fromState.accessPosition() ;
+        const Position toPosition = toState.accessPosition() ;
 
-        const Real fromToDistance_m = (toPosition - fromPosition).norm() ;
+        const Point fromPositionCoordinates = fromPosition.inFrame(Frame::GCRF(), instant).accessCoordinates() ;
+        const Point toPositionCoordinates = toPosition.inFrame(Frame::GCRF(), instant).accessCoordinates() ;
+
+        const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm() ;
 
         // std::cout << "fromToDistance_m = " << fromToDistance_m.toString() << std::endl ;
 
         // [TBI] Check reference frames are equal
 
-        const Segment fromToSegment = { fromPosition, toPosition } ;
+        const Segment fromToSegment = { fromPositionCoordinates, toPositionCoordinates } ;
 
         const Object::Geometry fromToSegmentGeometry = { fromToSegment, Frame::GCRF() } ; // [TBM] Param
 
         // [TBI] Apply filters
 
-        bool filterIsOk = true ; // [TBI]
+        const bool aerFilterResult = aerFilter_ ? aerFilter_(AER::FromPositionToPosition(fromPosition, toPosition)) : true ; // [TBM] Convert to NED frame
 
-        if (fromToDistance_m.isZero() || environment.intersects(fromToSegmentGeometry) || (!filterIsOk))
+        bool filterIsOk = aerFilterResult ; // [TBI]
+
+        if ((!fromToDistance_m.isZero()) && (environment.intersects(fromToSegmentGeometry) || (!filterIsOk)))
         {
 
             // std::cout << "environment.intersects(fromToSegmentGeometry)..." << std::endl ;
@@ -123,7 +147,10 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                 const Access access = { type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal } ;
 
-                accesses.add(access) ;
+                if (accessFilter_ ? accessFilter_(access) : true)
+                {
+                    accesses.add(access) ;
+                }
 
                 acquisitionOfSignalCache = Instant::Undefined() ;
                 timeOfClosestApproachCache = Instant::Undefined() ;
@@ -175,12 +202,25 @@ Array<Access>                   Generator::computeAccesses                  (   
 
         const Access access = { type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal } ;
 
-        accesses.add(access) ;
+        if (accessFilter_ ? accessFilter_(access) : true)
+        {
+            accesses.add(access) ;
+        }
 
     }
 
     return accesses ;
 
+}
+
+void                            Generator::setAerFilter                     (   const   std::function<bool (const AER&)>& anAerFilter                           )
+{
+    aerFilter_ = anAerFilter ;
+}
+        
+void                            Generator::setAccessFilter                  (   const   std::function<bool (const Access&)>& anAccessFilter                     )
+{
+    accessFilter_ = anAccessFilter ;
 }
 
 Generator                       Generator::Undefined                        ( )

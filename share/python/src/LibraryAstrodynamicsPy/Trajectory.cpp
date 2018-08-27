@@ -48,6 +48,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
         .def("print", &Trajectory::print)
         
         .def("Undefined", &Trajectory::Undefined).staticmethod("Undefined")
+        .def("Position", &Trajectory::Position).staticmethod("Position")
 
     ;
     

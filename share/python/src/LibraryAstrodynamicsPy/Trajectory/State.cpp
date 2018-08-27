@@ -7,6 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <LibraryAstrodynamicsPy/Utilities/IterableConverter.hpp>
+
 #include <Library/Astrodynamics/Trajectory/State.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +41,15 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
         
         .def("Undefined", &State::Undefined).staticmethod("Undefined")
 
+    ;
+
+    using library::core::ctnr::Array ;
+
+    IterableConverter()
+
+        .from_python<Array<State>>()
+        .to_python<Array<State>>()
+        
     ;
 
 }
