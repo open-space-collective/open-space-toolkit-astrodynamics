@@ -58,6 +58,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::Orbit ;
@@ -66,6 +67,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        const Environment environment = Environment::Default() ;
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
         const Real eccentricity = 0.0 ;
@@ -83,7 +86,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_TRUE(orbit.isDefined()) ;
 
@@ -91,17 +94,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
     {
 
+        const Environment environment = Environment::Default() ;
+
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         const Array<State> states =
         {
-{ Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+            { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
             { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) }
         } ;
         
         const Integer initialRevolutionNumber = 123 ;
 
-        const Orbit orbit = { states, initialRevolutionNumber } ;
+        const Orbit orbit = { states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_TRUE(orbit.isDefined()) ;
 

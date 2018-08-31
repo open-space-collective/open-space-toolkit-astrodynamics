@@ -44,7 +44,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def("getMeanMotion", &COE::getMeanMotion)
         .def("getOrbitalPeriod", &COE::getOrbitalPeriod)
         .def("getCartesianState", &COE::getCartesianState)
-        .def("print", &COE::print)
         
         .def("Undefined", &COE::Undefined).staticmethod("Undefined")
         .def("EccentricAnomalyFromTrueAnomaly", &COE::EccentricAnomalyFromTrueAnomaly).staticmethod("EccentricAnomalyFromTrueAnomaly")

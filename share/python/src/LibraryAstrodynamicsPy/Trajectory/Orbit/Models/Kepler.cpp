@@ -49,7 +49,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def("getPerturbationType", &Kepler::getPerturbationType)
         .def("calculateStateAt", &Kepler::calculateStateAt)
         .def("calculateRevolutionNumberAt", &Kepler::calculateRevolutionNumberAt)
-        .def("print", &Kepler::print)
         
         .def("StringFromPerturbationType", &Kepler::StringFromPerturbationType).staticmethod("StringFromPerturbationType")
 

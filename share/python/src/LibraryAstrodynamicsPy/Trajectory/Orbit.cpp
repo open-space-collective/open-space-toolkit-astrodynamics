@@ -21,9 +21,19 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
 
     using namespace boost::python ;
 
+    using library::core::types::Shared ;
+    using library::core::types::Integer ;
+    using library::core::ctnr::Array ;
+
+    using library::physics::env::obj::Celestial ;
+    
+    using library::astro::trajectory::State ;
     using library::astro::trajectory::Orbit ;
 
-    scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&>())
+    scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
+
+        .def(init<const library::astro::trajectory::orbit::Model&>()) // TBR
+        .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
 
         .def(self == self)
         .def(self != self)
@@ -36,9 +46,22 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
         .def("getPassAt", &Orbit::getPassAt)
         .def("getPassWithRevolutionNumber", &Orbit::getPassWithRevolutionNumber)
-        .def("print", &Orbit::print)
+        .def("getOrbitalFrame", &Orbit::getOrbitalFrame)
         
         .def("Undefined", &Orbit::Undefined).staticmethod("Undefined")
+
+    ;
+
+    enum_<Orbit::FrameType>("FrameType")
+
+        .value("Undefined", Orbit::FrameType::Undefined)
+        .value("NED", Orbit::FrameType::NED)
+        .value("LVLH", Orbit::FrameType::LVLH)
+        .value("LVLHGD", Orbit::FrameType::LVLHGD)
+        .value("VVLH", Orbit::FrameType::VVLH)
+        .value("QSW", Orbit::FrameType::QSW)
+        .value("TNW", Orbit::FrameType::TNW)
+        .value("VNC", Orbit::FrameType::VNC)
 
     ;
 

@@ -37,7 +37,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_S
         .def("getRevolutionNumberAtEpoch", &SGP4::getRevolutionNumberAtEpoch)
         .def("calculateStateAt", &SGP4::calculateStateAt)
         .def("calculateRevolutionNumberAt", &SGP4::calculateRevolutionNumberAt)
-        .def("print", &SGP4::print)
 
     ;
 

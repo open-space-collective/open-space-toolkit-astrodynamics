@@ -81,13 +81,14 @@ class Orbit : public Trajectory
 
         typedef                 Array<Pass>::ConstIterator                      ConstPassIterator ;
 
-                                Orbit                                       (   const   orbit::Model&               aModel                                      ) ; // [TBR]
-
                                 Orbit                                       (   const   orbit::Model&               aModel,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
+                                
+                                Orbit                                       (   const   orbit::Model&               aModel                                      ) ; // [TBR]
 
                                 Orbit                                       (   const   Array<State>&               aStateArray,
-                                                                                const   Integer&                    anInitialRevolutionNumber                   =   1 ) ;
+                                                                                const   Integer&                    anInitialRevolutionNumber,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
                                 Orbit                                       (   const   Orbit&                      anOrbit                                     ) ;
 

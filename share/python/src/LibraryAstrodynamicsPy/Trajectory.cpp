@@ -45,7 +45,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 
         .def("getStateAt", &Trajectory::getStateAt)
         .def("getStatesAt", &Trajectory::getStatesAt)
-        .def("print", &Trajectory::print)
         
         .def("Undefined", &Trajectory::Undefined).staticmethod("Undefined")
         .def("Position", &Trajectory::Position).staticmethod("Position")

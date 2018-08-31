@@ -32,7 +32,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Model ( 
         .def("getRevolutionNumberAtEpoch", &Model::getRevolutionNumberAtEpoch)
         .def("calculateStateAt", &Model::calculateStateAt)
         .def("calculateRevolutionNumberAt", &Model::calculateRevolutionNumberAt)
-        .def("print", &Model::print)
 
     ;
 

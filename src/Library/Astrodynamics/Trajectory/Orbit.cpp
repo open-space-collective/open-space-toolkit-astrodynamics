@@ -32,14 +32,6 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Orbit::Orbit                                (   const   orbit::Model&               aModel                                      )
-                                :   Trajectory(aModel),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
-                                    celestialObjectSPtr_(nullptr)
-{
-
-}
-
                                 Orbit::Orbit                                (   const   orbit::Model&               aModel,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
                                 :   Trajectory(aModel),
@@ -49,11 +41,20 @@ namespace trajectory
 
 }
 
-                                Orbit::Orbit                                (   const   Array<State>&               aStateArray,
-                                                                                const   Integer&                    anInitialRevolutionNumber                   )
-                                :   Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
+                                Orbit::Orbit                                (   const   orbit::Model&               aModel                                      )
+                                :   Trajectory(aModel),
                                     model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
                                     celestialObjectSPtr_(nullptr)
+{
+
+}
+
+                                Orbit::Orbit                                (   const   Array<State>&               aStateArray,
+                                                                                const   Integer&                    anInitialRevolutionNumber,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+                                :   Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
+                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 
 }
@@ -439,7 +440,7 @@ void                            Orbit::print                                (   
 
 Orbit                           Orbit::Undefined                            ( )
 {
-    return Orbit(Array<State>::Empty(), Integer::Undefined()) ;
+    return Orbit(Array<State>::Empty(), Integer::Undefined(), nullptr) ;
 }
 
 String                          Orbit::StringFromFrameType                  (   const   Orbit::FrameType&           aFrameType                                  )

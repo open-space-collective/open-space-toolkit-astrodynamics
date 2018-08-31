@@ -29,7 +29,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Model     ( )
         .def("isDefined", &Model::isDefined)
 
         .def("calculateStateAt", &Model::calculateStateAt)
-        .def("print", &Model::print)
 
     ;
 
