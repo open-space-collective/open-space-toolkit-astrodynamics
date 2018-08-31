@@ -12,6 +12,7 @@
 #include <Library/Astrodynamics/Trajectory/Orbit.hpp>
 
 #include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <Library/Physics/Environment.hpp>
 #include <Library/Physics/Time/DateTime.hpp>
 #include <Library/Physics/Time/Interval.hpp>
 #include <Library/Physics/Time/Duration.hpp>
@@ -585,6 +586,117 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
             EXPECT_GT(Duration::Milliseconds(1.0), Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()) ;
 
         }
+
+    }
+
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
+{
+
+    using library::core::types::Shared ;
+    using library::core::types::Integer ;
+    using library::core::types::Real ;
+    using library::core::types::String ;
+    using library::core::ctnr::Array ;
+    using library::core::ctnr::Table ;
+    using library::core::fs::Path ;
+    using library::core::fs::File ;
+
+    using library::math::obj::Vector3d ;
+    using library::math::geom::trf::rot::Quaternion ;
+
+    using library::physics::units::Length ;
+    using library::physics::units::Angle ;
+    using library::physics::units::Derived ;
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::Duration ;
+    using library::physics::time::Interval ;
+    using library::physics::time::DateTime ;
+    using library::physics::coord::Frame ;
+    using library::physics::coord::Transform ;
+    using library::physics::coord::Position ;
+    using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
+    using library::physics::env::obj::celest::Earth ;
+
+    using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
+    using library::astro::trajectory::orbit::Pass ;
+    using library::astro::trajectory::orbit::models::Kepler ;
+    using library::astro::trajectory::orbit::models::kepler::COE ;
+
+    // NED
+
+    {
+
+        // Reference data setup
+
+        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")) ;
+
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
+
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+        const Real eccentricity = 0.0 ;
+        const Angle inclination = Angle::Degrees(0.0) ;
+        const Angle raan = Angle::Degrees(0.0) ;
+        const Angle aop = Angle::Degrees(0.0) ;
+        const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+        const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Derived gravitationalConstant = Earth::GravitationalConstant ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
+
+        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth")) ;
+
+        const Orbit orbit = { keplerianModel, earthSPtr } ;
+
+        const Shared<const Frame> nedOrbitalFrameSPtr = orbit.getOrbitalFrame(Orbit::FrameType::NED) ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+
+            const Vector3d x_NED_ITRF_ref = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
+            const Vector3d v_NED_ITRF_in_ITRF_ref = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
+
+            const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal(), referenceRow[10].accessReal()).normalize() ;
+            const Vector3d w_NED_ITRF_in_NED_ref = { referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal() } ;
+
+            const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate() ;
+            const Vector3d w_ITRF_NED_in_ITRF_ref = - (q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref) ;
+
+            const Vector3d x_NED_ITRF = nedOrbitalFrameSPtr->getOriginIn(Frame::ITRF(), instant).getCoordinates() ;
+            const Vector3d v_NED_ITRF_in_ITRF = nedOrbitalFrameSPtr->getVelocityIn(Frame::ITRF(), instant).getCoordinates() ;
+
+            const Quaternion q_ITRF_NED = nedOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getOrientation() ;
+            const Vector3d w_ITRF_NED_in_ITRF = nedOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getAngularVelocity() ;
+
+            EXPECT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format("{} - {} ? {} [m]", x_NED_ITRF_ref.toString(), x_NED_ITRF.toString(), (x_NED_ITRF - x_NED_ITRF_ref).norm()) ;
+            EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format("{} - {} ? {} [m/s]", v_NED_ITRF_in_ITRF_ref.toString(), v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF - v_NED_ITRF_in_ITRF_ref).norm()) ;
+
+            EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format("{} / {} ? {} [asec]", q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(), q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()) ;
+            // EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-12)) << String::Format("{} - {} ? {} [rad/s]", w_ITRF_NED_in_ITRF_ref.toString(), w_ITRF_NED_in_ITRF.toString(), (w_ITRF_NED_in_ITRF - w_ITRF_NED_in_ITRF_ref).norm()) ;
+
+        }
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::Undefined)) ;
+        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::NED)) ;
 
     }
 

@@ -117,7 +117,7 @@ class TLE
         ///
         /// @param              [in] anOutputStream An output stream
         /// @param              [in] aTle A TLE
-        /// @return             An output stream
+        /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   TLE&                        aTle                                        ) ;

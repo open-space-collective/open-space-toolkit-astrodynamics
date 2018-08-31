@@ -115,7 +115,7 @@ class Trajectory
         ///
         /// @param              [in] anOutputStream An output stream
         /// @param              [in] aTrajectory A trajectory
-        /// @return             An output stream
+        /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   Trajectory&                 aTrajectory                                 ) ;

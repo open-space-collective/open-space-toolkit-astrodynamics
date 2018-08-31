@@ -10,6 +10,12 @@
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit.hpp>
 
+#include <Library/Physics/Coordinate/Transform.hpp>
+#include <Library/Physics/Coordinate/Frame/Utilities.hpp>
+#include <Library/Physics/Coordinate/Frame/Manager.hpp>
+#include <Library/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
+#include <Library/Physics/Coordinate/Spherical/LLA.hpp>
+
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
 
@@ -28,7 +34,17 @@ namespace trajectory
 
                                 Orbit::Orbit                                (   const   orbit::Model&               aModel                                      )
                                 :   Trajectory(aModel),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel()))
+                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    celestialObjectSPtr_(nullptr)
+{
+
+}
+
+                                Orbit::Orbit                                (   const   orbit::Model&               aModel,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+                                :   Trajectory(aModel),
+                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 
 }
@@ -36,14 +52,16 @@ namespace trajectory
                                 Orbit::Orbit                                (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber                   )
                                 :   Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel()))
+                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    celestialObjectSPtr_(nullptr)
 {
 
 }
 
                                 Orbit::Orbit                                (   const   Orbit&                      anOrbit                                     )
                                 :   Trajectory(anOrbit),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel()))
+                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    celestialObjectSPtr_(anOrbit.celestialObjectSPtr_)
 {
 
 }
@@ -67,7 +85,7 @@ bool                            Orbit::operator !=                          (   
 
 bool                            Orbit::isDefined                            ( ) const
 {
-    return Trajectory::isDefined() ;
+    return Trajectory::isDefined() && (celestialObjectSPtr_ != nullptr) && celestialObjectSPtr_->isDefined() ;
 }
 
 Integer                         Orbit::getRevolutionNumberAt                (   const   Instant&                    anInstant                                   ) const
@@ -310,6 +328,86 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
     
 }
 
+Shared<const Frame>             Orbit::getOrbitalFrame                      (   const   Orbit::FrameType&           aFrameType                                  ) const
+{
+
+    using library::math::obj::Vector3d ;
+
+    using library::physics::coord::spherical::LLA ;
+    using FrameManager = library::physics::coord::frame::Manager ;
+    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
+    using library::physics::coord::Transform ;
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Orbit") ;
+    }
+
+    switch (aFrameType)
+    {
+
+        case Orbit::FrameType::NED:
+        {
+
+            const String frameName = String::Format("Orbit [{}]", Orbit::StringFromFrameType(aFrameType)) ; // [TBI] Wrong! Temporary naming only, will eventually conflict...
+
+            if (FrameManager::Get().hasFrameWithName(frameName))
+            {
+                return FrameManager::Get().accessFrameWithName(frameName) ;
+            }
+            
+            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
+            (
+                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
+                {
+
+                    // Get state in central body centered, central body fixed frame
+
+                    const State state = this->getStateAt(anInstant).inFrame(celestialObjectSPtr_->accessFrame()) ;
+
+                    // Express the state position in geodetic coordinates
+
+                    const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(), celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ;
+
+                    // Compute the NED frame to central body centered, central body fixed frame transform at position
+
+                    const Transform transform = library::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+
+                    const Vector3d velocity = - state.accessVelocity().accessCoordinates() ;
+                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+
+                    return { anInstant, transform.getTranslation(), velocity, transform.getOrientation(), angularVelocity, Transform::Type::Passive } ;
+
+                }
+            ) ;
+
+            const Shared<const Frame> orbitalFrameSPtr = std::make_shared<const Frame>(frameName, false, celestialObjectSPtr_->accessFrame(), dynamicProviderSPtr) ;
+
+            FrameManager::Get().addFrame(orbitalFrameSPtr) ;
+
+            return orbitalFrameSPtr ;
+
+        }
+        
+        case Orbit::FrameType::LVLH:
+        case Orbit::FrameType::LVLHGD:
+        case Orbit::FrameType::VVLH:
+        case Orbit::FrameType::QSW:
+        case Orbit::FrameType::TNW:
+        case Orbit::FrameType::VNC:
+            throw library::core::error::runtime::ToBeImplemented(Orbit::StringFromFrameType(aFrameType)) ;
+            break ;
+
+        default:
+            throw library::core::error::runtime::Wrong("Frame type") ;
+            break ;
+
+    }
+
+    return nullptr ;
+
+}
+
 void                            Orbit::print                                (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
@@ -342,6 +440,46 @@ void                            Orbit::print                                (   
 Orbit                           Orbit::Undefined                            ( )
 {
     return Orbit(Array<State>::Empty(), Integer::Undefined()) ;
+}
+
+String                          Orbit::StringFromFrameType                  (   const   Orbit::FrameType&           aFrameType                                  )
+{
+
+    switch (aFrameType)
+    {
+
+        case Orbit::FrameType::Undefined:
+            return "Undefined" ;
+
+        case Orbit::FrameType::NED:
+            return "NED" ;
+
+        case Orbit::FrameType::LVLH:
+            return "LVLH" ;
+
+        case Orbit::FrameType::LVLHGD:
+            return "LVLHGD" ;
+
+        case Orbit::FrameType::VVLH:
+            return "VVLH" ;
+
+        case Orbit::FrameType::QSW:
+            return "QSW" ;
+
+        case Orbit::FrameType::TNW:
+            return "TNW" ;
+
+        case Orbit::FrameType::VNC:
+            return "VNC" ;
+
+        default:
+            throw library::core::error::runtime::Wrong("Frame type") ;
+            break ;
+
+    }
+
+    return String::Empty() ;
+
 }
 
 // Map<Index, Pass>                Orbit::GeneratePassMap                      (   const   Array<State>&               aStateArray,

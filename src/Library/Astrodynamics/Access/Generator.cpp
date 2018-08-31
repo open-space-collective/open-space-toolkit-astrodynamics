@@ -86,7 +86,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     Environment environment = environment_ ;
 
-    Array<Access> accesses ;
+    Array<Access> accesses = Array<Access>::Empty() ;
     
     const Duration step = Duration::Seconds(1.0) ; // [TBM] Parameter
 
