@@ -107,6 +107,21 @@ const Velocity&                 State::accessVelocity                       ( ) 
 
 }
 
+Instant                         State::getInstant                           ( ) const
+{
+    return this->accessInstant() ;
+}
+
+Position                        State::getPosition                          ( ) const
+{
+    return this->accessPosition() ;
+}
+
+Velocity                        State::getVelocity                          ( ) const
+{
+    return this->accessVelocity() ;
+}
+
 State                           State::inFrame                              (   const   Shared<const Frame>&        aFrameSPtr                                  ) const
 {
 

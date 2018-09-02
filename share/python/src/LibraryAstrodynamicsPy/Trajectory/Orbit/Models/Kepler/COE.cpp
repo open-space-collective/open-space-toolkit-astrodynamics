@@ -23,7 +23,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
-    scope in_COE = class_<COE>("COE", init<Length, Real, Angle, Angle, Angle, Angle>())
+    scope in_COE = class_<COE>("COE", init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>())
 
         .def(self == self)
         .def(self != self)
@@ -46,6 +46,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def("getCartesianState", &COE::getCartesianState)
         
         .def("Undefined", &COE::Undefined).staticmethod("Undefined")
+        .def("Cartesian", &COE::Cartesian).staticmethod("Cartesian")
         .def("EccentricAnomalyFromTrueAnomaly", &COE::EccentricAnomalyFromTrueAnomaly).staticmethod("EccentricAnomalyFromTrueAnomaly")
         .def("TrueAnomalyFromEccentricAnomaly", &COE::TrueAnomalyFromEccentricAnomaly).staticmethod("TrueAnomalyFromEccentricAnomaly")
         .def("MeanAnomalyFromEccentricAnomaly", &COE::MeanAnomalyFromEccentricAnomaly).staticmethod("MeanAnomalyFromEccentricAnomaly")

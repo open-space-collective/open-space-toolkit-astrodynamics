@@ -75,7 +75,8 @@ class Kepler : public library::astro::trajectory::orbit::Model
                                 Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Celestial&                  aCelestialObject,
-                                                                                const   Kepler::PerturbationType&   aPerturbationType                           ) ;
+                                                                                const   Kepler::PerturbationType&   aPerturbationType,
+                                                                                const   bool                        inFixedFrame                                =   false ) ;
 
         virtual Kepler*         clone                                       ( ) const override ;
 
@@ -125,6 +126,10 @@ class Kepler : public library::astro::trajectory::orbit::Model
         Length                  equatorialRadius_ ;
         Real                    j2_ ;
         Kepler::PerturbationType perturbationType_ ;
+
+        static COE              InertialCoeFromFixedCoe                     (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject                            ) ;
 
         static State            CalculateNoneStateAt                        (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,

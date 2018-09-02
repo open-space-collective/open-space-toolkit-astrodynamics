@@ -63,6 +63,12 @@ class State
 
         const Velocity&         accessVelocity                              ( ) const ;
 
+        Instant                 getInstant                                  ( ) const ;
+        
+        Position                getPosition                                 ( ) const ;
+
+        Velocity                getVelocity                                 ( ) const ;
+
         State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
         static State            Undefined                                   ( ) ;

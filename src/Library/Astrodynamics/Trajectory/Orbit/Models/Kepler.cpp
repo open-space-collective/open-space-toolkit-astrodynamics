@@ -53,9 +53,10 @@ static const Real Tolerance = 1e-30 ;
                                 Kepler::Kepler                              (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Celestial&                  aCelestialObject,
-                                                                                const   Kepler::PerturbationType&   aPerturbationType                           )
+                                                                                const   Kepler::PerturbationType&   aPerturbationType,
+                                                                                const   bool                        inFixedFrame                                )
                                 :   Model(),
-                                    coe_(aClassicalOrbitalElementSet),
+                                    coe_(inFixedFrame ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject) : aClassicalOrbitalElementSet),
                                     epoch_(anEpoch),
                                     gravitationalParameter_(aCelestialObject.getGravitationalConstant()),
                                     equatorialRadius_(aCelestialObject.getEquatorialRadius()),
@@ -313,6 +314,33 @@ bool                            Kepler::operator !=                         (   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+COE                             Kepler::InertialCoeFromFixedCoe             (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject                            )
+{
+
+    using library::physics::coord::Transform ;
+
+    const Shared<const Frame> fixedFrame = aCelestialObject.accessFrame() ;
+
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    const Transform fixedFrameToInertialFrameTransform = fixedFrame->getTransformTo(gcrfSPtr, anEpoch) ;
+
+    const COE::CartesianState cartesianStateInFixedFrame = aClassicalOrbitalElementSet.getCartesianState(aCelestialObject.getGravitationalConstant(), fixedFrame) ;
+
+    const Position& positionInFixedFrame = cartesianStateInFixedFrame.first ;
+    const Velocity& velocityInFixedFrame = cartesianStateInFixedFrame.second ;
+    
+    const Position positionInInertialFrame = Position::Meters(fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), gcrfSPtr) ;
+    const Velocity velocityInInertialFrame = Velocity::MetersPerSecond(fixedFrameToInertialFrameTransform.applyToVelocity({ 0.0, 0.0, 0.0 }, velocityInFixedFrame.accessCoordinates()), gcrfSPtr) ;
+
+    const COE::CartesianState cartesianStateInInertialFrame = { positionInInertialFrame, velocityInInertialFrame } ;
+
+    return COE::Cartesian(cartesianStateInInertialFrame, aCelestialObject.getGravitationalConstant()) ;
+
+}
+
 State                           Kepler::CalculateNoneStateAt                (   const   COE&                        aClassicalOrbitalElementSet,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
@@ -368,7 +396,9 @@ State                           Kepler::CalculateNoneStateAt                (   
 
     const COE coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
 
-    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter) ;
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr) ;
 
     const Position& position = cartesianState.first ;
     const Velocity& velocity = cartesianState.second ;
@@ -459,7 +489,9 @@ State                           Kepler::CalculateJ2StateAt                  (   
 
     const COE coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
 
-    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter) ;
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr) ;
 
     const Position& position = cartesianState.first ;
     const Velocity& velocity = cartesianState.second ;

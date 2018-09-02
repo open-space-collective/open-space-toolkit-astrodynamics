@@ -28,9 +28,10 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
-    scope in_Kepler = class_<Kepler, bases<library::astro::trajectory::orbit::Model>>("Kepler", init<COE, Instant, Derived, Length, Real, Kepler::PerturbationType>())
+    scope in_Kepler = class_<Kepler, bases<library::astro::trajectory::orbit::Model>>("Kepler", init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
 
-        .def(init<COE, Instant, Celestial, Kepler::PerturbationType>())
+        .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&>())
+        .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>())
 
         .def(self == self)
         .def(self != self)

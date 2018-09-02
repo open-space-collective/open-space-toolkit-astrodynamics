@@ -9,8 +9,6 @@
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
-#include <Library/Physics/Coordinate/Frame.hpp>
-
 #include <Library/Mathematics/Geometry/Transformations/Rotations/RotationMatrix.hpp>
 
 #include <Library/Core/Types/Size.hpp>
@@ -232,7 +230,8 @@ Duration                        COE::getOrbitalPeriod                       (   
 
 }
 
-COE::CartesianState             COE::getCartesianState                      (   const   Derived&                    aGravitationalParameter                     ) const
+COE::CartesianState             COE::getCartesianState                      (   const   Derived&                    aGravitationalParameter,
+                                                                                const   Shared<const Frame>&        aFrameSPtr                                  ) const
 {
 
     using library::core::types::Shared ;
@@ -242,11 +241,15 @@ COE::CartesianState             COE::getCartesianState                      (   
 
     using library::physics::units::Mass ;
     using library::physics::units::Time ;
-    using library::physics::coord::Frame ;
 
     if (!aGravitationalParameter.isDefined())
     {
         throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+    }
+    
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Frame") ;
     }
 
     if (!this->isDefined())
@@ -282,10 +285,8 @@ COE::CartesianState             COE::getCartesianState                      (   
 	const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
 	const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-    const Position position = { x_ECI, Position::Unit::Meter, gcrfSPtr } ;
-    const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, gcrfSPtr } ;
+    const Position position = { x_ECI, Position::Unit::Meter, aFrameSPtr } ;
+    const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, aFrameSPtr } ;
 
     return { position, velocity } ;
 
@@ -295,14 +296,16 @@ void                            COE::print                                  (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
+    using library::core::types::String ;
+
     displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? semiMajorAxis_.toString() : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.in(Length::Unit::Meter).toString()) : "Undefined") ;
     library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                            << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? inclination_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? raan_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? aop_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? trueAnomaly_.toString() : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
 
     displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
 
@@ -310,7 +313,215 @@ void                            COE::print                                  (   
 
 COE                             COE::Undefined                              ( )
 {
-    return COE(Length::Undefined(), Real::Undefined(), Angle::Undefined(), Angle::Undefined(), Angle::Undefined(), Angle::Undefined()) ;
+    return { Length::Undefined(), Real::Undefined(), Angle::Undefined(), Angle::Undefined(), Angle::Undefined(), Angle::Undefined() } ;
+}
+
+COE                             COE::Cartesian                              (   const   COE::CartesianState&        aCartesianState,
+                                                                                const   Derived&                    aGravitationalParameter                     )
+{
+
+    using library::math::obj::Vector3d ;
+    
+    using library::physics::units::Mass ;
+    using library::physics::units::Time ;
+
+    if ((!aCartesianState.first.isDefined()) || (!aCartesianState.second.isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Cartesian state") ;
+    }
+
+    if (!aGravitationalParameter.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+    }
+
+    static const Real tolerance = 1e-11 ;
+
+    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+
+    const Real mu = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+
+    if (mu == 0.0)
+    {
+        throw library::core::error::runtime::Wrong("Gravitational parameter") ;
+    }
+
+    const Vector3d& positionVector = aCartesianState.first.accessCoordinates() ;
+    const Vector3d& velocityVector = aCartesianState.second.accessCoordinates() ;
+
+    const Real position = positionVector.norm() ;
+    const Real velocity = velocityVector.norm() ;
+
+    if (position == 0.0)
+    {
+        throw library::core::error::runtime::Wrong("Position vector") ;
+    }
+
+    // Angular momentum
+
+    const Vector3d angularMomentumVector = positionVector.cross(velocityVector) ;
+
+    const Real angularMomentum = angularMomentumVector.norm() ;
+
+    if (angularMomentum == 0.0)
+    {
+        throw library::core::error::runtime::Wrong("Angular momentum") ;
+    }
+
+    // Node
+
+    const Vector3d nodeVector = Vector3d::Z().cross(angularMomentumVector) ;
+
+    const Real node = nodeVector.norm() ;
+
+    // Eccentricity
+
+    const Vector3d eccentricityVector = (1.0 / mu) * ((((velocity * velocity) - (mu / position)) * positionVector) - ((positionVector.dot(velocityVector)) * (velocityVector))) ;
+    
+    const Real e = eccentricityVector.norm() ;
+    
+    if ((std::abs(1.0 - e)) <= Real::Epsilon())
+    {
+        throw library::core::error::runtime::ToBeImplemented("Support for parabolic orbits.") ;
+    }
+
+    // Semi-major axis
+
+    const Real E = (0.5 * velocity * velocity) - (mu / position) ;
+    
+    if (E == 0.0)
+    {
+        throw library::core::error::runtime::Wrong("Specific orbital energy") ;
+    }
+    
+    const Real a_m = - mu / (2.0 * E) ;
+
+    if (std::abs(a_m * (1.0 - e)) < Real::Epsilon())
+    {
+        throw library::core::error::RuntimeError("Conic section is singular.") ;
+    }
+    
+    // Inclination
+    
+    const Real i_rad = std::acos(angularMomentumVector(2)/ angularMomentum) ;
+
+    // Other angles
+
+    Real raan_rad = 0.0 ; // [rad] Right Ascension of the Ascending Node (RAAN)
+    Real aop_rad = 0.0 ; // [rad] Argument Of Periapsis (AOP)
+    Real nu_rad = 0.0 ; // [rad] True anomaly
+
+    if ((e >= tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance)))) // Non-circular, inclined
+    {
+
+        if (node == 0.0)
+        {
+            throw library::core::error::runtime::Undefined("Node") ;
+        }
+
+        raan_rad = std::acos(nodeVector(0) / node) ;
+        
+        if (nodeVector(1) < 0.0)
+        {
+            raan_rad = Real::TwoPi() - raan_rad ;
+        }
+
+        aop_rad = std::acos((nodeVector.dot(eccentricityVector)) / (node * e)) ;
+        
+        if (eccentricityVector(2) < 0.0)
+        {
+            aop_rad = Real::TwoPi() - aop_rad ;
+        }
+
+        nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position)) ;
+        
+        if (positionVector.dot(velocityVector) < 0.0)
+        {
+            nu_rad = Real::TwoPi() - nu_rad ;
+        }
+
+    }
+    else if ((e >= tolerance) && ((i_rad < tolerance) || (i_rad > (Real::Pi() - tolerance)))) // Non-circular, equatorial
+    {
+
+        raan_rad = 0.0 ;
+        aop_rad = std::acos(eccentricityVector(0) / e) ;
+        
+        if (eccentricityVector(1) < 0.0)
+        {
+            aop_rad = Real::TwoPi() - aop_rad ;
+        }
+
+        if (i_rad > (Real::Pi() - tolerance))
+        {
+            aop_rad= aop_rad * -1.0 ;
+        }
+        
+        if (aop_rad < 0.0)
+        {
+            aop_rad = aop_rad + Real::TwoPi() ;
+        }
+
+        nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position)) ;
+        
+        if (positionVector.dot(velocityVector) < 0.0)
+        {
+            nu_rad = Real::TwoPi() - nu_rad ;
+        }
+        
+    }
+    else if ((e < tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance)))) // Circular, inclined
+    {
+
+        if (node == 0.0)
+        {
+            throw library::core::error::runtime::Undefined("Node") ;
+        }
+        
+        raan_rad = std::acos(nodeVector(0) / node) ;
+        
+        if (nodeVector(1) < 0.0)
+        {
+            raan_rad = Real::TwoPi() - raan_rad ;
+        }
+
+        aop_rad = 0.0 ;
+
+        nu_rad = std::acos((nodeVector.dot(positionVector)) / (node * position)) ;
+        
+        if (positionVector(2) < 0.0)
+        {
+            nu_rad = Real::TwoPi() - nu_rad ;
+        }
+
+    }
+    else if ((e < tolerance) && ((i_rad < tolerance) || (i_rad > (Real::Pi() - tolerance)))) // Circular, equatorial
+    {
+
+        raan_rad = 0.0 ;
+        aop_rad = 0.0 ;
+
+        nu_rad = std::acos(positionVector(0) / position) ;
+        
+        if (positionVector(1) < 0.0)
+        {
+            nu_rad = Real::TwoPi() - nu_rad ;
+        }
+
+        if (i_rad > (Real::Pi() - tolerance))
+        {
+            nu_rad = nu_rad * -1.0 ;
+        }
+            
+        if (nu_rad < 0.0)
+        {
+            nu_rad = nu_rad + Real::TwoPi() ;
+        }
+
+    }
+
+    return { Length::Meters(a_m), e, Angle::Radians(i_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(nu_rad) } ;
+
 }
 
 Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   const   Angle&                      aTrueAnomaly,

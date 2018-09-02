@@ -10,6 +10,7 @@
 #ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
 #define __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
 
+#include <Library/Physics/Coordinate/Frame.hpp>
 #include <Library/Physics/Coordinate/Velocity.hpp>
 #include <Library/Physics/Coordinate/Position.hpp>
 #include <Library/Physics/Time/Duration.hpp>
@@ -19,6 +20,7 @@
 
 #include <Library/Core/Containers/Pair.hpp>
 #include <Library/Core/Types/Real.hpp>
+#include <Library/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +39,7 @@ namespace kepler
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::core::types::Shared ;
 using library::core::types::Real ;
 using library::core::ctnr::Pair ;
 
@@ -46,6 +49,7 @@ using library::physics::units::Angle ;
 using library::physics::time::Duration ;
 using library::physics::coord::Position ;
 using library::physics::coord::Velocity ;
+using library::physics::coord::Frame ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,12 +101,16 @@ class COE
 
         Duration                getOrbitalPeriod                            (   const   Derived&                    aGravitationalParameter                     ) const ;
 
-        COE::CartesianState     getCartesianState                           (   const   Derived&                    aGravitationalParameter                     ) const ;
+        COE::CartesianState     getCartesianState                           (   const   Derived&                    aGravitationalParameter,
+                                                                                const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
         void                    print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const ;
 
         static COE              Undefined                                   ( ) ;
+
+        static COE              Cartesian                                   (   const   COE::CartesianState&        aCartesianState,
+                                                                                const   Derived&                    aGravitationalParameter                     ) ;
 
         static Angle            EccentricAnomalyFromTrueAnomaly             (   const   Angle&                      aTrueAnomaly,
                                                                                 const   Real&                       anEccentricity                              ) ;

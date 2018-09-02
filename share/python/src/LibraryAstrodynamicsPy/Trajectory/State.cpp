@@ -34,9 +34,9 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
 
         .def("isDefined", &State::isDefined)
 
-        .def("accessInstant", &State::accessInstant, return_value_policy<reference_existing_object>())
-        .def("accessPosition", &State::accessPosition, return_value_policy<reference_existing_object>())
-        .def("accessVelocity", &State::accessVelocity, return_value_policy<reference_existing_object>())
+        .def("getInstant", &State::getInstant)
+        .def("getPosition", &State::getPosition)
+        .def("getVelocity", &State::getVelocity)
         .def("inFrame", &State::inFrame)
         
         .def("Undefined", &State::Undefined).staticmethod("Undefined")
