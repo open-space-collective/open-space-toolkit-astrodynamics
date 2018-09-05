@@ -1,0 +1,45 @@
+<?xml version = "1.0" standalone = "yes"?>
+<TimelineLine_Prefs STK_version = "11.3.0">
+    <Views Type = "Content">
+        <ContentView Name = "Scenario Availability">
+            <Row ClassName = "Scenario" ComponentName = "AvailabilityIntervals" DisplayName = "Scenario AvailabilityIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "/Application/STK/Scenario/Scenario" Type = "IntervalList">
+                <Interval Name = "Scenario AvailabilityIntervals" StartTime = "1 Jan 2018 00:00:00.000" StopTime = "2 Jan 2018 00:00:00.000" />
+            </Row>
+            <Row ClassName = "Access" ComponentName = "AccessIntervals" DisplayName = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "Access:/Application/STK/Scenario/Scenario/Satellite/Satellite2;/Application/STK/Scenario/Scenario/Satellite/Satellite1" Type = "IntervalList">
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 00:00:00.000" StopTime = "1 Jan 2018 00:09:37.047" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 00:38:57.192" StopTime = "1 Jan 2018 00:58:11.309" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 01:27:31.447" StopTime = "1 Jan 2018 01:46:45.567" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 02:16:05.705" StopTime = "1 Jan 2018 02:35:19.826" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 03:04:39.964" StopTime = "1 Jan 2018 03:23:54.084" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 03:53:14.222" StopTime = "1 Jan 2018 04:12:28.342" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 04:41:48.481" StopTime = "1 Jan 2018 05:01:02.601" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 05:30:22.739" StopTime = "1 Jan 2018 05:49:36.859" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 06:18:56.997" StopTime = "1 Jan 2018 06:38:11.117" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 07:07:31.256" StopTime = "1 Jan 2018 07:26:45.376" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 07:56:05.514" StopTime = "1 Jan 2018 08:15:19.634" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 08:44:39.772" StopTime = "1 Jan 2018 09:03:53.892" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 09:33:14.031" StopTime = "1 Jan 2018 09:52:28.150" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 10:21:48.289" StopTime = "1 Jan 2018 10:41:02.409" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 11:10:22.547" StopTime = "1 Jan 2018 11:29:36.667" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 11:58:56.806" StopTime = "1 Jan 2018 12:18:10.925" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 12:47:31.064" StopTime = "1 Jan 2018 13:06:45.184" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 13:36:05.322" StopTime = "1 Jan 2018 13:55:19.442" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 14:24:39.581" StopTime = "1 Jan 2018 14:43:53.700" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 15:13:13.839" StopTime = "1 Jan 2018 15:32:27.959" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 16:01:48.097" StopTime = "1 Jan 2018 16:21:02.217" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 16:50:22.356" StopTime = "1 Jan 2018 17:09:36.475" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 17:38:56.614" StopTime = "1 Jan 2018 17:58:10.734" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 18:27:30.872" StopTime = "1 Jan 2018 18:46:44.992" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 19:16:05.130" StopTime = "1 Jan 2018 19:35:19.250" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 20:04:39.389" StopTime = "1 Jan 2018 20:23:53.509" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 20:53:13.647" StopTime = "1 Jan 2018 21:12:27.767" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 21:41:47.905" StopTime = "1 Jan 2018 22:01:02.025" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 22:30:22.164" StopTime = "1 Jan 2018 22:49:36.284" />
+                <Interval Name = "Satellite-Satellite2-To-Satellite-Satellite1 AccessIntervals" StartTime = "1 Jan 2018 23:18:56.422" StopTime = "1 Jan 2018 23:38:10.542" />
+            </Row>
+        </ContentView>
+    </Views>
+    <Views Type = "Time">
+        <TimeView FullViewRulerStartTime = "0.000000" FullViewRulerStopTime = "0.000000" GlobalIntervalComp = "AnalysisInterval" GlobalIntervalCompPath = "/Application/STK/Scenario/Scenario" GlobalStartOffset = "0.000000" GlobalStartTime = "1 Jan 2018 00:00:00.000" GlobalStopOffset = "0.000000" GlobalStopTime = "2 Jan 2018 00:00:00.000" MaxFullViewTime = "0.000000" MinFullViewTime = "0.000000" Name = "Scenario Analysis Period" ViewportStartTime = "0.000000" ViewportStopTime = "0.000000" />
+    </Views>
+</TimelineLine_Prefs>

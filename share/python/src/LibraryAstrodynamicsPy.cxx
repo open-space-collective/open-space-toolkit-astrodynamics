@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Library/Astrodynamics
-/// @file           Library/Astrodynamics/LibraryMathematicsPy.hpp
+/// @file           LibraryAstrodynamicsPy.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        TBD
 
@@ -9,28 +9,20 @@
 
 #include <boost/python.hpp>
 
-// #include <boost/numpy.hpp>
-
-// #include <eigen_numpy.h>
-
-#include <LibraryMathematicsPy/Types.cpp>
+#include <LibraryAstrodynamicsPy/Access.cpp>
+#include <LibraryAstrodynamicsPy/Trajectory.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_PYTHON_MODULE (LibraryMathematicsPy)
+BOOST_PYTHON_MODULE (LibraryAstrodynamicsPy)
 {
-
-	// boost::numpy::initialize() ;
-
-	// boost::python::numeric::array::set_module_and_type("numpy", "ndarray") ;
-
-	// SetupEigenConverters() ;
 
 	boost::python::object package = boost::python::scope() ;
 	
 	package.attr("__path__") = "Library" ;
 
-	LibraryMathematicsPy_Types() ;
+	LibraryAstrodynamicsPy_Trajectory() ;
+	LibraryAstrodynamicsPy_Access() ;
 
 }
 

@@ -7,11 +7,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Mathematics_Access__
-#define __Library_Mathematics_Access__
+#ifndef __Library_Astrodynamics_Access__
+#define __Library_Astrodynamics_Access__
 
+#include <Library/Physics/Time/Interval.hpp>
+#include <Library/Physics/Time/Duration.hpp>
+#include <Library/Physics/Time/Instant.hpp>
+
+#include <Library/Core/Containers/Array.hpp>
 #include <Library/Core/Types/String.hpp>
-#include <Library/Core/Types/Real.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,19 +27,69 @@ namespace astro
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using library::core::types::String ;
+using library::core::ctnr::Array ;
+
+using library::physics::time::Instant ;
+using library::physics::time::Duration ;
+using library::physics::time::Interval ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @brief                      Object-to-object visibility
 
 class Access
 {
 
     public:
 
-                                Access                                      ( ) ;
+        enum class Type
+        {
+
+            Undefined,
+            Complete,
+            Partial
+
+        } ;
+
+                                Access                                      (   const   Access::Type&               aType,
+                                                                                const   Instant&                    anAcquisitionOfSignal,
+                                                                                const   Instant&                    aTimeOfClosestApproach,
+                                                                                const   Instant&                    aLossOfSignal                               ) ;
+
+        bool                    operator ==                                 (   const   Access&                     anAccess                                    ) const ;
+
+        bool                    operator !=                                 (   const   Access&                     anAccess                                    ) const ;
+
+        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
+                                                                                const   Access&                     anAccess                                    ) ;
+
+        bool                    isDefined                                   ( ) const ;
+
+        bool                    isComplete                                  ( ) const ;
+
+        Access::Type            getType                                     ( ) const ;
+
+        Instant                 getAcquisitionOfSignal                      ( ) const ;
+
+        Instant                 getTimeOfClosestApproach                    ( ) const ;
+
+        Instant                 getLossOfSignal                             ( ) const ;
+
+        Interval                getInterval                                 ( ) const ;
+
+        Duration                getDuration                                 ( ) const ;
+
+        static Access           Undefined                                   ( ) ;
+
+        static String           StringFromType                              (   const   Access::Type&               aType                                       ) ;
 
     private:
 
-        String                  toBeRemoved_ ;
+        Access::Type            type_ ;
+
+        Instant                 acquisitionOfSignal_ ;
+        Instant                 timeOfClosestApproach_ ;
+        Instant                 lossOfSignal_ ;
 
 } ;
 

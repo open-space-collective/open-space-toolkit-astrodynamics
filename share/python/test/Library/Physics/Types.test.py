@@ -20,10 +20,10 @@ assert Types.Integer(123) == 123
 assert Types.Integer(+123) == +123
 assert Types.Integer(-123) == -123
 
-assert Types.Integer(0).getString() == "0"
-assert Types.Integer(123).getString() == "123"
-assert Types.Integer(+123).getString() == "123"
-assert Types.Integer(-123).getString() == "-123"
+assert Types.Integer(0).toString() == "0"
+assert Types.Integer(123).toString() == "123"
+assert Types.Integer(+123).toString() == "123"
+assert Types.Integer(-123).toString() == "-123"
 
 ## Real
 

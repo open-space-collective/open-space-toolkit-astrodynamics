@@ -26,6 +26,6 @@ docker run \
 --volume="${development_directory}/helpers/test.sh:/app/build/test.sh:ro" \
 --workdir="/app/build" \
 ${image_name} \
-/bin/bash -c "/app/build/build.sh"
+/bin/bash -c "/app/build/build.sh && make package && mkdir -p /app/package && mv /app/build/*.rpm /app/package"
 
 ################################################################################################################################################################
