@@ -1,0 +1,141 @@
+\hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model}{}\section{library\+:\+:astro\+:\+:trajectory\+:\+:Model Class Reference}
+\label{classlibrary_1_1astro_1_1trajectory_1_1_model}\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+
+
+\hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} model (abstract)  
+
+
+
+
+{\ttfamily \#include $<$Model.\+hpp$>$}
+
+Inheritance diagram for library\+:\+:astro\+:\+:trajectory\+:\+:Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.166667cm]{classlibrary_1_1astro_1_1trajectory_1_1_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a083bde3f2c8d3d1406220ad3e2dd9cd9}{Model} ()
+\item 
+virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_abd305caa6adde24bf7ee2eb93e0639d1}{$\sim$\+Model} ()=0
+\item 
+virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} $\ast$ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_ad6181e14aea57534897e7446a2a27578}{clone} () const =0
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a83c52eb23e8feea58d600c87700ed923}{operator==} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&a\+Model) const =0
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a476c234f5fca1eb75f64f5a96fd83c61}{operator!=} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&a\+Model) const =0
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}{is\+Defined} () const =0
+\item 
+virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}{calculate\+State\+At} (const Instant \&an\+Instant) const =0
+\item 
+virtual void \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_af3dd0c38fdbac0b64f689fd8c88c3320}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const =0
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a68240493d08f91f6613186eb52823e85}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&a\+Model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} model (abstract) 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a083bde3f2c8d3d1406220ad3e2dd9cd9}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a083bde3f2c8d3d1406220ad3e2dd9cd9}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!Model@{Model}}
+\index{Model@{Model}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{Model()}{Model()}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::\+Model\+::\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_abd305caa6adde24bf7ee2eb93e0639d1}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_abd305caa6adde24bf7ee2eb93e0639d1}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!````~Model@{$\sim$\+Model}}
+\index{````~Model@{$\sim$\+Model}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{$\sim$\+Model()}{~Model()}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::\+Model\+::$\sim$\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a1d580725a826a6d16d2c3d4cf2022a50}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} library\+::astro\+::trajectory\+::\+Model\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6354b3545decf1179289383679ebe2cd}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a5d94d349c464f7313017c795a9346084}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a6d23f5721930d9e885eb3b763ab3390a}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a43db203d7257d25a5a3a6f0e03e62b7d}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_ae4bc6aceab498868e4ebe2a65c6aa413}{library\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a34198a504836b9779425da99d964d19c}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_ad6181e14aea57534897e7446a2a27578}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_ad6181e14aea57534897e7446a2a27578}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!clone@{clone}}
+\index{clone@{clone}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model}$\ast$ library\+::astro\+::trajectory\+::\+Model\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ac78a023cde4a61c62309051c9147d66e}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afa3add6c6855ac1da5632b17986dca02}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a192cfb0ceb4a11d02578adc9702cabc1}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a8ccec23a49086c6c3fbda2cc81e7a4dc}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_a3586bbfdd6fc3958b18a2ffcb3b23fd4}{library\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a45d75e4d212a9bb01aa596eaeeae43ae}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily virtual bool library\+::astro\+::trajectory\+::\+Model\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a600d7752a50924ee6e3fc08f18a229e9}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a2d70ef4601e453156a430115e11ce8d7}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_ae967e30f6de74405671f992a5920883f}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_af68120eb6651e8461c02a465923e533f}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_a41449e98bb076e0601df67b1cfbff6b8}{library\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a518785603421d259e427bd0a6ee5e787}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a476c234f5fca1eb75f64f5a96fd83c61}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a476c234f5fca1eb75f64f5a96fd83c61}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily virtual bool library\+::astro\+::trajectory\+::\+Model\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a2671d995d476b11a14cc08aad2dc0b30}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_addbc5d1289986a6f89da00a21d4ab8e6}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_ae6b286af87f28d080b523fb879b74109}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a4373b98c6026c999da98e1740c784e17}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_aadcfd4ac66cc3fc4cc2b868b9bbc182a}{library\+::astro\+::trajectory\+::models\+::\+Static}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a83c52eb23e8feea58d600c87700ed923}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a83c52eb23e8feea58d600c87700ed923}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!operator==@{operator==}}
+\index{operator==@{operator==}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily virtual bool library\+::astro\+::trajectory\+::\+Model\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_af3adc1e4bee0a3064963209b58178e98}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6210273bf78e8b98b310999a09d89cc4}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_af733fafd705bd6a1f204acdbaf2e9646}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a7194a96e062cb6a8c109c82e169a9d7d}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_ade92be03b036c9625bd5a4111cb69731}{library\+::astro\+::trajectory\+::models\+::\+Static}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_af3dd0c38fdbac0b64f689fd8c88c3320}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_af3dd0c38fdbac0b64f689fd8c88c3320}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!print@{print}}
+\index{print@{print}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily virtual void library\+::astro\+::trajectory\+::\+Model\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a5cecedfe1b2002881b4ef6eeae64af93}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_aca7d5615c14d59338506fb13630cd535}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a3eae12849178fe43d30a620edceddd8e}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a545a7209580a0c3863f37e2bdd925cb6}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_af8f9c6fa6ae2d4471868cc970e1ef571}{library\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_abd4fb7604274cc8b3589a445db64e98c}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a68240493d08f91f6613186eb52823e85}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a68240493d08f91f6613186eb52823e85}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Library/\+Astrodynamics/\+Trajectory/\hyperlink{_model_8hpp}{Model.\+hpp}\item 
+src/\+Library/\+Astrodynamics/\+Trajectory/\hyperlink{_model_8cpp}{Model.\+cpp}\end{DoxyCompactItemize}

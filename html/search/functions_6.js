@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tle',['TLE',['../classlibrary_1_1astro_1_1_t_l_e.html#a4ff8b885d24b09f555e8449f6e3f10c0',1,'library::astro::TLE']]],
-  ['trajectory',['Trajectory',['../classlibrary_1_1astro_1_1_trajectory.html#a5e62e12ff8ca21934171081eadc90461',1,'library::astro::Trajectory']]]
+  ['load',['Load',['../classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a63c053c7a308930aa03b354292c85c0f',1,'library::astro::trajectory::models::Tabulated::Load()'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a573d75ef5c2b7ed157dce83fdb556d44',1,'library::astro::trajectory::orbit::models::sgp4::TLE::Load()']]]
 ];

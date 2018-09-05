@@ -1,0 +1,142 @@
+\hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state}{}\section{library\+:\+:astro\+:\+:trajectory\+:\+:State Class Reference}
+\label{classlibrary_1_1astro_1_1trajectory_1_1_state}\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+
+
+\hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} state.  
+
+
+
+
+{\ttfamily \#include $<$State.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_ada1cbf99efb7e85f0a1f9664868b20f5}{State} (const Instant \&an\+Instant, const Position \&a\+Position, const Velocity \&a\+Velocity)
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_a3b5c3a4279b3c0659cdb8d26a2b4202c}{operator==} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State) const
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_aa3ceea8c71e864839693a4aa7d3e93c2}{operator!=} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State) const
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_a62bb004d41468603c0dc9b17d505158e}{is\+Defined} () const
+\item 
+const Instant \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_ae51674051753513c7657e154331be976}{access\+Instant} () const
+\item 
+const Position \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_ab0751200244a8b741fd67a1bfb47ad4d}{access\+Position} () const
+\item 
+const Velocity \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_ae81763c334c3bd69595917a94c60d9d5}{access\+Velocity} () const
+\item 
+Instant \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_a7c053801b20c9501156720253c6c1707}{get\+Instant} () const
+\item 
+Position \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_aa75125aa07bc506bfaca1e2fcfbab8a8}{get\+Position} () const
+\item 
+Velocity \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_a778acffd0f76d9409e8de7920893439a}{get\+Velocity} () const
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_aeef0e18554b9b9ac67a15aed7c5e59fb}{in\+Frame} (const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_a1de5d9ea3f03d975b989fd519d447be7}{Undefined} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state_abba03f039f2534d691a1dc28426e8b89}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} state. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_ada1cbf99efb7e85f0a1f9664868b20f5}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_ada1cbf99efb7e85f0a1f9664868b20f5}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!State@{State}}
+\index{State@{State}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{State()}{State()}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Position \&}]{a\+Position,  }\item[{const Velocity \&}]{a\+Velocity }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_ae51674051753513c7657e154331be976}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_ae51674051753513c7657e154331be976}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!access\+Instant@{access\+Instant}}
+\index{access\+Instant@{access\+Instant}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Instant()}{accessInstant()}}
+{\footnotesize\ttfamily const Instant \& library\+::astro\+::trajectory\+::\+State\+::access\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_ab0751200244a8b741fd67a1bfb47ad4d}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_ab0751200244a8b741fd67a1bfb47ad4d}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!access\+Position@{access\+Position}}
+\index{access\+Position@{access\+Position}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Position()}{accessPosition()}}
+{\footnotesize\ttfamily const Position \& library\+::astro\+::trajectory\+::\+State\+::access\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_ae81763c334c3bd69595917a94c60d9d5}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_ae81763c334c3bd69595917a94c60d9d5}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!access\+Velocity@{access\+Velocity}}
+\index{access\+Velocity@{access\+Velocity}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Velocity()}{accessVelocity()}}
+{\footnotesize\ttfamily const Velocity \& library\+::astro\+::trajectory\+::\+State\+::access\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_a7c053801b20c9501156720253c6c1707}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_a7c053801b20c9501156720253c6c1707}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!get\+Instant@{get\+Instant}}
+\index{get\+Instant@{get\+Instant}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Instant()}{getInstant()}}
+{\footnotesize\ttfamily Instant library\+::astro\+::trajectory\+::\+State\+::get\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_aa75125aa07bc506bfaca1e2fcfbab8a8}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_aa75125aa07bc506bfaca1e2fcfbab8a8}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Position()}{getPosition()}}
+{\footnotesize\ttfamily Position library\+::astro\+::trajectory\+::\+State\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_a778acffd0f76d9409e8de7920893439a}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_a778acffd0f76d9409e8de7920893439a}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!get\+Velocity@{get\+Velocity}}
+\index{get\+Velocity@{get\+Velocity}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Velocity()}{getVelocity()}}
+{\footnotesize\ttfamily Velocity library\+::astro\+::trajectory\+::\+State\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_aeef0e18554b9b9ac67a15aed7c5e59fb}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_aeef0e18554b9b9ac67a15aed7c5e59fb}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!in\+Frame@{in\+Frame}}
+\index{in\+Frame@{in\+Frame}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{in\+Frame()}{inFrame()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} library\+::astro\+::trajectory\+::\+State\+::in\+Frame (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_a62bb004d41468603c0dc9b17d505158e}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_a62bb004d41468603c0dc9b17d505158e}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::\+State\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_aa3ceea8c71e864839693a4aa7d3e93c2}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_aa3ceea8c71e864839693a4aa7d3e93c2}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::\+State\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_a3b5c3a4279b3c0659cdb8d26a2b4202c}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_a3b5c3a4279b3c0659cdb8d26a2b4202c}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!operator==@{operator==}}
+\index{operator==@{operator==}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::\+State\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_a1de5d9ea3f03d975b989fd519d447be7}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_a1de5d9ea3f03d975b989fd519d447be7}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} library\+::astro\+::trajectory\+::\+State\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_state_abba03f039f2534d691a1dc28426e8b89}\label{classlibrary_1_1astro_1_1trajectory_1_1_state_abba03f039f2534d691a1dc28426e8b89}} 
+\index{library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!library\+::astro\+::trajectory\+::\+State@{library\+::astro\+::trajectory\+::\+State}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Library/\+Astrodynamics/\+Trajectory/\hyperlink{_state_8hpp}{State.\+hpp}\item 
+src/\+Library/\+Astrodynamics/\+Trajectory/\hyperlink{_state_8cpp}{State.\+cpp}\end{DoxyCompactItemize}

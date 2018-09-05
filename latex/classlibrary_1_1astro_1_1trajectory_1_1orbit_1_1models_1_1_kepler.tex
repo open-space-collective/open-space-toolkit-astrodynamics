@@ -1,0 +1,261 @@
+\hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{}\section{library\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+:\+:Kepler Class Reference}
+\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+
+
+{\ttfamily \#include $<$Kepler.\+hpp$>$}
+
+Inheritance diagram for library\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+:\+:Kepler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Perturbation\+Type} \{ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a6adf97f83acf6453d4a6a4b1070f3754}{Perturbation\+Type\+::\+None}, 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a7f132d501fb9863844ab51697900d494}{Perturbation\+Type\+::\+J2}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ae0c322251dbb025bfbdefd9f7b97e018}{Kepler} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+Classical\+Orbital\+Element\+Set, const Instant \&an\+Epoch, const Derived \&a\+Gravitational\+Parameter, const Length \&an\+Equatorial\+Radius, const Real \&a\+J2, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type)
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a07fe8f18505ab866ba777fc37e8390a3}{Kepler} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+Classical\+Orbital\+Element\+Set, const Instant \&an\+Epoch, const Celestial \&a\+Celestial\+Object, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type, const bool in\+Fixed\+Frame=false)
+\item 
+virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} $\ast$ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ac78a023cde4a61c62309051c9147d66e}{clone} () const override
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a1fbf0650ece0aa4fd99bc9d8d4bc1f77}{operator==} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&a\+Keplerian\+Model) const
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a38a315b4ffbfe6293c2570ade157865c}{operator!=} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&a\+Keplerian\+Model) const
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a600d7752a50924ee6e3fc08f18a229e9}{is\+Defined} () const override
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a224a8ad539b7739447a0e9bd98e6f66d}{get\+Classical\+Orbital\+Elements} () const
+\item 
+virtual Instant \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6ecdd4a133cdd936909020b644dd8f1f}{get\+Epoch} () const override
+\item 
+virtual Integer \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ad8df985c06ca56c1516f3b8804d5052d}{get\+Revolution\+Number\+At\+Epoch} () const override
+\item 
+Derived \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a65ba42289312a4d54adfbf14589d8dde}{get\+Gravitational\+Parameter} () const
+\item 
+Length \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a687374bb06a2f805a21ded57f2604c4b}{get\+Equatorial\+Radius} () const
+\item 
+Real \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ab6a582f7b6ab6f9f22e180378e20b58d}{get\+J2} () const
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a68033efefbad3ba3d52558cecd606820}{get\+Perturbation\+Type} () const
+\item 
+virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6354b3545decf1179289383679ebe2cd}{calculate\+State\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual Integer \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9ba435e737c10933f39d4817306810eb}{calculate\+Revolution\+Number\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual void \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a5cecedfe1b2002881b4ef6eeae64af93}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a0ab0792e822cf9586d55fa17e3950d87}{String\+From\+Perturbation\+Type} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_af3adc1e4bee0a3064963209b58178e98}{operator==} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&a\+Model) const override
+\item 
+virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a2671d995d476b11a14cc08aad2dc0b30}{operator!=} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&a\+Model) const override
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aedb386ce32716dfb187f89b52b023f2b}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&a\+Keplerian\+Model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!Perturbation\+Type@{Perturbation\+Type}}
+\index{Perturbation\+Type@{Perturbation\+Type}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{Perturbation\+Type}{PerturbationType}}
+{\footnotesize\ttfamily enum \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+Perturbation\+Type}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!None@{None}}}\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a6adf97f83acf6453d4a6a4b1070f3754}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a6adf97f83acf6453d4a6a4b1070f3754}} 
+None&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{J2@{J2}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!J2@{J2}}}\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a7f132d501fb9863844ab51697900d494}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0a7f132d501fb9863844ab51697900d494}} 
+J2&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ae0c322251dbb025bfbdefd9f7b97e018}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ae0c322251dbb025bfbdefd9f7b97e018}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!Kepler@{Kepler}}
+\index{Kepler@{Kepler}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{Kepler()}{Kepler()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+Kepler (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+Classical\+Orbital\+Element\+Set,  }\item[{const Instant \&}]{an\+Epoch,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Length \&}]{an\+Equatorial\+Radius,  }\item[{const Real \&}]{a\+J2,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&}]{a\+Perturbation\+Type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a07fe8f18505ab866ba777fc37e8390a3}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a07fe8f18505ab866ba777fc37e8390a3}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!Kepler@{Kepler}}
+\index{Kepler@{Kepler}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{Kepler()}{Kepler()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+Kepler (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+Classical\+Orbital\+Element\+Set,  }\item[{const Instant \&}]{an\+Epoch,  }\item[{const Celestial \&}]{a\+Celestial\+Object,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&}]{a\+Perturbation\+Type,  }\item[{const bool}]{in\+Fixed\+Frame = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9ba435e737c10933f39d4817306810eb}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9ba435e737c10933f39d4817306810eb}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!calculate\+Revolution\+Number\+At@{calculate\+Revolution\+Number\+At}}
+\index{calculate\+Revolution\+Number\+At@{calculate\+Revolution\+Number\+At}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{calculate\+Revolution\+Number\+At()}{calculateRevolutionNumberAt()}}
+{\footnotesize\ttfamily Integer library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::calculate\+Revolution\+Number\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a6329db5556ed72aa8ad18515aeaefeab}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6354b3545decf1179289383679ebe2cd}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6354b3545decf1179289383679ebe2cd}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a34198a504836b9779425da99d964d19c}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ac78a023cde4a61c62309051c9147d66e}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ac78a023cde4a61c62309051c9147d66e}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!clone@{clone}}
+\index{clone@{clone}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} $\ast$ library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a45d75e4d212a9bb01aa596eaeeae43ae}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a224a8ad539b7739447a0e9bd98e6f66d}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a224a8ad539b7739447a0e9bd98e6f66d}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Classical\+Orbital\+Elements@{get\+Classical\+Orbital\+Elements}}
+\index{get\+Classical\+Orbital\+Elements@{get\+Classical\+Orbital\+Elements}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Classical\+Orbital\+Elements()}{getClassicalOrbitalElements()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Classical\+Orbital\+Elements (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6ecdd4a133cdd936909020b644dd8f1f}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a6ecdd4a133cdd936909020b644dd8f1f}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Epoch@{get\+Epoch}}
+\index{get\+Epoch@{get\+Epoch}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Epoch()}{getEpoch()}}
+{\footnotesize\ttfamily Instant library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_acdec7ed6eed001c2ab4ac5442699a316}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a687374bb06a2f805a21ded57f2604c4b}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a687374bb06a2f805a21ded57f2604c4b}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Equatorial\+Radius@{get\+Equatorial\+Radius}}
+\index{get\+Equatorial\+Radius@{get\+Equatorial\+Radius}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Equatorial\+Radius()}{getEquatorialRadius()}}
+{\footnotesize\ttfamily Length library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Equatorial\+Radius (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a65ba42289312a4d54adfbf14589d8dde}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a65ba42289312a4d54adfbf14589d8dde}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Gravitational\+Parameter@{get\+Gravitational\+Parameter}}
+\index{get\+Gravitational\+Parameter@{get\+Gravitational\+Parameter}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Gravitational\+Parameter()}{getGravitationalParameter()}}
+{\footnotesize\ttfamily Derived library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Gravitational\+Parameter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ab6a582f7b6ab6f9f22e180378e20b58d}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ab6a582f7b6ab6f9f22e180378e20b58d}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+J2@{get\+J2}}
+\index{get\+J2@{get\+J2}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+J2()}{getJ2()}}
+{\footnotesize\ttfamily Real library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+J2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a68033efefbad3ba3d52558cecd606820}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a68033efefbad3ba3d52558cecd606820}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Perturbation\+Type@{get\+Perturbation\+Type}}
+\index{get\+Perturbation\+Type@{get\+Perturbation\+Type}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Perturbation\+Type()}{getPerturbationType()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Perturbation\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ad8df985c06ca56c1516f3b8804d5052d}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ad8df985c06ca56c1516f3b8804d5052d}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Revolution\+Number\+At\+Epoch@{get\+Revolution\+Number\+At\+Epoch}}
+\index{get\+Revolution\+Number\+At\+Epoch@{get\+Revolution\+Number\+At\+Epoch}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+Revolution\+Number\+At\+Epoch()}{getRevolutionNumberAtEpoch()}}
+{\footnotesize\ttfamily Integer library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+Revolution\+Number\+At\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a940f5e266feb90ee8264d4c7a8a883f3}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a600d7752a50924ee6e3fc08f18a229e9}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a600d7752a50924ee6e3fc08f18a229e9}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a518785603421d259e427bd0a6ee5e787}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a38a315b4ffbfe6293c2570ade157865c}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a38a315b4ffbfe6293c2570ade157865c}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&}]{a\+Keplerian\+Model }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a2671d995d476b11a14cc08aad2dc0b30}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a2671d995d476b11a14cc08aad2dc0b30}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a476c234f5fca1eb75f64f5a96fd83c61}{library\+::astro\+::trajectory\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a1fbf0650ece0aa4fd99bc9d8d4bc1f77}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a1fbf0650ece0aa4fd99bc9d8d4bc1f77}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!operator==@{operator==}}
+\index{operator==@{operator==}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&}]{a\+Keplerian\+Model }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_af3adc1e4bee0a3064963209b58178e98}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_af3adc1e4bee0a3064963209b58178e98}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!operator==@{operator==}}
+\index{operator==@{operator==}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a83c52eb23e8feea58d600c87700ed923}{library\+::astro\+::trajectory\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a5cecedfe1b2002881b4ef6eeae64af93}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a5cecedfe1b2002881b4ef6eeae64af93}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!print@{print}}
+\index{print@{print}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_abd4fb7604274cc8b3589a445db64e98c}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a0ab0792e822cf9586d55fa17e3950d87}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a0ab0792e822cf9586d55fa17e3950d87}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!String\+From\+Perturbation\+Type@{String\+From\+Perturbation\+Type}}
+\index{String\+From\+Perturbation\+Type@{String\+From\+Perturbation\+Type}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{String\+From\+Perturbation\+Type()}{StringFromPerturbationType()}}
+{\footnotesize\ttfamily String library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+String\+From\+Perturbation\+Type (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a7f34995d6f287de65a6edb2d419a2fe0}{Kepler\+::\+Perturbation\+Type} \&}]{a\+Perturbation\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aedb386ce32716dfb187f89b52b023f2b}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aedb386ce32716dfb187f89b52b023f2b}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler}{Kepler} \&}]{a\+Keplerian\+Model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Library/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\hyperlink{_kepler_8hpp}{Kepler.\+hpp}\item 
+src/\+Library/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\hyperlink{_kepler_8cpp}{Kepler.\+cpp}\end{DoxyCompactItemize}

@@ -5,7 +5,7 @@ Orbit, attitude, access.
 
 [![Build Status](https://travis-ci.com/open-space-collective/library-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/library-astrodynamics)
 [![Code Coverage](https://codecov.io/gh/open-space-collective/library-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/library-astrodynamics)
-[![Documentation](https://readthedocs.org/projects/docs/badge/?version=latest)](https://open-space-collective.github.io/library-astrodynamics)
+[![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/library-astrodynamics)
 
 ## Warning
 
@@ -101,6 +101,7 @@ The **Astrodynamics** library internally uses the following dependencies:
 |-------------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
 | Boost       | 1.67.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
 | Eigen       | 3.3.4   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
+| SGP4        | master  | Apache-2.0             | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
 | Core        | master  | TBD                    | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
 | Mathematics | master  | TBD                    | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
 | Physics     | master  | TBD                    | [github.com/open-space-collective/library-physic](https://github.com/open-space-collective/library-physic)           |

@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['tutorial',['Tutorial',['../md_docs__tutorial.html',1,'']]],
-  ['tle',['TLE',['../classlibrary_1_1astro_1_1_t_l_e.html',1,'library::astro::TLE'],['../classlibrary_1_1astro_1_1_t_l_e.html#a4ff8b885d24b09f555e8449f6e3f10c0',1,'library::astro::TLE::TLE()']]],
-  ['tle_2ehpp',['TLE.hpp',['../_t_l_e_8hpp.html',1,'']]],
-  ['trajectory',['Trajectory',['../classlibrary_1_1astro_1_1_trajectory.html',1,'library::astro::Trajectory'],['../classlibrary_1_1astro_1_1_trajectory.html#a5e62e12ff8ca21934171081eadc90461',1,'library::astro::Trajectory::Trajectory()']]],
-  ['trajectory_2ehpp',['Trajectory.hpp',['../_trajectory_8hpp.html',1,'']]],
-  ['tutorial_2emd',['Tutorial.md',['../_tutorial_8md.html',1,'']]]
+  ['kepler',['Kepler',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html',1,'library::astro::trajectory::orbit::models::Kepler'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#ae0c322251dbb025bfbdefd9f7b97e018',1,'library::astro::trajectory::orbit::models::Kepler::Kepler(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const Kepler::PerturbationType &amp;aPerturbationType)'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a07fe8f18505ab866ba777fc37e8390a3',1,'library::astro::trajectory::orbit::models::Kepler::Kepler(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject, const Kepler::PerturbationType &amp;aPerturbationType, const bool inFixedFrame=false)']]],
+  ['kepler_2ecpp',['Kepler.cpp',['../_kepler_8cpp.html',1,'']]],
+  ['kepler_2ehpp',['Kepler.hpp',['../_kepler_8hpp.html',1,'']]]
 ];

@@ -84,15 +84,27 @@ $(document).ready(function(){initNavTree('_orbit_8hpp.html','');});
 <div class="title">Orbit.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="_trajectory_8hpp_source.html">Library/Astrodynamics/Trajectory.hpp</a>&gt;</code><br />
-<code>#include &lt;Library/Core/Types/String.hpp&gt;</code><br />
-<code>#include &lt;Library/Core/Types/Real.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_orbit_2_model_8hpp_source.html">Library/Astrodynamics/Trajectory/Orbit/Model.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_pass_8hpp_source.html">Library/Astrodynamics/Trajectory/Orbit/Pass.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_state_8hpp_source.html">Library/Astrodynamics/Trajectory/State.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_trajectory_8hpp_source.html">Library/Astrodynamics/Trajectory.hpp</a>&gt;</code><br />
+<code>#include &lt;Library/Physics/Environment/Objects/Celestial.hpp&gt;</code><br />
+<code>#include &lt;Library/Physics/Coordinate/Frame.hpp&gt;</code><br />
+<code>#include &lt;Library/Physics/Time/Instant.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Containers/Map.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Containers/Array.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Types/Integer.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Types/Index.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Types/Shared.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Types/Unique.hpp&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
 </div>
 <p><a href="_orbit_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_orbit.html">library::astro::Orbit</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_orbit.html">library::astro::trajectory::Orbit</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gravitationally curved trajectory of an object.  <a href="classlibrary_1_1astro_1_1trajectory_1_1_orbit.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -100,6 +112,8 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacelibrary"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary.html">library</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacelibrary_1_1astro"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary_1_1astro.html">library::astro</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacelibrary_1_1astro_1_1trajectory"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary_1_1astro_1_1trajectory.html">library::astro::trajectory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

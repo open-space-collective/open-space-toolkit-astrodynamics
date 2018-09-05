@@ -1,0 +1,238 @@
+\hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{}\section{library\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+:\+:kepler\+:\+:C\+OE Class Reference}
+\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+
+
+Classical Orbital Elements (\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE})  
+
+
+
+
+{\ttfamily \#include $<$C\+O\+E.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef Pair$<$ Position, Velocity $>$ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{Cartesian\+State}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a5b1b2b906073bd8179dbe829e2313ade}{C\+OE} (const Length \&a\+Semi\+Major\+Axis, const Real \&an\+Eccentricity, const Angle \&an\+Inclination, const Angle \&a\+Raan, const Angle \&an\+Aop, const Angle \&a\+True\+Anomaly)
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac9143f26120f363581c66f757f184bd9}{operator==} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+C\+OE) const
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a7bc070928ce3c19ce8592f0c97dc409d}{operator!=} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+C\+OE) const
+\item 
+bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acce2662621d60f29d145ed73d32d9ef3}{is\+Defined} () const
+\item 
+Length \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aaa204b1c157b10dec7cef4d1096344d7}{get\+Semi\+Major\+Axis} () const
+\item 
+Real \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a31e88a22bbc8bbed4740fe0dc22122cd}{get\+Eccentricity} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ada07ed34dd893241c8199d2d38dffe41}{get\+Inclination} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af3087116161d9ab3ee585261e47dfde1}{get\+Raan} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c87f1c0304e17731ee339c8a5308fc}{get\+Aop} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02860869d6fe124102975365ec36bfc6}{get\+True\+Anomaly} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af5e71236c626912474e127135646e9ed}{get\+Mean\+Anomaly} () const
+\item 
+Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a200caffdc35b91b9ea6b40bb7039ed2c}{get\+Eccentric\+Anomaly} () const
+\item 
+Derived \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c60e9be04691ab0987639014215085}{get\+Mean\+Motion} (const Derived \&a\+Gravitational\+Parameter) const
+\item 
+Duration \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab766ab9e115a534af6dbc6243e3f800b}{get\+Orbital\+Period} (const Derived \&a\+Gravitational\+Parameter) const
+\item 
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{C\+O\+E\+::\+Cartesian\+State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a8c85e5625dc4f58c8bd5013387496ba9}{get\+Cartesian\+State} (const Derived \&a\+Gravitational\+Parameter, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\item 
+void \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ae654536e2cb0e891dc99f5f9055c8f1b}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a80eee9ea122d64e648ad400d5f7b8da2}{Undefined} ()
+\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a776a2b7587c3505cf1e063a338c4a5c6}{Cartesian} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{C\+O\+E\+::\+Cartesian\+State} \&a\+Cartesian\+State, const Derived \&a\+Gravitational\+Parameter)
+\item 
+static Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a2302b624eb7ae3111071fd8121cd9d46}{Eccentric\+Anomaly\+From\+True\+Anomaly} (const Angle \&a\+True\+Anomaly, const Real \&an\+Eccentricity)
+\item 
+static Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad1d42a117d9c2178cc8873aeae704f21}{True\+Anomaly\+From\+Eccentric\+Anomaly} (const Angle \&an\+Eccentric\+Anomaly, const Real \&an\+Eccentricity)
+\item 
+static Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af132bc9fffbc07a9c1a5c5465f2671d7}{Mean\+Anomaly\+From\+Eccentric\+Anomaly} (const Angle \&an\+Eccentric\+Anomaly, const Real \&an\+Eccentricity)
+\item 
+static Angle \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a41443d444243ac50153e8a1a13e115d6}{Eccentric\+Anomaly\+From\+Mean\+Anomaly} (const Angle \&a\+Mean\+Anomaly, const Real \&an\+Eccentricity, const Real \&a\+Tolerance)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+C\+OE)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Classical Orbital Elements (\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE}) 
+
+https\+://en.wikipedia.\+org/wiki/\+Orbital\+\_\+elements http\+://help.agi.\+com/stk/index.htm\+::stk/veh\+Sat\+\_\+coord\+Type\+\_\+classical.htm 
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Cartesian\+State@{Cartesian\+State}}
+\index{Cartesian\+State@{Cartesian\+State}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Cartesian\+State}{CartesianState}}
+{\footnotesize\ttfamily typedef Pair$<$Position, Velocity$>$ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Cartesian\+State}}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a5b1b2b906073bd8179dbe829e2313ade}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a5b1b2b906073bd8179dbe829e2313ade}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!C\+OE@{C\+OE}}
+\index{C\+OE@{C\+OE}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{C\+O\+E()}{COE()}}
+{\footnotesize\ttfamily library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+C\+OE (\begin{DoxyParamCaption}\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Angle \&}]{a\+Raan,  }\item[{const Angle \&}]{an\+Aop,  }\item[{const Angle \&}]{a\+True\+Anomaly }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a776a2b7587c3505cf1e063a338c4a5c6}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a776a2b7587c3505cf1e063a338c4a5c6}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Cartesian@{Cartesian}}
+\index{Cartesian@{Cartesian}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Cartesian()}{Cartesian()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Cartesian (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{C\+O\+E\+::\+Cartesian\+State} \&}]{a\+Cartesian\+State,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a41443d444243ac50153e8a1a13e115d6}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a41443d444243ac50153e8a1a13e115d6}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Eccentric\+Anomaly\+From\+Mean\+Anomaly@{Eccentric\+Anomaly\+From\+Mean\+Anomaly}}
+\index{Eccentric\+Anomaly\+From\+Mean\+Anomaly@{Eccentric\+Anomaly\+From\+Mean\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Eccentric\+Anomaly\+From\+Mean\+Anomaly()}{EccentricAnomalyFromMeanAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Eccentric\+Anomaly\+From\+Mean\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{a\+Mean\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Real \&}]{a\+Tolerance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a2302b624eb7ae3111071fd8121cd9d46}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a2302b624eb7ae3111071fd8121cd9d46}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Eccentric\+Anomaly\+From\+True\+Anomaly@{Eccentric\+Anomaly\+From\+True\+Anomaly}}
+\index{Eccentric\+Anomaly\+From\+True\+Anomaly@{Eccentric\+Anomaly\+From\+True\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Eccentric\+Anomaly\+From\+True\+Anomaly()}{EccentricAnomalyFromTrueAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Eccentric\+Anomaly\+From\+True\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{a\+True\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c87f1c0304e17731ee339c8a5308fc}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c87f1c0304e17731ee339c8a5308fc}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Aop@{get\+Aop}}
+\index{get\+Aop@{get\+Aop}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Aop()}{getAop()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Aop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a8c85e5625dc4f58c8bd5013387496ba9}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a8c85e5625dc4f58c8bd5013387496ba9}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Cartesian\+State@{get\+Cartesian\+State}}
+\index{get\+Cartesian\+State@{get\+Cartesian\+State}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Cartesian\+State()}{getCartesianState()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac51b1d86203092966abcebb32f312ff4}{C\+O\+E\+::\+Cartesian\+State} library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Cartesian\+State (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a200caffdc35b91b9ea6b40bb7039ed2c}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a200caffdc35b91b9ea6b40bb7039ed2c}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Eccentric\+Anomaly@{get\+Eccentric\+Anomaly}}
+\index{get\+Eccentric\+Anomaly@{get\+Eccentric\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Eccentric\+Anomaly()}{getEccentricAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Eccentric\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a31e88a22bbc8bbed4740fe0dc22122cd}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a31e88a22bbc8bbed4740fe0dc22122cd}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Eccentricity@{get\+Eccentricity}}
+\index{get\+Eccentricity@{get\+Eccentricity}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Eccentricity()}{getEccentricity()}}
+{\footnotesize\ttfamily Real library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Eccentricity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ada07ed34dd893241c8199d2d38dffe41}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ada07ed34dd893241c8199d2d38dffe41}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Inclination@{get\+Inclination}}
+\index{get\+Inclination@{get\+Inclination}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Inclination()}{getInclination()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Inclination (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af5e71236c626912474e127135646e9ed}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af5e71236c626912474e127135646e9ed}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Mean\+Anomaly@{get\+Mean\+Anomaly}}
+\index{get\+Mean\+Anomaly@{get\+Mean\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Mean\+Anomaly()}{getMeanAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Mean\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c60e9be04691ab0987639014215085}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab7c60e9be04691ab0987639014215085}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Mean\+Motion@{get\+Mean\+Motion}}
+\index{get\+Mean\+Motion@{get\+Mean\+Motion}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Mean\+Motion()}{getMeanMotion()}}
+{\footnotesize\ttfamily Derived library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Mean\+Motion (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab766ab9e115a534af6dbc6243e3f800b}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ab766ab9e115a534af6dbc6243e3f800b}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Orbital\+Period@{get\+Orbital\+Period}}
+\index{get\+Orbital\+Period@{get\+Orbital\+Period}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Orbital\+Period()}{getOrbitalPeriod()}}
+{\footnotesize\ttfamily Duration library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Orbital\+Period (\begin{DoxyParamCaption}\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af3087116161d9ab3ee585261e47dfde1}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af3087116161d9ab3ee585261e47dfde1}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Raan@{get\+Raan}}
+\index{get\+Raan@{get\+Raan}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Raan()}{getRaan()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Raan (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aaa204b1c157b10dec7cef4d1096344d7}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_aaa204b1c157b10dec7cef4d1096344d7}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+Semi\+Major\+Axis@{get\+Semi\+Major\+Axis}}
+\index{get\+Semi\+Major\+Axis@{get\+Semi\+Major\+Axis}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+Semi\+Major\+Axis()}{getSemiMajorAxis()}}
+{\footnotesize\ttfamily Length library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+Semi\+Major\+Axis (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02860869d6fe124102975365ec36bfc6}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a02860869d6fe124102975365ec36bfc6}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!get\+True\+Anomaly@{get\+True\+Anomaly}}
+\index{get\+True\+Anomaly@{get\+True\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{get\+True\+Anomaly()}{getTrueAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::get\+True\+Anomaly (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acce2662621d60f29d145ed73d32d9ef3}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_acce2662621d60f29d145ed73d32d9ef3}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af132bc9fffbc07a9c1a5c5465f2671d7}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_af132bc9fffbc07a9c1a5c5465f2671d7}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Mean\+Anomaly\+From\+Eccentric\+Anomaly@{Mean\+Anomaly\+From\+Eccentric\+Anomaly}}
+\index{Mean\+Anomaly\+From\+Eccentric\+Anomaly@{Mean\+Anomaly\+From\+Eccentric\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Mean\+Anomaly\+From\+Eccentric\+Anomaly()}{MeanAnomalyFromEccentricAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Mean\+Anomaly\+From\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a7bc070928ce3c19ce8592f0c97dc409d}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a7bc070928ce3c19ce8592f0c97dc409d}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+C\+OE }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac9143f26120f363581c66f757f184bd9}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac9143f26120f363581c66f757f184bd9}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!operator==@{operator==}}
+\index{operator==@{operator==}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+C\+OE }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ae654536e2cb0e891dc99f5f9055c8f1b}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ae654536e2cb0e891dc99f5f9055c8f1b}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!print@{print}}
+\index{print@{print}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad1d42a117d9c2178cc8873aeae704f21}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ad1d42a117d9c2178cc8873aeae704f21}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!True\+Anomaly\+From\+Eccentric\+Anomaly@{True\+Anomaly\+From\+Eccentric\+Anomaly}}
+\index{True\+Anomaly\+From\+Eccentric\+Anomaly@{True\+Anomaly\+From\+Eccentric\+Anomaly}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{True\+Anomaly\+From\+Eccentric\+Anomaly()}{TrueAnomalyFromEccentricAnomaly()}}
+{\footnotesize\ttfamily Angle library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+True\+Anomaly\+From\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Real \&}]{an\+Eccentricity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a80eee9ea122d64e648ad400d5f7b8da2}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a80eee9ea122d64e648ad400d5f7b8da2}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}\label{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a32e0ab4a9a11b3315114f2932c58f68c}} 
+\index{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE@{library\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+OE}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+C\+OE }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Library/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Kepler/\hyperlink{_c_o_e_8hpp}{C\+O\+E.\+hpp}\item 
+src/\+Library/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\+Kepler/\hyperlink{_c_o_e_8cpp}{C\+O\+E.\+cpp}\end{DoxyCompactItemize}
