@@ -509,105 +509,105 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
 {
@@ -738,104 +738,104 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
-{
+// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
+// {
 
-    using library::core::types::Real ;
+//     using library::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+//     using library::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::units::Derived ;
+//     using library::physics::time::Duration ;
+//     using library::physics::coord::Position ;
+//     using library::physics::coord::Velocity ;
+//     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using library::astro::trajectory::orbit::models::kepler::COE ;
     
-    {
+//     {
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

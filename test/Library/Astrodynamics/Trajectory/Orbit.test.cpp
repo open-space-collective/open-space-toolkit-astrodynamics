@@ -79,7 +79,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
@@ -138,6 +138,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::Orbit ;
@@ -146,6 +147,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        const Environment environment = Environment::Default() ;
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
         const Real eccentricity = 0.0 ;
@@ -156,14 +159,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_TRUE(orbit == orbit) ;
         
@@ -204,6 +207,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::Orbit ;
@@ -212,6 +216,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        const Environment environment = Environment::Default() ;
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
         const Real eccentricity = 0.0 ;
@@ -222,14 +228,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_FALSE(orbit != orbit) ;
         
@@ -269,6 +275,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::Orbit ;
@@ -277,6 +284,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        const Environment environment = Environment::Default() ;
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
         const Real eccentricity = 0.0 ;
@@ -287,14 +296,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_TRUE(orbit.isDefined()) ;
 
@@ -332,6 +341,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::State ;
@@ -341,6 +351,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
 
         // Orbit setup
 
@@ -353,14 +367,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         // Reference data setup
 
@@ -409,6 +423,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::State ;
@@ -418,6 +433,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
 
         // Orbit setup
 
@@ -430,14 +449,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         // Reference data setup
 
@@ -490,6 +509,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::State ;
@@ -499,6 +519,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
 
         // Orbit setup
 
@@ -511,14 +535,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         // Reference data setup
 
@@ -548,6 +572,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
     {
 
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
+
         // Orbit setup
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -559,14 +587,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         // Reference data setup
 
@@ -609,7 +637,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     using library::core::fs::File ;
 
     using library::math::obj::Vector3d ;
-    using library::math::geom::trf::rot::Quaternion ;
+    using library::math::geom::d3::trf::rot::Quaternion ;
 
     using library::physics::units::Length ;
     using library::physics::units::Angle ;
@@ -636,6 +664,10 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
     {
 
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
+
         // Reference data setup
 
         const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")) ;
@@ -653,14 +685,12 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
-
-        const Environment environment = Environment::Default() ;
 
         const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth")) ;
 
@@ -698,10 +728,89 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
     }
 
+    // LVLH
+
+    // {
+
+    //     // Environment setup
+
+    //     const Environment environment = Environment::Default() ;
+
+    //     // Orbit setup
+
+    //     const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+    //     const Real eccentricity = 0.0 ;
+    //     const Angle inclination = Angle::Degrees(0.0) ;
+    //     const Angle raan = Angle::Degrees(0.0) ;
+    //     const Angle aop = Angle::Degrees(0.0) ;
+    //     const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+    //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+    //     const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+    //     const Derived gravitationalConstant = Earth::GravitationalConstant ;
+    //     const Length equatorialRadius = Earth::EquatorialRadius ;
+    //     const Real J2 = Earth::J2 ;
+
+    //     const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+
+    //     const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth")) ;
+
+    //     const Orbit orbit = { keplerianModel, earthSPtr } ;
+
+    //     const Shared<const Frame> lvlhOrbitalFrameSPtr = orbit.getOrbitalFrame(Orbit::FrameType::LVLH) ;
+
+    //     const Position origin_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(), epoch) ;
+
+    //     std::cout << "Origin:" << std::endl << origin_ITRF << std::endl ;
+    //     // std::cout << "Origin:" << std::endl << lvlhOrbitalFrameSPtr->getOriginIn(Frame::GCRF(), epoch) << std::endl ;
+
+    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::ITRF(), epoch) << std::endl ;
+    //     // std::cout << "Axes:" << std::endl << lvlhOrbitalFrameSPtr->getAxesIn(Frame::GCRF(), epoch) << std::endl ;
+
+    //     // for (const auto& referenceRow : referenceData)
+    //     // {
+
+    //     //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+
+    //     //     const Vector3d x_NED_ITRF_ref = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
+    //     //     const Vector3d v_NED_ITRF_in_ITRF_ref = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
+
+    //     //     const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal(), referenceRow[10].accessReal()).normalize() ;
+    //     //     const Vector3d w_NED_ITRF_in_NED_ref = { referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal() } ;
+
+    //     //     const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate() ;
+    //     //     const Vector3d w_ITRF_NED_in_ITRF_ref = - (q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref) ;
+
+    //     //     const Vector3d x_NED_ITRF = lvlhOrbitalFrameSPtr->getOriginIn(Frame::ITRF(), instant).getCoordinates() ;
+    //     //     const Vector3d v_NED_ITRF_in_ITRF = lvlhOrbitalFrameSPtr->getVelocityIn(Frame::ITRF(), instant).getCoordinates() ;
+
+    //     //     const Quaternion q_ITRF_NED = lvlhOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getOrientation() ;
+    //     //     const Vector3d w_ITRF_NED_in_ITRF = lvlhOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getAngularVelocity() ;
+
+    //     //     EXPECT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format("{} - {} ? {} [m]", x_NED_ITRF_ref.toString(), x_NED_ITRF.toString(), (x_NED_ITRF - x_NED_ITRF_ref).norm()) ;
+    //     //     EXPECT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format("{} - {} ? {} [m/s]", v_NED_ITRF_in_ITRF_ref.toString(), v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF - v_NED_ITRF_in_ITRF_ref).norm()) ;
+
+    //     //     EXPECT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format("{} / {} ? {} [asec]", q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(), q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()) ;
+    //     //     // EXPECT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-12)) << String::Format("{} - {} ? {} [rad/s]", w_ITRF_NED_in_ITRF_ref.toString(), w_ITRF_NED_in_ITRF.toString(), (w_ITRF_NED_in_ITRF - w_ITRF_NED_in_ITRF_ref).norm()) ;
+
+    //     // }
+
+    // }
+
+    // VVLH
+
+    {
+
+        // [TBI]
+
+    }
+
     {
 
         EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::Undefined)) ;
         EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::NED)) ;
+        EXPECT_ANY_THROW(Orbit::Undefined().getOrbitalFrame(Orbit::FrameType::LVLH)) ;
 
     }
 
@@ -731,6 +840,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
     using library::physics::coord::Frame ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
+    using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::Orbit ;
@@ -739,6 +849,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
     {
+
+        const Environment environment = Environment::Default() ;
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
         const Real eccentricity = 0.0 ;
@@ -749,14 +861,14 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Derived gravitationalConstant = Earth::GravitationalConstant ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
 
         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-        const Orbit orbit = { keplerianModel } ;
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         testing::internal::CaptureStdout() ;
 

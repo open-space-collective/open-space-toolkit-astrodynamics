@@ -9,7 +9,7 @@
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
-#include <Library/Mathematics/Geometry/Transformations/Rotations/RotationMatrix.hpp>
+#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
 #include <Library/Core/Types/Size.hpp>
 #include <Library/Core/Error.hpp>
@@ -237,7 +237,7 @@ COE::CartesianState             COE::getCartesianState                      (   
     using library::core::types::Shared ;
 
     using library::math::obj::Vector3d ;
-    using library::math::geom::trf::rot::RotationMatrix ;
+    using library::math::geom::d3::trf::rot::RotationMatrix ;
 
     using library::physics::units::Mass ;
     using library::physics::units::Time ;

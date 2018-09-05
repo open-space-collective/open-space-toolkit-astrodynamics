@@ -71,8 +71,8 @@ class Orbit : public Trajectory
             Undefined,          ///< Undefined frame
             NED,                ///< North-East-Down (NED) frame
             LVLH,               ///< Local Vertical, Local Horizontal (LVLH) frame (X axis aligned with position, Z axis aligned with orbital momentum)
-            LVLHGD,             ///< Local Vertical, Local Horizontal GeoDetic (LVLHGD) frame
             VVLH,               ///< Vehicle Velocity, Local Horizontal (VVLH) frame (Z axis aligned with opposite of position, Y axis aligned with opposite of orbital momentum)
+            LVLHGD,             ///< Local Vertical, Local Horizontal GeoDetic (LVLHGD) frame
             QSW,                ///< QSW frame (X axis aligned with position, Z axis aligned with orbital momentum)
             TNW,                ///< TNW frame (X axis aligned with velocity, Z axis aligned with orbital momentum)
             VNC                 ///< Velocity - Normal - Co-normal (VNC) frame (X axis aligned with velocity, Y axis aligned with orbital momentum)
@@ -83,14 +83,14 @@ class Orbit : public Trajectory
 
                                 Orbit                                       (   const   orbit::Model&               aModel,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
-                                
-                                Orbit                                       (   const   orbit::Model&               aModel                                      ) ; // [TBR]
 
                                 Orbit                                       (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
                                 Orbit                                       (   const   Orbit&                      anOrbit                                     ) ;
+
+                                ~Orbit                                      ( ) ;
 
         Orbit&                  operator =                                  (   const   Orbit&                      anOrbit                                     ) = delete ;
 

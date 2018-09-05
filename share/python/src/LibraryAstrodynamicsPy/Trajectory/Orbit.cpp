@@ -32,7 +32,6 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
 
     scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
 
-        .def(init<const library::astro::trajectory::orbit::Model&>()) // TBR
         .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
 
         .def(self == self)
