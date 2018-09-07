@@ -82,6 +82,8 @@ class Generator
 
         Environment             environment_ ;
 
+        // Duration                step_ ;
+
         std::function<bool (const AER&)> aerFilter_ ;
         std::function<bool (const Access&)> accessFilter_ ;
 

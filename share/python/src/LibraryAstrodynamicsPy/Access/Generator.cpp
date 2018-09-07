@@ -16,6 +16,8 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
     
     using namespace boost::python ;
 
+    using library::core::types::Shared ;
+    
     using library::physics::Environment ;
     using library::physics::coord::spherical::AER ;
 
@@ -24,7 +26,29 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
 
     scope in_Generator = class_<Generator>("Generator", init<const Environment&>())
 
-        // [TBI] Add additional constructors
+        .def
+        (
+            "__init__",
+            make_constructor
+            (
+                +[] (const Environment& anEnvironment, const boost::python::object& anAerFilter) -> Shared<Generator>
+                {
+                    return std::make_shared<Generator>(anEnvironment, anAerFilter) ;
+                }
+            )
+        )
+
+        .def
+        (
+            "__init__",
+            make_constructor
+            (
+                +[] (const Environment& anEnvironment, const boost::python::object& anAerFilter, const boost::python::object& anAccessFilter) -> Shared<Generator>
+                {
+                    return std::make_shared<Generator>(anEnvironment, anAerFilter, anAccessFilter) ;
+                }
+            )
+        )
 
         .def("isDefined", &Generator::isDefined)
         

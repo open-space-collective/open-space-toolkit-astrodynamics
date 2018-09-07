@@ -51,13 +51,20 @@ Array<Access>                   Generator::computeAccesses                  (   
                                                                                 const   Trajectory&                 aToTrajectory                               ) const
 {
 
+    // [PREDICT](https://www.qsl.net/kd2bd/predict.html)
+    // [Gpredict](https://github.com/csete/gpredict)
+    // [Rapid Determination of Satellite Visibility Periods](http://www.dtic.mil/dtic/tr/fulltext/u2/a267281.pdf)
+    // [A Fast Prediction Algorithm of Satellite Passes](https://pdfs.semanticscholar.org/6088/1d27c9bf44c59e663b359223e8ed0a91140b.pdf)
+    // [Visual Contact between Two Earth’s Satellites](http://thescipub.com/pdf/10.3844/ajassp.2012.620.623)
+    // [Rapid Satellite-to-Site Visibility Determination Based on Self-Adaptive Interpolation Technique](https://arxiv.org/pdf/1611.02402.pdf)
+
+    using library::core::types::Shared ;
     using library::core::types::Real ;
-    
-    using library::physics::time::Duration ;
 
     using library::math::geom::d3::objects::Point ;
     using library::math::geom::d3::objects::Segment ;
 
+    using library::physics::time::Duration ;
     using library::physics::coord::Position ;
     using library::physics::coord::Frame ;
     using library::physics::env::Object ;
@@ -86,16 +93,116 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     Environment environment = environment_ ;
 
+    const auto isAccessActiveAt = [this, &environment, &aFromTrajectory, &aToTrajectory] (const Instant& anInstant) -> bool
+    {
+
+        environment.setInstant(anInstant) ;
+
+        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
+
+        const State fromState = aFromTrajectory.getStateAt(anInstant) ;
+        const State toState = aToTrajectory.getStateAt(anInstant) ;
+
+        const Position fromPosition = fromState.accessPosition() ;
+        const Position toPosition = toState.accessPosition() ;
+
+        const Point fromPositionCoordinates = fromPosition.inFrame(commonFrameSPtr, anInstant).accessCoordinates() ;
+        const Point toPositionCoordinates = toPosition.inFrame(commonFrameSPtr, anInstant).accessCoordinates() ;
+
+        // Line of sight
+
+        bool lineOfSight = true ;
+
+        if (fromPositionCoordinates != toPositionCoordinates)
+        {
+
+            const Segment fromToSegment = { fromPositionCoordinates, toPositionCoordinates } ;
+
+            const Object::Geometry fromToSegmentGeometry = { fromToSegment, commonFrameSPtr } ;
+
+            lineOfSight = !environment.intersects(fromToSegmentGeometry) ;
+
+            // std::cout << "lineOfSight = " << lineOfSight << std::endl ;
+
+        }
+
+        // Filtering
+
+        bool filterIsOk = true ;
+
+        if (lineOfSight)
+        {
+
+            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(AER::FromPositionToPosition(fromPosition, toPosition)) : true ; // [TBM] Convert to NED frame
+
+            filterIsOk = aerFilterIsOk ; // [TBI]
+
+        }
+
+        const bool accessIsActive = (lineOfSight && filterIsOk) ;
+
+        return accessIsActive ;
+
+    } ;
+
+    const std::function<Instant (const Instant&, const Instant&, const Duration&, const bool)> findSwitchingInstant =
+    [&findSwitchingInstant, &isAccessActiveAt]
+    (const Instant& aPreviousInstant, const Instant& aNextInstant, const Duration& aThreshold, const bool isInAccess) -> Instant
+    {
+
+        const Duration step = Duration::Between(aPreviousInstant, aNextInstant) ;
+
+        if (step <= aThreshold)
+        {
+            return aNextInstant ;
+        }
+
+        const Instant midInstant = aPreviousInstant + (step / 2.0) ;
+
+        const bool accessActiveInMidInstant = isAccessActiveAt(midInstant) ;
+        
+        if (!isInAccess)
+        {
+
+            if (accessActiveInMidInstant)
+            {
+                return findSwitchingInstant(aPreviousInstant, midInstant, aThreshold, isInAccess) ;
+            }
+
+            return findSwitchingInstant(midInstant, aNextInstant, aThreshold, isInAccess) ;
+
+        }
+        
+        if (!accessActiveInMidInstant)
+        {
+            return findSwitchingInstant(aPreviousInstant, midInstant, aThreshold, isInAccess) ;
+        }
+
+        return findSwitchingInstant(midInstant, aNextInstant, aThreshold, isInAccess) ;
+
+    } ;
+
     Array<Access> accesses = Array<Access>::Empty() ;
+
+    const auto addAccess = [this, &accesses] (const Access::Type& aType, const Instant& anAcquisitionOfSignal, const Instant& aTimeOfClosestApproach, const Instant& aLossOfSignal)
+    {
+
+        const Access access = { aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal } ;
+
+        if (accessFilter_ ? accessFilter_(access) : true)
+        {
+            accesses.add(access) ;
+        }
+
+    } ;
     
-    const Duration step = Duration::Seconds(1.0) ; // [TBM] Parameter
+    const Duration step = Duration::Minutes(1.0) ; // [TBM] Parameter
 
     const Array<Instant> instants = anInterval.generateGrid(step) ;
 
-    bool isFirst = true ;
-    
     bool inAccess = false ;
 
+    Instant previousInstantCache = Instant::Undefined() ;
     Instant acquisitionOfSignalCache = Instant::Undefined() ;
     Instant timeOfClosestApproachCache = Instant::Undefined() ;
     Real fromToDistanceCache_m = Real::Undefined() ;
@@ -103,95 +210,64 @@ Array<Access>                   Generator::computeAccesses                  (   
     for (const auto& instant : instants)
     {
 
-        environment.setInstant(instant) ;
+        const bool accessIsActive = isAccessActiveAt(instant) ;
 
-        // std::cout << "instant = " << instant.toString() << std::endl ;
+        if (accessIsActive)
+        {
 
-        const State fromState = aFromTrajectory.getStateAt(instant) ;
-        const State toState = aToTrajectory.getStateAt(instant) ;
+            timeOfClosestApproachCache = instant ; // [TBR]
+            
+            // const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm() ;
 
-        const Position fromPosition = fromState.accessPosition() ;
-        const Position toPosition = toState.accessPosition() ;
+            // if ((!timeOfClosestApproachCache.isDefined()) || (fromToDistanceCache_m > fromToDistance_m))
+            // {
 
-        const Point fromPositionCoordinates = fromPosition.inFrame(Frame::GCRF(), instant).accessCoordinates() ;
-        const Point toPositionCoordinates = toPosition.inFrame(Frame::GCRF(), instant).accessCoordinates() ;
+            //     timeOfClosestApproachCache = instant ;
+                
+            //     fromToDistanceCache_m = fromToDistance_m ;
 
-        const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm() ;
+            // }
 
-        // std::cout << "fromToDistance_m = " << fromToDistance_m.toString() << std::endl ;
+        }
 
-        // [TBI] Check reference frames are equal
-
-        const Segment fromToSegment = { fromPositionCoordinates, toPositionCoordinates } ;
-
-        const Object::Geometry fromToSegmentGeometry = { fromToSegment, Frame::GCRF() } ; // [TBM] Param
-
-        // [TBI] Apply filters
-
-        const bool aerFilterResult = aerFilter_ ? aerFilter_(AER::FromPositionToPosition(fromPosition, toPosition)) : true ; // [TBM] Convert to NED frame
-
-        bool filterIsOk = aerFilterResult ; // [TBI]
+        const bool accessIsSwitching = (accessIsActive != inAccess) || (accessIsActive && (!acquisitionOfSignalCache.isDefined())) ;
 
         // std::cout << String::Format("@ {} - Distance: {} [m] - Intersects: {}", instant.toString(), fromToDistance_m.toString(), environment.intersects(fromToSegmentGeometry)) << std::endl ;
 
-        if ((!fromToDistance_m.isZero()) && (environment.intersects(fromToSegmentGeometry) || (!filterIsOk)))
+        if (accessIsSwitching)
         {
 
-            // std::cout << "environment.intersects(fromToSegmentGeometry)..." << std::endl ;
+            const Instant switchingInstant = previousInstantCache.isDefined() ? findSwitchingInstant(previousInstantCache, instant, Duration::Milliseconds(1.0), !accessIsActive) : previousInstantCache ; // [TBM] Param
 
-            if (inAccess)
+            if (accessIsActive)
             {
 
-                const Access::Type type = isFirst ? Access::Type::Partial : Access::Type::Complete ;
+                acquisitionOfSignalCache = switchingInstant ;
+
+                inAccess = true ;
+
+            }
+            else
+            {
+
+                const Access::Type type = previousInstantCache.isDefined() ? Access::Type::Complete : Access::Type::Partial ;
                 const Instant acquisitionOfSignal = acquisitionOfSignalCache ;
                 const Instant timeOfClosestApproach = timeOfClosestApproachCache ;
-                const Instant lossOfSignal = instant ;
+                const Instant lossOfSignal = switchingInstant ;
 
-                const Access access = { type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal } ;
-
-                if (accessFilter_ ? accessFilter_(access) : true)
-                {
-                    accesses.add(access) ;
-                }
+                addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal) ;
 
                 acquisitionOfSignalCache = Instant::Undefined() ;
                 timeOfClosestApproachCache = Instant::Undefined() ;
                 fromToDistanceCache_m = Real::Undefined() ;
 
                 inAccess = false ;
-            
-            }
-
-        }
-        else
-        {
-
-            if (!inAccess)
-            {
-
-                acquisitionOfSignalCache = instant ;
-
-                // std::cout << "inAccess = true" << std::endl ;
-
-                inAccess = true ;
-
-            }
-
-            if (inAccess && ((!timeOfClosestApproachCache.isDefined()) || (fromToDistanceCache_m > fromToDistance_m)))
-            {
-
-                timeOfClosestApproachCache = instant ;
-                
-                fromToDistanceCache_m = fromToDistance_m ;
 
             }
 
         }
 
-        if (isFirst)
-        {
-            isFirst = false ;
-        }
+        previousInstantCache = instant ;
 
     }
 
@@ -203,12 +279,7 @@ Array<Access>                   Generator::computeAccesses                  (   
         const Instant timeOfClosestApproach = timeOfClosestApproachCache ;
         const Instant lossOfSignal = instants.accessLast() ;
 
-        const Access access = { type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal } ;
-
-        if (accessFilter_ ? accessFilter_(access) : true)
-        {
-            accesses.add(access) ;
-        }
+        addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal) ;
 
     }
 
@@ -228,7 +299,7 @@ void                            Generator::setAccessFilter                  (   
 
 Generator                       Generator::Undefined                        ( )
 {
-    return Generator(Environment::Undefined(), {}, {}) ;
+    return { Environment::Undefined(), {}, {} } ;
 }
 
 Generator                       Generator::AerRanges                        (   const   Interval<Angle>&            anAzimuthRange,
@@ -252,7 +323,7 @@ Generator                       Generator::AerRanges                        (   
         
     } ;
 
-    return Generator(anEnvironment, aerFilter, {}) ;
+    return { anEnvironment, aerFilter, {} } ;
 
 }
 

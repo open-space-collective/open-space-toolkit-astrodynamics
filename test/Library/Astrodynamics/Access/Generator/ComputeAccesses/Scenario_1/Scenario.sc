@@ -115,10 +115,52 @@ BEGIN Scenario
             FrameType		 0
             DockCircleID		 0
             DockID		 0
-            WindowRectLeft		 729
-            WindowRectTop		 165
-            WindowRectRight		 5128
-            WindowRectBottom		 2410
+            WindowRectLeft		 404
+            WindowRectTop		 235
+            WindowRectRight		 1931
+            WindowRectBottom		 831
+        END Report
+
+        BEGIN Report
+            Name		 Access1
+            Type		 Report
+            BaseDir		 User
+            Style		 Access
+            AGIViewer		 Yes
+            Instance		 Satellite/Satellite2
+            BEGIN InstanceList
+                Instance		 Satellite/Satellite1
+            END InstanceList
+            BEGIN TimeData
+                BEGIN Section
+                    SectionNumber		 1
+                    SectionType		 4
+                    ShowIntervals		 No
+                    BEGIN IntervalList
+
+                        DateUnitAbrv		 UTCG
+
+                        BEGIN Intervals
+
+"1 Jan 2018 00:00:00.000000000" "2 Jan 2018 00:00:00.000000000"
+                        END Intervals
+
+                    END IntervalList
+
+                    TimeType		 Interval
+                    TimeInterval		                    IntervalTimePeriod		
+                    SamplingType		 Default
+                    TimeBound		 0
+                END Section
+            END TimeData
+            DisplayOnLoad		 Yes
+            FrameType		 0
+            DockCircleID		 0
+            DockID		 0
+            WindowRectLeft		 292
+            WindowRectTop		 100
+            WindowRectRight		 2563
+            WindowRectBottom		 1021
         END Report
     END QuickReports
 
@@ -150,8 +192,8 @@ BEGIN Scenario
             LaunchWindowUseEntireTraj		 Yes
             LaunchWindowTrajMETStart		 0
             LaunchWindowTrajMETStop		 900
-            LaunchWindowStart		 0
-            LaunchWindowStop		 0
+            LaunchWindowStart		 2.03724e+07
+            LaunchWindowStop		 2.03724e+07
             LaunchMETOffset		 0
             LaunchWindowUseSecEphem		 No 
             LaunchWindowUseScenFolderForSecEphem		 Yes
@@ -301,6 +343,14 @@ BEGIN Scenario
         END ConnectReportUnits
 
         BEGIN ReportFavorites
+            BEGIN Class
+                Name		 Access
+                BEGIN Favorite
+                    Type		 Report
+                    BaseDir		 User
+                    Style		 Access
+                END Favorite
+            END Class
         END ReportFavorites
 
         BEGIN ADFFileData
@@ -502,12 +552,6 @@ BEGIN Scenario
         END ExportDataFile
 
         BEGIN Desc
-            BEGIN ShortText
-
-            END ShortText
-            BEGIN LongText
-
-            END LongText
         END Desc
 
         BEGIN RfEnv

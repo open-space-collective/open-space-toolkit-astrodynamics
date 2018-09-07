@@ -158,8 +158,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
         const Generator generator = { environment } ;
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        // const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC) ;
-        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 1, 2, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC) ;
 
         const Interval interval = Interval::Closed(startInstant, endInstant) ;
 
@@ -224,11 +223,11 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
-        const Duration toleranceDuration = Duration::Seconds(1.0) ;
+        const Duration toleranceDuration = Duration::Seconds(0.1) ;
 
         // Test
 
-        EXPECT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
+        ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
         for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
         {
@@ -236,12 +235,14 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
             const auto& referenceRow = std::get<0>(accessTuple) ;
             const Access& access = std::get<1>(accessTuple) ;
 
-            const Instant reference_startInstant = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
-            const Instant reference_endInstant = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+            const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+            const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
 
-            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_startInstant, toleranceDuration)) << String::Format("{} ~ {}", reference_startInstant.toString(), access.getAcquisitionOfSignal().toString()) ;
-            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_endInstant, toleranceDuration)) << String::Format("{} ~ {}", reference_endInstant.toString(), access.getLossOfSignal().toString()) ;
+            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
+            EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
+            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
 
         }
