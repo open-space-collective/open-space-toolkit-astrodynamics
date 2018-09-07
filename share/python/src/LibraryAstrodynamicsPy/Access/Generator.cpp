@@ -24,6 +24,8 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
 
     scope in_Generator = class_<Generator>("Generator", init<const Environment&>())
 
+        // [TBI] Add additional constructors
+
         .def("isDefined", &Generator::isDefined)
         
         .def("computeAccesses", &Generator::computeAccesses)

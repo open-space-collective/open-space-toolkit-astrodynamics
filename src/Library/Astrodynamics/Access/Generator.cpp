@@ -132,6 +132,8 @@ Array<Access>                   Generator::computeAccesses                  (   
 
         bool filterIsOk = aerFilterResult ; // [TBI]
 
+        // std::cout << String::Format("@ {} - Distance: {} [m] - Intersects: {}", instant.toString(), fromToDistance_m.toString(), environment.intersects(fromToSegmentGeometry)) << std::endl ;
+
         if ((!fromToDistance_m.isZero()) && (environment.intersects(fromToSegmentGeometry) || (!filterIsOk)))
         {
 

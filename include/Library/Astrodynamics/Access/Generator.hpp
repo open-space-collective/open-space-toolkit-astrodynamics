@@ -59,7 +59,7 @@ class Generator
 
                                 Generator                                   (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
-                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
+                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     =   {} ) ;
 
         bool                    isDefined                                   ( ) const ;
 

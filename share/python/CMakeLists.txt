@@ -65,6 +65,7 @@ LINK_DIRECTORIES (${Boost_LIBRARY_DIRS})
 
 SET (PYTHON_INCLUDE_DIR "/usr/include/python3.6m")
 SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.6m.so")
+# SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.so")
 
 ### NumPy
 
