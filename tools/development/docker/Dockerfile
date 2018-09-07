@@ -20,17 +20,30 @@ ARG cpu_count=1
 ## SGP4 [master]
 
 RUN pushd /tmp > /dev/null \
-    && git clone https://github.com/dnwrnr/sgp4.git \
-    && cd sgp4 \
-    && mkdir build \
-    && cd build \
-    && cmake -DCMAKE_CXX_FLAGS="-fPIC" .. \
-    && make -j ${cpu_count} \
-    && mkdir /usr/local/include/sgp4 \
-    && cp ../libsgp4/*.h /usr/local/include/sgp4/ \
-    && cp libsgp4/*.a /usr/local/lib \
-    && rm -rf /tmp/sgp4 \
-    && popd > /dev/null
+ && git clone https://github.com/dnwrnr/sgp4.git \
+ && cd sgp4 \
+ && mkdir build \
+ && cd build \
+ && cmake -DCMAKE_CXX_FLAGS="-fPIC" .. \
+ && make -j ${cpu_count} \
+ && mkdir /usr/local/include/sgp4 \
+ && cp ../libsgp4/*.h /usr/local/include/sgp4/ \
+ && cp libsgp4/*.a /usr/local/lib \
+ && rm -rf /tmp/sgp4 \
+ && popd > /dev/null
+
+## NLopt [master]
+
+RUN pushd /tmp > /dev/null \
+ && git clone https://github.com/stevengj/nlopt.git \
+ && cd nlopt \
+ && mkdir build \
+ && cd build \
+ && cmake -DBUILD_SHARED_LIBS=OFF .. \
+ && make \
+ && make install \
+ && rm -rf /tmp/nlopt \
+ && popd > /dev/null
 
 ## Library :: Physics [0.1.6]
 

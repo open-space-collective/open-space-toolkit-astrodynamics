@@ -67,6 +67,10 @@ class Generator
                                                                                 const   Trajectory&                 aFromTrajectory,
                                                                                 const   Trajectory&                 aToTrajectory                               ) const ;
 
+        void                    setStep                                     (   const   Duration&                   aStep                                       ) ;
+        
+        void                    setTolerance                                (   const   Duration&                   aTolerance                                  ) ;
+
         void                    setAerFilter                                (   const   std::function<bool (const AER&)>& anAerFilter                           ) ;
         
         void                    setAccessFilter                             (   const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
@@ -82,7 +86,8 @@ class Generator
 
         Environment             environment_ ;
 
-        // Duration                step_ ;
+        Duration                step_ ;
+        Duration                tolerance_ ;
 
         std::function<bool (const AER&)> aerFilter_ ;
         std::function<bool (const Access&)> accessFilter_ ;

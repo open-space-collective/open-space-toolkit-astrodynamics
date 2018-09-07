@@ -112,7 +112,6 @@ TEST (Library_Astrodynamics_Access, EqualToOperator)
     {
 
         const Access::Type type = Access::Type::Complete ;
-        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Instant timeOfClosestApproach = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC) ;
         const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC) ;
 
@@ -191,7 +190,6 @@ TEST (Library_Astrodynamics_Access, NotEqualToOperator)
     {
 
         const Access::Type type = Access::Type::Complete ;
-        const Instant acquisitionOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Instant timeOfClosestApproach = Instant::DateTime(DateTime(2018, 1, 1, 0, 1, 0), Scale::UTC) ;
         const Instant lossOfSignal = Instant::DateTime(DateTime(2018, 1, 1, 0, 2, 0), Scale::UTC) ;
 

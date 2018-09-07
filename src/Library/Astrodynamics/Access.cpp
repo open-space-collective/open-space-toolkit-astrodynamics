@@ -33,12 +33,12 @@ namespace astro
 
         if (timeOfClosestApproach_ < acquisitionOfSignal_)
         {
-            throw library::core::error::RuntimeError("TCA < AOS") ;
+            throw library::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()) ;
         }
 
         if (lossOfSignal_ < timeOfClosestApproach_)
         {
-            throw library::core::error::RuntimeError("LOS < TCA") ;
+            throw library::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()) ;
         }
 
     }

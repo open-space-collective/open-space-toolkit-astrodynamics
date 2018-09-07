@@ -249,117 +249,213 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
     }
 
-    // {
+    {
 
-    //     const Environment environment = Environment::Default() ;
+        const Environment environment = Environment::Default() ;
 
-    //     const Generator generator = { environment } ;
+        const Generator generator = { environment } ;
 
-    //     const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-    //     const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 1, 6, 0, 0), Scale::UTC) ;
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC) ;
 
-    //     const Interval interval = Interval::Closed(startInstant, endInstant) ;
+        const Interval interval = Interval::Closed(startInstant, endInstant) ;
 
-    //     auto generateGroundStationTrajectory = [] () -> Trajectory
-    //     {
+        auto generateGroundStationTrajectory = [] () -> Trajectory
+        {
 
-    //         const LLA groundStationLla = { Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(0.0) } ;
+            const LLA groundStationLla = { Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0) } ;
 
-    //         const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
+            const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
 
-    //         return Trajectory::Position(groundStationPosition) ;
+            return Trajectory::Position(groundStationPosition) ;
 
-    //     } ;
+        } ;
 
-    //     auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
-    //     {
+        auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
+        {
 
-    //         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-    //         const Real eccentricity = 0.0 ;
-    //         const Angle inclination = Angle::Degrees(+45.0) ;
-    //         const Angle raan = Angle::Degrees(0.0) ;
-    //         const Angle aop = Angle::Degrees(0.0) ;
-    //         const Angle trueAnomaly = Angle::Degrees(0.0) ;
+            const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+            const Real eccentricity = 0.0 ;
+            const Angle inclination = Angle::Degrees(+45.0) ;
+            const Angle raan = Angle::Degrees(0.0) ;
+            const Angle aop = Angle::Degrees(0.0) ;
+            const Angle trueAnomaly = Angle::Degrees(0.0) ;
 
-    //         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+            const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-    //         const Instant epoch = startInstant ;
-    //         const Derived gravitationalConstant = Earth::GravitationalConstant ;
-    //         const Length equatorialRadius = Earth::EquatorialRadius ;
-    //         const Real J2 = Earth::J2 ;
+            const Instant epoch = startInstant ;
+            const Derived gravitationalConstant = Earth::GravitationalConstant ;
+            const Length equatorialRadius = Earth::EquatorialRadius ;
+            const Real J2 = Earth::J2 ;
 
-    //         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+            const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
-    //         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+            const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
-    //         return orbit ;
+            return orbit ;
 
-    //     } ;
+        } ;
 
-    //     const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
-    //     const Orbit satelliteOrbit = generateSatelliteOrbit() ;
+        const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
+        const Orbit satelliteOrbit = generateSatelliteOrbit() ;
 
-    //     const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
+        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
 
-    //     for (const auto& access : accesses)
-    //     {
-    //         std::cout << access << std::endl ;
-    //     }
+        // Reference data setup
 
-    // }
+        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")) ;
 
-    // {
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
-    //     const Environment environment = Environment::Default() ;
+        const Duration toleranceDuration = Duration::Seconds(0.1) ;
 
-    //     const Generator generator = { environment } ;
+        // Test
 
-    //     // const Instant startInstant = Instant::DateTime(DateTime(2018, 9, 6, 4, 45, 17), Scale::UTC) ;
-    //     const Instant startInstant = Instant::DateTime(DateTime(2018, 9, 6, 8, 28, 49), Scale::UTC) ;
-    //     // const Instant endInstant = Instant::DateTime(DateTime(2018, 9, 7, 4, 45, 17), Scale::UTC) ;
-    //     const Instant endInstant = Instant::DateTime(DateTime(2018, 9, 6, 8, 28, 59), Scale::UTC) ;
+        ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-    //     const Interval interval = Interval::Closed(startInstant, endInstant) ;
+        for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+        {
 
-    //     auto generateGroundStationTrajectory = [] () -> Trajectory
-    //     {
+            const auto& referenceRow = std::get<0>(accessTuple) ;
+            const Access& access = std::get<1>(accessTuple) ;
 
-    //         const LLA groundStationLla = { Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(5.0) } ;
+            const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+            const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
 
-    //         const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
+            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
+            EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
+            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
+            EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
 
-    //         return Trajectory::Position(groundStationPosition) ;
+        }
 
-    //     } ;
+    }
 
-    //     auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
-    //     {
+    {
 
-    //         const TLE tle =
-    //         {
-    //             "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
-    //             "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
-    //         } ;
+        const Environment environment = Environment::Default() ;
 
-    //         const SGP4 orbitalModel = { tle } ;
+        const Generator generator = { environment } ;
 
-    //         const Orbit orbit = { orbitalModel, environment.accessCelestialObjectWithName("Earth") } ;
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 9, 6, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 9, 7, 0, 0, 0), Scale::UTC) ;
 
-    //         return orbit ;
+        const Interval interval = Interval::Closed(startInstant, endInstant) ;
 
-    //     } ;
+        auto generateGroundStationTrajectory = [] () -> Trajectory
+        {
 
-    //     const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
-    //     const Orbit satelliteOrbit = generateSatelliteOrbit() ;
+            const LLA groundStationLla = { Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0) } ;
 
-    //     const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
+            const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
 
-    //     for (const auto& access : accesses)
-    //     {
-    //         std::cout << access << std::endl ;
-    //     }
+            return Trajectory::Position(groundStationPosition) ;
 
-    // }
+        } ;
+
+        auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
+        {
+
+            const TLE tle =
+            {
+                "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
+                "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
+            } ;
+
+            const SGP4 orbitalModel = { tle } ;
+
+            const Orbit orbit = { orbitalModel, environment.accessCelestialObjectWithName("Earth") } ;
+
+            return orbit ;
+
+        } ;
+
+        const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
+        const Orbit satelliteOrbit = generateSatelliteOrbit() ;
+
+        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
+
+        // Reference data setup
+
+        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")) ;
+
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
+
+        const Duration toleranceDuration = Duration::Seconds(0.1) ;
+
+        // Test
+
+        ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
+
+        for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+        {
+
+            const auto& referenceRow = std::get<0>(accessTuple) ;
+            const Access& access = std::get<1>(accessTuple) ;
+
+            const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+            const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
+
+            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
+            EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
+            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
+            EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
+
+        }
+
+    }
+
+}
+
+TEST (Library_Astrodynamics_Access_Generator, SetStep)
+{
+
+    using library::physics::time::Duration ;
+    using library::physics::Environment ;
+
+    using library::astro::access::Generator ;
+
+    {
+
+        const Environment environment = Environment::Default() ;
+
+        Generator generator = { environment } ;
+
+        const Duration step = Duration::Seconds(1.0) ;
+
+        EXPECT_NO_THROW(generator.setStep(step)) ;
+
+        EXPECT_ANY_THROW(generator.setStep(Duration::Undefined())) ;
+
+    }
+
+}
+
+TEST (Library_Astrodynamics_Access_Generator, SetTolerance)
+{
+
+    using library::physics::time::Duration ;
+    using library::physics::Environment ;
+
+    using library::astro::access::Generator ;
+
+    {
+
+        const Environment environment = Environment::Default() ;
+
+        Generator generator = { environment } ;
+
+        const Duration tolerance = Duration::Seconds(1.0) ;
+
+        EXPECT_NO_THROW(generator.setTolerance(tolerance)) ;
+
+        EXPECT_ANY_THROW(generator.setTolerance(Duration::Undefined())) ;
+
+    }
 
 }
 

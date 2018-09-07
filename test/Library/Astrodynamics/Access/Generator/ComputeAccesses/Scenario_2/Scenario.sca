@@ -1,0 +1,33 @@
+stk.v.11.0
+WrittenBy    STK_v11.3.0
+BEGIN Access
+    Scenario/Scenario/Target/Target
+    Scenario/Scenario/Satellite/Satellite
+
+    IsComputed		 Yes
+    UpdateOnReference		 Yes
+    DupIsDifferent		 No
+    UIOrderReversed		 No
+    UITimePeriod		 Object
+    UseLightTimeDelay		 No
+    ClockHost		 Base
+    TimeSense		 Transmit
+    AberrationType		 Annual
+    TimeDelayConvergence		 5e-05
+    MaxTimeStep		 360
+    MinTimeStep		 0.01
+    TimeConvergence		 0.005
+    AbsValueConvergence		 1e-14
+    RelValueConvergence		 1e-08
+    DetectEventsUsingSamplesOnly		 No
+    Show		 Yes
+    Inherit		 Yes
+    ShowIV		 Yes
+    ShowLineGfx		 Yes
+    ShowHiliteGfx		 Yes
+    LineWidth		 1
+    BEGIN Crdn
+    END Crdn
+
+END Access
+
