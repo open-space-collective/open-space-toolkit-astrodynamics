@@ -1693,7 +1693,7 @@ BEGIN Satellite
             LaunchWindowTrajMETStart		 0
             LaunchWindowTrajMETStop		 900
             LaunchWindowStart		 0
-            LaunchWindowStop		 0
+            LaunchWindowStop		 -86400
             LaunchMETOffset		 0
             LaunchWindowUseSecEphem		 No 
             LaunchWindowUseScenFolderForSecEphem		 Yes
@@ -1883,12 +1883,6 @@ BEGIN Satellite
         END ObjectCoverage
 
         BEGIN Desc
-            BEGIN ShortText
-
-            END ShortText
-            BEGIN LongText
-
-            END LongText
         END Desc
 
         BEGIN Ellipse
@@ -1955,6 +1949,32 @@ BEGIN Satellite
         END Identification
 
         BEGIN Crdn
+            BEGIN VECTOR
+                Type		 VECTOR_TOVECTOR
+                Name		 Satellite1
+                Description		 Displacement vector to Satellite1
+                Origin		
+                BEGIN POINT
+                    Type		 POINT_LINKTO
+                    Name		 Center
+                END POINT
+                Destination		
+                BEGIN POINT
+                    Type		 POINT_LINKTO
+                    Name		 Center
+                    RelativePath		 Satellite/Satellite1
+                END POINT
+                LTDRefSystem		
+                BEGIN SYSTEM
+                    Type		 SYSTEM_LINKTO
+                    Name		 BarycenterICRF
+                    AbsolutePath		 CentralBody/Sun
+                END SYSTEM
+                Apparent		 No
+                TimeConvergence		 1.0000000000000000e-03
+                TimeSense		 Receive
+                IgnoreAberration		 No
+            END VECTOR
         END Crdn
 
         BEGIN Graphics

@@ -29,9 +29,9 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume=$(pwd)/../../../library-core/lib:/opt/library-core:ro \
     --volume=$(pwd)/../../../library-mathematics/lib:/opt/library-mathematics:ro \
     --volume=$(pwd)/../../../library-physics/lib:/opt/library-physics:ro \
-    --volume=$(pwd)/../../lib:/opt/lib:ro \
+    --volume=$(pwd)/../../lib:/opt/library-astrodynamics:ro \
+    --volume=$(pwd)/../../share/data:/app/share/data:ro \
     --volume=$(pwd)/../../share/python/notebooks:/home/jovyan/notebooks \
-    --volume=$(pwd)/../../share/data:/app/share/data \
     --workdir="/home/jovyan/notebooks" \
     "${repository_name}/${project_name}-python" \
     bash -c "mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Core \
@@ -47,8 +47,8 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     && ln -s /opt/library-physics/LibraryPhysicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Physics/LibraryPhysicsPy.so \
     && echo 'from .LibraryPhysicsPy import *' > /opt/conda/lib/python3.6/site-packages/Library/Physics/__init__.py \
     && mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics \
-    && ln -s /opt/lib/liblibrary-astrodynamics.so.0 /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/liblibrary-astrodynamics.so.0 \
-    && ln -s /opt/lib/LibraryAstrodynamicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/LibraryAstrodynamicsPy.so \
+    && ln -s /opt/library-astrodynamics/liblibrary-astrodynamics.so.0 /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/liblibrary-astrodynamics.so.0 \
+    && ln -s /opt/library-astrodynamics/LibraryAstrodynamicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/LibraryAstrodynamicsPy.so \
     && echo 'from .LibraryAstrodynamicsPy import *' > /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/__init__.py \
     && start-notebook.sh --NotebookApp.token=''"
 
@@ -63,14 +63,14 @@ else
     --env="JUPYTER_ENABLE_LAB=yes" \
     --env="LD_LIBRARY_PATH=/usr/local/lib:/opt/conda/lib/python3.6/site-packages:/home/jovyan/lib" \
     --env="PYTHONPATH=/opt/conda/lib/python3.6/site-packages:/home/jovyan/lib" \
-    --volume=$(pwd)/../../lib:/opt/lib:ro \
-    --volume=$(pwd)/../../share/python/notebooks:/home/jovyan/notebooks \
+    --volume=$(pwd)/../../lib:/opt/library-astrodynamics:ro \
     --volume=$(pwd)/../../share/data:/app/share/data \
+    --volume=$(pwd)/../../share/python/notebooks:/home/jovyan/notebooks \
     --workdir="/home/jovyan/notebooks" \
     "${repository_name}/${project_name}-python" \
     bash -c "mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics \
-    && ln -s /opt/lib/liblibrary-astrodynamics.so.0 /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/liblibrary-astrodynamics.so.0 \
-    && ln -s /opt/lib/LibraryAstrodynamicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/LibraryAstrodynamicsPy.so \
+    && ln -s /opt/library-astrodynamics/liblibrary-astrodynamics.so.0 /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/liblibrary-astrodynamics.so.0 \
+    && ln -s /opt/library-astrodynamics/LibraryAstrodynamicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/LibraryAstrodynamicsPy.so \
     && echo 'from .LibraryAstrodynamicsPy import *' > /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/__init__.py \
     && start-notebook.sh --NotebookApp.token=''"
 

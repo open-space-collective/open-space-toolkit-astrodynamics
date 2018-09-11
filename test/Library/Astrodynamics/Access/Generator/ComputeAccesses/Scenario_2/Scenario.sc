@@ -23,12 +23,12 @@ BEGIN Scenario
     BEGIN Interval
 
         Start		 1 Jan 2018 00:00:00.000000000
-        Stop		 2 Jan 2018 00:00:00.000000000
+        Stop		 3 Jan 2018 00:00:00.000000000
         SmartInterval		
         BEGIN EVENTINTERVAL
             BEGIN Interval
                 Start		 1 Jan 2018 00:00:00.000000000
-                Stop		 2 Jan 2018 00:00:00.000000000
+                Stop		 3 Jan 2018 00:00:00.000000000
             END Interval
             IntervalState		 Explicit
         END EVENTINTERVAL
@@ -94,19 +94,31 @@ BEGIN Scenario
         BEGIN Report
             Name		 Access
             Type		 Report
-            BaseDir		 Install
+            BaseDir		 User
             Style		 Access
             AGIViewer		 Yes
-            Instance		 Satellite/Satellite2
+            Instance		 Target/Target
             BEGIN InstanceList
-                Instance		 Satellite/Satellite1
+                Instance		 Satellite/Satellite
             END InstanceList
             BEGIN TimeData
                 BEGIN Section
                     SectionNumber		 1
                     SectionType		 4
                     ShowIntervals		 No
-                    TimeType		 Availability
+                    BEGIN IntervalList
+
+                        DateUnitAbrv		 UTCG
+
+                        BEGIN Intervals
+
+"1 Jan 2018 00:00:00.000000000" "3 Jan 2018 00:00:00.000000000"
+                        END Intervals
+
+                    END IntervalList
+
+                    TimeType		 Interval
+                    TimeInterval		                    IntervalTimePeriod		
                     SamplingType		 Default
                     TimeBound		 0
                 END Section
@@ -115,10 +127,10 @@ BEGIN Scenario
             FrameType		 0
             DockCircleID		 0
             DockID		 0
-            WindowRectLeft		 729
-            WindowRectTop		 165
-            WindowRectRight		 5128
-            WindowRectBottom		 2410
+            WindowRectLeft		 292
+            WindowRectTop		 100
+            WindowRectRight		 2563
+            WindowRectBottom		 1021
         END Report
     END QuickReports
 
@@ -150,8 +162,8 @@ BEGIN Scenario
             LaunchWindowUseEntireTraj		 Yes
             LaunchWindowTrajMETStart		 0
             LaunchWindowTrajMETStop		 900
-            LaunchWindowStart		 0
-            LaunchWindowStop		 0
+            LaunchWindowStart		 2.03724e+07
+            LaunchWindowStop		 2.03724e+07
             LaunchMETOffset		 0
             LaunchWindowUseSecEphem		 No 
             LaunchWindowUseScenFolderForSecEphem		 Yes
@@ -301,6 +313,14 @@ BEGIN Scenario
         END ConnectReportUnits
 
         BEGIN ReportFavorites
+            BEGIN Class
+                Name		 Access
+                BEGIN Favorite
+                    Type		 Report
+                    BaseDir		 User
+                    Style		 Access
+                END Favorite
+            END Class
         END ReportFavorites
 
         BEGIN ADFFileData
@@ -903,7 +923,7 @@ BEGIN Scenario
             BEGIN Animation
 
                 StartTime		 1 Jan 2018 00:00:00.000000000
-                EndTime		 2 Jan 2018 00:00:00.000000000
+                EndTime		 3 Jan 2018 00:00:00.000000000
                 CurrentTime		 1 Jan 2018 00:00:00.000000000
                 Direction		 Forward
                 UpdateDelta		 10
@@ -1602,8 +1622,13 @@ BEGIN Scenario
 
         Class Satellite
 
-            Satellite1		
-            Satellite2		
+            Satellite		
+
+        END Class
+
+        Class Target
+
+            Target		
 
         END Class
 
@@ -1613,11 +1638,11 @@ BEGIN Scenario
         Instance *
             *		
         END Instance
-        Instance Satellite/Satellite1
-            Satellite/Satellite1		
+        Instance Satellite/Satellite
+            Satellite/Satellite		
         END Instance
-        Instance Satellite/Satellite2
-            Satellite/Satellite2		
+        Instance Target/Target
+            Target/Target		
         END Instance
     END References
 

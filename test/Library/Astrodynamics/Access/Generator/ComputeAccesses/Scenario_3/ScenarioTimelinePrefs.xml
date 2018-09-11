@@ -1,0 +1,19 @@
+<?xml version = "1.0" standalone = "yes"?>
+<TimelineLine_Prefs STK_version = "11.3.0">
+    <Views Type = "Content">
+        <ContentView Name = "Scenario Availability">
+            <Row ClassName = "Scenario" ComponentName = "AvailabilityIntervals" DisplayName = "Scenario AvailabilityIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "/Application/STK/Scenario/Scenario" Type = "IntervalList">
+                <Interval Name = "Scenario AvailabilityIntervals" StartTime = "6 Sep 2018 00:00:00.000" StopTime = "7 Sep 2018 00:00:00.000" />
+            </Row>
+            <Row ClassName = "Access" ComponentName = "AccessIntervals" DisplayName = "Target-Target-To-Satellite-Satellite AccessIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "Access:/Application/STK/Scenario/Scenario/Target/Target;/Application/STK/Scenario/Scenario/Satellite/Satellite" Type = "IntervalList">
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Sep 2018 08:28:45.642" StopTime = "6 Sep 2018 08:33:04.606" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Sep 2018 09:59:48.383" StopTime = "6 Sep 2018 10:12:18.261" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Sep 2018 20:31:23.883" StopTime = "6 Sep 2018 20:37:09.616" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Sep 2018 22:03:05.742" StopTime = "6 Sep 2018 22:15:44.707" />
+            </Row>
+        </ContentView>
+    </Views>
+    <Views Type = "Time">
+        <TimeView FullViewRulerStartTime = "0.000000" FullViewRulerStopTime = "0.000000" GlobalIntervalComp = "AnalysisInterval" GlobalIntervalCompPath = "/Application/STK/Scenario/Scenario" GlobalStartOffset = "0.000000" GlobalStartTime = "6 Sep 2018 00:00:00.000" GlobalStopOffset = "0.000000" GlobalStopTime = "7 Sep 2018 00:00:00.000" MaxFullViewTime = "0.000000" MinFullViewTime = "0.000000" Name = "Scenario Analysis Period" ViewportStartTime = "0.000000" ViewportStopTime = "0.000000" />
+    </Views>
+</TimelineLine_Prefs>

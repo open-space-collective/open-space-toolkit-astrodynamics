@@ -3,7 +3,7 @@
 ################################################################################################################################################################
 
 # @project        Library/Astrodynamics
-# @file           tools/ci/binaries.sh
+# @file           tools/ci/deploy.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        TBD
 
@@ -16,7 +16,7 @@ development_directory="${project_directory}/tools/development"
 
 source "${project_directory}/tools/.env"
 
-# Generate binaries
+# Deploy Python bindings
 
 docker run \
 --rm \
@@ -24,7 +24,9 @@ docker run \
 --volume="${development_directory}/helpers/build.sh:/app/build/build.sh:ro" \
 --volume="${development_directory}/helpers/test.sh:/app/build/test.sh:ro" \
 --workdir="/app/build" \
+--env="TWINE_USERNAME=${PYPI_USERNAME}" \
+--env="TWINE_PASSWORD=${PYPI_PASSWORD}" \
 ${image_name} \
-/bin/bash -c "/app/build/build.sh && make package && mkdir -p /app/package && mv /app/build/*.rpm /app/package"
+/bin/bash -c "make publish"
 
 ################################################################################################################################################################

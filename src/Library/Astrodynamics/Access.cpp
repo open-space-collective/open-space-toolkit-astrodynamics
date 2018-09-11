@@ -28,6 +28,21 @@ namespace astro
                                     lossOfSignal_(aLossOfSignal)
 {
 
+    if (this->isDefined())
+    {
+
+        if (timeOfClosestApproach_ < acquisitionOfSignal_)
+        {
+            throw library::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()) ;
+        }
+
+        if (lossOfSignal_ < timeOfClosestApproach_)
+        {
+            throw library::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()) ;
+        }
+
+    }
+
 }
 
 bool                            Access::operator ==                         (   const   Access&                     anAccess                                    ) const
