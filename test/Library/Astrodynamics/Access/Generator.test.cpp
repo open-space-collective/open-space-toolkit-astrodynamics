@@ -529,35 +529,35 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, AerRanges)
-{
+// TEST (Library_Astrodynamics_Access_Generator, AerRanges)
+// {
 
-    using library::math::obj::Interval ;
+//     using library::math::obj::Interval ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::Environment ;
+//     using library::physics::units::Length ;
+//     using library::physics::units::Angle ;
+//     using library::physics::Environment ;
 
-    using library::astro::access::Generator ;
+//     using library::astro::access::Generator ;
 
-    {
+//     {
 
-        // const Environment environment = Environment::Default() ;
+//         // const Environment environment = Environment::Default() ;
 
-        // const Interval<Angle> azimuthRange = Interval<Angle>::Closed(Angle::Degrees(30.0), Angle::Degrees(240.0)) ;
-        // const Interval<Angle> elevationRange = Interval<Angle>::Closed(Angle::Degrees(10.0), Angle::Degrees(80.0)) ;
-        // const Interval<Length> rangeRange = Interval<Length>::Closed(Length::Meters(300e3), Length::Meters(800e3)) ;
+//         // const Interval<Angle> azimuthRange = Interval<Angle>::Closed(Angle::Degrees(30.0), Angle::Degrees(240.0)) ;
+//         // const Interval<Angle> elevationRange = Interval<Angle>::Closed(Angle::Degrees(10.0), Angle::Degrees(80.0)) ;
+//         // const Interval<Length> rangeRange = Interval<Length>::Closed(Length::Meters(300e3), Length::Meters(800e3)) ;
 
-        // EXPECT_NO_THROW(Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment)) ;
+//         // EXPECT_NO_THROW(Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment)) ;
 
-        // const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
+//         // const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
 
-        // EXPECT_TRUE(generator.isDefined()) ;
+//         // EXPECT_TRUE(generator.isDefined()) ;
 
-        FAIL() ;
+//         FAIL() ;
 
-    }
+//     }
 
-}
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

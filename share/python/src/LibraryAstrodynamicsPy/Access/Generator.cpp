@@ -53,6 +53,8 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
         .def("isDefined", &Generator::isDefined)
         
         .def("computeAccesses", &Generator::computeAccesses)
+        .def("setStep", &Generator::setStep)
+        .def("setTolerance", &Generator::setTolerance)
         .def("setAerFilter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAerFilter(object) ; })
         .def("setAccessFilter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAccessFilter(object) ; })
 
