@@ -3,6 +3,8 @@ var searchData=
   ['second',['Second',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a70c718878e83f059e65788c323eb7900ac22cf8376b1893dcfcef0649fe1a7d87',1,'library::astro::trajectory::orbit::Pass']]],
   ['setaccessfilter',['setAccessFilter',['../classlibrary_1_1astro_1_1access_1_1_generator.html#a74992fd0314e87ffd4b47a2c7f20c646',1,'library::astro::access::Generator']]],
   ['setaerfilter',['setAerFilter',['../classlibrary_1_1astro_1_1access_1_1_generator.html#a2676ec52653573cf1ff91876f671a679',1,'library::astro::access::Generator']]],
+  ['setstep',['setStep',['../classlibrary_1_1astro_1_1access_1_1_generator.html#ac5325bb33fb0cb6fc3e556a5a4eb0934',1,'library::astro::access::Generator']]],
+  ['settolerance',['setTolerance',['../classlibrary_1_1astro_1_1access_1_1_generator.html#ae4bc02fcd2edd6235745409996cd5bb6',1,'library::astro::access::Generator']]],
   ['sgp4',['SGP4',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html',1,'library::astro::trajectory::orbit::models::SGP4'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html#aeb4f0869431bf4c65d8edaff53ae6ece',1,'library::astro::trajectory::orbit::models::SGP4::SGP4(const TLE &amp;aTle)'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html#a8369d666690d2d83840eb9cd6456865e',1,'library::astro::trajectory::orbit::models::SGP4::SGP4(const SGP4 &amp;aSGP4Model)']]],
   ['sgp4_2ecpp',['SGP4.cpp',['../_s_g_p4_8cpp.html',1,'']]],
   ['sgp4_2ehpp',['SGP4.hpp',['../_s_g_p4_8hpp.html',1,'']]],
