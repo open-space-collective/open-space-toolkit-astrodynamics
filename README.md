@@ -105,7 +105,7 @@ The **Astrodynamics** library internally uses the following dependencies:
 | NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                       |
 | Core        | master  | TBD                    | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
 | Mathematics | master  | TBD                    | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
-| Physics     | master  | TBD                    | [github.com/open-space-collective/library-physic](https://github.com/open-space-collective/library-physic)           |
+| Physics     | master  | TBD                    | [github.com/open-space-collective/library-physics](https://github.com/open-space-collective/library-physics)         |
 
 ## Contribution
 
