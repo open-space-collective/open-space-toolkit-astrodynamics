@@ -18,12 +18,6 @@
 inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 {
     
-    // boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Trajectory")))) ;
-    
-    // boost::python::scope().attr("Trajectory") = module ;
-    
-    // boost::python::scope scope = module ;
-
     using namespace boost::python ;
 
     using library::core::ctnr::Array ;

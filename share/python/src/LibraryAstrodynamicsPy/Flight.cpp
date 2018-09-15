@@ -1,31 +1,27 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Library/Astrodynamics
-/// @file           LibraryAstrodynamicsPy.cxx
+/// @file           LibraryAstrodynamicsPy/Flight.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        TBD
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <boost/python.hpp>
-
-#include <LibraryAstrodynamicsPy/Access.cpp>
-#include <LibraryAstrodynamicsPy/Flight.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory.cpp>
+#include <LibraryAstrodynamicsPy/Flight/Profile.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_PYTHON_MODULE (LibraryAstrodynamicsPy)
+inline void                     LibraryAstrodynamicsPy_Flight        	    ( )
 {
+    
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Flight")))) ;
+    
+    boost::python::scope().attr("Flight") = module ;
+    
+    boost::python::scope scope = module ;
 
-	boost::python::object package = boost::python::scope() ;
-	
-	package.attr("__path__") = "Library" ;
-
-	LibraryAstrodynamicsPy_Trajectory() ;
-	LibraryAstrodynamicsPy_Flight() ;
-	LibraryAstrodynamicsPy_Access() ;
-
+    LibraryAstrodynamicsPy_Flight_Profile() ;
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
