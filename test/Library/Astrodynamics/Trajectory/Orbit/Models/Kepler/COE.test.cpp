@@ -17,6 +17,7 @@
 
 #include <Library/Mathematics/Objects/Vector.hpp>
 
+#include <Library/Core/Types/String.hpp>
 #include <Library/Core/Types/Real.hpp>
 
 #include <Global.test.hpp>
@@ -613,6 +614,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 {
 
     using library::core::types::Real ;
+    using library::core::types::String ;
 
     using library::math::obj::Vector3d ;
 
@@ -645,11 +647,43 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 
         EXPECT_TRUE(position.getCoordinates().isNear(Vector3d(7000000.0, 0.0, 0.0), Real::Epsilon())) << position.getCoordinates() ;
         EXPECT_EQ(Position::Unit::Meter, position.getUnit()) ;
-        EXPECT_EQ(*Frame::GCRF(), *position.accessFrame()) ;
+        EXPECT_EQ(Frame::GCRF(), position.accessFrame()) ;
 
         EXPECT_TRUE(velocity.getCoordinates().isNear(Vector3d(0.0, 7546.0532872678359, 0.0), Real::Epsilon())) << velocity.getCoordinates() ;
         EXPECT_EQ(Velocity::Unit::MeterPerSecond, velocity.getUnit()) ;
-        EXPECT_EQ(*Frame::GCRF(), *velocity.accessFrame()) ;
+        EXPECT_EQ(Frame::GCRF(), velocity.accessFrame()) ;
+
+    }
+
+    {
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+        const Real eccentricity = 0.05 ;
+        const Angle inclination = Angle::Degrees(45.0) ;
+        const Angle raan = Angle::Degrees(10.0) ;
+        const Angle aop = Angle::Degrees(20.0) ;
+        const Angle trueAnomaly = Angle::Degrees(30.0) ;
+
+        const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalConstant, Frame::GCRF()) ;
+
+        const Position& position = cartesianState.first ;
+        const Velocity& velocity = cartesianState.second ;
+
+        const Vector3d referencePosition = { 3607105.091490086168, 4317224.055878742598, 3625268.495929836296 } ;
+        const Vector3d referenceVelocity = { -6467.082890311416, 2601.669219824156, 3685.141177179613 } ;
+
+        const Real positionTolerance = 1e-8 ;
+        const Real velocityTolerance = 1e-12 ;
+
+        EXPECT_TRUE(position.getCoordinates().isNear(referencePosition, positionTolerance)) << String::Format("{} - {} = {} [m]", position.getCoordinates().toString(), referencePosition.toString(), (position.getCoordinates() - referencePosition).norm()) ;
+        EXPECT_EQ(Position::Unit::Meter, position.getUnit()) ;
+        EXPECT_EQ(Frame::GCRF(), position.accessFrame()) ;
+
+        EXPECT_TRUE(velocity.getCoordinates().isNear(referenceVelocity, velocityTolerance)) << String::Format("{} - {} = {} [m/s]", velocity.getCoordinates().toString(), referenceVelocity.toString(), (velocity.getCoordinates() - referenceVelocity).norm()) ;
+        EXPECT_EQ(Velocity::Unit::MeterPerSecond, velocity.getUnit()) ;
+        EXPECT_EQ(Frame::GCRF(), velocity.accessFrame()) ;
 
     }
 
@@ -813,29 +847,59 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
-// {
+TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
+{
 
-//     using library::core::types::Real ;
+    using library::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+    using library::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+    using library::physics::units::Length ;
+    using library::physics::units::Angle ;
+    using library::physics::units::Derived ;
+    using library::physics::time::Duration ;
+    using library::physics::coord::Position ;
+    using library::physics::coord::Velocity ;
+    using library::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+    using library::astro::trajectory::orbit::models::kepler::COE ;
     
-//     {
+    {
 
-//         FAIL() ;
+        const Angle meanAnomaly = Angle::Degrees(0.0) ;
+        const Real eccentricity = 0.0 ;
+        const Real tolerance = 1e-5 ;
 
-//     }
+        const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance) ;
 
-// }
+        EXPECT_NEAR(eccentricAnomaly.inDegrees(), 0.0, 0.0) ;
+
+    }
+    
+    {
+
+        const Angle meanAnomaly = Angle::Radians(0.99262603391585447) ;
+        const Real eccentricity = 0.05 ;
+        const Real tolerance = 1e-8 ;
+
+        const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance) ;
+
+        EXPECT_NEAR(eccentricAnomaly.inRadians(), 1.0356353614863638, 1e-8) ;
+
+    }
+
+    {
+
+        const Angle meanAnomaly = Angle::Degrees(0.0) ;
+        const Real eccentricity = 0.0 ;
+        const Real tolerance = 1e-5 ;
+
+        EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(Angle::Undefined(), eccentricity, tolerance)) ;
+        EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, Real::Undefined(), tolerance)) ;
+        EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, Real::Undefined())) ;
+
+    }
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

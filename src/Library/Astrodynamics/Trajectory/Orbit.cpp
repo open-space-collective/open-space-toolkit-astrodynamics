@@ -439,7 +439,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     const Quaternion q_LVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Vector3d velocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital velocity
+                    const Vector3d velocity = -v_GCRF ;
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
 
                     return { anInstant, -x_GCRF, velocity, q_LVLH_GCRF, angularVelocity, Transform::Type::Passive } ;
@@ -476,7 +476,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     const Quaternion q_VVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Vector3d velocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital velocity
+                    const Vector3d velocity = -v_GCRF ;
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
 
                     return { anInstant, -x_GCRF, velocity, q_VVLH_GCRF, angularVelocity, Transform::Type::Passive } ;
@@ -512,7 +512,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     const Quaternion q_QSW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Vector3d velocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital velocity
+                    const Vector3d velocity = -v_GCRF ;
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
 
                     return { anInstant, -x_GCRF, velocity, q_QSW_GCRF, angularVelocity, Transform::Type::Passive } ;
@@ -548,7 +548,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     const Quaternion q_TNW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Vector3d velocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital velocity
+                    const Vector3d velocity = -v_GCRF ;
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
 
                     return { anInstant, -x_GCRF, velocity, q_TNW_GCRF, angularVelocity, Transform::Type::Passive } ;
@@ -584,7 +584,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     const Quaternion q_VNC_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Vector3d velocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital velocity
+                    const Vector3d velocity = -v_GCRF ;
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
 
                     return { anInstant, -x_GCRF, velocity, q_VNC_GCRF, angularVelocity, Transform::Type::Passive } ;

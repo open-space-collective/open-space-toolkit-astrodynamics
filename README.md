@@ -35,6 +35,9 @@ The **Astrodynamics** library exhibits the following structure:
 │   │   ├── Pass
 │   │   └── Utilities
 │   └── Composite
+├── Flight
+│   └── Profile
+│       └── State
 ├── Access
 └── State Profile
 ```
