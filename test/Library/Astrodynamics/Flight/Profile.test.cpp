@@ -181,12 +181,6 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 
     {
 
-        FAIL() ;
-
-    }
-
-    {
-
         const Dynamic dynamicTransformProvider =
         {
             [] (const Instant& anInstant) -> Transform

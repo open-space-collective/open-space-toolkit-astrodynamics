@@ -18,6 +18,7 @@
 ## Visual Studio Code
 
 .vscode/
+*.code-workspace
 
 ## Sublime Text
 
