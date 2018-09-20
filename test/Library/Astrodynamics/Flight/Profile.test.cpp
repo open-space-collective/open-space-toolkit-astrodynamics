@@ -201,6 +201,69 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 
 }
 
+TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
+{
+
+    using library::core::types::Shared ;
+    using library::core::ctnr::Array ;
+
+    using library::math::obj::Vector3d ;
+    using library::math::geom::d3::trf::rot::Quaternion ;
+    
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::DateTime ;
+    using library::physics::coord::Transform ;
+    using library::physics::coord::Frame ;
+    using library::physics::coord::frame::provider::Dynamic ;
+
+    using library::astro::flight::Profile ;
+    using library::astro::flight::profile::State ;
+
+    {
+
+        const Dynamic dynamicTransformProvider =
+        {
+            [] (const Instant& anInstant) -> Transform
+            {
+                return Transform::Identity(anInstant) ;
+            }
+        } ;
+
+        const Shared<const Frame> frameSPtr = Frame::GCRF() ;
+
+        const Profile profile = { dynamicTransformProvider, frameSPtr } ;
+
+        {
+
+            const Array<Instant> referenceInstants =
+            {
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 0), Scale::UTC),
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1, 0), Scale::UTC),
+            } ;
+
+            const Array<State> referenceStates =
+            {
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() }
+            } ;
+
+            EXPECT_EQ(referenceStates, profile.getStatesAt(referenceInstants)) ;
+
+        }
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(Profile::Undefined().getStatesAt({ Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC) })) ;
+
+    }
+
+}
+
 TEST (Library_Astrodynamics_Flight_Profile, Undefined)
 {
 

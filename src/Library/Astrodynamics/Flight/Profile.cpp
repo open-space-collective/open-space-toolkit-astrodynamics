@@ -101,6 +101,22 @@ State                           Profile::getStateAt                         (   
 
 }
 
+Array<State>                    Profile::getStatesAt                        (   const   Array<Instant>&             anInstantArray                              ) const
+{
+
+    Array<State> stateArray = Array<State>::Empty() ;
+
+    stateArray.reserve(anInstantArray.getSize()) ;
+
+    for (const auto& instant : anInstantArray)
+    {
+        stateArray.add(this->getStateAt(instant)) ;
+    }
+
+    return stateArray ;
+
+}
+
 Axes                            Profile::getAxesAt                          (   const   Instant&                    anInstant                                   ) const
 {
 

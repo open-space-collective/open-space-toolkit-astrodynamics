@@ -146,6 +146,6 @@ ADD_DEPENDENCIES (${PACKAGE_TARGET} ${LIBRARY_TARGET})
 
 ################################################################################################################################################################
 
-ADD_CUSTOM_TARGET ("publish" COMMAND python3 -m twine upload --repository-url https://test.pypi.org/legacy/ "${CMAKE_CURRENT_BINARY_DIR}/dist/*" DEPENDS ${OUTPUT})
+ADD_CUSTOM_TARGET ("publish" COMMAND python3 -m twine upload "${CMAKE_CURRENT_BINARY_DIR}/dist/*" DEPENDS ${OUTPUT})
 
 ################################################################################################################################################################

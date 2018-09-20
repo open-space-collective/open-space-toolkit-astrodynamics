@@ -165,6 +165,19 @@ class Profile
 
         State                   getStateAt                                  (   const   Instant&                    anInstant                                   ) const ;
 
+        /// @brief              Get states at a given instants
+        ///
+        /// @code
+        ///                     Profile profile = { ... } ;
+        ///                     Array<Instant> instants = { ... } ;
+        ///                     Array<State> state = profile.getStatesAt(instants) ;
+        /// @endcode
+        ///
+        /// @param              [in] anInstantArray An array of instants
+        /// @return             Array of states
+
+        Array<State>            getStatesAt                                 (   const   Array<Instant>&             anInstantArray                              ) const ;
+
         /// @brief              Get axes at a given instant
         ///
         /// @code

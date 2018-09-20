@@ -40,6 +40,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile       ( )
         .def("isDefined", &Profile::isDefined)
 
         .def("getStateAt", &Profile::getStateAt)
+        .def("getStatesAt", &Profile::getStatesAt)
         .def("getAxesAt", &Profile::getAxesAt)
 
         .def("Undefined", &Profile::Undefined).staticmethod("Undefined")

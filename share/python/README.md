@@ -1,2 +1,0 @@
-Library ▸ Astrodynamics ▸ Python Bindings
-=========================================
