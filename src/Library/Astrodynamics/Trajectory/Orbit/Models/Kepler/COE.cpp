@@ -741,9 +741,9 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
         
         count++ ;
         
-        if (count > 100) // Failed to converge, this only happens for nearly parabolic orbits
+        if (count > 1000) // Failed to converge, this only happens for nearly parabolic orbits
         {
-            throw library::core::error::RuntimeError("Cannot converge to solution.") ;
+            throw library::core::error::RuntimeError("Cannot converge to solution ({}, {}, {}).", aMeanAnomaly.toString(32), anEccentricity.toString(32), aTolerance.toString(32)) ;
         }
 
     }

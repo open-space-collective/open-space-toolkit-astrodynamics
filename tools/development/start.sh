@@ -37,14 +37,14 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     options=""
     command=""
 
-    # Library :: Core
+    # Library ▸ Core
 
     library_core_directory="${project_directory}/../library-core"
 
     if [[ ! -d ${library_core_directory} ]]
     then
 
-        echo "Library :: Core directory [${library_core_directory}s] cannot be found."
+        echo "Library ▸ Core directory [${library_core_directory}s] cannot be found."
 
         exit 1
 
@@ -61,14 +61,14 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
-    ## Library :: Mathematics
+    ## Library ▸ Mathematics
 
     library_mathematics_directory="${project_directory}/../library-mathematics"
 
     if [[ ! -d ${library_mathematics_directory} ]]
     then
 
-        echo "Library :: Mathematics directory [${library_mathematics_directory}s] cannot be found."
+        echo "Library ▸ Mathematics directory [${library_mathematics_directory}s] cannot be found."
 
         exit 1
 
@@ -85,14 +85,14 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so /usr/local/lib/; \
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.0 /usr/local/lib/;"
 
-    ## Library :: Physics
+    ## Library ▸ Physics
 
     library_physics_directory="${project_directory}/../library-physics"
 
     if [[ ! -d ${library_physics_directory} ]]
     then
 
-        echo "Library :: Physics directory [${library_physics_directory}s] cannot be found."
+        echo "Library ▸ Physics directory [${library_physics_directory}s] cannot be found."
 
         exit 1
 

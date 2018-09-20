@@ -13,11 +13,6 @@ LABEL maintainer="lucas@loftorbital.com"
 
 USER root
 
-# RUN apt-get update \
-#  && apt-get install libboost-python1.65.1 \
-#  && apt-get clean \
-#  && rm -rf /var/lib/apt/lists/*
-
 RUN ln -s /opt/conda/include/python3.6m /opt/conda/include/python3.6
 
 RUN cd /tmp \
@@ -29,8 +24,15 @@ RUN cd /tmp \
  && ./b2 --with-python -j 8 install \
  && rm -rf /tmp/boost_1_68_0
 
-USER $NB_UID
-
 RUN jupyter labextension install @jupyterlab/plotly-extension
+
+RUN python -m pip install --quiet numpy --upgrade \
+ && python -m pip install --quiet plotly
+
+COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
+
+RUN chown -R $NB_UID:$NB_UID /home/jovyan/.jupyter
+
+USER $NB_UID
 
 ################################################################################################################################################################

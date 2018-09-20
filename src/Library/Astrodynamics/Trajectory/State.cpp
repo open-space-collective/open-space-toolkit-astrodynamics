@@ -144,7 +144,7 @@ State                           State::inFrame                              (   
 
 State                           State::Undefined                            ( )
 {
-    return State(Instant::Undefined(), Position::Undefined(), Velocity::Undefined()) ;
+    return { Instant::Undefined(), Position::Undefined(), Velocity::Undefined() } ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

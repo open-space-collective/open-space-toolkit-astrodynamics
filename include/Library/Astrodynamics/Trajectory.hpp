@@ -186,6 +186,7 @@ class Trajectory
         ///                     Trajectory trajectory = Trajectory::Position(position) ;
         /// @endcode
         ///
+        /// @param              [in] aPosition A position
         /// @return             Static trajectory
 
         static Trajectory       Position                                    (   const   physics::coord::Position&   aPosition                                   ) ;

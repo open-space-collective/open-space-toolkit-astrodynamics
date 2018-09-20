@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:0.1.10
+FROM openspacecollective/library-physics:0.1.12
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -32,10 +32,10 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/sgp4 \
  && popd > /dev/null
 
-## NLopt [master]
+## NLopt [2.5.0]
 
 RUN pushd /tmp > /dev/null \
- && git clone https://github.com/stevengj/nlopt.git \
+ && git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git \
  && cd nlopt \
  && mkdir build \
  && cd build \
@@ -45,12 +45,12 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/nlopt \
  && popd > /dev/null
 
-## Library :: Physics [0.1.7]
+## Library ▸ Physics [0.1.8]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.7/library-physics-0.1.7-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.7/library-physics-0.1.7-1.x86_64-devel.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-physics \
  && popd > /dev/null

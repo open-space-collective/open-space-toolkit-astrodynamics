@@ -1,11 +1,13 @@
-Library :: Astrodynamics
-========================
+Library ▸ Astrodynamics
+=======================
 
 Orbit, attitude, access.
 
 [![Build Status](https://travis-ci.com/open-space-collective/library-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/library-astrodynamics)
 [![Code Coverage](https://codecov.io/gh/open-space-collective/library-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/library-astrodynamics)
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/library-astrodynamics)
+[![GitHub version](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics)
+[![PyPI version](https://badge.fury.io/py/LibraryAstrodynamicsPy.svg)](https://badge.fury.io/py/LibraryAstrodynamicsPy)
 
 ## Warning
 
@@ -35,13 +37,26 @@ The **Astrodynamics** library exhibits the following structure:
 │   │   ├── Pass
 │   │   └── Utilities
 │   └── Composite
+├── Flight
+│   └── Profile
+│       └── State
 ├── Access
 └── State Profile
 ```
 
 ## Documentation
 
-The documentation can be found [here](https://open-space-collective.github.io/library-astrodynamics).
+The documentation can be found here:
+
+- [C++](https://open-space-collective.github.io/library-astrodynamics)
+- [Python](./bindings/python/docs)
+
+## Tutorials
+
+Various tutorials are available here:
+
+- [C++](./tutorials/cpp)
+- [Python](./tutorials/python)
 
 ## Setup
 
