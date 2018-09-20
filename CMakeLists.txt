@@ -274,15 +274,15 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Library :: Core [master]
+### Library ▸ Core [master]
 
 FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
 
-### Library :: Mathematics [master]
+### Library ▸ Mathematics [master]
 
 FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
 
-### Library :: Physics [master]
+### Library ▸ Physics [master]
 
 FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
 

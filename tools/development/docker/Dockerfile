@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:0.1.10
+FROM openspacecollective/library-physics:0.1.12
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -32,10 +32,10 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/sgp4 \
  && popd > /dev/null
 
-## NLopt [master]
+## NLopt [2.5.0]
 
 RUN pushd /tmp > /dev/null \
- && git clone https://github.com/stevengj/nlopt.git \
+ && git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git \
  && cd nlopt \
  && mkdir build \
  && cd build \
@@ -45,7 +45,7 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/nlopt \
  && popd > /dev/null
 
-## Library :: Physics [0.1.7]
+## Library ▸ Physics [0.1.7]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \

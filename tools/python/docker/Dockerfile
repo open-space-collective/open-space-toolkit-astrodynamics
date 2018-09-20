@@ -33,4 +33,7 @@ USER $NB_UID
 
 RUN jupyter labextension install @jupyterlab/plotly-extension
 
+RUN python -m pip install --quiet numpy --upgrade \
+ && python -m pip install --quiet plotly
+
 ################################################################################################################################################################

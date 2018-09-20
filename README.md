@@ -1,5 +1,5 @@
-Library :: Astrodynamics
-========================
+Library ▸ Astrodynamics
+=======================
 
 Orbit, attitude, access.
 

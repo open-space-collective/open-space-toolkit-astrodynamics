@@ -129,8 +129,8 @@ Array<Access>                   Generator::computeAccesses                  (   
 
         static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
 
-        const Point& fromPositionCoordinates = aFromPosition.accessCoordinates() ;
-        const Point& toPositionCoordinates = aToPosition.accessCoordinates() ;
+        const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates()) ;
+        const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates()) ;
 
         // Line of sight
 
@@ -275,8 +275,8 @@ Array<Access>                   Generator::computeAccesses                  (   
         if (inAccess)
         {
 
-            const Point fromPositionCoordinates = fromPosition.accessCoordinates() ;
-            const Point toPositionCoordinates = toPosition.accessCoordinates() ;
+            const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates()) ;
+            const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates()) ;
             
             const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm() ;
 
