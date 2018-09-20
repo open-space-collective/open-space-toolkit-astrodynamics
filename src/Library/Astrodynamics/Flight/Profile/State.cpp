@@ -192,31 +192,31 @@ Shared<const Frame>             State::getFrame                             ( ) 
 
 }
 
-// State                           State::inFrame                              (   const   Shared<const Frame>&        aFrameSPtr                                  ) const
-// {
+State                           State::inFrame                              (   const   Shared<const Frame>&        aFrameSPtr                                  ) const
+{
 
-//     using library::physics::coord::Transform ;
+    using library::physics::coord::Transform ;
 
-//     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
-//     {
-//         throw library::core::error::runtime::Undefined("Frame") ;
-//     }
+    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Frame") ;
+    }
 
-//     if (!this->isDefined())
-//     {
-//         throw library::core::error::runtime::Undefined("State") ;
-//     }
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("State") ;
+    }
 
-//     const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;
+    const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;
 
-//     const Vector3d position = transform_NEW_OLD.applyToPosition(position_) ;
-//     const Vector3d velocity = transform_NEW_OLD.applyToVelocity(position_, velocity_) ;
-//     const Quaternion attitude = attitude * transform_NEW_OLD.getOrientation().toConjugate() ;
-//     const Vector3d angularVelocity = transform_NEW_OLD.getAngularVelocity() [TBI] ;
+    const Vector3d position = transform_NEW_OLD.applyToPosition(position_) ;
+    const Vector3d velocity = transform_NEW_OLD.applyToVelocity(position_, velocity_) ;
+    const Quaternion attitude = attitude_ * transform_NEW_OLD.getOrientation().toConjugate() ;
+    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // transform_NEW_OLD.getAngularVelocity() [TBI] ;
 
-//     return { instant_, position, velocity, attitude, angularVelocity, aFrameSPtr } ;
+    return { instant_, position, velocity, attitude, angularVelocity, aFrameSPtr } ;
 
-// }
+}
 
 State                           State::Undefined                            ( )
 {
