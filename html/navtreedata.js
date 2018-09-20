@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "LibraryAstrodynamics", "index.html", [
-    [ "Library :: Astrodynamics", "index.html", null ],
+    [ "Library ▸ Astrodynamics", "index.html", null ],
     [ "Contributing", "md__c_o_n_t_r_i_b_u_t_i_n_g.html", [
       [ "Introduction", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Introduction", null ],
       [ "Guidelines", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Guidelines", [
@@ -24,7 +24,8 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ]
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Typedefs", "namespacemembers_type.html", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -47,7 +48,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_access_8cpp.html",
-"classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html#aac67f48eb523ce183d726e6662335969"
+"classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a1fbf0650ece0aa4fd99bc9d8d4bc1f77"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

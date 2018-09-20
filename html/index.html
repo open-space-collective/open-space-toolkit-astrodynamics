@@ -27,7 +27,7 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-<div id="topbanner"><a href="https://github.com/open-space-collective/library-astrodynamics" title="Library :: Astrodynamics"><i class="githublogo"></i></a></div>
+<div id="topbanner"><a href="https://github.com/open-space-collective/library-astrodynamics" title="Library ▸ Astrodynamics"><i class="githublogo"></i></a></div>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
           <img id="MSearchSelect" src="search/mag_sel.png"
@@ -78,11 +78,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Library :: Astrodynamics </div>  </div>
+<div class="title">Library ▸ Astrodynamics </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Orbit, attitude, access.</p>
-<p><a href="https://travis-ci.com/open-space-collective/library-astrodynamics"></a> <a href="https://codecov.io/gh/open-space-collective/library-astrodynamics"></a> <a href="https://open-space-collective.github.io/library-astrodynamics"></a></p>
+<p><a href="https://travis-ci.com/open-space-collective/library-astrodynamics"></a> <a href="https://codecov.io/gh/open-space-collective/library-astrodynamics"></a> <a href="https://open-space-collective.github.io/library-astrodynamics"></a> <a href="https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics"></a> <a href="https://badge.fury.io/py/LibraryAstrodynamicsPy"></a></p>
 <h2>Warning</h2>
 <p>Library <b>name</b> and <b>license</b> are yet to be defined.</p>
 <p>Please check the following projects:</p>
@@ -93,8 +93,18 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p><em>⚠ This library is still under heavy development. Do not use!</em></p>
 <h2>Structure</h2>
 <p>The <b>Astrodynamics</b> library exhibits the following structure:</p>
-<div class="fragment"><div class="line">├── Trajectory</div><div class="line">│   ├── State</div><div class="line">│   ├── Orbit</div><div class="line">│   │   ├── Models</div><div class="line">│   │   │   ├── Kepler</div><div class="line">│   │   │   │   └── Classical Orbital Elements (COE)</div><div class="line">│   │   │   ├── SGP4</div><div class="line">│   │   │   │   └── Two-Line Element <span class="keyword">set</span> (TLE)</div><div class="line">│   │   │   └── Propagator</div><div class="line">│   │   ├── Pass</div><div class="line">│   │   └── Utilities</div><div class="line">│   └── Composite</div><div class="line">├── Access</div><div class="line">└── State Profile</div></div><!-- fragment --><h2>Documentation</h2>
-<p>The documentation can be found <a href="https://open-space-collective.github.io/library-astrodynamics">here</a>.</p>
+<div class="fragment"><div class="line">├── Trajectory</div><div class="line">│   ├── State</div><div class="line">│   ├── Orbit</div><div class="line">│   │   ├── Models</div><div class="line">│   │   │   ├── Kepler</div><div class="line">│   │   │   │   └── Classical Orbital Elements (COE)</div><div class="line">│   │   │   ├── SGP4</div><div class="line">│   │   │   │   └── Two-Line Element <span class="keyword">set</span> (TLE)</div><div class="line">│   │   │   └── Propagator</div><div class="line">│   │   ├── Pass</div><div class="line">│   │   └── Utilities</div><div class="line">│   └── Composite</div><div class="line">├── Flight</div><div class="line">│   └── Profile</div><div class="line">│       └── State</div><div class="line">├── Access</div><div class="line">└── State Profile</div></div><!-- fragment --><h2>Documentation</h2>
+<p>The documentation can be found here:</p>
+<ul>
+<li><a href="https://open-space-collective.github.io/library-astrodynamics">C++</a></li>
+<li><a href="./bindings/python/docs">Python</a></li>
+</ul>
+<h2>Tutorials</h2>
+<p>Various tutorials are available here:</p>
+<ul>
+<li><a href="./tutorials/cpp">C++</a></li>
+<li><a href="./tutorials/python">Python</a></li>
+</ul>
 <h2>Setup</h2>
 <h3>Development</h3>
 <p>Using <a href="https://www.docker.com">Docker</a> is recommended, as the development tools and dependencies setup is described in the provided <a href="./tools/development/docker/Dockerfile">Dockerfile</a>.</p>

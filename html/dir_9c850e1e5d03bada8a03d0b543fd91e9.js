@@ -8,7 +8,7 @@ var dir_9c850e1e5d03bada8a03d0b543fd91e9 =
     [ "Orbit.hpp", "_orbit_8hpp.html", [
       [ "Orbit", "classlibrary_1_1astro_1_1trajectory_1_1_orbit.html", "classlibrary_1_1astro_1_1trajectory_1_1_orbit" ]
     ] ],
-    [ "State.hpp", "_state_8hpp.html", [
+    [ "State.hpp", "_trajectory_2_state_8hpp.html", [
       [ "State", "classlibrary_1_1astro_1_1trajectory_1_1_state.html", "classlibrary_1_1astro_1_1trajectory_1_1_state" ]
     ] ]
 ];

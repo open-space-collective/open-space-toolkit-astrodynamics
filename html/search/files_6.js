@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pass_2ecpp',['Pass.cpp',['../_pass_8cpp.html',1,'']]],
-  ['pass_2ehpp',['Pass.hpp',['../_pass_8hpp.html',1,'']]]
+  ['orbit_2ecpp',['Orbit.cpp',['../_orbit_8cpp.html',1,'']]],
+  ['orbit_2ehpp',['Orbit.hpp',['../_orbit_8hpp.html',1,'']]]
 ];

@@ -15,7 +15,9 @@ var hierarchy =
       ] ]
     ] ],
     [ "library::astro::trajectory::orbit::Pass", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html", null ],
+    [ "library::astro::flight::Profile", "classlibrary_1_1astro_1_1flight_1_1_profile.html", null ],
     [ "library::astro::trajectory::State", "classlibrary_1_1astro_1_1trajectory_1_1_state.html", null ],
+    [ "library::astro::flight::profile::State", "classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
     [ "library::astro::trajectory::orbit::models::sgp4::TLE", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html", null ],
     [ "library::astro::Trajectory", "classlibrary_1_1astro_1_1_trajectory.html", [
       [ "library::astro::trajectory::Orbit", "classlibrary_1_1astro_1_1trajectory_1_1_orbit.html", null ]

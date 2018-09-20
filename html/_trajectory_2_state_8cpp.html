@@ -27,7 +27,7 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-<div id="topbanner"><a href="https://github.com/open-space-collective/library-astrodynamics" title="Library :: Astrodynamics"><i class="githublogo"></i></a></div>
+<div id="topbanner"><a href="https://github.com/open-space-collective/library-astrodynamics" title="Library ▸ Astrodynamics"><i class="githublogo"></i></a></div>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
           <img id="MSearchSelect" src="search/mag_sel.png"
@@ -59,7 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('_state_8hpp.html','');});
+$(document).ready(function(){initNavTree('_trajectory_2_state_8cpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -78,26 +78,16 @@ $(document).ready(function(){initNavTree('_state_8hpp.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">State.hpp File Reference</div>  </div>
+<div class="title">State.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Library/Physics/Coordinate/Frame.hpp&gt;</code><br />
-<code>#include &lt;Library/Physics/Coordinate/Velocity.hpp&gt;</code><br />
-<code>#include &lt;Library/Physics/Coordinate/Position.hpp&gt;</code><br />
-<code>#include &lt;Library/Physics/Time/Instant.hpp&gt;</code><br />
-<code>#include &lt;Library/Core/Types/Shared.hpp&gt;</code><br />
-</div>
-<p><a href="_state_8hpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_state.html">library::astro::trajectory::State</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html" title="Path followed by an object through space as a function of time. ">Trajectory</a> state.  <a href="classlibrary_1_1astro_1_1trajectory_1_1_state.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+<div class="textblock"><code>#include &lt;<a class="el" href="_trajectory_2_state_8hpp_source.html">Library/Astrodynamics/Trajectory/State.hpp</a>&gt;</code><br />
+<code>#include &lt;Library/Core/Error.hpp&gt;</code><br />
+<code>#include &lt;Library/Core/Utilities.hpp&gt;</code><br />
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacelibrary"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary.html">library</a></td></tr>
@@ -106,6 +96,11 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacelibrary_1_1astro_1_1trajectory"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary_1_1astro_1_1trajectory.html">library::astro::trajectory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a99391ca9edb771c6bd792e4a7366bf14"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibrary_1_1astro_1_1trajectory.html#a99391ca9edb771c6bd792e4a7366bf14">library::astro::trajectory::operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const State &amp;aState)</td></tr>
+<tr class="separator:a99391ca9edb771c6bd792e4a7366bf14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Library/Astrodynamics</p>
@@ -116,7 +111,7 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f3b5534f769798fe34f6616e7fe90e4d.html">Library</a></li><li class="navelem"><a class="el" href="dir_27750a8c60a7f3f153807bf304460b85.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_9c850e1e5d03bada8a03d0b543fd91e9.html">Trajectory</a></li><li class="navelem"><a class="el" href="_state_8hpp.html">State.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_f741251061e5c7c7ed48ab45c3348f11.html">Library</a></li><li class="navelem"><a class="el" href="dir_fb11516f835e2931d2a1ef484ee563df.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_412939dda62e2ec560e66dca4cff6793.html">Trajectory</a></li><li class="navelem"><a class="el" href="_trajectory_2_state_8cpp.html">State.cpp</a></li>
   </ul>
 </div>
 </body>
