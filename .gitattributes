@@ -1,3 +1,6 @@
+special-vendored-path/* linguist-vendored
+*.ipynb linguist-vendored=false
+
 *.bsp filter=lfs diff=lfs merge=lfs -text
 *.dat filter=lfs diff=lfs merge=lfs -text
 *.tf filter=lfs diff=lfs merge=lfs -text

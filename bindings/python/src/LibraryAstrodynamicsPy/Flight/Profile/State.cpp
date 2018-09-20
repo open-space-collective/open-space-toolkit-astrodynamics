@@ -7,6 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <LibraryAstrodynamicsPy/Utilities/IterableConverter.hpp>
+
 #include <Library/Astrodynamics/Flight/Profile/State.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,10 +44,19 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
         .def("getAttitude", &State::getAttitude)
         .def("getAngularVelocity", &State::getAngularVelocity)
         .def("getFrame", &State::getFrame)
-        // .def("inFrame", &State::inFrame)
+        .def("inFrame", &State::inFrame)
         
         .def("Undefined", &State::Undefined).staticmethod("Undefined")
 
+    ;
+
+    using library::core::ctnr::Array ;
+
+    IterableConverter()
+
+        .from_python<Array<State>>()
+        .to_python<Array<State>>()
+        
     ;
 
 }
