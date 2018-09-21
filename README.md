@@ -9,7 +9,7 @@ Orbit, attitude, access.
 [![GitHub version](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics)
 [![PyPI version](https://badge.fury.io/py/LibraryAstrodynamicsPy.svg)](https://badge.fury.io/py/LibraryAstrodynamicsPy)
 
-![Illustration](./docs/assets/example.png)
+![Illustration](./docs/assets/example.svg)
 
 ## Warning
 
