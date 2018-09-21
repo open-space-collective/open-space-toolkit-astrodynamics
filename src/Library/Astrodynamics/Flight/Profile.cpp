@@ -158,7 +158,7 @@ void                            Profile::print                              (   
 
 Profile                         Profile::Undefined                          ( )
 {
-    return { DynamicProvider::Undefined(), nullptr } ;
+    return { DynamicProvider::Undefined(), Frame::Undefined() } ;
 }
 
 Profile                         Profile::InertialPointing                   (   const   Trajectory&                 aTrajectory,
