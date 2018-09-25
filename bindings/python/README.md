@@ -1,5 +1,5 @@
-Library ▸ Astrodynamics ▸ Python Bindings
-=========================================
+Library ▸ Astrodynamics ▸ Bindings ▸ Python
+===========================================
 
 Orbit, attitude, access.
 
