@@ -549,14 +549,14 @@ Real                            TLE::ParseReal                              (   
 
     if ((minusSignIndex != String::npos) && (minusSignIndex > 0) && (string[minusSignIndex - 1] != 'e') && (string[minusSignIndex - 1] != 'E'))
     {
-        string.replace(minusSignIndex, 1, "e-") ;
+        string.std::string::replace(minusSignIndex, 1, "e-") ;
     }
 
     Index plusSignIndex = string.rfind('+') ;
     
     if ((plusSignIndex != String::npos) && (plusSignIndex > 0) && (string[plusSignIndex - 1] != 'e') && (string[plusSignIndex - 1] != 'E'))
     {
-        string.replace(plusSignIndex, 1, "e+") ;
+        string.std::string::replace(plusSignIndex, 1, "e+") ;
     }
 
     return Real::Parse(string) ;

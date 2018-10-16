@@ -126,7 +126,7 @@ docker run \
 --env="cpu_count=${cpu_count}" \
 ${options} \
 --volume="${project_directory}:/app:rw" \
---volume="/app/build" \
+--volume="${project_directory}/share:/var/library-physics:rw" \
 --volume="${script_directory}/helpers/build.sh:/app/build/build.sh:ro" \
 --volume="${script_directory}/helpers/test.sh:/app/build/test.sh:ro" \
 --volume="${script_directory}/helpers/debug.sh:/app/build/debug.sh:ro" \

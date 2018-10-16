@@ -18,6 +18,7 @@ source "${project_directory}/tools/.env"
 docker run \
 --rm \
 --volume="${project_directory}:/app:rw" \
+--volume="${project_directory}/share:/var/library-physics:rw" \
 --volume="/app/build" \
 --workdir="/app/build" \
 ${image_name} \
