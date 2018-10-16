@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-physics:0.1.12
+FROM openspacecollective/library-physics:0.1.14
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -45,12 +45,12 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/nlopt \
  && popd > /dev/null
 
-## Library ▸ Physics [0.1.8]
+## Library ▸ Physics [0.1.9]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-devel.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.9/library-physics-0.1.9-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.9/library-physics-0.1.9-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-physics \
  && popd > /dev/null

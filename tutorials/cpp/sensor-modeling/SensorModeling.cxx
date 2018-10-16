@@ -1,0 +1,231 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @project        Library/Astrodynamics
+/// @file           tutorials/cpp/sensor-modeling/SensorModeling.cxx
+/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @license        TBD
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
+#include <Library/Astrodynamics/Trajectory/Orbit.hpp>
+
+#include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <Library/Physics/Environment/Object/Geometry.hpp>
+#include <Library/Physics/Environment.hpp>
+#include <Library/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
+#include <Library/Physics/Coordinate/Transform.hpp>
+#include <Library/Physics/Units/Derived/Angle.hpp>
+#include <Library/Physics/Units/Length.hpp>
+
+#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
+#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <Library/Mathematics/Geometry/3D/Objects/Pyramid.hpp>
+#include <Library/Mathematics/Geometry/3D/Objects/Polygon.hpp>
+#include <Library/Mathematics/Geometry/3D/Objects/LineString.hpp>
+#include <Library/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <Library/Mathematics/Geometry/2D/Objects/Polygon.hpp>
+#include <Library/Mathematics/Geometry/2D/Objects/Point.hpp>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int                             main                                        ( )
+{
+
+    using library::core::types::Shared ;
+    using library::core::types::Real ;
+    using library::core::ctnr::Array ;
+
+    using library::math::obj::Vector3d ;
+    using Point2d = library::math::geom::d2::objects::Point ;
+    using Polygon2d = library::math::geom::d2::objects::Polygon ;
+    using Point3d = library::math::geom::d3::objects::Point ;
+    using LineString3d = library::math::geom::d3::objects::LineString ;
+    using Polygon3d = library::math::geom::d3::objects::Polygon ;
+    using library::math::geom::d3::objects::Pyramid ;
+    using library::math::geom::d3::trf::rot::Quaternion ;
+    using library::math::geom::d3::trf::rot::RotationMatrix ;
+
+    using library::physics::units::Length ;
+    using library::physics::units::Angle ;
+    using library::physics::units::Derived ;
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::Duration ;
+    using library::physics::time::Interval ;
+    using library::physics::time::DateTime ;
+    using library::physics::coord::Frame ;
+    using library::physics::coord::frame::Provider ;
+    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
+    using library::physics::coord::Transform ;
+    using library::physics::coord::Position ;
+    using library::physics::coord::Velocity ;
+    using library::physics::coord::spherical::LLA ;
+    using library::physics::Environment ;
+    using library::physics::env::object::Geometry ;
+    using library::physics::env::obj::Celestial ;
+    using library::physics::env::obj::celest::Earth ;
+
+    using library::astro::trajectory::Orbit ;
+    using library::astro::trajectory::State ;
+    using library::astro::trajectory::orbit::models::Kepler ;
+    using library::astro::trajectory::orbit::models::kepler::COE ;
+
+    // Environment
+
+    const Environment environment = Environment::Default() ;
+    const Shared<const Celestial> earthSPtr = environment.accessCelestialObjectWithName("Earth") ;
+
+    // Orbital parameters
+
+    const Length a = Length::Kilometers(7000.0) ;
+    const Real e = 0.0 ;
+    const Angle i = Angle::Degrees(0.0) ;
+    const Angle raan = Angle::Degrees(0.0) ;
+    const Angle aop = Angle::Degrees(0.0) ;
+    const Angle nu = Angle::Degrees(0.0) ;
+
+    const COE coe = { a, e, i, raan, aop, nu } ;
+
+    std::cout << coe << std::endl ;
+
+    // Orbit
+
+    const Instant epoch = Instant::DateTime(DateTime(2018, 9, 5, 0, 0, 0), Scale::UTC) ;
+    
+    const Kepler orbitalModel = { coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true } ; // True = COE expressed in ITRF frame
+
+    const Orbit orbit = { orbitalModel, earthSPtr } ;
+
+    std::cout << orbit << std::endl ;
+
+    // Target
+
+    const Angle latitude = Angle::Degrees(0.0) ;
+    const Angle longitude = Angle::Degrees(0.0) ;
+    const Length altitude = Length::Meters(10.0) ;
+
+    const LLA targetLla = { latitude, longitude, altitude } ;
+
+    const Position targetPosition = Position::Meters(targetLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
+
+    std::cout << targetPosition << std::endl ;
+
+    // Body frame definition
+
+    const Shared<const Frame> orbitalFrame = orbit.getOrbitalFrame(Orbit::FrameType::NED) ;
+
+    const auto calculateAttitude = [&targetPosition] (const State& aState) -> Quaternion
+    {
+
+        const Vector3d sensorPosition_ITRF = aState.inFrame(Frame::ITRF()).getPosition().getCoordinates() ;
+        // std::cout << "sensorPosition_ITRF = " << sensorPosition_ITRF.toString() << std::endl ;
+        const Vector3d targetPosition_ITRF = targetPosition.getCoordinates() ;
+        // std::cout << "targetPosition_ITRF = " << targetPosition_ITRF.toString() << std::endl ;
+
+        const Vector3d sensorToTargetDirection_ITRF = (targetPosition_ITRF - sensorPosition_ITRF).normalized() ;
+        // std::cout << "sensorToTargetDirection_ITRF = " << sensorToTargetDirection_ITRF.toString() << std::endl ;
+
+        const Vector3d z_B_ITRF = sensorToTargetDirection_ITRF ;
+        const Vector3d x_B_ITRF = z_B_ITRF.cross(Vector3d::Y()).normalized() ;
+        const Vector3d y_B_ITRF = z_B_ITRF.cross(x_B_ITRF) ;
+        
+        const RotationMatrix dcm_B_ITRF = RotationMatrix::Rows(x_B_ITRF, y_B_ITRF, z_B_ITRF) ;
+        const Quaternion q_B_ITRF = Quaternion::RotationMatrix(dcm_B_ITRF).toNormalized() ;
+
+        const Quaternion q_ITRF_GCRF = Frame::GCRF()->getTransformTo(Frame::ITRF(), aState.getInstant()).getOrientation() ;
+
+        const Quaternion q_B_GCRF = (q_B_ITRF * q_ITRF_GCRF).toNormalized() ;
+
+        return q_B_GCRF ;
+
+    } ;
+
+    const auto bodyFrameTransformGenerator = [&orbit, calculateAttitude] (const Instant& anInstant) -> Transform
+    {
+
+        const State state = orbit.getStateAt(anInstant) ;
+
+        const Vector3d x_B_GCRF = state.getPosition().getCoordinates() ;
+        const Quaternion q_B_GCRF = calculateAttitude(state) ;
+
+        std::cout << "x_B_GCRF = " << x_B_GCRF.toString() << std::endl ;
+
+        return Transform::Passive(anInstant, -x_B_GCRF, Vector3d::Zero(), q_B_GCRF, Vector3d::Zero()) ;
+
+    } ;
+
+    const Shared<const Provider> bodyFrameProvider = std::make_shared<DynamicProvider>(bodyFrameTransformGenerator) ;
+
+    const Shared<const Frame> bodyFrameSPtr = Frame::Construct("Body", false, Frame::GCRF(), bodyFrameProvider) ;
+
+    // Sensor geometry
+
+    const Point3d apex_B = { 0.0, 0.0, 0.0 } ;
+    const Polygon3d base_B = { Polygon2d({ { -1.0, -1.0 }, { +1.0, -1.0 }, { +1.0, +1.0 }, { -1.0, +1.0 } }), apex_B + Vector3d(0.0, 0.0, 5.0), Vector3d(1.0, 0.0, 0.0), Vector3d(0.0, 1.0, 0.0) } ;
+
+    const Pyramid pyramid_B = { base_B, apex_B } ;
+
+    const Geometry sensorGeometry = { pyramid_B, bodyFrameSPtr } ;
+
+    // Analysis
+
+    const auto calculateSensorTrace = [earthSPtr, &targetLla, &sensorGeometry] (const State& aState) -> Polygon2d
+    {
+
+        const Vector3d sensorPosition_ITRF = aState.inFrame(Frame::ITRF()).getPosition().getCoordinates() ;
+        std::cout << "Sensor position [ITRF] = " << sensorPosition_ITRF.toString() << std::endl ;
+
+        const Shared<const Frame> nedFrameSPtr = earthSPtr->getFrameAt(targetLla, Celestial::FrameType::NED) ;
+
+        // std::cout << "Earth [ITRF] = " << std::endl << earthSPtr->getGeometryIn(Frame::ITRF()) << std::endl ;
+        std::cout << "Sensor geometry [B] = " << std::endl << sensorGeometry << std::endl ;
+        std::cout << "Sensor geometry [GCRF] = " << std::endl << sensorGeometry.in(Frame::GCRF(), aState.getInstant()) << std::endl ;
+        std::cout << "Sensor geometry [ITRF] = " << std::endl << sensorGeometry.in(Frame::ITRF(), aState.getInstant()) << std::endl ;
+        
+        const Geometry intersectionGeometry = sensorGeometry.in(Frame::ITRF(), aState.getInstant()).intersectionWith(earthSPtr->getGeometryIn(Frame::ITRF())) ;
+
+        // std::cout << "intersectionGeometry = " << std::endl << intersectionGeometry << std::endl ;
+
+        Array<Point2d> intersectionPoints_LL = Array<Point2d>::Empty() ;
+        
+        for (const auto& intersectionPoint_ITRF : intersectionGeometry.accessComposite().accessObjectAt(0).as<LineString3d>())
+        {
+
+            const LLA intersectionPoint_LLA = LLA::Cartesian(intersectionPoint_ITRF.asVector(), Earth::EquatorialRadius, Earth::Flattening) ;
+            
+            intersectionPoints_LL.add(Point2d(intersectionPoint_LLA.getLongitude().inDegrees(), intersectionPoint_LLA.getLatitude().inDegrees())) ;
+
+        }
+
+        const Polygon2d intersectionPolygon_LL = { intersectionPoints_LL } ;
+        
+        return intersectionPolygon_LL ;
+        
+    } ;
+
+    const Instant analysisStartInstant = epoch ;
+    const Instant analysisEndInstant = analysisStartInstant + Duration::Minutes(1.0) ;
+
+    const Duration analysisStep = Duration::Minutes(1.0) ;
+
+    const Interval analysisInterval = Interval::Closed(analysisStartInstant, analysisEndInstant) ;
+
+    const Array<State> orbitalStates = orbit.getStatesAt(analysisInterval.generateGrid(analysisStep)) ;
+
+    for (const auto& orbitalState : orbitalStates)
+    {
+        
+        // std::cout << orbitalState << std::endl ;
+
+        const Polygon2d sensorTrace_LL = calculateSensorTrace(orbitalState) ;
+
+        // std::cout << sensorTrace_LL << std::endl ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
