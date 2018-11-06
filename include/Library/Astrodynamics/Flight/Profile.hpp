@@ -191,6 +191,13 @@ class Profile
 
         Axes                    getAxesAt                                   (   const   Instant&                    anInstant                                   ) const ;
 
+        /// @brief              Get body frame
+        ///
+        /// @param              [in] aBodyFrameName A body frame name
+        /// @return             Shared pointer to body frame
+
+        Shared<const Frame>     getBodyFrame                                (   const   String&                     aBodyFrameName                              ) const ;
+
         /// @brief              Print flight profile to output stream
         ///
         /// @code

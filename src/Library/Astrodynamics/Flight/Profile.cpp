@@ -144,6 +144,28 @@ Axes                            Profile::getAxesAt                          (   
 
 }
 
+Shared<const Frame>             Profile::getBodyFrame                       (   const   String&                     aBodyFrameName                              ) const
+{
+
+    using library::physics::coord::Transform ;
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Profile") ;
+    }
+
+    const DynamicProvider dynamicTransformProvider =
+    {
+        [this] (const Instant& anInstant) -> Transform
+        {
+            return transformProvider_.getTransformAt(anInstant).getInverse() ;
+        }
+    } ;
+
+    return Frame::Construct(aBodyFrameName, false, frameSPtr_, std::make_shared<const DynamicProvider>(dynamicTransformProvider)) ;
+
+}
+
 void                            Profile::print                              (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
