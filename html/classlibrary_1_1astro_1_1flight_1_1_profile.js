@@ -11,6 +11,7 @@ var classlibrary_1_1astro_1_1flight_1_1_profile =
     [ "Profile", "classlibrary_1_1astro_1_1flight_1_1_profile.html#a554346949f3859757330d058db20f508", null ],
     [ "Profile", "classlibrary_1_1astro_1_1flight_1_1_profile.html#af728f8d49bdc8355fb94698e29d87781", null ],
     [ "getAxesAt", "classlibrary_1_1astro_1_1flight_1_1_profile.html#ae23fce614c9d1de3a4e8800eb4e3e03f", null ],
+    [ "getBodyFrame", "classlibrary_1_1astro_1_1flight_1_1_profile.html#a0c26ed37c9328fa58a12b723316c485c", null ],
     [ "getStateAt", "classlibrary_1_1astro_1_1flight_1_1_profile.html#a7f266d44fe664c8dce12c28067ffdd94", null ],
     [ "getStatesAt", "classlibrary_1_1astro_1_1flight_1_1_profile.html#a20972a5b1104ed335d995c5a02db5db7", null ],
     [ "isDefined", "classlibrary_1_1astro_1_1flight_1_1_profile.html#a577366688800fc4b6f27eb11d64de772", null ],

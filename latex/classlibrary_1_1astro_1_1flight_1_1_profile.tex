@@ -44,6 +44,8 @@ Array$<$ \hyperlink{classlibrary_1_1astro_1_1flight_1_1profile_1_1_state}{State}
 \begin{DoxyCompactList}\small\item\em Get states at a given instants. \end{DoxyCompactList}\item 
 Axes \hyperlink{classlibrary_1_1astro_1_1flight_1_1_profile_ae23fce614c9d1de3a4e8800eb4e3e03f}{get\+Axes\+At} (const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Get axes at a given instant. \end{DoxyCompactList}\item 
+Shared$<$ const Frame $>$ \hyperlink{classlibrary_1_1astro_1_1flight_1_1_profile_a0c26ed37c9328fa58a12b723316c485c}{get\+Body\+Frame} (const String \&a\+Body\+Frame\+Name) const
+\begin{DoxyCompactList}\small\item\em Get body frame. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classlibrary_1_1astro_1_1flight_1_1_profile_a8fadb2b70ff950b2a1f1c0996ced7ad2}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print flight profile to output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
@@ -179,6 +181,24 @@ Axes axes = profile.getAxesAt(instant) ;
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Axes 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1flight_1_1_profile_a0c26ed37c9328fa58a12b723316c485c}\label{classlibrary_1_1astro_1_1flight_1_1_profile_a0c26ed37c9328fa58a12b723316c485c}} 
+\index{library\+::astro\+::flight\+::\+Profile@{library\+::astro\+::flight\+::\+Profile}!get\+Body\+Frame@{get\+Body\+Frame}}
+\index{get\+Body\+Frame@{get\+Body\+Frame}!library\+::astro\+::flight\+::\+Profile@{library\+::astro\+::flight\+::\+Profile}}
+\subsubsection{\texorpdfstring{get\+Body\+Frame()}{getBodyFrame()}}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ library\+::astro\+::flight\+::\+Profile\+::get\+Body\+Frame (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Body\+Frame\+Name }\end{DoxyParamCaption}) const}
+
+
+
+Get body frame. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Body\+Frame\+Name} & A body frame name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Shared pointer to body frame 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1flight_1_1_profile_a7f266d44fe664c8dce12c28067ffdd94}\label{classlibrary_1_1astro_1_1flight_1_1_profile_a7f266d44fe664c8dce12c28067ffdd94}} 
 \index{library\+::astro\+::flight\+::\+Profile@{library\+::astro\+::flight\+::\+Profile}!get\+State\+At@{get\+State\+At}}
