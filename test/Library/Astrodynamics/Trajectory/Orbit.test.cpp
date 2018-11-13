@@ -61,8 +61,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
     using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
@@ -141,8 +141,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
     using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
@@ -210,8 +210,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
     using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
@@ -278,8 +278,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
     using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
@@ -843,8 +843,8 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
     using library::physics::Environment ;
     using library::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::State ;
+    using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
     using library::astro::trajectory::orbit::models::kepler::COE ;
 
@@ -893,6 +893,79 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
 
     }
 
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
+{
+
+    using library::astro::trajectory::Orbit ;
+    
+    {
+
+        FAIL() ;
+
+    }
+    
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
+{
+
+    using library::astro::trajectory::Orbit ;
+    
+    {
+
+        FAIL() ;
+
+    }
+    
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
+{
+
+    using library::astro::trajectory::Orbit ;
+    
+    {
+
+        FAIL() ;
+
+    }
+    
+}
+
+TEST (Library_Astrodynamics_Trajectory_Orbit, SynSynchronous)
+{
+
+    using library::physics::units::Length ;
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::Duration ;
+    using library::physics::time::Interval ;
+    using library::physics::time::DateTime ;
+    using library::physics::Environment ;
+
+    using library::astro::trajectory::Orbit ;
+    
+    {
+
+        const Environment environment = Environment::Default() ;
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const Length altitude = Length::Kilometers(500.0) ;
+
+        const Orbit orbit = Orbit::SynSynchronous(epoch, altitude, environment.accessCelestialObjectWithName("Earth")) ;
+
+        for (const auto& instant : Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(1.0)))
+        {
+            std::cout << orbit.getStateAt(instant) << std::endl ;
+        }
+
+    }
+
+    FAIL() ;
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

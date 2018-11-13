@@ -41,13 +41,17 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &Orbit::isDefined)
-
+        
         .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
         .def("getPassAt", &Orbit::getPassAt)
         .def("getPassWithRevolutionNumber", &Orbit::getPassWithRevolutionNumber)
         .def("getOrbitalFrame", &Orbit::getOrbitalFrame)
         
         .def("Undefined", &Orbit::Undefined).staticmethod("Undefined")
+        .def("Circular", &Orbit::Circular).staticmethod("Circular")
+        .def("Equatorial", &Orbit::Equatorial).staticmethod("Equatorial")
+        .def("CircularEquatorial", &Orbit::CircularEquatorial).staticmethod("CircularEquatorial")
+        .def("SynSynchronous", &Orbit::SynSynchronous).staticmethod("SynSynchronous")
 
     ;
 

@@ -130,6 +130,12 @@ class Trajectory
 
         bool                    isDefined                                   ( ) const ;
 
+        /// @brief              Access trajectory model
+        ///
+        /// @return             Reference to trajectory model
+
+        const Model&            accessModel                                 ( ) const ;
+
         /// @brief              Get state at a given instant
         ///
         /// @code
@@ -190,10 +196,6 @@ class Trajectory
         /// @return             Static trajectory
 
         static Trajectory       Position                                    (   const   physics::coord::Position&   aPosition                                   ) ;
-
-    protected:
-
-        const Model&            accessModel                                 ( ) const ;
 
     private:
 

@@ -282,13 +282,30 @@ COE::CartesianState             COE::getCartesianState                      (   
         0.0
     } ;
 
-	const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
-	const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
+    try
+    {
+        
+        const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
+        const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
 
-    const Position position = { x_ECI, Position::Unit::Meter, aFrameSPtr } ;
-    const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, aFrameSPtr } ;
+        const Position position = { x_ECI, Position::Unit::Meter, aFrameSPtr } ;
+        const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, aFrameSPtr } ;
 
-    return { position, velocity } ;
+        return { position, velocity } ;
+
+    }
+    catch (const library::core::error::Exception& anException)
+    {
+        
+        std::cout << "raan_rad = " << raan_rad << std::endl ;
+        std::cout << "inclination_rad = " << inclination_rad << std::endl ;
+        std::cout << "aop_rad = " << aop_rad << std::endl ;
+        std::cout << "R_pqw = " << R_pqw << std::endl ;
+        std::cout << "V_pqw = " << V_pqw << std::endl ;
+
+        throw anException ;
+        
+    }
 
 }
 

@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
+#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit.hpp>
 
 #include <Library/Physics/Coordinate/Transform.hpp>
@@ -15,6 +16,10 @@
 #include <Library/Physics/Coordinate/Frame/Manager.hpp>
 #include <Library/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
 #include <Library/Physics/Coordinate/Spherical/LLA.hpp>
+#include <Library/Physics/Units/Derived/Angle.hpp>
+#include <Library/Physics/Units/Derived.hpp>
+#include <Library/Physics/Units/Time.hpp>
+#include <Library/Physics/Units/Mass.hpp>
 
 #include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
@@ -158,7 +163,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
         throw library::core::error::runtime::Undefined("Orbit") ;
     }
 
-    std::lock_guard<std::mutex> lock(mutex_) ;
+    const std::lock_guard<std::mutex> lock { mutex_ } ;
 
     const auto passMapIt = passMap_.find(aRevolutionNumber) ;
 
@@ -622,7 +627,7 @@ void                            Orbit::print                                (   
 
     Trajectory::print(anOutputStream, false) ;
 
-    std::lock_guard<std::mutex> lock(mutex_) ;
+    const std::lock_guard<std::mutex> lock { mutex_ } ;
 
     for (const auto& passIt : passMap_)
     {
@@ -645,7 +650,161 @@ void                            Orbit::print                                (   
 
 Orbit                           Orbit::Undefined                            ( )
 {
-    return Orbit(Array<State>::Empty(), Integer::Undefined(), nullptr) ;
+    return { Array<State>::Empty(), Integer::Undefined(), nullptr } ;
+}
+
+Orbit                           Orbit::Circular                             (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+{
+
+    using orbit::models::Kepler ;
+    using orbit::models::kepler::COE ;
+
+    if (!anEpoch.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Epoch") ;
+    }
+
+    if (!anAltitude.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Altitude") ;
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Inclination") ;
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Celestial object") ;
+    }
+
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude ;
+    const Real eccentricity = 0.0 ;
+    const Angle inclination = anInclination ;
+    const Angle raan = Angle::Zero() ;
+    const Angle aop = Angle::Zero() ;
+    const Angle trueAnomaly = Angle::Zero() ;
+
+    const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+    const Kepler orbitalModel = { coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::None, false } ;
+
+    return { orbitalModel, aCelestialObjectSPtr } ;
+
+}
+
+Orbit                           Orbit::Equatorial                           (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+{
+
+    using orbit::models::Kepler ;
+    using orbit::models::kepler::COE ;
+
+    if (!anEpoch.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Epoch") ;
+    }
+
+    if (!anAltitude.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Altitude") ;
+    }
+
+    if (!anEccentricity.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Eccentricity") ;
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Celestial object") ;
+    }
+
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude ;
+    const Real eccentricity = anEccentricity ;
+    const Angle inclination = Angle::Zero() ;
+    const Angle raan = Angle::Zero() ;
+    const Angle aop = Angle::Zero() ;
+    const Angle trueAnomaly = Angle::Zero() ;
+
+    const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+    const Kepler orbitalModel = { coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::None, false } ;
+
+    return { orbitalModel, aCelestialObjectSPtr } ;
+
+}
+
+Orbit                           Orbit::CircularEquatorial                   (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+{
+    return Orbit::Equatorial(anEpoch, anAltitude, 0.0, aCelestialObjectSPtr) ;
+}
+
+Orbit                           Orbit::SynSynchronous                       (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
+{
+
+    using library::physics::units::Mass ;
+    using library::physics::units::Time ;
+    using library::physics::units::Derived ;
+
+    using orbit::models::Kepler ;
+    using orbit::models::kepler::COE ;
+
+    if (!anEpoch.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Epoch") ;
+    }
+
+    if (!anAltitude.isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Altitude") ;
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw library::core::error::runtime::Undefined("Celestial object") ;
+    }
+
+    const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr] (const Length& aSemiMajorAxis) -> Angle
+    {
+
+        /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
+
+        const Real a = aSemiMajorAxis.inMeters() ;
+        const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters() ;
+        const Real mu = aCelestialObjectSPtr->getGravitationalConstant().in({ Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() }) ;
+        const Real j2 = aCelestialObjectSPtr->getJ2() ;
+
+        const Real T_sid = 31558149.504 ; // [s] Sidereal year
+        const Real k_h  = 3.0 / (4.0 * M_PI) * j2 * std::sqrt(mu / (R * R * R)) * T_sid ; // Sun-synchronicity constant
+
+        return Angle::Radians(std::acos(-1.0 / k_h * std::pow((a / R), (7.0 / 2.0)))) ;
+
+    } ;
+
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude ;
+    const Real eccentricity = 0.0 ;
+    const Angle inclination = calculateSunSynchronousInclination(semiMajorAxis) ;
+    const Angle raan = Angle::Zero() ; // [TBM] This should be a parameter (derived from from LTAN)
+    const Angle aop = Angle::Zero() ;
+    const Angle trueAnomaly = Angle::Zero() ;
+
+    const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+    const Kepler orbitalModel = { coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false } ;
+
+    return { orbitalModel, aCelestialObjectSPtr } ;
+
 }
 
 String                          Orbit::StringFromFrameType                  (   const   Orbit::FrameType&           aFrameType                                  )

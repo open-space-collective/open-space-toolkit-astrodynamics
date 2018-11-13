@@ -77,6 +77,18 @@ bool                            Trajectory::isDefined                       ( ) 
     return (modelUPtr_ != nullptr) && modelUPtr_->isDefined() ;
 }
 
+const Model&                    Trajectory::accessModel                     ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw library::core::error::runtime::Undefined("Trajectory") ;
+    }
+    
+    return *modelUPtr_ ;
+
+}
+
 State                           Trajectory::getStateAt                      (   const   Instant&                    anInstant                                   ) const
 {
 
@@ -135,20 +147,6 @@ Trajectory                      Trajectory::Position                        (   
     }
 
     return Trajectory(Static(aPosition)) ;
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const Model&                    Trajectory::accessModel                     ( ) const
-{
-
-    if (modelUPtr_ == nullptr)
-    {
-        throw library::core::error::runtime::Undefined("Model") ;
-    }
-    
-    return *modelUPtr_ ;
 
 }
 

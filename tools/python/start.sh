@@ -79,7 +79,8 @@ else
     --volume="${project_directory}/lib:/opt/library-astrodynamics:ro" \
     --volume="${project_directory}/bindings/python/docs:/home/jovyan/docs" \
     --volume="${project_directory}/tutorials/python/notebooks:/home/jovyan/tutorials" \
-    --volume="${project_directory}/share/data:/app/share/data" \
+    --volume="${project_directory}/share:/var/library-physics" \
+    --volume="${project_directory}/share:/var/library-astrodynamics" \
     --workdir="/home/jovyan" \
     "${repository_name}/${project_name}-python" \
     bash -c "mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics \

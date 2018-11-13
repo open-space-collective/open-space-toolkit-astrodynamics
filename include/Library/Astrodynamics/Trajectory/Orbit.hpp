@@ -18,9 +18,12 @@
 #include <Library/Physics/Environment/Objects/Celestial.hpp>
 #include <Library/Physics/Coordinate/Frame.hpp>
 #include <Library/Physics/Time/Instant.hpp>
+#include <Library/Physics/Units/Derived/Angle.hpp>
+#include <Library/Physics/Units/Length.hpp>
 
 #include <Library/Core/Containers/Map.hpp>
 #include <Library/Core/Containers/Array.hpp>
+#include <Library/Core/Types/Real.hpp>
 #include <Library/Core/Types/Integer.hpp>
 #include <Library/Core/Types/Index.hpp>
 #include <Library/Core/Types/Shared.hpp>
@@ -43,9 +46,12 @@ using library::core::types::Unique ;
 using library::core::types::Shared ;
 using library::core::types::Index ;
 using library::core::types::Integer ;
+using library::core::types::Real ;
 using library::core::ctnr::Array ;
 using library::core::ctnr::Map ;
 
+using library::physics::units::Length ;
+using library::physics::units::Angle ;
 using library::physics::time::Instant ;
 using library::physics::coord::Frame ;
 using library::physics::env::obj::Celestial ;
@@ -112,6 +118,24 @@ class Orbit : public Trajectory
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
         static Orbit            Undefined                                   ( ) ;
+
+        static Orbit            Circular                                    (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
+
+        static Orbit            Equatorial                                  (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
+
+        static Orbit            CircularEquatorial                          (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
+
+        static Orbit            SynSynchronous                              (   const   Instant&                    anEpoch,
+                                                                                const   Length&                     anAltitude,
+                                                                                const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
         static String           StringFromFrameType                         (   const   Orbit::FrameType&           aFrameType                                  ) ;
 

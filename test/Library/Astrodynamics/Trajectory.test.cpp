@@ -301,6 +301,17 @@ TEST (Library_Astrodynamics_Trajectory, IsDefined)
 
 }
 
+TEST (Library_Astrodynamics_Trajectory, AccessModel)
+{
+
+    {
+
+        FAIL() ;
+
+    }
+
+}
+
 TEST (Library_Astrodynamics_Trajectory, GetStateAt)
 {
 
