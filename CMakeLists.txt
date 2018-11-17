@@ -3,7 +3,7 @@
 # @project        Library/Astrodynamics
 # @file           CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
@@ -13,7 +13,7 @@ SET (PROJECT_NAME "LibraryAstrodynamics")
 SET (PROJECT_DESCRIPTION "Astrodynamics library.")
 SET (PROJECT_PATH "Library/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "library-astrodynamics")
-SET (PROJECT_LICENSE "TBD")
+SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "org.open-space-collective")
 SET (PROJECT_VENDOR_NAME "Open Space Collective")
 SET (PROJECT_VENDOR_CONTACT "contact@open-space-collective.org")
@@ -273,17 +273,35 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Library ▸ Core [master]
+### Library ▸ Core [0.2.x]
 
-FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
+FIND_PACKAGE ("LibraryCore" "0.2" REQUIRED)
 
-### Library ▸ Mathematics [master]
+IF (NOT LibraryCore_FOUND)
 
-FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
+    MESSAGE (SEND_ERROR "[Library ▸ Core] not found.")
 
-### Library ▸ Physics [master]
+ENDIF ()
 
-FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
+### Library ▸ Mathematics [0.2.x]
+
+FIND_PACKAGE ("LibraryMathematics" "0.2" REQUIRED)
+
+IF (NOT LibraryMathematics_FOUND)
+
+    MESSAGE (SEND_ERROR "[Library ▸ Mathematics] not found.")
+
+ENDIF ()
+
+### Library ▸ Physics [0.2.x]
+
+FIND_PACKAGE ("LibraryPhysics" "0.2" REQUIRED)
+
+IF (NOT LibraryPhysics_FOUND)
+
+    MESSAGE (SEND_ERROR "[Library ▸ Physics] not found.")
+
+ENDIF ()
 
 #####################################################################################3###########################################################################
 
@@ -354,7 +372,6 @@ IF (BUILD_STATIC_LIBRARY)
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryCore_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryMathematics_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryPhysics_LIBRARIES})
-    
 
     SET_TARGET_PROPERTIES (${STATIC_LIBRARY_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} OUTPUT_NAME ${SHARED_LIBRARY_NAME} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
@@ -475,9 +492,9 @@ INSTALL (FILES "LICENSE" DESTINATION ${INSTALL_ROOT} COMPONENT "documentation")
 
 IF (INSTALL_DATA)
 
-    IF (EXISTS "${PROJECT_SOURCE_DIR}/share/data")
+    IF (EXISTS "${PROJECT_SOURCE_DIR}/share")
 
-        INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/share/data" DESTINATION ${INSTALL_DATA} COMPONENT "data")
+        INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/share" DESTINATION ${INSTALL_DATA} COMPONENT "data")
 
     ENDIF ()
 

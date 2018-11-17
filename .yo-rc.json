@@ -4,7 +4,7 @@
     "projectDescription": "Astrodynamics library.",
     "projectPath": "Library/Astrodynamics",
     "projectPackage": "library-astrodynamics",
-    "projectLicense": "TBD",
+    "projectLicense": "Apache License 2.0",
     "authorName": "Lucas Brémond",
     "authorEmail": "contact@open-space-collective.org",
     "companyName": "Open Space Collective",

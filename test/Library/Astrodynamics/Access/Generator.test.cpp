@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -578,7 +578,8 @@ TEST (Library_Astrodynamics_Access_Generator, AerRanges)
         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 1, 5, 0, 0), Scale::UTC) ;
+        // const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC) ;
 
         const Interval interval = Interval::Closed(startInstant, endInstant) ;
 

@@ -5,7 +5,7 @@
 # @project        Library/Astrodynamics
 # @file           tools/python/docker/build.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
@@ -16,7 +16,7 @@ pushd ${script_directory} > /dev/null
 source "../../.env"
 
 docker build \
---tag="${repository_name}/${project_name}-python" \
+--tag="${image_name}-python:${image_version}" \
 .
 
 popd > /dev/null

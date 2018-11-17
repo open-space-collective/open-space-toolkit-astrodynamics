@@ -3,17 +3,13 @@
 # @project        Library/Astrodynamics
 # @file           tutorials/cpp/sensor-modeling/Dockerfile
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
 FROM openspacecollective/library-base:0.1.4
 
 LABEL maintainer="lucas@loftorbital.com"
-
-# Arguments
-
-ARG cpu_count=1
 
 # Dependencies
 
@@ -25,7 +21,7 @@ RUN pushd /tmp > /dev/null \
  && mkdir build \
  && cd build \
  && cmake -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE .. \
- && make --silent -j ${cpu_count} \
+ && make --silent -j $(nproc) \
  && make install \
  && rm -rf /tmp/fmt \
  && popd > /dev/null
@@ -85,11 +81,11 @@ RUN mkdir -p /tmp/library-astrodynamics \
 
 # Labels
 
-ARG version
+ARG VERSION
 
-ENV version ${version}
+ENV VERSION ${VERSION}
 
-LABEL version="${version}"
+LABEL VERSION="${VERSION}"
 
 # Execution
 

@@ -5,7 +5,7 @@
 # @project        Library/Astrodynamics
 # @file           tools/ci/binaries.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
@@ -24,7 +24,7 @@ docker run \
 --volume="${development_directory}/helpers/build.sh:/app/build/build.sh:ro" \
 --volume="${development_directory}/helpers/test.sh:/app/build/test.sh:ro" \
 --workdir="/app/build" \
-${image_name} \
+${image_name}:${image_version} \
 /bin/bash -c "/app/build/build.sh && make package && mkdir -p /app/package && mv /app/build/*.rpm /app/package"
 
 ################################################################################################################################################################

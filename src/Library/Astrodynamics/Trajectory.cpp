@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,9 +80,14 @@ bool                            Trajectory::isDefined                       ( ) 
 const Model&                    Trajectory::accessModel                     ( ) const
 {
 
-    if (!this->isDefined())
+    // if (!this->isDefined())
+    // {
+    //     throw library::core::error::runtime::Undefined("Trajectory") ;
+    // }
+
+    if (modelUPtr_ == nullptr)
     {
-        throw library::core::error::runtime::Undefined("Trajectory") ;
+        throw library::core::error::runtime::Undefined("Model") ;
     }
     
     return *modelUPtr_ ;

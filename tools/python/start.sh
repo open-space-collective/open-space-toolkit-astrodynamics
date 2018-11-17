@@ -5,7 +5,7 @@
 # @project        Library/Astrodynamics
 # @file           tools/python/start.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
@@ -17,7 +17,7 @@ source ../.env
 
 # Build Docker image if it does not exist already
 
-if [[ "$(docker images -q ${repository_name}/${project_name}-python 2> /dev/null)" == "" ]]; then
+if [[ "$(docker images -q ${image_name}-python:${image_version} 2> /dev/null)" == "" ]]; then
 
     pushd "${script_directory}/docker" > /dev/null
 
@@ -46,7 +46,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume="${project_directory}/tutorials/python/notebooks:/home/jovyan/tutorials" \
     --volume="${project_directory}/share/data:/app/share/data" \
     --workdir="/home/jovyan" \
-    "${repository_name}/${project_name}-python" \
+    "${image_name}-python:${image_version}" \
     bash -c "mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Core \
     && ln -s /opt/library-core/liblibrary-core.so.0 /opt/conda/lib/python3.6/site-packages/Library/Core/liblibrary-core.so.0 \
     && ln -s /opt/library-core/LibraryCorePy.so /opt/conda/lib/python3.6/site-packages/Library/Core/LibraryCorePy.so \
@@ -82,7 +82,7 @@ else
     --volume="${project_directory}/share:/var/library-physics" \
     --volume="${project_directory}/share:/var/library-astrodynamics" \
     --workdir="/home/jovyan" \
-    "${repository_name}/${project_name}-python" \
+    "${image_name}-python:${image_version}" \
     bash -c "mkdir -p /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics \
     && ln -s /opt/library-astrodynamics/liblibrary-astrodynamics.so.0 /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/liblibrary-astrodynamics.so.0 \
     && ln -s /opt/library-astrodynamics/LibraryAstrodynamicsPy.so /opt/conda/lib/python3.6/site-packages/Library/Astrodynamics/LibraryAstrodynamicsPy.so \

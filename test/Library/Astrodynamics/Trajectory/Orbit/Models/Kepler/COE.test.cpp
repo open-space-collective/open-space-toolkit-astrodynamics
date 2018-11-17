@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -129,7 +129,25 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     } ;
 
-    const auto isAccessActive = [this, &environment, &earthSPtr] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> bool
+    const auto calculateAer = [&earthSPtr] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER
+    {
+
+        const Point referencePoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ; // [TBR] This is Earth specific
+
+        const LLA referencePoint_LLA = LLA::Cartesian(referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+
+        const Shared<const Frame> nedFrameSPtr = earthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED) ; // [TBR] This is Earth specific
+
+        const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant) ;
+        const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant) ;
+
+        const AER aer = AER::FromPositionToPosition(fromPosition_NED, toPosition_NED, true) ;
+
+        return aer ;
+
+    } ;
+
+    const auto isAccessActive = [this, &environment, &earthSPtr, calculateAer] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> bool
     {
 
         environment.setInstant(anInstant) ;
@@ -138,6 +156,30 @@ Array<Access>                   Generator::computeAccesses                  (   
 
         const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates()) ;
         const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates()) ;
+
+        // Debug
+
+        {
+
+            const Point fromPoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+            const Point toPoint_ITRF = Point::Vector(aToPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+
+            const LLA fromPoint_LLA = LLA::Cartesian(fromPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+            const LLA toPoint_LLA = LLA::Cartesian(toPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+
+            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
+
+            std::cout   << anInstant.getDateTime(library::physics::time::Scale::UTC).toString(library::physics::time::DateTime::Format::ISO8601) << ", "
+                        << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+                        << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+                        << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+                        << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+                        << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+                        << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+                        << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
+                        << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
+
+        }
 
         // Line of sight
 
@@ -161,22 +203,9 @@ Array<Access>                   Generator::computeAccesses                  (   
         if (lineOfSight)
         {
 
-            const Point referencePoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ; // [TBR] This is Earth specific
+            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
 
-            const LLA referencePoint_LLA = LLA::Cartesian(referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
-
-            const Shared<const Frame> nedFrameSPtr = earthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED) ; // [TBR] This is Earth specific
-
-            // const Position fromPosition_ITRF = Position::Meters(referencePoint_ITRF.asVector(), Frame::ITRF()) ;
-            // const Position sunPosition_ITRF = sunSPtr->getPositionIn(Frame::ITRF()) ;
-
-            const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant) ;
-            const Position sunPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant) ;
-
-            // const AER aer = AER::FromPositionToPosition(aFromPosition, aToPosition) ;
-            const AER aer = AER::FromPositionToPosition(fromPosition_NED, sunPosition_NED, true) ;
-
-            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(aer) : true ; // [TBM] Convert to NED frame
+            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(aer) : true ;
 
             filterIsOk = aerFilterIsOk ;
 
@@ -498,7 +527,7 @@ Generator                       Generator::AerRanges                        (   
 
     const std::function<bool (const AER&)> aerFilter = [azimuthRange_deg, elevationRange_deg, rangeRange_m] (const AER& anAER) -> bool
     {
-        
+
         return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0)))
             && ((!elevationRange_deg.isDefined()) || elevationRange_deg.contains(anAER.getElevation().inDegrees(-180.0, +180.0)))
             && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;
