@@ -80,7 +80,6 @@ $(document).ready(function(){initNavTree('classlibrary_1_1astro_1_1_trajectory.h
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classlibrary_1_1astro_1_1_trajectory-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -125,6 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab36edc2566e11d4b5de340cd8230dee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html#aab36edc2566e11d4b5de340cd8230dee">isDefined</a> () const</td></tr>
 <tr class="memdesc:aab36edc2566e11d4b5de340cd8230dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if trajectory is defined.  <a href="#aab36edc2566e11d4b5de340cd8230dee">More...</a><br /></td></tr>
 <tr class="separator:aab36edc2566e11d4b5de340cd8230dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ebd6f282b52bb3d7c74a79375025e1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html">Model</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html#ac5ebd6f282b52bb3d7c74a79375025e1">accessModel</a> () const</td></tr>
+<tr class="memdesc:ac5ebd6f282b52bb3d7c74a79375025e1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classlibrary_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> trajectory model.  <a href="#ac5ebd6f282b52bb3d7c74a79375025e1">More...</a><br /></td></tr>
+<tr class="separator:ac5ebd6f282b52bb3d7c74a79375025e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b27c8ad8d547a00ad32c4ab1d63984f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html#a5b27c8ad8d547a00ad32c4ab1d63984f">getStateAt</a> (const Instant &amp;anInstant) const</td></tr>
 <tr class="memdesc:a5b27c8ad8d547a00ad32c4ab1d63984f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get state at a given instant.  <a href="#a5b27c8ad8d547a00ad32c4ab1d63984f">More...</a><br /></td></tr>
 <tr class="separator:a5b27c8ad8d547a00ad32c4ab1d63984f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,11 +145,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a39e9a50f84016cb53ca36d61809dc058"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classlibrary_1_1astro_1_1_trajectory.html">Trajectory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html#a39e9a50f84016cb53ca36d61809dc058">Position</a> (const physics::coord::Position &amp;aPosition)</td></tr>
 <tr class="memdesc:a39e9a50f84016cb53ca36d61809dc058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a trajectory from a given position.  <a href="#a39e9a50f84016cb53ca36d61809dc058">More...</a><br /></td></tr>
 <tr class="separator:a39e9a50f84016cb53ca36d61809dc058"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac5ebd6f282b52bb3d7c74a79375025e1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html">Model</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1_trajectory.html#ac5ebd6f282b52bb3d7c74a79375025e1">accessModel</a> () const</td></tr>
-<tr class="separator:ac5ebd6f282b52bb3d7c74a79375025e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -243,9 +240,6 @@ Friends</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">const <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html">Model</a> &amp; library::astro::Trajectory::accessModel </td>
@@ -254,12 +248,10 @@ Friends</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p><a class="el" href="classlibrary_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> trajectory model. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to trajectory model </dd></dl>
 
 </div>
 </div>

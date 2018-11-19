@@ -65,10 +65,17 @@ virtual void \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_ac3b8c212e
 \begin{DoxyCompactItemize}
 \item 
 static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a1623802ee44bab50e24f3c1979bb5001}{Undefined} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Constructs an undefined orbit. \end{DoxyCompactList}\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a8dc9d8da5605ef480d3f3e53472595e0}{Circular} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Angle \&an\+Inclination, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructs a circular orbit. \end{DoxyCompactList}\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_ab15a55f74105cd78fe8a48a3c86baacc}{Equatorial} (const Instant \&an\+Epoch, const Length \&an\+Apoapsis\+Altitude, const Length \&a\+Periapsis\+Altitude, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructs an equatorial orbit. \end{DoxyCompactList}\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a580fd937ebef4b66a9c68bfe41cde8ea}{Circular\+Equatorial} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructs a circular-\/equatorial orbit. \end{DoxyCompactList}\item 
+static \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_af1a3fb89d7bdb29ccf1867fa58d9bcab}{Sun\+Synchronous} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Time \&a\+Local\+Time\+At\+Descending\+Node, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructs a Sun-\/synchronous orbit. \end{DoxyCompactList}\item 
 static String \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a302ee3d55713b92cc112f747f7a1b1a2}{String\+From\+Frame\+Type} (const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a816e83a0c220d4242ce2bebd32191cd8}{Orbit\+::\+Frame\+Type} \&a\+Frame\+Type)
 \end{DoxyCompactItemize}
-\subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
@@ -156,6 +163,82 @@ V\+NC&Velocity -\/ Normal -\/ Co-\/normal (V\+NC) frame (X axis aligned with vel
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a8dc9d8da5605ef480d3f3e53472595e0}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a8dc9d8da5605ef480d3f3e53472595e0}} 
+\index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!Circular@{Circular}}
+\index{Circular@{Circular}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
+\subsubsection{\texorpdfstring{Circular()}{Circular()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} library\+::astro\+::trajectory\+::\+Orbit\+::\+Circular (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Altitude,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a circular orbit. 
+
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model}\+: Kepler (No Perturbation).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Epoch} & An orbit epoch \\
+\hline
+\mbox{\tt in}  & {\em an\+Altitude} & An orbit altitude (wrt. equatorial radius) \\
+\hline
+\mbox{\tt in}  & {\em an\+Inclination} & An orbit inclination \\
+\hline
+\mbox{\tt in}  & {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Circular orbit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a580fd937ebef4b66a9c68bfe41cde8ea}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a580fd937ebef4b66a9c68bfe41cde8ea}} 
+\index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!Circular\+Equatorial@{Circular\+Equatorial}}
+\index{Circular\+Equatorial@{Circular\+Equatorial}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
+\subsubsection{\texorpdfstring{Circular\+Equatorial()}{CircularEquatorial()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} library\+::astro\+::trajectory\+::\+Orbit\+::\+Circular\+Equatorial (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Altitude,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a circular-\/equatorial orbit. 
+
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model}\+: Kepler (No Perturbation).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Epoch} & An orbit epoch \\
+\hline
+\mbox{\tt in}  & {\em an\+Altitude} & An orbit altitude (wrt. equatorial radius) \\
+\hline
+\mbox{\tt in}  & {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Circular-\/equatorial orbit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_ab15a55f74105cd78fe8a48a3c86baacc}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_ab15a55f74105cd78fe8a48a3c86baacc}} 
+\index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!Equatorial@{Equatorial}}
+\index{Equatorial@{Equatorial}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
+\subsubsection{\texorpdfstring{Equatorial()}{Equatorial()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} library\+::astro\+::trajectory\+::\+Orbit\+::\+Equatorial (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Apoapsis\+Altitude,  }\item[{const Length \&}]{a\+Periapsis\+Altitude,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs an equatorial orbit. 
+
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model}\+: Kepler (No Perturbation).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Epoch} & An orbit epoch \\
+\hline
+\mbox{\tt in}  & {\em an\+Apoapsis\+Altitude} & An orbit apoapsis altitude (wrt. equatorial radius) \\
+\hline
+\mbox{\tt in}  & {\em a\+Periapsis\+Altitude} & An orbit periapsis altitude (wrt. equatorial radius) \\
+\hline
+\mbox{\tt in}  & {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Equatorial orbit 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a0360f97e0b144d175477a4bd11db1beb}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a0360f97e0b144d175477a4bd11db1beb}} 
 \index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!get\+Orbital\+Frame@{get\+Orbital\+Frame}}
 \index{get\+Orbital\+Frame@{get\+Orbital\+Frame}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
@@ -238,13 +321,43 @@ Reimplemented from \hyperlink{classlibrary_1_1astro_1_1_trajectory_a6f6afc6bcd88
 \subsubsection{\texorpdfstring{String\+From\+Frame\+Type()}{StringFromFrameType()}}
 {\footnotesize\ttfamily String library\+::astro\+::trajectory\+::\+Orbit\+::\+String\+From\+Frame\+Type (\begin{DoxyParamCaption}\item[{const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a816e83a0c220d4242ce2bebd32191cd8}{Orbit\+::\+Frame\+Type} \&}]{a\+Frame\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a1623802ee44bab50e24f3c1979bb5001}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a1623802ee44bab50e24f3c1979bb5001}} 
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_af1a3fb89d7bdb29ccf1867fa58d9bcab}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_af1a3fb89d7bdb29ccf1867fa58d9bcab}} 
+\index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!Sun\+Synchronous@{Sun\+Synchronous}}
+\index{Sun\+Synchronous@{Sun\+Synchronous}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
+\subsubsection{\texorpdfstring{Sun\+Synchronous()}{SunSynchronous()}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} library\+::astro\+::trajectory\+::\+Orbit\+::\+Sun\+Synchronous (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Length \&}]{an\+Altitude,  }\item[{const Time \&}]{a\+Local\+Time\+At\+Descending\+Node,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a Sun-\/synchronous orbit. 
+
+\hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model}\+: Kepler (J2 Perturbation).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Epoch} & An orbit epoch \\
+\hline
+\mbox{\tt in}  & {\em an\+Altitude} & An orbit altitude (wrt. equatorial radius) \\
+\hline
+\mbox{\tt in}  & {\em a\+Local\+Time\+At\+Descending\+Node} & A local time at ascending node \\
+\hline
+\mbox{\tt in}  & {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Sun-\/synchronous orbit 
+\end{DoxyReturn}
+Capderou M., Handbook of Satellite Orbits\+: From Kepler to G\+PS, p.\+292 \mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a1623802ee44bab50e24f3c1979bb5001}\label{classlibrary_1_1astro_1_1trajectory_1_1_orbit_a1623802ee44bab50e24f3c1979bb5001}} 
 \index{library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}!Undefined@{Undefined}}
 \index{Undefined@{Undefined}!library\+::astro\+::trajectory\+::\+Orbit@{library\+::astro\+::trajectory\+::\+Orbit}}
 \subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
 {\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_orbit}{Orbit} library\+::astro\+::trajectory\+::\+Orbit\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
+
+Constructs an undefined orbit. 
+
+Undefined orbit 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

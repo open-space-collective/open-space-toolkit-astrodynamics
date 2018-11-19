@@ -30,6 +30,10 @@ virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a476c234f5
 \item 
 virtual bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}{is\+Defined} () const =0
 \item 
+{\footnotesize template$<$class Type $>$ }\\bool \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_ad8444d9fcab4f6a95d42fca5d397fe0f}{is} () const
+\begin{DoxyCompactList}\small\item\em Returns true if model can be converted to type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Type $>$ }\\const Type \& \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_a6f03598834d74ef1e03ce3469e892e6c}{as} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{classlibrary_1_1astro_1_1_access}{Access} model as its underlying type. \end{DoxyCompactList}\item 
 virtual \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}{calculate\+State\+At} (const Instant \&an\+Instant) const =0
 \item 
 virtual void \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model_af3dd0c38fdbac0b64f689fd8c88c3320}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const =0
@@ -64,6 +68,20 @@ Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a6f03598834d74ef1e03ce3469e892e6c}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a6f03598834d74ef1e03ce3469e892e6c}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!as@{as}}
+\index{as@{as}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{as()}{as()}}
+{\footnotesize\ttfamily template$<$class Type $>$ \\
+const Type\& library\+::astro\+::trajectory\+::\+Model\+::as (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\hyperlink{classlibrary_1_1astro_1_1_access}{Access} model as its underlying type. 
+
+\begin{DoxyReturn}{Returns}
+Reference to underlying type 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_acee9ee770c2ee1d1205b618e8f722ba4}} 
 \index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!calculate\+State\+At@{calculate\+State\+At}}
 \index{calculate\+State\+At@{calculate\+State\+At}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
@@ -84,6 +102,20 @@ Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models
 
 Implemented in \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_ac78a023cde4a61c62309051c9147d66e}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afa3add6c6855ac1da5632b17986dca02}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a192cfb0ceb4a11d02578adc9702cabc1}{library\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_a8ccec23a49086c6c3fbda2cc81e7a4dc}{library\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static_a3586bbfdd6fc3958b18a2ffcb3b23fd4}{library\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model_a45d75e4d212a9bb01aa596eaeeae43ae}{library\+::astro\+::trajectory\+::orbit\+::\+Model}.
 
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_ad8444d9fcab4f6a95d42fca5d397fe0f}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_ad8444d9fcab4f6a95d42fca5d397fe0f}} 
+\index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!is@{is}}
+\index{is@{is}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{is()}{is()}}
+{\footnotesize\ttfamily template$<$class Type $>$ \\
+bool library\+::astro\+::trajectory\+::\+Model\+::is (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if model can be converted to type. 
+
+\begin{DoxyReturn}{Returns}
+True if model can be converted to type 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}\label{classlibrary_1_1astro_1_1trajectory_1_1_model_a9b55db62f22c3493313661bacd9f7c1b}} 
 \index{library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}!is\+Defined@{is\+Defined}}
 \index{is\+Defined@{is\+Defined}!library\+::astro\+::trajectory\+::\+Model@{library\+::astro\+::trajectory\+::\+Model}}

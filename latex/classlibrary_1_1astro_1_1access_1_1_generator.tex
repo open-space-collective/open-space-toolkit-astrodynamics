@@ -28,8 +28,8 @@ void \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator_a74992fd0314e87ffd
 \item 
 static \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator_a772aae06882c9c24c93978ec246bcc83}{Undefined} ()
 \item 
-static \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator_a51e8191b002ee609db6ce11927281bba}{Aer\+Ranges} (const Interval$<$ Angle $>$ \&an\+Azimuth\+Range, const Interval$<$ Angle $>$ \&an\+Elevation\+Range, const Interval$<$ Length $>$ \&a\+Range\+Range, const Environment \&an\+Environment)
-\end{DoxyCompactItemize}
+static \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator_ae81c6cc620f00a2318eb3dd3d9d62ce0}{Aer\+Ranges} (const Interval$<$ Real $>$ \&an\+Azimuth\+Range, const Interval$<$ Real $>$ \&an\+Elevation\+Range, const Interval$<$ Real $>$ \&a\+Range\+Range, const Environment \&an\+Environment)
+\begin{DoxyCompactList}\small\item\em Constructs an access generator with defined A\+ER ranges. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -48,12 +48,30 @@ static \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} \hyp
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classlibrary_1_1astro_1_1access_1_1_generator_a51e8191b002ee609db6ce11927281bba}\label{classlibrary_1_1astro_1_1access_1_1_generator_a51e8191b002ee609db6ce11927281bba}} 
+\mbox{\Hypertarget{classlibrary_1_1astro_1_1access_1_1_generator_ae81c6cc620f00a2318eb3dd3d9d62ce0}\label{classlibrary_1_1astro_1_1access_1_1_generator_ae81c6cc620f00a2318eb3dd3d9d62ce0}} 
 \index{library\+::astro\+::access\+::\+Generator@{library\+::astro\+::access\+::\+Generator}!Aer\+Ranges@{Aer\+Ranges}}
 \index{Aer\+Ranges@{Aer\+Ranges}!library\+::astro\+::access\+::\+Generator@{library\+::astro\+::access\+::\+Generator}}
 \subsubsection{\texorpdfstring{Aer\+Ranges()}{AerRanges()}}
-{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} library\+::astro\+::access\+::\+Generator\+::\+Aer\+Ranges (\begin{DoxyParamCaption}\item[{const Interval$<$ Angle $>$ \&}]{an\+Azimuth\+Range,  }\item[{const Interval$<$ Angle $>$ \&}]{an\+Elevation\+Range,  }\item[{const Interval$<$ Length $>$ \&}]{a\+Range\+Range,  }\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \hyperlink{classlibrary_1_1astro_1_1access_1_1_generator}{Generator} library\+::astro\+::access\+::\+Generator\+::\+Aer\+Ranges (\begin{DoxyParamCaption}\item[{const Interval$<$ Real $>$ \&}]{an\+Azimuth\+Range,  }\item[{const Interval$<$ Real $>$ \&}]{an\+Elevation\+Range,  }\item[{const Interval$<$ Real $>$ \&}]{a\+Range\+Range,  }\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
+
+
+Constructs an access generator with defined A\+ER ranges. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Azimuth\+Range} & An azimuth interval \mbox{[}deg\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em an\+Elevation\+Range} & An elevation interval \mbox{[}deg\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em a\+Range\+Range} & A range interval \mbox{[}m\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em an\+Environment} & An environment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An access generator 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1access_1_1_generator_ab6e35507090c7ce4367266f2d76c9178}\label{classlibrary_1_1astro_1_1access_1_1_generator_ab6e35507090c7ce4367266f2d76c9178}} 
 \index{library\+::astro\+::access\+::\+Generator@{library\+::astro\+::access\+::\+Generator}!compute\+Accesses@{compute\+Accesses}}
 \index{compute\+Accesses@{compute\+Accesses}!library\+::astro\+::access\+::\+Generator@{library\+::astro\+::access\+::\+Generator}}

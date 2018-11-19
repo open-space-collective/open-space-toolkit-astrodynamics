@@ -120,6 +120,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a476c234f5fca1eb75f64f5a96fd83c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b55db62f22c3493313661bacd9f7c1b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html#a9b55db62f22c3493313661bacd9f7c1b">isDefined</a> () const =0</td></tr>
 <tr class="separator:a9b55db62f22c3493313661bacd9f7c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8444d9fcab4f6a95d42fca5d397fe0f"><td class="memTemplParams" colspan="2">template&lt;class Type &gt; </td></tr>
+<tr class="memitem:ad8444d9fcab4f6a95d42fca5d397fe0f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html#ad8444d9fcab4f6a95d42fca5d397fe0f">is</a> () const</td></tr>
+<tr class="memdesc:ad8444d9fcab4f6a95d42fca5d397fe0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if model can be converted to type.  <a href="#ad8444d9fcab4f6a95d42fca5d397fe0f">More...</a><br /></td></tr>
+<tr class="separator:ad8444d9fcab4f6a95d42fca5d397fe0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f03598834d74ef1e03ce3469e892e6c"><td class="memTemplParams" colspan="2">template&lt;class Type &gt; </td></tr>
+<tr class="memitem:a6f03598834d74ef1e03ce3469e892e6c"><td class="memTemplItemLeft" align="right" valign="top">const Type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html#a6f03598834d74ef1e03ce3469e892e6c">as</a> () const</td></tr>
+<tr class="memdesc:a6f03598834d74ef1e03ce3469e892e6c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classlibrary_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> model as its underlying type.  <a href="#a6f03598834d74ef1e03ce3469e892e6c">More...</a><br /></td></tr>
+<tr class="separator:a6f03598834d74ef1e03ce3469e892e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acee9ee770c2ee1d1205b618e8f722ba4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html#acee9ee770c2ee1d1205b618e8f722ba4">calculateStateAt</a> (const Instant &amp;anInstant) const =0</td></tr>
 <tr class="separator:acee9ee770c2ee1d1205b618e8f722ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3dd0c38fdbac0b64f689fd8c88c3320"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1_model.html#af3dd0c38fdbac0b64f689fd8c88c3320">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const =0</td></tr>
@@ -178,6 +186,36 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6f03598834d74ef1e03ce3469e892e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f03598834d74ef1e03ce3469e892e6c">&#9670;&nbsp;</a></span>as()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Type &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Type&amp; library::astro::trajectory::Model::as </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classlibrary_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> model as its underlying type. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to underlying type </dd></dl>
+
+</div>
+</div>
 <a id="acee9ee770c2ee1d1205b618e8f722ba4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acee9ee770c2ee1d1205b618e8f722ba4">&#9670;&nbsp;</a></span>calculateStateAt()</h2>
 
@@ -230,6 +268,36 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#ac78a023cde4a61c62309051c9147d66e">library::astro::trajectory::orbit::models::Kepler</a>, <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html#afa3add6c6855ac1da5632b17986dca02">library::astro::trajectory::orbit::models::SGP4</a>, <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a192cfb0ceb4a11d02578adc9702cabc1">library::astro::trajectory::models::Tabulated</a>, <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html#a8ccec23a49086c6c3fbda2cc81e7a4dc">library::astro::trajectory::orbit::models::Tabulated</a>, <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static.html#a3586bbfdd6fc3958b18a2ffcb3b23fd4">library::astro::trajectory::models::Static</a>, and <a class="el" href="classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model.html#a45d75e4d212a9bb01aa596eaeeae43ae">library::astro::trajectory::orbit::Model</a>.</p>
+
+</div>
+</div>
+<a id="ad8444d9fcab4f6a95d42fca5d397fe0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8444d9fcab4f6a95d42fca5d397fe0f">&#9670;&nbsp;</a></span>is()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Type &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool library::astro::trajectory::Model::is </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if model can be converted to type. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if model can be converted to type </dd></dl>
 
 </div>
 </div>

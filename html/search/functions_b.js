@@ -11,5 +11,6 @@ var searchData=
   ['stringfromperturbationtype',['StringFromPerturbationType',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a0ab0792e822cf9586d55fa17e3950d87',1,'library::astro::trajectory::orbit::models::Kepler']]],
   ['stringfromphase',['StringFromPhase',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4f87794fff0cd35d242c73a5cf8ce838',1,'library::astro::trajectory::orbit::Pass']]],
   ['stringfromquarter',['StringFromQuarter',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c00ed82189f0dd1fba4d1147e916e1e',1,'library::astro::trajectory::orbit::Pass']]],
-  ['stringfromtype',['StringFromType',['../classlibrary_1_1astro_1_1_access.html#a3b55776350970c505c39b0a4224be87b',1,'library::astro::Access::StringFromType()'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ab7983b8918e73295ba33ab80892a06c4',1,'library::astro::trajectory::orbit::Pass::StringFromType()']]]
+  ['stringfromtype',['StringFromType',['../classlibrary_1_1astro_1_1_access.html#a3b55776350970c505c39b0a4224be87b',1,'library::astro::Access::StringFromType()'],['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ab7983b8918e73295ba33ab80892a06c4',1,'library::astro::trajectory::orbit::Pass::StringFromType()']]],
+  ['sunsynchronous',['SunSynchronous',['../classlibrary_1_1astro_1_1trajectory_1_1_orbit.html#af1a3fb89d7bdb29ccf1867fa58d9bcab',1,'library::astro::trajectory::Orbit']]]
 ];

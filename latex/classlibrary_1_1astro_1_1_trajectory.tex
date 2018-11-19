@@ -32,6 +32,8 @@ bool \hyperlink{classlibrary_1_1astro_1_1_trajectory_a3fa102c5193028fabe84aa7cee
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 bool \hyperlink{classlibrary_1_1astro_1_1_trajectory_aab36edc2566e11d4b5de340cd8230dee}{is\+Defined} () const
 \begin{DoxyCompactList}\small\item\em Check if trajectory is defined. \end{DoxyCompactList}\item 
+const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \& \hyperlink{classlibrary_1_1astro_1_1_trajectory_ac5ebd6f282b52bb3d7c74a79375025e1}{access\+Model} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{classlibrary_1_1astro_1_1_access}{Access} trajectory model. \end{DoxyCompactList}\item 
 \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classlibrary_1_1astro_1_1_trajectory_a5b27c8ad8d547a00ad32c4ab1d63984f}{get\+State\+At} (const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Get state at a given instant. \end{DoxyCompactList}\item 
 Array$<$ \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_state}{State} $>$ \hyperlink{classlibrary_1_1astro_1_1_trajectory_a0b7d9ed6012f968b1bfde1f2cc4e34f5}{get\+States\+At} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const
@@ -45,11 +47,6 @@ static \hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} \hyperlink{c
 \begin{DoxyCompactList}\small\item\em Constructs an undefined trajectory. \end{DoxyCompactList}\item 
 static \hyperlink{classlibrary_1_1astro_1_1_trajectory}{Trajectory} \hyperlink{classlibrary_1_1astro_1_1_trajectory_a39e9a50f84016cb53ca36d61809dc058}{Position} (const physics\+::coord\+::\+Position \&a\+Position)
 \begin{DoxyCompactList}\small\item\em Constructs a trajectory from a given position. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Protected Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \& \hyperlink{classlibrary_1_1astro_1_1_trajectory_ac5ebd6f282b52bb3d7c74a79375025e1}{access\+Model} () const
-\end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -129,8 +126,15 @@ Copy constructor.
 \index{library\+::astro\+::\+Trajectory@{library\+::astro\+::\+Trajectory}!access\+Model@{access\+Model}}
 \index{access\+Model@{access\+Model}!library\+::astro\+::\+Trajectory@{library\+::astro\+::\+Trajectory}}
 \subsubsection{\texorpdfstring{access\+Model()}{accessModel()}}
-{\footnotesize\ttfamily const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \& library\+::astro\+::\+Trajectory\+::access\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily const \hyperlink{classlibrary_1_1astro_1_1trajectory_1_1_model}{Model} \& library\+::astro\+::\+Trajectory\+::access\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+
+
+\hyperlink{classlibrary_1_1astro_1_1_access}{Access} trajectory model. 
+
+\begin{DoxyReturn}{Returns}
+Reference to trajectory model 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classlibrary_1_1astro_1_1_trajectory_a5b27c8ad8d547a00ad32c4ab1d63984f}\label{classlibrary_1_1astro_1_1_trajectory_a5b27c8ad8d547a00ad32c4ab1d63984f}} 
 \index{library\+::astro\+::\+Trajectory@{library\+::astro\+::\+Trajectory}!get\+State\+At@{get\+State\+At}}
 \index{get\+State\+At@{get\+State\+At}!library\+::astro\+::\+Trajectory@{library\+::astro\+::\+Trajectory}}
