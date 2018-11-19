@@ -17,6 +17,7 @@
 
 #include <Library/Physics/Environment/Objects/Celestial.hpp>
 #include <Library/Physics/Coordinate/Frame.hpp>
+#include <Library/Physics/Time/Time.hpp>
 #include <Library/Physics/Time/Instant.hpp>
 #include <Library/Physics/Units/Derived/Angle.hpp>
 #include <Library/Physics/Units/Length.hpp>
@@ -53,6 +54,7 @@ using library::core::ctnr::Map ;
 using library::physics::units::Length ;
 using library::physics::units::Angle ;
 using library::physics::time::Instant ;
+using library::physics::time::Time ;
 using library::physics::coord::Frame ;
 using library::physics::env::obj::Celestial ;
 
@@ -117,24 +119,68 @@ class Orbit : public Trajectory
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
+        /// @brief              Constructs an undefined orbit
+        ///
+        ///                     Undefined orbit
+
         static Orbit            Undefined                                   ( ) ;
+
+        /// @brief              Constructs a circular orbit
+        ///
+        ///                     Model: Kepler (No Perturbation).
+        ///
+        /// @param              [in] anEpoch An orbit epoch
+        /// @param              [in] anAltitude An orbit altitude (wrt. equatorial radius)
+        /// @param              [in] anInclination An orbit inclination
+        /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
+        /// @return             Circular orbit
 
         static Orbit            Circular                                    (   const   Instant&                    anEpoch,
                                                                                 const   Length&                     anAltitude,
                                                                                 const   Angle&                      anInclination,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
+        /// @brief              Constructs an equatorial orbit
+        ///
+        ///                     Model: Kepler (No Perturbation).
+        ///
+        /// @param              [in] anEpoch An orbit epoch
+        /// @param              [in] anApoapsisAltitude An orbit apoapsis altitude (wrt. equatorial radius)
+        /// @param              [in] aPeriapsisAltitude An orbit periapsis altitude (wrt. equatorial radius)
+        /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
+        /// @return             Equatorial orbit
+
         static Orbit            Equatorial                                  (   const   Instant&                    anEpoch,
-                                                                                const   Length&                     anAltitude,
-                                                                                const   Real&                       anEccentricity,
+                                                                                const   Length&                     anApoapsisAltitude,
+                                                                                const   Length&                     aPeriapsisAltitude,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
+
+        /// @brief              Constructs a circular-equatorial orbit
+        ///
+        ///                     Model: Kepler (No Perturbation).
+        ///
+        /// @param              [in] anEpoch An orbit epoch
+        /// @param              [in] anAltitude An orbit altitude (wrt. equatorial radius)
+        /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
+        /// @return             Circular-equatorial orbit
 
         static Orbit            CircularEquatorial                          (   const   Instant&                    anEpoch,
                                                                                 const   Length&                     anAltitude,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
-        static Orbit            SynSynchronous                              (   const   Instant&                    anEpoch,
+        /// @brief              Constructs a Sun-synchronous orbit
+        ///
+        ///                     Model: Kepler (J2 Perturbation).
+        ///
+        /// @param              [in] anEpoch An orbit epoch
+        /// @param              [in] anAltitude An orbit altitude (wrt. equatorial radius)
+        /// @param              [in] aLocalTimeAtDescendingNode A local time at ascending node
+        /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
+        /// @return             Sun-synchronous orbit
+
+        static Orbit            SunSynchronous                              (   const   Instant&                    anEpoch,
                                                                                 const   Length&                     anAltitude,
+                                                                                const   Time&                       aLocalTimeAtDescendingNode,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        ) ;
 
         static String           StringFromFrameType                         (   const   Orbit::FrameType&           aFrameType                                  ) ;

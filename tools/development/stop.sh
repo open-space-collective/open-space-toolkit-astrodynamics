@@ -3,7 +3,7 @@
 ################################################################################################################################################################
 
 # @project        Library/Astrodynamics
-# @file           tools/development/exec.sh
+# @file           tools/development/stop.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -17,12 +17,9 @@ pushd "${script_directory}" > /dev/null
 
 source "../.env"
 
-# Exec Docker container
+# Stop Docker container
 
-docker exec \
--it \
-${container_name} \
-/bin/bash
+docker rm -f ${container_name}
 
 popd > /dev/null
 

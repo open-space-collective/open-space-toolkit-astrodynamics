@@ -30,6 +30,8 @@
 #include <Library/Core/Types/Integer.hpp>
 #include <Library/Core/Types/Shared.hpp>
 
+#include <Library/Astrodynamics/Trajectory/Orbit/Utilities.test.hpp>
+
 #include <Global.test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -898,11 +900,172 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
 {
 
+    using library::core::ctnr::Array ;
+    using library::core::fs::Path ;
+    using library::core::fs::File ;
+
+    using library::physics::units::Length ;
+    using library::physics::units::Angle ;
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::DateTime ;
+    using library::physics::Environment ;
+
     using library::astro::trajectory::Orbit ;
-    
+
     {
 
-        FAIL() ;
+        struct Scenario
+        {
+
+            String identifier ;
+            Instant epoch ;
+            Length altitude ;
+            Angle inclination ;
+            File referenceDataFile ;
+            Real positionTolerance_GCRF_m ;
+            Real velocityTolerance_GCRF_mps ;
+            Real positionTolerance_ITRF_m ;
+            Real velocityTolerance_ITRF_mps ;
+
+        } ;
+
+        const Array<Scenario> scenarios =
+        {
+            {
+                "Scenario 1",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Angle::Degrees(0.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 2",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Angle::Degrees(45.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 3",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Angle::Degrees(90.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 4",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Angle::Degrees(135.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 5",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Angle::Degrees(180.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 6",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Angle::Degrees(0.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 7",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Angle::Degrees(45.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 8",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Angle::Degrees(90.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 9",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Angle::Degrees(135.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 10",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Angle::Degrees(180.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            }
+        } ;
+
+        for (const auto& scenario : scenarios)
+        {
+
+            // Environment setup
+
+            const Environment environment = Environment::Default() ;
+
+            // Orbit setup
+
+            const Orbit orbit = Orbit::Circular(scenario.epoch, scenario.altitude, scenario.inclination, environment.accessCelestialObjectWithName("Earth")) ;
+
+            // Test
+
+            testOrbit(scenario.identifier,
+                      scenario.referenceDataFile,
+                      orbit,
+                      scenario.positionTolerance_GCRF_m,
+                      scenario.velocityTolerance_GCRF_mps,
+                      scenario.positionTolerance_ITRF_m,
+                      scenario.velocityTolerance_ITRF_mps) ;
+
+        }
 
     }
     
@@ -911,11 +1074,149 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
 {
 
+    using library::core::ctnr::Array ;
+    using library::core::fs::Path ;
+    using library::core::fs::File ;
+
+    using library::physics::units::Length ;
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::DateTime ;
+    using library::physics::Environment ;
+
     using library::astro::trajectory::Orbit ;
-    
+
     {
 
-        FAIL() ;
+        struct Scenario
+        {
+
+            String identifier ;
+            Instant epoch ;
+            Length apoapsisAltitude ;
+            Length periapsisAltitude ;
+            File referenceDataFile ;
+            Real positionTolerance_GCRF_m ;
+            Real velocityTolerance_GCRF_mps ;
+            Real positionTolerance_ITRF_m ;
+            Real velocityTolerance_ITRF_mps ;
+
+        } ;
+
+        const Array<Scenario> scenarios =
+        {
+            {
+                "Scenario 1",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Length::Kilometers(400.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 1.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 2",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                Length::Kilometers(500.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 2.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 3",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(600.0),
+                Length::Kilometers(500.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 3.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 4",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Length::Kilometers(4000.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 4.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 5",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Length::Kilometers(5000.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 5.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 6",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(6000.0),
+                Length::Kilometers(5000.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 6.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 7",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(5000.0),
+                Length::Kilometers(500.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 7.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            },
+            {
+                "Scenario 8",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(50000.0),
+                Length::Kilometers(500.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 8.csv")),
+                1e-3,
+                1e-6,
+                1e-0,
+                1e-3
+            }
+        } ;
+
+        for (const auto& scenario : scenarios)
+        {
+
+            // Environment setup
+
+            const Environment environment = Environment::Default() ;
+
+            // Orbit setup
+
+            const Orbit orbit = Orbit::Equatorial(scenario.epoch, scenario.apoapsisAltitude, scenario.periapsisAltitude, environment.accessCelestialObjectWithName("Earth")) ;
+
+            // Test
+
+            testOrbit(scenario.identifier,
+                      scenario.referenceDataFile,
+                      orbit,
+                      scenario.positionTolerance_GCRF_m,
+                      scenario.velocityTolerance_GCRF_mps,
+                      scenario.positionTolerance_ITRF_m,
+                      scenario.velocityTolerance_ITRF_mps) ;
+
+        }
 
     }
     
@@ -924,48 +1225,152 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
 TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 {
 
-    using library::astro::trajectory::Orbit ;
-    
-    {
-
-        FAIL() ;
-
-    }
-    
-}
-
-TEST (Library_Astrodynamics_Trajectory_Orbit, SynSynchronous)
-{
+    using library::core::ctnr::Array ;
+    using library::core::fs::Path ;
+    using library::core::fs::File ;
 
     using library::physics::units::Length ;
     using library::physics::time::Scale ;
     using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
     using library::physics::time::DateTime ;
     using library::physics::Environment ;
 
     using library::astro::trajectory::Orbit ;
-    
+
     {
 
-        const Environment environment = Environment::Default() ;
-
-        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const Length altitude = Length::Kilometers(500.0) ;
-
-        const Orbit orbit = Orbit::SynSynchronous(epoch, altitude, environment.accessCelestialObjectWithName("Earth")) ;
-
-        for (const auto& instant : Interval::Closed(epoch, epoch + Duration::Hours(1.0)).generateGrid(Duration::Minutes(1.0)))
+        struct Scenario
         {
-            std::cout << orbit.getStateAt(instant) << std::endl ;
+
+            String identifier ;
+            Instant epoch ;
+            Length altitude ;
+            File referenceDataFile ;
+            Real positionTolerance_GCRF_m ;
+            Real velocityTolerance_GCRF_mps ;
+            Real positionTolerance_ITRF_m ;
+            Real velocityTolerance_ITRF_mps ;
+
+        } ;
+
+        const Array<Scenario> scenarios =
+        {
+            {
+                "Scenario 1",
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+                Length::Kilometers(500.0),
+                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv")),
+                1e-3,
+                1e-6,
+                1e-1,
+                1e-4
+            }
+        } ;
+
+        for (const auto& scenario : scenarios)
+        {
+
+            // Environment setup
+
+            const Environment environment = Environment::Default() ;
+
+            // Orbit setup
+
+            const Orbit orbit = Orbit::CircularEquatorial(scenario.epoch, scenario.altitude, environment.accessCelestialObjectWithName("Earth")) ;
+
+            // Test
+
+            testOrbit(scenario.identifier,
+                      scenario.referenceDataFile,
+                      orbit,
+                      scenario.positionTolerance_GCRF_m,
+                      scenario.velocityTolerance_GCRF_mps,
+                      scenario.positionTolerance_ITRF_m,
+                      scenario.velocityTolerance_ITRF_mps) ;
+
         }
 
     }
-
-    FAIL() ;
     
 }
+
+// TEST (Library_Astrodynamics_Trajectory_Orbit, SunSynchronous)
+// {
+
+//     using library::core::ctnr::Array ;
+//     using library::core::fs::Path ;
+//     using library::core::fs::File ;
+
+//     using library::physics::units::Length ;
+//     using library::physics::time::Scale ;
+//     using library::physics::time::Instant ;
+//     using library::physics::time::DateTime ;
+//     using library::physics::time::Time ;
+//     using library::physics::Environment ;
+
+//     using library::astro::trajectory::Orbit ;
+
+//     {
+
+//         struct Scenario
+//         {
+
+//             String identifier ;
+//             Instant epoch ;
+//             Length altitude ;
+//             Time localTimeAtDescendingNode ;
+//             File referenceDataFile ;
+//             Real positionTolerance_GCRF_m ;
+//             Real velocityTolerance_GCRF_mps ;
+//             Real positionTolerance_ITRF_m ;
+//             Real velocityTolerance_ITRF_mps ;
+
+//         } ;
+
+//         const Array<Scenario> scenarios =
+//         {
+//             {
+//                 "Scenario 1",
+//                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+//                 Length::Kilometers(500.0),
+//                 Time::Parse("12:00:00"),
+//                 File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/SunSynchronous/Scenario 1.csv")),
+//                 100.0,
+//                 1.0,
+//                 100.0,
+//                 1.0
+//                 // 1e-3,
+//                 // 1e-6,
+//                 // 1e-1,
+//                 // 1e-4
+//             }
+//         } ;
+
+//         for (const auto& scenario : scenarios)
+//         {
+
+//             // Environment setup
+
+//             const Environment environment = Environment::Default() ;
+
+//             // Orbit setup
+
+//             const Orbit orbit = Orbit::SunSynchronous(scenario.epoch, scenario.altitude, scenario.localTimeAtDescendingNode, environment.accessCelestialObjectWithName("Earth")) ;
+
+//             // Test
+
+//             testOrbit(scenario.identifier,
+//                       scenario.referenceDataFile,
+//                       orbit,
+//                       scenario.positionTolerance_GCRF_m,
+//                       scenario.velocityTolerance_GCRF_mps,
+//                       scenario.positionTolerance_ITRF_m,
+//                       scenario.velocityTolerance_ITRF_mps) ;
+
+//         }
+
+//     }
+    
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

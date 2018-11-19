@@ -51,7 +51,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def("Circular", &Orbit::Circular).staticmethod("Circular")
         .def("Equatorial", &Orbit::Equatorial).staticmethod("Equatorial")
         .def("CircularEquatorial", &Orbit::CircularEquatorial).staticmethod("CircularEquatorial")
-        .def("SynSynchronous", &Orbit::SynSynchronous).staticmethod("SynSynchronous")
+        .def("SunSynchronous", &Orbit::SunSynchronous).staticmethod("SunSynchronous")
 
     ;
 

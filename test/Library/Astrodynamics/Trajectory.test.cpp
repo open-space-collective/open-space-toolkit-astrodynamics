@@ -304,9 +304,41 @@ TEST (Library_Astrodynamics_Trajectory, IsDefined)
 TEST (Library_Astrodynamics_Trajectory, AccessModel)
 {
 
+    using library::core::types::Shared ;
+    using library::core::ctnr::Array ;
+
+    using library::physics::time::Scale ;
+    using library::physics::time::Instant ;
+    using library::physics::time::DateTime ;
+    using library::physics::coord::Position ;
+    using library::physics::coord::Velocity ;
+    using library::physics::coord::Frame ;
+
+    using library::astro::Trajectory ;
+    using library::astro::trajectory::State ;
+    using library::astro::trajectory::models::Tabulated ;
+
     {
 
-        FAIL() ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        const Array<State> states =
+        {
+            { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+            { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) }
+        } ;
+
+        const Tabulated model = { states } ;
+
+        const Trajectory trajectory = { model } ;
+
+        EXPECT_TRUE(trajectory.accessModel().is<Tabulated>()) ;
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(Trajectory::Undefined().accessModel()) ;
 
     }
 

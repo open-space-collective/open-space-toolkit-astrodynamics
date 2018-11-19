@@ -44,7 +44,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     if [[ ! -d ${library_core_directory} ]]
     then
 
-        echo "Library ▸ Core directory [${library_core_directory}s] cannot be found."
+        echo "Library ▸ Core directory [${library_core_directory}] cannot be found."
 
         exit 1
 
@@ -61,6 +61,30 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
+    # Library ▸ I/O
+
+    library_io_directory="${project_directory}/../library-io"
+
+    if [[ ! -d ${library_io_directory} ]]
+    then
+
+        echo "Library ▸ I/O directory [${library_io_directory}] cannot be found."
+
+        exit 1
+
+    fi
+
+    options="${options} \
+    --volume=${library_io_directory}:/mnt/library-io:ro"
+
+    command="${command} \
+    rm -rf /usr/local/include/Library/IO; \
+    rm -f /usr/local/lib/liblibrary-io.so*; \
+    cp -as /mnt/library-io/include/Library/IO /usr/local/include/Library/IO; \
+    cp -as /mnt/library-io/src/Library/IO/* /usr/local/include/Library/IO/; \
+    ln -s /mnt/library-io/lib/liblibrary-io.so /usr/local/lib/; \
+    ln -s /mnt/library-io/lib/liblibrary-io.so.0 /usr/local/lib/;"
+
     ## Library ▸ Mathematics
 
     library_mathematics_directory="${project_directory}/../library-mathematics"
@@ -68,7 +92,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     if [[ ! -d ${library_mathematics_directory} ]]
     then
 
-        echo "Library ▸ Mathematics directory [${library_mathematics_directory}s] cannot be found."
+        echo "Library ▸ Mathematics directory [${library_mathematics_directory}] cannot be found."
 
         exit 1
 
@@ -92,7 +116,7 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     if [[ ! -d ${library_physics_directory} ]]
     then
 
-        echo "Library ▸ Physics directory [${library_physics_directory}s] cannot be found."
+        echo "Library ▸ Physics directory [${library_physics_directory}] cannot be found."
 
         exit 1
 
@@ -119,7 +143,7 @@ fi
 # Run Docker container
 
 docker run \
---name="${container_name}" \
+--name=${container_name} \
 -it \
 --rm \
 --privileged \
@@ -131,7 +155,7 @@ ${options} \
 --volume="${script_directory}/helpers/debug.sh:/app/build/debug.sh:ro" \
 --volume="${script_directory}/helpers/clean.sh:/app/build/clean.sh:ro" \
 --workdir="/app/build" \
-"${image_name}:${image_version}" \
+${image_name}:${image_version} \
 /bin/bash -c "${command}"
 
 ################################################################################################################################################################

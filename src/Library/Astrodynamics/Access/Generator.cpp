@@ -169,15 +169,15 @@ Array<Access>                   Generator::computeAccesses                  (   
 
             const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
 
-            std::cout   << anInstant.getDateTime(library::physics::time::Scale::UTC).toString(library::physics::time::DateTime::Format::ISO8601) << ", "
-                        << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-                        << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-                        << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-                        << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-                        << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-                        << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-                        << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
-                        << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
+            // std::cout   << anInstant.getDateTime(library::physics::time::Scale::UTC).toString(library::physics::time::DateTime::Format::ISO8601) << ", "
+            //             << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+            //             << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+            //             << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+            //             << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+            //             << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+            //             << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+            //             << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
+            //             << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
 
         }
 

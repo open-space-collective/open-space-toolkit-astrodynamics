@@ -317,12 +317,12 @@ void                            COE::print                                  (   
 
     displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.in(Length::Unit::Meter).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined") ;
     library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                            << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
 
     displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
 
