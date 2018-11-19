@@ -3,7 +3,7 @@
 # @project        Library/Astrodynamics
 # @file           tutorials/cpp/sensor-modeling/CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        TBD
+# @license        Apache License 2.0
 
 ################################################################################################################################################################
 
@@ -13,7 +13,7 @@ SET (PROJECT_NAME "LibraryAstrodynamics")
 SET (PROJECT_DESCRIPTION "Sensor modeling tutorial.")
 SET (PROJECT_PATH "Library/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "sensor-modeling")
-SET (PROJECT_LICENSE "TBD")
+SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "org.open-space-collective")
 SET (PROJECT_VENDOR_NAME "Open Space Collective")
 SET (PROJECT_VENDOR_CONTACT "contact@open-space-collective.org")

@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,6 +77,23 @@ bool                            Trajectory::isDefined                       ( ) 
     return (modelUPtr_ != nullptr) && modelUPtr_->isDefined() ;
 }
 
+const Model&                    Trajectory::accessModel                     ( ) const
+{
+
+    // if (!this->isDefined())
+    // {
+    //     throw library::core::error::runtime::Undefined("Trajectory") ;
+    // }
+
+    if (modelUPtr_ == nullptr)
+    {
+        throw library::core::error::runtime::Undefined("Model") ;
+    }
+    
+    return *modelUPtr_ ;
+
+}
+
 State                           Trajectory::getStateAt                      (   const   Instant&                    anInstant                                   ) const
 {
 
@@ -135,20 +152,6 @@ Trajectory                      Trajectory::Position                        (   
     }
 
     return Trajectory(Static(aPosition)) ;
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const Model&                    Trajectory::accessModel                     ( ) const
-{
-
-    if (modelUPtr_ == nullptr)
-    {
-        throw library::core::error::runtime::Undefined("Model") ;
-    }
-    
-    return *modelUPtr_ ;
 
 }
 

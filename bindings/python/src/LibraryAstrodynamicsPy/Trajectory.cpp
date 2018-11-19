@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,6 +36,8 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
         .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &Trajectory::isDefined)
+
+        .def("accessModel", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
 
         .def("getStateAt", &Trajectory::getStateAt)
         .def("getStatesAt", &Trajectory::getStatesAt)

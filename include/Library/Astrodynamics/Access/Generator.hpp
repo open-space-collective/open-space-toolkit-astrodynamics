@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +23,7 @@
 #include <Library/Mathematics/Objects/Interval.hpp>
 
 #include <Library/Core/Containers/Array.hpp>
+#include <Library/Core/Types/Real.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +36,7 @@ namespace access
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::core::types::Real ;
 using library::core::ctnr::Array ;
 
 using library::math::obj::Interval ;
@@ -77,9 +79,17 @@ class Generator
 
         static Generator        Undefined                                   ( ) ;
 
-        static Generator        AerRanges                                   (   const   Interval<Angle>&            anAzimuthRange,
-                                                                                const   Interval<Angle>&            anElevationRange,
-                                                                                const   Interval<Length>&           aRangeRange,
+        /// @brief              Constructs an access generator with defined AER ranges
+        ///
+        /// @param              [in] anAzimuthRange An azimuth interval [deg]
+        /// @param              [in] anElevationRange An elevation interval [deg]
+        /// @param              [in] aRangeRange A range interval [m]
+        /// @param              [in] anEnvironment An environment
+        /// @return             An access generator
+
+        static Generator        AerRanges                                   (   const   Interval<Real>&             anAzimuthRange,
+                                                                                const   Interval<Real>&             anElevationRange,
+                                                                                const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               ) ;
 
     private:

@@ -3,11 +3,14 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Library/Astrodynamics/Access/Generator.hpp>
+
+#include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp> // [TBR]
+#include <Library/Physics/Coordinate/Spherical/LLA.hpp> // [TBR]
 
 #include <Library/Mathematics/Geometry/3D/Objects/Segment.hpp>
 #include <Library/Mathematics/Geometry/3D/Objects/Point.hpp>
@@ -81,7 +84,9 @@ Array<Access>                   Generator::computeAccesses                  (   
     using library::physics::time::Duration ;
     using library::physics::coord::Position ;
     using library::physics::coord::Frame ;
+    using library::physics::coord::spherical::LLA ; // [TBR]
     using library::physics::env::Object ;
+    using library::physics::env::obj::celest::Earth ; // [TBR]
     
     using library::astro::trajectory::State ;
 
@@ -107,6 +112,8 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     Environment environment = environment_ ;
 
+    const auto earthSPtr = environment.accessCelestialObjectWithName("Earth") ; // [TBR] This is Earth specific
+
     const auto getPositionsAt = [&aFromTrajectory, &aToTrajectory] (const Instant& anInstant) -> Pair<Position, Position>
     {
 
@@ -122,7 +129,25 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     } ;
 
-    const auto isAccessActive = [this, &environment] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> bool
+    const auto calculateAer = [&earthSPtr] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER
+    {
+
+        const Point referencePoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ; // [TBR] This is Earth specific
+
+        const LLA referencePoint_LLA = LLA::Cartesian(referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+
+        const Shared<const Frame> nedFrameSPtr = earthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED) ; // [TBR] This is Earth specific
+
+        const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant) ;
+        const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant) ;
+
+        const AER aer = AER::FromPositionToPosition(fromPosition_NED, toPosition_NED, true) ;
+
+        return aer ;
+
+    } ;
+
+    const auto isAccessActive = [this, &environment, &earthSPtr, calculateAer] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> bool
     {
 
         environment.setInstant(anInstant) ;
@@ -131,6 +156,30 @@ Array<Access>                   Generator::computeAccesses                  (   
 
         const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates()) ;
         const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates()) ;
+
+        // Debug
+
+        {
+
+            const Point fromPoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+            const Point toPoint_ITRF = Point::Vector(aToPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+
+            const LLA fromPoint_LLA = LLA::Cartesian(fromPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+            const LLA toPoint_LLA = LLA::Cartesian(toPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+
+            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
+
+            // std::cout   << anInstant.getDateTime(library::physics::time::Scale::UTC).toString(library::physics::time::DateTime::Format::ISO8601) << ", "
+            //             << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+            //             << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+            //             << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+            //             << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+            //             << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+            //             << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+            //             << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
+            //             << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
+
+        }
 
         // Line of sight
 
@@ -154,7 +203,9 @@ Array<Access>                   Generator::computeAccesses                  (   
         if (lineOfSight)
         {
 
-            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(AER::FromPositionToPosition(aFromPosition, aToPosition)) : true ; // [TBM] Convert to NED frame
+            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
+
+            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(aer) : true ;
 
             filterIsOk = aerFilterIsOk ;
 
@@ -458,21 +509,25 @@ Generator                       Generator::Undefined                        ( )
     return { Environment::Undefined(), {}, {} } ;
 }
 
-Generator                       Generator::AerRanges                        (   const   Interval<Angle>&            anAzimuthRange,
-                                                                                const   Interval<Angle>&            anElevationRange,
-                                                                                const   Interval<Length>&           aRangeRange,
+Generator                       Generator::AerRanges                        (   const   Interval<Real>&             anAzimuthRange,
+                                                                                const   Interval<Real>&             anElevationRange,
+                                                                                const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               )
 {
 
     using library::core::types::Real ;
 
-    const Interval<Real> azimuthRange_deg = anAzimuthRange.isDefined() ? Interval<Real>(anAzimuthRange.accessLowerBound().inDegrees(0.0, +360.0), anAzimuthRange.accessUpperBound().inDegrees(0.0, +360.0), anAzimuthRange.getType()) : Interval<Real>::Undefined() ;
-    const Interval<Real> elevationRange_deg = anElevationRange.isDefined() ? Interval<Real>(anElevationRange.accessLowerBound().inDegrees(-180.0, +180.0), anElevationRange.accessUpperBound().inDegrees(-180.0, +180.0), anElevationRange.getType()) : Interval<Real>::Undefined() ;
-    const Interval<Real> rangeRange_m = aRangeRange.isDefined() ? Interval<Real>(aRangeRange.accessLowerBound().inMeters(), aRangeRange.accessUpperBound().inMeters(), aRangeRange.getType()) : Interval<Real>::Undefined() ;
+    const Interval<Real> azimuthRange_deg = anAzimuthRange ;
+    const Interval<Real> elevationRange_deg = anElevationRange ;
+    const Interval<Real> rangeRange_m = aRangeRange ;
+
+    // const Interval<Real> azimuthRange_deg = anAzimuthRange ; // anAzimuthRange.isDefined() ? Interval<Real>(anAzimuthRange.accessLowerBound().inDegrees(0.0, +360.0), anAzimuthRange.accessUpperBound().inDegrees(0.0, +360.0), anAzimuthRange.getType()) : Interval<Real>::Undefined() ;
+    // const Interval<Real> elevationRange_deg = anElevationRange ; // anElevationRange.isDefined() ? Interval<Real>(anElevationRange.accessLowerBound().inDegrees(-180.0, +180.0), anElevationRange.accessUpperBound().inDegrees(-180.0, +180.0), anElevationRange.getType()) : Interval<Real>::Undefined() ;
+    // const Interval<Real> rangeRange_m = aRangeRange ; // aRangeRange.isDefined() ? Interval<Real>(aRangeRange.accessLowerBound().inMeters(), aRangeRange.accessUpperBound().inMeters(), aRangeRange.getType()) : Interval<Real>::Undefined() ;
 
     const std::function<bool (const AER&)> aerFilter = [azimuthRange_deg, elevationRange_deg, rangeRange_m] (const AER& anAER) -> bool
     {
-        
+
         return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0)))
             && ((!elevationRange_deg.isDefined()) || elevationRange_deg.contains(anAER.getElevation().inDegrees(-180.0, +180.0)))
             && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;

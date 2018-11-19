@@ -8,17 +8,17 @@ Orbit, attitude, access.
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/library-astrodynamics)
 [![GitHub version](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics)
 [![PyPI version](https://badge.fury.io/py/LibraryAstrodynamicsPy.svg)](https://badge.fury.io/py/LibraryAstrodynamicsPy)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
 ## Warning
 
-Library **name** and **license** are yet to be defined.
+Library **name** is yet to be defined.
 
 Please check the following projects:
 
 - [Naming Project](https://github.com/orgs/open-space-collective/projects/1)
-- [Licensing Project](https://github.com/orgs/open-space-collective/projects/2)
 
 *⚠ This library is still under heavy development. Do not use!*
 
@@ -118,11 +118,12 @@ The **Astrodynamics** library internally uses the following dependencies:
 |-------------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
 | Boost       | 1.67.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
 | Eigen       | 3.3.4   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
-| SGP4        | master  | Apache-2.0             | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
+| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
 | NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                       |
-| Core        | master  | TBD                    | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
-| Mathematics | master  | TBD                    | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
-| Physics     | master  | TBD                    | [github.com/open-space-collective/library-physics](https://github.com/open-space-collective/library-physics)         |
+| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
+| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/library-io](https://github.com/open-space-collective/library-io)                   |
+| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
+| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/library-physics](https://github.com/open-space-collective/library-physics)         |
 
 ## Contribution
 
@@ -136,4 +137,4 @@ Please read our [contributing guide](CONTRIBUTING.md) to learn about our develop
 
 ## License
 
-*To be defined...*
+Apache License 2.0

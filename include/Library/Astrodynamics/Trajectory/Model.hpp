@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Model.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,6 +52,35 @@ class Model
                                                                                 const   Model&                      aModel                                      ) ;
 
         virtual bool            isDefined                                   ( ) const = 0 ;
+
+        /// @brief              Returns true if model can be converted to type
+        ///
+        /// @return             True if model can be converted to type
+
+        template <class Type>
+        bool                    is                                          ( ) const
+        {
+            return dynamic_cast<const Type*>(this) != nullptr ;
+        }
+
+        /// @brief              Access model as its underlying type
+        ///
+        /// @return             Reference to underlying type
+
+        template <class Type>
+        const Type&             as                                          ( ) const
+        {
+
+            const Type* modelPtr = dynamic_cast<const Type*>(this) ;
+
+            if (modelPtr == nullptr)
+            {
+                throw library::core::error::RuntimeError("Cannot convert model to underlying type.") ;
+            }
+
+            return *modelPtr ;
+
+        }
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const = 0 ;
 

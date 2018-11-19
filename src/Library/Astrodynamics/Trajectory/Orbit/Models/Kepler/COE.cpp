@@ -3,7 +3,7 @@
 /// @project        Library/Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        TBD
+/// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -282,13 +282,30 @@ COE::CartesianState             COE::getCartesianState                      (   
         0.0
     } ;
 
-	const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
-	const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
+    try
+    {
+        
+        const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
+        const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
 
-    const Position position = { x_ECI, Position::Unit::Meter, aFrameSPtr } ;
-    const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, aFrameSPtr } ;
+        const Position position = { x_ECI, Position::Unit::Meter, aFrameSPtr } ;
+        const Velocity velocity = { v_ECI, Velocity::Unit::MeterPerSecond, aFrameSPtr } ;
 
-    return { position, velocity } ;
+        return { position, velocity } ;
+
+    }
+    catch (const library::core::error::Exception& anException)
+    {
+        
+        std::cout << "raan_rad = " << raan_rad << std::endl ;
+        std::cout << "inclination_rad = " << inclination_rad << std::endl ;
+        std::cout << "aop_rad = " << aop_rad << std::endl ;
+        std::cout << "R_pqw = " << R_pqw << std::endl ;
+        std::cout << "V_pqw = " << V_pqw << std::endl ;
+
+        throw anException ;
+        
+    }
 
 }
 
@@ -300,12 +317,12 @@ void                            COE::print                                  (   
 
     displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.in(Length::Unit::Meter).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined") ;
     library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                            << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.in(Angle::Unit::Degree).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
 
     displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
 
