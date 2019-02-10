@@ -802,7 +802,7 @@ Orbit                           Orbit::SunSynchronous                       (   
 
         const Real a = aSemiMajorAxis.inMeters() ;
         const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters() ;
-        const Real mu = aCelestialObjectSPtr->getGravitationalConstant().in({ Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), library::physics::units::Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() }) ;
+        const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in({ Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), library::physics::units::Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() }) ;
         const Real j2 = aCelestialObjectSPtr->getJ2() ;
 
         const Real T_sid = 31558149.504 ; // [s] Sidereal year

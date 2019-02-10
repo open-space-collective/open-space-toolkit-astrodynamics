@@ -37,7 +37,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 
         .def("isDefined", &Trajectory::isDefined)
 
-        .def("accessModel", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
+        // .def("accessModel", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
 
         .def("getStateAt", &Trajectory::getStateAt)
         .def("getStatesAt", &Trajectory::getStatesAt)

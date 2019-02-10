@@ -203,11 +203,11 @@ Derived                         COE::getMeanMotion                          (   
 
     const Real semiMajorAxis_m = semiMajorAxis_.inMeters() ;
 
-    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
 
-	const Real gravitationParameter_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+	const Real gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
 
-	return Derived(std::sqrt(gravitationParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)), Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
+	return Derived(std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)), Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
 
 }
 
@@ -257,14 +257,14 @@ COE::CartesianState             COE::getCartesianState                      (   
         throw library::core::error::runtime::Undefined("COE") ;
     }
 
-    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
 
 	const Real a_m = semiMajorAxis_.inMeters() ;
 	const Real inclination_rad = inclination_.inRadians() ;
 	const Real raan_rad = raan_.inRadians() ;
 	const Real aop_rad = aop_.inRadians() ;
 	const Real nu_rad = trueAnomaly_.inRadians() ;
-	const Real mu_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+	const Real mu_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
 
 	const Real p_m = a_m * (1.0 - eccentricity_ * eccentricity_) ;
 
@@ -354,9 +354,9 @@ COE                             COE::Cartesian                              (   
 
     static const Real tolerance = 1e-11 ;
 
-    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
 
-    const Real mu = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+    const Real mu = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
 
     if (mu == 0.0)
     {

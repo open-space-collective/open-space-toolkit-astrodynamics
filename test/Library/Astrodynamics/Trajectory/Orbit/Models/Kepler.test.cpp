@@ -177,11 +177,11 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
-        const Derived gravitationalConstant = Earth::Models::EGM2008::GravitationalConstant ;
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
         const Real J2 = Earth::Models::EGM2008::J2 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
         // Orbit setup
 
@@ -297,11 +297,11 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 //         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
 //         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-//         const Derived gravitationalConstant = Earth::Models::EGM2008::GravitationalConstant ;
+//         const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
 //         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 //         const Real J2 = Earth::Models::EGM2008::J2 ;
 
-//         const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
+//         const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
 
 //         // Orbit setup
 

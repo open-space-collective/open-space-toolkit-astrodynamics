@@ -175,11 +175,11 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
             const Instant epoch = startInstant ;
-            const Derived gravitationalConstant = Earth::GravitationalConstant ;
+            const Derived gravitationalParameter = Earth::GravitationalParameter ;
             const Length equatorialRadius = Earth::EquatorialRadius ;
             const Real J2 = Earth::J2 ;
 
-            const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+            const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
             const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -200,11 +200,11 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
             const Instant epoch = startInstant ;
-            const Derived gravitationalConstant = Earth::GravitationalConstant ;
+            const Derived gravitationalParameter = Earth::GravitationalParameter ;
             const Length equatorialRadius = Earth::EquatorialRadius ;
             const Real J2 = Earth::J2 ;
 
-            const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+            const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
             const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -284,11 +284,11 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
             const Instant epoch = startInstant ;
-            const Derived gravitationalConstant = Earth::GravitationalConstant ;
+            const Derived gravitationalParameter = Earth::GravitationalParameter ;
             const Length equatorialRadius = Earth::EquatorialRadius ;
             const Real J2 = Earth::J2 ;
 
-            const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+            const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
             const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -607,11 +607,11 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 //             const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
 //             const Instant epoch = startInstant ;
-//             const Derived gravitationalConstant = Earth::GravitationalConstant ;
+//             const Derived gravitationalParameter = Earth::GravitationalParameter ;
 //             const Length equatorialRadius = Earth::EquatorialRadius ;
 //             const Real J2 = Earth::J2 ;
 
-//             const Kepler keplerianModel = { coe, epoch, gravitationalConstant, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+//             const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
 
 //             const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 

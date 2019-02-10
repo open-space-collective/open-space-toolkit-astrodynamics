@@ -41,6 +41,8 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &Orbit::isDefined)
+
+        .def("accessModel", &Orbit::accessModel, return_value_policy<reference_existing_object>())
         
         .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
         .def("getPassAt", &Orbit::getPassAt)

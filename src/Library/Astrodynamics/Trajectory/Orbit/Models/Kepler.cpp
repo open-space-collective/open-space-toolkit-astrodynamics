@@ -58,7 +58,7 @@ static const Real Tolerance = 1e-8 ;
                                 :   Model(),
                                     coe_(inFixedFrame ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject) : aClassicalOrbitalElementSet),
                                     epoch_(anEpoch),
-                                    gravitationalParameter_(aCelestialObject.getGravitationalConstant()),
+                                    gravitationalParameter_(aCelestialObject.getGravitationalParameter()),
                                     equatorialRadius_(aCelestialObject.getEquatorialRadius()),
                                     j2_(aCelestialObject.getJ2()),
                                     perturbationType_(aPerturbationType)
@@ -327,7 +327,7 @@ COE                             Kepler::InertialCoeFromFixedCoe             (   
 
     const Transform fixedFrameToInertialFrameTransform = fixedFrame->getTransformTo(gcrfSPtr, anEpoch) ;
 
-    const COE::CartesianState cartesianStateInFixedFrame = aClassicalOrbitalElementSet.getCartesianState(aCelestialObject.getGravitationalConstant(), fixedFrame) ;
+    const COE::CartesianState cartesianStateInFixedFrame = aClassicalOrbitalElementSet.getCartesianState(aCelestialObject.getGravitationalParameter(), fixedFrame) ;
 
     const Position& positionInFixedFrame = cartesianStateInFixedFrame.first ;
     const Velocity& velocityInFixedFrame = cartesianStateInFixedFrame.second ;
@@ -337,7 +337,7 @@ COE                             Kepler::InertialCoeFromFixedCoe             (   
 
     const COE::CartesianState cartesianStateInInertialFrame = { positionInInertialFrame, velocityInInertialFrame } ;
 
-    return COE::Cartesian(cartesianStateInInertialFrame, aCelestialObject.getGravitationalConstant()) ;
+    return COE::Cartesian(cartesianStateInInertialFrame, aCelestialObject.getGravitationalParameter()) ;
 
 }
 
@@ -443,9 +443,9 @@ State                           Kepler::CalculateJ2StateAt                  (   
 
     const Real equatorialRadius_m = anEquatorialRadius.inMeters() ;
 
-    static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
 
-	const Real gravitationParameter_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+	const Real gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
 
     // Duration from epoch
 
@@ -463,7 +463,7 @@ State                           Kepler::CalculateJ2StateAt                  (   
     // Calculation
     // Ref: http://www.ltas-vis.ulg.ac.be/cmsms/uploads/File/Lecture06_AnalyticNumeric_2016-2017.pdf
 
-    const Real n = std::sqrt(gravitationParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)) ;
+    const Real n = std::sqrt(gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)) ;
     const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch) ;
 
     const Real cosInclination = std::cos(inclinationAtEpoch_rad) ;
@@ -562,12 +562,12 @@ Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   
     //     const Real inc = aClassicalOrbitalElementSet.getInclination().inRadians() ;
     //     const Real argper = aClassicalOrbitalElementSet.getAop().inRadians() ;
 
-    //     static const Derived::Unit gravitationParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
+    //     static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
 
-    //     const Real gravitationParameter_SI = aGravitationalParameter.in(gravitationParameterSIUnit) ;
+    //     const Real gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
 
     //     const double sma = a_m ;
-    //     const double mu = gravitationParameter_SI ;
+    //     const double mu = gravitationalParameter_SI ;
     //     const double req = R_m ;
     //     const double j2 = aJ2 ;
 
