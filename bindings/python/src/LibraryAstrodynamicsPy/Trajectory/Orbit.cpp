@@ -11,6 +11,7 @@
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
 
+#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit.hpp>
 
@@ -29,6 +30,8 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
     
     using library::astro::trajectory::State ;
     using library::astro::trajectory::Orbit ;
+    using library::astro::trajectory::orbit::models::Kepler ;
+    using library::astro::trajectory::orbit::models::SGP4 ;
 
     scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
 
@@ -43,6 +46,8 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def("isDefined", &Orbit::isDefined)
 
         .def("accessModel", &Orbit::accessModel, return_value_policy<reference_existing_object>())
+        .def("accessKeplerModel", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+        .def("accessSGP4Model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
         
         .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
         .def("getPassAt", &Orbit::getPassAt)

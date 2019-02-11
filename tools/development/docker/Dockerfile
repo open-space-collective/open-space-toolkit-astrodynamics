@@ -41,12 +41,12 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/nlopt \
  && popd > /dev/null
 
-## Library ▸ Physics [0.2.4]
+## Library ▸ Physics [0.2.5]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.2.4/library-physics-0.2.4-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.2.4/library-physics-0.2.4-1.x86_64-devel.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.2.5/library-physics-0.2.5-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.2.5/library-physics-0.2.5-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-physics \
  && popd > /dev/null
