@@ -29,7 +29,6 @@ OPTION (BUILD_UNIT_TESTS "Build tests" ON)
 OPTION (BUILD_PYTHON_BINDINGS "Build Python bindings." ON)
 OPTION (BUILD_CODE_COVERAGE "Build code coverage" OFF)
 OPTION (BUILD_DOCUMENTATION "Build documentation" OFF)
-OPTION (INSTALL_DATA "Install data" ON)
 
 ################################################################################################################################################################
 
@@ -477,6 +476,16 @@ CONFIGURE_FILE (
 INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
 INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
 
+### Misc
+
+INSTALL (FILES "LICENSE" DESTINATION ${INSTALL_ROOT} COMPONENT "documentation")
+
+IF (EXISTS "${PROJECT_SOURCE_DIR}/share")
+
+    INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/share/" DESTINATION ${INSTALL_DATA} COMPONENT "data")
+
+ENDIF ()
+
 ### Uninstall
 
 CONFIGURE_FILE (
@@ -485,20 +494,6 @@ CONFIGURE_FILE (
     IMMEDIATE @ONLY)
 
 ADD_CUSTOM_TARGET ("uninstall" COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake")
-
-### Misc
-
-INSTALL (FILES "LICENSE" DESTINATION ${INSTALL_ROOT} COMPONENT "documentation")
-
-IF (INSTALL_DATA)
-
-    IF (EXISTS "${PROJECT_SOURCE_DIR}/share")
-
-        INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/share" DESTINATION ${INSTALL_DATA} COMPONENT "data")
-
-    ENDIF ()
-
-ENDIF ()
 
 ################################################################################################################################################################
 

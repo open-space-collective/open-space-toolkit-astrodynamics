@@ -20,6 +20,7 @@ source "${project_directory}/tools/.env"
 
 docker run \
 --rm \
+--env-file="${script_directory}/.env" \
 --volume="${project_directory}:/app:rw" \
 --volume="${development_directory}/helpers/build.sh:/app/build/build.sh:ro" \
 --volume="${development_directory}/helpers/test.sh:/app/build/test.sh:ro" \

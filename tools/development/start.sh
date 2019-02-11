@@ -148,6 +148,7 @@ docker run \
 --rm \
 --privileged \
 ${options} \
+--env-file="${script_directory}/.env" \
 --volume="${project_directory}:/app:rw" \
 --volume="${project_directory}/share:/var/library-physics:rw" \
 --volume="${script_directory}/helpers/build.sh:/app/build/build.sh:ro" \

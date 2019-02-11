@@ -18,7 +18,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Model     ( )
 
     using library::astro::trajectory::Model ;
 
-    scope in_Model = class_<Model, boost::noncopyable>("Model", no_init)
+    scope in_Model = class_<Model, boost::noncopyable>("TrajectoryModel", no_init)
 
         .def(self == self)
         .def(self != self)

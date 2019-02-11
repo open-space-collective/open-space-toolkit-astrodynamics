@@ -640,7 +640,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalConstant, Frame::GCRF()) ;
+        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF()) ;
 
         const Position& position = cartesianState.first ;
         const Velocity& velocity = cartesianState.second ;
@@ -666,7 +666,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 
         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalConstant, Frame::GCRF()) ;
+        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF()) ;
 
         const Position& position = cartesianState.first ;
         const Velocity& velocity = cartesianState.second ;
@@ -695,7 +695,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 
     {
 
-        EXPECT_ANY_THROW(COE::Undefined().getCartesianState(Earth::GravitationalConstant, Frame::GCRF())) ;
+        EXPECT_ANY_THROW(COE::Undefined().getCartesianState(Earth::GravitationalParameter, Frame::GCRF())) ;
 
     }
 
@@ -743,9 +743,9 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
         const COE referenceCoe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-        const COE::CartesianState cartesianState = referenceCoe.getCartesianState(Earth::GravitationalConstant, Frame::GCRF()) ;
+        const COE::CartesianState cartesianState = referenceCoe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF()) ;
 
-        const COE coe = COE::Cartesian(cartesianState, Earth::GravitationalConstant) ;
+        const COE coe = COE::Cartesian(cartesianState, Earth::GravitationalParameter) ;
 
         EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6)) ;
         EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon())) ;
@@ -766,7 +766,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
     {
 
-        EXPECT_ANY_THROW(COE::Cartesian(COE::CartesianState({ Position::Undefined(), Velocity::Undefined() }), Earth::GravitationalConstant)) ;
+        EXPECT_ANY_THROW(COE::Cartesian(COE::CartesianState({ Position::Undefined(), Velocity::Undefined() }), Earth::GravitationalParameter)) ;
 
     }
 
