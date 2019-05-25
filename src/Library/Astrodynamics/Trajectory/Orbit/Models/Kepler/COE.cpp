@@ -32,7 +32,12 @@ namespace kepler
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::physics::units::Length ;
+using library::physics::units::Time ;
+using library::physics::units::Derived ;
+
 static const Real Tolerance = 1e-30 ;
+static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +101,7 @@ Length                          COE::getSemiMajorAxis                       ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return semiMajorAxis_ ;
 
 }
@@ -108,7 +113,7 @@ Real                            COE::getEccentricity                        ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return eccentricity_ ;
 
 }
@@ -120,7 +125,7 @@ Angle                           COE::getInclination                         ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return inclination_ ;
 
 }
@@ -132,7 +137,7 @@ Angle                           COE::getRaan                                ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return raan_ ;
 
 }
@@ -144,7 +149,7 @@ Angle                           COE::getAop                                 ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return aop_ ;
 
 }
@@ -156,7 +161,7 @@ Angle                           COE::getTrueAnomaly                         ( ) 
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return trueAnomaly_ ;
 
 }
@@ -203,9 +208,7 @@ Derived                         COE::getMeanMotion                          (   
 
     const Real semiMajorAxis_m = semiMajorAxis_.inMeters() ;
 
-    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
-
-	const Real gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
+	const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit) ;
 
 	return Derived(std::sqrt(gravitationalParameter_SI / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)), Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
 
@@ -225,7 +228,7 @@ Duration                        COE::getOrbitalPeriod                       (   
     {
         throw library::core::error::runtime::Undefined("COE") ;
     }
-    
+
     return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second))) ;
 
 }
@@ -246,7 +249,7 @@ COE::CartesianState             COE::getCartesianState                      (   
     {
         throw library::core::error::runtime::Undefined("Gravitational parameter") ;
     }
-    
+
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
         throw library::core::error::runtime::Undefined("Frame") ;
@@ -257,14 +260,12 @@ COE::CartesianState             COE::getCartesianState                      (   
         throw library::core::error::runtime::Undefined("COE") ;
     }
 
-    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
-
-	const Real a_m = semiMajorAxis_.inMeters() ;
+    const Real a_m = semiMajorAxis_.inMeters() ;
 	const Real inclination_rad = inclination_.inRadians() ;
 	const Real raan_rad = raan_.inRadians() ;
 	const Real aop_rad = aop_.inRadians() ;
 	const Real nu_rad = trueAnomaly_.inRadians() ;
-	const Real mu_SI = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
+	const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit) ;
 
 	const Real p_m = a_m * (1.0 - eccentricity_ * eccentricity_) ;
 
@@ -284,7 +285,7 @@ COE::CartesianState             COE::getCartesianState                      (   
 
     try
     {
-        
+
         const Vector3d x_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * R_pqw ;
         const Vector3d v_ECI = RotationMatrix::RZ(Angle::Radians(-raan_rad)) * RotationMatrix::RX(Angle::Radians(-inclination_rad)) * RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw ;
 
@@ -296,7 +297,7 @@ COE::CartesianState             COE::getCartesianState                      (   
     }
     catch (const library::core::error::Exception& anException)
     {
-        
+
         std::cout << "raan_rad = " << raan_rad << std::endl ;
         std::cout << "inclination_rad = " << inclination_rad << std::endl ;
         std::cout << "aop_rad = " << aop_rad << std::endl ;
@@ -304,7 +305,7 @@ COE::CartesianState             COE::getCartesianState                      (   
         std::cout << "V_pqw = " << V_pqw << std::endl ;
 
         throw anException ;
-        
+
     }
 
 }
@@ -338,7 +339,7 @@ COE                             COE::Cartesian                              (   
 {
 
     using library::math::obj::Vector3d ;
-    
+
     using library::physics::units::Mass ;
     using library::physics::units::Time ;
 
@@ -354,9 +355,7 @@ COE                             COE::Cartesian                              (   
 
     static const Real tolerance = 1e-11 ;
 
-    static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() } ;
-
-    const Real mu = aGravitationalParameter.in(gravitationalParameterSIUnit) ;
+    const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit) ;
 
     if (mu == 0.0)
     {
@@ -394,9 +393,9 @@ COE                             COE::Cartesian                              (   
     // Eccentricity
 
     const Vector3d eccentricityVector = (1.0 / mu) * ((((velocity * velocity) - (mu / position)) * positionVector) - ((positionVector.dot(velocityVector)) * (velocityVector))) ;
-    
+
     const Real e = eccentricityVector.norm() ;
-    
+
     if ((std::abs(1.0 - e)) <= Real::Epsilon())
     {
         throw library::core::error::runtime::ToBeImplemented("Support for parabolic orbits.") ;
@@ -405,21 +404,21 @@ COE                             COE::Cartesian                              (   
     // Semi-major axis
 
     const Real E = (0.5 * velocity * velocity) - (mu / position) ;
-    
+
     if (E == 0.0)
     {
         throw library::core::error::runtime::Wrong("Specific orbital energy") ;
     }
-    
+
     const Real a_m = - mu / (2.0 * E) ;
 
     if (std::abs(a_m * (1.0 - e)) < Real::Epsilon())
     {
         throw library::core::error::RuntimeError("Conic section is singular.") ;
     }
-    
+
     // Inclination
-    
+
     const Real i_rad = std::acos(angularMomentumVector(2)/ angularMomentum) ;
 
     // Other angles
@@ -437,21 +436,21 @@ COE                             COE::Cartesian                              (   
         }
 
         raan_rad = std::acos(nodeVector(0) / node) ;
-        
+
         if (nodeVector(1) < 0.0)
         {
             raan_rad = Real::TwoPi() - raan_rad ;
         }
 
         aop_rad = std::acos((nodeVector.dot(eccentricityVector)) / (node * e)) ;
-        
+
         if (eccentricityVector(2) < 0.0)
         {
             aop_rad = Real::TwoPi() - aop_rad ;
         }
 
         nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position)) ;
-        
+
         if (positionVector.dot(velocityVector) < 0.0)
         {
             nu_rad = Real::TwoPi() - nu_rad ;
@@ -463,7 +462,7 @@ COE                             COE::Cartesian                              (   
 
         raan_rad = 0.0 ;
         aop_rad = std::acos(eccentricityVector(0) / e) ;
-        
+
         if (eccentricityVector(1) < 0.0)
         {
             aop_rad = Real::TwoPi() - aop_rad ;
@@ -473,19 +472,19 @@ COE                             COE::Cartesian                              (   
         {
             aop_rad= aop_rad * -1.0 ;
         }
-        
+
         if (aop_rad < 0.0)
         {
             aop_rad = aop_rad + Real::TwoPi() ;
         }
 
         nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position)) ;
-        
+
         if (positionVector.dot(velocityVector) < 0.0)
         {
             nu_rad = Real::TwoPi() - nu_rad ;
         }
-        
+
     }
     else if ((e < tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance)))) // Circular, inclined
     {
@@ -494,9 +493,9 @@ COE                             COE::Cartesian                              (   
         {
             throw library::core::error::runtime::Undefined("Node") ;
         }
-        
+
         raan_rad = std::acos(nodeVector(0) / node) ;
-        
+
         if (nodeVector(1) < 0.0)
         {
             raan_rad = Real::TwoPi() - raan_rad ;
@@ -505,7 +504,7 @@ COE                             COE::Cartesian                              (   
         aop_rad = 0.0 ;
 
         nu_rad = std::acos((nodeVector.dot(positionVector)) / (node * position)) ;
-        
+
         if (positionVector(2) < 0.0)
         {
             nu_rad = Real::TwoPi() - nu_rad ;
@@ -519,7 +518,7 @@ COE                             COE::Cartesian                              (   
         aop_rad = 0.0 ;
 
         nu_rad = std::acos(positionVector(0) / position) ;
-        
+
         if (positionVector(1) < 0.0)
         {
             nu_rad = Real::TwoPi() - nu_rad ;
@@ -529,7 +528,7 @@ COE                             COE::Cartesian                              (   
         {
             nu_rad = nu_rad * -1.0 ;
         }
-            
+
         if (nu_rad < 0.0)
         {
             nu_rad = nu_rad + Real::TwoPi() ;
@@ -575,7 +574,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
 
             const Real sinE = (std::sqrt(1.0 - anEccentricity * anEccentricity) * std::sin(trueAnomaly_rad)) / (1.0 + anEccentricity * std::cos(trueAnomaly_rad)) ;
             const Real cosE = (anEccentricity + std::cos(trueAnomaly_rad)) / (1.0  + anEccentricity * std::cos(trueAnomaly_rad)) ;
-            
+
             eccentricAnomaly_rad = std::atan2(sinE, cosE) ;
             m = eccentricAnomaly_rad - anEccentricity * std::sin(eccentricAnomaly_rad) ;
 
@@ -590,7 +589,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
                 {
 
                     const Real sinE = (std::sqrt(anEccentricity * anEccentricity - 1.0) * std::sin(trueAnomaly_rad)) / (1.0  + anEccentricity * std::cos(trueAnomaly_rad)) ;
-                    
+
                     eccentricAnomaly_rad = std::asinh(sinE) ;
                     m = anEccentricity * std::sinh(eccentricAnomaly_rad) - eccentricAnomaly_rad ;
 
@@ -617,7 +616,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
                 }
 
             }
-        
+
         }
 
     }
@@ -626,7 +625,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
     {
 
         m = std::fmod(m, 2.0 * M_PI) ;
-        
+
         if (m < 0.0)
         {
             m += 2.0 * M_PI ;
@@ -719,7 +718,7 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
         const Real t33 = std::cos(M) ;
 
         return M + (-0.5 * t35 + e + (t34 + 1.5 * t33 * t35) * t33) * std::sin(M) ;
-    
+
     } ;
 
     // An iteration (correction) method to solve Kepler's equation
@@ -735,7 +734,7 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
         const Real t6 = t5 / (0.5 * t5 * t4 / t2 + t2) ;
 
         return t5 / (((0.5 * t3) - ((1.0 / 6.0) * t1 * t6)) * e * t6 + t2) ;
-    
+
     } ;
 
     const Real meanAnomaly_rad = aMeanAnomaly.inRadians() ;
@@ -744,27 +743,27 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
     const Real Mnorm = std::fmod(M, 2.0 * M_PI) ;
 
     Real E = Real::Undefined() ;
-    
+
     Real E0 = keplerstart3(anEccentricity, Mnorm) ;
     Real dE = aTolerance + 1.0 ;
     Size count = 0 ;
 
     while (dE > aTolerance)
     {
-        
+
         E = E0 - eps3(anEccentricity, Mnorm, E0) ;
         dE = std::abs(E - E0) ;
         E0 = E ;
-        
+
         count++ ;
-        
+
         if (count > 1000) // Failed to converge, this only happens for nearly parabolic orbits
         {
             throw library::core::error::RuntimeError("Cannot converge to solution ({}, {}, {}).", aMeanAnomaly.toString(32), anEccentricity.toString(32), aTolerance.toString(32)) ;
         }
 
     }
-    
+
     return Angle::Radians(E) ;
 
 }

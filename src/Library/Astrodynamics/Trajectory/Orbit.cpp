@@ -40,6 +40,13 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using library::physics::units::Length ;
+using library::physics::units::Derived ;
+
+static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, library::physics::units::Time::Unit::Second) ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                                 Orbit::Orbit                                (   const   orbit::Model&               aModel,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
                                 :   Trajectory(aModel),
@@ -140,7 +147,7 @@ Pass                            Orbit::getPassAt                            (   
     }
 
     return this->getPassWithRevolutionNumber(this->getRevolutionNumberAt(anInstant)) ;
-    
+
 }
 
 Pass                            Orbit::getPassWithRevolutionNumber          (   const   Integer&                    aRevolutionNumber                           ) const
@@ -181,7 +188,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
         const auto lowerBoundMapIt = passMap_.lower_bound(aRevolutionNumber) ;
 
-        if (lowerBoundMapIt != passMap_.end()) 
+        if (lowerBoundMapIt != passMap_.end())
         {
             // std::cout << "lowerBoundMap = " << lowerBoundMapIt->second << std::endl ;
 
@@ -202,7 +209,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
                 {
                     closestPassPtr = &(lowerBoundMapIt->second) ;
                 }
-                
+
             }
 
         }
@@ -284,7 +291,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
                         {
                             stepDuration = Duration::Seconds(-currentStateCoordinates_ECI_z * stepDuration.inSeconds() / (currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z)) ;
                         }
-                        
+
                         if (stepDuration.isZero())
                         {
                             stepDuration = (currentStateCoordinates_ECI_z < 0.0) ? Duration::Nanoseconds(+1.0) : Duration::Nanoseconds(-1.0) ;
@@ -356,7 +363,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
     }
 
     return Pass::Undefined() ;
-    
+
 }
 
 Shared<const Frame>             Orbit::getOrbitalFrame                      (   const   Orbit::FrameType&           aFrameType                                  ) const
@@ -421,14 +428,14 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             break ;
 
         }
-        
+
         case Orbit::FrameType::LVLH:
         {
 
             // X axis along position vector
             // Z axis along orbital momentum
             // Y axis toward velocity vector
-            
+
             const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
             (
                 [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
@@ -456,7 +463,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
 
             break ;
-            
+
         }
 
         case Orbit::FrameType::VVLH:
@@ -465,7 +472,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // Z axis along negative position vector
             // Y axis along negative orbital momentum
             // X axis toward velocity vector
-            
+
             const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
             (
                 [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
@@ -493,7 +500,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
 
             break ;
-            
+
         }
 
         case Orbit::FrameType::QSW:
@@ -571,7 +578,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         case Orbit::FrameType::VNC:
         {
 
-            // X axis along velocity vector 
+            // X axis along velocity vector
             // Y axis along orbital momentum
 
             const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
@@ -764,9 +771,9 @@ Orbit                           Orbit::SunSynchronous                       (   
 {
 
     using library::core::types::Uint8 ;
-    
+
     using library::math::obj::Vector3d ;
-    
+
     using library::physics::units::Mass ;
     using library::physics::units::Derived ;
     using library::physics::time::Scale ;
@@ -802,7 +809,7 @@ Orbit                           Orbit::SunSynchronous                       (   
 
         const Real a = aSemiMajorAxis.inMeters() ;
         const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters() ;
-        const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in({ Length::Unit::Meter, Derived::Order(3), Mass::Unit::Undefined, Derived::Order::Zero(), library::physics::units::Time::Unit::Second, Derived::Order(-2), Angle::Unit::Undefined, Derived::Order::Zero() }) ;
+        const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
         const Real j2 = aCelestialObjectSPtr->getJ2() ;
 
         const Real T_sid = 31558149.504 ; // [s] Sidereal year
@@ -838,7 +845,7 @@ Orbit                           Orbit::SunSynchronous                       (   
         const Real sunEclipticLatitude_rad = Angle::Degrees(std::fmod(sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) + 0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad), 360.0)).inRadians() ;
 
         // Compute the equation of time
-        
+
         const Real equationOfTime_deg = - 1.914666471 * std::sin(sunMeanAnomaly_rad)
                                         - 0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad)
                                         + 2.466 * std::sin(2.0 * sunEclipticLatitude_rad)
@@ -865,30 +872,30 @@ Orbit                           Orbit::SunSynchronous                       (   
         environment.setInstant(anEpoch) ;
 
         // Sun direction in GCRF
-        
+
         const Vector3d sunDirection_GCRF = environment.accessCelestialObjectWithName("Sun")->getPositionIn(Frame::GCRF()).getCoordinates().normalized() ;
 
         // Desired angle between the Sun and the ascending node
-        
+
         const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0) ;
 
         // Sun Apparent Local Time (right ascension of the Sun in GCRF)
         // https://en.wikipedia.org/wiki/Solar_time#Apparent_solar_time
-        
+
         const Angle apparentSolarTime = Angle::Radians(std::atan2(sunDirection_GCRF.y(), sunDirection_GCRF.x())) ;
 
         // Equation of Time
         // https://en.wikipedia.org/wiki/Equation_of_time
-        
+
         const Angle equationOfTime = calculateEquationOfTime(anEpoch) ;
 
         // Sun Mean Local Time
         // https://en.wikipedia.org/wiki/Solar_time#Mean_solar_time
 
         const Angle meanSolarTime = apparentSolarTime + equationOfTime ;
-  
+
         // Right Ascension of the Ascending Node
-        
+
         const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi())) ;
 
         return raan ;
