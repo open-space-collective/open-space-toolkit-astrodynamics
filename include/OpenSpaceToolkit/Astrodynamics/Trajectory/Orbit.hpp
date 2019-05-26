@@ -100,7 +100,7 @@ class Orbit : public Trajectory
 
                                 ~Orbit                                      ( ) ;
 
-        Orbit&                  operator =                                  (   const   Orbit&                      anOrbit                                     ) = delete ;
+        Orbit&                  operator =                                  (   const   Orbit&                      anOrbit                                     ) ;
 
         bool                    operator ==                                 (   const   Orbit&                      anOrbit                                     ) const ;
 
@@ -187,7 +187,7 @@ class Orbit : public Trajectory
 
     private:
 
-        const orbit::Model&     model_ ;
+        const orbit::Model*     modelPtr_ ;
 
         Shared<const Celestial> celestialObjectSPtr_ ;
 

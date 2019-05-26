@@ -81,9 +81,9 @@ class Trajectory
 
                                 Trajectory                                  (   const   Trajectory&                 aTrajectory                                 ) ;
 
-        /// @brief              Copy assignment operator (deleted)
+        /// @brief              Copy assignment operator
 
-        Trajectory&             operator =                                  (   const   Trajectory&                 aTrajectory                                 ) = delete ;
+        Trajectory&             operator =                                  (   const   Trajectory&                 aTrajectory                                 ) ;
 
         /// @brief              Equal to operator
         ///

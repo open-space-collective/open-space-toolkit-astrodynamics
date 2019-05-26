@@ -45,6 +45,18 @@ using ostk::astro::trajectory::models::Tabulated ;
 
 }
 
+Trajectory&                     Trajectory::operator =                      (   const   Trajectory&                 aTrajectory                                 )
+{
+
+    if (this != &aTrajectory)
+    {
+        modelUPtr_.reset((aTrajectory.modelUPtr_) != nullptr ? aTrajectory.modelUPtr_->clone() : nullptr) ;
+    }
+
+    return *this ;
+
+}
+
 bool                            Trajectory::operator ==                     (   const   Trajectory&                 aTrajectory                                 ) const
 {
 

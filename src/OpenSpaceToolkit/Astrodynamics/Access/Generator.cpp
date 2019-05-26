@@ -368,7 +368,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                         if (aDataContext == nullptr)
                         {
-                            throw ostk::core::error::runtime::Wrong("Data context") ;
+                            throw ostk::core::error::runtime::Undefined("Data context") ;
                         }
 
                         const Context* contextPtr = static_cast<const Context*>(aDataContext) ;

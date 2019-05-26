@@ -248,7 +248,7 @@ Integer                         SGP4::calculateRevolutionNumberAt           (   
         return this->getRevolutionNumberAtEpoch() ;
     }
 
-    // aaaa
+    throw ostk::core::error::runtime::ToBeImplemented("SGP4 :: calculateRevolutionNumberAt") ; // [TBI]
 
     return Integer::Undefined() ;
 
@@ -264,7 +264,7 @@ void                            SGP4::print                                 (   
 
     ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements") ;
 
-    // tle_.print(anOutputStream, false) ;
+    // tle_.print(anOutputStream, false) ; // [TBI]
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 

@@ -65,9 +65,9 @@ RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
  && cp libsgp4/*.a /usr/local/lib \
  && rm -rf /tmp/sgp4
 
-## NLopt [2.5.0]
+## NLopt [2.6.1]
 
-RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
+RUN git clone --branch v2.6.1 --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
  && cd /tmp/nlopt \
  && mkdir build \
  && cd build \
