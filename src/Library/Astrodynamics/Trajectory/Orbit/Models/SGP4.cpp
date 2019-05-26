@@ -88,7 +88,7 @@ State                           SGP4::Impl::calculateStateAt                (   
 
     const Position position_TEME = { x_TEME_m, Position::Unit::Meter, temeFrameOfEpochSPtr_ } ;
     const Velocity velocity_TEME = { v_TEME_mps, Velocity::Unit::MeterPerSecond, temeFrameOfEpochSPtr_ } ;
-    
+
     const State state_TEME = { anInstant, position_TEME, velocity_TEME } ;
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -169,7 +169,7 @@ std::ostream&                   operator <<                                 (   
     aSGP4Model.print(anOutputStream) ;
 
     return anOutputStream ;
-    
+
 }
 
 bool                            SGP4::isDefined                             ( ) const
@@ -184,7 +184,7 @@ TLE                             SGP4::getTle                                ( ) 
     {
         throw library::core::error::runtime::Undefined("SGP4") ;
     }
-    
+
     return tle_ ;
 
 }
@@ -196,7 +196,7 @@ Instant                         SGP4::getEpoch                              ( ) 
     {
         throw library::core::error::runtime::Undefined("SGP4") ;
     }
-    
+
     return tle_.getEpoch() ;
 
 }
@@ -208,7 +208,7 @@ Integer                         SGP4::getRevolutionNumberAtEpoch            ( ) 
     {
         throw library::core::error::runtime::Undefined("SGP4") ;
     }
-    
+
     return tle_.getRevolutionNumberAtEpoch() ;
 
 }
@@ -248,7 +248,7 @@ Integer                         SGP4::calculateRevolutionNumberAt           (   
         return this->getRevolutionNumberAtEpoch() ;
     }
 
-    // aaaa
+    throw library::core::error::runtime::ToBeImplemented("SGP4 :: calculateRevolutionNumberAt") ; // [TBI]
 
     return Integer::Undefined() ;
 
@@ -264,7 +264,7 @@ void                            SGP4::print                                 (   
 
     library::core::utils::Print::Separator(anOutputStream, "Two-Line Elements") ;
 
-    // tle_.print(anOutputStream, false) ;
+    // tle_.print(anOutputStream, false) ; // [TBI]
 
     displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
 

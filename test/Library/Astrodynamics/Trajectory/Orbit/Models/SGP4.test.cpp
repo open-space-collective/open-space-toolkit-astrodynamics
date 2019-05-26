@@ -104,7 +104,7 @@
 //             const Vector3d referencePosition_ITRF = { referenceRow[13].accessReal(), referenceRow[14].accessReal(), referenceRow[15].accessReal() } ;
 //             const Vector3d referenceVelocity_ITRF = { referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal() } ;
 
-//             const Real referenceRevolutionNumber = referenceRow[13].accessReal() ;
+//             const Real referenceRevolutionNumber = referenceRow[???].accessReal() ;
 
 //             const State state_GCRF = orbit.getStateAt(instant) ;
 
