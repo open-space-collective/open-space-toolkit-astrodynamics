@@ -253,7 +253,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 initialState,
                 1,
-                System { Mass::Kilograms(50.0) },
+                System { Mass::Kilograms(50.0), environment },
                 scenario.solver
             } ;
 

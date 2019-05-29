@@ -12,6 +12,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <Library/Physics/Environment.hpp>
 #include <Library/Physics/Time/Instant.hpp>
 #include <Library/Physics/Units/Mass.hpp>
 
@@ -33,8 +34,8 @@ namespace dynamics
 using library::core::types::Real ;
 
 using library::physics::units::Mass ;
-
 using library::physics::time::Instant ;
+using library::physics::Environment ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,11 +46,8 @@ class System
 
     public:
 
-                                System                                      (   const   Mass&                       aMass                                       ) ;
-
                                 System                                      (   const   Mass&                       aMass,
-                                                                                const   Instant&                    anInstant,
-                                                                                const   std::vector<double>&        aState                                      ) ;
+                                                                                const   Environment&                anEnvironment                               ) ;
 
                                 System                                      (   const   System&                     aSystem                                     ) ;
 
@@ -59,7 +57,7 @@ class System
 
         void                    operator ()                                 (   const   std::vector<double>&        aState,
                                                                                         std::vector<double>&        aDerivative,
-                                                                                const   double                      aTime                                       ) const ;
+                                                                                const   double                      aTime                                       ) ;
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   System&                     aSystem                                     ) ;
@@ -67,6 +65,8 @@ class System
         bool                    isDefined                                   ( ) const ;
 
         Mass                    getMass                                     ( ) const ;
+
+        Environment             getEnvironment                              ( ) const ;
 
         Instant                 getInstant                                  ( ) const ;
 
@@ -89,6 +89,7 @@ class System
     private:
 
         Mass                    mass_ ;
+        Environment             environment_ ;
 
         Instant                 instant_ ;
         std::vector<double>     state_ ;

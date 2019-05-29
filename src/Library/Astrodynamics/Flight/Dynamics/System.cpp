@@ -29,26 +29,19 @@ namespace dynamics
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                System::System                              (   const   Mass&                       aMass                                       )
+                                System::System                              (   const   Mass&                       aMass,
+                                                                                const   Environment&                anEnvironment                               )
                                 :   mass_(aMass),
+                                    environment_(anEnvironment),
                                     instant_(Instant::Undefined()),
                                     state_({})
 {
 
 }
 
-                                System::System                              (   const   Mass&                       aMass,
-                                                                                const   Instant&                    anInstant,
-                                                                                const   std::vector<double>&        aState                                      )
-                                :   mass_(aMass),
-                                    instant_(anInstant),
-                                    state_(aState)
-{
-
-}
-
                                 System::System                              (   const   System&                     aSystem                                     )
                                 :   mass_(aSystem.mass_),
+                                    environment_(aSystem.environment_),
                                     instant_(aSystem.instant_),
                                     state_(aSystem.state_)
 {
@@ -67,6 +60,7 @@ System&                         System::operator =                          (   
     {
 
         mass_ = aSystem.mass_ ;
+        environment_ = aSystem.environment_ ;
         instant_ = aSystem.instant_ ;
         state_ = aSystem.state_ ;
 
@@ -78,7 +72,7 @@ System&                         System::operator =                          (   
 
 void                            System::operator ()                         (   const   std::vector<double>&        aState,
                                                                                         std::vector<double>&        aDerivative,
-                                                                                const   double                      aTime                                       ) const
+                                                                                const   double                      aTime                                       )
 {
 
     using library::math::obj::Vector3d ;
@@ -101,7 +95,9 @@ void                            System::operator ()                         (   
 
     // coord::State                state_GCRF(time, x_GCRF, v_GCRF, Quaternion::Unit(), Vector3d::Zero(), Frame::Type::GCRF) ;
 
-    // environmentPtr_->setTime(time) ;
+    // environment_.setInstant(instant) ;
+
+    // environment_.getGravitationalFieldAt()
 
     // const Vector3d environmentForce_GCRF = { 0.0, 0.0, 0.0 } ; // environmentPtr_->calculateTotalForce_GCRF(state_GCRF, mass_) ;
     const Vector3d environmentForce_GCRF = - (398600441500000.0 * mass_.inKilograms()) / std::pow(x_GCRF.norm(), 2) * x_GCRF.normalized() ;
@@ -140,6 +136,11 @@ bool                            System::isDefined                           ( ) 
 Mass                            System::getMass                             ( ) const
 {
     return mass_ ;
+}
+
+Environment                     System::getEnvironment                      ( ) const
+{
+    return environment_ ;
 }
 
 Instant                         System::getInstant                          ( ) const
@@ -199,7 +200,7 @@ void                            System::setState                            (   
 
 System                          System::Undefined                           ( )
 {
-    return { Mass::Undefined(), Instant::Undefined(), {} } ;
+    return { Mass::Undefined(), Environment::Undefined() } ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
