@@ -1881,12 +1881,6 @@ BEGIN Satellite
         END ObjectCoverage
 
         BEGIN Desc
-            BEGIN ShortText
-
-            END ShortText
-            BEGIN LongText
-
-            END LongText
         END Desc
 
         BEGIN Ellipse
@@ -1972,10 +1966,10 @@ BEGIN Satellite
             END GenericGraphics
 
             BEGIN AttributeData
-                ShowGfx		 On
+                ShowGfx		 Off
                 AttributeType		                Basic		
                 BEGIN DefaultAttributes
-                    Show		 On
+                    Show		 Off
                     Inherit		 On
                     ShowLabel		 On
                     ShowGndTrack		 On

@@ -129,6 +129,33 @@ BEGIN Scenario
             WindowRectRight		 2579
             WindowRectBottom		 1064
         END Report
+
+        BEGIN Report
+            Name		 t_UTC x_GCRF v_GCRF rev1
+            Type		 Report
+            BaseDir		 User
+            Style		 t_UTC x_GCRF v_GCRF rev
+            AGIViewer		 Yes
+            Instance		 Satellite/EllipticalInclinedOrbit
+            BEGIN TimeData
+                BEGIN Section
+                    SectionNumber		 1
+                    SectionType		 2
+                    ShowIntervals		 No
+                    TimeType		 Availability
+                    SamplingType		 Default
+                    TimeBound		 0
+                END Section
+            END TimeData
+            DisplayOnLoad		 Yes
+            FrameType		 0
+            DockCircleID		 0
+            DockID		 0
+            WindowRectLeft		 553
+            WindowRectTop		 100
+            WindowRectRight		 2563
+            WindowRectBottom		 1171
+        END Report
     END QuickReports
 
     BEGIN Extensions

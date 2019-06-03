@@ -309,7 +309,7 @@ BEGIN SceneWindow
         UseCameraInertia		 Yes
         IsShowingMap		 No
         MapResolution		 Medium
-        MapLineType		 Surface
+        MapLineType		 OnTerrain
         MapFadeFactor		 1
         BEGIN Border3dLineAttr
             Width		 1
@@ -731,9 +731,9 @@ BEGIN SceneWindow
             UseLayer		 Yes
             FromName		 "Earth"
             FromRegPosAttView		 "Point"
-            FromPosition		 1.0325002451369055e+07 2.6434674508331224e+07 2.0620170068129130e+07
-            FromOffset		 1.0325002451369055e+07 2.6434674508331224e+07 2.0620170068129130e+07
-            FromOffsetLLR		 6.2834701245905544e-01 1.1984320892096718e+00 3.5079753500000000e+07
+            FromPosition		 3.4733282968441807e+07 4.8176146796731642e+06 9.8931726615399867e+05
+            FromOffset		 3.4733282968441807e+07 4.8176146796731642e+06 9.8931726615399867e+05
+            FromOffsetLLR		 2.8205684378836852e-02 1.3782376483006431e-01 3.5079753500000000e+07
             ToName		 "Earth"
             ToRegPosAttView		 "Point"
             ToPosition		 0.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00
@@ -741,9 +741,9 @@ BEGIN SceneWindow
             ToOffsetLLR		 0.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00
             ConstantDistanceType		 None
             ConstantDistanceValue		 1
-            UpVector		 -2.1385562749577275e-01 -5.4752567190684676e-01 8.0900025289943234e-01
+            UpVector		 -2.7934514898246870e-02 -3.8746043432064388e-03 9.9960224605519132e-01
             ViewRad		 3.5079753500000000e+07
-            ViewQuat		 5.3638889814531798e-01 2.5519062465686582e-01 1.7429176296521448e-01 -7.8535792884274602e-01
+            ViewQuat		 6.8850505948846522e-02 1.4068902943447979e-02 9.7105219848682043e-04 -9.9752730832703695e-01
             ViewCoordSystem		 From
             ViewFromToMode		 FromTo
             ViewToCBIMtx		 1.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00 1.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00 0.0000000000000000e+00 1.0000000000000000e+00
@@ -757,7 +757,7 @@ BEGIN SceneWindow
             MinAngleToUpAxis		 8.7266462599716477e-03
             InitUpAxisUp		 Yes
             TempUpAxisUp		 Yes
-            CrossAxis		 9.3146979593057810e-01 -3.6381866261785811e-01 0.0000000000000000e+00
+            CrossAxis		 1.3738784303048213e-01 -9.9051732977643137e-01 0.0000000000000000e+00
             DefaultOffset		 3.5079753500000000e+07
             BaseDefaultOffset		 6.3781370000000000e+06
         END View

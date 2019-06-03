@@ -221,12 +221,19 @@ State                           Propagator::calculateStateAt                (   
 
         const double stepDuration_s = Duration::Between(system_.getInstant(), anInstant).inSeconds() ;
 
+        // std::cout << system_ << std::endl ;
+        // std::cout << stepDuration_s << std::endl ;
+
         solver_.step(system_, stepDuration_s) ;
+
+        // std::cout << system_ << std::endl ;
 
     }
 
     const Vector3d x_GCRF = { system_.accessState()[0], system_.accessState()[1], system_.accessState()[2] } ;
+    // std::cout << x_GCRF << std::endl ;
     const Vector3d v_GCRF = { system_.accessState()[3], system_.accessState()[4], system_.accessState()[5] } ;
+    // std::cout << v_GCRF << std::endl ;
 
     const State currentState =
     {

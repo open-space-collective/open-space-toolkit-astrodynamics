@@ -45,6 +45,18 @@ using library::astro::trajectory::models::Tabulated ;
 
 }
 
+Trajectory&                     Trajectory::operator =                      (   const   Trajectory&                 aTrajectory                                 )
+{
+
+    if (this != &aTrajectory)
+    {
+        modelUPtr_.reset((aTrajectory.modelUPtr_) != nullptr ? aTrajectory.modelUPtr_->clone() : nullptr) ;
+    }
+
+    return *this ;
+
+}
+
 bool                            Trajectory::operator ==                     (   const   Trajectory&                 aTrajectory                                 ) const
 {
 
@@ -89,7 +101,7 @@ const Model&                    Trajectory::accessModel                     ( ) 
     {
         throw library::core::error::runtime::Undefined("Model") ;
     }
-    
+
     return *modelUPtr_ ;
 
 }
@@ -161,7 +173,7 @@ Trajectory                      Trajectory::Position                        (   
                                 :   modelUPtr_(nullptr)
 {
 
-}                               
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

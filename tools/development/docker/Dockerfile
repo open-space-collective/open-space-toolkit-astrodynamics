@@ -28,10 +28,23 @@ RUN pushd /tmp > /dev/null \
  && rm -rf /tmp/sgp4 \
  && popd > /dev/null
 
-## NLopt [2.5.0]
+# ## NLopt [2.6.1]
+
+# RUN pushd /tmp > /dev/null \
+#  && git clone --branch v2.6.1 --depth 1 https://github.com/stevengj/nlopt.git \
+#  && cd nlopt \
+#  && mkdir build \
+#  && cd build \
+#  && cmake -DBUILD_SHARED_LIBS=OFF .. \
+#  && make \
+#  && make install \
+#  && rm -rf /tmp/nlopt \
+#  && popd > /dev/null
+
+## NLopt [master]
 
 RUN pushd /tmp > /dev/null \
- && git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git \
+ && git clone --branch master --depth 1 https://github.com/stevengj/nlopt.git \
  && cd nlopt \
  && mkdir build \
  && cd build \

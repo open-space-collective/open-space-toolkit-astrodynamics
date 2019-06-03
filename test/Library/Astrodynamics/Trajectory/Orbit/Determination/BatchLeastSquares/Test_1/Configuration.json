@@ -1,0 +1,47 @@
+{
+    "decimation": 1,
+    "maxMeasurementCount": 2000,
+    "positionMeasurementError_m": 5.0,
+    "positionTolerance_m": 1.0,
+    "scenarios":
+    [
+        // {
+        //     "algorithm": "LN_COBYLA",
+        //     "maximumEvaluationCount": 10000,
+        //     "maximumDuration": "01:00",
+        //     "verbose": false
+        // },
+        // {
+        //     "algorithm": "LN_BOBYQA",
+        //     "maximumEvaluationCount": 10000,
+        //     "maximumDuration": "01:00",
+        //     "verbose": false
+        // },
+        // {
+        //     "algorithm": "LN_PRAXIS",
+        //     "maximumEvaluationCount": 10000,
+        //     "maximumDuration": "01:00",
+        //     "verbose": false
+        // },
+        {
+            "algorithm": "LN_NELDERMEAD",
+            "stateLowerBound": [-10000e3, -10000e3, -10000e3, -10e3, -10e3, -10e3],
+            "stateUpperBound": [10000e3, 10000e3, 10000e3, 10e3, 10e3, 10e3],
+            "relativeStateTolerance": 1e-16,
+            "stoppingFunctionValue": 1e-16,
+            "relativeFunctionTolerance": 1e-16,
+            // "absoluteFunctionTolerance": 1.0,
+            "maximumEvaluationCount": 10000,
+            "maximumDuration": "10:00",
+            "verbose": false
+        }
+        // {
+        //     "algorithm": "LN_SBPLX",
+        //     "stateLowerBound": [-10000e3, -10000e3, -10000e3, -10e3, -10e3, -10e3],
+        //     "stateUpperBound": [10000e3, 10000e3, 10000e3, 10e3, 10e3, 10e3],
+        //     "maximumEvaluationCount": 10000,
+        //     "maximumDuration": "10:00",
+        //     "verbose": false
+        // }
+    ]
+}
