@@ -174,7 +174,7 @@ class Orbit : public Trajectory
         ///
         /// @param              [in] anEpoch An orbit epoch
         /// @param              [in] anAltitude An orbit altitude (wrt. equatorial radius)
-        /// @param              [in] aLocalTimeAtDescendingNode A local time at ascending node
+        /// @param              [in] aLocalTimeAtDescendingNode A local time at descending node
         /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
         /// @return             Sun-synchronous orbit
 
