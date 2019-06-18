@@ -14,6 +14,7 @@
 #include <Library/Core/Containers/Array.hpp>
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
+
 #include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,7 @@ namespace sgp4
     {
         throw library::core::error::runtime::Wrong("TLE") ;
     }
-    
+
 }
 
                                 TLE::TLE                                    (   const   String&                     aSatelliteName,
@@ -59,7 +60,7 @@ namespace sgp4
     {
         throw library::core::error::runtime::Wrong("TLE") ;
     }
-    
+
 }
 
 bool                            TLE::operator ==                            (   const   TLE&                        aTle                                        ) const
@@ -69,7 +70,7 @@ bool                            TLE::operator ==                            (   
     {
         return false ;
     }
-    
+
     return (satelliteName_ == aTle.satelliteName_) && (firstLine_ == aTle.firstLine_) && (secondLine_ == aTle.secondLine_) ;
 
 }
@@ -148,7 +149,7 @@ Integer                         TLE::getSatelliteNumber                     ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Integer::Parse(firstLine_.getSubstring(2, 5).trim()) ;
 
 }
@@ -160,7 +161,7 @@ String                          TLE::getClassification                      ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return firstLine_.getSubstring(7, 1) ;
 
 }
@@ -172,7 +173,7 @@ String                          TLE::getInternationalDesignator             ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return firstLine_.getSubstring(9, 8).trim() ;
 
 }
@@ -210,7 +211,7 @@ Real                            TLE::getMeanMotionFirstTimeDerivativeDividedByTw
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Real::Parse(firstLine_.getSubstring(33, 10).trim()) ;
 
 }
@@ -222,7 +223,7 @@ Real                            TLE::getMeanMotionSecondTimeDerivativeDividedByS
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return TLE::ParseReal(firstLine_.getSubstring(44, 8).trim(), true) ;
 
 }
@@ -234,7 +235,7 @@ Real                            TLE::getBStarDragTerm                       ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return TLE::ParseReal(firstLine_.getSubstring(53, 8).trim(), true) ;
 
 }
@@ -246,7 +247,7 @@ Integer                         TLE::getEphemerisType                       ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Integer::Parse(firstLine_.getSubstring(62, 1)) ;
 
 }
@@ -258,7 +259,7 @@ Integer                         TLE::getElementSetNumber                    ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Integer::Parse(firstLine_.getSubstring(64, 4).trim()) ;
 
 }
@@ -270,7 +271,7 @@ Integer                         TLE::getFirstLineChecksum                   ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Integer::Parse(firstLine_.getSubstring(68, 1)) ;
 
 }
@@ -342,7 +343,7 @@ Derived                         TLE::getMeanMotion                          ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Derived(Real::Parse(secondLine_.getSubstring(52, 11).trim()), Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::units::Time::Unit::Day)) ;
 
 }
@@ -354,7 +355,7 @@ Integer                         TLE::getRevolutionNumberAtEpoch             ( ) 
     {
         throw library::core::error::runtime::Undefined("TLE") ;
     }
-    
+
     return Integer::Parse(secondLine_.getSubstring(63, 5)) ;
 
 }
@@ -369,11 +370,11 @@ bool                            TLE::CanParse                               (   
 
     using library::core::types::Size ;
     using library::core::ctnr::Array ;
-    
+
     Array<String> lines = Array<String>::Empty() ;
 
     std::istringstream stringStream(aString) ;
-    
+
     String lineBuffer ;
 
     while (std::getline(stringStream, lineBuffer))
@@ -386,7 +387,7 @@ bool                            TLE::CanParse                               (   
         {
             lines.add(lineBuffer) ;
         }
-        
+
     }
 
     if (lines.getSize() == 2)
@@ -399,7 +400,7 @@ bool                            TLE::CanParse                               (   
     }
 
     return false ;
-    
+
 }
 
 bool                            TLE::CanParse                               (   const   String&                     aFirstLine,
@@ -410,7 +411,7 @@ bool                            TLE::CanParse                               (   
 
     firstLine.erase(std::remove(firstLine.begin(), firstLine.end(), '\r'), firstLine.end()) ;
     firstLine.erase(std::remove(firstLine.begin(), firstLine.end(), '\n'), firstLine.end()) ;
-    
+
     String secondLine = aSecondLine ;
 
     secondLine.erase(std::remove(secondLine.begin(), secondLine.end(), '\r'), secondLine.end()) ;
@@ -425,7 +426,7 @@ bool                            TLE::CanParse                               (   
     }
 
     return false ;
-    
+
 }
 
 TLE                             TLE::Parse                                  (   const   String&                     aString                                     )
@@ -442,7 +443,7 @@ TLE                             TLE::Parse                                  (   
     Array<String> lines = Array<String>::Empty() ;
 
     std::istringstream stringStream(aString) ;
-    
+
     String lineBuffer ;
 
     while (std::getline(stringStream, lineBuffer))
@@ -455,7 +456,7 @@ TLE                             TLE::Parse                                  (   
         {
             lines.add(lineBuffer) ;
         }
-        
+
     }
 
     if (lines.getSize() == 2)
@@ -466,7 +467,7 @@ TLE                             TLE::Parse                                  (   
     {
         return TLE(lines.at(0), lines.at(1), lines.at(2)) ;
     }
-    
+
     throw library::core::error::runtime::Wrong("String", aString) ;
 
     return TLE::Undefined() ;
@@ -508,7 +509,7 @@ Integer                         TLE::GenerateChecksum                       (   
     {
         checksum += Integer::CanParse(aLine[idx]) ? static_cast<int>(Integer::Parse(aLine[idx])) : (aLine[idx] == '-' ? 1 : 0) ;
     }
-    
+
     checksum -= (checksum / 10) * 10 ; // Last digit
 
     return checksum ;
@@ -527,7 +528,7 @@ Real                            TLE::ParseReal                              (   
 
     if (isDecimalPointAssumed)
     {
-        
+
         if (aString[0] == '-')
         {
             string = "-0." + string.getSubstring(1, string.getLength() - 1) ;
@@ -544,7 +545,7 @@ Real                            TLE::ParseReal                              (   
     }
 
     // Transform exponent (e.g., 123-456 to 123e-456)
-    
+
     Index minusSignIndex = string.rfind('-') ;
 
     if ((minusSignIndex != String::npos) && (minusSignIndex > 0) && (string[minusSignIndex - 1] != 'e') && (string[minusSignIndex - 1] != 'E'))
@@ -553,7 +554,7 @@ Real                            TLE::ParseReal                              (   
     }
 
     Index plusSignIndex = string.rfind('+') ;
-    
+
     if ((plusSignIndex != String::npos) && (plusSignIndex > 0) && (string[plusSignIndex - 1] != 'e') && (string[plusSignIndex - 1] != 'E'))
     {
         string.std::string::replace(plusSignIndex, 1, "e+") ;
