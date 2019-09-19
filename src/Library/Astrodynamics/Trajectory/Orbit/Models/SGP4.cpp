@@ -14,7 +14,7 @@
 #include <Library/Core/Error.hpp>
 #include <Library/Core/Utilities.hpp>
 
-#include <sgp4/SGP4.h>
+#include <libsgp4/SGP4.h>
 
 #include <iostream>
 
