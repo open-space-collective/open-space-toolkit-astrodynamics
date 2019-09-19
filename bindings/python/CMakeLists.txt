@@ -53,7 +53,7 @@ SET (Boost_USE_MULTITHREADED ON)
 UNSET (Boost_INCLUDE_DIR CACHE)
 UNSET (Boost_LIBRARY_DIRS CACHE)
 
-FIND_PACKAGE ("Boost" "1.67" COMPONENTS "python36" REQUIRED)
+FIND_PACKAGE ("Boost" "1.67" COMPONENTS "python37" REQUIRED)
 
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES (${Boost_LIBRARY_DIRS})
@@ -63,13 +63,13 @@ LINK_DIRECTORIES (${Boost_LIBRARY_DIRS})
 # SET (PYTHON_INCLUDE_DIR "/usr/include/python2.7")
 # SET (PYTHON_LIBRARIES "/usr/lib64/libpython2.7.so")
 
-SET (PYTHON_INCLUDE_DIR "/usr/include/python3.6m")
-SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.6m.so")
+SET (PYTHON_INCLUDE_DIR "/usr/include/python3.7m")
+SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.7m.so")
 # SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.so")
 
 ### NumPy
 
-SET (NUMPY_INCLUDE_DIR "/usr/local/lib64/python3.6/site-packages/numpy/core/include")
+SET (NUMPY_INCLUDE_DIR "/usr/lib64/python3.7/site-packages/numpy/core/include")
 
 ################################################################################################################################################################
 
@@ -90,6 +90,8 @@ TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${CMAKE_SOURCE_DIR}/includ
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${CMAKE_SOURCE_DIR}/src")
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/src")
+TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${SGP4_INCLUDE_DIR}")
+TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${NLopt_INCLUDE_DIR}")
 
 TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} ${PYTHON_LIBRARIES})
 TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} ${Boost_LIBRARIES})
