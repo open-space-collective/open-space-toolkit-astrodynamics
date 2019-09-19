@@ -1,3 +1,6 @@
 [submodule "thirdparty/sgp4"]
 	path = thirdparty/sgp4
 	url = https://github.com/dnwrnr/sgp4.git
+[submodule "thirdparty/nlopt"]
+	path = thirdparty/nlopt
+	url = git@github.com:stevengj/nlopt.git
