@@ -24,7 +24,7 @@ SET (PROJECT_VENDOR_URL "open-space-collective.org")
 ## Project Options
 
 OPTION (BUILD_SHARED_LIBRARY "Build shared library." ON)
-OPTION (BUILD_STATIC_LIBRARY "Build static library." OFF)
+OPTION (BUILD_STATIC_LIBRARY "Build static library." ON)
 OPTION (BUILD_UNIT_TESTS "Build tests" ON)
 OPTION (BUILD_PYTHON_BINDINGS "Build Python bindings." ON)
 OPTION (BUILD_CODE_COVERAGE "Build code coverage" OFF)
