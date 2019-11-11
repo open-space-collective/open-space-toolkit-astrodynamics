@@ -50,7 +50,7 @@ RUN mkdir /tmp/eigen \
 ## SGP4 [master]
 
 RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
- && cd sgp4 \
+ && cd /tmp/sgp4 \
  && mkdir build \
  && cd build \
  && cmake -DCMAKE_CXX_FLAGS="-fPIC" .. \
@@ -63,7 +63,7 @@ RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
 ## NLopt [2.5.0]
 
 RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
- && cd nlopt \
+ && cd /tmp/nlopt \
  && mkdir build \
  && cd build \
  && cmake -DBUILD_SHARED_LIBS=OFF .. \
