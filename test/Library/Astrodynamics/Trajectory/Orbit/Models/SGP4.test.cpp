@@ -76,7 +76,7 @@
 
 //         // Orbital model setup
 
-//         const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite.tle"))) ;
+//         const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite.tle"))) ;
 
 //         const SGP4 sgp4Model = { tle } ;
 
@@ -86,7 +86,7 @@
 
 //         // Reference data setup
 
-//         const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite Orbit.csv")), Table::Format::CSV, true) ;
+//         const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite Orbit.csv")), Table::Format::CSV, true) ;
 
 //         // Orbit test
 

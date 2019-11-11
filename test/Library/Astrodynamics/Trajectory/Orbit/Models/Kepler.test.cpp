@@ -189,7 +189,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
         // Reference data setup
 
-        const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv")), Table::Format::CSV, true) ;
 
         // Orbit test
 
@@ -309,7 +309,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
 //         // Reference data setup
 
-//         const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Orbit.csv")), Table::Format::CSV, true) ;
+//         const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Orbit.csv")), Table::Format::CSV, true) ;
 
 //         // Orbit test
 

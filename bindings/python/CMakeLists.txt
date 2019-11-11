@@ -19,6 +19,11 @@ SET (PROJECT_VENDOR_NAME "Lucas Brémond")
 SET (PROJECT_VENDOR_CONTACT "lucas.bremond@gmail.com")
 SET (PROJECT_VENDOR_URL "lucas.bremond.info")
 
+## Project Options
+
+SET (BOOST_VERSION "1.69" CACHE STRING "Boost version.")
+SET (PYTHON_VERSION "python37" CACHE STRING "Python version.")
+
 ################################################################################################################################################################
 
 ## Setup
@@ -45,31 +50,40 @@ PROJECT (${PROJECT_NAME} VERSION ${PROJECT_VERSION_STRING} LANGUAGES "C" "CXX")
 
 ## Dependencies
 
-### Boost [1.67.0]
+### Boost
 
+UNSET (Boost_USE_STATIC_LIBS CACHE)
+UNSET (Boost_USE_MULTITHREADED CACHE)
+
+SET (BUILD_SHARED_LIBS ON)
 SET (Boost_USE_STATIC_LIBS OFF)
 SET (Boost_USE_MULTITHREADED ON)
 
-UNSET (Boost_INCLUDE_DIR CACHE)
-UNSET (Boost_LIBRARY_DIRS CACHE)
+FIND_PACKAGE ("Boost" ${BOOST_VERSION} REQUIRED COMPONENTS ${PYTHON_VERSION} "numpy37")
 
-FIND_PACKAGE ("Boost" "1.67" COMPONENTS "python36" REQUIRED)
-
-INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
-LINK_DIRECTORIES (${Boost_LIBRARY_DIRS})
+IF (NOT Boost_FOUND)
+    MESSAGE (SEND_ERROR "[Boost ${BOOST_VERSION}] not found.")
+ENDIF ()
 
 ### Python
 
-# SET (PYTHON_INCLUDE_DIR "/usr/include/python2.7")
-# SET (PYTHON_LIBRARIES "/usr/lib64/libpython2.7.so")
+FIND_PACKAGE ("Python3" COMPONENTS "Development")
 
-SET (PYTHON_INCLUDE_DIR "/usr/include/python3.6m")
-SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.6m.so")
-# SET (PYTHON_LIBRARIES "/usr/lib64/libpython3.so")
+IF (NOT Python3_FOUND)
+    MESSAGE (SEND_ERROR "[Python 3] not found.")
+ENDIF ()
+
+### Eigen
+
+ADD_COMPILE_DEFINITIONS (EIGEN_MAX_STATIC_ALIGN_BYTES)
 
 ### NumPy
 
-SET (NUMPY_INCLUDE_DIR "/usr/local/lib64/python3.6/site-packages/numpy/core/include")
+SET (NUMPY_INCLUDE_DIR "/usr/lib64/python3.7/site-packages/numpy/core/include")
+
+### Boost.NumPy Eigen
+
+SET (EIGEN_NUMPY_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/thirdparty/boost_numpy_eigen")
 
 ################################################################################################################################################################
 
@@ -79,6 +93,7 @@ SET (LIBRARY_NAME ${PROJECT_PACKAGE_NAME})
 SET (LIBRARY_TARGET "${LIBRARY_NAME}.so")
 
 FILE (GLOB_RECURSE PROJECT_SRCS "${PROJECT_SOURCE_DIR}/src/*.cxx")
+# LIST (APPEND PROJECT_SRCS "${PROJECT_SOURCE_DIR}/thirdparty/boost_numpy_eigen/eigen_numpy.cpp")
 
 ADD_LIBRARY (${LIBRARY_TARGET} SHARED ${PROJECT_SRCS})
 
@@ -86,13 +101,14 @@ ADD_DEPENDENCIES (${LIBRARY_TARGET} ${SHARED_LIBRARY_TARGET})
 
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC ${PYTHON_INCLUDE_DIR})
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC ${NUMPY_INCLUDE_DIR})
+TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC ${EIGEN_NUMPY_INCLUDE_DIR})
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${CMAKE_SOURCE_DIR}/include")
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${CMAKE_SOURCE_DIR}/src")
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include")
 TARGET_INCLUDE_DIRECTORIES (${LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
-TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} ${PYTHON_LIBRARIES})
-TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} "Python3::Python")
+TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} "Boost::${PYTHON_VERSION}" "Boost::numpy37")
 TARGET_LINK_LIBRARIES (${LIBRARY_TARGET} ${SHARED_LIBRARY_TARGET})
 
 SET_TARGET_PROPERTIES ( ${LIBRARY_TARGET} PROPERTIES
@@ -130,6 +146,7 @@ CONFIGURE_FILE (${SETUP_PY_IN} ${SETUP_PY})
 
 ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
                     COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}"
+                    COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/test"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/Library/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/Library/__init__.py"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/__init__.py"
                     COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/liblibrary-astrodynamics.so.0"
@@ -141,8 +158,6 @@ ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
 ADD_CUSTOM_TARGET (${PACKAGE_TARGET} ALL DEPENDS ${OUTPUT})
 
 ADD_DEPENDENCIES (${PACKAGE_TARGET} ${LIBRARY_TARGET})
-
-# INSTALL (CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
 
 ################################################################################################################################################################
 

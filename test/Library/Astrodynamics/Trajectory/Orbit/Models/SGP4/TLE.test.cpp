@@ -115,7 +115,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator
         EXPECT_TRUE(TLE::Undefined() != TLE::Undefined()) ;
 
     }
-    
+
 }
 
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
@@ -140,7 +140,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty()) ;
 
     }
-    
+
 }
 
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber)
@@ -411,7 +411,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
 {
 
     using library::core::types::String ;
-    
+
     using library::physics::units::Angle ;
 
     using library::astro::trajectory::orbit::models::sgp4::TLE ;
@@ -439,7 +439,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
 {
 
     using library::core::types::String ;
-    
+
     using library::physics::units::Angle ;
 
     using library::astro::trajectory::orbit::models::sgp4::TLE ;
@@ -549,7 +549,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
 {
 
     using library::core::types::String ;
-    
+
     using library::physics::units::Time ;
     using library::physics::units::Angle ;
     using library::physics::units::Derived ;
@@ -797,7 +797,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 
@@ -822,7 +822,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 
@@ -847,7 +847,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 

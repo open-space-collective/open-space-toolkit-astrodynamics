@@ -105,7 +105,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
             { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
             { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) }
         } ;
-        
+
         const Integer initialRevolutionNumber = 123 ;
 
         const Orbit orbit = { states, initialRevolutionNumber, environment.accessCelestialObjectWithName("Earth") } ;
@@ -171,7 +171,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_TRUE(orbit == orbit) ;
-        
+
         EXPECT_FALSE(orbit == Orbit::Undefined()) ;
         EXPECT_FALSE(Orbit::Undefined() == orbit) ;
 
@@ -240,7 +240,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         EXPECT_FALSE(orbit != orbit) ;
-        
+
         EXPECT_TRUE(orbit != Orbit::Undefined()) ;
         EXPECT_TRUE(Orbit::Undefined() != orbit) ;
 
@@ -380,7 +380,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         // Reference data setup
 
-        const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
 
         // Pass test
 
@@ -462,7 +462,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
         // Reference data setup
 
-        const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
 
         // Pass test
 
@@ -548,7 +548,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
         // Reference data setup
 
-        const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")), Table::Format::CSV, true) ;
 
         // Pass test
 
@@ -562,7 +562,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber) ;
 
             EXPECT_TRUE(pass.isDefined()) ;
-            
+
             EXPECT_EQ(Pass::Type::Complete, pass.getType()) ;
 
             EXPECT_GT(Duration::Microseconds(1.0), Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()) ;
@@ -600,7 +600,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
         // Reference data setup
 
-        const Table referenceData = Table::Load(File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Passes.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Passes.csv")), Table::Format::CSV, true) ;
 
         // Pass test
 
@@ -614,7 +614,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
             const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber) ;
 
             EXPECT_TRUE(pass.isDefined()) ;
-            
+
             EXPECT_EQ(Pass::Type::Complete, pass.getType()) ;
 
             EXPECT_GT(Duration::Milliseconds(1.0), Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()) ;
@@ -672,7 +672,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -937,7 +937,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Angle::Degrees(0.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -948,7 +948,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Angle::Degrees(45.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -959,7 +959,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Angle::Degrees(90.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -970,7 +970,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Angle::Degrees(135.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -981,7 +981,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Angle::Degrees(180.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -992,7 +992,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Angle::Degrees(0.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1003,7 +1003,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Angle::Degrees(45.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1014,7 +1014,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Angle::Degrees(90.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1025,7 +1025,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Angle::Degrees(135.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1036,7 +1036,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Angle::Degrees(180.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1068,7 +1068,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
         }
 
     }
-    
+
 }
 
 TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
@@ -1110,7 +1110,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Length::Kilometers(400.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 1.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 1.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1121,7 +1121,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
                 Length::Kilometers(500.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 2.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 2.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1132,7 +1132,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(600.0),
                 Length::Kilometers(500.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 3.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 3.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1143,7 +1143,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Length::Kilometers(4000.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 4.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 4.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1154,7 +1154,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Length::Kilometers(5000.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 5.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 5.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1165,7 +1165,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(6000.0),
                 Length::Kilometers(5000.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 6.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 6.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1176,7 +1176,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(5000.0),
                 Length::Kilometers(500.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 7.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 7.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1187,7 +1187,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(50000.0),
                 Length::Kilometers(500.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 8.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 8.csv")),
                 1e-3,
                 1e-6,
                 1e-0,
@@ -1219,7 +1219,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
         }
 
     }
-    
+
 }
 
 TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
@@ -1259,7 +1259,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
                 "Scenario 1",
                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
                 Length::Kilometers(500.0),
-                File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv")),
+                File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv")),
                 1e-3,
                 1e-6,
                 1e-1,
@@ -1291,7 +1291,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
         }
 
     }
-    
+
 }
 
 // TEST (Library_Astrodynamics_Trajectory_Orbit, SunSynchronous)
@@ -1334,7 +1334,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 //                 Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
 //                 Length::Kilometers(500.0),
 //                 Time::Parse("12:00:00"),
-//                 File::Path(Path::Parse("../test/Library/Astrodynamics/Trajectory/Orbit/SunSynchronous/Scenario 1.csv")),
+//                 File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/SunSynchronous/Scenario 1.csv")),
 //                 100.0,
 //                 1.0,
 //                 100.0,
@@ -1370,7 +1370,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 //         }
 
 //     }
-    
+
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

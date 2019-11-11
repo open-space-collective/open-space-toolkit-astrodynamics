@@ -38,7 +38,7 @@ TEST (Library_Astrodynamics_Flight_Profile, Constructor)
 {
 
     using library::core::types::Shared ;
-    
+
     using library::physics::time::Instant ;
     using library::physics::coord::Transform ;
     using library::physics::coord::Frame ;
@@ -68,7 +68,7 @@ TEST (Library_Astrodynamics_Flight_Profile, StreamOperator)
 {
 
     using library::core::types::Shared ;
-    
+
     using library::physics::time::Instant ;
     using library::physics::coord::Transform ;
     using library::physics::coord::Frame ;
@@ -104,7 +104,7 @@ TEST (Library_Astrodynamics_Flight_Profile, IsDefined)
 {
 
     using library::core::types::Shared ;
-    
+
     using library::physics::time::Instant ;
     using library::physics::coord::Transform ;
     using library::physics::coord::Frame ;
@@ -145,7 +145,7 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 
     using library::math::obj::Vector3d ;
     using library::math::geom::d3::trf::rot::Quaternion ;
-    
+
     using library::physics::time::Instant ;
     using library::physics::coord::Transform ;
     using library::physics::coord::Frame ;
@@ -209,7 +209,7 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
 
     using library::math::obj::Vector3d ;
     using library::math::geom::d3::trf::rot::Quaternion ;
-    
+
     using library::physics::time::Scale ;
     using library::physics::time::Instant ;
     using library::physics::time::DateTime ;
@@ -341,7 +341,7 @@ TEST (Library_Astrodynamics_Flight_Profile, InertialPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Flight/Profile/InertialPointing/Satellite t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Flight/Profile/InertialPointing/Satellite t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -438,7 +438,7 @@ TEST (Library_Astrodynamics_Flight_Profile, NadirPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -501,7 +501,7 @@ TEST (Library_Astrodynamics_Flight_Profile, NadirPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_2 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -564,7 +564,7 @@ TEST (Library_Astrodynamics_Flight_Profile, NadirPointing)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Flight/Profile/NadirPointing/Satellite_3 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 

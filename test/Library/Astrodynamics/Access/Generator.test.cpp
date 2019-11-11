@@ -61,7 +61,7 @@ TEST (Library_Astrodynamics_Access_Generator, Constructor)
         } ;
 
         EXPECT_NO_THROW(Generator generator(environment, aerFilter, accessFilter) ;) ;
-        
+
     }
 
 }
@@ -102,7 +102,7 @@ TEST (Library_Astrodynamics_Access_Generator, IsDefined)
         const Generator generator = { environment, aerFilter, accessFilter } ;
 
         EXPECT_TRUE(generator.isDefined()) ;
-        
+
     }
 
     {
@@ -219,7 +219,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -303,7 +303,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -379,7 +379,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -627,7 +627,7 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 //         // Reference data setup
 
-//         const File referenceDataFile = File::Path(Path::Parse("../test/Library/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
+//         const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
 
 //         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
