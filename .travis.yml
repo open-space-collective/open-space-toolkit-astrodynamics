@@ -8,102 +8,82 @@
 ################################################################################################################################################################
 
 branches:
-
-    only:
-
-        - /^\d+\.\d+(\.\d+)?(-\S*)?$/
-        - master
-        - dev
+  only:
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+    - master
+    - dev
 
 os:
-
-    - linux
+  - linux
 
 sudo: false
 
 services:
-
-    - docker
+  - docker
 
 language: cpp
 
 env:
-
-    global:
-
-        - LANG="en_US.UTF-8"
+  global:
+    - LANG="en_US.UTF-8"
 
 stages:
+  - build
+  - test
+  - name: deploy
+    if: tag =~ ^\d+\.\d+(\.\d+)?(-\S*)?$
 
-    - test
-    - coverage
-    - name: deploy
-      if: tag =~ ^\d+\.\d+(\.\d+)?(-\S*)?$
+before_script:
+  - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
 jobs:
+  include:
+    - stage: build
+      name: "Image Building"
+      script:
+        - make build-development-images
+        - make deploy-development-images
 
-    include:
+    - stage: test
+      name: "Unit Testing"
+      script:
+        - make test-unit-cpp-debian
+        - make test-unit-python-debian
 
-        - stage: test
+    - stage: test
+      name: "Coverage Analysis"
+      script:
+        - make deploy-coverage-cpp-results
 
-          script:
+    - stage: deploy
+      name: "Image Deployment"
+      script:
+        - make deploy-release-images
 
-                # Login to the Docker registry
-                
-                - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+    - stage: deploy
+      name: "Documentation Deployment"
+      script:
+        - make deploy-documentation
 
-                # Run tests
-
-                - ./tools/ci/test.sh
-
-        - stage: coverage
-        
-          script:
-
-                # Login to the Docker registry
-                
-                - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-                # Run coverage
-
-                - ./tools/ci/coverage.sh
-        
-        - stage: deploy
-
-          script:
-
-                # Login to the Docker registry
-                
-                - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-                # Generate and deploy documentation
-
-                - ./tools/ci/documentation.sh
-
-                # Generate and deploy binaries
-
-                - ./tools/ci/binaries.sh
-
-          before_deploy:
-
-                - echo "Deploying binaries to GitHub Releases..."
-
-          deploy:
-
-                - provider: releases
-                  api_key: ${GITHUB_API_KEY}
-                  file_glob: true
-                  file:
-                      - ./package/*
-                  skip_cleanup: true
-                  on:
-                      branch: master
-                      tags: true
-
-          after_deploy:
-
-                - echo "Deploying Python package to PyPI..."
-
-                - ./tools/ci/deploy.sh
+    - stage: deploy
+      name: "Package Deployment"
+      script:
+        - make build-packages
+      before_deploy:
+        - echo "Deploying packages to GitHub Releases..."
+      deploy:
+        - provider: releases
+          api_key: ${GITHUB_API_KEY}
+          file_glob: true
+          file:
+            - ./packages/cpp/*
+            - ./packages/python/*
+          skip_cleanup: true
+          on:
+            branch: master
+            tags: true
+      after_deploy:
+        - echo "Deploying Python package to PyPI..."
+        - make deploy-packages-python
 
 ################################################################################################################################################################

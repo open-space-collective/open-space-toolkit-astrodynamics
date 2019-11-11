@@ -1,59 +1,22 @@
 ################################################################################################################################################################
 
 # @project        Library/Astrodynamics
-# @file           .gitignore
+# @file           bindings/python/test/test_access.py
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-# Operating Systems
+import pytest
 
-## Mac OS
+from Library.Astrodynamics import Access
 
-**/.DS_Store
+################################################################################################################################################################
 
-# Editors
+class TestAccess:
 
-## Visual Studio Code
+    def test_constructor (self):
 
-.vscode/
-*.code-workspace
-
-## Sublime Text
-
-*.sublime-workspace
-*.sublime-project
-
-# Project
-
-## Common
-
-!.gitignore
-!.gitkeep
-
-## Binaries
-
-bin/*
-lib/*
-build/
-*.so*
-*.a
-*.exe*
-*.rpm*
-packages/
-coverage/
-
-## Documentation
-
-docs/html/
-docs/latex/
-
-## Misc.
-
-tmp/
-__pycache__
-.ipynb_checkpoints
-.library
+        pass
 
 ################################################################################################################################################################

@@ -1,0 +1,13 @@
+{
+    "name": "Library Astrodynamics",
+    "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "mhutchie.git-graph"
+    ],
+    "image": "openspacecollective/library-astrodynamics-development:latest-debian",
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+    "shutdownAction": "stopContainer"
+}

@@ -1,5 +1,4 @@
-Library ▸ Astrodynamics
-=======================
+# Library ▸ Astrodynamics
 
 Orbit, attitude, access.
 
@@ -48,76 +47,73 @@ The **Astrodynamics** library exhibits the following structure:
 
 ## Documentation
 
-The documentation can be found here:
+Documentation is available here:
 
 - [C++](https://open-space-collective.github.io/library-astrodynamics)
 - [Python](./bindings/python/docs)
 
 ## Tutorials
 
-Various tutorials are available here:
+Tutorials are available here:
 
 - [C++](./tutorials/cpp)
 - [Python](./tutorials/python)
 
 ## Setup
 
-### Development
+### Development Environment
 
-Using [Docker](https://www.docker.com) is recommended, as the development tools and dependencies setup is described in the provided [Dockerfile](./tools/development/docker/Dockerfile).
+Using [Docker](https://www.docker.com) for development is recommended, to simplify the installation of the necessary build tools and dependencies.
+Instructions on how to install Docker are available [here](https://docs.docker.com/install/).
 
-Instructions to install Docker can be found [here](https://docs.docker.com/install/).
-
-Start the development environment:
+To start the development environment:
 
 ```bash
-./tools/development/start.sh
+make start-development
 ```
 
-This will also build the `openspacecollective/library-astrodynamics:latest` Docker image, if not present already.
+This will:
 
-If installing Docker is not an option, please manually install the development tools (GCC, CMake) and the dependencies.
-The procedure should be similar to the one described in the [Dockerfile](./tools/development/docker/Dockerfile).
+1. Build the `openspacecollective/library-astrodynamics-development` Docker image.
+2. Create a development environment container with local source files and helper scripts mounted.
+3. Start a `bash` shell from the `./build` working directory.
+
+If installing Docker is not an option, you can manually install the development tools (GCC, CMake) and all required dependencies,
+by following a procedure similar to the one described in the [Development Dockerfile](./docker/development/Dockerfile).
 
 ### Build
 
-From the development environment:
+From the `./build` directory:
 
 ```bash
-./build.sh
-```
-
-Manually:
-
-```bash
-mkdir -p build
-cd build
 cmake ..
 make
 ```
 
+*Tip: `helpers/build.sh` simplifies building from within the development environment.*
+
 ### Test
 
-From the development environment:
+To start a container to build and run the tests:
 
 ```bash
-./test.sh
+make test
 ```
 
-Manually:
+Or to run them manually:
 
 ```bash
 ./bin/library-astrodynamics.test
 ```
 
-## Dependencies
+*Tip: `helpers/test.sh` simplifies running tests from within the development environment.*
 
-The **Astrodynamics** library internally uses the following dependencies:
+## Dependencies
 
 | Name        | Version | License                | Link                                                                                                                 |
 |-------------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Boost       | 1.67.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
-| Eigen       | 3.3.4   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
+| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
+| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
 | SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
 | NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                       |
 | Core        | master  | Apache License 2.0     | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
