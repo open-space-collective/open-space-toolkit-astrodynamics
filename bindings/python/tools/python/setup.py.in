@@ -16,7 +16,7 @@ with open('${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt', 'r') as f:
     requirements = f.read().splitlines()
 
 setuptools.setup(
-    name = 'OpenSpaceToolkitAstrodynamicsPy',
+    name = 'open-space-toolkit-astrodynamics',
     version = '${PROJECT_VERSION_STRING}',
     author = 'Open Space Collective',
     author_email = 'contact@open-space-collective.org',
@@ -30,7 +30,7 @@ setuptools.setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: POSIX :: Linux'
     ),
-    keywords = 'open-space-collective library astrodynamics',
+    keywords = 'open-space-collective open-space-toolkit astrodynamics',
     packages = setuptools.find_packages(),
     package_data = {
         '': [
