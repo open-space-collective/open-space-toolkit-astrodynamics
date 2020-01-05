@@ -33,7 +33,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
 // {
 
 //     using ostk::core::types::Shared ;
@@ -111,24 +111,24 @@
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, EqualToOperator)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, NotEqualToOperator)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, StreamOperator)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, IsDefined)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetClassicalOrbitalElements)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEpoch)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetRevolutionNumberAtEpoch)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetGravitationalParameter)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEquatorialRadius)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetJ2)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetPerturbationType)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateStateAt)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateRevolutionNumberAt)
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, StringFromPerturbationType)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, EqualToOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, NotEqualToOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, StreamOperator)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, IsDefined)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetClassicalOrbitalElements)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEpoch)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetRevolutionNumberAtEpoch)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetGravitationalParameter)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetEquatorialRadius)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetJ2)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, GetPerturbationType)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateStateAt)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, CalculateRevolutionNumberAt)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, StringFromPerturbationType)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 {
 
     using ostk::core::types::Shared ;
@@ -248,7 +248,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
 }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 // {
 
 //     using ostk::core::types::Shared ;

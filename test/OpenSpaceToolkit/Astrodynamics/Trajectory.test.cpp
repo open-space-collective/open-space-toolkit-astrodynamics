@@ -16,7 +16,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Trajectory, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 {
 
     using ostk::core::types::Shared ;
@@ -69,7 +69,7 @@ TEST (Library_Astrodynamics_Trajectory, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -143,7 +143,7 @@ TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -217,7 +217,7 @@ TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, StreamOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -258,7 +258,7 @@ TEST (Library_Astrodynamics_Trajectory, StreamOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
 {
 
     using ostk::core::types::Shared ;
@@ -301,7 +301,7 @@ TEST (Library_Astrodynamics_Trajectory, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, AccessModel)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
 {
 
     using ostk::core::types::Shared ;
@@ -344,7 +344,7 @@ TEST (Library_Astrodynamics_Trajectory, AccessModel)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, GetStateAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
 {
 
     using ostk::core::types::Shared ;
@@ -410,7 +410,7 @@ TEST (Library_Astrodynamics_Trajectory, GetStateAt)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, GetStatesAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 {
 
     using ostk::core::types::Shared ;
@@ -485,7 +485,7 @@ TEST (Library_Astrodynamics_Trajectory, GetStatesAt)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, Print)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
 {
 
     using ostk::core::types::Shared ;
@@ -527,7 +527,7 @@ TEST (Library_Astrodynamics_Trajectory, Print)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, Undefined)
 {
 
     using ostk::astro::Trajectory ;

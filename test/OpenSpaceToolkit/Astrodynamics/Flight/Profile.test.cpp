@@ -34,7 +34,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Flight_Profile, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
 {
 
     using ostk::core::types::Shared ;
@@ -64,7 +64,7 @@ TEST (Library_Astrodynamics_Flight_Profile, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, StreamOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -100,7 +100,7 @@ TEST (Library_Astrodynamics_Flight_Profile, StreamOperator)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, IsDefined)
 {
 
     using ostk::core::types::Shared ;
@@ -138,7 +138,7 @@ TEST (Library_Astrodynamics_Flight_Profile, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
 {
 
     using ostk::core::types::Shared ;
@@ -201,7 +201,7 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 {
 
     using ostk::core::types::Shared ;
@@ -264,7 +264,7 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, Undefined)
 {
 
     using ostk::astro::flight::Profile ;
@@ -278,7 +278,7 @@ TEST (Library_Astrodynamics_Flight_Profile, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, InertialPointing)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 {
 
     using ostk::core::types::Shared ;
@@ -373,7 +373,7 @@ TEST (Library_Astrodynamics_Flight_Profile, InertialPointing)
 
 }
 
-TEST (Library_Astrodynamics_Flight_Profile, NadirPointing)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
 {
 
     using ostk::core::types::Shared ;

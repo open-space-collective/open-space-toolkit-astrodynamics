@@ -29,7 +29,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Access_Generator, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
 {
 
     using ostk::physics::coord::spherical::AER ;
@@ -66,7 +66,7 @@ TEST (Library_Astrodynamics_Access_Generator, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
 {
 
     using ostk::physics::coord::spherical::AER ;
@@ -113,7 +113,7 @@ TEST (Library_Astrodynamics_Access_Generator, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 {
 
     using ostk::core::types::Real ;
@@ -411,7 +411,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, SetStep)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
 {
 
     using ostk::physics::time::Duration ;
@@ -435,7 +435,7 @@ TEST (Library_Astrodynamics_Access_Generator, SetStep)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, SetTolerance)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetTolerance)
 {
 
     using ostk::physics::time::Duration ;
@@ -459,7 +459,7 @@ TEST (Library_Astrodynamics_Access_Generator, SetTolerance)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, SetAerFilter)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAerFilter)
 {
 
     using ostk::physics::coord::spherical::AER ;
@@ -486,7 +486,7 @@ TEST (Library_Astrodynamics_Access_Generator, SetAerFilter)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, SetAccessFilter)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAccessFilter)
 {
 
     using ostk::physics::coord::spherical::AER ;
@@ -514,7 +514,7 @@ TEST (Library_Astrodynamics_Access_Generator, SetAccessFilter)
 
 }
 
-TEST (Library_Astrodynamics_Access_Generator, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
 {
 
     using ostk::astro::access::Generator ;
@@ -529,7 +529,7 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 }
 
-// TEST (Library_Astrodynamics_Access_Generator, AerRanges)
+// TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 // {
 
 //     using ostk::core::types::Real ;

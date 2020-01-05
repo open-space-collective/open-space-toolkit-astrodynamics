@@ -17,7 +17,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Access, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, Constructor)
 {
 
     using ostk::physics::time::Scale ;
@@ -61,7 +61,7 @@ TEST (Library_Astrodynamics_Access, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Access, EqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, EqualToOperator)
 {
 
     using ostk::physics::time::Scale ;
@@ -139,7 +139,7 @@ TEST (Library_Astrodynamics_Access, EqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Access, NotEqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, NotEqualToOperator)
 {
 
     using ostk::physics::time::Scale ;
@@ -217,7 +217,7 @@ TEST (Library_Astrodynamics_Access, NotEqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Access, StreamOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, StreamOperator)
 {
 
     using ostk::physics::time::Scale ;
@@ -245,7 +245,7 @@ TEST (Library_Astrodynamics_Access, StreamOperator)
 
 }
 
-TEST (Library_Astrodynamics_Access, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, IsDefined)
 {
 
     using ostk::physics::time::Scale ;
@@ -275,7 +275,7 @@ TEST (Library_Astrodynamics_Access, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Access, IsComplete)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, IsComplete)
 {
 
     using ostk::physics::time::Scale ;
@@ -318,7 +318,7 @@ TEST (Library_Astrodynamics_Access, IsComplete)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetType)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetType)
 {
 
     using ostk::physics::time::Scale ;
@@ -361,7 +361,7 @@ TEST (Library_Astrodynamics_Access, GetType)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetAcquisitionOfSignal)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetAcquisitionOfSignal)
 {
 
     using ostk::physics::time::Scale ;
@@ -391,7 +391,7 @@ TEST (Library_Astrodynamics_Access, GetAcquisitionOfSignal)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetTimeOfClosestApproach)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetTimeOfClosestApproach)
 {
 
     using ostk::physics::time::Scale ;
@@ -421,7 +421,7 @@ TEST (Library_Astrodynamics_Access, GetTimeOfClosestApproach)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetLossOfSignal)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetLossOfSignal)
 {
 
     using ostk::physics::time::Scale ;
@@ -451,7 +451,7 @@ TEST (Library_Astrodynamics_Access, GetLossOfSignal)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetInterval)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetInterval)
 {
 
     using ostk::physics::time::Scale ;
@@ -482,7 +482,7 @@ TEST (Library_Astrodynamics_Access, GetInterval)
 
 }
 
-TEST (Library_Astrodynamics_Access, GetDuration)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, GetDuration)
 {
 
     using ostk::physics::time::Scale ;
@@ -513,7 +513,7 @@ TEST (Library_Astrodynamics_Access, GetDuration)
 
 }
 
-TEST (Library_Astrodynamics_Access, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, Undefined)
 {
 
     using ostk::astro::Access ;
@@ -528,7 +528,7 @@ TEST (Library_Astrodynamics_Access, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Access, StringFromType)
+TEST (OpenSpaceToolkit_Astrodynamics_Access, StringFromType)
 {
 
     using ostk::astro::Access ;

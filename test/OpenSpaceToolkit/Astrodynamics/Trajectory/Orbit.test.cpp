@@ -36,7 +36,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
 
     using ostk::core::types::Shared ;
@@ -116,7 +116,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -185,7 +185,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -254,7 +254,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
 {
 
     using ostk::core::types::Shared ;
@@ -319,7 +319,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 {
 
     using ostk::core::types::Shared ;
@@ -401,7 +401,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 {
 
     using ostk::core::types::Shared ;
@@ -487,7 +487,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 {
 
     using ostk::core::types::Shared ;
@@ -626,7 +626,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
 
     using ostk::core::types::Shared ;
@@ -818,7 +818,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
 {
 
     using ostk::core::types::Shared ;
@@ -883,7 +883,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 {
 
     using ostk::astro::trajectory::Orbit ;
@@ -897,7 +897,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 {
 
     using ostk::core::ctnr::Array ;
@@ -1071,7 +1071,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 {
 
     using ostk::core::ctnr::Array ;
@@ -1222,7 +1222,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 {
 
     using ostk::core::ctnr::Array ;
@@ -1294,7 +1294,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 
 }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit, SunSynchronous)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, SunSynchronous)
 // {
 
 //     using ostk::core::ctnr::Array ;

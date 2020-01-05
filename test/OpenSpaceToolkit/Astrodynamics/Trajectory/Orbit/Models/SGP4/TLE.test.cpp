@@ -13,7 +13,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructor)
 {
 
     using ostk::core::types::String ;
@@ -50,7 +50,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOperator)
 {
 
     using ostk::core::types::String ;
@@ -84,7 +84,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, EqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator)
 {
 
     using ostk::core::types::String ;
@@ -118,7 +118,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, NotEqualToOperator
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
 {
 
     using ostk::core::types::String ;
@@ -143,7 +143,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, StreamOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber)
 {
 
     using ostk::core::types::String ;
@@ -169,7 +169,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GetSatelliteNumber
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassification)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassification)
 {
 
     using ostk::core::types::String ;
@@ -195,7 +195,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getClassification)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDesignator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDesignator)
 {
 
     using ostk::core::types::String ;
@@ -221,7 +221,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInternationalDe
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
 {
 
     using ostk::core::types::String ;
@@ -251,7 +251,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEpoch)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
 {
 
     using ostk::core::types::String ;
@@ -277,7 +277,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionFirst
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionSecondTimeDerivativeDividedBySix)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionSecondTimeDerivativeDividedBySix)
 {
 
     using ostk::core::types::String ;
@@ -303,7 +303,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotionSecon
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDragTerm)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDragTerm)
 {
 
     using ostk::core::types::String ;
@@ -329,7 +329,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getBStarDragTerm)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemerisType)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemerisType)
 {
 
     using ostk::core::types::String ;
@@ -355,7 +355,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEphemerisType)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElementSetNumber)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElementSetNumber)
 {
 
     using ostk::core::types::String ;
@@ -381,7 +381,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getElementSetNumbe
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLineChecksum)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLineChecksum)
 {
 
     using ostk::core::types::String ;
@@ -407,7 +407,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstLineChecks
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
 {
 
     using ostk::core::types::String ;
@@ -435,7 +435,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getInclination)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
 {
 
     using ostk::core::types::String ;
@@ -463,7 +463,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRaan)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentricity)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentricity)
 {
 
     using ostk::core::types::String ;
@@ -489,7 +489,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getEccentricity)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
 {
 
     using ostk::core::types::String ;
@@ -517,7 +517,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getAop)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAnomaly)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAnomaly)
 {
 
     using ostk::core::types::String ;
@@ -545,7 +545,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanAnomaly)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
 {
 
     using ostk::core::types::String ;
@@ -575,7 +575,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMotion)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumberAtEpoch)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumberAtEpoch)
 {
 
     using ostk::core::types::String ;
@@ -601,7 +601,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolutionNumbe
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 {
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
@@ -615,7 +615,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 {
 
     using ostk::core::types::String ;
@@ -685,7 +685,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 {
 
     using ostk::core::types::String ;
@@ -782,7 +782,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 {
 
     using ostk::core::types::String ;

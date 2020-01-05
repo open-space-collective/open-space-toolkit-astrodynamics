@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
 
     using ostk::core::types::Real ;
@@ -56,7 +56,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 {
 
     using ostk::core::types::Real ;
@@ -124,7 +124,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperator)
 {
 
     using ostk::core::types::Real ;
@@ -192,7 +192,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperat
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 {
 
     using ostk::core::types::Real ;
@@ -230,7 +230,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 {
 
     using ostk::core::types::Real ;
@@ -270,7 +270,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis)
 {
 
     using ostk::core::types::Real ;
@@ -310,7 +310,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 {
 
     using ostk::core::types::Real ;
@@ -350,7 +350,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 {
 
     using ostk::core::types::Real ;
@@ -390,7 +390,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 {
 
     using ostk::core::types::Real ;
@@ -430,7 +430,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 {
 
     using ostk::core::types::Real ;
@@ -470,7 +470,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 {
 
     using ostk::core::types::Real ;
@@ -510,7 +510,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
 //     using ostk::core::types::Real ;
@@ -535,7 +535,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
 // {
 
 //     using ostk::core::types::Real ;
@@ -560,7 +560,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
 // {
 
 //     using ostk::core::types::Real ;
@@ -585,7 +585,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
 // {
 
 //     using ostk::core::types::Real ;
@@ -610,7 +610,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 
 // }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
 {
 
     using ostk::core::types::Real ;
@@ -701,7 +701,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
 
     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -714,7 +714,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 
 }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 {
 
     using ostk::core::types::Real ;
@@ -772,7 +772,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 
 //     using ostk::core::types::Real ;
@@ -797,7 +797,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
 // {
 
 //     using ostk::core::types::Real ;
@@ -822,7 +822,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 // }
 
-// TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
+// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
 // {
 
 //     using ostk::core::types::Real ;
@@ -847,7 +847,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 
 // }
 
-TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
 {
 
     using ostk::core::types::Real ;
