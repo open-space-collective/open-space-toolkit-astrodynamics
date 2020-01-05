@@ -44,6 +44,32 @@ export ci_codecov_token := $(CODECOV_TOKEN)
 
 ################################################################################################################################################################
 
+pull:
+
+	@ echo "Pulling images..."
+
+	@ make pull-development-images
+	@ make pull-release-images
+
+pull-development-images:
+
+	@ echo "Pulling development images..."
+
+	@ make pull-development-image-debian
+	@ make pull-development-image-fedora
+
+pull-development-image-debian: target := debian
+pull-development-image-fedora: target := fedora
+
+pull-development-image-debian pull-development-image-fedora: _pull-development-image
+
+_pull-development-image:
+
+	@ echo "Pulling [$(target)] development image..."
+
+	docker pull $(docker_development_image_repository):$(docker_image_version)-$(target) || true
+	docker pull $(docker_development_image_repository):latest-$(target) || true
+
 build: build-images
 
 build-images:
@@ -65,11 +91,9 @@ build-development-image-fedora: target := fedora
 
 build-development-image-debian build-development-image-fedora: _build-development-image
 
-_build-development-image:
+_build-development-image: _pull-development-image
 
 	@ echo "Building [$(target)] development image..."
-
-	docker pull $(docker_development_image_repository):latest-$(target) || true
 
 	docker build \
 	--cache-from=$(docker_development_image_repository):latest-$(target) \
@@ -77,9 +101,32 @@ _build-development-image:
 	--tag=$(docker_development_image_repository):$(docker_image_version)-$(target) \
 	--tag=$(docker_development_image_repository):latest-$(target) \
 	--build-arg="BASE_IMAGE_VERSION=$(development_base_image_version)" \
-	--build-arg="BASE_IMAGE_SYSTEM=$(target)" \
 	--build-arg="VERSION=$(docker_image_version)" \
 	"$(project_directory)"
+
+pull-release-images:
+
+	@ echo "Pull release images..."
+
+	@ make pull-release-image-cpp-debian
+	@ make pull-release-image-cpp-fedora
+
+	@ make pull-release-image-python-debian
+	@ make pull-release-image-python-fedora
+
+	@ make pull-jupyter-notebook-image
+
+pull-release-image-cpp-debian: target := debian
+pull-release-image-cpp-fedora: target := fedora
+
+pull-release-image-cpp-debian pull-release-image-cpp-fedora: _pull-release-image-cpp
+
+_pull-release-image-cpp:
+
+	@ echo "Pull [$(target)] C++ release image..."
+
+	docker pull $(docker_image_repository):$(docker_image_version)-$(target) || true
+	docker pull $(docker_image_repository):latest-$(target) || true
 
 build-release-images:
 
@@ -91,16 +138,16 @@ build-release-images:
 	@ make build-release-image-python-debian
 	@ make build-release-image-python-fedora
 
+	@ make build-jupyter-notebook-image
+
 build-release-image-cpp-debian: target := debian
 build-release-image-cpp-fedora: target := fedora
 
 build-release-image-cpp-debian build-release-image-cpp-fedora: _build-release-image-cpp
 
-_build-release-image-cpp: _build-development-image
+_build-release-image-cpp: _build-development-image _pull-release-image-cpp
 
 	@ echo "Building [$(target)] C++ release image..."
-
-	docker pull $(docker_image_repository):latest-$(target) || true
 
 	docker build \
 	--cache-from=$(docker_image_repository):latest-$(target) \
@@ -111,16 +158,26 @@ _build-release-image-cpp: _build-development-image
 	--target=cpp-release \
 	"$(project_directory)"
 
+pull-release-image-python-debian: target := debian
+pull-release-image-python-fedora: target := fedora
+
+pull-release-image-python-debian pull-release-image-python-fedora: _pull-release-image-python
+
+_pull-release-image-python: _pull-development-image
+
+	@ echo "Pulling [$(target)] Python release image..."
+
+	docker pull $(docker_release_image_python_repository):$(docker_image_version)-$(target) || true
+	docker pull $(docker_release_image_python_repository):latest-$(target) || true
+
 build-release-image-python-debian: target := debian
 build-release-image-python-fedora: target := fedora
 
 build-release-image-python-debian build-release-image-python-fedora: _build-release-image-python
 
-_build-release-image-python: _build-development-image
+_build-release-image-python: _build-development-image _pull-release-image-python
 
 	@ echo "Building [$(target)] Python release image..."
-
-	docker pull $(docker_release_image_python_repository):latest-$(target) || true
 
 	docker build \
 	--cache-from=$(docker_release_image_python_repository):latest-$(target) \
@@ -131,11 +188,16 @@ _build-release-image-python: _build-development-image
 	--target=python-release \
 	"$(project_directory)"
 
-build-jupyter-notebook-image:
+pull-jupyter-notebook-image:
+
+	@ echo "Pulling Jupyter Notebook image..."
+
+	docker pull $(docker_jupyter_notebook_image_repository):$(docker_image_version) || true
+	docker pull $(docker_jupyter_notebook_image_repository):latest || true
+
+build-jupyter-notebook-image: pull-jupyter-notebook-image
 
 	@ echo "Building Jupyter Notebook image..."
-
-	docker pull $(docker_jupyter_notebook_image_repository):latest || true
 
 	docker build \
 	--cache-from=$(docker_jupyter_notebook_image_repository):latest \
@@ -597,9 +659,13 @@ clean:
 
 ################################################################################################################################################################
 
-.PHONY: build build-images \
+.PHONY: pull pull-development-images pull-development-image-debian pull-development-image-fedora _pull-development-image \
+		build build-images \
 		build-development-images build-development-image-debian build-development-image-fedora \
+		pull-release-images pull-release-image-cpp-debian pull-release-image-cpp-fedora _pull-release-image-cpp \
+		pull-release-image-python-debian pull-release-image-python-fedora _pull-release-image-python \
 		build-release-image-cpp-debian build-release-image-python-debian build-release-image-python-fedora \
+		pull-jupyter-notebook-image \
 		build-jupyter-notebook-image \
 		build-documentation \
 		build-packages-cpp build-packages-cpp-debian build-packages-cpp-fedora \

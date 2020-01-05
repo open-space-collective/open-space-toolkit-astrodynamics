@@ -68,7 +68,7 @@ RUN apt-get update -y \
  && apt-get install -y libcurl4-openssl-dev libssl-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install numpy
+RUN pip install ipython numpy
 
 ENV LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/coordinate/frame/providers/iers"
 ENV LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/ephemerides/spice"
@@ -77,6 +77,6 @@ ENV LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/lo
 
 COPY --from=python-builder /usr/local/lib/python3.7/site-packages/ostk /usr/local/lib/python3.7/site-packages/ostk
 
-ENTRYPOINT ["python"]
+ENTRYPOINT ["ipython"]
 
 ################################################################################################################################################################

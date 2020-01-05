@@ -65,10 +65,10 @@ RUN dnf update -y \
  && dnf install -y libcurl-devel openssl-devel \
  && dnf clean all
 
-RUN pip install numpy
+RUN pip install ipython numpy
 
 COPY --from=python-builder /usr/local/lib/python3.7/site-packages/ostk /usr/local/lib/python3.7/site-packages/ostk
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["ipython"]
 
 ################################################################################################################################################################

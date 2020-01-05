@@ -58,7 +58,7 @@ jobs:
     - stage: deploy
       name: "Image Deployment"
       script:
-        - make deploy-release-images
+        - make deploy-images
 
     - stage: deploy
       name: "Documentation Deployment"
