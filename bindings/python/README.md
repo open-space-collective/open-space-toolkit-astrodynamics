@@ -1,4 +1,4 @@
-# Library ▸ Astrodynamics ▸ Bindings ▸ Python
+# Open Space Toolkit ▸ Astrodynamics ▸ Bindings ▸ Python
 
 Orbit, attitude, access.
 
@@ -9,4 +9,4 @@ Orbit, attitude, access.
 [![PyPI version](https://badge.fury.io/py/LibraryAstrodynamicsPy.svg)](https://badge.fury.io/py/LibraryAstrodynamicsPy)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[Library ▸ Astrodynamics](https://github.com/open-space-collective/library-astrodynamics)
+[Open Space Toolkit ▸ Astrodynamics](https://github.com/open-space-collective/library-astrodynamics)

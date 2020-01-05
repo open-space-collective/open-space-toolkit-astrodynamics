@@ -43,12 +43,12 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     options=""
     command=""
 
-    # Library ▸ Core
+    # Open Space Toolkit ▸ Core
 
     if [[ ! -d ${library_core_directory} ]]
     then
 
-        echo "Library ▸ Core directory [${library_core_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Core directory [${library_core_directory}s] cannot be found."
 
         exit 1
 
@@ -65,12 +65,12 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
-    ## Library ▸ Mathematics
+    ## Open Space Toolkit ▸ Mathematics
 
     if [[ ! -d ${library_mathematics_directory} ]]
     then
 
-        echo "Library ▸ Mathematics directory [${library_mathematics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Mathematics directory [${library_mathematics_directory}s] cannot be found."
 
         exit 1
 
@@ -87,12 +87,12 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so /usr/local/lib/; \
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.0 /usr/local/lib/;"
 
-    ## Library ▸ Physics
+    ## Open Space Toolkit ▸ Physics
 
     if [[ ! -d ${library_physics_directory} ]]
     then
 
-        echo "Library ▸ Physics directory [${library_physics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Physics directory [${library_physics_directory}s] cannot be found."
 
         exit 1
 
@@ -109,12 +109,12 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     ln -s /mnt/library-physics/lib/liblibrary-physics.so /usr/local/lib/; \
     ln -s /mnt/library-physics/lib/liblibrary-physics.so.0 /usr/local/lib/;"
 
-    ## Library ▸ Astrodynamics
+    ## Open Space Toolkit ▸ Astrodynamics
 
     if [[ ! -d ${library_astrodynamics_directory} ]]
     then
 
-        echo "Library ▸ Astrodynamics directory [${library_astrodynamics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Astrodynamics directory [${library_astrodynamics_directory}s] cannot be found."
 
         exit 1
 

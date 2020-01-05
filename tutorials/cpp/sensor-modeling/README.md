@@ -1,4 +1,4 @@
-Library ▸ Astrodynamics ▸ Tutorials ▸ C++ ▸ Sensor Modeling
+Open Space Toolkit ▸ Astrodynamics ▸ Tutorials ▸ C++ ▸ Sensor Modeling
 ===========================================================
 
 ```bash

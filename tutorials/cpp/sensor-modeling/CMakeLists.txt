@@ -93,19 +93,19 @@ ELSE ()
     MESSAGE (SEND_ERROR "[Eigen 3] not found.")
 ENDIF ()
 
-### Library ▸ Core [master]
+### Open Space Toolkit ▸ Core [master]
 
 FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
 
-### Library ▸ Mathematics [master]
+### Open Space Toolkit ▸ Mathematics [master]
 
 FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
 
-### Library ▸ Physics [master]
+### Open Space Toolkit ▸ Physics [master]
 
 FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
 
-### Library ▸ Astrodynamics [master]
+### Open Space Toolkit ▸ Astrodynamics [master]
 
 FIND_PACKAGE ("LibraryAstrodynamics" "0.1" REQUIRED)
 

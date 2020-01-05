@@ -24,7 +24,7 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     options=""
     command=""
 
-    # Library ▸ Core
+    # Open Space Toolkit ▸ Core
 
     if [[ -z ${library_core_directory} ]]; then
         echo "Variable [library_core_directory] is undefined."
@@ -32,7 +32,7 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     fi
 
     if [[ ! -d ${library_core_directory} ]]; then
-        echo "Library ▸ Core directory [${library_core_directory}] cannot be found."
+        echo "Open Space Toolkit ▸ Core directory [${library_core_directory}] cannot be found."
         exit 1
     fi
 
@@ -47,11 +47,11 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
-    # Library ▸ I/O
+    # Open Space Toolkit ▸ I/O
 
     # TBI
 
-    # Library ▸ Mathematics
+    # Open Space Toolkit ▸ Mathematics
 
     # TBI
 

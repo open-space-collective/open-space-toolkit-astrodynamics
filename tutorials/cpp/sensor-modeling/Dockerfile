@@ -39,7 +39,7 @@ RUN mkdir /tmp/eigen \
  && make install \
  && rm -rf /tmp/eigen
 
-## Library ▸ Core [0.1.16]
+## Open Space Toolkit ▸ Core [0.1.16]
 
 RUN mkdir -p /tmp/library-core \
  && pushd /tmp/library-core > /dev/null \
@@ -49,7 +49,7 @@ RUN mkdir -p /tmp/library-core \
  && rm -rf /tmp/library-core \
  && popd > /dev/null
 
-## Library ▸ Mathematics [0.1.12]
+## Open Space Toolkit ▸ Mathematics [0.1.12]
 
 RUN mkdir -p /tmp/library-mathematics \
  && pushd /tmp/library-mathematics > /dev/null \
@@ -59,7 +59,7 @@ RUN mkdir -p /tmp/library-mathematics \
  && rm -rf /tmp/library-mathematics \
  && popd > /dev/null
 
-## Library ▸ Physics [0.1.8]
+## Open Space Toolkit ▸ Physics [0.1.8]
 
 RUN mkdir -p /tmp/library-physics \
  && pushd /tmp/library-physics > /dev/null \
@@ -69,7 +69,7 @@ RUN mkdir -p /tmp/library-physics \
  && rm -rf /tmp/library-physics \
  && popd > /dev/null
 
-## Library ▸ Astrodynamics [0.1.3]
+## Open Space Toolkit ▸ Astrodynamics [0.1.3]
 
 RUN mkdir -p /tmp/library-astrodynamics \
  && pushd /tmp/library-astrodynamics > /dev/null \

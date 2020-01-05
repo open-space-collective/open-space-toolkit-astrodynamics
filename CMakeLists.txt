@@ -270,43 +270,43 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Library ▸ Core [0.2.x]
+### Open Space Toolkit ▸ Core [0.2.x]
 
 FIND_PACKAGE ("LibraryCore" "0.2" REQUIRED)
 
 IF (NOT LibraryCore_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ Core] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Core] not found.")
 
 ENDIF ()
 
-### Library ▸ I/O [0.2.x]
+### Open Space Toolkit ▸ I/O [0.2.x]
 
 FIND_PACKAGE ("LibraryIO" "0.2" REQUIRED)
 
 IF (NOT LibraryIO_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ I/O] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ I/O] not found.")
 
 ENDIF ()
 
-### Library ▸ Mathematics [0.2.x]
+### Open Space Toolkit ▸ Mathematics [0.2.x]
 
 FIND_PACKAGE ("LibraryMathematics" "0.2" REQUIRED)
 
 IF (NOT LibraryMathematics_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ Mathematics] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Mathematics] not found.")
 
 ENDIF ()
 
-### Library ▸ Physics [0.2.x]
+### Open Space Toolkit ▸ Physics [0.2.x]
 
 FIND_PACKAGE ("LibraryPhysics" "0.2" REQUIRED)
 
 IF (NOT LibraryPhysics_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ Physics] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Physics] not found.")
 
 ENDIF ()
 

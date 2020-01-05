@@ -71,7 +71,7 @@ RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /t
  && make install \
  && rm -rf /tmp/nlopt
 
-## Library ▸ Core [0.2.5]
+## Open Space Toolkit ▸ Core [0.2.5]
 
 RUN mkdir -p /tmp/library-core \
  && cd /tmp/library-core \
@@ -80,7 +80,7 @@ RUN mkdir -p /tmp/library-core \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-core
 
-## Library ▸ IO [0.2.4]
+## Open Space Toolkit ▸ IO [0.2.4]
 
 RUN mkdir -p /tmp/library-io \
  && cd /tmp/library-io \
@@ -89,7 +89,7 @@ RUN mkdir -p /tmp/library-io \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-io
 
-## Library ▸ Mathematics [0.2.6]
+## Open Space Toolkit ▸ Mathematics [0.2.6]
 
 RUN mkdir -p /tmp/library-mathematics \
  && cd /tmp/library-mathematics \
@@ -98,7 +98,7 @@ RUN mkdir -p /tmp/library-mathematics \
  && dnf install -y ./*.rpm \
  && rm -rf /tmp/library-mathematics
 
-## Library ▸ Physics [0.3.1]
+## Open Space Toolkit ▸ Physics [0.3.1]
 
 RUN mkdir -p /tmp/library-physics \
  && cd /tmp/library-physics \

@@ -1,4 +1,4 @@
-# Library ▸ Astrodynamics
+# Open Space Toolkit ▸ Astrodynamics
 
 Orbit, attitude, access.
 
