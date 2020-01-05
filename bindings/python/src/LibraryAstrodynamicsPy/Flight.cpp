@@ -1,17 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Flight.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Flight.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Flight/Profile.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Flight        	    ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight        	    ( )
 {
 
     boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Flight")))) ;
@@ -20,7 +20,7 @@ inline void                     LibraryAstrodynamicsPy_Flight        	    ( )
 
     boost::python::scope scope = module ;
 
-    LibraryAstrodynamicsPy_Flight_Profile() ;
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile() ;
 
 }
 

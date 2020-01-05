@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory/Model.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory_Model     ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model     ( )
 {
 
     using namespace boost::python ;

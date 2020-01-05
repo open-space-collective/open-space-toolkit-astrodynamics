@@ -16,7 +16,7 @@ with open('${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt', 'r') as f:
     requirements = f.read().splitlines()
 
 setuptools.setup(
-    name = 'LibraryAstrodynamicsPy',
+    name = 'OpenSpaceToolkitAstrodynamicsPy',
     version = '${PROJECT_VERSION_STRING}',
     author = 'Open Space Collective',
     author_email = 'contact@open-space-collective.org',
@@ -34,7 +34,7 @@ setuptools.setup(
     packages = setuptools.find_packages(),
     package_data = {
         '': [
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/LibraryAstrodynamicsPy.so',
+            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/OpenSpaceToolkitAstrodynamicsPy.so',
             '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0'
         ]
     },

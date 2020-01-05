@@ -1,19 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Tabulated.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/SGP4.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Tabulated.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/SGP4.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models ( )
 {
 
     boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Trajectory.Orbit.Models")))) ;
@@ -22,9 +22,9 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models (
 
     boost::python::scope scope = module ;
 
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Kepler() ;
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models_SGP4() ;
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated() ;
 
 }
 

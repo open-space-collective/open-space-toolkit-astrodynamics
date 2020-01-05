@@ -1,21 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Trajectory/Model.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory        	( )
 {
 
     using namespace boost::python ;
@@ -47,9 +47,9 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 
     ;
 
-    LibraryAstrodynamicsPy_Trajectory_State() ;
-    LibraryAstrodynamicsPy_Trajectory_Orbit() ;
-    LibraryAstrodynamicsPy_Trajectory_Model() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model() ;
 
 }
 

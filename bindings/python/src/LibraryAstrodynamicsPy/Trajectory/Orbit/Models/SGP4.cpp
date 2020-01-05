@@ -1,19 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models/SGP4.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/SGP4.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/SGP4/TLE.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/SGP4/TLE.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_SGP4 ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4 ( )
 {
 
     using namespace boost::python ;
@@ -40,7 +40,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_S
 
     ;
 
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE() ;
 
 }
 

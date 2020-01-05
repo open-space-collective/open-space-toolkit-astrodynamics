@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy.cxx
+/// @file           OpenSpaceToolkitAstrodynamicsPy.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -9,22 +9,22 @@
 
 #include <boost/python.hpp>
 
-#include <LibraryAstrodynamicsPy/Access.cpp>
-#include <LibraryAstrodynamicsPy/Flight.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_PYTHON_MODULE (LibraryAstrodynamicsPy)
+BOOST_PYTHON_MODULE (OpenSpaceToolkitAstrodynamicsPy)
 {
 
 	boost::python::object package = boost::python::scope() ;
 
 	package.attr("__path__") = "Library" ;
 
-	LibraryAstrodynamicsPy_Trajectory() ;
-	LibraryAstrodynamicsPy_Flight() ;
-	LibraryAstrodynamicsPy_Access() ;
+	OpenSpaceToolkitAstrodynamicsPy_Trajectory() ;
+	OpenSpaceToolkitAstrodynamicsPy_Flight() ;
+	OpenSpaceToolkitAstrodynamicsPy_Access() ;
 
 }
 

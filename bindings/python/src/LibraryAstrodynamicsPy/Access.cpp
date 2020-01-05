@@ -1,20 +1,20 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Access.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Access.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Access/Generator.cpp>
-#include <LibraryAstrodynamicsPy/Utilities/IterableConverter.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Access        	    ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Access        	    ( )
 {
 
     using namespace boost::python ;
@@ -64,7 +64,7 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 
     ;
 
-    LibraryAstrodynamicsPy_Access_Generator() ;
+    OpenSpaceToolkitAstrodynamicsPy_Access_Generator() ;
 
 }
 

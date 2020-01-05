@@ -9,6 +9,6 @@
 
 from Library.Physics import *
 
-from .LibraryAstrodynamicsPy import *
+from .OpenSpaceToolkitAstrodynamicsPy import *
 
 ################################################################################################################################################################

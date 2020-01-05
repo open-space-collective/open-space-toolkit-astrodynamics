@@ -1,28 +1,28 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           tools/cmake/LibraryAstrodynamicsConfig.cmake.in
+# @file           tools/cmake/OpenSpaceToolkitAstrodynamicsConfig.cmake.in
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-SET (LibraryAstrodynamics_ROOT_DIR ${LibraryAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
+SET (OpenSpaceToolkitAstrodynamics_ROOT_DIR ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
 
-FIND_PATH (LibraryAstrodynamics_INCLUDE_DIR "OpenSpaceToolkit/Astrodynamics/Access.hpp" PATHS ${LibraryAstrodynamics_ROOT_DIR} PATH_SUFFIXES "include" NO_DEFAULT_PATH)
-FIND_LIBRARY (LibraryAstrodynamics_LIBRARY NAMES "libopen-space-toolkit-astrodynamics.so" PATHS ${LibraryAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
+FIND_PATH (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR "OpenSpaceToolkit/Astrodynamics/Access.hpp" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "include" NO_DEFAULT_PATH)
+FIND_LIBRARY (OpenSpaceToolkitAstrodynamics_LIBRARY NAMES "libopen-space-toolkit-astrodynamics.so" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
 
-# MESSAGE (STATUS "LibraryAstrodynamics_ROOT_DIR = ${LibraryAstrodynamics_ROOT_DIR}")
-# MESSAGE (STATUS "LibraryAstrodynamics_INCLUDE_DIR = ${LibraryAstrodynamics_INCLUDE_DIR}")
-# MESSAGE (STATUS "LibraryAstrodynamics_LIBRARY = ${LibraryAstrodynamics_LIBRARY}")
-# MESSAGE (STATUS "LibraryAstrodynamics_FIND_VERSION = ${LibraryAstrodynamics_FIND_VERSION}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_ROOT_DIR = ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_INCLUDE_DIR = ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_LIBRARY = ${OpenSpaceToolkitAstrodynamics_LIBRARY}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_FIND_VERSION = ${OpenSpaceToolkitAstrodynamics_FIND_VERSION}")
 
-IF (LibraryAstrodynamics_INCLUDE_DIR)
+IF (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR)
 
-    SET (LibraryAstrodynamics_INCLUDE_DIRS ${LibraryAstrodynamics_INCLUDE_DIR} ${LibraryAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics)
-    SET (LibraryAstrodynamics_LIBRARIES ${LibraryAstrodynamics_LIBRARY})
+    SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR} ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics)
+    SET (OpenSpaceToolkitAstrodynamics_LIBRARIES ${OpenSpaceToolkitAstrodynamics_LIBRARY})
 
-    SET (LibraryAstrodynamics_FOUND TRUE)
+    SET (OpenSpaceToolkitAstrodynamics_FOUND TRUE)
 
 ENDIF ()
 

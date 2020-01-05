@@ -9,7 +9,7 @@
 
 ## Project Properties
 
-SET (PROJECT_NAME "LibraryAstrodynamics")
+SET (PROJECT_NAME "OpenSpaceToolkitAstrodynamics")
 SET (PROJECT_DESCRIPTION "Astrodynamics library.")
 SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "open-space-toolkit-astrodynamics")

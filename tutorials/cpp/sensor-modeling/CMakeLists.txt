@@ -9,7 +9,7 @@
 
 ## Project Properties
 
-SET (PROJECT_NAME "LibraryAstrodynamics")
+SET (PROJECT_NAME "OpenSpaceToolkitAstrodynamics")
 SET (PROJECT_DESCRIPTION "Sensor modeling tutorial.")
 SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "sensor-modeling")
@@ -107,7 +107,7 @@ FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
 
 ### Open Space Toolkit ▸ Astrodynamics [master]
 
-FIND_PACKAGE ("LibraryAstrodynamics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitAstrodynamics" "0.1" REQUIRED)
 
 ################################################################################################################################################################
 
@@ -124,6 +124,6 @@ ADD_EXECUTABLE (${APPLICATION_TARGET} ${APPLICATION_SRCS})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryCore_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryMathematics_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryPhysics_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryAstrodynamics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitAstrodynamics_LIBRARIES})
 
 ################################################################################################################################################################

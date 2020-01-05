@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Access/Generator.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator     ( )
 {
 
     using namespace boost::python ;

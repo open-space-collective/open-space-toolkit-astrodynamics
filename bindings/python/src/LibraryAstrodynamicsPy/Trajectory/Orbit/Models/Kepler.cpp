@@ -1,19 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Kepler ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler ( )
 {
 
     using namespace boost::python ;
@@ -62,7 +62,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
 
     ;
 
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE() ;
 
 }
 

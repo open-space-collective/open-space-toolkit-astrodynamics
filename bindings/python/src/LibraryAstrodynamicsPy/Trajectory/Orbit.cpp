@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           LibraryAstrodynamicsPy/Trajectory/Orbit.cpp
+/// @file           OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
-#include <LibraryAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -17,7 +17,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit     ( )
 {
 
     using namespace boost::python ;
@@ -75,9 +75,9 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
 
     ;
 
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Model() ;
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Models() ;
-    LibraryAstrodynamicsPy_Trajectory_Orbit_Pass() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass() ;
 
 }
 

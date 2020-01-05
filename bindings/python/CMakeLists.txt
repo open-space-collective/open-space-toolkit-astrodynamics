@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           LibraryAstrodynamicsPy/CMakeLists.txt
+# @file           OpenSpaceToolkitAstrodynamicsPy/CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -9,9 +9,9 @@
 
 ## Project Properties
 
-SET (PROJECT_NAME "LibraryAstrodynamicsPy")
+SET (PROJECT_NAME "OpenSpaceToolkitAstrodynamicsPy")
 SET (PROJECT_DESCRIPTION "Python bindings for Open Space Toolkit / Astrodynamics.")
-SET (PROJECT_PACKAGE_NAME "LibraryAstrodynamicsPy")
+SET (PROJECT_PACKAGE_NAME "OpenSpaceToolkitAstrodynamicsPy")
 SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "com.bremond.lucas")
@@ -150,7 +150,7 @@ ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/OpenSpaceToolkit/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/OpenSpaceToolkit/__init__.py"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/__init__.py"
                     COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0"
-                    COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/LibraryAstrodynamicsPy.so"
+                    COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/OpenSpaceToolkitAstrodynamicsPy.so"
                     COMMAND ${PYTHON} ${SETUP_PY} bdist_wheel
                     COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
                     DEPENDS ${DEPS})
