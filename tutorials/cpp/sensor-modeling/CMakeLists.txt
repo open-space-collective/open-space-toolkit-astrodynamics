@@ -95,15 +95,15 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Core [master]
 
-FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "0.1" REQUIRED)
 
 ### Open Space Toolkit ▸ Mathematics [master]
 
-FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "0.1" REQUIRED)
 
 ### Open Space Toolkit ▸ Physics [master]
 
-FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.1" REQUIRED)
 
 ### Open Space Toolkit ▸ Astrodynamics [master]
 
@@ -121,9 +121,9 @@ FILE (GLOB APPLICATION_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT
 
 ADD_EXECUTABLE (${APPLICATION_TARGET} ${APPLICATION_SRCS})
 
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryCore_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryMathematics_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryPhysics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitAstrodynamics_LIBRARIES})
 
 ################################################################################################################################################################
