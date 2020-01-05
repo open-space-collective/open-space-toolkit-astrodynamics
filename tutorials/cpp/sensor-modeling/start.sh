@@ -14,10 +14,10 @@ script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 docker_image_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
 docker_container_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
 
-library_core_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-core"
-library_mathematics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-mathematics"
-library_physics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-physics"
-library_astrodynamics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-astrodynamics"
+open_space_toolkit_core_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-core"
+open_space_toolkit_mathematics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-mathematics"
+open_space_toolkit_physics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-physics"
+open_space_toolkit_astrodynamics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-astrodynamics"
 
 pushd ${script_directory} > /dev/null
 
@@ -45,17 +45,17 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
 
     # Open Space Toolkit ▸ Core
 
-    if [[ ! -d ${library_core_directory} ]]
+    if [[ ! -d ${open_space_toolkit_core_directory} ]]
     then
 
-        echo "Open Space Toolkit ▸ Core directory [${library_core_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Core directory [${open_space_toolkit_core_directory}s] cannot be found."
 
         exit 1
 
     fi
 
     options="${options} \
-    --volume=${library_core_directory}:/mnt/open-space-toolkit-core:ro"
+    --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
 
     command=" \
     rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
@@ -67,17 +67,17 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
 
     ## Open Space Toolkit ▸ Mathematics
 
-    if [[ ! -d ${library_mathematics_directory} ]]
+    if [[ ! -d ${open_space_toolkit_mathematics_directory} ]]
     then
 
-        echo "Open Space Toolkit ▸ Mathematics directory [${library_mathematics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Mathematics directory [${open_space_toolkit_mathematics_directory}s] cannot be found."
 
         exit 1
 
     fi
 
     options="${options} \
-    --volume=${library_mathematics_directory}:/mnt/open-space-toolkit-mathematics:ro"
+    --volume=${open_space_toolkit_mathematics_directory}:/mnt/open-space-toolkit-mathematics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Mathematics; \
@@ -89,17 +89,17 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
 
     ## Open Space Toolkit ▸ Physics
 
-    if [[ ! -d ${library_physics_directory} ]]
+    if [[ ! -d ${open_space_toolkit_physics_directory} ]]
     then
 
-        echo "Open Space Toolkit ▸ Physics directory [${library_physics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Physics directory [${open_space_toolkit_physics_directory}s] cannot be found."
 
         exit 1
 
     fi
 
     options="${options} \
-    --volume=${library_physics_directory}:/mnt/open-space-toolkit-physics:ro"
+    --volume=${open_space_toolkit_physics_directory}:/mnt/open-space-toolkit-physics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
@@ -111,17 +111,17 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
 
     ## Open Space Toolkit ▸ Astrodynamics
 
-    if [[ ! -d ${library_astrodynamics_directory} ]]
+    if [[ ! -d ${open_space_toolkit_astrodynamics_directory} ]]
     then
 
-        echo "Open Space Toolkit ▸ Astrodynamics directory [${library_astrodynamics_directory}s] cannot be found."
+        echo "Open Space Toolkit ▸ Astrodynamics directory [${open_space_toolkit_astrodynamics_directory}s] cannot be found."
 
         exit 1
 
     fi
 
     options="${options} \
-    --volume=${library_astrodynamics_directory}:/mnt/open-space-toolkit-astrodynamics:ro"
+    --volume=${open_space_toolkit_astrodynamics_directory}:/mnt/open-space-toolkit-astrodynamics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Astrodynamics; \
@@ -146,7 +146,7 @@ docker run \
 --rm \
 ${options} \
 --volume="${script_directory}:/app:rw" \
---volume="${library_astrodynamics_directory}/share/data:/app/share/data:ro" \
+--volume="${open_space_toolkit_astrodynamics_directory}/share/data:/app/share/data:ro" \
 --workdir="/app/build" \
 "${docker_image_name}" \
 /bin/bash -c "${command}"

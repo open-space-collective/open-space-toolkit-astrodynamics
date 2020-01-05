@@ -26,18 +26,18 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
     # Open Space Toolkit ▸ Core
 
-    if [[ -z ${library_core_directory} ]]; then
-        echo "Variable [library_core_directory] is undefined."
+    if [[ -z ${open_space_toolkit_core_directory} ]]; then
+        echo "Variable [open_space_toolkit_core_directory] is undefined."
         exit 1
     fi
 
-    if [[ ! -d ${library_core_directory} ]]; then
-        echo "Open Space Toolkit ▸ Core directory [${library_core_directory}] cannot be found."
+    if [[ ! -d ${open_space_toolkit_core_directory} ]]; then
+        echo "Open Space Toolkit ▸ Core directory [${open_space_toolkit_core_directory}] cannot be found."
         exit 1
     fi
 
     options="${options} \
-    --volume=${library_core_directory}:/mnt/open-space-toolkit-core:ro"
+    --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
 
     command=" \
     rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
