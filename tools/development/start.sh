@@ -37,15 +37,15 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     fi
 
     options="${options} \
-    --volume=${library_core_directory}:/mnt/library-core:ro"
+    --volume=${library_core_directory}:/mnt/open-space-toolkit-core:ro"
 
     command=" \
     rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
-    rm -f /usr/local/lib/liblibrary-core.so*; \
-    cp -as /mnt/library-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
-    cp -as /mnt/library-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
-    ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
-    ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
+    rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
+    cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+    cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
 
     # Open Space Toolkit ▸ I/O
 

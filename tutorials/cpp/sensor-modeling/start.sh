@@ -14,9 +14,9 @@ script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 docker_image_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
 docker_container_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
 
-library_core_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-core"
-library_mathematics_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-mathematics"
-library_physics_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-physics"
+library_core_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-core"
+library_mathematics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-mathematics"
+library_physics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-physics"
 library_astrodynamics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-astrodynamics"
 
 pushd ${script_directory} > /dev/null
@@ -55,15 +55,15 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     fi
 
     options="${options} \
-    --volume=${library_core_directory}:/mnt/library-core:ro"
+    --volume=${library_core_directory}:/mnt/open-space-toolkit-core:ro"
 
     command=" \
     rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
-    rm -f /usr/local/lib/liblibrary-core.so*; \
-    cp -as /mnt/library-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
-    cp -as /mnt/library-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
-    ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
-    ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
+    rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
+    cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+    cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
 
     ## Open Space Toolkit ▸ Mathematics
 
@@ -77,15 +77,15 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     fi
 
     options="${options} \
-    --volume=${library_mathematics_directory}:/mnt/library-mathematics:ro"
+    --volume=${library_mathematics_directory}:/mnt/open-space-toolkit-mathematics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Mathematics; \
-    rm -f /usr/local/lib/liblibrary-mathematics.so*; \
-    cp -as /mnt/library-mathematics/include/OpenSpaceToolkit/Mathematics /usr/local/include/OpenSpaceToolkit/Mathematics; \
-    cp -as /mnt/library-mathematics/src/OpenSpaceToolkit/Mathematics/* /usr/local/include/OpenSpaceToolkit/Mathematics/; \
-    ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so /usr/local/lib/; \
-    ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.0 /usr/local/lib/;"
+    rm -f /usr/local/lib/libopen-space-toolkit-mathematics.so*; \
+    cp -as /mnt/open-space-toolkit-mathematics/include/OpenSpaceToolkit/Mathematics /usr/local/include/OpenSpaceToolkit/Mathematics; \
+    cp -as /mnt/open-space-toolkit-mathematics/src/OpenSpaceToolkit/Mathematics/* /usr/local/include/OpenSpaceToolkit/Mathematics/; \
+    ln -s /mnt/open-space-toolkit-mathematics/lib/libopen-space-toolkit-mathematics.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-mathematics/lib/libopen-space-toolkit-mathematics.so.0 /usr/local/lib/;"
 
     ## Open Space Toolkit ▸ Physics
 
@@ -99,15 +99,15 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     fi
 
     options="${options} \
-    --volume=${library_physics_directory}:/mnt/library-physics:ro"
+    --volume=${library_physics_directory}:/mnt/open-space-toolkit-physics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
-    rm -f /usr/local/lib/liblibrary-physics.so*; \
-    cp -as /mnt/library-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
-    cp -as /mnt/library-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
-    ln -s /mnt/library-physics/lib/liblibrary-physics.so /usr/local/lib/; \
-    ln -s /mnt/library-physics/lib/liblibrary-physics.so.0 /usr/local/lib/;"
+    rm -f /usr/local/lib/libopen-space-toolkit-physics.so*; \
+    cp -as /mnt/open-space-toolkit-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
+    cp -as /mnt/open-space-toolkit-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
+    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so.0 /usr/local/lib/;"
 
     ## Open Space Toolkit ▸ Astrodynamics
 

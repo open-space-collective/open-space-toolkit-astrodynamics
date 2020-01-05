@@ -24,9 +24,9 @@ export docker_jupyter_notebook_image_repository := $(docker_image_repository)-ju
 export jupyter_notebook_image_repository := jupyter/scipy-notebook:latest
 export jupyter_notebook_port := 9005
 
-export library_core_directory := $(project_directory)/../library-core
-export library_io_directory := $(project_directory)/../library-io
-export library_mathematics_directory := $(project_directory)/../library-mathematics
+export library_core_directory := $(project_directory)/../open-space-toolkit-core
+export library_io_directory := $(project_directory)/../open-space-toolkit-io
+export library_mathematics_directory := $(project_directory)/../open-space-toolkit-mathematics
 
 export LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY := /app/share/coordinate/frame/providers/iers
 export LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY := /app/share/environment/ephemerides/spice
