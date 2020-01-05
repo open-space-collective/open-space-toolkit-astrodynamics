@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,15 +10,15 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <Library/Astrodynamics/Trajectory/Models/Tabulated.hpp>
-#include <Library/Astrodynamics/Trajectory/State.hpp>
-#include <Library/Astrodynamics/Trajectory/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
-#include <Library/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <Library/Core/Containers/Array.hpp>
-#include <Library/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

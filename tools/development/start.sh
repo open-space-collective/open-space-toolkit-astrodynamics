@@ -40,10 +40,10 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     --volume=${library_core_directory}:/mnt/library-core:ro"
 
     command=" \
-    rm -rf /usr/local/include/Library/Core; \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
     rm -f /usr/local/lib/liblibrary-core.so*; \
-    cp -as /mnt/library-core/include/Library/Core /usr/local/include/Library/Core; \
-    cp -as /mnt/library-core/src/Library/Core/* /usr/local/include/Library/Core/; \
+    cp -as /mnt/library-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+    cp -as /mnt/library-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 

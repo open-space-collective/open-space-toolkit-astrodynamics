@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,17 +10,17 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory__
 
-#include <Library/Astrodynamics/Trajectory/State.hpp>
-#include <Library/Astrodynamics/Trajectory/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
-#include <Library/Physics/Coordinate/Position.hpp>
-#include <Library/Physics/Time/Interval.hpp>
-#include <Library/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <Library/Core/Containers/Array.hpp>
-#include <Library/Core/Types/String.hpp>
-#include <Library/Core/Types/Index.hpp>
-#include <Library/Core/Types/Unique.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Unique.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

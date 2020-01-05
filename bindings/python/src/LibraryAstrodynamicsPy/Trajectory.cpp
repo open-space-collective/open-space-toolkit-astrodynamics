@@ -11,7 +11,7 @@
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <LibraryAstrodynamicsPy/Trajectory/State.cpp>
 
-#include <Library/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

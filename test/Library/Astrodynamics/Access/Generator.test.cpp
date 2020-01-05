@@ -1,29 +1,29 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Access/Generator.test.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Access/Generator.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Library/Astrodynamics/Access/Generator.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
-#include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <Library/Physics/Coordinate/Spherical/AER.hpp>
-#include <Library/Physics/Coordinate/Spherical/LLA.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 
-#include <Library/Core/FileSystem/File.hpp>
-#include <Library/Core/FileSystem/Path.hpp>
-#include <Library/Core/Containers/Table.hpp>
-#include <Library/Core/Containers/Array.hpp>
-#include <Library/Core/Containers/Tuple.hpp>
-#include <Library/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 #include <Global.test.hpp>
 
@@ -219,7 +219,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -303,7 +303,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -379,7 +379,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")) ;
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
@@ -627,7 +627,7 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 //         // Reference data setup
 
-//         const File referenceDataFile = File::Path(Path::Parse("/app/test/Library/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
+//         const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
 
 //         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 

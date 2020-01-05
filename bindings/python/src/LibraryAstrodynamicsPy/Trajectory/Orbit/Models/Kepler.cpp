@@ -9,7 +9,7 @@
 
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.test.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
 #include <Global.test.hpp>
 
@@ -797,7 +797,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 
@@ -822,7 +822,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 
@@ -847,7 +847,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
 
-        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))) ;
+        const TLE tle = TLE::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))) ;
 
         EXPECT_TRUE(tle.isDefined()) ;
 

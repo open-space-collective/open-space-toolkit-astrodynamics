@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Access/Generator.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,20 +10,20 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
-#include <Library/Astrodynamics/Access.hpp>
-#include <Library/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
-#include <Library/Physics/Environment.hpp>
-#include <Library/Physics/Coordinate/Spherical/AER.hpp>
-#include <Library/Physics/Time/Interval.hpp>
-#include <Library/Physics/Time/Instant.hpp>
-#include <Library/Physics/Units/Derived/Angle.hpp>
-#include <Library/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <Library/Mathematics/Objects/Interval.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
 
-#include <Library/Core/Containers/Array.hpp>
-#include <Library/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

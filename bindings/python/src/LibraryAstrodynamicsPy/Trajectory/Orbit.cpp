@@ -11,9 +11,9 @@
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

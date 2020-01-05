@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Orbit.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,25 +10,25 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Pass.hpp>
-#include <Library/Astrodynamics/Trajectory/State.hpp>
-#include <Library/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
-#include <Library/Physics/Environment/Objects/Celestial.hpp>
-#include <Library/Physics/Coordinate/Frame.hpp>
-#include <Library/Physics/Time/Time.hpp>
-#include <Library/Physics/Time/Instant.hpp>
-#include <Library/Physics/Units/Derived/Angle.hpp>
-#include <Library/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <Library/Core/Containers/Map.hpp>
-#include <Library/Core/Containers/Array.hpp>
-#include <Library/Core/Types/Real.hpp>
-#include <Library/Core/Types/Integer.hpp>
-#include <Library/Core/Types/Index.hpp>
-#include <Library/Core/Types/Shared.hpp>
-#include <Library/Core/Types/Unique.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Unique.hpp>
 
 #include <mutex>
 

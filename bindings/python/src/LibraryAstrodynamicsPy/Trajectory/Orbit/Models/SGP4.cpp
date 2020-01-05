@@ -9,7 +9,7 @@
 
 #include <LibraryAstrodynamicsPy/Trajectory/Orbit/Models/SGP4/TLE.cpp>
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

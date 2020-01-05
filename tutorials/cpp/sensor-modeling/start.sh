@@ -58,10 +58,10 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume=${library_core_directory}:/mnt/library-core:ro"
 
     command=" \
-    rm -rf /usr/local/include/Library/Core; \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
     rm -f /usr/local/lib/liblibrary-core.so*; \
-    cp -as /mnt/library-core/include/Library/Core /usr/local/include/Library/Core; \
-    cp -as /mnt/library-core/src/Library/Core/* /usr/local/include/Library/Core/; \
+    cp -as /mnt/library-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+    cp -as /mnt/library-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so /usr/local/lib/; \
     ln -s /mnt/library-core/lib/liblibrary-core.so.0 /usr/local/lib/;"
 
@@ -80,10 +80,10 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume=${library_mathematics_directory}:/mnt/library-mathematics:ro"
 
     command="${command} \
-    rm -rf /usr/local/include/Library/Mathematics; \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Mathematics; \
     rm -f /usr/local/lib/liblibrary-mathematics.so*; \
-    cp -as /mnt/library-mathematics/include/Library/Mathematics /usr/local/include/Library/Mathematics; \
-    cp -as /mnt/library-mathematics/src/Library/Mathematics/* /usr/local/include/Library/Mathematics/; \
+    cp -as /mnt/library-mathematics/include/OpenSpaceToolkit/Mathematics /usr/local/include/OpenSpaceToolkit/Mathematics; \
+    cp -as /mnt/library-mathematics/src/OpenSpaceToolkit/Mathematics/* /usr/local/include/OpenSpaceToolkit/Mathematics/; \
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so /usr/local/lib/; \
     ln -s /mnt/library-mathematics/lib/liblibrary-mathematics.so.0 /usr/local/lib/;"
 
@@ -102,10 +102,10 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume=${library_physics_directory}:/mnt/library-physics:ro"
 
     command="${command} \
-    rm -rf /usr/local/include/Library/Physics; \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
     rm -f /usr/local/lib/liblibrary-physics.so*; \
-    cp -as /mnt/library-physics/include/Library/Physics /usr/local/include/Library/Physics; \
-    cp -as /mnt/library-physics/src/Library/Physics/* /usr/local/include/Library/Physics/; \
+    cp -as /mnt/library-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
+    cp -as /mnt/library-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
     ln -s /mnt/library-physics/lib/liblibrary-physics.so /usr/local/lib/; \
     ln -s /mnt/library-physics/lib/liblibrary-physics.so.0 /usr/local/lib/;"
 
@@ -124,10 +124,10 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     --volume=${library_astrodynamics_directory}:/mnt/open-space-toolkit-astrodynamics:ro"
 
     command="${command} \
-    rm -rf /usr/local/include/Library/Astrodynamics; \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Astrodynamics; \
     rm -f /usr/local/lib/libopen-space-toolkit-astrodynamics.so*; \
-    cp -as /mnt/open-space-toolkit-astrodynamics/include/Library/Astrodynamics /usr/local/include/Library/Astrodynamics; \
-    cp -as /mnt/open-space-toolkit-astrodynamics/src/Library/Astrodynamics/* /usr/local/include/Library/Astrodynamics/; \
+    cp -as /mnt/open-space-toolkit-astrodynamics/include/OpenSpaceToolkit/Astrodynamics /usr/local/include/OpenSpaceToolkit/Astrodynamics; \
+    cp -as /mnt/open-space-toolkit-astrodynamics/src/OpenSpaceToolkit/Astrodynamics/* /usr/local/include/OpenSpaceToolkit/Astrodynamics/; \
     ln -s /mnt/open-space-toolkit-astrodynamics/lib/libopen-space-toolkit-astrodynamics.so /usr/local/lib/; \
     ln -s /mnt/open-space-toolkit-astrodynamics/lib/libopen-space-toolkit-astrodynamics.so.0 /usr/local/lib/;"
 

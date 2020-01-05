@@ -10,7 +10,7 @@
 #include <LibraryAstrodynamicsPy/Access/Generator.cpp>
 #include <LibraryAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
-#include <Library/Astrodynamics/Access.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,18 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Library/Astrodynamics/Trajectory/Models/Tabulated.hpp>
-#include <Library/Astrodynamics/Trajectory/Models/Static.hpp>
-#include <Library/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
-#include <Library/Core/Error.hpp>
-#include <Library/Core/Utilities.hpp>
+#include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

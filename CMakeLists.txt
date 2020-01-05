@@ -11,7 +11,7 @@
 
 SET (PROJECT_NAME "LibraryAstrodynamics")
 SET (PROJECT_DESCRIPTION "Astrodynamics library.")
-SET (PROJECT_PATH "Library/Astrodynamics")
+SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "open-space-toolkit-astrodynamics")
 SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "org.open-space-collective")

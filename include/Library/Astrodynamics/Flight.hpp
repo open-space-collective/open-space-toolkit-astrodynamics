@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Flight.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Flight.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,8 +10,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight__
 #define __OpenSpaceToolkit_Astrodynamics_Flight__
 
-#include <Library/Astrodynamics/Flight/Profile/State.hpp>
-#include <Library/Astrodynamics/Flight/Profile.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

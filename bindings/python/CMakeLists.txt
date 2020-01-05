@@ -12,7 +12,7 @@
 SET (PROJECT_NAME "LibraryAstrodynamicsPy")
 SET (PROJECT_DESCRIPTION "Python bindings for Open Space Toolkit / Astrodynamics.")
 SET (PROJECT_PACKAGE_NAME "LibraryAstrodynamicsPy")
-SET (PROJECT_PATH "Library/Astrodynamics")
+SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "com.bremond.lucas")
 SET (PROJECT_VENDOR_NAME "Lucas Brémond")
@@ -121,7 +121,7 @@ SET_TARGET_PROPERTIES ( ${LIBRARY_TARGET} PROPERTIES
                         INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
 INSTALL (TARGETS ${LIBRARY_TARGET} DESTINATION "${INSTALL_LIB}/${PROJECT_PATH}" COMPONENT "python")
-INSTALL (FILES "${PROJECT_SOURCE_DIR}/tools/python/Library/__init__.py" DESTINATION "${INSTALL_LIB}/Library" COMPONENT "python")
+INSTALL (FILES "${PROJECT_SOURCE_DIR}/tools/python/OpenSpaceToolkit/__init__.py" DESTINATION "${INSTALL_LIB}/Library" COMPONENT "python")
 INSTALL (FILES "${PROJECT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" DESTINATION "${INSTALL_LIB}/${PROJECT_PATH}" COMPONENT "python")
 
 ################################################################################################################################################################
@@ -147,7 +147,7 @@ CONFIGURE_FILE (${SETUP_PY_IN} ${SETUP_PY})
 ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
                     COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}"
                     COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/test"
-                    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/Library/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/Library/__init__.py"
+                    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/OpenSpaceToolkit/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/OpenSpaceToolkit/__init__.py"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/__init__.py"
                     COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0"
                     COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/LibraryAstrodynamicsPy.so"

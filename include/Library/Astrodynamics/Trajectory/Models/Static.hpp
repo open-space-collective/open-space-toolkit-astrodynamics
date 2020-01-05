@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Models/Static.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,11 +10,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
 
-#include <Library/Astrodynamics/Trajectory/State.hpp>
-#include <Library/Astrodynamics/Trajectory/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
-#include <Library/Physics/Time/Interval.hpp>
-#include <Library/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

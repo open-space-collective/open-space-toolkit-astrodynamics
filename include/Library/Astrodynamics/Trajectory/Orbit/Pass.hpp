@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           Library/Astrodynamics/Trajectory/Orbit/Pass.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,10 +10,10 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
 
-#include <Library/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
-#include <Library/Core/Types/String.hpp>
-#include <Library/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

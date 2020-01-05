@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Library
-# @file           Library/__init__.py
+# @file           OpenSpaceToolkit/__init__.py
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
