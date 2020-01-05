@@ -11,13 +11,13 @@
 
 script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-docker_image_name="library-astrodynamics-tutorials-sensor-modeling"
-docker_container_name="library-astrodynamics-tutorials-sensor-modeling"
+docker_image_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
+docker_container_name="open-space-toolkit-astrodynamics-tutorials-sensor-modeling"
 
 library_core_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-core"
 library_mathematics_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-mathematics"
 library_physics_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-physics"
-library_astrodynamics_directory="/Users/lucas/Projects/Engineering/open-space-collective/library-astrodynamics"
+library_astrodynamics_directory="/Users/lucas/Projects/Engineering/open-space-collective/open-space-toolkit-astrodynamics"
 
 pushd ${script_directory} > /dev/null
 
@@ -121,15 +121,15 @@ if [[ ! -z $1 ]] && [[ $1 == "--link" ]]; then
     fi
 
     options="${options} \
-    --volume=${library_astrodynamics_directory}:/mnt/library-astrodynamics:ro"
+    --volume=${library_astrodynamics_directory}:/mnt/open-space-toolkit-astrodynamics:ro"
 
     command="${command} \
     rm -rf /usr/local/include/Library/Astrodynamics; \
-    rm -f /usr/local/lib/liblibrary-astrodynamics.so*; \
-    cp -as /mnt/library-astrodynamics/include/Library/Astrodynamics /usr/local/include/Library/Astrodynamics; \
-    cp -as /mnt/library-astrodynamics/src/Library/Astrodynamics/* /usr/local/include/Library/Astrodynamics/; \
-    ln -s /mnt/library-astrodynamics/lib/liblibrary-astrodynamics.so /usr/local/lib/; \
-    ln -s /mnt/library-astrodynamics/lib/liblibrary-astrodynamics.so.0 /usr/local/lib/;"
+    rm -f /usr/local/lib/libopen-space-toolkit-astrodynamics.so*; \
+    cp -as /mnt/open-space-toolkit-astrodynamics/include/Library/Astrodynamics /usr/local/include/Library/Astrodynamics; \
+    cp -as /mnt/open-space-toolkit-astrodynamics/src/Library/Astrodynamics/* /usr/local/include/Library/Astrodynamics/; \
+    ln -s /mnt/open-space-toolkit-astrodynamics/lib/libopen-space-toolkit-astrodynamics.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-astrodynamics/lib/libopen-space-toolkit-astrodynamics.so.0 /usr/local/lib/;"
 
     # Output
 

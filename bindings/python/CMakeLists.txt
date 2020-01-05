@@ -149,7 +149,7 @@ ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
                     COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/test"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/Library/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/Library/__init__.py"
                     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/__init__.py"
-                    COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/liblibrary-astrodynamics.so.0"
+                    COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0"
                     COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/LibraryAstrodynamicsPy.so"
                     COMMAND ${PYTHON} ${SETUP_PY} bdist_wheel
                     COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}

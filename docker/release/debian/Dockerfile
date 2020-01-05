@@ -9,7 +9,7 @@
 
 ARG VERSION
 
-FROM openspacecollective/library-astrodynamics-development:${VERSION}-debian as cpp-builder
+FROM openspacecollective/open-space-toolkit-astrodynamics-development:${VERSION}-debian as cpp-builder
 
 RUN mkdir -p /app/bin /app/build /app/lib
 
@@ -44,11 +44,11 @@ ENV LIBRARY_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY "/u
 ENV LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/local/share/Library/Physics/environment/magnetic/earth"
 
 COPY --from=cpp-builder /usr/local/include/Library /usr/local/include/Library
-COPY --from=cpp-builder /usr/local/lib/liblibrary-astrodynamics.* /usr/local/lib/
+COPY --from=cpp-builder /usr/local/lib/libopen-space-toolkit-astrodynamics.* /usr/local/lib/
 COPY --from=cpp-builder /usr/local/share/Library /usr/local/share/Library
 COPY --from=cpp-builder /usr/local/test/Library /usr/local/test/Library
 
-ENTRYPOINT ["/usr/local/test/Library/Astrodynamics/library-astrodynamics.test"]
+ENTRYPOINT ["/usr/local/test/Library/Astrodynamics/open-space-toolkit-astrodynamics.test"]
 
 ################################################################################################################################################################
 

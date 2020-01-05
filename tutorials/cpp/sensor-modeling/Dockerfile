@@ -71,12 +71,12 @@ RUN mkdir -p /tmp/library-physics \
 
 ## Open Space Toolkit ▸ Astrodynamics [0.1.3]
 
-RUN mkdir -p /tmp/library-astrodynamics \
- && pushd /tmp/library-astrodynamics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-astrodynamics/releases/download/0.1.3/library-astrodynamics-0.1.3-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-astrodynamics/releases/download/0.1.3/library-astrodynamics-0.1.3-1.x86_64-devel.rpm \
+RUN mkdir -p /tmp/open-space-toolkit-astrodynamics \
+ && pushd /tmp/open-space-toolkit-astrodynamics > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.1.3/open-space-toolkit-astrodynamics-0.1.3-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.1.3/open-space-toolkit-astrodynamics-0.1.3-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
- && rm -rf /tmp/library-astrodynamics \
+ && rm -rf /tmp/open-space-toolkit-astrodynamics \
  && popd > /dev/null
 
 # Labels

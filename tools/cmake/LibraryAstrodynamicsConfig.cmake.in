@@ -10,7 +10,7 @@
 SET (LibraryAstrodynamics_ROOT_DIR ${LibraryAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
 
 FIND_PATH (LibraryAstrodynamics_INCLUDE_DIR "Library/Astrodynamics/Access.hpp" PATHS ${LibraryAstrodynamics_ROOT_DIR} PATH_SUFFIXES "include" NO_DEFAULT_PATH)
-FIND_LIBRARY (LibraryAstrodynamics_LIBRARY NAMES "liblibrary-astrodynamics.so" PATHS ${LibraryAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
+FIND_LIBRARY (LibraryAstrodynamics_LIBRARY NAMES "libopen-space-toolkit-astrodynamics.so" PATHS ${LibraryAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
 
 # MESSAGE (STATUS "LibraryAstrodynamics_ROOT_DIR = ${LibraryAstrodynamics_ROOT_DIR}")
 # MESSAGE (STATUS "LibraryAstrodynamics_INCLUDE_DIR = ${LibraryAstrodynamics_INCLUDE_DIR}")

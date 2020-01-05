@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-export project_name := library-astrodynamics
+export project_name := open-space-toolkit-astrodynamics
 export project_version := $(shell git describe --tags --always)
 export project_directory := $(shell git rev-parse --show-toplevel)
 
