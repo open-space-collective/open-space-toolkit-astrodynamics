@@ -1,5 +1,5 @@
 {
-    "name": "Library Astrodynamics",
+    "name": "Open Space Toolkit Astrodynamics",
     "extensions": [
         "ms-vscode.cpptools",
         "ms-python.python",
