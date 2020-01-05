@@ -1,22 +1,14 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_access.py
+# @file           bindings/python/tools/python/ostk/astrodynamics/__init__.py
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-import pytest
+from ostk.physics import *
 
-from ostk.astrodynamics import Access
-
-################################################################################################################################################################
-
-class TestAccess:
-
-    def test_constructor (self):
-
-        pass
+from .OpenSpaceToolkitAstrodynamicsPy import *
 
 ################################################################################################################################################################
