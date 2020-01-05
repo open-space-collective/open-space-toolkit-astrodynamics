@@ -6,20 +6,14 @@ Orbit, attitude, access.
 [![Code Coverage](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics)
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
 [![GitHub version](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics)
-[![PyPI version](https://badge.fury.io/py/OpenSpaceToolkitAstrodynamicsPy.svg)](https://badge.fury.io/py/OpenSpaceToolkitAstrodynamicsPy)
+[![PyPI version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
 ## Warning
 
-Library **name** is yet to be defined.
-
-Please check the following projects:
-
-- [Naming Project](https://github.com/orgs/open-space-collective/projects/1)
-
-*⚠ This library is still under heavy development. Do not use!*
+*⚠ This component is under development.*
 
 ## Structure
 
@@ -110,16 +104,16 @@ Or to run them manually:
 
 ## Dependencies
 
-| Name        | Version | License                | Link                                                                                                                 |
-|-------------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
-| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
-| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
-| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                       |
-| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
-| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/library-io](https://github.com/open-space-collective/library-io)                   |
-| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
-| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/library-physics](https://github.com/open-space-collective/library-physics)         |
+| Name        | Version | License                | Link                                                                                                                                       |
+|-------------|---------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                                         |
+| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
+| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
+| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
+| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
+| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
 ## Contribution
 
