@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler__
-#define __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler__
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>

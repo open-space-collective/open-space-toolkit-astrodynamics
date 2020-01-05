@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __LibraryAstrodynamicsPy_Utilities_IterableConverter__
-#define __LibraryAstrodynamicsPy_Utilities_IterableConverter__
+#ifndef __OpenSpaceToolkitAstrodynamicsPy_Utilities_IterableConverter__
+#define __OpenSpaceToolkitAstrodynamicsPy_Utilities_IterableConverter__
 
 #include <boost/python/stl_iterator.hpp>
 

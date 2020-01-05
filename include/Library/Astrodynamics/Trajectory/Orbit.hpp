@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit__
-#define __Library_Astrodynamics_Trajectory_Orbit__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit/Pass.hpp>

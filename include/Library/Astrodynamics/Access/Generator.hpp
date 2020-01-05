@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Access_Generator__
-#define __Library_Astrodynamics_Access_Generator__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
+#define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 
 #include <Library/Astrodynamics/Access.hpp>
 #include <Library/Astrodynamics/Trajectory.hpp>

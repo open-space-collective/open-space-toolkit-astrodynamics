@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
-#define __Library_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated__
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <Library/Astrodynamics/Trajectory/Models/Tabulated.hpp>

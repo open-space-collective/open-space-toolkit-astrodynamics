@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Access__
-#define __Library_Astrodynamics_Access__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Access__
+#define __OpenSpaceToolkit_Astrodynamics_Access__
 
 #include <Library/Physics/Time/Interval.hpp>
 #include <Library/Physics/Time/Duration.hpp>

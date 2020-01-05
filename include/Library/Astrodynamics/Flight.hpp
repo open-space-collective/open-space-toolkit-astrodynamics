@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Flight__
-#define __Library_Astrodynamics_Flight__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight__
+#define __OpenSpaceToolkit_Astrodynamics_Flight__
 
 #include <Library/Astrodynamics/Flight/Profile/State.hpp>
 #include <Library/Astrodynamics/Flight/Profile.hpp>

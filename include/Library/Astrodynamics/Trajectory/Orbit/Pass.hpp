@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Pass__
-#define __Library_Astrodynamics_Trajectory_Orbit_Pass__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass__
 
 #include <Library/Physics/Time/Interval.hpp>
 

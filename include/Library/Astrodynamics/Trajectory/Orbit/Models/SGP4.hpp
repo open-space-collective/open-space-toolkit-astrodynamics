@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_SGP4__
-#define __Library_Astrodynamics_Trajectory_Orbit_Models_SGP4__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4__
 
 #include <Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 #include <Library/Astrodynamics/Trajectory/Orbit/Model.hpp>

@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
-#define __Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE__
 
 #include <Library/Physics/Coordinate/Frame.hpp>
 #include <Library/Physics/Coordinate/Velocity.hpp>

@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __Library_Astrodynamics_Flight_Profile_State__
-#define __Library_Astrodynamics_Flight_Profile_State__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
+#define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
 
 #include <Library/Physics/Coordinate/Frame.hpp>
 #include <Library/Physics/Time/Instant.hpp>
