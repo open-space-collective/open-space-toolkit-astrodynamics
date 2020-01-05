@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Models/Tabulated.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -72,7 +72,7 @@ bool                            Tabulated::isDefined                        ( ) 
 
 Interval                        Tabulated::getInterval                     ( ) const
 {
-    
+
     if (!this->isDefined())
     {
         throw library::core::error::runtime::Undefined("Tabulated") ;
@@ -86,7 +86,7 @@ State                           Tabulated::calculateStateAt                 (   
 {
 
     using library::core::types::Real ;
-    
+
     using library::math::obj::Vector3d ;
 
     using library::physics::time::Duration ;
@@ -112,7 +112,7 @@ State                           Tabulated::calculateStateAt                 (   
         const State& nextState = *(stateRange.second) ;
 
         const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() / Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds() ;
-        
+
         const Vector3d x_ECI = previousState.accessPosition().accessCoordinates() + ratio * (nextState.accessPosition().accessCoordinates() - previousState.accessPosition().accessCoordinates()) ;
         const Vector3d v_ECI = previousState.accessVelocity().accessCoordinates() + ratio * (nextState.accessVelocity().accessCoordinates() - previousState.accessVelocity().accessCoordinates()) ;
 
@@ -215,7 +215,7 @@ Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   
                 {
                     return { nextStatePtr, nullptr } ;
                 }
-                
+
                 return { previousStatePtr, nextStatePtr } ;
 
             }
@@ -224,7 +224,7 @@ Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   
 
                 if (anInstant < previousStatePtr->accessInstant())
                 {
-                    
+
                     if (stateIndex_ > 0)
                     {
                         stateIndex_-- ;
@@ -264,7 +264,7 @@ Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   
 
                 if (anInstant < previousStatePtr->accessInstant())
                 {
-                    
+
                     if (stateIndex_ > 0)
                     {
                         stateIndex_-- ;

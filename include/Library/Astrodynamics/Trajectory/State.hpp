@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/State.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -58,13 +58,13 @@ class State
         bool                    isDefined                                   ( ) const ;
 
         const Instant&          accessInstant                               ( ) const ;
-        
+
         const Position&         accessPosition                              ( ) const ;
 
         const Velocity&         accessVelocity                              ( ) const ;
 
         Instant                 getInstant                                  ( ) const ;
-        
+
         Position                getPosition                                 ( ) const ;
 
         Velocity                getVelocity                                 ( ) const ;

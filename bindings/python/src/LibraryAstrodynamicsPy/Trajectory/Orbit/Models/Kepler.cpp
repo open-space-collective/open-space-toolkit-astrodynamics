@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -19,7 +19,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
     using namespace boost::python ;
 
     using library::core::types::Real ;
-    
+
     using library::physics::units::Length ;
     using library::physics::units::Derived ;
     using library::physics::time::Instant ;
@@ -50,7 +50,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def("getPerturbationType", &Kepler::getPerturbationType)
         .def("calculateStateAt", &Kepler::calculateStateAt)
         .def("calculateRevolutionNumberAt", &Kepler::calculateRevolutionNumberAt)
-        
+
         .def("StringFromPerturbationType", &Kepler::StringFromPerturbationType).staticmethod("StringFromPerturbationType")
 
     ;

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -94,7 +94,7 @@ class COE
         Angle                   getTrueAnomaly                              ( ) const ;
 
         Angle                   getMeanAnomaly                              ( ) const ;
-        
+
         Angle                   getEccentricAnomaly                         ( ) const ;
 
         Derived                 getMeanMotion                               (   const   Derived&                    aGravitationalParameter                     ) const ;

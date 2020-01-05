@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Pass.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -17,7 +17,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Pass ( )
     using namespace boost::python ;
 
     using library::core::types::Integer ;
-    
+
     using library::physics::time::Interval ;
 
     using library::astro::trajectory::orbit::Pass ;
@@ -32,7 +32,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Pass ( )
 
         .def("isDefined", &Pass::isDefined)
         .def("isComplete", &Pass::isComplete)
-        
+
         .def("getType", &Pass::getType)
         .def("getRevolutionNumber", &Pass::getRevolutionNumber)
         .def("getInterval", &Pass::getInterval)

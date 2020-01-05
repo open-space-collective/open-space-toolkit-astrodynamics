@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Access.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -134,7 +134,7 @@ TEST (Library_Astrodynamics_Access, EqualToOperator)
         EXPECT_FALSE(Access::Undefined() == Access::Undefined()) ;
         EXPECT_FALSE(Access::Undefined() == access) ;
         EXPECT_FALSE(access == Access::Undefined()) ;
-        
+
     }
 
 }
@@ -212,7 +212,7 @@ TEST (Library_Astrodynamics_Access, NotEqualToOperator)
         EXPECT_TRUE(Access::Undefined() != Access::Undefined()) ;
         EXPECT_TRUE(Access::Undefined() != access) ;
         EXPECT_TRUE(access != Access::Undefined()) ;
-        
+
     }
 
 }

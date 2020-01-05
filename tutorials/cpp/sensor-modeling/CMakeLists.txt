@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tutorials/cpp/sensor-modeling/CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -60,7 +60,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
 
         MESSAGE (FATAL_ERROR "GCC version must be at least 4.8")
-    
+
     ENDIF ()
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated -Wl,--no-undefined")

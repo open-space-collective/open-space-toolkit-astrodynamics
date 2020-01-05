@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -154,7 +154,7 @@ class TLE
         /// @endcode
         ///
         /// @return             First line
-        
+
         String                  getFirstLine                                ( ) const ;
 
         /// @brief              Get second line

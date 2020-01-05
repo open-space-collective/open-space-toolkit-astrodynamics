@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Flight/Profile.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -210,7 +210,7 @@ Profile                         Profile::InertialPointing                   (   
 
             const Vector3d x_GCRF = trajectoryState.getPosition().getCoordinates() ;
             const Vector3d v_GCRF = trajectoryState.getVelocity().getCoordinates() ;
-            
+
             return Transform::Passive(anInstant, x_GCRF, v_GCRF, aQuaternion, { 0.0, 0.0, 0.0 }) ;
 
         }

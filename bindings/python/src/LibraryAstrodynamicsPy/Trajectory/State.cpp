@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/State.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -21,7 +21,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
     using library::physics::time::Instant ;
     using library::physics::coord::Position ;
     using library::physics::coord::Velocity ;
-    
+
     using library::astro::trajectory::State ;
 
     scope in_State = class_<State>("State", init<const Instant&, const Position&, const Velocity&>())
@@ -38,7 +38,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
         .def("getPosition", &State::getPosition)
         .def("getVelocity", &State::getVelocity)
         .def("inFrame", &State::inFrame)
-        
+
         .def("Undefined", &State::Undefined).staticmethod("Undefined")
 
     ;
@@ -49,7 +49,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
 
         .from_python<Array<State>>()
         .to_python<Array<State>>()
-        
+
     ;
 
 }

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.test.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -40,7 +40,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -72,7 +72,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -140,7 +140,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperat
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -208,7 +208,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -246,7 +246,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -265,7 +265,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
     {
 
         EXPECT_FALSE(COE::Undefined().isDefined()) ;
-        
+
     }
 
 }
@@ -286,7 +286,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -326,7 +326,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -366,7 +366,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -406,7 +406,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -446,7 +446,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -486,7 +486,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -526,7 +526,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -551,7 +551,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -576,7 +576,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -601,7 +601,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -628,7 +628,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -705,7 +705,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         EXPECT_NO_THROW(COE::Undefined()) ;
@@ -731,7 +731,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
@@ -788,7 +788,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -813,7 +813,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -838,7 +838,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 //     using library::physics::env::obj::celest::Earth ;
 
 //     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
 //     {
 
 //         FAIL() ;
@@ -863,7 +863,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomaly
     using library::physics::env::obj::celest::Earth ;
 
     using library::astro::trajectory::orbit::models::kepler::COE ;
-    
+
     {
 
         const Angle meanAnomaly = Angle::Degrees(0.0) ;
@@ -875,7 +875,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomaly
         EXPECT_NEAR(eccentricAnomaly.inDegrees(), 0.0, 0.0) ;
 
     }
-    
+
     {
 
         const Angle meanAnomaly = Angle::Radians(0.99262603391585447) ;

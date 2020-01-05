@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -15,13 +15,13 @@
 
 inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models ( )
 {
-    
+
     boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("Library.Astrodynamics.Trajectory.Orbit.Models")))) ;
-    
+
     boost::python::scope().attr("Models") = module ;
-    
+
     boost::python::scope scope = module ;
-    
+
     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Kepler() ;
     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_SGP4() ;
     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated() ;

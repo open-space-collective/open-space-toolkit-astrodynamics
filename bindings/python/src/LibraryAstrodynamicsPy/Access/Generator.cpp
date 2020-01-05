@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Access/Generator.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -13,11 +13,11 @@
 
 inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
 {
-    
+
     using namespace boost::python ;
 
     using library::core::types::Shared ;
-    
+
     using library::physics::Environment ;
     using library::physics::coord::spherical::AER ;
 
@@ -51,7 +51,7 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
         )
 
         .def("isDefined", &Generator::isDefined)
-        
+
         .def("computeAccesses", &Generator::computeAccesses)
         .def("setStep", &Generator::setStep)
         .def("setTolerance", &Generator::setTolerance)
@@ -62,7 +62,7 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
         .def("AerRanges", &Generator::AerRanges).staticmethod("AerRanges")
 
     ;
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

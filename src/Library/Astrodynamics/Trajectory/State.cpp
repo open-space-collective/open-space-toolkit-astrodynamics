@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/State.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -78,7 +78,7 @@ const Instant&                  State::accessInstant                        ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return instant_ ;
 
 }
@@ -90,7 +90,7 @@ const Position&                 State::accessPosition                       ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return position_ ;
 
 }
@@ -102,7 +102,7 @@ const Velocity&                 State::accessVelocity                       ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return velocity_ ;
 
 }

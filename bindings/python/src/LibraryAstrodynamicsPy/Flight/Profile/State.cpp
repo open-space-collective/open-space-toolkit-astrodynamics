@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Flight/Profile/State.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -15,7 +15,7 @@
 
 inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
 {
-    
+
     using namespace boost::python ;
 
     using library::core::types::Shared ;
@@ -25,7 +25,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
 
     using library::physics::time::Instant ;
     using library::physics::coord::Frame ;
-    
+
     using library::astro::flight::profile::State ;
 
     scope in_State = class_<State>("State", init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>())
@@ -37,7 +37,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
         .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &State::isDefined)
-        
+
         .def("getInstant", &State::getInstant)
         .def("getPosition", &State::getPosition)
         .def("getVelocity", &State::getVelocity)
@@ -45,7 +45,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
         .def("getAngularVelocity", &State::getAngularVelocity)
         .def("getFrame", &State::getFrame)
         .def("inFrame", &State::inFrame)
-        
+
         .def("Undefined", &State::Undefined).staticmethod("Undefined")
 
     ;
@@ -56,7 +56,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
 
         .from_python<Array<State>>()
         .to_python<Array<State>>()
-        
+
     ;
 
 }

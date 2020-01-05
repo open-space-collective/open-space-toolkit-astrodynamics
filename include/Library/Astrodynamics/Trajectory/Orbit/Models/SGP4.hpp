@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/SGP4.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -90,7 +90,7 @@ class SGP4 : public library::astro::trajectory::orbit::Model
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
-                                                                                        
+
     protected:
 
         virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
@@ -98,7 +98,7 @@ class SGP4 : public library::astro::trajectory::orbit::Model
         virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
     private:
-    
+
         class Impl ;
 
         TLE                     tle_ ;

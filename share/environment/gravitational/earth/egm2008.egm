@@ -1,0 +1,23 @@
+EGMF-1
+# An Earth Gravity Model (Format 1) file.  For documentation on the
+# format of this file see
+# http://geographiclib.sf.net/html/gravity.html#gravityformat
+Name            egm2008
+Publisher       National Geospatial Intelligence Agency
+Description     Earth Gravity Model 2008
+URL             http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008
+ReleaseDate     2008-06-01
+ConversionDate  2011-11-19
+DataVersion     1
+ModelRadius     6378136.3
+ModelMass       3986004.415e8
+AngularVelocity 7292115e-11
+ReferenceRadius 6378137
+ReferenceMass   3986004.418e8
+Flattening      1/298.257223563
+HeightOffset    -0.41
+
+# Gravitational and correction coefficients taken from
+# EGM2008_to2190_TideFree and Zeta-to-N_to2160_egm2008 from
+# the egm2008 distribution.
+ID              EGM2008A

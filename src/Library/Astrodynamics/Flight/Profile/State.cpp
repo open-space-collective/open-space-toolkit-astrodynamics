@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Flight/Profile/State.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -49,11 +49,11 @@ bool                            State::operator ==                          (   
         return false ;
     }
 
-    return (instant_ == aState.instant_) 
-        && (position_ == aState.position_) 
-        && (velocity_ == aState.velocity_) 
-        && (attitude_ == aState.attitude_) 
-        && (angularVelocity_ == aState.angularVelocity_) 
+    return (instant_ == aState.instant_)
+        && (position_ == aState.position_)
+        && (velocity_ == aState.velocity_)
+        && (attitude_ == aState.attitude_)
+        && (angularVelocity_ == aState.angularVelocity_)
         && (frameSPtr_ == aState.frameSPtr_) ;
 
 }
@@ -85,8 +85,8 @@ std::ostream&                   operator <<                                 (   
 bool                            State::isDefined                            ( ) const
 {
 
-    return instant_.isDefined() 
-        && position_.isDefined() 
+    return instant_.isDefined()
+        && position_.isDefined()
         && velocity_.isDefined()
         && attitude_.isDefined()
         && angularVelocity_.isDefined()
@@ -102,7 +102,7 @@ const Instant&                  State::accessInstant                        ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return instant_ ;
 
 }
@@ -114,7 +114,7 @@ const Vector3d&                 State::accessPosition                       ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return position_ ;
 
 }
@@ -126,7 +126,7 @@ const Vector3d&                 State::accessVelocity                       ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return velocity_ ;
 
 }
@@ -138,7 +138,7 @@ const Quaternion&               State::accessAttitude                       ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return attitude_ ;
 
 }
@@ -150,7 +150,7 @@ const Vector3d&                 State::accessAngularVelocity                ( ) 
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return angularVelocity_ ;
 
 }
@@ -182,12 +182,12 @@ Vector3d                        State::getAngularVelocity                   ( ) 
 
 Shared<const Frame>             State::getFrame                             ( ) const
 {
-    
+
     if (!this->isDefined())
     {
         throw library::core::error::runtime::Undefined("State") ;
     }
-    
+
     return frameSPtr_ ;
 
 }

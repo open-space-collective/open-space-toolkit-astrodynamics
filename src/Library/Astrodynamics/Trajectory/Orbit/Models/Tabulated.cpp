@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Tabulated.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -83,7 +83,7 @@ Integer                         Tabulated::getRevolutionNumberAtEpoch       ( ) 
     {
         throw library::core::error::runtime::Undefined("Tabulated") ;
     }
-    
+
     return initialRevolutionNumber_ ;
 
 }

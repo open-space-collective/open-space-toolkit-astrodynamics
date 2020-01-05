@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -89,7 +89,7 @@ const Model&                    Trajectory::accessModel                     ( ) 
     {
         throw library::core::error::runtime::Undefined("Model") ;
     }
-    
+
     return *modelUPtr_ ;
 
 }
@@ -161,7 +161,7 @@ Trajectory                      Trajectory::Position                        (   
                                 :   modelUPtr_(nullptr)
 {
 
-}                               
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

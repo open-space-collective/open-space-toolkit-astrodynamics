@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           bindings/python/test/test_access.py
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0

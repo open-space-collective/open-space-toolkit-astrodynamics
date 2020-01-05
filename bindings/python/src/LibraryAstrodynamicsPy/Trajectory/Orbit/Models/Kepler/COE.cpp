@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -32,7 +32,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def(self_ns::repr(self_ns::self))
 
         .def("isDefined", &COE::isDefined)
-        
+
         .def("getSemiMajorAxis", &COE::getSemiMajorAxis)
         .def("getEccentricity", &COE::getEccentricity)
         .def("getInclination", &COE::getInclination)
@@ -44,7 +44,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
         .def("getMeanMotion", &COE::getMeanMotion)
         .def("getOrbitalPeriod", &COE::getOrbitalPeriod)
         .def("getCartesianState", &COE::getCartesianState)
-        
+
         .def("Undefined", &COE::Undefined).staticmethod("Undefined")
         .def("Cartesian", &COE::Cartesian).staticmethod("Cartesian")
         .def("EccentricAnomalyFromTrueAnomaly", &COE::EccentricAnomalyFromTrueAnomaly).staticmethod("EccentricAnomalyFromTrueAnomaly")

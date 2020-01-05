@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -19,7 +19,7 @@ BOOST_PYTHON_MODULE (LibraryAstrodynamicsPy)
 {
 
 	boost::python::object package = boost::python::scope() ;
-	
+
 	package.attr("__path__") = "Library" ;
 
 	LibraryAstrodynamicsPy_Trajectory() ;

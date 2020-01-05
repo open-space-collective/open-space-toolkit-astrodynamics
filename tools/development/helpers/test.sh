@@ -2,7 +2,7 @@
 
 ################################################################################################################################################################
 
-# @project        Library ▸ Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tools/development/helpers/test.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Pass.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -82,7 +82,7 @@ bool                            Pass::isComplete                            ( ) 
     {
         throw library::core::error::runtime::Undefined("Pass") ;
     }
-    
+
     return type_ == Pass::Type::Complete ;
 
 }
@@ -142,7 +142,7 @@ String                          Pass::StringFromType                        (   
 
         case Pass::Type::Partial:
             return "Partial" ;
-        
+
         default:
             throw library::core::error::runtime::Wrong("Type") ;
 
@@ -166,7 +166,7 @@ String                          Pass::StringFromPhase                       (   
 
         case Pass::Phase::Descending:
             return "Descending" ;
-        
+
         default:
             throw library::core::error::runtime::Wrong("Phase") ;
 
@@ -196,7 +196,7 @@ String                          Pass::StringFromQuarter                     (   
 
         case Pass::Quarter::Fourth:
             return "Fourth" ;
-        
+
         default:
             throw library::core::error::runtime::Wrong("Quarter") ;
 

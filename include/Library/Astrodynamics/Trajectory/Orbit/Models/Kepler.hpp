@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -98,7 +98,7 @@ class Kepler : public library::astro::trajectory::orbit::Model
         Derived                 getGravitationalParameter                   ( ) const ;
 
         Length                  getEquatorialRadius                         ( ) const ;
-        
+
         Real                    getJ2                                       ( ) const ;
 
         Kepler::PerturbationType getPerturbationType                        ( ) const ;
@@ -109,7 +109,7 @@ class Kepler : public library::astro::trajectory::orbit::Model
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
-                                                                                        
+
         static String           StringFromPerturbationType                  (   const   Kepler::PerturbationType&   aPerturbationType                           ) ;
 
     protected:
@@ -119,7 +119,7 @@ class Kepler : public library::astro::trajectory::orbit::Model
         virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
     private:
-    
+
         COE                     coe_ ;
         Instant                 epoch_ ;
         Derived                 gravitationalParameter_ ;

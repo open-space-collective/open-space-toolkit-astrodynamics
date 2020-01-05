@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory/Orbit.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -27,7 +27,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
     using library::core::ctnr::Array ;
 
     using library::physics::env::obj::Celestial ;
-    
+
     using library::astro::trajectory::State ;
     using library::astro::trajectory::Orbit ;
     using library::astro::trajectory::orbit::models::Kepler ;
@@ -48,12 +48,12 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
         .def("accessModel", &Orbit::accessModel, return_value_policy<reference_existing_object>())
         .def("accessKeplerModel", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
         .def("accessSGP4Model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
-        
+
         .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
         .def("getPassAt", &Orbit::getPassAt)
         .def("getPassWithRevolutionNumber", &Orbit::getPassWithRevolutionNumber)
         .def("getOrbitalFrame", &Orbit::getOrbitalFrame)
-        
+
         .def("Undefined", &Orbit::Undefined).staticmethod("Undefined")
         .def("Circular", &Orbit::Circular).staticmethod("Circular")
         .def("Equatorial", &Orbit::Equatorial).staticmethod("Equatorial")

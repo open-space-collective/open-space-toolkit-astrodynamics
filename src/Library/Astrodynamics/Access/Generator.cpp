@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -87,7 +87,7 @@ Array<Access>                   Generator::computeAccesses                  (   
     using library::physics::coord::spherical::LLA ; // [TBR]
     using library::physics::env::Object ;
     using library::physics::env::obj::celest::Earth ; // [TBR]
-    
+
     using library::astro::trajectory::State ;
 
     if (!anInterval.isDefined())
@@ -268,7 +268,7 @@ Array<Access>                   Generator::computeAccesses                  (   
         }
 
     } ;
-    
+
     const Array<Instant> instants = anInterval.generateGrid(step_) ;
 
     bool inAccess = false ;
@@ -328,14 +328,14 @@ Array<Access>                   Generator::computeAccesses                  (   
 
             const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates()) ;
             const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates()) ;
-            
+
             const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm() ;
 
             if (!timeOfClosestApproachCache.isDefined())
             {
 
                 timeOfClosestApproachCache = acquisitionOfSignalCache ;
-                
+
                 fromToDistanceCache_m = fromToDistance_m ;
 
             }
@@ -346,7 +346,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                 {
 
                     timeOfClosestApproachCache = instant ;
-                    
+
                     fromToDistanceCache_m = fromToDistance_m ;
 
                 }
@@ -355,7 +355,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                     struct Context
                     {
-                        
+
                         const Instant& instant ;
                         const std::function<Pair<Position, Position> (const Instant& anInstant)>& getPositionsAt ;
 
@@ -381,7 +381,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                         const Real squaredRange_m = (positions.second.accessCoordinates() - positions.first.accessCoordinates()).squaredNorm() ;
 
                         // std::cout << String::Format("{} [s] @ {} => {} [m]", x[0], queryInstant.toString(), squaredRange_m.toString()) << std::endl ;
-                        
+
                         return squaredRange_m ;
 
                     } ;
@@ -389,24 +389,24 @@ Array<Access>                   Generator::computeAccesses                  (   
                     Context context = { instant, getPositionsAt } ;
 
                     nlopt::opt optimizer = { nlopt::LN_COBYLA, 1 } ;
-                    
+
                     const std::vector<double> lowerBound = { -2.0 * step_.inSeconds() } ;
                     const std::vector<double> upperBound = { +2.0 * step_.inSeconds() } ;
 
                     optimizer.set_lower_bounds(lowerBound) ;
                     optimizer.set_upper_bounds(upperBound) ;
-                    
+
                     optimizer.set_min_objective(calculateRange, &context) ;
 
                     optimizer.set_xtol_rel(tolerance_.inSeconds()) ;
 
                     std::vector<double> x = { 0.0 } ;
-                    
+
                     try
                     {
 
                         double minimumSquaredRange ;
-                        
+
                         nlopt::result result = optimizer.optimize(x, minimumSquaredRange) ;
 
                         switch (result)
@@ -434,7 +434,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                     }
                     catch (const std::exception& anException)
                     {
-                        throw library::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what()) ;                        
+                        throw library::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what()) ;
                     }
 
                     if (timeOfClosestApproachCache < acquisitionOfSignalCache)
@@ -498,7 +498,7 @@ void                            Generator::setAerFilter                     (   
 {
     aerFilter_ = anAerFilter ;
 }
-        
+
 void                            Generator::setAccessFilter                  (   const   std::function<bool (const Access&)>& anAccessFilter                     )
 {
     accessFilter_ = anAccessFilter ;
@@ -531,7 +531,7 @@ Generator                       Generator::AerRanges                        (   
         return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0)))
             && ((!elevationRange_deg.isDefined()) || elevationRange_deg.contains(anAER.getElevation().inDegrees(-180.0, +180.0)))
             && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;
-        
+
     } ;
 
     return { anEnvironment, aerFilter, {} } ;

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Flight/Profile.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -15,7 +15,7 @@
 
 inline void                     LibraryAstrodynamicsPy_Flight_Profile       ( )
 {
-    
+
     using namespace boost::python ;
 
     using library::core::types::Shared ;
@@ -50,7 +50,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile       ( )
     ;
 
     LibraryAstrodynamicsPy_Flight_Profile_State() ;
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

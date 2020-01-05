@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           tutorials/cpp/sensor-modeling/SensorModeling.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -94,7 +94,7 @@ int                             main                                        ( )
     // Orbit
 
     const Instant epoch = Instant::DateTime(DateTime(2018, 9, 5, 0, 0, 0), Scale::UTC) ;
-    
+
     const Kepler orbitalModel = { coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true } ; // True = COE expressed in ITRF frame
 
     const Orbit orbit = { orbitalModel, earthSPtr } ;
@@ -131,7 +131,7 @@ int                             main                                        ( )
         const Vector3d z_B_ITRF = sensorToTargetDirection_ITRF ;
         const Vector3d x_B_ITRF = z_B_ITRF.cross(Vector3d::Y()).normalized() ;
         const Vector3d y_B_ITRF = z_B_ITRF.cross(x_B_ITRF) ;
-        
+
         const RotationMatrix dcm_B_ITRF = RotationMatrix::Rows(x_B_ITRF, y_B_ITRF, z_B_ITRF) ;
         const Quaternion q_B_ITRF = Quaternion::RotationMatrix(dcm_B_ITRF).toNormalized() ;
 
@@ -184,26 +184,26 @@ int                             main                                        ( )
         std::cout << "Sensor geometry [B] = " << std::endl << sensorGeometry << std::endl ;
         std::cout << "Sensor geometry [GCRF] = " << std::endl << sensorGeometry.in(Frame::GCRF(), aState.getInstant()) << std::endl ;
         std::cout << "Sensor geometry [ITRF] = " << std::endl << sensorGeometry.in(Frame::ITRF(), aState.getInstant()) << std::endl ;
-        
+
         const Geometry intersectionGeometry = sensorGeometry.in(Frame::ITRF(), aState.getInstant()).intersectionWith(earthSPtr->getGeometryIn(Frame::ITRF())) ;
 
         // std::cout << "intersectionGeometry = " << std::endl << intersectionGeometry << std::endl ;
 
         Array<Point2d> intersectionPoints_LL = Array<Point2d>::Empty() ;
-        
+
         for (const auto& intersectionPoint_ITRF : intersectionGeometry.accessComposite().accessObjectAt(0).as<LineString3d>())
         {
 
             const LLA intersectionPoint_LLA = LLA::Cartesian(intersectionPoint_ITRF.asVector(), Earth::EquatorialRadius, Earth::Flattening) ;
-            
+
             intersectionPoints_LL.add(Point2d(intersectionPoint_LLA.getLongitude().inDegrees(), intersectionPoint_LLA.getLatitude().inDegrees())) ;
 
         }
 
         const Polygon2d intersectionPolygon_LL = { intersectionPoints_LL } ;
-        
+
         return intersectionPolygon_LL ;
-        
+
     } ;
 
     const Instant analysisStartInstant = epoch ;
@@ -217,7 +217,7 @@ int                             main                                        ( )
 
     for (const auto& orbitalState : orbitalStates)
     {
-        
+
         // std::cout << orbitalState << std::endl ;
 
         const Polygon2d sensorTrace_LL = calculateSensorTrace(orbitalState) ;

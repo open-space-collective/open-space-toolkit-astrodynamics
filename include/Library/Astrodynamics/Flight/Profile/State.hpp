@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Flight/Profile/State.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -65,7 +65,7 @@ class State
         bool                    isDefined                                   ( ) const ;
 
         const Instant&          accessInstant                               ( ) const ;
-        
+
         const Vector3d&         accessPosition                              ( ) const ;
 
         const Vector3d&         accessVelocity                              ( ) const ;
@@ -75,7 +75,7 @@ class State
         const Vector3d&         accessAngularVelocity                       ( ) const ;
 
         Instant                 getInstant                                  ( ) const ;
-        
+
         Vector3d                getPosition                                 ( ) const ;
 
         Vector3d                getVelocity                                 ( ) const ;

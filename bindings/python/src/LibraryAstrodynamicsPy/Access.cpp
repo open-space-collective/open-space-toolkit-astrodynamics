@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Access.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -16,7 +16,7 @@
 
 inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 {
-    
+
     using namespace boost::python ;
 
     using library::physics::time::Instant ;
@@ -33,7 +33,7 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 
         .def("isDefined", &Access::isDefined)
         .def("isComplete", &Access::isComplete)
-        
+
         .def("getType", &Access::getType)
         .def("getAcquisitionOfSignal", &Access::getAcquisitionOfSignal)
         .def("getTimeOfClosestApproach", &Access::getTimeOfClosestApproach)
@@ -42,7 +42,7 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
         .def("getDuration", &Access::getDuration)
 
         .def("Undefined", &Access::Undefined).staticmethod("Undefined")
-        
+
         .def("StringFromType", &Access::StringFromType).staticmethod("StringFromType")
 
     ;
@@ -61,11 +61,11 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 
         .from_python<Array<Access>>()
         .to_python<Array<Access>>()
-        
+
     ;
 
     LibraryAstrodynamicsPy_Access_Generator() ;
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

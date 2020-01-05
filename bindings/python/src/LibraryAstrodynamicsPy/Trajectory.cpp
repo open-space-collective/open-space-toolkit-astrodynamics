@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           LibraryAstrodynamicsPy/Trajectory.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -17,7 +17,7 @@
 
 inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 {
-    
+
     using namespace boost::python ;
 
     using library::core::ctnr::Array ;
@@ -41,12 +41,12 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 
         .def("getStateAt", &Trajectory::getStateAt)
         .def("getStatesAt", &Trajectory::getStatesAt)
-        
+
         .def("Undefined", &Trajectory::Undefined).staticmethod("Undefined")
         .def("Position", &Trajectory::Position).staticmethod("Position")
 
     ;
-    
+
     LibraryAstrodynamicsPy_Trajectory_State() ;
     LibraryAstrodynamicsPy_Trajectory_Orbit() ;
     LibraryAstrodynamicsPy_Trajectory_Model() ;

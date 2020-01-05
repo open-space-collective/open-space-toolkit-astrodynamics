@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           docs/CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -24,7 +24,7 @@ FILE (COPY "${PROJECT_SOURCE_DIR}/docs/doxygen" DESTINATION ${CMAKE_CURRENT_BINA
 FIND_PACKAGE ("Doxygen" QUIET)
 
 IF (NOT DOXYGEN_FOUND)
-        
+
     ADD_SUBDIRECTORY ("${PROJECT_SOURCE_DIR}/thirdparty/doxygen")
 
     SET (DOXYGEN_EXECUTABLE "${CMAKE_CURRENT_BINARY_DIR}/thirdparty/doxygen/source/bin/doxygen")
@@ -44,7 +44,7 @@ ELSE ()
         DEPENDS ${DOXYFILE} ${MARKDOWN_DOC}
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
-    
+
 ENDIF ()
 
 INSTALL (DIRECTORY "${DOCS_OUTPUT_PATH}/html/" DESTINATION ${INSTALL_DOC} COMPONENT "documentation")

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Access.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -71,11 +71,11 @@ std::ostream&                   operator <<                                 (   
     library::core::utils::Print::Header(anOutputStream, "Access") ;
 
     library::core::utils::Print::Line(anOutputStream) << "Type:"                << Access::StringFromType(anAccess.type_) ;
-    
+
     library::core::utils::Print::Line(anOutputStream) << "Acquisition Of Signal:" << (anAccess.acquisitionOfSignal_.isDefined() ? anAccess.acquisitionOfSignal_.toString() : "Undefined") ;
     library::core::utils::Print::Line(anOutputStream) << "Time of Closest Approach:" << (anAccess.timeOfClosestApproach_.isDefined() ? anAccess.timeOfClosestApproach_.toString() : "Undefined") ;
     library::core::utils::Print::Line(anOutputStream) << "Loss Of Signal:"      << (anAccess.lossOfSignal_.isDefined() ? anAccess.lossOfSignal_.toString() : "Undefined") ;
-    
+
     library::core::utils::Print::Line(anOutputStream) << "Duration:"            << ((anAccess.acquisitionOfSignal_.isDefined() && anAccess.lossOfSignal_.isDefined()) ? Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString() : "Undefined") ;
 
     library::core::utils::Print::Footer(anOutputStream) ;
@@ -96,7 +96,7 @@ bool                            Access::isComplete                          ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return type_ == Access::Type::Complete ;
 
 }
@@ -108,7 +108,7 @@ Access::Type                    Access::getType                             ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return type_ ;
 
 }
@@ -120,7 +120,7 @@ Instant                         Access::getAcquisitionOfSignal              ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return acquisitionOfSignal_ ;
 
 }
@@ -132,7 +132,7 @@ Instant                         Access::getTimeOfClosestApproach            ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return timeOfClosestApproach_ ;
 
 }
@@ -144,7 +144,7 @@ Instant                         Access::getLossOfSignal                     ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return lossOfSignal_ ;
 
 }
@@ -156,7 +156,7 @@ Interval                        Access::getInterval                         ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return Interval::Closed(acquisitionOfSignal_, lossOfSignal_) ;
 
 }
@@ -168,7 +168,7 @@ Duration                        Access::getDuration                         ( ) 
     {
         throw library::core::error::runtime::Undefined("Access") ;
     }
-    
+
     return Duration::Between(acquisitionOfSignal_, lossOfSignal_) ;
 
 }

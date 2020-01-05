@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           Library/Astrodynamics/Access/Generator.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
@@ -70,11 +70,11 @@ class Generator
                                                                                 const   Trajectory&                 aToTrajectory                               ) const ;
 
         void                    setStep                                     (   const   Duration&                   aStep                                       ) ;
-        
+
         void                    setTolerance                                (   const   Duration&                   aTolerance                                  ) ;
 
         void                    setAerFilter                                (   const   std::function<bool (const AER&)>& anAerFilter                           ) ;
-        
+
         void                    setAccessFilter                             (   const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
 
         static Generator        Undefined                                   ( ) ;
