@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -33,12 +33,12 @@ namespace astro
 
         if (timeOfClosestApproach_ < acquisitionOfSignal_)
         {
-            throw library::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()) ;
+            throw ostk::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()) ;
         }
 
         if (lossOfSignal_ < timeOfClosestApproach_)
         {
-            throw library::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()) ;
+            throw ostk::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()) ;
         }
 
     }
@@ -66,19 +66,19 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   Access&                     anAccess                                    )
 {
 
-    using library::physics::time::Duration ;
+    using ostk::physics::time::Duration ;
 
-    library::core::utils::Print::Header(anOutputStream, "Access") ;
+    ostk::core::utils::Print::Header(anOutputStream, "Access") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Type:"                << Access::StringFromType(anAccess.type_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:"                << Access::StringFromType(anAccess.type_) ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Acquisition Of Signal:" << (anAccess.acquisitionOfSignal_.isDefined() ? anAccess.acquisitionOfSignal_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Time of Closest Approach:" << (anAccess.timeOfClosestApproach_.isDefined() ? anAccess.timeOfClosestApproach_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Loss Of Signal:"      << (anAccess.lossOfSignal_.isDefined() ? anAccess.lossOfSignal_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Acquisition Of Signal:" << (anAccess.acquisitionOfSignal_.isDefined() ? anAccess.acquisitionOfSignal_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Time of Closest Approach:" << (anAccess.timeOfClosestApproach_.isDefined() ? anAccess.timeOfClosestApproach_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Loss Of Signal:"      << (anAccess.lossOfSignal_.isDefined() ? anAccess.lossOfSignal_.toString() : "Undefined") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Duration:"            << ((anAccess.acquisitionOfSignal_.isDefined() && anAccess.lossOfSignal_.isDefined()) ? Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Duration:"            << ((anAccess.acquisitionOfSignal_.isDefined() && anAccess.lossOfSignal_.isDefined()) ? Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString() : "Undefined") ;
 
-    library::core::utils::Print::Footer(anOutputStream) ;
+    ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -94,7 +94,7 @@ bool                            Access::isComplete                          ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return type_ == Access::Type::Complete ;
@@ -106,7 +106,7 @@ Access::Type                    Access::getType                             ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return type_ ;
@@ -118,7 +118,7 @@ Instant                         Access::getAcquisitionOfSignal              ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return acquisitionOfSignal_ ;
@@ -130,7 +130,7 @@ Instant                         Access::getTimeOfClosestApproach            ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return timeOfClosestApproach_ ;
@@ -142,7 +142,7 @@ Instant                         Access::getLossOfSignal                     ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return lossOfSignal_ ;
@@ -154,7 +154,7 @@ Interval                        Access::getInterval                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return Interval::Closed(acquisitionOfSignal_, lossOfSignal_) ;
@@ -166,7 +166,7 @@ Duration                        Access::getDuration                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Access") ;
+        throw ostk::core::error::runtime::Undefined("Access") ;
     }
 
     return Duration::Between(acquisitionOfSignal_, lossOfSignal_) ;
@@ -198,7 +198,7 @@ String                          Access::StringFromType                      (   
 
     }
 
-    throw library::core::error::runtime::Wrong("Type") ;
+    throw ostk::core::error::runtime::Wrong("Type") ;
 
     return String::Empty() ;
 

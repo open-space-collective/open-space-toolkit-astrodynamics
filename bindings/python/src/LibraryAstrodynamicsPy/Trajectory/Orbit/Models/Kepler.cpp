@@ -18,17 +18,17 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
 
     using namespace boost::python ;
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Instant ;
-    using library::physics::env::obj::Celestial ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::env::obj::Celestial ;
 
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
-    scope in_Kepler = class_<Kepler, bases<library::astro::trajectory::orbit::Model>>("Kepler", init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
+    scope in_Kepler = class_<Kepler, bases<ostk::astro::trajectory::orbit::Model>>("Kepler", init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
 
         .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&>())
         .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>())

@@ -27,19 +27,19 @@
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -59,19 +59,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -127,19 +127,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperator)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -195,19 +195,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperat
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -233,19 +233,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -273,19 +273,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -313,19 +313,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -353,19 +353,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -393,19 +393,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -433,19 +433,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -473,19 +473,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -513,19 +513,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -538,19 +538,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricAnomaly)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -563,19 +563,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanMotion)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -588,19 +588,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetOrbitalPeriod)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -613,21 +613,21 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
 {
 
-    using library::core::types::Real ;
-    using library::core::types::String ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -704,7 +704,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianStat
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -717,20 +717,20 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -775,19 +775,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromTrueAnomaly)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -800,19 +800,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromEccentricAnomaly)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -825,19 +825,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 // TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, MeanAnomalyFromEccentricAnomaly)
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Duration ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Velocity ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Velocity ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 //     {
 
@@ -850,19 +850,19 @@ TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 TEST (Library_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 

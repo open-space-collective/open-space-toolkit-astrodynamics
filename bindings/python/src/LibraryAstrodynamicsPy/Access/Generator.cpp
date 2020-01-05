@@ -16,13 +16,13 @@ inline void                     LibraryAstrodynamicsPy_Access_Generator     ( )
 
     using namespace boost::python ;
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::physics::Environment ;
-    using library::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
+    using ostk::physics::coord::spherical::AER ;
 
-    using library::astro::Access ;
-    using library::astro::access::Generator ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
     scope in_Generator = class_<Generator>("Generator", init<const Environment&>())
 

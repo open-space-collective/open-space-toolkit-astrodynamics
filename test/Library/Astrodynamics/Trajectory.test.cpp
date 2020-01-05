@@ -19,19 +19,19 @@
 TEST (Library_Astrodynamics_Trajectory, Constructor)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -72,19 +72,19 @@ TEST (Library_Astrodynamics_Trajectory, Constructor)
 TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -146,19 +146,19 @@ TEST (Library_Astrodynamics_Trajectory, EqualToOperator)
 TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -220,19 +220,19 @@ TEST (Library_Astrodynamics_Trajectory, NotEqualToOperator)
 TEST (Library_Astrodynamics_Trajectory, StreamOperator)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -261,19 +261,19 @@ TEST (Library_Astrodynamics_Trajectory, StreamOperator)
 TEST (Library_Astrodynamics_Trajectory, IsDefined)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -304,19 +304,19 @@ TEST (Library_Astrodynamics_Trajectory, IsDefined)
 TEST (Library_Astrodynamics_Trajectory, AccessModel)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -347,19 +347,19 @@ TEST (Library_Astrodynamics_Trajectory, AccessModel)
 TEST (Library_Astrodynamics_Trajectory, GetStateAt)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -413,19 +413,19 @@ TEST (Library_Astrodynamics_Trajectory, GetStateAt)
 TEST (Library_Astrodynamics_Trajectory, GetStatesAt)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -488,19 +488,19 @@ TEST (Library_Astrodynamics_Trajectory, GetStatesAt)
 TEST (Library_Astrodynamics_Trajectory, Print)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::models::Tabulated ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::models::Tabulated ;
 
     {
 
@@ -530,7 +530,7 @@ TEST (Library_Astrodynamics_Trajectory, Print)
 TEST (Library_Astrodynamics_Trajectory, Undefined)
 {
 
-    using library::astro::Trajectory ;
+    using ostk::astro::Trajectory ;
 
     {
 

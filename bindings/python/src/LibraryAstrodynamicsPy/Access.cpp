@@ -19,9 +19,9 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 
     using namespace boost::python ;
 
-    using library::physics::time::Instant ;
+    using ostk::physics::time::Instant ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     scope in_Access = class_<Access>("Access", init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
 
@@ -55,7 +55,7 @@ inline void                     LibraryAstrodynamicsPy_Access        	    ( )
 
     ;
 
-    using library::core::ctnr::Array ;
+    using ostk::core::ctnr::Array ;
 
     IterableConverter()
 

@@ -16,12 +16,12 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_K
 
     using namespace boost::python ;
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
 
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     scope in_COE = class_<COE>("COE", init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>())
 

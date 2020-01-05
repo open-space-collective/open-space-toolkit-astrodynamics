@@ -16,7 +16,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Model     ( )
 
     using namespace boost::python ;
 
-    using library::astro::trajectory::Model ;
+    using ostk::astro::trajectory::Model ;
 
     scope in_Model = class_<Model, boost::noncopyable>("TrajectoryModel", no_init)
 

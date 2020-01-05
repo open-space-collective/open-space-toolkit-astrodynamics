@@ -16,11 +16,11 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_T
 
     using namespace boost::python ;
 
-    using library::core::types::Integer ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::orbit::models::Tabulated ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::orbit::models::Tabulated ;
 
     scope in_Tabulated = class_<Tabulated>("Tabulated", init<Array<State>, Integer>())
 

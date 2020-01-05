@@ -20,7 +20,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -33,7 +33,7 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::physics::coord::Transform ;
+using ostk::physics::coord::Transform ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,9 +72,9 @@ class SGP4::Impl
 State                           SGP4::Impl::calculateStateAt                (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::time::Duration ;
+    using ostk::physics::time::Duration ;
 
     const Real durationFromEpoch_min = Duration::Between(tle_.getEpoch(), anInstant).inMinutes() ;
 
@@ -182,7 +182,7 @@ TLE                             SGP4::getTle                                ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("SGP4") ;
+        throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
     return tle_ ;
@@ -194,7 +194,7 @@ Instant                         SGP4::getEpoch                              ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("SGP4") ;
+        throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
     return tle_.getEpoch() ;
@@ -206,7 +206,7 @@ Integer                         SGP4::getRevolutionNumberAtEpoch            ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("SGP4") ;
+        throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
     return tle_.getRevolutionNumberAtEpoch() ;
@@ -218,12 +218,12 @@ State                           SGP4::calculateStateAt                      (   
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("SGP4") ;
+        throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
     return implUPtr_->calculateStateAt(anInstant) ;
@@ -235,12 +235,12 @@ Integer                         SGP4::calculateRevolutionNumberAt           (   
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("SGP4") ;
+        throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
     if (anInstant == tle_.getEpoch())
@@ -258,15 +258,15 @@ void                            SGP4::print                                 (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "SGP4") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (this->getEpoch().isDefined() ? this->getEpoch().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (this->getEpoch().isDefined() ? this->getEpoch().toString() : "Undefined") ;
 
-    library::core::utils::Print::Separator(anOutputStream, "Two-Line Elements") ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Two-Line Elements") ;
 
     // tle_.print(anOutputStream, false) ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 

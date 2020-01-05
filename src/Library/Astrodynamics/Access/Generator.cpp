@@ -21,7 +21,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -74,40 +74,40 @@ Array<Access>                   Generator::computeAccesses                  (   
     // - [Visual Contact between Two Earth’s Satellites](http://thescipub.com/pdf/10.3844/ajassp.2012.620.623)
     // - [Rapid Satellite-to-Site Visibility Determination Based on Self-Adaptive Interpolation Technique](https://arxiv.org/pdf/1611.02402.pdf)
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Pair ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Pair ;
 
-    using library::math::geom::d3::objects::Point ;
-    using library::math::geom::d3::objects::Segment ;
+    using ostk::math::geom::d3::objects::Point ;
+    using ostk::math::geom::d3::objects::Segment ;
 
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::spherical::LLA ; // [TBR]
-    using library::physics::env::Object ;
-    using library::physics::env::obj::celest::Earth ; // [TBR]
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::spherical::LLA ; // [TBR]
+    using ostk::physics::env::Object ;
+    using ostk::physics::env::obj::celest::Earth ; // [TBR]
 
-    using library::astro::trajectory::State ;
+    using ostk::astro::trajectory::State ;
 
     if (!anInterval.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Interval") ;
+        throw ostk::core::error::runtime::Undefined("Interval") ;
     }
 
     if (!aFromTrajectory.isDefined())
     {
-        throw library::core::error::runtime::Undefined("From Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("From Trajectory") ;
     }
 
     if (!aToTrajectory.isDefined())
     {
-        throw library::core::error::runtime::Undefined("To Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("To Trajectory") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Generator") ;
+        throw ostk::core::error::runtime::Undefined("Generator") ;
     }
 
     Environment environment = environment_ ;
@@ -169,7 +169,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
             const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
 
-            // std::cout   << anInstant.getDateTime(library::physics::time::Scale::UTC).toString(library::physics::time::DateTime::Format::ISO8601) << ", "
+            // std::cout   << anInstant.getDateTime(ostk::physics::time::Scale::UTC).toString(ostk::physics::time::DateTime::Format::ISO8601) << ", "
             //             << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
             //             << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
             //             << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
@@ -368,7 +368,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                         if (aDataContext == nullptr)
                         {
-                            throw library::core::error::runtime::Wrong("Data context") ;
+                            throw ostk::core::error::runtime::Wrong("Data context") ;
                         }
 
                         const Context* contextPtr = static_cast<const Context*>(aDataContext) ;
@@ -426,7 +426,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                             case nlopt::ROUNDOFF_LIMITED:
                             case nlopt::FORCED_STOP:
                             default:
-                                throw library::core::error::RuntimeError("Cannot find TCA (solution did not converge).") ;
+                                throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).") ;
                                 break ;
 
                         }
@@ -434,7 +434,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                     }
                     catch (const std::exception& anException)
                     {
-                        throw library::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what()) ;
+                        throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what()) ;
                     }
 
                     if (timeOfClosestApproachCache < acquisitionOfSignalCache)
@@ -475,7 +475,7 @@ void                            Generator::setStep                          (   
 
     if (!aStep.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Step") ;
+        throw ostk::core::error::runtime::Undefined("Step") ;
     }
 
     step_ = aStep ;
@@ -487,7 +487,7 @@ void                            Generator::setTolerance                     (   
 
     if (!aTolerance.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tolerance") ;
+        throw ostk::core::error::runtime::Undefined("Tolerance") ;
     }
 
     tolerance_ = aTolerance ;
@@ -515,7 +515,7 @@ Generator                       Generator::AerRanges                        (   
                                                                                 const   Environment&                anEnvironment                               )
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
     const Interval<Real> azimuthRange_deg = anAzimuthRange ;
     const Interval<Real> elevationRange_deg = anElevationRange ;

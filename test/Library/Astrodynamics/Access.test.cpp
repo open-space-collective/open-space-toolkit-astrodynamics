@@ -20,11 +20,11 @@
 TEST (Library_Astrodynamics_Access, Constructor)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -64,11 +64,11 @@ TEST (Library_Astrodynamics_Access, Constructor)
 TEST (Library_Astrodynamics_Access, EqualToOperator)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -142,11 +142,11 @@ TEST (Library_Astrodynamics_Access, EqualToOperator)
 TEST (Library_Astrodynamics_Access, NotEqualToOperator)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -220,11 +220,11 @@ TEST (Library_Astrodynamics_Access, NotEqualToOperator)
 TEST (Library_Astrodynamics_Access, StreamOperator)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -248,11 +248,11 @@ TEST (Library_Astrodynamics_Access, StreamOperator)
 TEST (Library_Astrodynamics_Access, IsDefined)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -278,11 +278,11 @@ TEST (Library_Astrodynamics_Access, IsDefined)
 TEST (Library_Astrodynamics_Access, IsComplete)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -321,11 +321,11 @@ TEST (Library_Astrodynamics_Access, IsComplete)
 TEST (Library_Astrodynamics_Access, GetType)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -364,11 +364,11 @@ TEST (Library_Astrodynamics_Access, GetType)
 TEST (Library_Astrodynamics_Access, GetAcquisitionOfSignal)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -394,11 +394,11 @@ TEST (Library_Astrodynamics_Access, GetAcquisitionOfSignal)
 TEST (Library_Astrodynamics_Access, GetTimeOfClosestApproach)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -424,11 +424,11 @@ TEST (Library_Astrodynamics_Access, GetTimeOfClosestApproach)
 TEST (Library_Astrodynamics_Access, GetLossOfSignal)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -454,12 +454,12 @@ TEST (Library_Astrodynamics_Access, GetLossOfSignal)
 TEST (Library_Astrodynamics_Access, GetInterval)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::time::Interval ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Interval ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -485,12 +485,12 @@ TEST (Library_Astrodynamics_Access, GetInterval)
 TEST (Library_Astrodynamics_Access, GetDuration)
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::time::Duration ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Duration ;
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -516,7 +516,7 @@ TEST (Library_Astrodynamics_Access, GetDuration)
 TEST (Library_Astrodynamics_Access, Undefined)
 {
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 
@@ -531,7 +531,7 @@ TEST (Library_Astrodynamics_Access, Undefined)
 TEST (Library_Astrodynamics_Access, StringFromType)
 {
 
-    using library::astro::Access ;
+    using ostk::astro::Access ;
 
     {
 

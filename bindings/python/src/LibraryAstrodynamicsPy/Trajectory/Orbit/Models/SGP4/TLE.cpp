@@ -16,9 +16,9 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_S
 
     using namespace boost::python ;
 
-    using library::core::types::String ;
+    using ostk::core::types::String ;
 
-    using library::astro::trajectory::orbit::models::sgp4::TLE ;
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
     scope in_TLE = class_<TLE>("TLE", init<String, String>())
 

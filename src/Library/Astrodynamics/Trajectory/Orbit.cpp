@@ -31,7 +31,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -40,10 +40,10 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::physics::units::Length ;
-using library::physics::units::Derived ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Derived ;
 
-static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, library::physics::units::Time::Unit::Second) ;
+static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second) ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +77,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                 Orbit::~Orbit                               ( )
 {
 
-    using FrameManager = library::physics::coord::frame::Manager ;
+    using FrameManager = ostk::physics::coord::frame::Manager ;
 
     static const Array<Orbit::FrameType> frameTypes =
     {
@@ -131,7 +131,7 @@ Integer                         Orbit::getRevolutionNumberAt                (   
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Orbit") ;
+        throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
     return model_.calculateRevolutionNumberAt(anInstant) ;
@@ -143,7 +143,7 @@ Pass                            Orbit::getPassAt                            (   
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Orbit") ;
+        throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
     return this->getPassWithRevolutionNumber(this->getRevolutionNumberAt(anInstant)) ;
@@ -153,13 +153,13 @@ Pass                            Orbit::getPassAt                            (   
 Pass                            Orbit::getPassWithRevolutionNumber          (   const   Integer&                    aRevolutionNumber                           ) const
 {
 
-    using library::core::types::Index ;
-    using library::core::types::Real ;
+    using ostk::core::types::Index ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
 
     // [TBI] Dead with equatorial case
 
@@ -168,7 +168,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Orbit") ;
+        throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
     const std::lock_guard<std::mutex> lock { mutex_ } ;
@@ -264,7 +264,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
                     if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
                     {
-                        throw library::core::error::runtime::ToBeImplemented("Equatorial orbit support.") ;
+                        throw ostk::core::error::runtime::ToBeImplemented("Equatorial orbit support.") ;
                     }
 
                     if ((previousStateCoordinates_ECI_z < 0.0) && (currentStateCoordinates_ECI_z >= 0.0))
@@ -312,7 +312,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
                 if (iterationCount > maxIterationCount)
                 {
-                    throw library::core::error::RuntimeError("Maximum iteration count reached.") ;
+                    throw ostk::core::error::RuntimeError("Maximum iteration count reached.") ;
                 }
 
                 if (currentPass.isDefined())
@@ -341,7 +341,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             }
             else // Reverse propagation
             {
-                throw library::core::error::runtime::ToBeImplemented("Orbit::getPassWithRevolutionNumber > Reverse propagation") ;
+                throw ostk::core::error::runtime::ToBeImplemented("Orbit::getPassWithRevolutionNumber > Reverse propagation") ;
             }
 
             if (currentPass.isDefined())
@@ -357,7 +357,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
         }
         else
         {
-            throw library::core::error::RuntimeError("Cannot get pass with revolution # [{}].", aRevolutionNumber) ;
+            throw ostk::core::error::RuntimeError("Cannot get pass with revolution # [{}].", aRevolutionNumber) ;
         }
 
     }
@@ -369,18 +369,18 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 Shared<const Frame>             Orbit::getOrbitalFrame                      (   const   Orbit::FrameType&           aFrameType                                  ) const
 {
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
-    using library::math::geom::d3::trf::rot::RotationMatrix ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::geom::d3::trf::rot::RotationMatrix ;
 
-    using library::physics::coord::spherical::LLA ;
-    using FrameManager = library::physics::coord::frame::Manager ;
-    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::spherical::LLA ;
+    using FrameManager = ostk::physics::coord::frame::Manager ;
+    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::coord::Transform ;
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Orbit") ;
+        throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
     const String frameName = String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this)) ;
@@ -413,7 +413,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                     // Compute the NED frame to central body centered, central body fixed frame transform at position
 
-                    const Transform transform = library::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+                    const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
 
                     const Vector3d velocity = - state.accessVelocity().accessCoordinates() ; // [TBM] Check if derivation frame is correct
                     const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
@@ -612,11 +612,11 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         }
 
         case Orbit::FrameType::LVLHGD:
-            throw library::core::error::runtime::ToBeImplemented(Orbit::StringFromFrameType(aFrameType)) ;
+            throw ostk::core::error::runtime::ToBeImplemented(Orbit::StringFromFrameType(aFrameType)) ;
             break ;
 
         default:
-            throw library::core::error::runtime::Wrong("Frame type") ;
+            throw ostk::core::error::runtime::Wrong("Frame type") ;
             break ;
 
     }
@@ -631,7 +631,7 @@ void                            Orbit::print                                (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Orbit") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Orbit") : void () ;
 
     Trajectory::print(anOutputStream, false) ;
 
@@ -642,17 +642,17 @@ void                            Orbit::print                                (   
 
         const Pass& pass = passIt.second ;
 
-        library::core::utils::Print::Separator(anOutputStream, String::Format("Pass #{}", pass.getRevolutionNumber())) ;
+        ostk::core::utils::Print::Separator(anOutputStream, String::Format("Pass #{}", pass.getRevolutionNumber())) ;
 
-        library::core::utils::Print::Line(anOutputStream) << "Type:"            << Pass::StringFromType(pass.getType()) ;
-        library::core::utils::Print::Line(anOutputStream) << "Revolution #:"    << pass.getRevolutionNumber().toString() ;
-        library::core::utils::Print::Line(anOutputStream) << "Start time:"      << pass.getInterval().accessStart().toString() ;
-        library::core::utils::Print::Line(anOutputStream) << "End time:"        << pass.getInterval().accessEnd().toString() ;
-        library::core::utils::Print::Line(anOutputStream) << "Duration:"        << pass.getInterval().getDuration().toString() ;
+        ostk::core::utils::Print::Line(anOutputStream) << "Type:"            << Pass::StringFromType(pass.getType()) ;
+        ostk::core::utils::Print::Line(anOutputStream) << "Revolution #:"    << pass.getRevolutionNumber().toString() ;
+        ostk::core::utils::Print::Line(anOutputStream) << "Start time:"      << pass.getInterval().accessStart().toString() ;
+        ostk::core::utils::Print::Line(anOutputStream) << "End time:"        << pass.getInterval().accessEnd().toString() ;
+        ostk::core::utils::Print::Line(anOutputStream) << "Duration:"        << pass.getInterval().getDuration().toString() ;
 
     }
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -672,22 +672,22 @@ Orbit                           Orbit::Circular                             (   
 
     if (!anEpoch.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Epoch") ;
+        throw ostk::core::error::runtime::Undefined("Epoch") ;
     }
 
     if (!anAltitude.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Altitude") ;
+        throw ostk::core::error::runtime::Undefined("Altitude") ;
     }
 
     if (!anInclination.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Inclination") ;
+        throw ostk::core::error::runtime::Undefined("Inclination") ;
     }
 
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Celestial object") ;
+        throw ostk::core::error::runtime::Undefined("Celestial object") ;
     }
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude ;
@@ -716,27 +716,27 @@ Orbit                           Orbit::Equatorial                           (   
 
     if (!anEpoch.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Epoch") ;
+        throw ostk::core::error::runtime::Undefined("Epoch") ;
     }
 
     if (!anApoapsisAltitude.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Apoapsis altitude") ;
+        throw ostk::core::error::runtime::Undefined("Apoapsis altitude") ;
     }
 
     if (!aPeriapsisAltitude.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Periapsis altitude") ;
+        throw ostk::core::error::runtime::Undefined("Periapsis altitude") ;
     }
 
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Celestial object") ;
+        throw ostk::core::error::runtime::Undefined("Celestial object") ;
     }
 
     if (anApoapsisAltitude < aPeriapsisAltitude)
     {
-        throw library::core::error::RuntimeError("Apoapsis altitude [{}] lower than periapsis altitude [{}].", anApoapsisAltitude.toString(), aPeriapsisAltitude.toString()) ;
+        throw ostk::core::error::RuntimeError("Apoapsis altitude [{}] lower than periapsis altitude [{}].", anApoapsisAltitude.toString(), aPeriapsisAltitude.toString()) ;
     }
 
     const Real r_a = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + anApoapsisAltitude.inMeters() ;
@@ -770,36 +770,36 @@ Orbit                           Orbit::SunSynchronous                       (   
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
 {
 
-    using library::core::types::Uint8 ;
+    using ostk::core::types::Uint8 ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Mass ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::Environment ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::Environment ;
 
     using orbit::models::Kepler ;
     using orbit::models::kepler::COE ;
 
     if (!anEpoch.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Epoch") ;
+        throw ostk::core::error::runtime::Undefined("Epoch") ;
     }
 
     if (!anAltitude.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Altitude") ;
+        throw ostk::core::error::runtime::Undefined("Altitude") ;
     }
 
     if (!aLocalTimeAtDescendingNode.isDefined())
     {
-        throw library::core::error::runtime::Undefined("LTDN") ;
+        throw ostk::core::error::runtime::Undefined("LTDN") ;
     }
 
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Celestial object") ;
+        throw ostk::core::error::runtime::Undefined("Celestial object") ;
     }
 
     const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr] (const Length& aSemiMajorAxis) -> Angle
@@ -966,7 +966,7 @@ String                          Orbit::StringFromFrameType                  (   
             return "VNC" ;
 
         default:
-            throw library::core::error::runtime::Wrong("Frame type") ;
+            throw ostk::core::error::runtime::Wrong("Frame type") ;
             break ;
 
     }
@@ -979,15 +979,15 @@ String                          Orbit::StringFromFrameType                  (   
 //                                                                                 const   Integer&                    anInitialRevolutionNumber                   )
 // {
 
-//     using library::core::types::Real ;
+//     using ostk::core::types::Real ;
 
-//     using library::math::obj::Vector3d ;
+//     using ostk::math::obj::Vector3d ;
 
-//     using library::physics::time::Duration ;
+//     using ostk::physics::time::Duration ;
 
 //     if (!anInitialRevolutionNumber.isDefined())
 //     {
-//         throw library::core::error::runtime::Undefined("Initial revolution number") ;
+//         throw ostk::core::error::runtime::Undefined("Initial revolution number") ;
 //     }
 
 //     // [TBI] Deal w/ z_ECI always equal to 0.0 case (equatorial orbit)

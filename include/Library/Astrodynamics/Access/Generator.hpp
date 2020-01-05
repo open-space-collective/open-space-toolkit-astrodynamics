@@ -27,7 +27,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -36,19 +36,19 @@ namespace access
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Real ;
-using library::core::ctnr::Array ;
+using ostk::core::types::Real ;
+using ostk::core::ctnr::Array ;
 
-using library::math::obj::Interval ;
+using ostk::math::obj::Interval ;
 
-using library::physics::units::Length ;
-using library::physics::units::Angle ;
-using library::physics::time::Instant ;
-using library::physics::coord::spherical::AER ;
-using library::physics::Environment ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Angle ;
+using ostk::physics::time::Instant ;
+using ostk::physics::coord::spherical::AER ;
+using ostk::physics::Environment ;
 
-using library::astro::Trajectory ;
-using library::astro::Access ;
+using ostk::astro::Trajectory ;
+using ostk::astro::Access ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

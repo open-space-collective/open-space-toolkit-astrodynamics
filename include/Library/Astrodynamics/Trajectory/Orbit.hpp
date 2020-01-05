@@ -34,7 +34,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -43,24 +43,24 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Unique ;
-using library::core::types::Shared ;
-using library::core::types::Index ;
-using library::core::types::Integer ;
-using library::core::types::Real ;
-using library::core::ctnr::Array ;
-using library::core::ctnr::Map ;
+using ostk::core::types::Unique ;
+using ostk::core::types::Shared ;
+using ostk::core::types::Index ;
+using ostk::core::types::Integer ;
+using ostk::core::types::Real ;
+using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Map ;
 
-using library::physics::units::Length ;
-using library::physics::units::Angle ;
-using library::physics::time::Instant ;
-using library::physics::time::Time ;
-using library::physics::coord::Frame ;
-using library::physics::env::obj::Celestial ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Angle ;
+using ostk::physics::time::Instant ;
+using ostk::physics::time::Time ;
+using ostk::physics::coord::Frame ;
+using ostk::physics::env::obj::Celestial ;
 
-using library::astro::Trajectory ;
-using library::astro::trajectory::State ;
-using library::astro::trajectory::orbit::Pass ;
+using ostk::astro::Trajectory ;
+using ostk::astro::trajectory::State ;
+using ostk::astro::trajectory::orbit::Pass ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

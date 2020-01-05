@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -69,7 +69,7 @@ Instant                         Tabulated::getEpoch                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tabulated") ;
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
     return this->getInterval().accessStart() ;
@@ -81,7 +81,7 @@ Integer                         Tabulated::getRevolutionNumberAtEpoch       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tabulated") ;
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
     return initialRevolutionNumber_ ;
@@ -98,15 +98,15 @@ Integer                         Tabulated::calculateRevolutionNumberAt      (   
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tabulated") ;
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
-    throw library::core::error::runtime::ToBeImplemented("Kepler::calculateRevolutionNumberAt") ;
+    throw ostk::core::error::runtime::ToBeImplemented("Kepler::calculateRevolutionNumberAt") ;
 
     // [TBI]
 

@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -67,16 +67,16 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   State&                      aState                                      )
 {
 
-    library::core::utils::Print::Header(anOutputStream, "Flight :: Profile :: State") ;
+    ostk::core::utils::Print::Header(anOutputStream, "Flight :: Profile :: State") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Instant:"             << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Position:"            << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Velocity:"            << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Attitude:"            << (aState.attitude_.isDefined() ? aState.attitude_.toString(12) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Angular velocity:"    << (aState.angularVelocity_.isDefined() ? aState.angularVelocity_.toString(12) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Frame:"               << (((aState.frameSPtr_ != nullptr) && aState.frameSPtr_->isDefined()) ? aState.frameSPtr_->getName() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:"             << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:"            << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:"            << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Attitude:"            << (aState.attitude_.isDefined() ? aState.attitude_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Angular velocity:"    << (aState.angularVelocity_.isDefined() ? aState.angularVelocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:"               << (((aState.frameSPtr_ != nullptr) && aState.frameSPtr_->isDefined()) ? aState.frameSPtr_->getName() : "Undefined") ;
 
-    library::core::utils::Print::Footer(anOutputStream) ;
+    ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -100,7 +100,7 @@ const Instant&                  State::accessInstant                        ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return instant_ ;
@@ -112,7 +112,7 @@ const Vector3d&                 State::accessPosition                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return position_ ;
@@ -124,7 +124,7 @@ const Vector3d&                 State::accessVelocity                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return velocity_ ;
@@ -136,7 +136,7 @@ const Quaternion&               State::accessAttitude                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return attitude_ ;
@@ -148,7 +148,7 @@ const Vector3d&                 State::accessAngularVelocity                ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return angularVelocity_ ;
@@ -185,7 +185,7 @@ Shared<const Frame>             State::getFrame                             ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return frameSPtr_ ;
@@ -195,16 +195,16 @@ Shared<const Frame>             State::getFrame                             ( ) 
 State                           State::inFrame                              (   const   Shared<const Frame>&        aFrameSPtr                                  ) const
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Frame") ;
+        throw ostk::core::error::runtime::Undefined("Frame") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;

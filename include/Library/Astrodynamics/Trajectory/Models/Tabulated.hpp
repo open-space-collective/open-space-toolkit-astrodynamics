@@ -23,7 +23,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -34,16 +34,16 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Index ;
-using library::core::ctnr::Pair ;
-using library::core::ctnr::Array ;
-using library::core::fs::File ;
+using ostk::core::types::Index ;
+using ostk::core::ctnr::Pair ;
+using ostk::core::ctnr::Array ;
+using ostk::core::fs::File ;
 
-using library::physics::time::Instant ;
-using library::physics::time::Interval ;
+using ostk::physics::time::Instant ;
+using ostk::physics::time::Interval ;
 
-using library::astro::trajectory::Model ;
-using library::astro::trajectory::State ;
+using ostk::astro::trajectory::Model ;
+using ostk::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

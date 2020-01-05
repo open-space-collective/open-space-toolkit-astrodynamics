@@ -18,11 +18,11 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
 
     using namespace boost::python ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
 
-    using library::astro::trajectory::State ;
+    using ostk::astro::trajectory::State ;
 
     scope in_State = class_<State>("State", init<const Instant&, const Position&, const Velocity&>())
 
@@ -43,7 +43,7 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_State     ( )
 
     ;
 
-    using library::core::ctnr::Array ;
+    using ostk::core::ctnr::Array ;
 
     IterableConverter()
 

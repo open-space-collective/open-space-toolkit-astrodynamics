@@ -18,11 +18,11 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Models_S
 
     using namespace boost::python ;
 
-    using library::astro::trajectory::orbit::models::SGP4 ;
-    using library::astro::trajectory::orbit::models::sgp4::TLE ;
+    using ostk::astro::trajectory::orbit::models::SGP4 ;
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
-    scope in_SGP4 = class_<SGP4, bases<library::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
-    // scope in_SGP4 = class_<SGP4, bases<library::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
+    scope in_SGP4 = class_<SGP4, bases<ostk::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
+    // scope in_SGP4 = class_<SGP4, bases<ostk::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
 
         .def(self == self)
         .def(self != self)

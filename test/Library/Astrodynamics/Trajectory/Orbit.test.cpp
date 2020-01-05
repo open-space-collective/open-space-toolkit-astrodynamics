@@ -39,34 +39,34 @@
 TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -119,34 +119,34 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Constructor)
 TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -188,34 +188,34 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -257,33 +257,33 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -322,35 +322,35 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, IsDefined)
 TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::Pass ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::Pass ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -404,35 +404,35 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::Pass ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::Pass ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -490,35 +490,35 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassAt)
 TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::Pass ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::Pass ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -629,38 +629,38 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::types::String ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::Pass ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::Pass ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     // NED
 
@@ -821,34 +821,34 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     {
 
@@ -886,7 +886,7 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Print)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
 {
 
-    using library::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::Orbit ;
 
     {
 
@@ -900,18 +900,18 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Undefined)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
 {
 
-    using library::core::ctnr::Array ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::Environment ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::Environment ;
 
-    using library::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::Orbit ;
 
     {
 
@@ -1074,17 +1074,17 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Circular)
 TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
 {
 
-    using library::core::ctnr::Array ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::physics::units::Length ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::Environment ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::Environment ;
 
-    using library::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::Orbit ;
 
     {
 
@@ -1225,17 +1225,17 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, Equatorial)
 TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 {
 
-    using library::core::ctnr::Array ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::physics::units::Length ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::Environment ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::Environment ;
 
-    using library::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::Orbit ;
 
     {
 
@@ -1297,18 +1297,18 @@ TEST (Library_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 // TEST (Library_Astrodynamics_Trajectory_Orbit, SunSynchronous)
 // {
 
-//     using library::core::ctnr::Array ;
-//     using library::core::fs::Path ;
-//     using library::core::fs::File ;
+//     using ostk::core::ctnr::Array ;
+//     using ostk::core::fs::Path ;
+//     using ostk::core::fs::File ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::time::Scale ;
-//     using library::physics::time::Instant ;
-//     using library::physics::time::DateTime ;
-//     using library::physics::time::Time ;
-//     using library::physics::Environment ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::time::Scale ;
+//     using ostk::physics::time::Instant ;
+//     using ostk::physics::time::DateTime ;
+//     using ostk::physics::time::Time ;
+//     using ostk::physics::Environment ;
 
-//     using library::astro::trajectory::Orbit ;
+//     using ostk::astro::trajectory::Orbit ;
 
 //     {
 

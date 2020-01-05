@@ -32,11 +32,11 @@
 TEST (Library_Astrodynamics_Access_Generator, Constructor)
 {
 
-    using library::physics::coord::spherical::AER ;
-    using library::physics::Environment ;
+    using ostk::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
 
-    using library::astro::Access ;
-    using library::astro::access::Generator ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -69,11 +69,11 @@ TEST (Library_Astrodynamics_Access_Generator, Constructor)
 TEST (Library_Astrodynamics_Access_Generator, IsDefined)
 {
 
-    using library::physics::coord::spherical::AER ;
-    using library::physics::Environment ;
+    using ostk::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
 
-    using library::astro::Access ;
-    using library::astro::access::Generator ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -116,38 +116,38 @@ TEST (Library_Astrodynamics_Access_Generator, IsDefined)
 TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 {
 
-    using library::core::types::Real ;
-    using library::core::types::String ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Tuple ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Tuple ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::DateTime ;
-    using library::physics::time::Interval ;
-    using library::physics::coord::spherical::LLA ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Frame ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::coord::spherical::LLA ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
-    using library::astro::trajectory::orbit::models::SGP4 ;
-    using library::astro::trajectory::orbit::models::sgp4::TLE ;
-    using library::astro::Access ;
-    using library::astro::access::Generator ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::SGP4 ;
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -229,7 +229,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-        for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
         {
 
             const auto& referenceRow = std::get<0>(accessTuple) ;
@@ -313,7 +313,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-        for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
         {
 
             const auto& referenceRow = std::get<0>(accessTuple) ;
@@ -389,7 +389,7 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 
         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-        for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
         {
 
             const auto& referenceRow = std::get<0>(accessTuple) ;
@@ -414,10 +414,10 @@ TEST (Library_Astrodynamics_Access_Generator, ComputeAccesses)
 TEST (Library_Astrodynamics_Access_Generator, SetStep)
 {
 
-    using library::physics::time::Duration ;
-    using library::physics::Environment ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::Environment ;
 
-    using library::astro::access::Generator ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -438,10 +438,10 @@ TEST (Library_Astrodynamics_Access_Generator, SetStep)
 TEST (Library_Astrodynamics_Access_Generator, SetTolerance)
 {
 
-    using library::physics::time::Duration ;
-    using library::physics::Environment ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::Environment ;
 
-    using library::astro::access::Generator ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -462,10 +462,10 @@ TEST (Library_Astrodynamics_Access_Generator, SetTolerance)
 TEST (Library_Astrodynamics_Access_Generator, SetAerFilter)
 {
 
-    using library::physics::coord::spherical::AER ;
-    using library::physics::Environment ;
+    using ostk::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
 
-    using library::astro::access::Generator ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -489,11 +489,11 @@ TEST (Library_Astrodynamics_Access_Generator, SetAerFilter)
 TEST (Library_Astrodynamics_Access_Generator, SetAccessFilter)
 {
 
-    using library::physics::coord::spherical::AER ;
-    using library::physics::Environment ;
+    using ostk::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
 
-    using library::astro::Access ;
-    using library::astro::access::Generator ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -517,7 +517,7 @@ TEST (Library_Astrodynamics_Access_Generator, SetAccessFilter)
 TEST (Library_Astrodynamics_Access_Generator, Undefined)
 {
 
-    using library::astro::access::Generator ;
+    using ostk::astro::access::Generator ;
 
     {
 
@@ -532,38 +532,38 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 // TEST (Library_Astrodynamics_Access_Generator, AerRanges)
 // {
 
-//     using library::core::types::Real ;
-//     using library::core::types::String ;
-//     using library::core::ctnr::Array ;
-//     using library::core::ctnr::Tuple ;
-//     using library::core::ctnr::Array ;
-//     using library::core::ctnr::Table ;
-//     using library::core::fs::Path ;
-//     using library::core::fs::File ;
+//     using ostk::core::types::Real ;
+//     using ostk::core::types::String ;
+//     using ostk::core::ctnr::Array ;
+//     using ostk::core::ctnr::Tuple ;
+//     using ostk::core::ctnr::Array ;
+//     using ostk::core::ctnr::Table ;
+//     using ostk::core::fs::Path ;
+//     using ostk::core::fs::File ;
 
-//     using library::physics::units::Length ;
-//     using library::physics::units::Angle ;
-//     using library::physics::units::Derived ;
-//     using library::physics::time::Scale ;
-//     using library::physics::time::Instant ;
-//     using library::physics::time::Duration ;
-//     using library::physics::time::DateTime ;
-//     using library::physics::time::Interval ;
-//     using library::physics::coord::spherical::LLA ;
-//     using library::physics::coord::Position ;
-//     using library::physics::coord::Frame ;
-//     using library::physics::Environment ;
-//     using library::physics::env::obj::celest::Earth ;
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Scale ;
+//     using ostk::physics::time::Instant ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::time::DateTime ;
+//     using ostk::physics::time::Interval ;
+//     using ostk::physics::coord::spherical::LLA ;
+//     using ostk::physics::coord::Position ;
+//     using ostk::physics::coord::Frame ;
+//     using ostk::physics::Environment ;
+//     using ostk::physics::env::obj::celest::Earth ;
 
-//     using library::astro::Trajectory ;
-//     using library::astro::trajectory::Orbit ;
-//     using library::astro::trajectory::State ;
-//     using library::astro::trajectory::orbit::models::Kepler ;
-//     using library::astro::trajectory::orbit::models::kepler::COE ;
-//     using library::astro::trajectory::orbit::models::SGP4 ;
-//     using library::astro::trajectory::orbit::models::sgp4::TLE ;
-//     using library::astro::Access ;
-//     using library::astro::access::Generator ;
+//     using ostk::astro::Trajectory ;
+//     using ostk::astro::trajectory::Orbit ;
+//     using ostk::astro::trajectory::State ;
+//     using ostk::astro::trajectory::orbit::models::Kepler ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::trajectory::orbit::models::SGP4 ;
+//     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+//     using ostk::astro::Access ;
+//     using ostk::astro::access::Generator ;
 
 //     {
 
@@ -571,9 +571,9 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 //         const Environment environment = Environment::Default() ;
 
-//         const library::math::obj::Interval<Real> azimuthRange = library::math::obj::Interval<Real>::Closed(0.0, 360.0) ;
-//         const library::math::obj::Interval<Real> elevationRange = library::math::obj::Interval<Real>::Closed(60.0, 90.0) ;
-//         const library::math::obj::Interval<Real> rangeRange = library::math::obj::Interval<Real>::Closed(0.0, 10000e3) ;
+//         const ostk::math::obj::Interval<Real> azimuthRange = ostk::math::obj::Interval<Real>::Closed(0.0, 360.0) ;
+//         const ostk::math::obj::Interval<Real> elevationRange = ostk::math::obj::Interval<Real>::Closed(60.0, 90.0) ;
+//         const ostk::math::obj::Interval<Real> rangeRange = ostk::math::obj::Interval<Real>::Closed(0.0, 10000e3) ;
 
 //         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
 
@@ -637,7 +637,7 @@ TEST (Library_Astrodynamics_Access_Generator, Undefined)
 
 //         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-//         for (const auto accessTuple : library::core::ctnr::iterators::Zip(referenceData, accesses))
+//         for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
 //         {
 
 //             const auto& referenceRow = std::get<0>(accessTuple) ;

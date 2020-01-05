@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -39,17 +39,17 @@ namespace kepler
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Shared ;
-using library::core::types::Real ;
-using library::core::ctnr::Pair ;
+using ostk::core::types::Shared ;
+using ostk::core::types::Real ;
+using ostk::core::ctnr::Pair ;
 
-using library::physics::units::Length ;
-using library::physics::units::Derived ;
-using library::physics::units::Angle ;
-using library::physics::time::Duration ;
-using library::physics::coord::Position ;
-using library::physics::coord::Velocity ;
-using library::physics::coord::Frame ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Derived ;
+using ostk::physics::units::Angle ;
+using ostk::physics::time::Duration ;
+using ostk::physics::coord::Position ;
+using ostk::physics::coord::Velocity ;
+using ostk::physics::coord::Frame ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

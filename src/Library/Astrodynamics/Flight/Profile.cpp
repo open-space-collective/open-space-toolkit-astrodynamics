@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -78,16 +78,16 @@ bool                            Profile::isDefined                          ( ) 
 State                           Profile::getStateAt                         (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Profile") ;
+        throw ostk::core::error::runtime::Undefined("Profile") ;
     }
 
     const Transform transform = transformProvider_.getTransformAt(anInstant) ;
@@ -120,16 +120,16 @@ Array<State>                    Profile::getStatesAt                        (   
 Axes                            Profile::getAxesAt                          (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Profile") ;
+        throw ostk::core::error::runtime::Undefined("Profile") ;
     }
 
     const Transform transform = transformProvider_.getTransformAt(anInstant) ;
@@ -147,11 +147,11 @@ Axes                            Profile::getAxesAt                          (   
 Shared<const Frame>             Profile::getBodyFrame                       (   const   String&                     aBodyFrameName                              ) const
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Profile") ;
+        throw ostk::core::error::runtime::Undefined("Profile") ;
     }
 
     const DynamicProvider dynamicTransformProvider =
@@ -170,11 +170,11 @@ void                            Profile::print                              (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Flight Profile") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Flight Profile") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Frame:"               << (((frameSPtr_ != nullptr) && frameSPtr_->isDefined()) ? frameSPtr_->getName() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:"               << (((frameSPtr_ != nullptr) && frameSPtr_->isDefined()) ? frameSPtr_->getName() : "Undefined") ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -187,16 +187,16 @@ Profile                         Profile::InertialPointing                   (   
                                                                                 const   Quaternion&                 aQuaternion                                 )
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if (!aTrajectory.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("Trajectory") ;
     }
 
     if (!aQuaternion.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Quaternion") ;
+        throw ostk::core::error::runtime::Undefined("Quaternion") ;
     }
 
     const DynamicProvider dynamicTransformProvider =
@@ -224,16 +224,16 @@ Profile                         Profile::NadirPointing                      (   
                                                                                 const   trajectory::Orbit::FrameType& anOrbitalFrameType                        )
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     if (!anOrbit.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Orbit") ;
+        throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
     if (anOrbitalFrameType == trajectory::Orbit::FrameType::Undefined)
     {
-        throw library::core::error::runtime::Undefined("Orbital frame type") ;
+        throw ostk::core::error::runtime::Undefined("Orbital frame type") ;
     }
 
     const Shared<const Frame> orbitalFrameSPtr = anOrbit.getOrbitalFrame(anOrbitalFrameType) ;

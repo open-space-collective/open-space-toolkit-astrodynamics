@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -75,7 +75,7 @@ Interval                        Tabulated::getInterval                     ( ) c
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tabulated") ;
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
     return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant()) ;
@@ -85,22 +85,22 @@ Interval                        Tabulated::getInterval                     ( ) c
 State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::core::types::Real ;
+    using ostk::core::types::Real ;
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::time::Duration ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tabulated") ;
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
     const Pair<const State*, const State*> stateRange = this->accessStateRangeAt(anInstant) ;
@@ -133,7 +133,7 @@ State                           Tabulated::calculateStateAt                 (   
         return *(stateRange.second) ;
     }
 
-    throw library::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString()) ;
+    throw ostk::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString()) ;
 
     return State::Undefined() ;
 
@@ -143,20 +143,20 @@ void                            Tabulated::print                            (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    using library::core::types::String ;
+    using ostk::core::types::String ;
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Tabulated") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Start instant:" << (this->isDefined() ? this->getInterval().accessStart().toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "End instant:" << (this->isDefined() ? this->getInterval().accessEnd().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << (this->isDefined() ? this->getInterval().accessStart().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << (this->isDefined() ? this->getInterval().accessEnd().toString() : "Undefined") ;
 
-    library::core::utils::Print::Separator(anOutputStream) ;
+    ostk::core::utils::Print::Separator(anOutputStream) ;
 
     {
 
         const State firstState = this->isDefined() ? this->calculateStateAt(this->getInterval().accessStart()) : State::Undefined() ;
 
-        library::core::utils::Print::Line(anOutputStream) << "First state:" << (firstState.isDefined() ? String::Format("{} - {} - {}", firstState.accessInstant().toString(), firstState.accessPosition().toString(), firstState.accessVelocity().toString()) : "Undefined") ;
+        ostk::core::utils::Print::Line(anOutputStream) << "First state:" << (firstState.isDefined() ? String::Format("{} - {} - {}", firstState.accessInstant().toString(), firstState.accessPosition().toString(), firstState.accessVelocity().toString()) : "Undefined") ;
 
     }
 
@@ -164,11 +164,11 @@ void                            Tabulated::print                            (   
 
         const State lastState = this->isDefined() ? this->calculateStateAt(this->getInterval().accessEnd()) : State::Undefined() ;
 
-        library::core::utils::Print::Line(anOutputStream) << "Last state:" << (lastState.isDefined() ? String::Format("{} - {} - {}", lastState.accessInstant().toString(), lastState.accessPosition().toString(), lastState.accessVelocity().toString()) : "Undefined") ;
+        ostk::core::utils::Print::Line(anOutputStream) << "Last state:" << (lastState.isDefined() ? String::Format("{} - {} - {}", lastState.accessInstant().toString(), lastState.accessPosition().toString(), lastState.accessVelocity().toString()) : "Undefined") ;
 
     }
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -191,7 +191,7 @@ bool                            Tabulated::operator !=                      (   
 Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::core::ctnr::Unpack ;
+    using ostk::core::ctnr::Unpack ;
 
     State const* previousStatePtr = nullptr ;
     State const* nextStatePtr = nullptr ;

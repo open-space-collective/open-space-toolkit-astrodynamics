@@ -18,14 +18,14 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile       ( )
 
     using namespace boost::python ;
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::coord::Frame ;
-    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::coord::Frame ;
+    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
-    using library::astro::flight::profile::State ;
+    using ostk::astro::flight::Profile ;
+    using ostk::astro::flight::profile::State ;
 
     scope in_Profile = class_<Profile>("Profile", init<const DynamicProvider&, const Shared<const Frame>&>())
 

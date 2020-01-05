@@ -18,15 +18,15 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
 
     using namespace boost::python ;
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Frame ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Frame ;
 
-    using library::astro::flight::profile::State ;
+    using ostk::astro::flight::profile::State ;
 
     scope in_State = class_<State>("State", init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>())
 
@@ -50,7 +50,7 @@ inline void                     LibraryAstrodynamicsPy_Flight_Profile_State ( )
 
     ;
 
-    using library::core::ctnr::Array ;
+    using ostk::core::ctnr::Array ;
 
     IterableConverter()
 

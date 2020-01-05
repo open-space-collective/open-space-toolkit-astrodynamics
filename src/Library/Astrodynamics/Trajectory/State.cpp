@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -54,13 +54,13 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   State&                      aState                                      )
 {
 
-    library::core::utils::Print::Header(anOutputStream, "Trajectory :: State") ;
+    ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Instant:" << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Position:" << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Velocity:" << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
 
-    library::core::utils::Print::Footer(anOutputStream) ;
+    ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -76,7 +76,7 @@ const Instant&                  State::accessInstant                        ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return instant_ ;
@@ -88,7 +88,7 @@ const Position&                 State::accessPosition                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return position_ ;
@@ -100,7 +100,7 @@ const Velocity&                 State::accessVelocity                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     return velocity_ ;
@@ -127,12 +127,12 @@ State                           State::inFrame                              (   
 
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Frame") ;
+        throw ostk::core::error::runtime::Undefined("Frame") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("State") ;
+        throw ostk::core::error::runtime::Undefined("State") ;
     }
 
     const Position position = position_.inFrame(aFrameSPtr, instant_) ;

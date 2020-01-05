@@ -16,11 +16,11 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Pass ( )
 
     using namespace boost::python ;
 
-    using library::core::types::Integer ;
+    using ostk::core::types::Integer ;
 
-    using library::physics::time::Interval ;
+    using ostk::physics::time::Interval ;
 
-    using library::astro::trajectory::orbit::Pass ;
+    using ostk::astro::trajectory::orbit::Pass ;
 
     scope in_Pass = class_<Pass>("Pass", init<const Pass::Type&, const Integer&, const Interval&>())
 

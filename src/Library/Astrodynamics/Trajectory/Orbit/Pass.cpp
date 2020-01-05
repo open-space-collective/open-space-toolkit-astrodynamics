@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -56,15 +56,15 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   Pass&                       aPass                                       )
 {
 
-    library::core::utils::Print::Header(anOutputStream, "Pass") ;
+    ostk::core::utils::Print::Header(anOutputStream, "Pass") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Type:"                << Pass::StringFromType(aPass.type_) ;
-    library::core::utils::Print::Line(anOutputStream) << "Revolution #:"        << (aPass.revolutionNumber_.isDefined() ? aPass.revolutionNumber_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Start time:"          << (aPass.interval_.isDefined() ? aPass.interval_.accessStart().toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "End time:"            << (aPass.interval_.isDefined() ? aPass.interval_.accessEnd().toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Duration:"            << (aPass.interval_.isDefined() ? aPass.interval_.getDuration().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:"                << Pass::StringFromType(aPass.type_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Revolution #:"        << (aPass.revolutionNumber_.isDefined() ? aPass.revolutionNumber_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Start time:"          << (aPass.interval_.isDefined() ? aPass.interval_.accessStart().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "End time:"            << (aPass.interval_.isDefined() ? aPass.interval_.accessEnd().toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Duration:"            << (aPass.interval_.isDefined() ? aPass.interval_.getDuration().toString() : "Undefined") ;
 
-    library::core::utils::Print::Footer(anOutputStream) ;
+    ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -80,7 +80,7 @@ bool                            Pass::isComplete                            ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Pass") ;
+        throw ostk::core::error::runtime::Undefined("Pass") ;
     }
 
     return type_ == Pass::Type::Complete ;
@@ -92,7 +92,7 @@ Pass::Type                      Pass::getType                               ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Pass") ;
+        throw ostk::core::error::runtime::Undefined("Pass") ;
     }
 
     return type_ ;
@@ -104,7 +104,7 @@ Integer                         Pass::getRevolutionNumber                   ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Pass") ;
+        throw ostk::core::error::runtime::Undefined("Pass") ;
     }
 
     return revolutionNumber_ ;
@@ -116,7 +116,7 @@ Interval                        Pass::getInterval                           ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Pass") ;
+        throw ostk::core::error::runtime::Undefined("Pass") ;
     }
 
     return interval_ ;
@@ -144,7 +144,7 @@ String                          Pass::StringFromType                        (   
             return "Partial" ;
 
         default:
-            throw library::core::error::runtime::Wrong("Type") ;
+            throw ostk::core::error::runtime::Wrong("Type") ;
 
     }
 
@@ -168,7 +168,7 @@ String                          Pass::StringFromPhase                       (   
             return "Descending" ;
 
         default:
-            throw library::core::error::runtime::Wrong("Phase") ;
+            throw ostk::core::error::runtime::Wrong("Phase") ;
 
     }
 
@@ -198,7 +198,7 @@ String                          Pass::StringFromQuarter                     (   
             return "Fourth" ;
 
         default:
-            throw library::core::error::runtime::Wrong("Quarter") ;
+            throw ostk::core::error::runtime::Wrong("Quarter") ;
 
     }
 

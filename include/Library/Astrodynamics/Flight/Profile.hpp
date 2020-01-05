@@ -29,7 +29,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -38,22 +38,22 @@ namespace flight
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Shared ;
-using library::core::types::String ;
-using library::core::ctnr::Array ;
+using ostk::core::types::Shared ;
+using ostk::core::types::String ;
+using ostk::core::ctnr::Array ;
 
-using library::math::obj::Vector3d ;
-using library::math::geom::d3::trf::rot::Quaternion ;
+using ostk::math::obj::Vector3d ;
+using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-using library::physics::time::Instant ;
-using library::physics::time::Duration ;
-using library::physics::time::Interval ;
-using library::physics::coord::Frame ;
-using library::physics::coord::Axes ;
-using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
+using ostk::physics::time::Instant ;
+using ostk::physics::time::Duration ;
+using ostk::physics::time::Interval ;
+using ostk::physics::coord::Frame ;
+using ostk::physics::coord::Axes ;
+using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
 
-using library::astro::Trajectory ;
-using library::astro::flight::profile::State ;
+using ostk::astro::Trajectory ;
+using ostk::astro::flight::profile::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -72,16 +72,16 @@ bool                            Static::isDefined                           ( ) 
 State                           Static::calculateStateAt                    (   const   Instant&                    anInstant                                   ) const
 {
 
-    using library::physics::coord::Position ;
+    using ostk::physics::coord::Position ;
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Static") ;
+        throw ostk::core::error::runtime::Undefined("Static") ;
     }
 
     return State(anInstant, position_, Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, position_.accessFrame())) ;
@@ -92,13 +92,13 @@ void                            Static::print                               (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    using library::core::types::String ;
+    using ostk::core::types::String ;
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Static") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Static") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Position:"            << (position_.isDefined() ? position_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:"            << (position_.isDefined() ? position_.toString() : "Undefined") ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 

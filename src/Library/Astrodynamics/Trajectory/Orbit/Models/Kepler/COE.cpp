@@ -17,7 +17,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -32,9 +32,9 @@ namespace kepler
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::physics::units::Length ;
-using library::physics::units::Time ;
-using library::physics::units::Derived ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Time ;
+using ostk::physics::units::Derived ;
 
 static const Real Tolerance = 1e-30 ;
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
@@ -99,7 +99,7 @@ Length                          COE::getSemiMajorAxis                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return semiMajorAxis_ ;
@@ -111,7 +111,7 @@ Real                            COE::getEccentricity                        ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return eccentricity_ ;
@@ -123,7 +123,7 @@ Angle                           COE::getInclination                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return inclination_ ;
@@ -135,7 +135,7 @@ Angle                           COE::getRaan                                ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return raan_ ;
@@ -147,7 +147,7 @@ Angle                           COE::getAop                                 ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return aop_ ;
@@ -159,7 +159,7 @@ Angle                           COE::getTrueAnomaly                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return trueAnomaly_ ;
@@ -171,7 +171,7 @@ Angle                           COE::getMeanAnomaly                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return COE::MeanAnomalyFromEccentricAnomaly(this->getEccentricAnomaly(), eccentricity_) ;
@@ -183,7 +183,7 @@ Angle                           COE::getEccentricAnomaly                    ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return COE::EccentricAnomalyFromTrueAnomaly(trueAnomaly_, eccentricity_) ;
@@ -193,17 +193,17 @@ Angle                           COE::getEccentricAnomaly                    ( ) 
 Derived                         COE::getMeanMotion                          (   const   Derived&                    aGravitationalParameter                     ) const
 {
 
-    using library::physics::units::Mass ;
-    using library::physics::units::Time ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Time ;
 
     if (!aGravitationalParameter.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+        throw ostk::core::error::runtime::Undefined("Gravitational parameter") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     const Real semiMajorAxis_m = semiMajorAxis_.inMeters() ;
@@ -217,16 +217,16 @@ Derived                         COE::getMeanMotion                          (   
 Duration                        COE::getOrbitalPeriod                       (   const   Derived&                    aGravitationalParameter                     ) const
 {
 
-    using library::physics::units::Time ;
+    using ostk::physics::units::Time ;
 
     if (!aGravitationalParameter.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+        throw ostk::core::error::runtime::Undefined("Gravitational parameter") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     return Duration::Seconds(Real::TwoPi() / this->getMeanMotion(aGravitationalParameter).in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second))) ;
@@ -237,27 +237,27 @@ COE::CartesianState             COE::getCartesianState                      (   
                                                                                 const   Shared<const Frame>&        aFrameSPtr                                  ) const
 {
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::RotationMatrix ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::RotationMatrix ;
 
-    using library::physics::units::Mass ;
-    using library::physics::units::Time ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Time ;
 
     if (!aGravitationalParameter.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+        throw ostk::core::error::runtime::Undefined("Gravitational parameter") ;
     }
 
     if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Frame") ;
+        throw ostk::core::error::runtime::Undefined("Frame") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("COE") ;
+        throw ostk::core::error::runtime::Undefined("COE") ;
     }
 
     const Real a_m = semiMajorAxis_.inMeters() ;
@@ -295,7 +295,7 @@ COE::CartesianState             COE::getCartesianState                      (   
         return { position, velocity } ;
 
     }
-    catch (const library::core::error::Exception& anException)
+    catch (const ostk::core::error::Exception& anException)
     {
 
         std::cout << "raan_rad = " << raan_rad << std::endl ;
@@ -314,18 +314,18 @@ void                            COE::print                                  (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    using library::core::types::String ;
+    using ostk::core::types::String ;
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Classical Orbital Elements") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                            << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Semi-major axis:"                         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                            << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Inclination:"                             << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Right ascension of the ascending node:"   << (raan_.isDefined() ? String::Format("{} [deg]", raan_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Argument of periapsis:"                   << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "True anomaly:"                            << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined") ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -338,19 +338,19 @@ COE                             COE::Cartesian                              (   
                                                                                 const   Derived&                    aGravitationalParameter                     )
 {
 
-    using library::math::obj::Vector3d ;
+    using ostk::math::obj::Vector3d ;
 
-    using library::physics::units::Mass ;
-    using library::physics::units::Time ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Time ;
 
     if ((!aCartesianState.first.isDefined()) || (!aCartesianState.second.isDefined()))
     {
-        throw library::core::error::runtime::Undefined("Cartesian state") ;
+        throw ostk::core::error::runtime::Undefined("Cartesian state") ;
     }
 
     if (!aGravitationalParameter.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Gravitational parameter") ;
+        throw ostk::core::error::runtime::Undefined("Gravitational parameter") ;
     }
 
     static const Real tolerance = 1e-11 ;
@@ -359,7 +359,7 @@ COE                             COE::Cartesian                              (   
 
     if (mu == 0.0)
     {
-        throw library::core::error::runtime::Wrong("Gravitational parameter") ;
+        throw ostk::core::error::runtime::Wrong("Gravitational parameter") ;
     }
 
     const Vector3d& positionVector = aCartesianState.first.accessCoordinates() ;
@@ -370,7 +370,7 @@ COE                             COE::Cartesian                              (   
 
     if (position == 0.0)
     {
-        throw library::core::error::runtime::Wrong("Position vector") ;
+        throw ostk::core::error::runtime::Wrong("Position vector") ;
     }
 
     // Angular momentum
@@ -381,7 +381,7 @@ COE                             COE::Cartesian                              (   
 
     if (angularMomentum == 0.0)
     {
-        throw library::core::error::runtime::Wrong("Angular momentum") ;
+        throw ostk::core::error::runtime::Wrong("Angular momentum") ;
     }
 
     // Node
@@ -398,7 +398,7 @@ COE                             COE::Cartesian                              (   
 
     if ((std::abs(1.0 - e)) <= Real::Epsilon())
     {
-        throw library::core::error::runtime::ToBeImplemented("Support for parabolic orbits.") ;
+        throw ostk::core::error::runtime::ToBeImplemented("Support for parabolic orbits.") ;
     }
 
     // Semi-major axis
@@ -407,14 +407,14 @@ COE                             COE::Cartesian                              (   
 
     if (E == 0.0)
     {
-        throw library::core::error::runtime::Wrong("Specific orbital energy") ;
+        throw ostk::core::error::runtime::Wrong("Specific orbital energy") ;
     }
 
     const Real a_m = - mu / (2.0 * E) ;
 
     if (std::abs(a_m * (1.0 - e)) < Real::Epsilon())
     {
-        throw library::core::error::RuntimeError("Conic section is singular.") ;
+        throw ostk::core::error::RuntimeError("Conic section is singular.") ;
     }
 
     // Inclination
@@ -432,7 +432,7 @@ COE                             COE::Cartesian                              (   
 
         if (node == 0.0)
         {
-            throw library::core::error::runtime::Undefined("Node") ;
+            throw ostk::core::error::runtime::Undefined("Node") ;
         }
 
         raan_rad = std::acos(nodeVector(0) / node) ;
@@ -491,7 +491,7 @@ COE                             COE::Cartesian                              (   
 
         if (node == 0.0)
         {
-            throw library::core::error::runtime::Undefined("Node") ;
+            throw ostk::core::error::runtime::Undefined("Node") ;
         }
 
         raan_rad = std::acos(nodeVector(0) / node) ;
@@ -546,12 +546,12 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
 
     if (!aTrueAnomaly.isDefined())
     {
-        throw library::core::error::runtime::Undefined("True anomaly") ;
+        throw ostk::core::error::runtime::Undefined("True anomaly") ;
     }
 
     if (!anEccentricity.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentricity") ;
+        throw ostk::core::error::runtime::Undefined("Eccentricity") ;
     }
 
     const Real trueAnomaly_rad = aTrueAnomaly.inRadians() ;
@@ -596,7 +596,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
                 }
                 else
                 {
-                    throw library::core::error::RuntimeError("Algorithm error.") ;
+                    throw ostk::core::error::RuntimeError("Algorithm error.") ;
                 }
 
             }
@@ -612,7 +612,7 @@ Angle                           COE::EccentricAnomalyFromTrueAnomaly        (   
                 }
                 else
                 {
-                    throw library::core::error::RuntimeError("Algorithm error.") ;
+                    throw ostk::core::error::RuntimeError("Algorithm error.") ;
                 }
 
             }
@@ -645,12 +645,12 @@ Angle                           COE::TrueAnomalyFromEccentricAnomaly        (   
 
     if (!anEccentricAnomaly.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentric anomaly") ;
+        throw ostk::core::error::runtime::Undefined("Eccentric anomaly") ;
     }
 
     if (!anEccentricity.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentricity") ;
+        throw ostk::core::error::runtime::Undefined("Eccentricity") ;
     }
 
     const Real eccentricAnomaly_rad = anEccentricAnomaly.inRadians() ;
@@ -666,12 +666,12 @@ Angle                           COE::MeanAnomalyFromEccentricAnomaly        (   
 
     if (!anEccentricAnomaly.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentric anomaly") ;
+        throw ostk::core::error::runtime::Undefined("Eccentric anomaly") ;
     }
 
     if (!anEccentricity.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentricity") ;
+        throw ostk::core::error::runtime::Undefined("Eccentricity") ;
     }
 
     const Real eccentricAnomaly_rad = anEccentricAnomaly.inRadians() ;
@@ -686,22 +686,22 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
                                                                                 const   Real&                       aTolerance                                  )
 {
 
-    using library::core::types::Size ;
-    using library::core::types::Real ;
+    using ostk::core::types::Size ;
+    using ostk::core::types::Real ;
 
     if (!aMeanAnomaly.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Mean anomaly") ;
+        throw ostk::core::error::runtime::Undefined("Mean anomaly") ;
     }
 
     if (!anEccentricity.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Eccentricity") ;
+        throw ostk::core::error::runtime::Undefined("Eccentricity") ;
     }
 
     if (!aTolerance.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Tolerance") ;
+        throw ostk::core::error::runtime::Undefined("Tolerance") ;
     }
 
     // https://en.wikipedia.org/wiki/Kepler%27s_equation
@@ -759,7 +759,7 @@ Angle                           COE::EccentricAnomalyFromMeanAnomaly        (   
 
         if (count > 1000) // Failed to converge, this only happens for nearly parabolic orbits
         {
-            throw library::core::error::RuntimeError("Cannot converge to solution ({}, {}, {}).", aMeanAnomaly.toString(32), anEccentricity.toString(32), aTolerance.toString(32)) ;
+            throw ostk::core::error::RuntimeError("Cannot converge to solution ({}, {}, {}).", aMeanAnomaly.toString(32), anEccentricity.toString(32), aTolerance.toString(32)) ;
         }
 
     }

@@ -22,18 +22,18 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit     ( )
 
     using namespace boost::python ;
 
-    using library::core::types::Shared ;
-    using library::core::types::Integer ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
 
-    using library::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::Celestial ;
 
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::SGP4 ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::SGP4 ;
 
-    scope in_Orbit = class_<Orbit, bases<library::astro::Trajectory>>("Orbit", init<const library::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
+    scope in_Orbit = class_<Orbit, bases<ostk::astro::Trajectory>>("Orbit", init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
 
         .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
 

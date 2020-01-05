@@ -18,12 +18,12 @@ inline void                     LibraryAstrodynamicsPy_Trajectory_Orbit_Model ( 
 
     using namespace boost::python ;
 
-    using library::astro::trajectory::orbit::Model ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::SGP4 ;
+    using ostk::astro::trajectory::orbit::Model ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::SGP4 ;
 
-    // scope in_Model = class_<Model, bases<library::astro::trajectory::Model>, boost::noncopyable>("OrbitModel", no_init)
-    // scope in_Model = class_<Model, bases<library::astro::trajectory::Model>>("OrbitModel", no_init)
+    // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>, boost::noncopyable>("OrbitModel", no_init)
+    // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>>("OrbitModel", no_init)
     scope in_Model = class_<Model, boost::noncopyable>("OrbitModel", no_init)
 
         .def(self == self)

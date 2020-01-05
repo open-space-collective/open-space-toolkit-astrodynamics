@@ -34,44 +34,44 @@
 int                             main                                        ( )
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
 
-    using library::math::obj::Vector3d ;
-    using Point2d = library::math::geom::d2::objects::Point ;
-    using Polygon2d = library::math::geom::d2::objects::Polygon ;
-    using Point3d = library::math::geom::d3::objects::Point ;
-    using LineString3d = library::math::geom::d3::objects::LineString ;
-    using Polygon3d = library::math::geom::d3::objects::Polygon ;
-    using library::math::geom::d3::objects::Pyramid ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
-    using library::math::geom::d3::trf::rot::RotationMatrix ;
+    using ostk::math::obj::Vector3d ;
+    using Point2d = ostk::math::geom::d2::objects::Point ;
+    using Polygon2d = ostk::math::geom::d2::objects::Polygon ;
+    using Point3d = ostk::math::geom::d3::objects::Point ;
+    using LineString3d = ostk::math::geom::d3::objects::LineString ;
+    using Polygon3d = ostk::math::geom::d3::objects::Polygon ;
+    using ostk::math::geom::d3::objects::Pyramid ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::geom::d3::trf::rot::RotationMatrix ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::Provider ;
-    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::spherical::LLA ;
-    using library::physics::Environment ;
-    using library::physics::env::object::Geometry ;
-    using library::physics::env::obj::Celestial ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::Provider ;
+    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::spherical::LLA ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::object::Geometry ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     // Environment
 

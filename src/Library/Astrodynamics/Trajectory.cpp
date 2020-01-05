@@ -16,14 +16,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::astro::trajectory::models::Tabulated ;
+using ostk::astro::trajectory::models::Tabulated ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,12 +82,12 @@ const Model&                    Trajectory::accessModel                     ( ) 
 
     // if (!this->isDefined())
     // {
-    //     throw library::core::error::runtime::Undefined("Trajectory") ;
+    //     throw ostk::core::error::runtime::Undefined("Trajectory") ;
     // }
 
     if (modelUPtr_ == nullptr)
     {
-        throw library::core::error::runtime::Undefined("Model") ;
+        throw ostk::core::error::runtime::Undefined("Model") ;
     }
 
     return *modelUPtr_ ;
@@ -99,7 +99,7 @@ State                           Trajectory::getStateAt                      (   
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("Trajectory") ;
     }
 
     return modelUPtr_->calculateStateAt(anInstant) ;
@@ -126,13 +126,13 @@ void                            Trajectory::print                           (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Trajectory") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory") : void () ;
 
-    library::core::utils::Print::Separator(anOutputStream, "Model") ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Model") ;
 
     modelUPtr_->print(anOutputStream, false) ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -144,11 +144,11 @@ Trajectory                      Trajectory::Undefined                       ( )
 Trajectory                      Trajectory::Position                        (   const   physics::coord::Position&   aPosition                                   )
 {
 
-    using library::astro::trajectory::models::Static ;
+    using ostk::astro::trajectory::models::Static ;
 
     if (!aPosition.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Position") ;
+        throw ostk::core::error::runtime::Undefined("Position") ;
     }
 
     return Trajectory(Static(aPosition)) ;

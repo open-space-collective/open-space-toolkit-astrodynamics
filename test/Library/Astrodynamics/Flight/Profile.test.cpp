@@ -37,14 +37,14 @@
 TEST (Library_Astrodynamics_Flight_Profile, Constructor)
 {
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
+    using ostk::astro::flight::Profile ;
 
     {
 
@@ -67,14 +67,14 @@ TEST (Library_Astrodynamics_Flight_Profile, Constructor)
 TEST (Library_Astrodynamics_Flight_Profile, StreamOperator)
 {
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
+    using ostk::astro::flight::Profile ;
 
     {
 
@@ -103,14 +103,14 @@ TEST (Library_Astrodynamics_Flight_Profile, StreamOperator)
 TEST (Library_Astrodynamics_Flight_Profile, IsDefined)
 {
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
+    using ostk::astro::flight::Profile ;
 
     {
 
@@ -141,18 +141,18 @@ TEST (Library_Astrodynamics_Flight_Profile, IsDefined)
 TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 {
 
-    using library::core::types::Shared ;
+    using ostk::core::types::Shared ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::time::Instant ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
-    using library::astro::flight::profile::State ;
+    using ostk::astro::flight::Profile ;
+    using ostk::astro::flight::profile::State ;
 
     {
 
@@ -204,21 +204,21 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStateAt)
 TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
 {
 
-    using library::core::types::Shared ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::ctnr::Array ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::provider::Dynamic ;
 
-    using library::astro::flight::Profile ;
-    using library::astro::flight::profile::State ;
+    using ostk::astro::flight::Profile ;
+    using ostk::astro::flight::profile::State ;
 
     {
 
@@ -267,7 +267,7 @@ TEST (Library_Astrodynamics_Flight_Profile, GetStatesAt)
 TEST (Library_Astrodynamics_Flight_Profile, Undefined)
 {
 
-    using library::astro::flight::Profile ;
+    using ostk::astro::flight::Profile ;
 
     {
 
@@ -281,34 +281,34 @@ TEST (Library_Astrodynamics_Flight_Profile, Undefined)
 TEST (Library_Astrodynamics_Flight_Profile, InertialPointing)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::types::String ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
-    using library::astro::flight::Profile ;
-    using library::astro::flight::profile::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::flight::Profile ;
+    using ostk::astro::flight::profile::State ;
 
     {
 
@@ -376,34 +376,34 @@ TEST (Library_Astrodynamics_Flight_Profile, InertialPointing)
 TEST (Library_Astrodynamics_Flight_Profile, NadirPointing)
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::types::String ;
-    using library::core::ctnr::Array ;
-    using library::core::ctnr::Table ;
-    using library::core::fs::Path ;
-    using library::core::fs::File ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-    using library::math::obj::Vector3d ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::Environment ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
-    using library::astro::flight::Profile ;
-    using library::astro::flight::profile::State ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::flight::Profile ;
+    using ostk::astro::flight::profile::State ;
 
     // VVLH #1
 

@@ -19,7 +19,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -43,7 +43,7 @@ namespace sgp4
 
     if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
     {
-        throw library::core::error::runtime::Wrong("TLE") ;
+        throw ostk::core::error::runtime::Wrong("TLE") ;
     }
 
 }
@@ -58,7 +58,7 @@ namespace sgp4
 
     if (((!aFirstLine.isEmpty()) || (!aSecondLine.isEmpty())) && (!TLE::CanParse(aFirstLine, aSecondLine)))
     {
-        throw library::core::error::runtime::Wrong("TLE") ;
+        throw ostk::core::error::runtime::Wrong("TLE") ;
     }
 
 }
@@ -91,32 +91,32 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   TLE&                        aTle                                        )
 {
 
-    library::core::utils::Print::Header(anOutputStream, "Two-Line Elements") ;
+    ostk::core::utils::Print::Header(anOutputStream, "Two-Line Elements") ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Line 1:"                                                  << aTle.getFirstLine() ;
-    library::core::utils::Print::Line(anOutputStream) << "Line 2:"                                                  << aTle.getSecondLine() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Line 1:"                                                  << aTle.getFirstLine() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Line 2:"                                                  << aTle.getSecondLine() ;
 
-    library::core::utils::Print::Separator(anOutputStream) ;
+    ostk::core::utils::Print::Separator(anOutputStream) ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Satellite Name:"                                          << aTle.getSatelliteName() ;
-    library::core::utils::Print::Line(anOutputStream) << "Satellite Number:"                                        << aTle.getSatelliteNumber().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Classification:"                                          << aTle.getClassification() ;
-    library::core::utils::Print::Line(anOutputStream) << "International Designator:"                                << aTle.getInternationalDesignator() ;
-    library::core::utils::Print::Line(anOutputStream) << "Epoch:"                                                   << aTle.getEpoch().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion First Time Der. / 2:"                         << aTle.getMeanMotionFirstTimeDerivativeDividedByTwo().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion Second Time Der. / 6:"                        << aTle.getMeanMotionSecondTimeDerivativeDividedBySix().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "B* Drag Term:"                                            << aTle.getBStarDragTerm().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:"                                          << aTle.getEphemerisType().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Element Set Number:"                                      << aTle.getElementSetNumber().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Inclination:"                                             << aTle.getInclination().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Right Ascension of the Ascending Node :"                  << aTle.getRaan().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                                            << aTle.getEccentricity().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:"                                   << aTle.getAop().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:"                                            << aTle.getMeanAnomaly().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Mean Motion:"                                             << aTle.getMeanMotion().toString() ;
-    library::core::utils::Print::Line(anOutputStream) << "Revolution Number at Epoch:"                              << aTle.getRevolutionNumberAtEpoch().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Name:"                                          << aTle.getSatelliteName() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite Number:"                                        << aTle.getSatelliteNumber().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Classification:"                                          << aTle.getClassification() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "International Designator:"                                << aTle.getInternationalDesignator() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"                                                   << aTle.getEpoch().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion First Time Der. / 2:"                         << aTle.getMeanMotionFirstTimeDerivativeDividedByTwo().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion Second Time Der. / 6:"                        << aTle.getMeanMotionSecondTimeDerivativeDividedBySix().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "B* Drag Term:"                                            << aTle.getBStarDragTerm().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Ephemeris Type:"                                          << aTle.getEphemerisType().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Element Set Number:"                                      << aTle.getElementSetNumber().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Inclination:"                                             << aTle.getInclination().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Right Ascension of the Ascending Node :"                  << aTle.getRaan().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:"                                            << aTle.getEccentricity().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Argument of Periapsis:"                                   << aTle.getAop().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Anomaly:"                                            << aTle.getMeanAnomaly().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Mean Motion:"                                             << aTle.getMeanMotion().toString() ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Revolution Number at Epoch:"                              << aTle.getRevolutionNumberAtEpoch().toString() ;
 
-    library::core::utils::Print::Footer(anOutputStream) ;
+    ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -147,7 +147,7 @@ Integer                         TLE::getSatelliteNumber                     ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Integer::Parse(firstLine_.getSubstring(2, 5).trim()) ;
@@ -159,7 +159,7 @@ String                          TLE::getClassification                      ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return firstLine_.getSubstring(7, 1) ;
@@ -171,7 +171,7 @@ String                          TLE::getInternationalDesignator             ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return firstLine_.getSubstring(9, 8).trim() ;
@@ -181,13 +181,13 @@ String                          TLE::getInternationalDesignator             ( ) 
 Instant                         TLE::getEpoch                               ( ) const
 {
 
-    using library::physics::time::Scale ;
-    using library::physics::time::Duration ;
-    using library::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::DateTime ;
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     const String epochYearTwoDigitsString = firstLine_.getSubstring(18, 2).trim() ;
@@ -209,7 +209,7 @@ Real                            TLE::getMeanMotionFirstTimeDerivativeDividedByTw
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Real::Parse(firstLine_.getSubstring(33, 10).trim()) ;
@@ -221,7 +221,7 @@ Real                            TLE::getMeanMotionSecondTimeDerivativeDividedByS
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return TLE::ParseReal(firstLine_.getSubstring(44, 8).trim(), true) ;
@@ -233,7 +233,7 @@ Real                            TLE::getBStarDragTerm                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return TLE::ParseReal(firstLine_.getSubstring(53, 8).trim(), true) ;
@@ -245,7 +245,7 @@ Integer                         TLE::getEphemerisType                       ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Integer::Parse(firstLine_.getSubstring(62, 1)) ;
@@ -257,7 +257,7 @@ Integer                         TLE::getElementSetNumber                    ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Integer::Parse(firstLine_.getSubstring(64, 4).trim()) ;
@@ -269,7 +269,7 @@ Integer                         TLE::getFirstLineChecksum                   ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Integer::Parse(firstLine_.getSubstring(68, 1)) ;
@@ -281,7 +281,7 @@ Angle                           TLE::getInclination                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Angle::Degrees(Real::Parse(secondLine_.getSubstring(8, 8).trim())) ;
@@ -293,7 +293,7 @@ Angle                           TLE::getRaan                                ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Angle::Degrees(Real::Parse(secondLine_.getSubstring(17, 8).trim())) ;
@@ -305,7 +305,7 @@ Real                            TLE::getEccentricity                        ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Real::Parse("0." + secondLine_.getSubstring(26, 7).trim()) ;
@@ -317,7 +317,7 @@ Angle                           TLE::getAop                                 ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Angle::Degrees(Real::Parse(secondLine_.getSubstring(34, 8).trim())) ;
@@ -329,7 +329,7 @@ Angle                           TLE::getMeanAnomaly                         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Angle::Degrees(Real::Parse(secondLine_.getSubstring(43, 8).trim())) ;
@@ -341,7 +341,7 @@ Derived                         TLE::getMeanMotion                          ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Derived(Real::Parse(secondLine_.getSubstring(52, 11).trim()), Derived::Unit::AngularVelocity(Angle::Unit::Revolution, physics::units::Time::Unit::Day)) ;
@@ -353,7 +353,7 @@ Integer                         TLE::getRevolutionNumberAtEpoch             ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("TLE") ;
+        throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
     return Integer::Parse(secondLine_.getSubstring(63, 5)) ;
@@ -368,8 +368,8 @@ TLE                             TLE::Undefined                              ( )
 bool                            TLE::CanParse                               (   const   String&                     aString                                     )
 {
 
-    using library::core::types::Size ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Size ;
+    using ostk::core::ctnr::Array ;
 
     Array<String> lines = Array<String>::Empty() ;
 
@@ -432,12 +432,12 @@ bool                            TLE::CanParse                               (   
 TLE                             TLE::Parse                                  (   const   String&                     aString                                     )
 {
 
-    using library::core::types::Size ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Size ;
+    using ostk::core::ctnr::Array ;
 
     if (aString.isEmpty())
     {
-        throw library::core::error::runtime::Undefined("String") ;
+        throw ostk::core::error::runtime::Undefined("String") ;
     }
 
     Array<String> lines = Array<String>::Empty() ;
@@ -468,7 +468,7 @@ TLE                             TLE::Parse                                  (   
         return TLE(lines.at(0), lines.at(1), lines.at(2)) ;
     }
 
-    throw library::core::error::runtime::Wrong("String", aString) ;
+    throw ostk::core::error::runtime::Wrong("String", aString) ;
 
     return TLE::Undefined() ;
 
@@ -479,12 +479,12 @@ TLE                             TLE::Load                                   (   
 
     if (!aFile.isDefined())
     {
-        throw library::core::error::runtime::Undefined("File") ;
+        throw ostk::core::error::runtime::Undefined("File") ;
     }
 
     if (!aFile.exists())
     {
-        throw library::core::error::RuntimeError("File [{}] does not exist.", aFile.toString()) ;
+        throw ostk::core::error::RuntimeError("File [{}] does not exist.", aFile.toString()) ;
     }
 
     const String tleString = aFile.getContents() ;
@@ -496,11 +496,11 @@ TLE                             TLE::Load                                   (   
 Integer                         TLE::GenerateChecksum                       (   const   String&                     aLine                                       )
 {
 
-    using library::core::types::Index ;
+    using ostk::core::types::Index ;
 
     if (aLine.getLength() != 69)
     {
-        throw library::core::error::runtime::Wrong("Line") ;
+        throw ostk::core::error::runtime::Wrong("Line") ;
     }
 
     int checksum = 0 ;
@@ -520,7 +520,7 @@ Real                            TLE::ParseReal                              (   
                                                                                         bool                        isDecimalPointAssumed                       )
 {
 
-    using library::core::types::Index ;
+    using ostk::core::types::Index ;
 
     String string = aString ;
 

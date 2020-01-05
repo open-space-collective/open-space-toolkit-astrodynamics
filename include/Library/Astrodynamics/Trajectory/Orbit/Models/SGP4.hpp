@@ -26,7 +26,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -39,22 +39,22 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::core::types::Unique ;
-using library::core::types::Integer ;
-using library::core::types::Real ;
-using library::core::types::String ;
+using ostk::core::types::Unique ;
+using ostk::core::types::Integer ;
+using ostk::core::types::Real ;
+using ostk::core::types::String ;
 
-using library::physics::time::Instant ;
-using library::physics::units::Length ;
-using library::physics::units::Derived ;
-using library::physics::env::obj::Celestial ;
+using ostk::physics::time::Instant ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Derived ;
+using ostk::physics::env::obj::Celestial ;
 
-using library::astro::trajectory::State ;
-using library::astro::trajectory::orbit::models::sgp4::TLE ;
+using ostk::astro::trajectory::State ;
+using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class SGP4 : public library::astro::trajectory::orbit::Model
+class SGP4 : public ostk::astro::trajectory::orbit::Model
 {
 
     public:

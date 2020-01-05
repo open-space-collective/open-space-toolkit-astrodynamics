@@ -16,7 +16,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -29,9 +29,9 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using library::physics::units::Length ;
-using library::physics::units::Time ;
-using library::physics::units::Derived ;
+using ostk::physics::units::Length ;
+using ostk::physics::units::Time ;
+using ostk::physics::units::Derived ;
 
 static const Real Tolerance = 1e-8 ;
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
@@ -116,7 +116,7 @@ COE                             Kepler::getClassicalOrbitalElements         ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return coe_ ;
@@ -128,7 +128,7 @@ Instant                         Kepler::getEpoch                            ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return epoch_ ;
@@ -140,7 +140,7 @@ Integer                         Kepler::getRevolutionNumberAtEpoch          ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return 1 ; // [TBI] With param
@@ -152,7 +152,7 @@ Derived                         Kepler::getGravitationalParameter           ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return gravitationalParameter_ ;
@@ -164,7 +164,7 @@ Length                          Kepler::getEquatorialRadius                 ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return equatorialRadius_ ;
@@ -176,7 +176,7 @@ Real                            Kepler::getJ2                               ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return j2_ ;
@@ -188,7 +188,7 @@ Kepler::PerturbationType        Kepler::getPerturbationType                 ( ) 
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     return perturbationType_ ;
@@ -200,12 +200,12 @@ State                           Kepler::calculateStateAt                    (   
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     switch (perturbationType_)
@@ -218,7 +218,7 @@ State                           Kepler::calculateStateAt                    (   
             return Kepler::CalculateJ2StateAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
 
         default:
-            throw library::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
 
     }
 
@@ -231,12 +231,12 @@ Integer                         Kepler::calculateRevolutionNumberAt         (   
 
     if (!anInstant.isDefined())
     {
-        throw library::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     if (!this->isDefined())
     {
-        throw library::core::error::runtime::Undefined("Kepler") ;
+        throw ostk::core::error::runtime::Undefined("Kepler") ;
     }
 
     if (anInstant == epoch_)
@@ -254,7 +254,7 @@ Integer                         Kepler::calculateRevolutionNumberAt         (   
             return Kepler::CalculateJ2RevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
 
         default:
-            throw library::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
 
     }
 
@@ -266,17 +266,17 @@ void                            Kepler::print                               (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? library::core::utils::Print::Header(anOutputStream, "Kepler") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Kepler") : void () ;
 
-    library::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (epoch_.isDefined() ? epoch_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
-    library::core::utils::Print::Line(anOutputStream) << "Type:"                << Kepler::StringFromPerturbationType(perturbationType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (epoch_.isDefined() ? epoch_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:"                << Kepler::StringFromPerturbationType(perturbationType_) ;
 
-    library::core::utils::Print::Separator(anOutputStream, "Classical Orbital Elements") ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Classical Orbital Elements") ;
 
     coe_.print(anOutputStream, false) ;
 
-    displayDecorator ? library::core::utils::Print::Footer(anOutputStream) : void () ;
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
@@ -293,7 +293,7 @@ String                          Kepler::StringFromPerturbationType          (   
             return "J2" ;
 
         default:
-            throw library::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
 
     }
 
@@ -324,7 +324,7 @@ COE                             Kepler::InertialCoeFromFixedCoe             (   
                                                                                 const   Celestial&                  aCelestialObject                            )
 {
 
-    using library::physics::coord::Transform ;
+    using ostk::physics::coord::Transform ;
 
     const Shared<const Frame> fixedFrame = aCelestialObject.accessFrame() ;
 
@@ -352,10 +352,10 @@ State                           Kepler::CalculateNoneStateAt                (   
                                                                                 const   Instant&                    anInstant                                   )
 {
 
-    using library::physics::units::Time ;
-    using library::physics::units::Derived ;
-    using library::physics::units::Angle ;
-    using library::physics::time::Duration ;
+    using ostk::physics::units::Time ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::time::Duration ;
 
     // Duration from epoch
 
@@ -420,7 +420,7 @@ Integer                         Kepler::CalculateNoneRevolutionNumberAt     (   
                                                                                 const   Instant&                    anInstant                                   )
 {
 
-    using library::physics::time::Duration ;
+    using ostk::physics::time::Duration ;
 
     const Duration orbitalPeriod = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter) ;
 
@@ -438,11 +438,11 @@ State                           Kepler::CalculateJ2StateAt                  (   
                                                                                 const   Real&                       aJ2                                         )
 {
 
-    using library::physics::units::Mass ;
-    using library::physics::units::Time ;
-    using library::physics::units::Derived ;
-    using library::physics::units::Angle ;
-    using library::physics::time::Duration ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Time ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::time::Duration ;
 
     // Setup
 
@@ -513,7 +513,7 @@ Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   
                                                                                 const   Real&                       aJ2                                         )
 {
 
-    using library::physics::time::Duration ;
+    using ostk::physics::time::Duration ;
 
     const Real R_m = anEquatorialRadius.inMeters() ;
 
@@ -532,7 +532,7 @@ Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   
 
     //     if (e > 0.1)
     //     {
-    //         throw library::core::error::runtime::ToBeImplemented("Kepler::CalculateJ2RevolutionNumberAt -> Only near-circular orbits are supported.") ;
+    //         throw ostk::core::error::runtime::ToBeImplemented("Kepler::CalculateJ2RevolutionNumberAt -> Only near-circular orbits are supported.") ;
     //     }
 
     //     const Real w_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
@@ -555,10 +555,10 @@ Integer                         Kepler::CalculateJ2RevolutionNumberAt       (   
 
     //     // https://www.mathworks.com/matlabcentral/fileexchange/39550-orbital-periods-of-a-satellite
 
-    //     using library::physics::units::Mass ;
-    //     using library::physics::units::Time ;
-    //     using library::physics::units::Derived ;
-    //     using library::physics::units::Angle ;
+    //     using ostk::physics::units::Mass ;
+    //     using ostk::physics::units::Time ;
+    //     using ostk::physics::units::Derived ;
+    //     using ostk::physics::units::Angle ;
 
     //     const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
     //     const Real ecc = aClassicalOrbitalElementSet.getEccentricity() ;

@@ -20,12 +20,12 @@ inline void                     LibraryAstrodynamicsPy_Trajectory        	( )
 
     using namespace boost::python ;
 
-    using library::core::ctnr::Array ;
+    using ostk::core::ctnr::Array ;
 
-    using library::astro::Trajectory ;
-    using library::astro::trajectory::State ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
 
-    scope in_Trajectory = class_<Trajectory>("Trajectory", init<const library::astro::trajectory::Model&>())
+    scope in_Trajectory = class_<Trajectory>("Trajectory", init<const ostk::astro::trajectory::Model&>())
 
         .def(init<const Array<State>&>())
 
