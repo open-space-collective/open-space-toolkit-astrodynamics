@@ -62,7 +62,7 @@ LABEL maintainer="lucas@loftorbital.com"
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 
 RUN dnf update -y \
- && dnf install -y libcurl-devel openssl-devel \
+ && dnf install -y libcurl-devel openssl-devel wget unzip \
  && dnf clean all
 
 RUN pip install ipython numpy
