@@ -32,14 +32,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &State::isDefined)
+        .def("is_defined", &State::isDefined)
 
-        .def("getInstant", &State::getInstant)
-        .def("getPosition", &State::getPosition)
-        .def("getVelocity", &State::getVelocity)
-        .def("inFrame", &State::inFrame)
+        .def("get_instant", &State::getInstant)
+        .def("get_position", &State::getPosition)
+        .def("get_velocity", &State::getVelocity)
+        .def("in_frame", &State::inFrame)
 
-        .def("Undefined", &State::Undefined).staticmethod("Undefined")
+        .def("undefined", &State::Undefined).staticmethod("undefined")
 
     ;
 

@@ -26,9 +26,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Model::isDefined)
+        .def("is_defined", &Model::isDefined)
 
-        .def("calculateStateAt", &Model::calculateStateAt)
+        .def("calculate_state_at", &Model::calculateStateAt)
 
     ;
 

@@ -50,16 +50,16 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
             )
         )
 
-        .def("isDefined", &Generator::isDefined)
+        .def("is_defined", &Generator::isDefined)
 
-        .def("computeAccesses", &Generator::computeAccesses)
-        .def("setStep", &Generator::setStep)
-        .def("setTolerance", &Generator::setTolerance)
-        .def("setAerFilter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAerFilter(object) ; })
-        .def("setAccessFilter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAccessFilter(object) ; })
+        .def("compute_accesses", &Generator::computeAccesses)
+        .def("set_step", &Generator::setStep)
+        .def("set_tolerance", &Generator::setTolerance)
+        .def("set_aer_filter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAerFilter(object) ; })
+        .def("set_access_filter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAccessFilter(object) ; })
 
-        .def("Undefined", &Generator::Undefined).staticmethod("Undefined")
-        .def("AerRanges", &Generator::AerRanges).staticmethod("AerRanges")
+        .def("undefined", &Generator::Undefined).staticmethod("undefined")
+        .def("aer_ranges", &Generator::AerRanges).staticmethod("aer_ranges")
 
     ;
 

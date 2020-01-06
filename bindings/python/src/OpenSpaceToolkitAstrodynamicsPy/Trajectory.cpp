@@ -35,15 +35,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  ( )
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Trajectory::isDefined)
+        .def("is_defined", &Trajectory::isDefined)
 
-        // .def("accessModel", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
+        // .def("access_model", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
 
-        .def("getStateAt", &Trajectory::getStateAt)
-        .def("getStatesAt", &Trajectory::getStatesAt)
+        .def("get_state_at", &Trajectory::getStateAt)
+        .def("get_states_at", &Trajectory::getStatesAt)
 
-        .def("Undefined", &Trajectory::Undefined).staticmethod("Undefined")
-        .def("Position", &Trajectory::Position).staticmethod("Position")
+        .def("undefined", &Trajectory::Undefined).staticmethod("undefined")
+        .def("position", &Trajectory::Position).staticmethod("position")
 
     ;
 

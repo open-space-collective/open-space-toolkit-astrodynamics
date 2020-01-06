@@ -43,22 +43,22 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Orbit::isDefined)
+        .def("is_defined", &Orbit::isDefined)
 
-        .def("accessModel", &Orbit::accessModel, return_value_policy<reference_existing_object>())
-        .def("accessKeplerModel", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
-        .def("accessSGP4Model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+        .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
+        .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+        .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
 
-        .def("getRevolutionNumberAt", &Orbit::getRevolutionNumberAt)
-        .def("getPassAt", &Orbit::getPassAt)
-        .def("getPassWithRevolutionNumber", &Orbit::getPassWithRevolutionNumber)
-        .def("getOrbitalFrame", &Orbit::getOrbitalFrame)
+        .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt)
+        .def("get_pass_at", &Orbit::getPassAt)
+        .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber)
+        .def("get_orbital_frame", &Orbit::getOrbitalFrame)
 
-        .def("Undefined", &Orbit::Undefined).staticmethod("Undefined")
-        .def("Circular", &Orbit::Circular).staticmethod("Circular")
-        .def("Equatorial", &Orbit::Equatorial).staticmethod("Equatorial")
-        .def("CircularEquatorial", &Orbit::CircularEquatorial).staticmethod("CircularEquatorial")
-        .def("SunSynchronous", &Orbit::SunSynchronous).staticmethod("SunSynchronous")
+        .def("undefined", &Orbit::Undefined).staticmethod("undefined")
+        .def("circular", &Orbit::Circular).staticmethod("circular")
+        .def("equatorial", &Orbit::Equatorial).staticmethod("equatorial")
+        .def("circular_equatorial", &Orbit::CircularEquatorial).staticmethod("circular_equatorial")
+        .def("sun_synchronous", &Orbit::SunSynchronous).staticmethod("sun_synchronous")
 
     ;
 

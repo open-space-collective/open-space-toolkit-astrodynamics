@@ -39,19 +39,19 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Kepler::isDefined)
+        .def("is_defined", &Kepler::isDefined)
 
-        .def("getClassicalOrbitalElements", &Kepler::getClassicalOrbitalElements)
-        .def("getEpoch", &Kepler::getEpoch)
-        .def("getRevolutionNumberAtEpoch", &Kepler::getRevolutionNumberAtEpoch)
-        .def("getGravitationalParameter", &Kepler::getGravitationalParameter)
-        .def("getEquatorialRadius", &Kepler::getEquatorialRadius)
-        .def("getJ2", &Kepler::getJ2)
-        .def("getPerturbationType", &Kepler::getPerturbationType)
-        .def("calculateStateAt", &Kepler::calculateStateAt)
-        .def("calculateRevolutionNumberAt", &Kepler::calculateRevolutionNumberAt)
+        .def("get_classical_orbital_elements", &Kepler::getClassicalOrbitalElements)
+        .def("get_epoch", &Kepler::getEpoch)
+        .def("get_revolution_number_at_epoch", &Kepler::getRevolutionNumberAtEpoch)
+        .def("get_gravitational_parameter", &Kepler::getGravitationalParameter)
+        .def("get_equatorial_radius", &Kepler::getEquatorialRadius)
+        .def("get_j2", &Kepler::getJ2)
+        .def("get_perturbation_type", &Kepler::getPerturbationType)
+        .def("calculate_state_at", &Kepler::calculateStateAt)
+        .def("calculate_revolution_number_at", &Kepler::calculateRevolutionNumberAt)
 
-        .def("StringFromPerturbationType", &Kepler::StringFromPerturbationType).staticmethod("StringFromPerturbationType")
+        .def("string_from_perturbation_type", &Kepler::StringFromPerturbationType).staticmethod("string_from_perturbation_type")
 
     ;
 
