@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tutorials/cpp/sensor-modeling/CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -9,9 +9,9 @@
 
 ## Project Properties
 
-SET (PROJECT_NAME "LibraryAstrodynamics")
+SET (PROJECT_NAME "OpenSpaceToolkitAstrodynamics")
 SET (PROJECT_DESCRIPTION "Sensor modeling tutorial.")
-SET (PROJECT_PATH "Library/Astrodynamics")
+SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
 SET (PROJECT_PACKAGE_NAME "sensor-modeling")
 SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "org.open-space-collective")
@@ -60,7 +60,7 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
 
         MESSAGE (FATAL_ERROR "GCC version must be at least 4.8")
-    
+
     ENDIF ()
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated -Wl,--no-undefined")
@@ -93,21 +93,21 @@ ELSE ()
     MESSAGE (SEND_ERROR "[Eigen 3] not found.")
 ENDIF ()
 
-### Library ▸ Core [master]
+### Open Space Toolkit ▸ Core [master]
 
-FIND_PACKAGE ("LibraryCore" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "0.1" REQUIRED)
 
-### Library ▸ Mathematics [master]
+### Open Space Toolkit ▸ Mathematics [master]
 
-FIND_PACKAGE ("LibraryMathematics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "0.1" REQUIRED)
 
-### Library ▸ Physics [master]
+### Open Space Toolkit ▸ Physics [master]
 
-FIND_PACKAGE ("LibraryPhysics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.1" REQUIRED)
 
-### Library ▸ Astrodynamics [master]
+### Open Space Toolkit ▸ Astrodynamics [master]
 
-FIND_PACKAGE ("LibraryAstrodynamics" "0.1" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitAstrodynamics" "0.1" REQUIRED)
 
 ################################################################################################################################################################
 
@@ -121,9 +121,9 @@ FILE (GLOB APPLICATION_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT
 
 ADD_EXECUTABLE (${APPLICATION_TARGET} ${APPLICATION_SRCS})
 
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryCore_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryMathematics_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryPhysics_LIBRARIES})
-TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${LibraryAstrodynamics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
+TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitAstrodynamics_LIBRARIES})
 
 ################################################################################################################################################################

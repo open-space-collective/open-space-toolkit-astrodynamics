@@ -1,13 +1,13 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tutorials/cpp/sensor-modeling/Dockerfile
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-FROM openspacecollective/library-base:0.1.4
+FROM openspacecollective/open-space-toolkit-base:0.1.4
 
 LABEL maintainer="lucas@loftorbital.com"
 
@@ -39,44 +39,44 @@ RUN mkdir /tmp/eigen \
  && make install \
  && rm -rf /tmp/eigen
 
-## Library ▸ Core [0.1.16]
+## Open Space Toolkit ▸ Core [0.1.16]
 
-RUN mkdir -p /tmp/library-core \
- && pushd /tmp/library-core > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-core/releases/download/0.1.16/library-core-0.1.16-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-core/releases/download/0.1.16/library-core-0.1.16-1.x86_64-devel.rpm \
+RUN mkdir -p /tmp/open-space-toolkit-core \
+ && pushd /tmp/open-space-toolkit-core > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/0.1.16/open-space-toolkit-core-0.1.16-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/0.1.16/open-space-toolkit-core-0.1.16-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
- && rm -rf /tmp/library-core \
+ && rm -rf /tmp/open-space-toolkit-core \
  && popd > /dev/null
 
-## Library ▸ Mathematics [0.1.12]
+## Open Space Toolkit ▸ Mathematics [0.1.12]
 
-RUN mkdir -p /tmp/library-mathematics \
- && pushd /tmp/library-mathematics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-mathematics/releases/download/0.1.12/library-mathematics-0.1.12-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-mathematics/releases/download/0.1.12/library-mathematics-0.1.12-1.x86_64-devel.rpm \
+RUN mkdir -p /tmp/open-space-toolkit-mathematics \
+ && pushd /tmp/open-space-toolkit-mathematics > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/0.1.12/open-space-toolkit-mathematics-0.1.12-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/0.1.12/open-space-toolkit-mathematics-0.1.12-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
- && rm -rf /tmp/library-mathematics \
+ && rm -rf /tmp/open-space-toolkit-mathematics \
  && popd > /dev/null
 
-## Library ▸ Physics [0.1.8]
+## Open Space Toolkit ▸ Physics [0.1.8]
 
-RUN mkdir -p /tmp/library-physics \
- && pushd /tmp/library-physics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-physics/releases/download/0.1.8/library-physics-0.1.8-1.x86_64-devel.rpm \
+RUN mkdir -p /tmp/open-space-toolkit-physics \
+ && pushd /tmp/open-space-toolkit-physics > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/0.1.8/open-space-toolkit-physics-0.1.8-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/0.1.8/open-space-toolkit-physics-0.1.8-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
- && rm -rf /tmp/library-physics \
+ && rm -rf /tmp/open-space-toolkit-physics \
  && popd > /dev/null
 
-## Library ▸ Astrodynamics [0.1.3]
+## Open Space Toolkit ▸ Astrodynamics [0.1.3]
 
-RUN mkdir -p /tmp/library-astrodynamics \
- && pushd /tmp/library-astrodynamics > /dev/null \
- && wget --quiet https://github.com/open-space-collective/library-astrodynamics/releases/download/0.1.3/library-astrodynamics-0.1.3-1.x86_64-runtime.rpm \
- && wget --quiet https://github.com/open-space-collective/library-astrodynamics/releases/download/0.1.3/library-astrodynamics-0.1.3-1.x86_64-devel.rpm \
+RUN mkdir -p /tmp/open-space-toolkit-astrodynamics \
+ && pushd /tmp/open-space-toolkit-astrodynamics > /dev/null \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.1.3/open-space-toolkit-astrodynamics-0.1.3-1.x86_64-runtime.rpm \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.1.3/open-space-toolkit-astrodynamics-0.1.3-1.x86_64-devel.rpm \
  && dnf install -y ./*.rpm \
- && rm -rf /tmp/library-astrodynamics \
+ && rm -rf /tmp/open-space-toolkit-astrodynamics \
  && popd > /dev/null
 
 # Labels

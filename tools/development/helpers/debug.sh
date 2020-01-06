@@ -2,19 +2,23 @@
 
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tools/development/helpers/debug.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_directory="$(git rev-parse --show-toplevel)"
+
+pushd "${project_directory}" > /dev/null
 
 if [[ -z ${1} ]]; then
-    gdb --args ${script_directory}/../bin/*.test
+    gdb --args ./bin/*.test
 else
-    gdb --args ${script_directory}/../bin/*.test --gtest_filter=${1}
+    gdb --args ./bin/*.test --gtest_filter=${1}
 fi
+
+popd > /dev/null
 
 ################################################################################################################################################################

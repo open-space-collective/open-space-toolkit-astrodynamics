@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
-/// @file           Library/Astrodynamics/Main.test.cxx
+/// @project        Open Space Toolkit ▸ Astrodynamics
+/// @file           OpenSpaceToolkit/Astrodynamics/Main.test.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -17,8 +17,8 @@ int                             main                                        (   
 
     ::testing::InitGoogleTest(&argc, argv) ;
 
-    ::testing::AddGlobalTestEnvironment(new library::astro::test::Environment(argc >= 2 ? argv[1] : "")) ;
-    
+    ::testing::AddGlobalTestEnvironment(new ostk::astro::test::Environment(argc >= 2 ? argv[1] : "")) ;
+
     return RUN_ALL_TESTS() ;
 
 }

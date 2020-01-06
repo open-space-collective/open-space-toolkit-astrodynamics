@@ -2,21 +2,25 @@
 
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tools/development/helpers/test.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
-script_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_directory="$(git rev-parse --show-toplevel)"
+
+pushd "${project_directory}" > /dev/null
 
 # make test
 
 if [[ -z ${1} ]]; then
-    ${script_directory}/../bin/*.test
+    ./bin/*.test
 else
-    ${script_directory}/../bin/*.test --gtest_filter=${1}
+    ./bin/*.test --gtest_filter=${1}
 fi
+
+popd > /dev/null
 
 ################################################################################################################################################################

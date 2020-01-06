@@ -1,0 +1,29 @@
+################################################################################################################################################################
+
+# @project        Open Space Toolkit ▸ Astrodynamics
+# @file           tools/cmake/OpenSpaceToolkitAstrodynamicsConfig.cmake.in
+# @author         Lucas Brémond <lucas@loftorbital.com>
+# @license        Apache License 2.0
+
+################################################################################################################################################################
+
+SET (OpenSpaceToolkitAstrodynamics_ROOT_DIR ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
+
+FIND_PATH (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR "OpenSpaceToolkit/Astrodynamics/Access.hpp" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "include" NO_DEFAULT_PATH)
+FIND_LIBRARY (OpenSpaceToolkitAstrodynamics_LIBRARY NAMES "libopen-space-toolkit-astrodynamics.so" PATHS ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} PATH_SUFFIXES "lib" NO_DEFAULT_PATH)
+
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_ROOT_DIR = ${OpenSpaceToolkitAstrodynamics_ROOT_DIR}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_INCLUDE_DIR = ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_LIBRARY = ${OpenSpaceToolkitAstrodynamics_LIBRARY}")
+# MESSAGE (STATUS "OpenSpaceToolkitAstrodynamics_FIND_VERSION = ${OpenSpaceToolkitAstrodynamics_FIND_VERSION}")
+
+IF (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR)
+
+    SET (OpenSpaceToolkitAstrodynamics_INCLUDE_DIRS ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR} ${OpenSpaceToolkitAstrodynamics_INCLUDE_DIR}/OpenSpaceToolkit/Astrodynamics)
+    SET (OpenSpaceToolkitAstrodynamics_LIBRARIES ${OpenSpaceToolkitAstrodynamics_LIBRARY})
+
+    SET (OpenSpaceToolkitAstrodynamics_FOUND TRUE)
+
+ENDIF ()
+
+################################################################################################################################################################

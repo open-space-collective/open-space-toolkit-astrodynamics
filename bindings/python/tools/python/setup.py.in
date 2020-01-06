@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tools/python/setup.py.in
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -16,26 +16,26 @@ with open('${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt', 'r') as f:
     requirements = f.read().splitlines()
 
 setuptools.setup(
-    name = 'LibraryAstrodynamicsPy',
+    name = 'open-space-toolkit-astrodynamics',
     version = '${PROJECT_VERSION_STRING}',
     author = 'Open Space Collective',
     author_email = 'contact@open-space-collective.org',
     description = 'Orbit, attitude, access.',
     long_description = long_description,
     long_description_content_type = 'text/markdown',
-    url = 'https://github.com/open-space-collective/library-astrodynamics',
+    url = 'https://github.com/open-space-collective/open-space-toolkit-astrodynamics',
     classifiers = (
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: POSIX :: Linux'
     ),
-    keywords = 'open-space-collective library astrodynamics',
+    keywords = 'open-space-collective open-space-toolkit astrodynamics',
     packages = setuptools.find_packages(),
     package_data = {
         '': [
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/LibraryAstrodynamicsPy.so',
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/liblibrary-astrodynamics.so.0'
+            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/${LIBRARY_TARGET}',
+            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0'
         ]
     },
     install_requires = requirements

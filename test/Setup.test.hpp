@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
-/// @file           Library/Astrodynamics/Setup.test.hpp
+/// @project        Open Space Toolkit ▸ Astrodynamics
+/// @file           OpenSpaceToolkit/Astrodynamics/Setup.test.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace library
+namespace ostk
 {
 namespace astro
 {
@@ -50,19 +50,19 @@ class Environment : public testing::Environment
             {
                 global::someGlobalString = "World" ;
             }
-            
+
         }
 
         virtual                 ~Environment                                ( )
         {
 
         }
-        
+
         virtual void            SetUp                                       ( )
         {
 
         }
-        
+
         virtual void            TearDown                                    ( )
         {
 

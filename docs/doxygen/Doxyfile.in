@@ -1083,7 +1083,7 @@ HTML_FOOTER            = ./doxygen/html/footer.html
 # obsolete.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_STYLESHEET        = 
+HTML_STYLESHEET        =
 
 # The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
 # cascading style sheets that are included after the standard style sheets
@@ -1106,7 +1106,7 @@ HTML_EXTRA_STYLESHEET  = ./doxygen/html/doxygenextra.css
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = 
+HTML_EXTRA_FILES       =
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
@@ -1173,7 +1173,7 @@ HTML_INDEX_NUM_ENTRIES = 100
 # OSX 10.5 (Leopard). To create a documentation set, doxygen will generate a
 # Makefile in the HTML output directory. Running make will produce the docset in
 # that directory and running make install will install the docset in
-# ~/Library/Developer/Shared/Documentation/DocSets so that Xcode will find it at
+# ~/OpenSpaceToolkit/Developer/Shared/Documentation/DocSets so that Xcode will find it at
 # startup. See http://developer.apple.com/tools/creatingdocsetswithdoxygen.html
 # for more information.
 # The default value is: NO.

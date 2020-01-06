@@ -1,77 +1,77 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @project        Library/Astrodynamics
+/// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           tutorials/cpp/sensor-modeling/SensorModeling.cxx
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
-#include <Library/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
-#include <Library/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <Library/Physics/Environment/Object/Geometry.hpp>
-#include <Library/Physics/Environment.hpp>
-#include <Library/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
-#include <Library/Physics/Coordinate/Transform.hpp>
-#include <Library/Physics/Units/Derived/Angle.hpp>
-#include <Library/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object/Geometry.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
-#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
-#include <Library/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
-#include <Library/Mathematics/Geometry/3D/Objects/Pyramid.hpp>
-#include <Library/Mathematics/Geometry/3D/Objects/Polygon.hpp>
-#include <Library/Mathematics/Geometry/3D/Objects/LineString.hpp>
-#include <Library/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <Library/Mathematics/Geometry/2D/Objects/Polygon.hpp>
-#include <Library/Mathematics/Geometry/2D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Pyramid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Polygon.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/LineString.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Objects/Polygon.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/2D/Objects/Point.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int                             main                                        ( )
 {
 
-    using library::core::types::Shared ;
-    using library::core::types::Real ;
-    using library::core::ctnr::Array ;
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
 
-    using library::math::obj::Vector3d ;
-    using Point2d = library::math::geom::d2::objects::Point ;
-    using Polygon2d = library::math::geom::d2::objects::Polygon ;
-    using Point3d = library::math::geom::d3::objects::Point ;
-    using LineString3d = library::math::geom::d3::objects::LineString ;
-    using Polygon3d = library::math::geom::d3::objects::Polygon ;
-    using library::math::geom::d3::objects::Pyramid ;
-    using library::math::geom::d3::trf::rot::Quaternion ;
-    using library::math::geom::d3::trf::rot::RotationMatrix ;
+    using ostk::math::obj::Vector3d ;
+    using Point2d = ostk::math::geom::d2::objects::Point ;
+    using Polygon2d = ostk::math::geom::d2::objects::Polygon ;
+    using Point3d = ostk::math::geom::d3::objects::Point ;
+    using LineString3d = ostk::math::geom::d3::objects::LineString ;
+    using Polygon3d = ostk::math::geom::d3::objects::Polygon ;
+    using ostk::math::geom::d3::objects::Pyramid ;
+    using ostk::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::geom::d3::trf::rot::RotationMatrix ;
 
-    using library::physics::units::Length ;
-    using library::physics::units::Angle ;
-    using library::physics::units::Derived ;
-    using library::physics::time::Scale ;
-    using library::physics::time::Instant ;
-    using library::physics::time::Duration ;
-    using library::physics::time::Interval ;
-    using library::physics::time::DateTime ;
-    using library::physics::coord::Frame ;
-    using library::physics::coord::frame::Provider ;
-    using DynamicProvider = library::physics::coord::frame::provider::Dynamic ;
-    using library::physics::coord::Transform ;
-    using library::physics::coord::Position ;
-    using library::physics::coord::Velocity ;
-    using library::physics::coord::spherical::LLA ;
-    using library::physics::Environment ;
-    using library::physics::env::object::Geometry ;
-    using library::physics::env::obj::Celestial ;
-    using library::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::frame::Provider ;
+    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
+    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::spherical::LLA ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::object::Geometry ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-    using library::astro::trajectory::Orbit ;
-    using library::astro::trajectory::State ;
-    using library::astro::trajectory::orbit::models::Kepler ;
-    using library::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
     // Environment
 
@@ -94,7 +94,7 @@ int                             main                                        ( )
     // Orbit
 
     const Instant epoch = Instant::DateTime(DateTime(2018, 9, 5, 0, 0, 0), Scale::UTC) ;
-    
+
     const Kepler orbitalModel = { coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true } ; // True = COE expressed in ITRF frame
 
     const Orbit orbit = { orbitalModel, earthSPtr } ;
@@ -131,7 +131,7 @@ int                             main                                        ( )
         const Vector3d z_B_ITRF = sensorToTargetDirection_ITRF ;
         const Vector3d x_B_ITRF = z_B_ITRF.cross(Vector3d::Y()).normalized() ;
         const Vector3d y_B_ITRF = z_B_ITRF.cross(x_B_ITRF) ;
-        
+
         const RotationMatrix dcm_B_ITRF = RotationMatrix::Rows(x_B_ITRF, y_B_ITRF, z_B_ITRF) ;
         const Quaternion q_B_ITRF = Quaternion::RotationMatrix(dcm_B_ITRF).toNormalized() ;
 
@@ -184,26 +184,26 @@ int                             main                                        ( )
         std::cout << "Sensor geometry [B] = " << std::endl << sensorGeometry << std::endl ;
         std::cout << "Sensor geometry [GCRF] = " << std::endl << sensorGeometry.in(Frame::GCRF(), aState.getInstant()) << std::endl ;
         std::cout << "Sensor geometry [ITRF] = " << std::endl << sensorGeometry.in(Frame::ITRF(), aState.getInstant()) << std::endl ;
-        
+
         const Geometry intersectionGeometry = sensorGeometry.in(Frame::ITRF(), aState.getInstant()).intersectionWith(earthSPtr->getGeometryIn(Frame::ITRF())) ;
 
         // std::cout << "intersectionGeometry = " << std::endl << intersectionGeometry << std::endl ;
 
         Array<Point2d> intersectionPoints_LL = Array<Point2d>::Empty() ;
-        
+
         for (const auto& intersectionPoint_ITRF : intersectionGeometry.accessComposite().accessObjectAt(0).as<LineString3d>())
         {
 
             const LLA intersectionPoint_LLA = LLA::Cartesian(intersectionPoint_ITRF.asVector(), Earth::EquatorialRadius, Earth::Flattening) ;
-            
+
             intersectionPoints_LL.add(Point2d(intersectionPoint_LLA.getLongitude().inDegrees(), intersectionPoint_LLA.getLatitude().inDegrees())) ;
 
         }
 
         const Polygon2d intersectionPolygon_LL = { intersectionPoints_LL } ;
-        
+
         return intersectionPolygon_LL ;
-        
+
     } ;
 
     const Instant analysisStartInstant = epoch ;
@@ -217,7 +217,7 @@ int                             main                                        ( )
 
     for (const auto& orbitalState : orbitalStates)
     {
-        
+
         // std::cout << orbitalState << std::endl ;
 
         const Polygon2d sensorTrace_LL = calculateSensorTrace(orbitalState) ;

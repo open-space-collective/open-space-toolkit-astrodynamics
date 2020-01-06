@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           CMakeLists.txt
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -9,10 +9,10 @@
 
 ## Project Properties
 
-SET (PROJECT_NAME "LibraryAstrodynamics")
+SET (PROJECT_NAME "OpenSpaceToolkitAstrodynamics")
 SET (PROJECT_DESCRIPTION "Astrodynamics library.")
-SET (PROJECT_PATH "Library/Astrodynamics")
-SET (PROJECT_PACKAGE_NAME "library-astrodynamics")
+SET (PROJECT_PATH "OpenSpaceToolkit/Astrodynamics")
+SET (PROJECT_PACKAGE_NAME "open-space-toolkit-astrodynamics")
 SET (PROJECT_LICENSE "Apache License 2.0")
 SET (PROJECT_VENDOR_ID "org.open-space-collective")
 SET (PROJECT_VENDOR_NAME "Open Space Collective")
@@ -77,14 +77,14 @@ IF (COMMAND "GET_GIT_HEAD_REVISION" AND COMMAND "GIT_DESCRIBE")
 
             LIST (GET PROJECT_VERSION_PATCH_TWEAKS 1 PROJECT_VERSION_TWEAK)
 
-        ENDIF ()        
+        ENDIF ()
 
         SET (PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
         IF (DEFINED "PROJECT_VERSION_TWEAK")
 
             SET (PROJECT_VERSION_STRING "${PROJECT_VERSION_STRING}.${PROJECT_VERSION_TWEAK}")
-       
+
         ENDIF ()
 
     ENDIF ()
@@ -135,16 +135,16 @@ IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
 
         MESSAGE (FATAL_ERROR "GCC version must be at least 4.8")
-    
+
     ENDIF ()
 
     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated -Wl,--no-undefined")
 
 ENDIF ()
 
-### C++ 14 support
+### C++ 17 support
 
-SET (CMAKE_CXX_STANDARD 14)
+SET (CMAKE_CXX_STANDARD 17)
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_CXX_EXTENSIONS OFF)
 
@@ -218,7 +218,7 @@ FOREACH (CONFIGINPUT ${CONFIGINPUTS})
 
     STRING (REPLACE ".in.hpp.cmake" ".h" CONFIGOUTPUT1 "${CONFIGINPUT}")
     STRING (REPLACE ".hpp.in.cmake" ".h" CONFIGOUTPUT2 "${CONFIGOUTPUT1}")
-    
+
     CONFIGURE_FILE ("${CONFIGINPUT}" "${CONFIGOUTPUT2}")
 
 ENDFOREACH ()
@@ -227,18 +227,16 @@ ENDFOREACH ()
 
 ## Dependencies
 
-### Boost [1.66.0]
+### Boost [1.69.0]
 
 SET (Boost_USE_STATIC_LIBS ON)
 SET (Boost_USE_MULTITHREADED ON)
 
-UNSET (Boost_INCLUDE_DIR CACHE)
-UNSET (Boost_LIBRARY_DIRS CACHE)
+FIND_PACKAGE ("Boost" "1.69" REQUIRED COMPONENTS "regex" "log")
 
-FIND_PACKAGE ("Boost" "1.66" COMPONENTS "regex" "log" REQUIRED)
-
-INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
-LINK_DIRECTORIES (${Boost_LIBRARY_DIRS})
+IF (NOT Boost_FOUND)
+    MESSAGE (SEND_ERROR "[Boost] not found.")
+ENDIF ()
 
 ### Eigen [3]
 
@@ -272,33 +270,43 @@ ELSE ()
     MESSAGE (SEND_ERROR "[NLopt] not found.")
 ENDIF ()
 
-### Library ▸ Core [0.2.x]
+### Open Space Toolkit ▸ Core [0.2.x]
 
-FIND_PACKAGE ("LibraryCore" "0.2" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitCore" "0.2" REQUIRED)
 
-IF (NOT LibraryCore_FOUND)
+IF (NOT OpenSpaceToolkitCore_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ Core] not found.")
-
-ENDIF ()
-
-### Library ▸ Mathematics [0.2.x]
-
-FIND_PACKAGE ("LibraryMathematics" "0.2" REQUIRED)
-
-IF (NOT LibraryMathematics_FOUND)
-
-    MESSAGE (SEND_ERROR "[Library ▸ Mathematics] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Core] not found.")
 
 ENDIF ()
 
-### Library ▸ Physics [0.2.x]
+### Open Space Toolkit ▸ I/O [0.2.x]
 
-FIND_PACKAGE ("LibraryPhysics" "0.2" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitIO" "0.2" REQUIRED)
 
-IF (NOT LibraryPhysics_FOUND)
+IF (NOT OpenSpaceToolkitIO_FOUND)
 
-    MESSAGE (SEND_ERROR "[Library ▸ Physics] not found.")
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ I/O] not found.")
+
+ENDIF ()
+
+### Open Space Toolkit ▸ Mathematics [0.2.x]
+
+FIND_PACKAGE ("OpenSpaceToolkitMathematics" "0.2" REQUIRED)
+
+IF (NOT OpenSpaceToolkitMathematics_FOUND)
+
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Mathematics] not found.")
+
+ENDIF ()
+
+### Open Space Toolkit ▸ Physics [0.2.x]
+
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.2" REQUIRED)
+
+IF (NOT OpenSpaceToolkitPhysics_FOUND)
+
+    MESSAGE (SEND_ERROR "[Open Space Toolkit ▸ Physics] not found.")
 
 ENDIF ()
 
@@ -336,12 +344,13 @@ IF (BUILD_SHARED_LIBRARY)
     TARGET_INCLUDE_DIRECTORIES (${SHARED_LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/src/")
 
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "pthread")
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${Boost_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "Boost::date_time" "Boost::filesystem" "Boost::log")
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${SGP4_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${NLopt_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${LibraryCore_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${LibraryMathematics_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${LibraryPhysics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
 
     SET_TARGET_PROPERTIES (${SHARED_LIBRARY_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} SOVERSION ${PROJECT_VERSION_MAJOR} OUTPUT_NAME ${SHARED_LIBRARY_NAME} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
@@ -366,11 +375,13 @@ IF (BUILD_STATIC_LIBRARY)
     TARGET_INCLUDE_DIRECTORIES (${STATIC_LIBRARY_TARGET} PUBLIC "${PROJECT_SOURCE_DIR}/include/")
 
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "pthread")
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "Boost::date_time" "Boost::filesystem" "Boost::log")
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${Boost_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${SGP4_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryCore_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryMathematics_LIBRARIES})
-    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${LibraryPhysics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
 
     SET_TARGET_PROPERTIES (${STATIC_LIBRARY_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} OUTPUT_NAME ${SHARED_LIBRARY_NAME} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
@@ -393,18 +404,18 @@ IF (BUILD_UNIT_TESTS)
     ADD_EXECUTABLE (${UNIT_TESTS_TARGET} ${TEST_SRCS})
 
     ADD_DEPENDENCIES (${UNIT_TESTS_TARGET} ${SHARED_LIBRARY_TARGET})
-    
+
     FIND_PACKAGE ("GTest" QUIET)
 
     IF (NOT GTEST_FOUND)
-            
+
         ADD_SUBDIRECTORY ("${PROJECT_SOURCE_DIR}/thirdparty/gtest")
 
         ADD_DEPENDENCIES (${UNIT_TESTS_TARGET} "googletest")
 
         LIST (APPEND GTEST_BOTH_LIBRARIES "${GTEST_LIBS_DIR}/libgtest.a")
         LIST (APPEND GTEST_BOTH_LIBRARIES "${GTEST_LIBS_DIR}/libgtest_main.a")
-        
+
     ENDIF ()
 
     TARGET_INCLUDE_DIRECTORIES (${UNIT_TESTS_TARGET} PUBLIC ${GTEST_INCLUDE_DIRS})
@@ -414,15 +425,15 @@ IF (BUILD_UNIT_TESTS)
     # TARGET_LINK_LIBRARIES (${UNIT_TESTS_TARGET} "GTest::GTest" "GTest::Main")
     TARGET_LINK_LIBRARIES (${UNIT_TESTS_TARGET} "${GTEST_BOTH_LIBRARIES}")
     TARGET_LINK_LIBRARIES (${UNIT_TESTS_TARGET} "${SHARED_LIBRARY_TARGET}")
-    
+
     GTEST_DISCOVER_TESTS (${UNIT_TESTS_TARGET})
-    
+
     ADD_TEST (NAME "all" COMMAND ${UNIT_TESTS_TARGET})
-    
+
     SET_TARGET_PROPERTIES (${UNIT_TESTS_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} OUTPUT_NAME ${UNIT_TESTS_TARGET} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
     INSTALL (TARGETS ${UNIT_TESTS_TARGET} DESTINATION ${INSTALL_TEST} COMPONENT "tests")
-    
+
     #### Code Coverage
 
     IF (BUILD_CODE_COVERAGE)
@@ -433,7 +444,7 @@ IF (BUILD_UNIT_TESTS)
 
         APPEND_COVERAGE_COMPILER_FLAGS ()
 
-        SET (COVERAGE_EXCLUDES "*.test.cpp" "*/include/gtest/*" "*/c++/v1/*" "/usr/include/*" "/usr/local/*" "*/include/boost/*" "*/c++/7/*")
+        SET (COVERAGE_EXCLUDES '*.test.cpp' '/usr/*' '/app/bindings/*')
 
         SETUP_TARGET_FOR_COVERAGE (
             NAME ${COVERAGE_TARGET}
@@ -476,6 +487,15 @@ CONFIGURE_FILE (
 INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
 INSTALL (FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION "${INSTALL_LIB}/${PROJECT_NAME}" COMPONENT "libraries")
 
+### Uninstall
+
+CONFIGURE_FILE (
+    "${CMAKE_MODULE_PATH}/UninstallTarget.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake"
+    IMMEDIATE @ONLY)
+
+ADD_CUSTOM_TARGET ("uninstall" COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake")
+
 ### Misc
 
 INSTALL (FILES "LICENSE" DESTINATION ${INSTALL_ROOT} COMPONENT "documentation")
@@ -485,15 +505,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/share")
     INSTALL (DIRECTORY "${PROJECT_SOURCE_DIR}/share/" DESTINATION ${INSTALL_DATA} COMPONENT "data")
 
 ENDIF ()
-
-### Uninstall
-
-CONFIGURE_FILE (
-    "${CMAKE_MODULE_PATH}/UninstallTarget.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake"
-    IMMEDIATE @ONLY)
-
-ADD_CUSTOM_TARGET ("uninstall" COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_BINARY_DIR}/UninstallTarget.cmake")
 
 ################################################################################################################################################################
 
@@ -553,12 +564,8 @@ SET (CPACK_COMPONENT_GROUP_PYTHON_DESCRIPTION "Python bindings")
 
 SET (CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
-SET (CPACK_GENERATOR "RPM")
-
+SET (CPACK_DEB_COMPONENT_INSTALL "ON")
 SET (CPACK_RPM_COMPONENT_INSTALL "ON")
-SET (CPACK_RPM_PACKAGE_LICENSE ${CPACK_PACKAGE_LICENSE})
-SET (CPACK_RPM_PACKAGE_VENDOR ${CPACK_PACKAGE_VENDOR})
-SET (CPACK_RPM_PACKAGE_DESCRIPTION ${CPACK_PACKAGE_DESCRIPTION_SUMMARY})
 
 SET (CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST
     /usr

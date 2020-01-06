@@ -1,6 +1,6 @@
 ################################################################################################################################################################
 
-# @project        Library/Astrodynamics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           .gitignore
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
@@ -41,6 +41,8 @@ build/
 *.a
 *.exe*
 *.rpm*
+packages/
+coverage/
 
 ## Documentation
 
@@ -52,5 +54,6 @@ docs/latex/
 tmp/
 __pycache__
 .ipynb_checkpoints
+.open-space-toolkit
 
 ################################################################################################################################################################
