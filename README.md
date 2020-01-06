@@ -5,6 +5,7 @@
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
 [![GitHub version](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics)
 [![PyPI version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit-astrodynamics/master?urlpath=lab/tree/tutorials%2Fpython%2Fnotebooks)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Orbit, attitude, access.
@@ -28,12 +29,12 @@ The binary packages are hosted using [GitHub Releases](https://github.com/open-s
 ```bash
 # Download .deb packages
 
-wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-runtime.deb
-wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-devel.deb
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.deb
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.deb
 
 # Install .deb packages
 
-apt install -y open-space-toolkit-astrodynamics-0.4.0-*.deb
+apt install -y open-space-toolkit-astrodynamics-0.3.0-*.deb
 ```
 
 #### Fedora / CentOS
@@ -41,12 +42,12 @@ apt install -y open-space-toolkit-astrodynamics-0.4.0-*.deb
 ```bash
 # Download .rpm packages
 
-wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-runtime.rpm
-wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-devel.rpm
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.rpm
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.rpm
 
 # Install .rpm packages
 
-dnf install -y open-space-toolkit-astrodynamics-0.4.0-*.rpm
+dnf install -y open-space-toolkit-astrodynamics-0.3.0-*.rpm
 ```
 
 ### Python
