@@ -1,15 +1,15 @@
 var searchData=
 [
-  ['access',['Access',['../classlibrary_1_1astro_1_1_access.html',1,'library::astro::Access'],['../classlibrary_1_1astro_1_1_access.html#af2542e9455c11aba9c51e2daa58c8cf5',1,'library::astro::Access::Access()']]],
+  ['access',['Access',['../classostk_1_1astro_1_1_access.html',1,'ostk::astro::Access'],['../classostk_1_1astro_1_1_access.html#ace88d61843a4e38c39432a39e2864b04',1,'ostk::astro::Access::Access()']]],
   ['access_2ecpp',['Access.cpp',['../_access_8cpp.html',1,'']]],
   ['access_2ehpp',['Access.hpp',['../_access_8hpp.html',1,'']]],
-  ['accessangularvelocity',['accessAngularVelocity',['../classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html#ac370e25be16830246a01df5e503ddedb',1,'library::astro::flight::profile::State']]],
-  ['accessattitude',['accessAttitude',['../classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html#ac82679e41392dde2137f0e15247c3227',1,'library::astro::flight::profile::State']]],
-  ['accessinstant',['accessInstant',['../classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html#abc3c190e5bdceda1d7c15bb685edfcc9',1,'library::astro::flight::profile::State::accessInstant()'],['../classlibrary_1_1astro_1_1trajectory_1_1_state.html#ae51674051753513c7657e154331be976',1,'library::astro::trajectory::State::accessInstant()']]],
-  ['accessmodel',['accessModel',['../classlibrary_1_1astro_1_1_trajectory.html#ac5ebd6f282b52bb3d7c74a79375025e1',1,'library::astro::Trajectory']]],
-  ['accessposition',['accessPosition',['../classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html#a96a4a1054299c79d8aafdde3313a4116',1,'library::astro::flight::profile::State::accessPosition()'],['../classlibrary_1_1astro_1_1trajectory_1_1_state.html#ab0751200244a8b741fd67a1bfb47ad4d',1,'library::astro::trajectory::State::accessPosition()']]],
-  ['accessvelocity',['accessVelocity',['../classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html#a849c6426b346b48465b3e24c2248a4d8',1,'library::astro::flight::profile::State::accessVelocity()'],['../classlibrary_1_1astro_1_1trajectory_1_1_state.html#ae81763c334c3bd69595917a94c60d9d5',1,'library::astro::trajectory::State::accessVelocity()']]],
-  ['aerranges',['AerRanges',['../classlibrary_1_1astro_1_1access_1_1_generator.html#ae81c6cc620f00a2318eb3dd3d9d62ce0',1,'library::astro::access::Generator']]],
-  ['as',['as',['../classlibrary_1_1astro_1_1trajectory_1_1_model.html#a6f03598834d74ef1e03ce3469e892e6c',1,'library::astro::trajectory::Model']]],
-  ['ascending',['Ascending',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ae0ff0630d4ad5cd97aa3efbc8c8f368bacf3fb1ff52ea1eed3347ac5401ee7f0c',1,'library::astro::trajectory::orbit::Pass']]]
+  ['accessangularvelocity',['accessAngularVelocity',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#ad0118d95481db7a1bee0820aa20720af',1,'ostk::astro::flight::profile::State']]],
+  ['accessattitude',['accessAttitude',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#ad2ce6847d15311d2d1cb7a3662a1d5e4',1,'ostk::astro::flight::profile::State']]],
+  ['accessinstant',['accessInstant',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#a6537111ca0de878dc9ccba7fbc037d41',1,'ostk::astro::flight::profile::State::accessInstant()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#afc21870411eef52ce1293e31eda16d3c',1,'ostk::astro::trajectory::State::accessInstant()']]],
+  ['accessmodel',['accessModel',['../classostk_1_1astro_1_1_trajectory.html#a7a5e15ddb0b4e1a1546615840610252c',1,'ostk::astro::Trajectory']]],
+  ['accessposition',['accessPosition',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#a690408a5ae6d20d7812f797d20310557',1,'ostk::astro::flight::profile::State::accessPosition()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#a711322a78c02f981d11ebec2ca0a0cd4',1,'ostk::astro::trajectory::State::accessPosition()']]],
+  ['accessvelocity',['accessVelocity',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#a8848af51a3b34d49f036e4a9a57231cf',1,'ostk::astro::flight::profile::State::accessVelocity()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#a7f6d626b9d5f045e026cd1ff2ea33200',1,'ostk::astro::trajectory::State::accessVelocity()']]],
+  ['aerranges',['AerRanges',['../classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995',1,'ostk::astro::access::Generator']]],
+  ['as',['as',['../classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3',1,'ostk::astro::trajectory::Model']]],
+  ['ascending',['Ascending',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203acf3fb1ff52ea1eed3347ac5401ee7f0c',1,'ostk::astro::trajectory::orbit::Pass']]]
 ];

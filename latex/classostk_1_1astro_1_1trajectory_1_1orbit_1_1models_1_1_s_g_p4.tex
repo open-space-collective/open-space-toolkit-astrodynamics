@@ -1,0 +1,208 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{}\section{ostk\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+:\+:S\+G\+P4 Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+
+
+{\ttfamily \#include $<$S\+G\+P4.\+hpp$>$}
+
+Inheritance diagram for ostk\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+:\+:S\+G\+P4\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a84e2bc60fdf9b295e0ab8a42ecfb51ff}{S\+G\+P4} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE} \&a\+Tle)
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afe0c5fa943d25263097c242c5b289239}{S\+G\+P4} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&a\+S\+G\+P4\+Model)
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a00ac84881288a79f3c876efd56c376eb}{$\sim$\+S\+G\+P4} ()
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a8f8d3633270de5c9d8c99f047f28d0f0}{operator=} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&a\+S\+G\+P4\+Model)
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} $\ast$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afb9928e09d66c13a77eb1126da6139eb}{clone} () const override
+\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac95f88e801e75d53c2908cfc55d743a0}{operator==} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&a\+S\+G\+P4\+Model) const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6daa973c340543e56c134cd2daf867f6}{operator!=} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&a\+S\+G\+P4\+Model) const
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ab18e0666588bd517c190942b1a54ed18}{is\+Defined} () const override
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac1f2188866759569091ebfd8e43919a8}{get\+Tle} () const
+\item 
+virtual Instant \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af577ee4ad56452fe510d325a61a9792e}{get\+Epoch} () const override
+\item 
+virtual Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6216f01c1ee37817ca1ae1c7036f942c}{get\+Revolution\+Number\+At\+Epoch} () const override
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad88439d9c46a75d3da8c20d2872271e3}{calculate\+State\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af14e7851024d96eb20033ca9296dc003}{calculate\+Revolution\+Number\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a12416476201382c3d1e3c620f7be106a}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad51d979b8b9b37251b6381cfe9df55ea}{operator==} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&a\+Model) const override
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a87441104e4e1c63356abe0632b56edb6}{operator!=} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&a\+Model) const override
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a44bd6a41f5d1be384d07b897785529f1}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&a\+S\+G\+P4\+Model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a84e2bc60fdf9b295e0ab8a42ecfb51ff}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a84e2bc60fdf9b295e0ab8a42ecfb51ff}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!S\+G\+P4@{S\+G\+P4}}
+\index{S\+G\+P4@{S\+G\+P4}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{S\+G\+P4()}{SGP4()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::\+S\+G\+P4 (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE} \&}]{a\+Tle }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afe0c5fa943d25263097c242c5b289239}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afe0c5fa943d25263097c242c5b289239}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!S\+G\+P4@{S\+G\+P4}}
+\index{S\+G\+P4@{S\+G\+P4}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{S\+G\+P4()}{SGP4()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::\+S\+G\+P4 (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&}]{a\+S\+G\+P4\+Model }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a00ac84881288a79f3c876efd56c376eb}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a00ac84881288a79f3c876efd56c376eb}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!````~S\+G\+P4@{$\sim$\+S\+G\+P4}}
+\index{````~S\+G\+P4@{$\sim$\+S\+G\+P4}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{$\sim$\+S\+G\+P4()}{~SGP4()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::$\sim$\+S\+G\+P4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af14e7851024d96eb20033ca9296dc003}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af14e7851024d96eb20033ca9296dc003}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!calculate\+Revolution\+Number\+At@{calculate\+Revolution\+Number\+At}}
+\index{calculate\+Revolution\+Number\+At@{calculate\+Revolution\+Number\+At}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{calculate\+Revolution\+Number\+At()}{calculateRevolutionNumberAt()}}
+{\footnotesize\ttfamily Integer ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::calculate\+Revolution\+Number\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_aeecf4cc22fa9c766801936c468cc52ac}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad88439d9c46a75d3da8c20d2872271e3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad88439d9c46a75d3da8c20d2872271e3}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a34a0d8979ec1f7ade3e434fc0dad3711}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afb9928e09d66c13a77eb1126da6139eb}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_afb9928e09d66c13a77eb1126da6139eb}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} $\ast$ ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a53dc07564e4c7c444da46360aa8ada15}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af577ee4ad56452fe510d325a61a9792e}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_af577ee4ad56452fe510d325a61a9792e}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!get\+Epoch@{get\+Epoch}}
+\index{get\+Epoch@{get\+Epoch}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{get\+Epoch()}{getEpoch()}}
+{\footnotesize\ttfamily Instant ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::get\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a22055d5ab4c22e6177a3ddb8f45f1f9b}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6216f01c1ee37817ca1ae1c7036f942c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6216f01c1ee37817ca1ae1c7036f942c}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!get\+Revolution\+Number\+At\+Epoch@{get\+Revolution\+Number\+At\+Epoch}}
+\index{get\+Revolution\+Number\+At\+Epoch@{get\+Revolution\+Number\+At\+Epoch}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{get\+Revolution\+Number\+At\+Epoch()}{getRevolutionNumberAtEpoch()}}
+{\footnotesize\ttfamily Integer ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::get\+Revolution\+Number\+At\+Epoch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_af3f1866f86045da2c05efe4165735cf4}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac1f2188866759569091ebfd8e43919a8}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac1f2188866759569091ebfd8e43919a8}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!get\+Tle@{get\+Tle}}
+\index{get\+Tle@{get\+Tle}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{get\+Tle()}{getTle()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE} ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::get\+Tle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ab18e0666588bd517c190942b1a54ed18}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ab18e0666588bd517c190942b1a54ed18}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a13c5b5693dd86a072da0bd0e319bacc2}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6daa973c340543e56c134cd2daf867f6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a6daa973c340543e56c134cd2daf867f6}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&}]{a\+S\+G\+P4\+Model }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a87441104e4e1c63356abe0632b56edb6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a87441104e4e1c63356abe0632b56edb6}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a2dd77b9f6939d738f3a489f26c955340}{ostk\+::astro\+::trajectory\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a8f8d3633270de5c9d8c99f047f28d0f0}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a8f8d3633270de5c9d8c99f047f28d0f0}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator=@{operator=}}
+\index{operator=@{operator=}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \& ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&}]{a\+S\+G\+P4\+Model }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac95f88e801e75d53c2908cfc55d743a0}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ac95f88e801e75d53c2908cfc55d743a0}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&}]{a\+S\+G\+P4\+Model }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad51d979b8b9b37251b6381cfe9df55ea}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad51d979b8b9b37251b6381cfe9df55ea}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{trajectory\+::\+Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a874f79846e845859c070ce1b9874fc9c}{ostk\+::astro\+::trajectory\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a12416476201382c3d1e3c620f7be106a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a12416476201382c3d1e3c620f7be106a}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a8ea45c1a6e51a6153ce3f72f5294f0c6}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a44bd6a41f5d1be384d07b897785529f1}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_a44bd6a41f5d1be384d07b897785529f1}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4}{S\+G\+P4} \&}]{a\+S\+G\+P4\+Model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\hyperlink{_s_g_p4_8hpp}{S\+G\+P4.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Models/\hyperlink{_s_g_p4_8cpp}{S\+G\+P4.\+cpp}\end{DoxyCompactItemize}

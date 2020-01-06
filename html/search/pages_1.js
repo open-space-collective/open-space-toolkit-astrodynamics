@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['library_20▸_20astrodynamics',['Library ▸ Astrodynamics',['../index.html',1,'']]]
+  ['open_20space_20toolkit_20▸_20astrodynamics',['Open Space Toolkit ▸ Astrodynamics',['../index.html',1,'']]]
 ];

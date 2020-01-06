@@ -1,25 +1,25 @@
 var hierarchy =
 [
-    [ "library::astro::Access", "classlibrary_1_1astro_1_1_access.html", null ],
-    [ "library::astro::trajectory::orbit::models::kepler::COE", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html", null ],
-    [ "library::astro::access::Generator", "classlibrary_1_1astro_1_1access_1_1_generator.html", null ],
-    [ "library::astro::trajectory::Model", "classlibrary_1_1astro_1_1trajectory_1_1_model.html", [
-      [ "library::astro::trajectory::models::Static", "classlibrary_1_1astro_1_1trajectory_1_1models_1_1_static.html", null ],
-      [ "library::astro::trajectory::models::Tabulated", "classlibrary_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html", [
-        [ "library::astro::trajectory::orbit::models::Tabulated", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", null ]
+    [ "ostk::astro::Access", "classostk_1_1astro_1_1_access.html", null ],
+    [ "ostk::astro::trajectory::orbit::models::kepler::COE", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html", null ],
+    [ "ostk::astro::access::Generator", "classostk_1_1astro_1_1access_1_1_generator.html", null ],
+    [ "ostk::astro::trajectory::Model", "classostk_1_1astro_1_1trajectory_1_1_model.html", [
+      [ "ostk::astro::trajectory::models::Static", "classostk_1_1astro_1_1trajectory_1_1models_1_1_static.html", null ],
+      [ "ostk::astro::trajectory::models::Tabulated", "classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html", [
+        [ "ostk::astro::trajectory::orbit::models::Tabulated", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", null ]
       ] ],
-      [ "library::astro::trajectory::orbit::Model", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_model.html", [
-        [ "library::astro::trajectory::orbit::models::Kepler", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html", null ],
-        [ "library::astro::trajectory::orbit::models::SGP4", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html", null ],
-        [ "library::astro::trajectory::orbit::models::Tabulated", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", null ]
+      [ "ostk::astro::trajectory::orbit::Model", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html", [
+        [ "ostk::astro::trajectory::orbit::models::Kepler", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html", null ],
+        [ "ostk::astro::trajectory::orbit::models::SGP4", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html", null ],
+        [ "ostk::astro::trajectory::orbit::models::Tabulated", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", null ]
       ] ]
     ] ],
-    [ "library::astro::trajectory::orbit::Pass", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html", null ],
-    [ "library::astro::flight::Profile", "classlibrary_1_1astro_1_1flight_1_1_profile.html", null ],
-    [ "library::astro::trajectory::State", "classlibrary_1_1astro_1_1trajectory_1_1_state.html", null ],
-    [ "library::astro::flight::profile::State", "classlibrary_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
-    [ "library::astro::trajectory::orbit::models::sgp4::TLE", "classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html", null ],
-    [ "library::astro::Trajectory", "classlibrary_1_1astro_1_1_trajectory.html", [
-      [ "library::astro::trajectory::Orbit", "classlibrary_1_1astro_1_1trajectory_1_1_orbit.html", null ]
+    [ "ostk::astro::trajectory::orbit::Pass", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html", null ],
+    [ "ostk::astro::flight::Profile", "classostk_1_1astro_1_1flight_1_1_profile.html", null ],
+    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
+    [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
+    [ "ostk::astro::trajectory::orbit::models::sgp4::TLE", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html", null ],
+    [ "ostk::astro::Trajectory", "classostk_1_1astro_1_1_trajectory.html", [
+      [ "ostk::astro::trajectory::Orbit", "classostk_1_1astro_1_1trajectory_1_1_orbit.html", null ]
     ] ]
 ];

@@ -1,0 +1,181 @@
+\hypertarget{classostk_1_1astro_1_1_access}{}\section{ostk\+:\+:astro\+:\+:Access Class Reference}
+\label{classostk_1_1astro_1_1_access}\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+
+
+Object-\/to-\/object visibility.  
+
+
+
+
+{\ttfamily \#include $<$Access.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Type} \{ \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aec0fc0100c4fc1ce4eea230c3dc10360}{Type\+::\+Undefined}, 
+\hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aae94f80b3ce82062a5dd7815daa04f9d}{Type\+::\+Complete}, 
+\hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27}{Type\+::\+Partial}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}{Access} (const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&a\+Type, const Instant \&an\+Acquisition\+Of\+Signal, const Instant \&a\+Time\+Of\+Closest\+Approach, const Instant \&a\+Loss\+Of\+Signal)
+\item 
+bool \hyperlink{classostk_1_1astro_1_1_access_a4e336578930e1e1d49b7bdc279af4bdf}{operator==} (const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&an\+Access) const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1_access_a054593ffe0556b14c3eab0dd3ebcca56}{operator!=} (const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&an\+Access) const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1_access_adecb227a516bed14ad9f11b9b36ba48e}{is\+Defined} () const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1_access_ae6bfc3c40d23545d9c520e44550c5033}{is\+Complete} () const
+\item 
+\hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \hyperlink{classostk_1_1astro_1_1_access_aa88d0d19a9386b9748f87263289195a2}{get\+Type} () const
+\item 
+Instant \hyperlink{classostk_1_1astro_1_1_access_a07b36c41b6ecceab9d841197e6e412d2}{get\+Acquisition\+Of\+Signal} () const
+\item 
+Instant \hyperlink{classostk_1_1astro_1_1_access_aa5be394928873c5795cfb068b1e5bfb6}{get\+Time\+Of\+Closest\+Approach} () const
+\item 
+Instant \hyperlink{classostk_1_1astro_1_1_access_ace680122654f24704fb6a40631b84afb}{get\+Loss\+Of\+Signal} () const
+\item 
+Interval \hyperlink{classostk_1_1astro_1_1_access_a44d8162ed0ea9bd599fe351639364ee0}{get\+Interval} () const
+\item 
+Duration \hyperlink{classostk_1_1astro_1_1_access_afb542654ea7603d54773e612be071bc2}{get\+Duration} () const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1_access}{Access} \hyperlink{classostk_1_1astro_1_1_access_aa7770be15907d9dabc3ae9a9490e9bad}{Undefined} ()
+\item 
+static String \hyperlink{classostk_1_1astro_1_1_access_ada64e6a55fe3505b548bdb2651f122e3}{String\+From\+Type} (const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&a\+Type)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1_access_a84eabd1ef8d3eeff0b6a80851727a2b4}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&an\+Access)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Object-\/to-\/object visibility. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}\label{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Type@{Type}}
+\index{Type@{Type}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily enum \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{ostk\+::astro\+::\+Access\+::\+Type}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Undefined@{Undefined}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Undefined@{Undefined}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aec0fc0100c4fc1ce4eea230c3dc10360}\label{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aec0fc0100c4fc1ce4eea230c3dc10360}} 
+Undefined&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Complete@{Complete}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Complete@{Complete}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aae94f80b3ce82062a5dd7815daa04f9d}\label{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93aae94f80b3ce82062a5dd7815daa04f9d}} 
+Complete&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Partial@{Partial}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Partial@{Partial}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27}\label{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27}} 
+Partial&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}\label{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Access@{Access}}
+\index{Access@{Access}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{Access()}{Access()}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Access\+::\+Access (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&}]{a\+Type,  }\item[{const Instant \&}]{an\+Acquisition\+Of\+Signal,  }\item[{const Instant \&}]{a\+Time\+Of\+Closest\+Approach,  }\item[{const Instant \&}]{a\+Loss\+Of\+Signal }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a07b36c41b6ecceab9d841197e6e412d2}\label{classostk_1_1astro_1_1_access_a07b36c41b6ecceab9d841197e6e412d2}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Acquisition\+Of\+Signal@{get\+Acquisition\+Of\+Signal}}
+\index{get\+Acquisition\+Of\+Signal@{get\+Acquisition\+Of\+Signal}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Acquisition\+Of\+Signal()}{getAcquisitionOfSignal()}}
+{\footnotesize\ttfamily Instant ostk\+::astro\+::\+Access\+::get\+Acquisition\+Of\+Signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_afb542654ea7603d54773e612be071bc2}\label{classostk_1_1astro_1_1_access_afb542654ea7603d54773e612be071bc2}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Duration@{get\+Duration}}
+\index{get\+Duration@{get\+Duration}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Duration()}{getDuration()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::\+Access\+::get\+Duration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a44d8162ed0ea9bd599fe351639364ee0}\label{classostk_1_1astro_1_1_access_a44d8162ed0ea9bd599fe351639364ee0}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Interval@{get\+Interval}}
+\index{get\+Interval@{get\+Interval}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Interval()}{getInterval()}}
+{\footnotesize\ttfamily Interval ostk\+::astro\+::\+Access\+::get\+Interval (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_ace680122654f24704fb6a40631b84afb}\label{classostk_1_1astro_1_1_access_ace680122654f24704fb6a40631b84afb}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Loss\+Of\+Signal@{get\+Loss\+Of\+Signal}}
+\index{get\+Loss\+Of\+Signal@{get\+Loss\+Of\+Signal}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Loss\+Of\+Signal()}{getLossOfSignal()}}
+{\footnotesize\ttfamily Instant ostk\+::astro\+::\+Access\+::get\+Loss\+Of\+Signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aa5be394928873c5795cfb068b1e5bfb6}\label{classostk_1_1astro_1_1_access_aa5be394928873c5795cfb068b1e5bfb6}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Time\+Of\+Closest\+Approach@{get\+Time\+Of\+Closest\+Approach}}
+\index{get\+Time\+Of\+Closest\+Approach@{get\+Time\+Of\+Closest\+Approach}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Time\+Of\+Closest\+Approach()}{getTimeOfClosestApproach()}}
+{\footnotesize\ttfamily Instant ostk\+::astro\+::\+Access\+::get\+Time\+Of\+Closest\+Approach (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aa88d0d19a9386b9748f87263289195a2}\label{classostk_1_1astro_1_1_access_aa88d0d19a9386b9748f87263289195a2}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Type@{get\+Type}}
+\index{get\+Type@{get\+Type}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Type()}{getType()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} ostk\+::astro\+::\+Access\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_ae6bfc3c40d23545d9c520e44550c5033}\label{classostk_1_1astro_1_1_access_ae6bfc3c40d23545d9c520e44550c5033}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!is\+Complete@{is\+Complete}}
+\index{is\+Complete@{is\+Complete}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{is\+Complete()}{isComplete()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Access\+::is\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_adecb227a516bed14ad9f11b9b36ba48e}\label{classostk_1_1astro_1_1_access_adecb227a516bed14ad9f11b9b36ba48e}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Access\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a054593ffe0556b14c3eab0dd3ebcca56}\label{classostk_1_1astro_1_1_access_a054593ffe0556b14c3eab0dd3ebcca56}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Access\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&}]{an\+Access }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a4e336578930e1e1d49b7bdc279af4bdf}\label{classostk_1_1astro_1_1_access_a4e336578930e1e1d49b7bdc279af4bdf}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Access\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&}]{an\+Access }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_ada64e6a55fe3505b548bdb2651f122e3}\label{classostk_1_1astro_1_1_access_ada64e6a55fe3505b548bdb2651f122e3}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!String\+From\+Type@{String\+From\+Type}}
+\index{String\+From\+Type@{String\+From\+Type}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{String\+From\+Type()}{StringFromType()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Access\+::\+String\+From\+Type (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&}]{a\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aa7770be15907d9dabc3ae9a9490e9bad}\label{classostk_1_1astro_1_1_access_aa7770be15907d9dabc3ae9a9490e9bad}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_access}{Access} ostk\+::astro\+::\+Access\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a84eabd1ef8d3eeff0b6a80851727a2b4}\label{classostk_1_1astro_1_1_access_a84eabd1ef8d3eeff0b6a80851727a2b4}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&}]{an\+Access }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_access_8hpp}{Access.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_access_8cpp}{Access.\+cpp}\end{DoxyCompactItemize}

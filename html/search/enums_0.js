@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['frametype',['FrameType',['../classlibrary_1_1astro_1_1trajectory_1_1_orbit.html#a816e83a0c220d4242ce2bebd32191cd8',1,'library::astro::trajectory::Orbit']]]
+  ['frametype',['FrameType',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7',1,'ostk::astro::trajectory::Orbit']]]
 ];

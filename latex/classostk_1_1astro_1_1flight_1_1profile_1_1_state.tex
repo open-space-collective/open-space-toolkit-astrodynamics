@@ -1,0 +1,182 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{}\section{ostk\+:\+:astro\+:\+:flight\+:\+:profile\+:\+:State Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state}\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+
+
+Spacecraft flight profile state.  
+
+
+
+
+{\ttfamily \#include $<$State.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}{State} (const Instant \&an\+Instant, const Vector3d \&a\+Position, const Vector3d \&a\+Velocity, const Quaternion \&an\+Attitude, const Vector3d \&an\+Angular\+Velocity, const Shared$<$ const Frame $>$ \&a\+Reference\+Frame)
+\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a4f6023c3c1d9590ec701bf10b0724ebf}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&a\+State) const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a300ff5bdda0b2bba50912f95287aba5e}{operator!=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&a\+State) const
+\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab69f291582ca4b31c9f340d9d5f83269}{is\+Defined} () const
+\item 
+const Instant \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6537111ca0de878dc9ccba7fbc037d41}{access\+Instant} () const
+\item 
+const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}{access\+Position} () const
+\item 
+const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}{access\+Velocity} () const
+\item 
+const Quaternion \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad2ce6847d15311d2d1cb7a3662a1d5e4}{access\+Attitude} () const
+\item 
+const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad0118d95481db7a1bee0820aa20720af}{access\+Angular\+Velocity} () const
+\item 
+Instant \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aef2c7d2c1f6831280e3933bb2d83a290}{get\+Instant} () const
+\item 
+Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}{get\+Position} () const
+\item 
+Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}{get\+Velocity} () const
+\item 
+Quaternion \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8b765a7ebcfc0a7202bce31cafbc3a30}{get\+Attitude} () const
+\item 
+Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013017327ab64023ff86d1c3c2}{get\+Angular\+Velocity} () const
+\item 
+Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6e06bfcca971466bf36c2c0a0837e429}{get\+Frame} () const
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}{in\+Frame} (const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af18b40557aa14bfd0b46d14ad04d33fc}{Undefined} ()
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_abba03f039f2534d691a1dc28426e8b89}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&a\+State)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Spacecraft flight profile state. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!State@{State}}
+\index{State@{State}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{State()}{State()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector3d \&}]{a\+Position,  }\item[{const Vector3d \&}]{a\+Velocity,  }\item[{const Quaternion \&}]{an\+Attitude,  }\item[{const Vector3d \&}]{an\+Angular\+Velocity,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Reference\+Frame }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad0118d95481db7a1bee0820aa20720af}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad0118d95481db7a1bee0820aa20720af}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Angular\+Velocity@{access\+Angular\+Velocity}}
+\index{access\+Angular\+Velocity@{access\+Angular\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Angular\+Velocity()}{accessAngularVelocity()}}
+{\footnotesize\ttfamily const Vector3d \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Angular\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad2ce6847d15311d2d1cb7a3662a1d5e4}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad2ce6847d15311d2d1cb7a3662a1d5e4}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Attitude@{access\+Attitude}}
+\index{access\+Attitude@{access\+Attitude}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Attitude()}{accessAttitude()}}
+{\footnotesize\ttfamily const Quaternion \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Attitude (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6537111ca0de878dc9ccba7fbc037d41}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6537111ca0de878dc9ccba7fbc037d41}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Instant@{access\+Instant}}
+\index{access\+Instant@{access\+Instant}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Instant()}{accessInstant()}}
+{\footnotesize\ttfamily const Instant \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Position@{access\+Position}}
+\index{access\+Position@{access\+Position}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Position()}{accessPosition()}}
+{\footnotesize\ttfamily const Vector3d \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Velocity@{access\+Velocity}}
+\index{access\+Velocity@{access\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{access\+Velocity()}{accessVelocity()}}
+{\footnotesize\ttfamily const Vector3d \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013017327ab64023ff86d1c3c2}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013017327ab64023ff86d1c3c2}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Angular\+Velocity@{get\+Angular\+Velocity}}
+\index{get\+Angular\+Velocity@{get\+Angular\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Angular\+Velocity()}{getAngularVelocity()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Angular\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8b765a7ebcfc0a7202bce31cafbc3a30}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8b765a7ebcfc0a7202bce31cafbc3a30}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Attitude@{get\+Attitude}}
+\index{get\+Attitude@{get\+Attitude}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Attitude()}{getAttitude()}}
+{\footnotesize\ttfamily Quaternion ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Attitude (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6e06bfcca971466bf36c2c0a0837e429}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6e06bfcca971466bf36c2c0a0837e429}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Frame@{get\+Frame}}
+\index{get\+Frame@{get\+Frame}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Frame()}{getFrame()}}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aef2c7d2c1f6831280e3933bb2d83a290}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aef2c7d2c1f6831280e3933bb2d83a290}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Instant@{get\+Instant}}
+\index{get\+Instant@{get\+Instant}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Instant()}{getInstant()}}
+{\footnotesize\ttfamily Instant ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Position()}{getPosition()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Velocity@{get\+Velocity}}
+\index{get\+Velocity@{get\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{get\+Velocity()}{getVelocity()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!in\+Frame@{in\+Frame}}
+\index{in\+Frame@{in\+Frame}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{in\+Frame()}{inFrame()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} ostk\+::astro\+::flight\+::profile\+::\+State\+::in\+Frame (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab69f291582ca4b31c9f340d9d5f83269}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab69f291582ca4b31c9f340d9d5f83269}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::\+State\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a300ff5bdda0b2bba50912f95287aba5e}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a300ff5bdda0b2bba50912f95287aba5e}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::\+State\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a4f6023c3c1d9590ec701bf10b0724ebf}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a4f6023c3c1d9590ec701bf10b0724ebf}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::\+State\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af18b40557aa14bfd0b46d14ad04d33fc}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af18b40557aa14bfd0b46d14ad04d33fc}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} ostk\+::astro\+::flight\+::profile\+::\+State\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_abba03f039f2534d691a1dc28426e8b89}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_abba03f039f2534d691a1dc28426e8b89}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\hyperlink{_flight_2_profile_2_state_8hpp}{State.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\hyperlink{_flight_2_profile_2_state_8cpp}{State.\+cpp}\end{DoxyCompactItemize}

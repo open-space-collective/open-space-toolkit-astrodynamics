@@ -1,4 +1,4 @@
 var annotated_dup =
 [
-    [ "library", "namespacelibrary.html", "namespacelibrary" ]
+    [ "ostk", "namespaceostk.html", "namespaceostk" ]
 ];

@@ -1,21 +1,103 @@
-Orbit, attitude, access.
+\href{https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
 
-\href{https://travis-ci.com/open-space-collective/library-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/library-astrodynamics}{\tt } \href{https://open-space-collective.github.io/library-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics}{\tt } \href{https://badge.fury.io/py/LibraryAstrodynamicsPy}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
+Orbit, attitude, access.
 
 
 
 \subsection*{Warning}
 
-Library {\bfseries name} is yet to be defined.
+{\itshape ⚠ This component is under development.}
 
-Please check the following projects\+:
+\subsection*{Installation}
+
+\subsubsection*{C++}
+
+The binary packages are hosted using \href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases}{\tt Git\+Hub Releases}.
+
+{\itshape Note\+: Don\textquotesingle{}t forget to set the desired version number in the U\+R\+Ls!}
+
+\paragraph*{Debian / Ubuntu}
 
 
-\begin{DoxyItemize}
-\item \href{https://github.com/orgs/open-space-collective/projects/1}{\tt Naming Project}
-\end{DoxyItemize}
+\begin{DoxyCode}
+# Download .deb packages
 
-{\itshape ⚠ This library is still under heavy development. Do not use!}
+wget
+       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86\_64-runtime.deb
+wget
+       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86\_64-devel.deb
+
+# Install .deb packages
+
+apt install -y open-space-toolkit-astrodynamics-0.4.0-*.deb
+\end{DoxyCode}
+
+
+\paragraph*{Fedora / Cent\+OS}
+
+
+\begin{DoxyCode}
+# Download .rpm packages
+
+wget
+       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86\_64-runtime.rpm
+wget
+       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86\_64-devel.rpm
+
+# Install .rpm packages
+
+dnf install -y open-space-toolkit-astrodynamics-0.4.0-*.rpm
+\end{DoxyCode}
+
+
+\subsubsection*{Python}
+
+The binary packages are hosted on \href{https://pypi.org/project/open-space-toolkit-astrodynamics/}{\tt Py\+PI}\+:
+
+
+\begin{DoxyCode}
+pip install open-space-toolkit-astrodynamics
+\end{DoxyCode}
+
+
+\subsection*{Getting Started}
+
+Want to quickly get started? It\textquotesingle{}s pretty simple.
+
+Install \href{https://www.docker.com/}{\tt Docker} and try this\+:
+
+
+\begin{DoxyCode}
+docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
+\end{DoxyCode}
+
+
+This will start an \href{https://ipython.org/}{\tt i\+Python} shell within a container where the O\+S\+Tk Astrodynamics component is already installed.
+
+Once the shell is up and running, playing with it is easy\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{from} ostk.physics \textcolor{keyword}{import} Environment
+\textcolor{keyword}{from} ostk.physics.time \textcolor{keyword}{import} Instant
+\textcolor{keyword}{from} ostk.astrodynamics.trajectory \textcolor{keyword}{import} Orbit
+\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models \textcolor{keyword}{import} SGP4
+\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models.sgp4 \textcolor{keyword}{import} TLE
+
+tle = TLE(
+    \textcolor{stringliteral}{'1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'},
+    \textcolor{stringliteral}{'2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'}
+) \textcolor{comment}{# Construct Two-Line Element set}
+
+earth = Environment.default().access\_celestial\_object\_with\_name(\textcolor{stringliteral}{'Earth'}) \textcolor{comment}{# Access Earth model}
+
+orbit = Orbit(SGP4(tle), earth) \textcolor{comment}{# Construct orbit using SGP4 model}
+
+orbit.get\_state\_at(Instant.now()) \textcolor{comment}{# Compute and display current satellite state (position, velocity)}
+\end{DoxyCode}
+
+
+{\itshape Tip\+: Use tab for auto-\/completion!}
 
 \subsection*{Structure}
 
@@ -45,17 +127,17 @@ The {\bfseries Astrodynamics} library exhibits the following structure\+:
 
 \subsection*{Documentation}
 
-The documentation can be found here\+:
+Documentation is available here\+:
 
 
 \begin{DoxyItemize}
-\item \href{https://open-space-collective.github.io/library-astrodynamics}{\tt C++}
+\item \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt C++}
 \item \href{./bindings/python/docs}{\tt Python}
 \end{DoxyItemize}
 
 \subsection*{Tutorials}
 
-Various tutorials are available here\+:
+Tutorials are available here\+:
 
 
 \begin{DoxyItemize}
@@ -65,66 +147,63 @@ Various tutorials are available here\+:
 
 \subsection*{Setup}
 
-\subsubsection*{Development}
+\subsubsection*{Development Environment}
 
-Using \href{https://www.docker.com}{\tt Docker} is recommended, as the development tools and dependencies setup is described in the provided \href{./tools/development/docker/Dockerfile}{\tt Dockerfile}.
+Using \href{https://www.docker.com}{\tt Docker} for development is recommended, to simplify the installation of the necessary build tools and dependencies. Instructions on how to install Docker are available \href{https://docs.docker.com/install/}{\tt here}.
 
-Instructions to install Docker can be found \href{https://docs.docker.com/install/}{\tt here}.
-
-Start the development environment\+:
+To start the development environment\+:
 
 
 \begin{DoxyCode}
-./tools/development/start.sh
+make start-development
 \end{DoxyCode}
 
 
-This will also build the {\ttfamily openspacecollective/library-\/astrodynamics\+:latest} Docker image, if not present already.
+This will\+:
 
-If installing Docker is not an option, please manually install the development tools (G\+CC, C\+Make) and the dependencies. The procedure should be similar to the one described in the \href{./tools/development/docker/Dockerfile}{\tt Dockerfile}.
+
+\begin{DoxyEnumerate}
+\item Build the {\ttfamily openspacecollective/open-\/space-\/toolkit-\/astrodynamics-\/development} Docker image.
+\item Create a development environment container with local source files and helper scripts mounted.
+\item Start a {\ttfamily bash} shell from the {\ttfamily ./build} working directory.
+\end{DoxyEnumerate}
+
+If installing Docker is not an option, you can manually install the development tools (G\+CC, C\+Make) and all required dependencies, by following a procedure similar to the one described in the \href{./docker/development/Dockerfile}{\tt Development Dockerfile}.
 
 \subsubsection*{Build}
 
-From the development environment\+:
+From the {\ttfamily ./build} directory\+:
 
 
 \begin{DoxyCode}
-./build.sh
-\end{DoxyCode}
-
-
-Manually\+:
-
-
-\begin{DoxyCode}
-mkdir -p build
-cd build
 cmake ..
 make
 \end{DoxyCode}
 
 
+{\itshape Tip\+: {\ttfamily helpers/build.\+sh} simplifies building from within the development environment.}
+
 \subsubsection*{Test}
 
-From the development environment\+:
+To start a container to build and run the tests\+:
 
 
 \begin{DoxyCode}
-./test.sh
+make test
 \end{DoxyCode}
 
 
-Manually\+:
+Or to run them manually\+:
 
 
 \begin{DoxyCode}
-./bin/library-astrodynamics.test
+./bin/open-space-toolkit-astrodynamics.test
 \end{DoxyCode}
 
+
+{\itshape Tip\+: {\ttfamily helpers/test.\+sh} simplifies running tests from within the development environment.}
 
 \subsection*{Dependencies}
-
-The {\bfseries Astrodynamics} library internally uses the following dependencies\+:
 
 \tabulinesep=1mm
 \begin{longtabu} spread 0pt [c]{*{4}{|X[-1]}|}
@@ -136,14 +215,14 @@ The {\bfseries Astrodynamics} library internally uses the following dependencies
 \hline
 \rowcolor{\tableheadbgcolor}\textbf{ Name }&\textbf{ Version }&\textbf{ License }&\textbf{ Link  }\\\cline{1-4}
 \endhead
-Boost &1.\+67.\+0 &Boost Software License &\href{https://www.boost.org}{\tt boost.\+org} \\\cline{1-4}
-Eigen &3.\+3.\+4 &M\+P\+L2 &\href{http://eigen.tuxfamily.org/index.php}{\tt eigen.\+tuxfamily.\+org} \\\cline{1-4}
+Boost &1.\+69.\+0 &Boost Software License &\href{https://www.boost.org}{\tt boost.\+org} \\\cline{1-4}
+Eigen &3.\+3.\+7 &M\+P\+L2 &\href{http://eigen.tuxfamily.org/index.php}{\tt eigen.\+tuxfamily.\+org} \\\cline{1-4}
 S\+G\+P4 &master &Apache License 2.\+0 &\href{https://github.com/dnwrnr/sgp4}{\tt github.\+com/dnwrnr/sgp4} \\\cline{1-4}
 N\+Lopt &master &L\+G\+PL &\href{https://github.com/stevengj/nlopt}{\tt github.\+com/stevengj/nlopt} \\\cline{1-4}
-Core &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/library-core}{\tt github.\+com/open-\/space-\/collective/library-\/core} \\\cline{1-4}
-I/O &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/library-io}{\tt github.\+com/open-\/space-\/collective/library-\/io} \\\cline{1-4}
-Mathematics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/library-mathematics}{\tt github.\+com/open-\/space-\/collective/library-\/mathematics} \\\cline{1-4}
-Physics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/library-physics}{\tt github.\+com/open-\/space-\/collective/library-\/physics} \\\cline{1-4}
+Core &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-core}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/core} \\\cline{1-4}
+I/O &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-io}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/io} \\\cline{1-4}
+Mathematics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-mathematics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/mathematics} \\\cline{1-4}
+Physics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-physics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/physics} \\\cline{1-4}
 \end{longtabu}
 \subsection*{Contribution}
 

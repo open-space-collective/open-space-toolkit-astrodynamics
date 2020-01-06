@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['eccentricanomalyfrommeananomaly',['EccentricAnomalyFromMeanAnomaly',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a41443d444243ac50153e8a1a13e115d6',1,'library::astro::trajectory::orbit::models::kepler::COE']]],
-  ['eccentricanomalyfromtrueanomaly',['EccentricAnomalyFromTrueAnomaly',['../classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a2302b624eb7ae3111071fd8121cd9d46',1,'library::astro::trajectory::orbit::models::kepler::COE']]],
-  ['equatorial',['Equatorial',['../classlibrary_1_1astro_1_1trajectory_1_1_orbit.html#ab15a55f74105cd78fe8a48a3c86baacc',1,'library::astro::trajectory::Orbit']]]
+  ['eccentricanomalyfrommeananomaly',['EccentricAnomalyFromMeanAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a03697221660ff4c30f4eb19ecdc89159',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['eccentricanomalyfromtrueanomaly',['EccentricAnomalyFromTrueAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a862d6d129ee8b17faa4b786ffec9e1f4',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['equatorial',['Equatorial',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a88a5db265588461a9e756fd2aa4d3e4c',1,'ostk::astro::trajectory::Orbit']]]
 ];

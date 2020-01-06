@@ -1,0 +1,122 @@
+\hypertarget{classostk_1_1astro_1_1access_1_1_generator}{}\section{ostk\+:\+:astro\+:\+:access\+:\+:Generator Class Reference}
+\label{classostk_1_1astro_1_1access_1_1_generator}\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+
+
+{\ttfamily \#include $<$Generator.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1access_1_1_generator_af609f21b3329033836220c55b75ab704}{Generator} (const Environment \&an\+Environment)
+\item 
+\hyperlink{classostk_1_1astro_1_1access_1_1_generator_a2b7303a186ca8c690c0769c5cae0c91e}{Generator} (const Environment \&an\+Environment, const std\+::function$<$ bool(const A\+ER \&)$>$ \&an\+Aer\+Filter, const std\+::function$<$ bool(const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&)$>$ \&an\+Access\+Filter=\{\})
+\item 
+bool \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a36d805bcebc2997daa0a1d89f5240277}{is\+Defined} () const
+\item 
+Array$<$ \hyperlink{classostk_1_1astro_1_1_access}{Access} $>$ \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a3624c39c3ffa4588c40a687ccc4b8145}{compute\+Accesses} (const physics\+::time\+::\+Interval \&an\+Interval, const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+From\+Trajectory, const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+To\+Trajectory) const
+\item 
+void \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a4c0cb8f1e59364029e88078c423cd96b}{set\+Step} (const Duration \&a\+Step)
+\item 
+void \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a9590a1ebb05d28f7934f8ccafbd02a60}{set\+Tolerance} (const Duration \&a\+Tolerance)
+\item 
+void \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a4d82f15eb2da1fbf7c74b3136eed3301}{set\+Aer\+Filter} (const std\+::function$<$ bool(const A\+ER \&)$>$ \&an\+Aer\+Filter)
+\item 
+void \hyperlink{classostk_1_1astro_1_1access_1_1_generator_ade3c6b8b5afe0f850e3531d715eac826}{set\+Access\+Filter} (const std\+::function$<$ bool(const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&)$>$ \&an\+Access\+Filter)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a1fb2dd3d88187da24482168337a23ade}{Undefined} ()
+\item 
+static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}{Aer\+Ranges} (const Interval$<$ Real $>$ \&an\+Azimuth\+Range, const Interval$<$ Real $>$ \&an\+Elevation\+Range, const Interval$<$ Real $>$ \&a\+Range\+Range, const Environment \&an\+Environment)
+\begin{DoxyCompactList}\small\item\em Constructs an access generator with defined A\+ER ranges. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_af609f21b3329033836220c55b75ab704}\label{classostk_1_1astro_1_1access_1_1_generator_af609f21b3329033836220c55b75ab704}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Generator@{Generator}}
+\index{Generator@{Generator}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{Generator()}{Generator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::access\+::\+Generator\+::\+Generator (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a2b7303a186ca8c690c0769c5cae0c91e}\label{classostk_1_1astro_1_1access_1_1_generator_a2b7303a186ca8c690c0769c5cae0c91e}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Generator@{Generator}}
+\index{Generator@{Generator}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{Generator()}{Generator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::access\+::\+Generator\+::\+Generator (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment,  }\item[{const std\+::function$<$ bool(const A\+ER \&)$>$ \&}]{an\+Aer\+Filter,  }\item[{const std\+::function$<$ bool(const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&)$>$ \&}]{an\+Access\+Filter = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}\label{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Aer\+Ranges@{Aer\+Ranges}}
+\index{Aer\+Ranges@{Aer\+Ranges}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{Aer\+Ranges()}{AerRanges()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} ostk\+::astro\+::access\+::\+Generator\+::\+Aer\+Ranges (\begin{DoxyParamCaption}\item[{const Interval$<$ Real $>$ \&}]{an\+Azimuth\+Range,  }\item[{const Interval$<$ Real $>$ \&}]{an\+Elevation\+Range,  }\item[{const Interval$<$ Real $>$ \&}]{a\+Range\+Range,  }\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs an access generator with defined A\+ER ranges. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Azimuth\+Range} & An azimuth interval \mbox{[}deg\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em an\+Elevation\+Range} & An elevation interval \mbox{[}deg\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em a\+Range\+Range} & A range interval \mbox{[}m\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em an\+Environment} & An environment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An access generator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a3624c39c3ffa4588c40a687ccc4b8145}\label{classostk_1_1astro_1_1access_1_1_generator_a3624c39c3ffa4588c40a687ccc4b8145}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!compute\+Accesses@{compute\+Accesses}}
+\index{compute\+Accesses@{compute\+Accesses}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{compute\+Accesses()}{computeAccesses()}}
+{\footnotesize\ttfamily Array$<$ \hyperlink{classostk_1_1astro_1_1_access}{Access} $>$ ostk\+::astro\+::access\+::\+Generator\+::compute\+Accesses (\begin{DoxyParamCaption}\item[{const physics\+::time\+::\+Interval \&}]{an\+Interval,  }\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+From\+Trajectory,  }\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+To\+Trajectory }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a36d805bcebc2997daa0a1d89f5240277}\label{classostk_1_1astro_1_1access_1_1_generator_a36d805bcebc2997daa0a1d89f5240277}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::access\+::\+Generator\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_ade3c6b8b5afe0f850e3531d715eac826}\label{classostk_1_1astro_1_1access_1_1_generator_ade3c6b8b5afe0f850e3531d715eac826}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!set\+Access\+Filter@{set\+Access\+Filter}}
+\index{set\+Access\+Filter@{set\+Access\+Filter}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{set\+Access\+Filter()}{setAccessFilter()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::access\+::\+Generator\+::set\+Access\+Filter (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool(const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&)$>$ \&}]{an\+Access\+Filter }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a4d82f15eb2da1fbf7c74b3136eed3301}\label{classostk_1_1astro_1_1access_1_1_generator_a4d82f15eb2da1fbf7c74b3136eed3301}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!set\+Aer\+Filter@{set\+Aer\+Filter}}
+\index{set\+Aer\+Filter@{set\+Aer\+Filter}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{set\+Aer\+Filter()}{setAerFilter()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::access\+::\+Generator\+::set\+Aer\+Filter (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool(const A\+ER \&)$>$ \&}]{an\+Aer\+Filter }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a4c0cb8f1e59364029e88078c423cd96b}\label{classostk_1_1astro_1_1access_1_1_generator_a4c0cb8f1e59364029e88078c423cd96b}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!set\+Step@{set\+Step}}
+\index{set\+Step@{set\+Step}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{set\+Step()}{setStep()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::access\+::\+Generator\+::set\+Step (\begin{DoxyParamCaption}\item[{const Duration \&}]{a\+Step }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a9590a1ebb05d28f7934f8ccafbd02a60}\label{classostk_1_1astro_1_1access_1_1_generator_a9590a1ebb05d28f7934f8ccafbd02a60}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!set\+Tolerance@{set\+Tolerance}}
+\index{set\+Tolerance@{set\+Tolerance}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{set\+Tolerance()}{setTolerance()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::access\+::\+Generator\+::set\+Tolerance (\begin{DoxyParamCaption}\item[{const Duration \&}]{a\+Tolerance }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a1fb2dd3d88187da24482168337a23ade}\label{classostk_1_1astro_1_1access_1_1_generator_a1fb2dd3d88187da24482168337a23ade}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} ostk\+::astro\+::access\+::\+Generator\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Access/\hyperlink{_generator_8hpp}{Generator.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Access/\hyperlink{_generator_8cpp}{Generator.\+cpp}\end{DoxyCompactItemize}

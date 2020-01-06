@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nadirpointing',['NadirPointing',['../classlibrary_1_1astro_1_1flight_1_1_profile.html#ac4096e4ced738e675f2f14722bbfbe14',1,'library::astro::flight::Profile']]]
+  ['nadirpointing',['NadirPointing',['../classostk_1_1astro_1_1flight_1_1_profile.html#ab618c70fde205ab0df2c963628223ad8',1,'ostk::astro::flight::Profile']]]
 ];

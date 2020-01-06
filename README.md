@@ -1,26 +1,96 @@
-Library ▸ Astrodynamics
-=======================
+# Open Space Toolkit ▸ Astrodynamics
+
+[![Build Status](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics)
+[![Code Coverage](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics)
+[![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
+[![GitHub version](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics)
+[![PyPI version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Orbit, attitude, access.
-
-[![Build Status](https://travis-ci.com/open-space-collective/library-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/library-astrodynamics)
-[![Code Coverage](https://codecov.io/gh/open-space-collective/library-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/library-astrodynamics)
-[![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/library-astrodynamics)
-[![GitHub version](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Flibrary-astrodynamics)
-[![PyPI version](https://badge.fury.io/py/LibraryAstrodynamicsPy.svg)](https://badge.fury.io/py/LibraryAstrodynamicsPy)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
 ## Warning
 
-Library **name** is yet to be defined.
+*⚠ This component is under development.*
 
-Please check the following projects:
+## Installation
 
-- [Naming Project](https://github.com/orgs/open-space-collective/projects/1)
+### C++
 
-*⚠ This library is still under heavy development. Do not use!*
+The binary packages are hosted using [GitHub Releases](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases).
+
+*Note: Don't forget to set the desired version number in the URLs!*
+
+#### Debian / Ubuntu
+
+```bash
+# Download .deb packages
+
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-runtime.deb
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-devel.deb
+
+# Install .deb packages
+
+apt install -y open-space-toolkit-astrodynamics-0.4.0-*.deb
+```
+
+#### Fedora / CentOS
+
+```bash
+# Download .rpm packages
+
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-runtime.rpm
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.4.0/open-space-toolkit-astrodynamics-0.4.0-1.x86_64-devel.rpm
+
+# Install .rpm packages
+
+dnf install -y open-space-toolkit-astrodynamics-0.4.0-*.rpm
+```
+
+### Python
+
+The binary packages are hosted on [PyPI](https://pypi.org/project/open-space-toolkit-astrodynamics/):
+
+```bash
+pip install open-space-toolkit-astrodynamics
+```
+
+## Getting Started
+
+Want to quickly get started? It's pretty simple.
+
+Install [Docker](https://www.docker.com/) and try this:
+
+```bash
+docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
+```
+
+This will start an [iPython](https://ipython.org/) shell within a container where the OSTk Astrodynamics component is already installed.
+
+Once the shell is up and running, playing with it is easy:
+
+```py
+from ostk.physics import Environment
+from ostk.physics.time import Instant
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import SGP4
+from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+
+tle = TLE(
+    '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
+    '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
+) # Construct Two-Line Element set
+
+earth = Environment.default().access_celestial_object_with_name('Earth') # Access Earth model
+
+orbit = Orbit(SGP4(tle), earth) # Construct orbit using SGP4 model
+
+orbit.get_state_at(Instant.now()) # Compute and display current satellite state (position, velocity)
+```
+
+*Tip: Use tab for auto-completion!*
 
 ## Structure
 
@@ -48,82 +118,79 @@ The **Astrodynamics** library exhibits the following structure:
 
 ## Documentation
 
-The documentation can be found here:
+Documentation is available here:
 
-- [C++](https://open-space-collective.github.io/library-astrodynamics)
+- [C++](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
 - [Python](./bindings/python/docs)
 
 ## Tutorials
 
-Various tutorials are available here:
+Tutorials are available here:
 
 - [C++](./tutorials/cpp)
 - [Python](./tutorials/python)
 
 ## Setup
 
-### Development
+### Development Environment
 
-Using [Docker](https://www.docker.com) is recommended, as the development tools and dependencies setup is described in the provided [Dockerfile](./tools/development/docker/Dockerfile).
+Using [Docker](https://www.docker.com) for development is recommended, to simplify the installation of the necessary build tools and dependencies.
+Instructions on how to install Docker are available [here](https://docs.docker.com/install/).
 
-Instructions to install Docker can be found [here](https://docs.docker.com/install/).
-
-Start the development environment:
+To start the development environment:
 
 ```bash
-./tools/development/start.sh
+make start-development
 ```
 
-This will also build the `openspacecollective/library-astrodynamics:latest` Docker image, if not present already.
+This will:
 
-If installing Docker is not an option, please manually install the development tools (GCC, CMake) and the dependencies.
-The procedure should be similar to the one described in the [Dockerfile](./tools/development/docker/Dockerfile).
+1. Build the `openspacecollective/open-space-toolkit-astrodynamics-development` Docker image.
+2. Create a development environment container with local source files and helper scripts mounted.
+3. Start a `bash` shell from the `./build` working directory.
+
+If installing Docker is not an option, you can manually install the development tools (GCC, CMake) and all required dependencies,
+by following a procedure similar to the one described in the [Development Dockerfile](./docker/development/Dockerfile).
 
 ### Build
 
-From the development environment:
+From the `./build` directory:
 
 ```bash
-./build.sh
-```
-
-Manually:
-
-```bash
-mkdir -p build
-cd build
 cmake ..
 make
 ```
 
+*Tip: `helpers/build.sh` simplifies building from within the development environment.*
+
 ### Test
 
-From the development environment:
+To start a container to build and run the tests:
 
 ```bash
-./test.sh
+make test
 ```
 
-Manually:
+Or to run them manually:
 
 ```bash
-./bin/library-astrodynamics.test
+./bin/open-space-toolkit-astrodynamics.test
 ```
+
+*Tip: `helpers/test.sh` simplifies running tests from within the development environment.*
 
 ## Dependencies
 
-The **Astrodynamics** library internally uses the following dependencies:
-
-| Name        | Version | License                | Link                                                                                                                 |
-|-------------|---------|------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Boost       | 1.67.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                   |
-| Eigen       | 3.3.4   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                          |
-| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                             |
-| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                       |
-| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/library-core](https://github.com/open-space-collective/library-core)               |
-| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/library-io](https://github.com/open-space-collective/library-io)                   |
-| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/library-mathematics](https://github.com/open-space-collective/library-mathematics) |
-| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/library-physics](https://github.com/open-space-collective/library-physics)         |
+| Name        | Version | License                | Link                                                                                                                                       |
+|-------------|---------|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                                         |
+| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
+| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
+| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
+| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
+| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
 ## Contribution
 

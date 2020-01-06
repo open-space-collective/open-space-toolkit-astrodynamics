@@ -1,21 +1,8 @@
 var NAVTREE =
 [
-  [ "LibraryAstrodynamics", "index.html", [
-    [ "Library ▸ Astrodynamics", "index.html", null ],
-    [ "Contributing", "md__c_o_n_t_r_i_b_u_t_i_n_g.html", [
-      [ "Introduction", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Introduction", null ],
-      [ "Guidelines", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Guidelines", [
-        [ "Codebase", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Codebase", [
-          [ "C++", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#C", null ],
-          [ "Python", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Python", null ]
-        ] ],
-        [ "Version Control", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Version", [
-          [ "Rules", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Rules", null ],
-          [ "Commit Messages", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Commit", null ]
-        ] ]
-      ] ],
-      [ "Code of Conduct", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#CodeOfConduct", null ]
-    ] ],
+  [ "OpenSpaceToolkitAstrodynamics", "index.html", [
+    [ "Open Space Toolkit ▸ Astrodynamics", "index.html", null ],
+    [ "Contributing", "md__c_o_n_t_r_i_b_u_t_i_n_g.html", null ],
     [ "Tutorial", "md_docs__tutorial.html", [
       [ "Setup", "md_docs__tutorial.html#Setup", null ],
       [ "Examples", "md_docs__tutorial.html#Examples", null ]
@@ -48,7 +35,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_access_8cpp.html",
-"classlibrary_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ae0ff0630d4ad5cd97aa3efbc8c8f368baec0fc0100c4fc1ce4eea230c3dc10360"
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#af25e2c67077dbe78999af64bae0a6f83"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
