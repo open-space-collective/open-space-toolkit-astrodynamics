@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 

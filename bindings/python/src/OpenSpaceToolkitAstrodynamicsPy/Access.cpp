@@ -7,8 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 

@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 

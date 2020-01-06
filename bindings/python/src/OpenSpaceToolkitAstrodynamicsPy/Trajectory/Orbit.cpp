@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>

@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 
