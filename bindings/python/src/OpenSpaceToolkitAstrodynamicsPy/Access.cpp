@@ -31,19 +31,19 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Access::isDefined)
-        .def("isComplete", &Access::isComplete)
+        .def("is_defined", &Access::isDefined)
+        .def("is_complete", &Access::isComplete)
 
-        .def("getType", &Access::getType)
-        .def("getAcquisitionOfSignal", &Access::getAcquisitionOfSignal)
-        .def("getTimeOfClosestApproach", &Access::getTimeOfClosestApproach)
-        .def("getLossOfSignal", &Access::getLossOfSignal)
-        .def("getInterval", &Access::getInterval)
-        .def("getDuration", &Access::getDuration)
+        .def("get_type", &Access::getType)
+        .def("get_acquisition_of_signal", &Access::getAcquisitionOfSignal)
+        .def("get_time_of_closest_approach", &Access::getTimeOfClosestApproach)
+        .def("get_loss_of_signal", &Access::getLossOfSignal)
+        .def("get_interval", &Access::getInterval)
+        .def("get_duration", &Access::getDuration)
 
-        .def("Undefined", &Access::Undefined).staticmethod("Undefined")
+        .def("undefined", &Access::Undefined).staticmethod("undefined")
 
-        .def("StringFromType", &Access::StringFromType).staticmethod("StringFromType")
+        .def("string_from_type", &Access::StringFromType).staticmethod("string_from_type")
 
     ;
 

@@ -37,15 +37,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Profile::isDefined)
+        .def("is_defined", &Profile::isDefined)
 
-        .def("getStateAt", &Profile::getStateAt)
-        .def("getStatesAt", &Profile::getStatesAt)
-        .def("getAxesAt", &Profile::getAxesAt)
+        .def("get_state_at", &Profile::getStateAt)
+        .def("get_states_at", &Profile::getStatesAt)
+        .def("get_axes_at", &Profile::getAxesAt)
 
-        .def("Undefined", &Profile::Undefined).staticmethod("Undefined")
-        .def("InertialPointing", &Profile::InertialPointing).staticmethod("InertialPointing")
-        .def("NadirPointing", &Profile::NadirPointing).staticmethod("NadirPointing")
+        .def("undefined", &Profile::Undefined).staticmethod("undefined")
+        .def("inertial_pointing", &Profile::InertialPointing).staticmethod("inertial_pointing")
+        .def("nadir_pointing", &Profile::NadirPointing).staticmethod("nadir_pointing")
 
     ;
 

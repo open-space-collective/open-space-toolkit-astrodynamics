@@ -30,13 +30,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &SGP4::isDefined)
+        .def("is_defined", &SGP4::isDefined)
 
-        .def("getTle", &SGP4::getTle)
-        .def("getEpoch", &SGP4::getEpoch)
-        .def("getRevolutionNumberAtEpoch", &SGP4::getRevolutionNumberAtEpoch)
-        .def("calculateStateAt", &SGP4::calculateStateAt)
-        .def("calculateRevolutionNumberAt", &SGP4::calculateRevolutionNumberAt)
+        .def("get_tle", &SGP4::getTle)
+        .def("get_epoch", &SGP4::getEpoch)
+        .def("get_revolution_number_at_epoch", &SGP4::getRevolutionNumberAtEpoch)
+        .def("calculate_state_at", &SGP4::calculateStateAt)
+        .def("calculate_revolution_number_at", &SGP4::calculateRevolutionNumberAt)
 
     ;
 

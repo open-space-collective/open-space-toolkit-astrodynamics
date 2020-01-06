@@ -31,18 +31,18 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         .def(self_ns::str(self_ns::self))
 
-        .def("isDefined", &Model::isDefined)
+        .def("is_defined", &Model::isDefined)
 
-        .def("isKepler", +[] (const Model& aModel) -> bool { return aModel.is<Kepler>() ; })
-        .def("isSGP4", +[] (const Model& aModel) -> bool { return aModel.is<SGP4>() ; })
+        .def("is_kepler", +[] (const Model& aModel) -> bool { return aModel.is<Kepler>() ; })
+        .def("is_sgp4", +[] (const Model& aModel) -> bool { return aModel.is<SGP4>() ; })
 
-        .def("asKepler", +[] (const Model& aModel) -> const Kepler& { return aModel.as<Kepler>() ; }, return_value_policy<reference_existing_object>())
-        .def("asSGP4", +[] (const Model& aModel) -> const SGP4& { return aModel.as<SGP4>() ; }, return_value_policy<reference_existing_object>())
+        .def("as_kepler", +[] (const Model& aModel) -> const Kepler& { return aModel.as<Kepler>() ; }, return_value_policy<reference_existing_object>())
+        .def("as_sgp4", +[] (const Model& aModel) -> const SGP4& { return aModel.as<SGP4>() ; }, return_value_policy<reference_existing_object>())
 
-        .def("getEpoch", &Model::getEpoch)
-        .def("getRevolutionNumberAtEpoch", &Model::getRevolutionNumberAtEpoch)
-        .def("calculateStateAt", &Model::calculateStateAt)
-        .def("calculateRevolutionNumberAt", &Model::calculateRevolutionNumberAt)
+        .def("get_epoch", &Model::getEpoch)
+        .def("get_revolution_number_at_epoch", &Model::getRevolutionNumberAtEpoch)
+        .def("calculate_state_at", &Model::calculateStateAt)
+        .def("calculate_revolution_number_at", &Model::calculateRevolutionNumberAt)
 
     ;
 

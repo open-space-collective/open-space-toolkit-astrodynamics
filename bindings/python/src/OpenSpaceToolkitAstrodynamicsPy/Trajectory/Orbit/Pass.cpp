@@ -30,17 +30,17 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &Pass::isDefined)
-        .def("isComplete", &Pass::isComplete)
+        .def("is_defined", &Pass::isDefined)
+        .def("is_complete", &Pass::isComplete)
 
-        .def("getType", &Pass::getType)
-        .def("getRevolutionNumber", &Pass::getRevolutionNumber)
-        .def("getInterval", &Pass::getInterval)
+        .def("get_type", &Pass::getType)
+        .def("get_revolution_number", &Pass::getRevolutionNumber)
+        .def("get_interval", &Pass::getInterval)
 
-        .def("Undefined", &Pass::Undefined).staticmethod("Undefined")
-        .def("StringFromType", &Pass::StringFromType).staticmethod("StringFromType")
-        .def("StringFromPhase", &Pass::StringFromPhase).staticmethod("StringFromPhase")
-        .def("StringFromQuarter", &Pass::StringFromQuarter).staticmethod("StringFromQuarter")
+        .def("undefined", &Pass::Undefined).staticmethod("undefined")
+        .def("string_from_type", &Pass::StringFromType).staticmethod("string_from_type")
+        .def("string_from_phase", &Pass::StringFromPhase).staticmethod("string_from_phase")
+        .def("string_from_quarter", &Pass::StringFromQuarter).staticmethod("string_from_quarter")
 
     ;
 

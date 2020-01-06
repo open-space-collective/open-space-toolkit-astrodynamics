@@ -36,17 +36,17 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
         .def(self_ns::str(self_ns::self))
         .def(self_ns::repr(self_ns::self))
 
-        .def("isDefined", &State::isDefined)
+        .def("is_defined", &State::isDefined)
 
-        .def("getInstant", &State::getInstant)
-        .def("getPosition", &State::getPosition)
-        .def("getVelocity", &State::getVelocity)
-        .def("getAttitude", &State::getAttitude)
-        .def("getAngularVelocity", &State::getAngularVelocity)
-        .def("getFrame", &State::getFrame)
-        .def("inFrame", &State::inFrame)
+        .def("get_instant", &State::getInstant)
+        .def("get_position", &State::getPosition)
+        .def("get_velocity", &State::getVelocity)
+        .def("get_attitude", &State::getAttitude)
+        .def("get_angular_velocity", &State::getAngularVelocity)
+        .def("get_frame", &State::getFrame)
+        .def("in_frame", &State::inFrame)
 
-        .def("Undefined", &State::Undefined).staticmethod("Undefined")
+        .def("undefined", &State::Undefined).staticmethod("undefined")
 
     ;
 
