@@ -1,7 +1,5 @@
 # Open Space Toolkit ▸ Astrodynamics
 
-Orbit, attitude, access.
-
 [![Build Status](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics)
 [![Code Coverage](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics)
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
@@ -9,11 +7,90 @@ Orbit, attitude, access.
 [![PyPI version](https://badge.fury.io/py/open-space-toolkit-astrodynamics.svg)](https://badge.fury.io/py/open-space-toolkit-astrodynamics)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+Orbit, attitude, access.
+
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
 ## Warning
 
 *⚠ This component is under development.*
+
+## Installation
+
+### C++
+
+The binary packages are hosted using [GitHub Releases](https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases).
+
+*Note: Don't forget to set the desired version number in the URLs!*
+
+#### Debian / Ubuntu
+
+```bash
+# Download .deb packages
+
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.deb
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.deb
+
+# Install .deb packages
+
+apt install -y open-space-toolkit-astrodynamics-0.3.0-*.deb
+```
+
+#### Fedora / CentOS
+
+```bash
+# Download .rpm packages
+
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.rpm
+wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.rpm
+
+# Install .rpm packages
+
+dnf install -y open-space-toolkit-astrodynamics-0.3.0-*.rpm
+```
+
+### Python
+
+The binary packages are hosted on [PyPI](https://pypi.org/project/open-space-toolkit-astrodynamics/):
+
+```bash
+pip install open-space-toolkit-astrodynamics
+```
+
+## Getting Started
+
+Want to quickly get started? It's pretty simple.
+
+Install [Docker](https://www.docker.com/) and try this:
+
+```bash
+docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
+```
+
+This will start an [iPython](https://ipython.org/) shell within a container where the OSTk Astrodynamics component is already installed.
+
+Once the shell is up and running, playing with it is easy:
+
+```py
+from ostk.physics import Environment
+from ostk.physics.time import Instant
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import SGP4
+from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
+
+tle = TLE(
+    '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
+    '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
+) # Construct Two-Line Element set
+
+earth = Environment.default().access_celestial_object_with_name('Earth') # Access Earth model
+
+orbit = Orbit(SGP4(tle), earth) # Construct orbit using SGP4 model
+
+orbit.get_state_at(Instant.now()) # Compute and display current satellite state (position, velocity)
+```
+
+*Tip: Use tab for auto-completion!*
 
 ## Structure
 
