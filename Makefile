@@ -25,6 +25,11 @@ export docker_release_image_jupyter_repository := $(docker_image_repository)-jup
 export jupyter_notebook_image_repository := jupyter/scipy-notebook:latest
 export jupyter_notebook_port := 9005
 
+export open_space_toolkit_core_version := 0.3.2
+export open_space_toolkit_io_version := 0.3.2
+export open_space_toolkit_mathematics_version := 0.3.1
+export open_space_toolkit_physics_version := 0.4.2
+
 export open_space_toolkit_core_directory := $(project_directory)/../open-space-toolkit-core
 export open_space_toolkit_io_directory := $(project_directory)/../open-space-toolkit-io
 export open_space_toolkit_mathematics_directory := $(project_directory)/../open-space-toolkit-mathematics
@@ -104,6 +109,10 @@ _build-development-image: _pull-development-image
 	--tag=$(docker_development_image_repository):latest-$(target) \
 	--build-arg="BASE_IMAGE_VERSION=$(development_base_image_version)" \
 	--build-arg="VERSION=$(docker_image_version)" \
+	--build-arg="OSTK_CORE_VERSION=$(open_space_toolkit_core_version)" \
+	--build-arg="OSTK_IO_VERSION=$(open_space_toolkit_io_version)" \
+	--build-arg="OSTK_MATHEMATICS_VERSION=$(open_space_toolkit_mathematics_version)" \
+	--build-arg="OSTK_PHYSICS_VERSION=$(open_space_toolkit_physics_version)" \
 	"$(project_directory)"
 
 pull-release-images:

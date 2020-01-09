@@ -76,39 +76,47 @@ RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /t
  && make install \
  && rm -rf /tmp/nlopt
 
-## Open Space Toolkit ▸ Core [0.3.0]
+## Open Space Toolkit ▸ Core
+
+ARG OSTK_CORE_VERSION=0.3.2
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/0.3.0/open-space-toolkit-core-0.3.0-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/0.3.0/open-space-toolkit-core-0.3.0-1.x86_64-devel.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-core
 
-## Open Space Toolkit ▸ I/O [0.3.0]
+## Open Space Toolkit ▸ I/O
+
+ARG OSTK_IO_VERSION=0.3.2
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/0.3.0/open-space-toolkit-io-0.3.0-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/0.3.0/open-space-toolkit-io-0.3.0-1.x86_64-devel.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-io
 
-## Open Space Toolkit ▸ Mathematics [0.3.0]
+## Open Space Toolkit ▸ Mathematics
+
+ARG OSTK_MATHEMATICS_VERSION=0.3.1
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/0.3.0/open-space-toolkit-mathematics-0.3.0-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/0.3.0/open-space-toolkit-mathematics-0.3.0-1.x86_64-devel.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-mathematics
 
-## Open Space Toolkit ▸ Physics [0.4.0]
+## Open Space Toolkit ▸ Physics
+
+ARG OSTK_PHYSICS_VERSION=0.4.2
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/0.4.0/open-space-toolkit-physics-0.4.0-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/0.4.0/open-space-toolkit-physics-0.4.0-1.x86_64-devel.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-physics
 
