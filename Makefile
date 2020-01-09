@@ -28,11 +28,12 @@ export jupyter_notebook_port := 9005
 export open_space_toolkit_core_directory := $(project_directory)/../open-space-toolkit-core
 export open_space_toolkit_io_directory := $(project_directory)/../open-space-toolkit-io
 export open_space_toolkit_mathematics_directory := $(project_directory)/../open-space-toolkit-mathematics
+export open_space_toolkit_physics_directory := $(project_directory)/../open-space-toolkit-physics
 
-export LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY := /app/share/coordinate/frame/providers/iers
-export LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY := /app/share/environment/ephemerides/spice
-export LIBRARY_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY := /app/share/environment/gravitational/earth
-export LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY := /app/share/environment/magnetic/earth
+export OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY := /app/share/coordinate/frame/providers/iers
+export OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY := /app/share/environment/ephemerides/spice
+export OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY := /app/share/environment/gravitational/earth
+export OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY := /app/share/environment/magnetic/earth
 
 export ci_build_number := $(TRAVIS_BUILD_NUMBER)
 export ci_commit := $(TRAVIS_COMMIT)
@@ -453,10 +454,10 @@ _test-unit-cpp: _build-development-image
 	--volume="$(project_directory):/app:delegated" \
 	--volume="/app/build" \
 	--workdir=/app/build \
-	--env=LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
 	$(docker_development_image_repository):$(docker_image_version)-$(target) \
 	/bin/bash -c "cmake -DBUILD_UNIT_TESTS=ON .. && make -j 4 && make test"
 
@@ -474,10 +475,10 @@ _test-unit-python: _build-release-image-python
 	--workdir=/usr/local/lib/python3.7/site-packages/ostk/astrodynamics \
 	--entrypoint="" \
 	--volume="$(project_directory)/share:/app/share" \
-	--env=LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
 	$(docker_release_image_python_repository):$(docker_image_version)-$(target) \
 	/bin/bash -c "pip install pytest && pytest -sv ."
 
@@ -507,10 +508,10 @@ _test-coverage-cpp: _build-development-image
 	--volume="$(project_directory):/app:delegated" \
 	--volume="/app/build" \
 	--workdir=/app/build \
-	--env=LIBRARY_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
-	--env=LIBRARY_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY \
+	--env=OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY \
 	$(docker_development_image_repository):$(docker_image_version)-$(target) \
 	/bin/bash -c "cmake -DBUILD_CODE_COVERAGE=ON .. && make -j 4 && make coverage && (rm -rf /app/coverage || true) && mkdir /app/coverage && mv /app/build/coverage* /app/coverage"
 
