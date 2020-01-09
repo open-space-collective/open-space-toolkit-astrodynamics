@@ -33,47 +33,57 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     using ostk::astro::trajectory::orbit::models::Kepler ;
     using ostk::astro::trajectory::orbit::models::SGP4 ;
 
-    scope in_Orbit = class_<Orbit, bases<ostk::astro::Trajectory>>("Orbit", init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
+    {
 
-        .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
+        scope in_Orbit = class_<Orbit, bases<ostk::astro::Trajectory>>("Orbit", init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
 
-        .def(self == self)
-        .def(self != self)
+            .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+            .def(self == self)
+            .def(self != self)
 
-        .def("is_defined", &Orbit::isDefined)
+            .def(self_ns::str(self_ns::self))
+            .def(self_ns::repr(self_ns::self))
 
-        .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
-        .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
-        .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+            .def("is_defined", &Orbit::isDefined)
 
-        .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt)
-        .def("get_pass_at", &Orbit::getPassAt)
-        .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber)
-        .def("get_orbital_frame", &Orbit::getOrbitalFrame)
+            .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
+            .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+            .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
 
-        .def("undefined", &Orbit::Undefined).staticmethod("undefined")
-        .def("circular", &Orbit::Circular).staticmethod("circular")
-        .def("equatorial", &Orbit::Equatorial).staticmethod("equatorial")
-        .def("circular_equatorial", &Orbit::CircularEquatorial).staticmethod("circular_equatorial")
-        .def("sun_synchronous", &Orbit::SunSynchronous).staticmethod("sun_synchronous")
+            .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt)
+            .def("get_pass_at", &Orbit::getPassAt)
+            .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber)
+            .def("get_orbital_frame", &Orbit::getOrbitalFrame)
 
-    ;
+            .def("undefined", &Orbit::Undefined).staticmethod("undefined")
+            .def("circular", &Orbit::Circular).staticmethod("circular")
+            .def("equatorial", &Orbit::Equatorial).staticmethod("equatorial")
+            .def("circular_equatorial", &Orbit::CircularEquatorial).staticmethod("circular_equatorial")
+            .def("sun_synchronous", &Orbit::SunSynchronous).staticmethod("sun_synchronous")
 
-    enum_<Orbit::FrameType>("FrameType")
+        ;
 
-        .value("Undefined", Orbit::FrameType::Undefined)
-        .value("NED", Orbit::FrameType::NED)
-        .value("LVLH", Orbit::FrameType::LVLH)
-        .value("LVLHGD", Orbit::FrameType::LVLHGD)
-        .value("VVLH", Orbit::FrameType::VVLH)
-        .value("QSW", Orbit::FrameType::QSW)
-        .value("TNW", Orbit::FrameType::TNW)
-        .value("VNC", Orbit::FrameType::VNC)
+        enum_<Orbit::FrameType>("FrameType")
 
-    ;
+            .value("Undefined", Orbit::FrameType::Undefined)
+            .value("NED", Orbit::FrameType::NED)
+            .value("LVLH", Orbit::FrameType::LVLH)
+            .value("LVLHGD", Orbit::FrameType::LVLHGD)
+            .value("VVLH", Orbit::FrameType::VVLH)
+            .value("QSW", Orbit::FrameType::QSW)
+            .value("TNW", Orbit::FrameType::TNW)
+            .value("VNC", Orbit::FrameType::VNC)
+
+        ;
+
+    }
+
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory.orbit")))) ;
+
+    boost::python::scope().attr("orbit") = module ;
+
+    boost::python::scope scope = module ;
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model() ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models() ;

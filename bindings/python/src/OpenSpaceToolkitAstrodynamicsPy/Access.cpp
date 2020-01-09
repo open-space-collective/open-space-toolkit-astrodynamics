@@ -23,46 +23,56 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
 
     using ostk::astro::Access ;
 
-    scope in_Access = class_<Access>("Access", init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
+    {
 
-        .def(self == self)
-        .def(self != self)
+        scope in_Access = class_<Access>("Access", init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+            .def(self == self)
+            .def(self != self)
 
-        .def("is_defined", &Access::isDefined)
-        .def("is_complete", &Access::isComplete)
+            .def(self_ns::str(self_ns::self))
+            .def(self_ns::repr(self_ns::self))
 
-        .def("get_type", &Access::getType)
-        .def("get_acquisition_of_signal", &Access::getAcquisitionOfSignal)
-        .def("get_time_of_closest_approach", &Access::getTimeOfClosestApproach)
-        .def("get_loss_of_signal", &Access::getLossOfSignal)
-        .def("get_interval", &Access::getInterval)
-        .def("get_duration", &Access::getDuration)
+            .def("is_defined", &Access::isDefined)
+            .def("is_complete", &Access::isComplete)
 
-        .def("undefined", &Access::Undefined).staticmethod("undefined")
+            .def("get_type", &Access::getType)
+            .def("get_acquisition_of_signal", &Access::getAcquisitionOfSignal)
+            .def("get_time_of_closest_approach", &Access::getTimeOfClosestApproach)
+            .def("get_loss_of_signal", &Access::getLossOfSignal)
+            .def("get_interval", &Access::getInterval)
+            .def("get_duration", &Access::getDuration)
 
-        .def("string_from_type", &Access::StringFromType).staticmethod("string_from_type")
+            .def("undefined", &Access::Undefined).staticmethod("undefined")
 
-    ;
+            .def("string_from_type", &Access::StringFromType).staticmethod("string_from_type")
 
-    enum_<Access::Type>("Type")
+        ;
 
-        .value("Undefined", Access::Type::Undefined)
-        .value("Complete", Access::Type::Complete)
-        .value("Partial", Access::Type::Partial)
+        enum_<Access::Type>("Type")
 
-    ;
+            .value("Undefined", Access::Type::Undefined)
+            .value("Complete", Access::Type::Complete)
+            .value("Partial", Access::Type::Partial)
 
-    using ostk::core::ctnr::Array ;
+        ;
 
-    IterableConverter()
+        using ostk::core::ctnr::Array ;
 
-        .from_python<Array<Access>>()
-        .to_python<Array<Access>>()
+        IterableConverter()
 
-    ;
+            .from_python<Array<Access>>()
+            .to_python<Array<Access>>()
+
+        ;
+
+    }
+
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.access")))) ;
+
+    boost::python::scope().attr("access") = module ;
+
+    boost::python::scope scope = module ;
 
     OpenSpaceToolkitAstrodynamicsPy_Access_Generator() ;
 

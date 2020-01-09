@@ -27,7 +27,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
     using ostk::astro::flight::Profile ;
     using ostk::astro::flight::profile::State ;
 
-    scope in_Profile = class_<Profile>("Profile", init<const DynamicProvider&, const Shared<const Frame>&>())
+    class_<Profile>("Profile", init<const DynamicProvider&, const Shared<const Frame>&>())
 
         // .def(init<const Array<State>&>())
 
@@ -48,6 +48,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         .def("nadir_pointing", &Profile::NadirPointing).staticmethod("nadir_pointing")
 
     ;
+
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.flight.profile")))) ;
+
+    boost::python::scope().attr("profile") = module ;
+
+    boost::python::scope scope = module ;
 
     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State() ;
 

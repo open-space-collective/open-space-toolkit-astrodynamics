@@ -25,7 +25,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  ( )
     using ostk::astro::Trajectory ;
     using ostk::astro::trajectory::State ;
 
-    scope in_Trajectory = class_<Trajectory>("Trajectory", init<const ostk::astro::trajectory::Model&>())
+    class_<Trajectory>("Trajectory", init<const ostk::astro::trajectory::Model&>())
 
         .def(init<const Array<State>&>())
 
@@ -46,6 +46,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  ( )
         .def("position", &Trajectory::Position).staticmethod("position")
 
     ;
+
+    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory")))) ;
+
+    boost::python::scope().attr("trajectory") = module ;
+
+    boost::python::scope scope = module ;
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State() ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit() ;
