@@ -18,7 +18,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
 
     using ostk::astro::trajectory::Model ;
 
-    scope in_Model = class_<Model, boost::noncopyable>("TrajectoryModel", no_init)
+    scope in_Model = class_<Model, boost::noncopyable>("Model", no_init)
 
         .def(self == self)
         .def(self != self)
