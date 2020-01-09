@@ -24,7 +24,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>, boost::noncopyable>("OrbitModel", no_init)
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>>("OrbitModel", no_init)
-    scope in_Model = class_<Model, boost::noncopyable>("OrbitModel", no_init)
+    scope in_Model = class_<Model, boost::noncopyable>("Model", no_init)
 
         .def(self == self)
         .def(self != self)
