@@ -22,6 +22,7 @@ var classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e =
     [ "getSatelliteName", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a3cd38e40cec168239029eeec5bc57c23", null ],
     [ "getSatelliteNumber", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a63c9241a31234dd07ee4ca4424a9df5f", null ],
     [ "getSecondLine", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a6f1f60f662a1891ce93576344989502a", null ],
+    [ "getSecondLineChecksum", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a66f25eab1f7e8f7e511ad0a77da90de7", null ],
     [ "isDefined", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aa7fa1003a2b03fb7f3829bfdd342942f", null ],
     [ "operator!=", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a3b15abd9b07fb2a0851b680fe23da8f6", null ],
     [ "operator==", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a415bc7b3671eaa616dfd9e82f9fb9520", null ],
