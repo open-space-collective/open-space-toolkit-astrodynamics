@@ -100,21 +100,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Circular Equatorial Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Equatorial Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Equatorial Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
@@ -122,21 +122,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Circular Inclined Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Inclined Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Inclined Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
@@ -144,21 +144,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Circular Polar Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Polar Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Circular Polar Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/CircularPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
@@ -166,21 +166,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Elliptical Equatorial Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Equatorial Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Equatorial Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalEquatorialOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
@@ -188,21 +188,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Elliptical Inclined Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Inclined Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Inclined Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
@@ -210,21 +210,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_1)
             {
                 "Elliptical Polar Orbit - Runge-Kutta 4",
                 Solver::RungeKutta4(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Polar Orbit - Runge-Kutta Dormand-Prince 5",
                 Solver::RungeKuttaDormandPrince5(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             },
             {
                 "Elliptical Polar Orbit - Runge-Kutta Fehlberg 78",
                 Solver::RungeKuttaFehlberg78(1e-16, 1e-16),
-                File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator/Test_1/EllipticalPolarOrbit t_UTC x_GCRF v_GCRF rev.csv")),
                 1e-4, // [m]
                 1e-7 // [m/s]
             }

@@ -28,7 +28,7 @@ export jupyter_notebook_port := 9005
 export open_space_toolkit_core_version := 0.3.2
 export open_space_toolkit_io_version := 0.3.2
 export open_space_toolkit_mathematics_version := 0.3.1
-export open_space_toolkit_physics_version := 0.4.5
+export open_space_toolkit_physics_version := 0.4.4
 
 export open_space_toolkit_core_directory := $(project_directory)/../open-space-toolkit-core
 export open_space_toolkit_io_directory := $(project_directory)/../open-space-toolkit-io

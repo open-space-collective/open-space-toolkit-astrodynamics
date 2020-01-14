@@ -92,8 +92,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Determination_BatchLeastSq
 
         const Environment environment = Environment::Default() ;
 
-        const File configurationFile = File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Determination/BatchLeastSquares/Test_1/Configuration.json")) ;
-        const File referenceDataFile = File::Path(Path::Parse("../test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Determination/BatchLeastSquares/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")) ;
+        const File configurationFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Determination/BatchLeastSquares/Test_1/Configuration.json")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Determination/BatchLeastSquares/Test_1/EllipticalInclinedOrbit t_UTC x_GCRF v_GCRF rev.csv")) ;
 
         const Object configurationObject = Object::Load(configurationFile, Object::Format::JSON) ;
         const Table referenceDataTable = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
