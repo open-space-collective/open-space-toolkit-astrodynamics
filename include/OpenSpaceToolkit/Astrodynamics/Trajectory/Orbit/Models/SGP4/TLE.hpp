@@ -272,6 +272,12 @@ class TLE
 
         Integer                 getRevolutionNumberAtEpoch                  ( ) const ;
 
+        /// @brief              Get checksum of second line
+        ///
+        /// @return             Checksum of second line
+
+        Integer                 getSecondLineChecksum                       ( ) const ;
+
         /// @brief              Constructs an undefined TLE
         ///
         /// @code

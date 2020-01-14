@@ -356,13 +356,25 @@ Integer                         TLE::getRevolutionNumberAtEpoch             ( ) 
         throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
-    return Integer::Parse(secondLine_.getSubstring(63, 5)) ;
+    return Integer::Parse(secondLine_.getSubstring(63, 5).trim()) ;
+
+}
+
+Integer                         TLE::getSecondLineChecksum                  ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+    return Integer::Parse(secondLine_.getSubstring(68, 1)) ;
 
 }
 
 TLE                             TLE::Undefined                              ( )
 {
-    return TLE(String::Empty(), String::Empty(), String::Empty()) ;
+    return { String::Empty(), String::Empty(), String::Empty() } ;
 }
 
 bool                            TLE::CanParse                               (   const   String&                     aString                                     )
@@ -461,11 +473,11 @@ TLE                             TLE::Parse                                  (   
 
     if (lines.getSize() == 2)
     {
-        return TLE(lines.at(0), lines.at(1)) ;
+        return TLE { lines.at(0), lines.at(1) } ;
     }
     else if (lines.getSize() >= 3)
     {
-        return TLE(lines.at(0), lines.at(1), lines.at(2)) ;
+        return TLE { lines.at(0), lines.at(1), lines.at(2) } ;
     }
 
     throw ostk::core::error::runtime::Wrong("String", aString) ;

@@ -9,6 +9,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
+#include <sstream>
+
 #include <Global.test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -401,6 +403,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstL
 
     {
 
+        const String firstLine = "1 43020U 98067NH  20013.27161098  .00059259  00000-0  26371-3 0  9991" ;
+        const String secondLine = "2 43020  51.6414 326.1073 0001865 145.5478 214.5646 15.83723373122744" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(1, tle.getFirstLineChecksum()) ;
+
+    }
+
+    {
+
         EXPECT_ANY_THROW(TLE::Undefined().getFirstLineChecksum()) ;
 
     }
@@ -601,6 +614,43 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolu
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getSecondLineChecksum)
+{
+
+    using ostk::core::types::String ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 43020U 98067NH  20013.27161098  .00059259  00000-0  26371-3 0  9991" ;
+        const String secondLine = "2 43020  51.6414 326.1073 0001865 145.5478 214.5646 15.83723373122744" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(4, tle.getSecondLineChecksum()) ;
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(TLE::Undefined().getSecondLineChecksum()) ;
+
+    }
+
+}
+
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 {
 
@@ -618,7 +668,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 {
 
+    using ostk::core::types::Integer ;
     using ostk::core::types::String ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
@@ -683,12 +736,63 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 
     }
 
+    {
+
+        const File activeTlesFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")) ;
+
+        const String allTles = activeTlesFile.getContents() ;
+
+        std::istringstream allTlesStream { allTles } ;
+
+        String satelliteName = String::Empty() ;
+        String firstLine = String::Empty() ;
+        String secondLine = String::Empty() ;
+
+        Integer count = 0 ;
+
+        String line ;
+
+        while (std::getline(allTlesStream, line))
+        {
+
+            if (satelliteName.isEmpty())
+            {
+                satelliteName = line ;
+            }
+            else if (firstLine.isEmpty())
+            {
+                firstLine = line ;
+            }
+            else
+            {
+
+                secondLine = line ;
+
+                EXPECT_TRUE(TLE::CanParse(firstLine, secondLine)) ;
+
+                satelliteName = String::Empty() ;
+                firstLine = String::Empty() ;
+                secondLine = String::Empty() ;
+
+                count++ ;
+
+            }
+
+        }
+
+        EXPECT_EQ(2458, count) ;
+
+    }
+
 }
 
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
 {
 
+    using ostk::core::types::Integer ;
     using ostk::core::types::String ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
     using ostk::physics::units::Time ;
     using ostk::physics::units::Angle ;
@@ -718,6 +822,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
         EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
 
     }
 
@@ -743,6 +848,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
         EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
 
     }
 
@@ -777,6 +883,60 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_ANY_THROW(TLE::Parse("Hello World!")) ;
         EXPECT_ANY_THROW(TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2926\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537")) ;
         EXPECT_ANY_THROW(TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563538")) ;
+
+    }
+
+    {
+
+        const File activeTlesFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")) ;
+
+        const String allTles = activeTlesFile.getContents() ;
+
+        std::istringstream allTlesStream { allTles } ;
+
+        String satelliteName = String::Empty() ;
+        String firstLine = String::Empty() ;
+        String secondLine = String::Empty() ;
+
+        Integer count = 0 ;
+
+        String line ;
+
+        while (std::getline(allTlesStream, line))
+        {
+
+            if (satelliteName.isEmpty())
+            {
+                satelliteName = line ;
+            }
+            else if (firstLine.isEmpty())
+            {
+                firstLine = line ;
+            }
+            else
+            {
+
+                secondLine = line ;
+
+                const String tleString = String::Format("{}\n{}\n{}\n", satelliteName, firstLine, secondLine) ;
+
+                const TLE tle = TLE::Parse(tleString) ;
+
+                EXPECT_EQ(satelliteName, tle.getSatelliteName()) ;
+                EXPECT_EQ(firstLine, tle.getFirstLine()) ;
+                EXPECT_EQ(secondLine, tle.getSecondLine()) ;
+
+                satelliteName = String::Empty() ;
+                firstLine = String::Empty() ;
+                secondLine = String::Empty() ;
+
+                count++ ;
+
+            }
+
+        }
+
+        EXPECT_EQ(2458, count) ;
 
     }
 
@@ -842,6 +1002,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
         EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
 
     }
 
@@ -867,6 +1028,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly()) ;
         EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)), tle.getMeanMotion()) ;
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
 
     }
 

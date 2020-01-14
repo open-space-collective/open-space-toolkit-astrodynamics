@@ -52,6 +52,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_mean_anomaly", &TLE::getMeanAnomaly)
         .def("get_mean_motion", &TLE::getMeanMotion)
         .def("get_revolution_number_at_epoch", &TLE::getRevolutionNumberAtEpoch)
+        .def("get_second_line_checksum", &TLE::getSecondLineChecksum)
 
         .def("undefined", &TLE::Undefined).staticmethod("undefined")
         .def("can_parse", +[] (const String& aFirstLine, const String& aSecondLine) -> bool { return TLE::CanParse(aFirstLine, aSecondLine) ; })
