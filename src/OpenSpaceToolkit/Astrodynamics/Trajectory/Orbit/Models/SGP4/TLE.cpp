@@ -356,7 +356,7 @@ Integer                         TLE::getRevolutionNumberAtEpoch             ( ) 
         throw ostk::core::error::runtime::Undefined("TLE") ;
     }
 
-    return Integer::Parse(secondLine_.getSubstring(63, 5)) ;
+    return Integer::Parse(secondLine_.getSubstring(63, 5).trim()) ;
 
 }
 
