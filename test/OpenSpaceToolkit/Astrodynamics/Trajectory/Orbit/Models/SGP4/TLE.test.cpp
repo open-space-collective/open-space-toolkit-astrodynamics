@@ -401,6 +401,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getFirstL
 
     {
 
+        const String firstLine = "1 43020U 98067NH  20013.27161098  .00059259  00000-0  26371-3 0  9991" ;
+        const String secondLine = "2 43020  51.6414 326.1073 0001865 145.5478 214.5646 15.83723373122744" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(1, tle.getFirstLineChecksum()) ;
+
+    }
+
+    {
+
         EXPECT_ANY_THROW(TLE::Undefined().getFirstLineChecksum()) ;
 
     }
@@ -596,6 +607,43 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getRevolu
     {
 
         EXPECT_ANY_THROW(TLE::Undefined().getRevolutionNumberAtEpoch()) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getSecondLineChecksum)
+{
+
+    using ostk::core::types::String ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(7, tle.getSecondLineChecksum()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 43020U 98067NH  20013.27161098  .00059259  00000-0  26371-3 0  9991" ;
+        const String secondLine = "2 43020  51.6414 326.1073 0001865 145.5478 214.5646 15.83723373122744" ;
+
+        const TLE tle { firstLine, secondLine } ;
+
+        EXPECT_EQ(4, tle.getSecondLineChecksum()) ;
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(TLE::Undefined().getSecondLineChecksum()) ;
 
     }
 

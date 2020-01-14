@@ -360,6 +360,18 @@ Integer                         TLE::getRevolutionNumberAtEpoch             ( ) 
 
 }
 
+Integer                         TLE::getSecondLineChecksum                  ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+    return Integer::Parse(secondLine_.getSubstring(68, 1)) ;
+
+}
+
 TLE                             TLE::Undefined                              ( )
 {
     return TLE(String::Empty(), String::Empty(), String::Empty()) ;
