@@ -592,6 +592,7 @@ deploy-release-image-jupyter: build-release-image-jupyter
 	@ echo "Deploying Jupyter Notebook release image..."
 
 	docker push $(docker_release_image_jupyter_repository):$(docker_image_version)
+	docker push $(docker_release_image_jupyter_repository):latest
 
 deploy-packages:
 
