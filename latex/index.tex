@@ -1,4 +1,4 @@
-\href{https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit-astrodynamics/master?urlpath=lab/tree/tutorials%2Fpython%2Fnotebooks}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
+\href{https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
 
 Orbit, attitude, access.
 
@@ -8,71 +8,29 @@ Orbit, attitude, access.
 
 {\itshape ⚠ This component is under development.}
 
-\subsection*{Installation}
-
-\subsubsection*{C++}
-
-The binary packages are hosted using \href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases}{\tt Git\+Hub Releases}.
-
-{\itshape Note\+: Don\textquotesingle{}t forget to set the desired version number in the U\+R\+Ls!}
-
-\paragraph*{Debian / Ubuntu}
-
-
-\begin{DoxyCode}
-# Download .deb packages
-
-wget
-       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86\_64-runtime.deb
-wget
-       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86\_64-devel.deb
-
-# Install .deb packages
-
-apt install -y open-space-toolkit-astrodynamics-0.3.0-*.deb
-\end{DoxyCode}
-
-
-\paragraph*{Fedora / Cent\+OS}
-
-
-\begin{DoxyCode}
-# Download .rpm packages
-
-wget
-       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86\_64-runtime.rpm
-wget
-       https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86\_64-devel.rpm
-
-# Install .rpm packages
-
-dnf install -y open-space-toolkit-astrodynamics-0.3.0-*.rpm
-\end{DoxyCode}
-
-
-\subsubsection*{Python}
-
-The binary packages are hosted on \href{https://pypi.org/project/open-space-toolkit-astrodynamics/}{\tt Py\+PI}\+:
-
-
-\begin{DoxyCode}
-pip install open-space-toolkit-astrodynamics
-\end{DoxyCode}
-
-
 \subsection*{Getting Started}
 
-Want to quickly get started? It\textquotesingle{}s pretty simple.
+Want to get started? This is the simplest and quickest way\+:
 
-Install \href{https://www.docker.com/}{\tt Docker} and try this\+:
+\href{https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/master?urlpath=lab/tree/notebooks}{\tt }
+
+{\itshape Nothing to download or install! This will automatically start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\tt Jupyter\+Lab} environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.}
+
+\subsubsection*{Alternatives}
+
+\paragraph*{Docker Images}
+
+\href{https://www.docker.com/}{\tt Docker} must be installed on your system.
+
+\subparagraph*{i\+Python}
+
+The following command will start an \href{https://ipython.org/}{\tt i\+Python} shell within a container where the O\+S\+Tk components are already installed\+:
 
 
 \begin{DoxyCode}
 docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
 \end{DoxyCode}
 
-
-This will start an \href{https://ipython.org/}{\tt i\+Python} shell within a container where the O\+S\+Tk Astrodynamics component is already installed.
 
 Once the shell is up and running, playing with it is easy\+:
 
@@ -97,7 +55,66 @@ orbit.get\_state\_at(Instant.now()) \textcolor{comment}{# Compute and display cu
 \end{DoxyCode}
 
 
+By default, O\+S\+Tk fetches the ephemeris from J\+PL, Earth Orientation Parameters (E\+OP) and leap second count from I\+E\+RS.
+
+As a result, when running O\+S\+Tk for the first time, it may take a minute to fetch all the necessary data.
+
 {\itshape Tip\+: Use tab for auto-\/completion!}
+
+\subparagraph*{Jupyter\+Lab}
+
+The following command will start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\tt Jupyter\+Lab} server within a container where the O\+S\+Tk components are already installed\+:
+
+
+\begin{DoxyCode}
+docker run --publish=8888:8888 openspacecollective/open-space-toolkit-astrodynamics-jupyter
+\end{DoxyCode}
+
+
+Once the container is running, access \href{http://localhost:8888/lab}{\tt http\+://localhost\+:8888/lab} and create a Python 3 Notebook.
+
+\subsection*{Installation}
+
+\subsubsection*{C++}
+
+The binary packages are hosted using \href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases}{\tt Git\+Hub Releases}\+:
+
+
+\begin{DoxyItemize}
+\item Runtime libraries\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/runtime}
+\item C++ headers\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/devel}
+\item Python bindings\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/python}
+\end{DoxyItemize}
+
+\paragraph*{Debian / Ubuntu}
+
+After downloading the relevant {\ttfamily .deb} binary packages, install\+:
+
+
+\begin{DoxyCode}
+apt install open-space-toolkit-astrodynamics-*.deb
+\end{DoxyCode}
+
+
+\paragraph*{Fedora / Cent\+OS}
+
+After downloading the relevant {\ttfamily .rpm} binary packages, install\+:
+
+
+\begin{DoxyCode}
+dnf install open-space-toolkit-astrodynamics-*.rpm
+\end{DoxyCode}
+
+
+\subsubsection*{Python}
+
+Install from \href{https://pypi.org/project/open-space-toolkit-astrodynamics/}{\tt Py\+PI}\+:
+
+
+\begin{DoxyCode}
+pip install open-space-toolkit-astrodynamics
+\end{DoxyCode}
+
 
 \subsection*{Structure}
 
@@ -222,7 +239,7 @@ N\+Lopt &master &L\+G\+PL &\href{https://github.com/stevengj/nlopt}{\tt github.\
 Core &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-core}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/core} \\\cline{1-4}
 I/O &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-io}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/io} \\\cline{1-4}
 Mathematics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-mathematics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/mathematics} \\\cline{1-4}
-Physics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-physics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/physics} \\\cline{1-4}
+Physics &master &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/astrodynamics} \\\cline{1-4}
 \end{longtabu}
 \subsection*{Contribution}
 

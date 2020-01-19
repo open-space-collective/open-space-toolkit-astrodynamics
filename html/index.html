@@ -81,28 +81,44 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Open Space Toolkit ▸ Astrodynamics </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics"></a> <a href="https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics"></a> <a href="https://open-space-collective.github.io/open-space-toolkit-astrodynamics"></a> <a href="https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics"></a> <a href="https://badge.fury.io/py/open-space-toolkit-astrodynamics"></a> <a href="https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit-astrodynamics/master?urlpath=lab/tree/tutorials%2Fpython%2Fnotebooks"></a> <a href="https://opensource.org/licenses/Apache-2.0"></a></p>
+<div class="textblock"><p><a href="https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics"></a> <a href="https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics"></a> <a href="https://open-space-collective.github.io/open-space-toolkit-astrodynamics"></a> <a href="https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics"></a> <a href="https://badge.fury.io/py/open-space-toolkit-astrodynamics"></a> <a href="https://opensource.org/licenses/Apache-2.0"></a></p>
 <p>Orbit, attitude, access.</p>
 <div class="image">
 <object type="image/svg+xml" data="./docs/assets/example.svg" height="500px" width="auto"></object>
 </div>
 <h2>Warning</h2>
 <p><em>⚠ This component is under development.</em></p>
+<h2>Getting Started</h2>
+<p>Want to get started? This is the simplest and quickest way:</p>
+<p><a href="https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/master?urlpath=lab/tree/notebooks"></a></p>
+<p><em>Nothing to download or install! This will automatically start a <a href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a> environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.</em></p>
+<h3>Alternatives</h3>
+<h4>Docker Images</h4>
+<p><a href="https://www.docker.com/">Docker</a> must be installed on your system.</p>
+<h5>iPython</h5>
+<p>The following command will start an <a href="https://ipython.org/">iPython</a> shell within a container where the OSTk components are already installed:</p>
+<div class="fragment"><div class="line">docker run -it openspacecollective/open-space-toolkit-astrodynamics-python</div></div><!-- fragment --><p>Once the shell is up and running, playing with it is easy:</p>
+<div class="fragment"><div class="line">from ostk.physics <span class="keyword">import</span> Environment</div><div class="line"><span class="keyword">from</span> ostk.physics.time <span class="keyword">import</span> Instant</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory <span class="keyword">import</span> Orbit</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory.orbit.models <span class="keyword">import</span> SGP4</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory.orbit.models.sgp4 <span class="keyword">import</span> TLE</div><div class="line"></div><div class="line">tle = TLE(</div><div class="line">    <span class="stringliteral">&#39;1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994&#39;</span>,</div><div class="line">    <span class="stringliteral">&#39;2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316&#39;</span></div><div class="line">) <span class="comment"># Construct Two-Line Element set</span></div><div class="line"></div><div class="line">earth = Environment.default().access_celestial_object_with_name(<span class="stringliteral">&#39;Earth&#39;</span>) <span class="comment"># Access Earth model</span></div><div class="line"></div><div class="line">orbit = Orbit(SGP4(tle), earth) <span class="comment"># Construct orbit using SGP4 model</span></div><div class="line"></div><div class="line">orbit.get_state_at(Instant.now()) <span class="comment"># Compute and display current satellite state (position, velocity)</span></div></div><!-- fragment --><p>By default, OSTk fetches the ephemeris from JPL, Earth Orientation Parameters (EOP) and leap second count from IERS.</p>
+<p>As a result, when running OSTk for the first time, it may take a minute to fetch all the necessary data.</p>
+<p><em>Tip: Use tab for auto-completion!</em></p>
+<h5>JupyterLab</h5>
+<p>The following command will start a <a href="https://jupyterlab.readthedocs.io/en/stable/">JupyterLab</a> server within a container where the OSTk components are already installed:</p>
+<div class="fragment"><div class="line">docker run --publish=8888:8888 openspacecollective/open-space-toolkit-astrodynamics-jupyter</div></div><!-- fragment --><p>Once the container is running, access <a href="http://localhost:8888/lab">http://localhost:8888/lab</a> and create a Python 3 Notebook.</p>
 <h2>Installation</h2>
 <h3>C++</h3>
-<p>The binary packages are hosted using <a href="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases">GitHub Releases</a>.</p>
-<p><em>Note: Don't forget to set the desired version number in the URLs!</em></p>
+<p>The binary packages are hosted using <a href="https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases">GitHub Releases</a>:</p>
+<ul>
+<li>Runtime libraries: <code>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-runtime</code></li>
+<li>C++ headers: <code>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-devel</code></li>
+<li>Python bindings: <code>open-space-toolkit-astrodynamics-X.Y.Z-1.x86_64-python</code></li>
+</ul>
 <h4>Debian / Ubuntu</h4>
-<div class="fragment"><div class="line"># Download .deb packages</div><div class="line"></div><div class="line">wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.deb</div><div class="line">wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.deb</div><div class="line"></div><div class="line"># Install .deb packages</div><div class="line"></div><div class="line">apt install -y open-space-toolkit-astrodynamics-0.3.0-*.deb</div></div><!-- fragment --><h4>Fedora / CentOS</h4>
-<div class="fragment"><div class="line"># Download .rpm packages</div><div class="line"></div><div class="line">wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-runtime.rpm</div><div class="line">wget https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases/download/0.3.0/open-space-toolkit-astrodynamics-0.3.0-1.x86_64-devel.rpm</div><div class="line"></div><div class="line"># Install .rpm packages</div><div class="line"></div><div class="line">dnf install -y open-space-toolkit-astrodynamics-0.3.0-*.rpm</div></div><!-- fragment --><h3>Python</h3>
-<p>The binary packages are hosted on <a href="https://pypi.org/project/open-space-toolkit-astrodynamics/">PyPI</a>:</p>
-<div class="fragment"><div class="line">pip install open-space-toolkit-astrodynamics</div></div><!-- fragment --><h2>Getting Started</h2>
-<p>Want to quickly get started? It's pretty simple.</p>
-<p>Install <a href="https://www.docker.com/">Docker</a> and try this:</p>
-<div class="fragment"><div class="line">docker run -it openspacecollective/open-space-toolkit-astrodynamics-python</div></div><!-- fragment --><p>This will start an <a href="https://ipython.org/">iPython</a> shell within a container where the OSTk Astrodynamics component is already installed.</p>
-<p>Once the shell is up and running, playing with it is easy:</p>
-<div class="fragment"><div class="line">from ostk.physics <span class="keyword">import</span> Environment</div><div class="line"><span class="keyword">from</span> ostk.physics.time <span class="keyword">import</span> Instant</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory <span class="keyword">import</span> Orbit</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory.orbit.models <span class="keyword">import</span> SGP4</div><div class="line"><span class="keyword">from</span> ostk.astrodynamics.trajectory.orbit.models.sgp4 <span class="keyword">import</span> TLE</div><div class="line"></div><div class="line">tle = TLE(</div><div class="line">    <span class="stringliteral">&#39;1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994&#39;</span>,</div><div class="line">    <span class="stringliteral">&#39;2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316&#39;</span></div><div class="line">) <span class="comment"># Construct Two-Line Element set</span></div><div class="line"></div><div class="line">earth = Environment.default().access_celestial_object_with_name(<span class="stringliteral">&#39;Earth&#39;</span>) <span class="comment"># Access Earth model</span></div><div class="line"></div><div class="line">orbit = Orbit(SGP4(tle), earth) <span class="comment"># Construct orbit using SGP4 model</span></div><div class="line"></div><div class="line">orbit.get_state_at(Instant.now()) <span class="comment"># Compute and display current satellite state (position, velocity)</span></div></div><!-- fragment --><p><em>Tip: Use tab for auto-completion!</em></p>
-<h2>Structure</h2>
+<p>After downloading the relevant <code>.deb</code> binary packages, install:</p>
+<div class="fragment"><div class="line">apt install open-space-toolkit-astrodynamics-*.deb</div></div><!-- fragment --><h4>Fedora / CentOS</h4>
+<p>After downloading the relevant <code>.rpm</code> binary packages, install:</p>
+<div class="fragment"><div class="line">dnf install open-space-toolkit-astrodynamics-*.rpm</div></div><!-- fragment --><h3>Python</h3>
+<p>Install from <a href="https://pypi.org/project/open-space-toolkit-astrodynamics/">PyPI</a>:</p>
+<div class="fragment"><div class="line">pip install open-space-toolkit-astrodynamics</div></div><!-- fragment --><h2>Structure</h2>
 <p>The <b>Astrodynamics</b> library exhibits the following structure:</p>
 <div class="fragment"><div class="line">├── Trajectory</div><div class="line">│   ├── State</div><div class="line">│   ├── Orbit</div><div class="line">│   │   ├── Models</div><div class="line">│   │   │   ├── Kepler</div><div class="line">│   │   │   │   └── Classical Orbital Elements (COE)</div><div class="line">│   │   │   ├── SGP4</div><div class="line">│   │   │   │   └── Two-Line Element <span class="keyword">set</span> (TLE)</div><div class="line">│   │   │   └── Propagator</div><div class="line">│   │   ├── Pass</div><div class="line">│   │   └── Utilities</div><div class="line">│   └── Composite</div><div class="line">├── Flight</div><div class="line">│   └── Profile</div><div class="line">│       └── State</div><div class="line">├── Access</div><div class="line">└── State Profile</div></div><!-- fragment --><h2>Documentation</h2>
 <p>Documentation is available here:</p>
@@ -153,7 +169,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <tr>
 <td>Mathematics </td><td>master </td><td>Apache License 2.0 </td><td><a href="https://github.com/open-space-collective/open-space-toolkit-mathematics">github.com/open-space-collective/open-space-toolkit-mathematics</a> </td></tr>
 <tr>
-<td>Physics </td><td>master </td><td>Apache License 2.0 </td><td><a href="https://github.com/open-space-collective/open-space-toolkit-physics">github.com/open-space-collective/open-space-toolkit-physics</a> </td></tr>
+<td>Physics </td><td>master </td><td>Apache License 2.0 </td><td><a href="https://github.com/open-space-collective/open-space-toolkit-astrodynamics">github.com/open-space-collective/open-space-toolkit-astrodynamics</a> </td></tr>
 </table>
 <h2>Contribution</h2>
 <p>Contributions are more than welcome!</p>
