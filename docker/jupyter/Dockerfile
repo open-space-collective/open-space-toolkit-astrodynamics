@@ -13,32 +13,45 @@ FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
 LABEL maintainer="lucas@loftorbital.com"
 
+ENV JUPYTER_ENABLE_LAB yes
+
+# Set user to root
+
 USER root
 
-# RUN apt-get update \
-#  && apt-get install -y libssl1.0.0 libssl-dev \
-#  && rm -rf /var/lib/apt/lists/*
+# Install Python utilities
 
-# Install extensions
+RUN pip install --quiet numpy pandas plotly
+RUN conda install ipympl=0.4.0
 
-RUN jupyter labextension install @jupyterlab/plotly-extension
+# Install JupyterLab extensions
+
+RUN jupyter labextension install --no-build \
+        @jupyterlab/shortcuts-extension \
+        @jupyter-widgets/jupyterlab-manager \
+        jupyter-matplotlib \
+        plotlywidget \
+        jupyterlab-plotly \
+ && jupyter lab build \
+ && jupyter labextension update --all
 
 COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
 
-# Install NumPy and Plotly
-
-RUN python -m pip install --quiet numpy --upgrade \
- && python -m pip install --quiet plotly ipympl
-
 RUN chown -R ${NB_UID}:${NB_UID} /home/jovyan/.jupyter
-
-ENV JUPYTER_ENABLE_LAB yes
 
 ENV LD_LIBRARY_PATH "/usr/local/lib:/usr/lib/x86_64-linux-gnu:/opt/conda/lib/python3.7/site-packages:/home/jovyan/lib:/opt/conda/lib"
 ENV PYTHONPATH "/opt/conda/lib/python3.7/site-packages:/home/jovyan/lib"
 
+# Install Open Space Toolkit
+
 RUN pip install open-space-toolkit-astrodynamics
 
+# Restore user
+
 USER ${NB_UID}
+
+# Disable token
+
+CMD ["start-notebook.sh", "--NotebookApp.token=''"]
 
 ################################################################################################################################################################
