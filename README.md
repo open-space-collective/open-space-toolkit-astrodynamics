@@ -11,10 +11,6 @@ Orbit, attitude, access.
 
 <img src="./docs/assets/example.svg" height="500px" width="auto">
 
-## Warning
-
-*⚠ This component is under development.*
-
 ## Getting Started
 
 Want to get started? This is the simplest and quickest way:
