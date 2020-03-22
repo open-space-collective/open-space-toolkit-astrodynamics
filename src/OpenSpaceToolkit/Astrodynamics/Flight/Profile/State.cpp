@@ -209,10 +209,21 @@ State                           State::inFrame                              (   
 
     const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;
 
+    // x_NEW = T_NEW_OLD(x_OLD)
+
     const Vector3d position = transform_NEW_OLD.applyToPosition(position_) ;
+
+    // v_NEW = T_NEW_OLD(v_OLD)
+
     const Vector3d velocity = transform_NEW_OLD.applyToVelocity(position_, velocity_) ;
+
+    // q_B_NEW = q_B_OLD * q_OLD_NEW
+
     const Quaternion attitude = attitude_ * transform_NEW_OLD.getOrientation().toConjugate() ;
-    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // transform_NEW_OLD.getAngularVelocity() [TBI] ;
+
+    // w_B_NEW_in_B = w_B_OLD_in_B + w_OLD_NEW_in_B = w_B_OLD_in_B - q_B_NEW * w_NEW_OLD_in_NEW
+
+    const Vector3d angularVelocity = angularVelocity_ - attitude * transform_NEW_OLD.getAngularVelocity() ;
 
     return { instant_, position, velocity, attitude, angularVelocity, aFrameSPtr } ;
 
