@@ -393,15 +393,15 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         return FrameManager::Get().accessFrameWithName(frameName) ;
     }
 
-    const auto generateDynamicProvider = [this] (const auto& anAttitudeGenerator) -> auto
+    const auto generateDynamicProvider = [this] (const auto& anAttitudeGenerator, const Shared<const Frame>& aReferenceFrame) -> auto
     {
 
         const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
         (
-            [this, anAttitudeGenerator] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
+            [this, anAttitudeGenerator, aReferenceFrame] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
             {
 
-                const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame) ;
 
                 const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
                 const Vector3d v_GCRF_in_GCRF = state.accessVelocity().accessCoordinates() ;
@@ -458,7 +458,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, celestialObjectSPtr_->accessFrame(), generateDynamicProvider(calculateAttitude, celestialObjectSPtr_->accessFrame())) ;
 
             break ;
 
@@ -487,7 +487,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -516,7 +516,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -544,7 +544,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -572,7 +572,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -600,7 +600,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude)) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 

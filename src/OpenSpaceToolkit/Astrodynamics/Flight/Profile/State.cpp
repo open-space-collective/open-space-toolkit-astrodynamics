@@ -207,25 +207,34 @@ State                           State::inFrame                              (   
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
+    const Vector3d& x_OLD = position_ ;
+    const Vector3d& v_OLD_in_OLD = velocity_ ;
+    const Quaternion& q_B_OLD = attitude_ ;
+    const Vector3d& w_B_OLD_in_B = angularVelocity_ ;
+
     const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;
+
+    const Quaternion q_NEW_OLD = transform_NEW_OLD.getOrientation() ;
+    const Vector3d w_NEW_OLD_in_NEW = transform_NEW_OLD.getAngularVelocity() ;
 
     // x_NEW = T_NEW_OLD(x_OLD)
 
-    const Vector3d position = transform_NEW_OLD.applyToPosition(position_) ;
+    const Vector3d x_NEW = transform_NEW_OLD.applyToPosition(x_OLD) ;
 
     // v_NEW = T_NEW_OLD(v_OLD)
 
-    const Vector3d velocity = transform_NEW_OLD.applyToVelocity(position_, velocity_) ;
+    const Vector3d v_NEW_in_NEW = transform_NEW_OLD.applyToVelocity(x_OLD, v_OLD_in_OLD) ;
 
     // q_B_NEW = q_B_OLD * q_OLD_NEW
 
-    const Quaternion attitude = attitude_ * transform_NEW_OLD.getOrientation().toConjugate() ;
+    const Quaternion q_B_NEW = q_B_OLD * q_NEW_OLD.toConjugate() ;
 
-    // w_B_NEW_in_B = w_B_OLD_in_B + w_OLD_NEW_in_B = w_B_OLD_in_B - q_B_NEW * w_NEW_OLD_in_NEW
+    // w_B_NEW_in_B = w_B_OLD_in_B + w_OLD_NEW_in_B
+    //              = w_B_OLD_in_B - q_B_NEW * w_NEW_OLD_in_NEW
 
-    const Vector3d angularVelocity = angularVelocity_ - attitude * transform_NEW_OLD.getAngularVelocity() ;
+    const Vector3d w_B_NEW_in_B = w_B_OLD_in_B - q_B_NEW * w_NEW_OLD_in_NEW ;
 
-    return { instant_, position, velocity, attitude, angularVelocity, aFrameSPtr } ;
+    return { instant_, x_NEW, v_NEW_in_NEW, q_B_NEW, w_B_NEW_in_B, aFrameSPtr } ;
 
 }
 
