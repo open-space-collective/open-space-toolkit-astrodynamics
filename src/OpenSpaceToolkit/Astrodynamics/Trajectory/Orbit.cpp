@@ -23,6 +23,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -371,8 +372,10 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
     using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::math::geom::d3::trf::rot::RotationVector ;
     using ostk::math::geom::d3::trf::rot::RotationMatrix ;
 
+    using ostk::physics::time::Duration ;
     using ostk::physics::coord::spherical::LLA ;
     using FrameManager = ostk::physics::coord::frame::Manager ;
     using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
@@ -390,6 +393,42 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         return FrameManager::Get().accessFrameWithName(frameName) ;
     }
 
+    const auto generateDynamicProvider = [this] (const auto& anAttitudeGenerator, const Shared<const Frame>& aReferenceFrame) -> auto
+    {
+
+        const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
+        (
+            [this, anAttitudeGenerator, aReferenceFrame] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
+            {
+
+                const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame) ;
+
+                const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF_in_GCRF = state.accessVelocity().accessCoordinates() ;
+
+                const Vector3d x_VVLH_GCRF_in_GCRF = -x_GCRF ; // [m]
+                const Vector3d v_VVLH_GCRF_in_GCRF = -v_GCRF_in_GCRF ; // [m/s]
+
+                const Quaternion q_VVLH_GCRF = anAttitudeGenerator(state) ;
+
+                const Duration delta = Duration::Seconds(1.0) ; // TBM This should be a parameter
+
+                const Quaternion q_VVLH_next_GCRF = anAttitudeGenerator(this->getStateAt(anInstant + delta).inFrame(Frame::GCRF())) ;
+
+                const Quaternion q_VVLH_next_VVLH = q_VVLH_next_GCRF * q_VVLH_GCRF.toConjugate() ;
+                const RotationVector rv_VVLH_next_VVLH = RotationVector::Quaternion(q_VVLH_next_VVLH) ;
+
+                const Vector3d w_VVLH_GCRF_in_VVLH = rv_VVLH_next_VVLH.getAxis() * (rv_VVLH_next_VVLH.getAngle().inRadians() / delta.inSeconds()) ; // [rad/s]
+
+                return { anInstant, x_VVLH_GCRF_in_GCRF, v_VVLH_GCRF_in_GCRF, q_VVLH_GCRF, w_VVLH_GCRF_in_VVLH, Transform::Type::Passive } ;
+
+            }
+        ) ;
+
+        return dynamicProviderSPtr ;
+
+    } ;
+
     Shared<const Frame> orbitalFrameSPtr = nullptr ;
 
     switch (aFrameType)
@@ -398,32 +437,28 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         case Orbit::FrameType::NED:
         {
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [this] (const State& aState) -> Quaternion
+            {
 
-                    // Get state in central body centered, central body fixed frame
+                // Get state in central body centered, central body fixed frame
 
-                    const State state = this->getStateAt(anInstant).inFrame(celestialObjectSPtr_->accessFrame()) ;
+                const State state = this->getStateAt(aState.getInstant()).inFrame(celestialObjectSPtr_->accessFrame()) ;
 
-                    // Express the state position in geodetic coordinates
+                // Express the state position in geodetic coordinates
 
-                    const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(), celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ;
+                const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(), celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ;
 
-                    // Compute the NED frame to central body centered, central body fixed frame transform at position
+                // Compute the NED frame to central body centered, central body fixed frame transform at position
 
-                    const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+                const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
 
-                    const Vector3d velocity = - state.accessVelocity().accessCoordinates() ; // [TBM] Check if derivation frame is correct
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+                const Quaternion q_NED_GCRF = transform.getOrientation() ;
 
-                    return { anInstant, transform.getTranslation(), velocity, transform.getOrientation(), angularVelocity, Transform::Type::Passive } ;
+                return q_NED_GCRF ;
 
-                }
-            ) ;
+            } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, celestialObjectSPtr_->accessFrame(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, celestialObjectSPtr_->accessFrame(), generateDynamicProvider(calculateAttitude, celestialObjectSPtr_->accessFrame())) ;
 
             break ;
 
@@ -436,31 +471,23 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // Z axis along orbital momentum
             // Y axis toward velocity vector
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [] (const State& aState) -> Quaternion
+            {
 
-                    const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const Vector3d x_GCRF = aState.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates() ;
 
-                    const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
-                    const Vector3d v_GCRF = state.accessVelocity().accessCoordinates() ;
+                const Vector3d xAxis = x_GCRF.normalized() ;
+                const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
+                const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                    const Vector3d xAxis = x_GCRF.normalized() ;
-                    const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
-                    const Vector3d yAxis = zAxis.cross(xAxis) ;
+                const Quaternion q_LVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Quaternion q_LVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                return q_LVLH_GCRF ;
 
-                    const Vector3d velocity = -v_GCRF ;
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+            } ;
 
-                    return { anInstant, -x_GCRF, velocity, q_LVLH_GCRF, angularVelocity, Transform::Type::Passive } ;
-
-                }
-            ) ;
-
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -473,31 +500,23 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // Y axis along negative orbital momentum
             // X axis toward velocity vector
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [] (const State& aState) -> Quaternion
+            {
 
-                    const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const Vector3d x_GCRF = aState.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates() ;
 
-                    const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
-                    const Vector3d v_GCRF = state.accessVelocity().accessCoordinates() ;
+                const Vector3d zAxis = -x_GCRF.normalized() ;
+                const Vector3d yAxis = -x_GCRF.cross(v_GCRF).normalized() ;
+                const Vector3d xAxis = yAxis.cross(zAxis) ;
 
-                    const Vector3d zAxis = -x_GCRF.normalized() ;
-                    const Vector3d yAxis = -x_GCRF.cross(v_GCRF).normalized() ;
-                    const Vector3d xAxis = yAxis.cross(zAxis) ;
+                const Quaternion q_VVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Quaternion q_VVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                return q_VVLH_GCRF ;
 
-                    const Vector3d velocity = -v_GCRF ;
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+            } ;
 
-                    return { anInstant, -x_GCRF, velocity, q_VVLH_GCRF, angularVelocity, Transform::Type::Passive } ;
-
-                }
-            ) ;
-
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -509,31 +528,23 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // X axis along position vector
             // Z axis along orbital momentum
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [] (const State& aState) -> Quaternion
+            {
 
-                    const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const Vector3d x_GCRF = aState.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates() ;
 
-                    const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
-                    const Vector3d v_GCRF = state.accessVelocity().accessCoordinates() ;
+                const Vector3d xAxis = x_GCRF.normalized() ;
+                const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
+                const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                    const Vector3d xAxis = x_GCRF.normalized() ;
-                    const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
-                    const Vector3d yAxis = zAxis.cross(xAxis) ;
+                const Quaternion q_QSW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Quaternion q_QSW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                return q_QSW_GCRF ;
 
-                    const Vector3d velocity = -v_GCRF ;
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+            } ;
 
-                    return { anInstant, -x_GCRF, velocity, q_QSW_GCRF, angularVelocity, Transform::Type::Passive } ;
-
-                }
-            ) ;
-
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -545,31 +556,23 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // X axis along velocity vector
             // Z axis along orbital momentum
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [] (const State& aState) -> Quaternion
+            {
 
-                    const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const Vector3d x_GCRF = aState.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates() ;
 
-                    const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
-                    const Vector3d v_GCRF = state.accessVelocity().accessCoordinates() ;
+                const Vector3d xAxis = v_GCRF.normalized() ;
+                const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
+                const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                    const Vector3d xAxis = v_GCRF.normalized() ;
-                    const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
-                    const Vector3d yAxis = zAxis.cross(xAxis) ;
+                const Quaternion q_TNW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Quaternion q_TNW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                return q_TNW_GCRF ;
 
-                    const Vector3d velocity = -v_GCRF ;
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+            } ;
 
-                    return { anInstant, -x_GCRF, velocity, q_TNW_GCRF, angularVelocity, Transform::Type::Passive } ;
-
-                }
-            ) ;
-
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 
@@ -581,31 +584,23 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
             // X axis along velocity vector
             // Y axis along orbital momentum
 
-            const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
-            (
-                [this] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
-                {
+            const auto calculateAttitude = [] (const State& aState) -> Quaternion
+            {
 
-                    const State state = this->getStateAt(anInstant).inFrame(Frame::GCRF()) ;
+                const Vector3d x_GCRF = aState.accessPosition().accessCoordinates() ;
+                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates() ;
 
-                    const Vector3d x_GCRF = state.accessPosition().accessCoordinates() ;
-                    const Vector3d v_GCRF = state.accessVelocity().accessCoordinates() ;
+                const Vector3d xAxis = v_GCRF.normalized() ;
+                const Vector3d yAxis = x_GCRF.cross(v_GCRF).normalized() ;
+                const Vector3d zAxis = xAxis.cross(yAxis) ;
 
-                    const Vector3d xAxis = v_GCRF.normalized() ;
-                    const Vector3d yAxis = x_GCRF.cross(v_GCRF).normalized() ;
-                    const Vector3d zAxis = xAxis.cross(yAxis) ;
+                const Quaternion q_VNC_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
 
-                    const Quaternion q_VNC_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                return q_VNC_GCRF ;
 
-                    const Vector3d velocity = -v_GCRF ;
-                    const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ; // [TBI] Use orbital angular velocity
+            } ;
 
-                    return { anInstant, -x_GCRF, velocity, q_VNC_GCRF, angularVelocity, Transform::Type::Passive } ;
-
-                }
-            ) ;
-
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), dynamicProviderSPtr) ;
+            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
 
             break ;
 

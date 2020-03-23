@@ -90,14 +90,17 @@ State                           Profile::getStateAt                         (   
         throw ostk::core::error::runtime::Undefined("Profile") ;
     }
 
-    const Transform transform = transformProvider_.getTransformAt(anInstant) ;
+    const Transform T_REF_B = transformProvider_.getTransformAt(anInstant) ;
 
-    const Vector3d position = transform.applyToPosition({ 0.0, 0.0, 0.0 }) ;
-    const Vector3d velocity = transform.applyToVelocity({ 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }) ;
-    const Quaternion attitude = transform.getOrientation().toConjugate() ;
-    const Vector3d angularVelocity = transform.getAngularVelocity() ; // [TBC]
+    const Quaternion q_REF_B = T_REF_B.getOrientation() ;
+    const Vector3d w_REF_B_in_REF = T_REF_B.getAngularVelocity() ;
 
-    return { anInstant, position, velocity, attitude, angularVelocity, frameSPtr_ } ;
+    const Vector3d x_REF = T_REF_B.applyToPosition({ 0.0, 0.0, 0.0 }) ;
+    const Vector3d v_REF_in_REF = T_REF_B.applyToVelocity({ 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }) ;
+    const Quaternion q_B_REF = q_REF_B.toConjugate() ;
+    const Vector3d w_B_REF_in_B = q_B_REF * (w_REF_B_in_REF * -1.0) ;
+
+    return { anInstant, x_REF, v_REF_in_REF, q_B_REF, w_B_REF_in_B, frameSPtr_ } ;
 
 }
 
