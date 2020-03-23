@@ -337,7 +337,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const Real positionTolerance_m = 1e-3 ;
         const Real velocityTolerance_meterPerSec = 1e-6 ;
         const Real angularTolerance_asec = 0.0 ;
-        const Real angularVelocityTolerance_radPerSec = 0.0 ;
+        const Real angularVelocityTolerance_radPerSec = 1e-10 ;
 
         // Reference data setup
 
@@ -373,7 +373,104 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
+// TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_LVLH)
+// {
+
+//     using ostk::core::types::Shared ;
+//     using ostk::core::types::Real ;
+//     using ostk::core::types::String ;
+//     using ostk::core::ctnr::Array ;
+//     using ostk::core::ctnr::Table ;
+//     using ostk::core::fs::Path ;
+//     using ostk::core::fs::File ;
+
+//     using ostk::math::obj::Vector3d ;
+//     using ostk::math::geom::d3::trf::rot::Quaternion ;
+
+//     using ostk::physics::units::Length ;
+//     using ostk::physics::units::Angle ;
+//     using ostk::physics::units::Derived ;
+//     using ostk::physics::time::Scale ;
+//     using ostk::physics::time::Instant ;
+//     using ostk::physics::time::Duration ;
+//     using ostk::physics::time::Interval ;
+//     using ostk::physics::time::DateTime ;
+//     using ostk::physics::coord::Frame ;
+//     using ostk::physics::Environment ;
+//     using ostk::physics::env::obj::celest::Earth ;
+
+//     using ostk::astro::trajectory::Orbit ;
+//     using ostk::astro::trajectory::orbit::models::Kepler ;
+//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
+//     using ostk::astro::flight::Profile ;
+//     using ostk::astro::flight::profile::State ;
+
+//     // LVLH #1
+
+//     {
+
+//         const Environment environment = Environment::Default() ;
+
+//         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+//         const Real eccentricity = 0.0 ;
+//         const Angle inclination = Angle::Degrees(0.0) ;
+//         const Angle raan = Angle::Degrees(0.0) ;
+//         const Angle aop = Angle::Degrees(0.0) ;
+//         const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+//         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+//         const Derived gravitationalParameter = Earth::GravitationalParameter ;
+//         const Length equatorialRadius = Earth::EquatorialRadius ;
+//         const Real J2 = Earth::J2 ;
+
+//         const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+
+//         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+
+//         const Profile profile = Profile::NadirPointing(orbit, Orbit::FrameType::LVLH) ;
+
+//         const Real positionTolerance_m = 1e-3 ;
+//         const Real velocityTolerance_meterPerSec = 1e-6 ;
+//         const Real angularTolerance_asec = 0.0 ;
+//         const Real angularVelocityTolerance_radPerSec = 1e-10 ;
+
+//         // Reference data setup
+
+//         const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Flight/Profile/NadirPointing/VVLH/Satellite_1 t_UTC x_GCRF v_GCRF q_B_GCRF w_B_GCRF_in_GCRF.csv")) ;
+
+//         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
+
+//         for (const auto& referenceRow : referenceData)
+//         {
+
+//             const Instant instant_ref = Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC) ;
+
+//             const Vector3d x_BODY_GCRF_ref = { referenceRow["x (m)"].accessReal(), referenceRow["y (m)"].accessReal(), referenceRow["z (m)"].accessReal() } ;
+//             const Vector3d v_BODY_GCRF_in_GCRF_ref = { referenceRow["vx (m/sec)"].accessReal(), referenceRow["vy (m/sec)"].accessReal(), referenceRow["vz (m/sec)"].accessReal() } ;
+//             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(referenceRow["q1"].accessReal(), referenceRow["q2"].accessReal(), referenceRow["q3"].accessReal(), referenceRow["q4"].accessReal()).normalize() ;
+//             const Vector3d w_BODY_GCRF_in_BODY_ref = { referenceRow["wx (rad/sec)"].accessReal(), referenceRow["wy (rad/sec)"].accessReal(), referenceRow["wz (rad/sec)"].accessReal() } ;
+
+//             const State state = profile.getStateAt(instant_ref) ;
+
+//             const Vector3d x_BODY_GCRF = state.getPosition() ;
+//             const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+//             const Quaternion q_BODY_GCRF = state.getAttitude() ;
+//             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
+
+//             ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(), x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm()) ;
+//             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec)) << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(), v_BODY_GCRF_in_GCRF_ref.toString(), (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()) ;
+//             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec))) << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(), q_BODY_GCRF.toString(), q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()) ;
+//             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
+
+//         }
+
+//     }
+
+// }
+
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 {
 
     using ostk::core::types::Shared ;
@@ -434,7 +531,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
         const Real positionTolerance_m = 1e-3 ;
         const Real velocityTolerance_meterPerSec = 1e-6 ;
         const Real angularTolerance_asec = 0.0 ;
-        const Real angularVelocityTolerance_radPerSec = 0.0 ;
+        const Real angularVelocityTolerance_radPerSec = 1e-10 ;
 
         // Reference data setup
 
@@ -462,7 +559,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
             ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(), x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm()) ;
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec)) << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(), v_BODY_GCRF_in_GCRF_ref.toString(), (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()) ;
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec))) << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(), q_BODY_GCRF.toString(), q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()) ;
-            // ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
+            ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
 
         }
 
@@ -497,7 +594,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
         const Real positionTolerance_m = 1e-3 ;
         const Real velocityTolerance_meterPerSec = 1e-6 ;
         const Real angularTolerance_asec = 0.0 ;
-        const Real angularVelocityTolerance_radPerSec = 0.0 ;
+        const Real angularVelocityTolerance_radPerSec = 1e-10 ;
 
         // Reference data setup
 
@@ -525,7 +622,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
             ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(), x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm()) ;
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec)) << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(), v_BODY_GCRF_in_GCRF_ref.toString(), (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()) ;
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec))) << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(), q_BODY_GCRF.toString(), q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()) ;
-            // ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
+            ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
 
         }
 
@@ -560,7 +657,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
         const Real positionTolerance_m = 1e-3 ;
         const Real velocityTolerance_meterPerSec = 1e-6 ;
         const Real angularTolerance_asec = 0.0 ;
-        const Real angularVelocityTolerance_radPerSec = 0.0 ;
+        const Real angularVelocityTolerance_radPerSec = 1e-7 ;
 
         // Reference data setup
 
@@ -588,19 +685,11 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing)
             ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(), x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm()) ;
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec)) << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(), v_BODY_GCRF_in_GCRF_ref.toString(), (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()) ;
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec))) << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(), q_BODY_GCRF.toString(), q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()) ;
-            // ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
+            ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec)) << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(), w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(), (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()) ;
 
         }
 
     }
-
-    // VVLHGD
-
-    // {
-
-    //     [TBI]
-
-    // }
 
 }
 
