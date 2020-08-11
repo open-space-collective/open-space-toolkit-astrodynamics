@@ -120,7 +120,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
     using ostk::core::types::String ;
     using ostk::core::ctnr::Array ;
     using ostk::core::ctnr::Tuple ;
-    using ostk::core::ctnr::Array ;
     using ostk::core::ctnr::Table ;
     using ostk::core::fs::Path ;
     using ostk::core::fs::File ;
@@ -141,7 +140,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
     using ostk::astro::Trajectory ;
     using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
     using ostk::astro::trajectory::orbit::models::Kepler ;
     using ostk::astro::trajectory::orbit::models::kepler::COE ;
     using ostk::astro::trajectory::orbit::models::SGP4 ;
@@ -529,134 +527,251 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
 
 }
 
-// TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
-// {
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
+{
 
-//     using ostk::core::types::Real ;
-//     using ostk::core::types::String ;
-//     using ostk::core::ctnr::Array ;
-//     using ostk::core::ctnr::Tuple ;
-//     using ostk::core::ctnr::Array ;
-//     using ostk::core::ctnr::Table ;
-//     using ostk::core::fs::Path ;
-//     using ostk::core::fs::File ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
 
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
-//     using ostk::physics::time::Scale ;
-//     using ostk::physics::time::Instant ;
-//     using ostk::physics::time::Duration ;
-//     using ostk::physics::time::DateTime ;
-//     using ostk::physics::time::Interval ;
-//     using ostk::physics::coord::spherical::LLA ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Frame ;
-//     using ostk::physics::Environment ;
-//     using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::coord::spherical::LLA ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
 
-//     using ostk::astro::Trajectory ;
-//     using ostk::astro::trajectory::Orbit ;
-//     using ostk::astro::trajectory::State ;
-//     using ostk::astro::trajectory::orbit::models::Kepler ;
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
-//     using ostk::astro::trajectory::orbit::models::SGP4 ;
-//     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
-//     using ostk::astro::Access ;
-//     using ostk::astro::access::Generator ;
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
 
-//     {
+    {
 
-//         // Access computation
+        // Access computation
 
-//         const Environment environment = Environment::Default() ;
+        const Environment environment = Environment::Default() ;
 
-//         const ostk::math::obj::Interval<Real> azimuthRange = ostk::math::obj::Interval<Real>::Closed(0.0, 360.0) ;
-//         const ostk::math::obj::Interval<Real> elevationRange = ostk::math::obj::Interval<Real>::Closed(60.0, 90.0) ;
-//         const ostk::math::obj::Interval<Real> rangeRange = ostk::math::obj::Interval<Real>::Closed(0.0, 10000e3) ;
+        const ostk::math::obj::Interval<Real> azimuthRange = ostk::math::obj::Interval<Real>::Closed(0.0, 360.0) ;
+        const ostk::math::obj::Interval<Real> elevationRange = ostk::math::obj::Interval<Real>::Closed(60.0, 90.0) ;
+        const ostk::math::obj::Interval<Real> rangeRange = ostk::math::obj::Interval<Real>::Closed(0.0, 10000e3) ;
 
-//         const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
+        const Generator generator = Generator::AerRanges(azimuthRange, elevationRange, rangeRange, environment) ;
 
-//         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-//         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 1, 5, 0, 0), Scale::UTC) ;
-//         // const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC) ;
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 10, 0, 0, 0), Scale::UTC) ;
 
-//         const Interval interval = Interval::Closed(startInstant, endInstant) ;
+        const Interval interval = Interval::Closed(startInstant, endInstant) ;
 
-//         const auto generateGroundStationTrajectory = [] () -> Trajectory
-//         {
+        const auto generateGroundStationTrajectory = [] () -> Trajectory
+        {
 
-//             const LLA groundStationLla = { Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0) } ;
+            const LLA groundStationLla = { Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0) } ;
 
-//             const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
+            const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
 
-//             return Trajectory::Position(groundStationPosition) ;
+            return Trajectory::Position(groundStationPosition) ;
 
-//         } ;
+        } ;
 
-//         const auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
-//         {
+        const auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
+        {
 
-//             const Length semiMajorAxis = Length::Kilometers(6878.14) ;
-//             const Real eccentricity = 0.0 ;
-//             const Angle inclination = Angle::Degrees(97.5034) ;
-//             const Angle raan = Angle::Degrees(0.0) ;
-//             const Angle aop = Angle::Degrees(0.0) ;
-//             const Angle trueAnomaly = Angle::Degrees(0.0) ;
+            const Length semiMajorAxis = Length::Kilometers(6878.14) ;
+            const Real eccentricity = 0.0 ;
+            const Angle inclination = Angle::Degrees(97.5034) ;
+            const Angle raan = Angle::Degrees(0.0) ;
+            const Angle aop = Angle::Degrees(0.0) ;
+            const Angle trueAnomaly = Angle::Degrees(0.0) ;
 
-//             const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+            const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
-//             const Instant epoch = startInstant ;
-//             const Derived gravitationalParameter = Earth::GravitationalParameter ;
-//             const Length equatorialRadius = Earth::EquatorialRadius ;
-//             const Real J2 = Earth::J2 ;
+            const Instant epoch = startInstant ;
+            const Derived gravitationalParameter = Earth::GravitationalParameter ;
+            const Length equatorialRadius = Earth::EquatorialRadius ;
+            const Real J2 = Earth::J2 ;
 
-//             const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+            const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
 
-//             const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+            const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
-//             return orbit ;
+            return orbit ;
 
-//         } ;
+        } ;
 
-//         const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
-//         const Orbit satelliteOrbit = generateSatelliteOrbit() ;
+        const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
+        const Orbit satelliteOrbit = generateSatelliteOrbit() ;
 
-//         const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
-//         std::cout << accesses << std::endl ;
+        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
+        // std::cout << accesses << std::endl ;
 
-//         // Reference data setup
+        // Reference data setup
 
-//         const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")) ;
 
-//         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
 
-//         const Duration toleranceDuration = Duration::Seconds(0.1) ;
+        const Duration toleranceDuration = Duration::Seconds(0.5) ;
 
-//         // Test
+        // Test
 
-//         ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
+        ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
 
-//         for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
-//         {
+        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+        {
 
-//             const auto& referenceRow = std::get<0>(accessTuple) ;
-//             const Access& access = std::get<1>(accessTuple) ;
+            const auto& referenceRow = std::get<0>(accessTuple) ;
+            const Access& access = std::get<1>(accessTuple) ;
 
-//             const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
-//             const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
-//             const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
-//             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
+            const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+            // const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
 
-//             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
-//             EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
-//             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
-//             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
+            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
+            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
+            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
+            EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
 
-//         }
+        }
 
-//     }
+    }
 
-// }
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
+{
+
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::coord::spherical::LLA ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::orbit::models::Kepler ;
+    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::Access ;
+    using ostk::astro::access::Generator ;
+
+    {
+
+        // Access computation
+
+        const Environment environment = Environment::Default() ;
+
+        const ostk::core::ctnr::Map<Real, Real> azimuthElevationMask = { {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0} } ;
+        const ostk::math::obj::Interval<Real> rangeRange = ostk::math::obj::Interval<Real>::Closed(0.0, 10000e3) ;
+
+        const Generator generator = Generator::AerMask(azimuthElevationMask, rangeRange, environment) ;
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 5, 0, 0, 0), Scale::UTC) ;
+
+        const Interval interval = Interval::Closed(startInstant, endInstant) ;
+
+        const auto generateGroundStationTrajectory = [] () -> Trajectory
+        {
+
+            const LLA groundStationLla = { Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0) } ;
+
+            const Position groundStationPosition = Position::Meters(groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()) ;
+
+            return Trajectory::Position(groundStationPosition) ;
+
+        } ;
+
+        const auto generateSatelliteOrbit = [&environment, &startInstant] () -> Orbit
+        {
+
+            const Length semiMajorAxis = Length::Kilometers(6878.14) ;
+            const Real eccentricity = 0.0 ;
+            const Angle inclination = Angle::Degrees(97.5034) ;
+            const Angle raan = Angle::Degrees(0.0) ;
+            const Angle aop = Angle::Degrees(0.0) ;
+            const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+            const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+            const Instant epoch = startInstant ;
+            const Derived gravitationalParameter = Earth::GravitationalParameter ;
+            const Length equatorialRadius = Earth::EquatorialRadius ;
+            const Real J2 = Earth::J2 ;
+
+            const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
+
+            const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+
+            return orbit ;
+
+        } ;
+
+        const Trajectory groundStationTrajectory = generateGroundStationTrajectory() ;
+        const Orbit satelliteOrbit = generateSatelliteOrbit() ;
+
+        const Array<Access> accesses = generator.computeAccesses(interval, groundStationTrajectory, satelliteOrbit) ;
+        // std::cout << accesses << std::endl ;
+
+        // Reference data setup
+
+        const File referenceDataFile = File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerMask/Scenario 1.csv")) ;
+
+        const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true) ;
+
+        const Duration toleranceDuration = Duration::Seconds(0.5) ;
+
+        // Test
+
+        ASSERT_EQ(referenceData.getRowCount(), accesses.getSize()) ;
+
+        for (const auto accessTuple : ostk::core::ctnr::iterators::Zip(referenceData, accesses))
+        {
+
+            const auto& referenceRow = std::get<0>(accessTuple) ;
+            const Access& access = std::get<1>(accessTuple) ;
+
+            const Instant reference_acquisitionOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+            // const Instant reference_timeOfClosestApproach = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant reference_lossOfSignal = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal()) ;
+
+            EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()) ;
+            // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration)) << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()) ;
+            EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration)) << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString()) ;
+            EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration)) << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString()) ;
+
+        }
+
+    }
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

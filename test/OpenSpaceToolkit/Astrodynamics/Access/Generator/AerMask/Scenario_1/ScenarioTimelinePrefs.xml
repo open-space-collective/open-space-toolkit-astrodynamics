@@ -1,0 +1,25 @@
+<?xml version = "1.0" standalone = "yes"?>
+<TimelineLine_Prefs STK_version = "12.0.0">
+    <Views Type = "Content">
+        <ContentView Name = "Scenario Availability">
+            <Row ClassName = "Scenario" ComponentName = "AvailabilityIntervals" DisplayName = "Scenario AvailabilityIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "/Application/STK/Scenario/Scenario" Type = "IntervalList">
+                <Interval Name = "Scenario AvailabilityIntervals" StartTime = "1 Jan 2018 00:00:00.000" StopTime = "10 Jan 2018 00:00:00.000" />
+            </Row>
+            <Row ClassName = "Access" ComponentName = "AccessIntervals" DisplayName = "Target-Target-To-Satellite-Satellite AccessIntervals" IsDefaultName = "True" IsExpanded = "False" IsGroup = "False" IsHidden = "False" Path = "Access:/Application/STK/Scenario/Scenario/Target/Target;/Application/STK/Scenario/Scenario/Satellite/Satellite" Type = "IntervalList">
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "1 Jan 2018 09:40:27.469" StopTime = "1 Jan 2018 09:42:49.723" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "1 Jan 2018 22:39:36.096" StopTime = "1 Jan 2018 22:41:39.125" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "2 Jan 2018 09:22:14.431" StopTime = "2 Jan 2018 09:23:50.972" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "4 Jan 2018 23:17:35.492" StopTime = "4 Jan 2018 23:19:18.506" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "5 Jan 2018 09:59:26.563" StopTime = "5 Jan 2018 10:01:30.059" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "5 Jan 2018 22:58:18.310" StopTime = "5 Jan 2018 23:00:52.383" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Jan 2018 09:40:39.844" StopTime = "6 Jan 2018 09:43:02.051" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "6 Jan 2018 22:39:48.497" StopTime = "6 Jan 2018 22:41:51.300" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "7 Jan 2018 09:22:26.855" StopTime = "7 Jan 2018 09:24:03.140" />
+                <Interval Name = "Target-Target-To-Satellite-Satellite AccessIntervals" StartTime = "9 Jan 2018 23:17:47.660" StopTime = "9 Jan 2018 23:19:30.893" />
+            </Row>
+        </ContentView>
+    </Views>
+    <Views Type = "Time">
+        <TimeView FullViewRulerStartTime = "0.000000" FullViewRulerStopTime = "0.000000" GlobalIntervalComp = "AnalysisInterval" GlobalIntervalCompPath = "/Application/STK/Scenario/Scenario" GlobalStartOffset = "0.000000" GlobalStartTime = "1 Jan 2018 00:00:00.000" GlobalStopOffset = "0.000000" GlobalStopTime = "10 Jan 2018 00:00:00.000" MaxFullViewTime = "0.000000" MinFullViewTime = "0.000000" Name = "Scenario Analysis Period" ViewportStartTime = "0.000000" ViewportStopTime = "0.000000" />
+    </Views>
+</TimelineLine_Prefs>

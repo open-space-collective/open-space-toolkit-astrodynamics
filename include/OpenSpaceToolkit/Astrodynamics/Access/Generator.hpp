@@ -23,6 +23,7 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +39,7 @@ namespace access
 
 using ostk::core::types::Real ;
 using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Map ;
 
 using ostk::math::obj::Interval ;
 
@@ -89,6 +91,10 @@ class Generator
 
         static Generator        AerRanges                                   (   const   Interval<Real>&             anAzimuthRange,
                                                                                 const   Interval<Real>&             anElevationRange,
+                                                                                const   Interval<Real>&             aRangeRange,
+                                                                                const   Environment&                anEnvironment                               ) ;
+
+        static Generator        AerMask                                     (   const   Map<Real, Real>&            anAzimuthElevationMask,
                                                                                 const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               ) ;
 

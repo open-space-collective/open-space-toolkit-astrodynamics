@@ -60,6 +60,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
 
         .def("undefined", &Generator::Undefined).staticmethod("undefined")
         .def("aer_ranges", &Generator::AerRanges).staticmethod("aer_ranges")
+        .def("aer_mask", &Generator::AerMask).staticmethod("aer_mask")
 
     ;
 
