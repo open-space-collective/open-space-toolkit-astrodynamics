@@ -5,8 +5,8 @@ NumberOfPoints 5
 
 BEGIN AzElMaskData
 
-0	30.0
-90  60.0
+0 30.0
+90 60.0
 180 60.0
 270 30.0
 359 30.0

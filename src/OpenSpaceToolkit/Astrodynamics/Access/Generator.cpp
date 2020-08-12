@@ -546,12 +546,15 @@ Generator                       Generator::AerMask                           (  
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Map ;
 
+    using ostk::math::obj::Vector2d ;
+
     if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) || (anAzimuthElevationMask.rbegin()->first > 360.0))
     {
         throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask") ;
     }
 
-    for (const auto& azimuthElevationPair : anAzimuthElevationMask) {
+    for (const auto& azimuthElevationPair : anAzimuthElevationMask)
+    {
         if ((azimuthElevationPair.second).abs() > 90.0) 
         {
             throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask") ;
@@ -580,10 +583,17 @@ Generator                       Generator::AerMask                           (  
         auto itLow = anAzimuthElevationMask_deg.lower_bound(azimuth) ; itLow-- ;
         auto itUp = anAzimuthElevationMask_deg.upper_bound(azimuth) ;
 
-        const std::vector<Real> lowToUpVector = { itUp->first - itLow->first, itUp->second - itLow->second } ;
-        const std::vector<Real> lowToPointVector = { azimuth - itLow->first, elevation - itLow->second } ;
+        // Vector between the two successive mask data points with bounding azimuth values
 
-        return (lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0] > 0.0)
+        const Vector2d lowToUpVector = { itUp->first - itLow->first, itUp->second - itLow->second } ;
+
+        // Vector from data point with azimuth lower bound to tested point
+
+        const Vector2d lowToPointVector = { azimuth - itLow->first, elevation - itLow->second } ;
+
+        // If the determinant of these two vectors is positive, the tested point lies above the function defined by the mask
+
+        return (lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0] >= 0.0)
             && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;
 
     } ;
