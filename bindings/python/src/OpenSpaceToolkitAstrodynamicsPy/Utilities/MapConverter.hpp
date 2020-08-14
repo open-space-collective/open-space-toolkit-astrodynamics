@@ -1,52 +1,56 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Utilities/MapConverter.hpp
+/// @author         Robin Petitdemange <robin@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __OpenSpaceToolkitAstrodynamicsPy_Utilities_IterableConverter__
-#define __OpenSpaceToolkitAstrodynamicsPy_Utilities_IterableConverter__
-
-#include <boost/python/stl_iterator.hpp>
+#ifndef __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__
+#define __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// https://stackoverflow.com/questions/42952781/how-to-wrap-a-c-class-with-a-constructor-that-takes-a-stdmap-or-stdvector
+// https://stackoverflow.com/questions/6116345/boostpython-possible-to-automatically-convert-from-dict-stdmap
+// https://stackoverflow.com/questions/15842126/feeding-a-python-list-into-a-function-taking-in-a-vector-with-boost-python
+// https://misspent.wordpress.com/2009/09/27/how-to-write-boost-python-converters/
+// https://www.boost.org/doc/libs/1_39_0/libs/python/doc/v2/faq.html#custom_string
+
 template <typename Container>
-struct ToListConverter
+struct ToDictConverter
 {
 
 	static PyObject*            convert                                     (   const   Container&                  aContainer                                  )
     {
 
-        boost::python::list list ;
+        boost::python::dict dict ;
 
         for (const auto& element : aContainer)
         {
-            list.append(element) ;
+            dict[element.first] = element.second ;
         }
 
-        return boost::python::incref(list.ptr()) ;
+        return boost::python::incref(dict.ptr()) ;
 
 	}
 
 } ;
 
-struct IterableConverter
+struct MapConverter
 {
 
     /// @brief                  Registers converter from a python iterable type to the provided type
 
                                 template <typename Container>
-    IterableConverter&          from_python                                 ( )
+    MapConverter&               from_python                                 ( )
     {
 
         boost::python::converter::registry::push_back
         (
-            &IterableConverter::convertible,
-            &IterableConverter::construct<Container>,
+            &MapConverter::convertible,
+            &MapConverter::construct<Container>,
             boost::python::type_id<Container>()
         ) ;
 
@@ -57,10 +61,10 @@ struct IterableConverter
     /// @brief                  Registers converter from the provided type to a python iterable type
 
                                 template <typename Container>
-    IterableConverter&          to_python                                   ( )
+    MapConverter&               to_python                                   ( )
     {
 
-        boost::python::to_python_converter<Container, ToListConverter<Container>>() ;
+        boost::python::to_python_converter<Container, ToDictConverter<Container>>() ;
 
         return *this ;
 
@@ -77,9 +81,7 @@ struct IterableConverter
     ///
     /// Container Concept requirements:
     ///
-    ///   * Container::value_type is CopyConstructable.
-    ///   * Container can be constructed and populated with two iterators.
-    ///     I.e. Container(begin, end)
+    ///   * Container to be constructed is a map.
 
                                 template <typename Container>
     static void                 construct                                   (           PyObject*                   object,
@@ -98,18 +100,47 @@ struct IterableConverter
 
         void* storage = reinterpret_cast<storage_type*>(data)->storage.bytes ;
 
-        typedef python::stl_input_iterator<typename Container::value_type> iterator ;
+        // Allocate the C++ type into the converter's memory block
 
-        // Allocate the C++ type into the converter's memory block, and assign
-        // its handle to the converter's convertible variable.  The C++
-        // container is populated by passing the begin and end iterators of
-        // the python object to the container's constructor.
+        new (storage) Container() ;
 
-        new (storage) Container
-        (
-            iterator(python::object(handle)), // begin
-            iterator() // end
-        ) ;
+        // Iterate over the dictionary and populate the map
+
+        python::dict dict(handle) ;
+
+        Container& map(*(static_cast<Container*>(storage))) ;
+
+        python::list keys(dict.keys()) ;
+        int keyCount(static_cast<int>(python::len(keys))) ;
+
+        for (int i = 0 ; i < keyCount ; ++i)
+        {
+
+            python::object keyObj(keys[i]) ;
+            python::extract<typename Container::key_type> keyProxy(keyObj) ;
+
+            if (!keyProxy.check())
+            {
+                PyErr_SetString(PyExc_KeyError, "Bad key type.") ;
+                python::throw_error_already_set() ;
+            }
+
+            typename Container::key_type key = keyProxy() ;
+
+            python::object valObj(dict[keyObj]) ;
+            python::extract<typename Container::mapped_type> valProxy(valObj) ;
+
+            if (!valProxy.check())
+            {
+                PyErr_SetString(PyExc_ValueError, "Bad value type.") ;
+                python::throw_error_already_set() ;
+            }
+
+            typename Container::mapped_type val = valProxy() ;
+
+            map.insert({ key, val }) ;
+
+         }
 
         data->convertible = storage ;
 

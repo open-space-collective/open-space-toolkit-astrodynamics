@@ -9,6 +9,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/MapConverter.hpp>
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator ( )
@@ -17,6 +19,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
     using namespace boost::python ;
 
     using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Map ;
 
     using ostk::physics::Environment ;
     using ostk::physics::coord::spherical::AER ;
@@ -61,6 +65,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
         .def("undefined", &Generator::Undefined).staticmethod("undefined")
         .def("aer_ranges", &Generator::AerRanges).staticmethod("aer_ranges")
         .def("aer_mask", &Generator::AerMask).staticmethod("aer_mask")
+
+    ;
+
+    MapConverter()
+
+        .from_python<Map<Real, Real>>()
+        .to_python<Map<Real, Real>>()
 
     ;
 
