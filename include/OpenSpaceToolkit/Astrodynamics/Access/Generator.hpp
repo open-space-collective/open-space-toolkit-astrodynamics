@@ -94,6 +94,13 @@ class Generator
                                                                                 const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               ) ;
 
+        /// @brief              Constructs an access generator with a defined AER mask
+        ///
+        /// @param              [in] anAzimuthElevationMask An azimuth-elevation mask [deg]
+        /// @param              [in] aRangeRange A range interval [m]
+        /// @param              [in] anEnvironment An environment
+        /// @return             An access generator
+
         static Generator        AerMask                                     (   const   Map<Real, Real>&            anAzimuthElevationMask,
                                                                                 const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               ) ;
