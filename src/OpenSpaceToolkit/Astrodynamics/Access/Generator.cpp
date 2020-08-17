@@ -538,6 +538,70 @@ Generator                       Generator::AerRanges                        (   
 
 }
 
+Generator                       Generator::AerMask                           (  const   Map<Real, Real>&            anAzimuthElevationMask,
+                                                                                const   Interval<Real>&             aRangeRange,
+                                                                                const   Environment&                anEnvironment                               )
+{                    
+
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Map ;
+
+    using ostk::math::obj::Vector2d ;
+
+    if ((anAzimuthElevationMask.empty()) || (anAzimuthElevationMask.begin()->first < 0.0) || (anAzimuthElevationMask.rbegin()->first > 360.0))
+    {
+        throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask") ;
+    }
+
+    for (const auto& azimuthElevationPair : anAzimuthElevationMask)
+    {
+        if ((azimuthElevationPair.second).abs() > 90.0) 
+        {
+            throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask") ;
+        }
+    }
+
+    Map<Real, Real> anAzimuthElevationMask_deg = anAzimuthElevationMask ;
+    const Interval<Real> rangeRange_m = aRangeRange ;
+
+    if (anAzimuthElevationMask_deg.begin()->first != 0.0)
+    {
+        anAzimuthElevationMask_deg.insert({ 0.0, anAzimuthElevationMask_deg.begin()->second }) ;
+    }
+
+    if (anAzimuthElevationMask_deg.rbegin()->first != 360.0)
+    {
+        anAzimuthElevationMask_deg.insert({ 360.0, anAzimuthElevationMask_deg.begin()->second }) ;
+    }
+
+    const std::function<bool (const AER&)> aerFilter = [anAzimuthElevationMask_deg, rangeRange_m] (const AER& anAER) -> bool
+    {
+
+        const Real azimuth = anAER.getAzimuth().inDegrees(0.0, +360.0) ;
+        const Real elevation = anAER.getElevation().inDegrees(-180.0, +180.0) ;
+
+        auto itLow = anAzimuthElevationMask_deg.lower_bound(azimuth) ; itLow-- ;
+        auto itUp = anAzimuthElevationMask_deg.upper_bound(azimuth) ;
+
+        // Vector between the two successive mask data points with bounding azimuth values
+
+        const Vector2d lowToUpVector = { itUp->first - itLow->first, itUp->second - itLow->second } ;
+
+        // Vector from data point with azimuth lower bound to tested point
+
+        const Vector2d lowToPointVector = { azimuth - itLow->first, elevation - itLow->second } ;
+
+        // If the determinant of these two vectors is positive, the tested point lies above the function defined by the mask
+
+        return (lowToUpVector[0] * lowToPointVector[1] - lowToUpVector[1] * lowToPointVector[0] >= 0.0)
+            && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;
+
+    } ;
+    
+    return { anEnvironment, aerFilter, {} } ;
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
