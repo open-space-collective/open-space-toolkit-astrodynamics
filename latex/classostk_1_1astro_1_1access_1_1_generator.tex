@@ -29,7 +29,9 @@ void \hyperlink{classostk_1_1astro_1_1access_1_1_generator_ade3c6b8b5afe0f850e35
 static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a1fb2dd3d88187da24482168337a23ade}{Undefined} ()
 \item 
 static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}{Aer\+Ranges} (const Interval$<$ Real $>$ \&an\+Azimuth\+Range, const Interval$<$ Real $>$ \&an\+Elevation\+Range, const Interval$<$ Real $>$ \&a\+Range\+Range, const Environment \&an\+Environment)
-\begin{DoxyCompactList}\small\item\em Constructs an access generator with defined A\+ER ranges. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constructs an access generator with defined A\+ER ranges. \end{DoxyCompactList}\item 
+static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperlink{classostk_1_1astro_1_1access_1_1_generator_a023edbe897ad6db339dce2107821442f}{Aer\+Mask} (const Map$<$ Real, Real $>$ \&an\+Azimuth\+Elevation\+Mask, const Interval$<$ Real $>$ \&a\+Range\+Range, const Environment \&an\+Environment)
+\begin{DoxyCompactList}\small\item\em Constructs an access generator with a defined A\+ER mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -48,6 +50,28 @@ static \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} \hyperl
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_a023edbe897ad6db339dce2107821442f}\label{classostk_1_1astro_1_1access_1_1_generator_a023edbe897ad6db339dce2107821442f}} 
+\index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Aer\+Mask@{Aer\+Mask}}
+\index{Aer\+Mask@{Aer\+Mask}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}
+\subsubsection{\texorpdfstring{Aer\+Mask()}{AerMask()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator} ostk\+::astro\+::access\+::\+Generator\+::\+Aer\+Mask (\begin{DoxyParamCaption}\item[{const Map$<$ Real, Real $>$ \&}]{an\+Azimuth\+Elevation\+Mask,  }\item[{const Interval$<$ Real $>$ \&}]{a\+Range\+Range,  }\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs an access generator with a defined A\+ER mask. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Azimuth\+Elevation\+Mask} & An azimuth-\/elevation mask \mbox{[}deg\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em a\+Range\+Range} & A range interval \mbox{[}m\mbox{]} \\
+\hline
+\mbox{\tt in}  & {\em an\+Environment} & An environment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An access generator 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}\label{classostk_1_1astro_1_1access_1_1_generator_aececdcffcfea35feb07d9214752e6995}} 
 \index{ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}!Aer\+Ranges@{Aer\+Ranges}}
 \index{Aer\+Ranges@{Aer\+Ranges}!ostk\+::astro\+::access\+::\+Generator@{ostk\+::astro\+::access\+::\+Generator}}

@@ -114,6 +114,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aececdcffcfea35feb07d9214752e6995"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995">AerRanges</a> (const Interval&lt; Real &gt; &amp;anAzimuthRange, const Interval&lt; Real &gt; &amp;anElevationRange, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</td></tr>
 <tr class="memdesc:aececdcffcfea35feb07d9214752e6995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an access generator with defined AER ranges.  <a href="#aececdcffcfea35feb07d9214752e6995">More...</a><br /></td></tr>
 <tr class="separator:aececdcffcfea35feb07d9214752e6995"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a023edbe897ad6db339dce2107821442f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f">AerMask</a> (const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeRange, const Environment &amp;anEnvironment)</td></tr>
+<tr class="memdesc:a023edbe897ad6db339dce2107821442f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an access generator with a defined AER mask.  <a href="#a023edbe897ad6db339dce2107821442f">More...</a><br /></td></tr>
+<tr class="separator:a023edbe897ad6db339dce2107821442f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af609f21b3329033836220c55b75ab704"></a>
@@ -169,6 +172,59 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a023edbe897ad6db339dce2107821442f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a023edbe897ad6db339dce2107821442f">&#9670;&nbsp;</a></span>AerMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html">Generator</a> ostk::astro::access::Generator::AerMask </td>
+          <td>(</td>
+          <td class="paramtype">const Map&lt; Real, Real &gt; &amp;&#160;</td>
+          <td class="paramname"><em>anAzimuthElevationMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Interval&lt; Real &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aRangeRange</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Environment &amp;&#160;</td>
+          <td class="paramname"><em>anEnvironment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs an access generator with a defined AER mask. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anAzimuthElevationMask</td><td>An azimuth-elevation mask [deg] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aRangeRange</td><td>A range interval [m] </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An access generator </dd></dl>
+
+</div>
+</div>
 <a id="aececdcffcfea35feb07d9214752e6995"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aececdcffcfea35feb07d9214752e6995">&#9670;&nbsp;</a></span>AerRanges()</h2>
 
