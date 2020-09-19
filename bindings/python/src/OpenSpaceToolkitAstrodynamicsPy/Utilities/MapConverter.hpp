@@ -74,7 +74,17 @@ struct MapConverter
 
     static void*                convertible                                 (           PyObject*                   anObject                                    )
     {
-        return PyObject_GetIter(anObject) ? anObject : nullptr ;
+
+        auto *iterator = PyObject_GetIter(anObject) ;
+
+        if (iterator != nullptr)
+        {
+            boost::python::decref(iterator) ;
+            return anObject ;
+        }
+
+        return nullptr ;
+
     }
 
     /// @brief Convert iterable PyObject to C++ container type.
