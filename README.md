@@ -198,16 +198,16 @@ Or to run them manually:
 
 ## Dependencies
 
-| Name        | Version | License                | Link                                                                                                                                           |
-| ----------- | ------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                                             |
-| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                    |
-| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                       |
-| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                                 |
-| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)                   |
-| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                       |
-| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics)     |
-| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-astrodynamics](https://github.com/open-space-collective/open-space-toolkit-astrodynamics) |
+| Name        | Version | License                | Link                                                                                                                                       |
+| ----------- | ------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Boost       | 1.69.0  | Boost Software License | [boost.org](https://www.boost.org)                                                                                                         |
+| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
+| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| Core        | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
+| I/O         | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
+| Mathematics | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
+| Physics     | master  | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
 ## Contribution
 
