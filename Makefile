@@ -28,7 +28,7 @@ export jupyter_notebook_port := 9005
 export open_space_toolkit_core_version := 0.3.3
 export open_space_toolkit_io_version := 0.3.3
 export open_space_toolkit_mathematics_version := 0.3.4
-export open_space_toolkit_physics_version := 0.4.6
+export open_space_toolkit_physics_version := 0.4.7
 
 export open_space_toolkit_core_directory := $(project_directory)/../open-space-toolkit-core
 export open_space_toolkit_io_directory := $(project_directory)/../open-space-toolkit-io
@@ -367,6 +367,22 @@ start-jupyter-notebook: build-release-image-jupyter
 	$(docker_release_image_jupyter_repository):$(docker_image_version) \
 	bash -c "start-notebook.sh --NotebookApp.token=''"
 
+debug-jupyter-notebook: build-release-image-jupyter
+
+	@ echo "Debugging Jupyter Notebook environment..."
+
+	docker run \
+	-it \
+	--rm \
+	--publish="${jupyter_notebook_port}:8888" \
+	--volume="${project_directory}/bindings/python/docs:/home/jovyan/docs" \
+	--volume="${project_directory}/tutorials/python/notebooks:/home/jovyan/tutorials" \
+	--volume="${project_directory}/lib/libopen-space-toolkit-astrodynamics.so.0:/opt/conda/lib/python3.7/site-packages/ostk/astrodynamics/libopen-space-toolkit-astrodynamics.so.0:ro" \
+	--volume="${project_directory}/lib/OpenSpaceToolkitAstrodynamicsPy.so:/opt/conda/lib/python3.7/site-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.so:ro" \
+	--workdir="/home/jovyan" \
+	$(docker_release_image_jupyter_repository):$(docker_image_version) \
+	bash -c "start-notebook.sh --NotebookApp.token=''"
+
 ################################################################################################################################################################
 
 debug-development:
@@ -696,7 +712,7 @@ clean:
 		build-packages-cpp build-packages-cpp-debian build-packages-cpp-fedora \
 		start-development start-development-debian start-development-fedora \
 		start-python start-python-debian start-python-fedora \
-		start-jupyter-notebook \
+		start-jupyter-notebook debug-jupyter-notebook \
 		debug-development-debian debug-cpp-release-debian debug-python-release-debian \
 		debug-development-fedora debug-cpp-release-fedora debug-python-release-fedora \
 		test \
