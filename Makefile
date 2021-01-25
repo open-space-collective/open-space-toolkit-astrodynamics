@@ -15,7 +15,8 @@ export docker_registry_path := openspacecollective
 export docker_image_repository := $(docker_registry_path)/$(project_name)
 export docker_image_version := $(project_version)
 
-export development_base_image_version := 0.1.10
+export development_base_image_version := 0.2.0
+# export development_base_image_version := 0.1.10
 
 export docker_development_image_repository := $(docker_image_repository)-development
 export docker_release_image_cpp_repository := $(docker_image_repository)-cpp

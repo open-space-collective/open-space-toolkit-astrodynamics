@@ -7,16 +7,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
+// #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State (        pybind11::module&     aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Shared ;
 
@@ -28,13 +28,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
 
     using ostk::astro::flight::profile::State ;
 
-    scope in_State = class_<State>("State", init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>())
+    class_<State>(aModule, "State")
+
+        .def(init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        // .def(self_ns::str(self_ns::self))
+        // .def(self_ns::repr(self_ns::self))
 
         .def("is_defined", &State::isDefined)
 
@@ -46,18 +48,18 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
         .def("get_frame", &State::getFrame)
         .def("in_frame", &State::inFrame)
 
-        .def("undefined", &State::Undefined).staticmethod("undefined")
+        .def_static("undefined", &State::Undefined)
 
     ;
 
-    using ostk::core::ctnr::Array ;
+    // using ostk::core::ctnr::Array ;
 
-    IterableConverter()
+    // IterableConverter()
 
-        .from_python<Array<State>>()
-        .to_python<Array<State>>()
+    //     .from_python<Array<State>>()
+    //     .to_python<Array<State>>()
 
-    ;
+    // ;
 
 }
 

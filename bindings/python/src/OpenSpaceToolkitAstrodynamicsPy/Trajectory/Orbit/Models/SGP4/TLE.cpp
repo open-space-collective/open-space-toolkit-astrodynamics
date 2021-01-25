@@ -11,24 +11,26 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE (        pybind11::module& aModule                             )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::String ;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
-    scope in_TLE = class_<TLE>("TLE", init<String, String>())
+    class_<TLE>(aModule, "TLE")
+
+        .def(init<String, String>())
 
         .def(init<String, String, String>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        // .def(self_ns::str(self_ns::self))
+        // .def(self_ns::repr(self_ns::self))
 
         .def("is_defined", &TLE::isDefined)
 
@@ -54,10 +56,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_revolution_number_at_epoch", &TLE::getRevolutionNumberAtEpoch)
         .def("get_second_line_checksum", &TLE::getSecondLineChecksum)
 
-        .def("undefined", &TLE::Undefined).staticmethod("undefined")
+        .def_static("undefined", &TLE::Undefined)
         .def("can_parse", +[] (const String& aFirstLine, const String& aSecondLine) -> bool { return TLE::CanParse(aFirstLine, aSecondLine) ; })
-        .def("parse", &TLE::Parse).staticmethod("parse")
-        .def("load", &TLE::Load).staticmethod("load")
+        .def_static("parse", &TLE::Parse)
+        .def_static("load", &TLE::Load)
 
     ;
 

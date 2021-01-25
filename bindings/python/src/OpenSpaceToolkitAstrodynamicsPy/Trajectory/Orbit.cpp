@@ -17,10 +17,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit (        pybind11::module&         aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Shared ;
     using ostk::core::types::Integer ;
@@ -35,36 +35,42 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     {
 
-        scope in_Orbit = class_<Orbit, bases<ostk::astro::Trajectory>>("Orbit", init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
+        class_<Orbit, ostk::astro::Trajectory> orbit_class(aModule, "Orbit") ;
+
+        orbit_class.def(init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
 
             .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
 
             .def(self == self)
             .def(self != self)
 
-            .def(self_ns::str(self_ns::self))
-            .def(self_ns::repr(self_ns::self))
+            // .def(self_ns::str(self_ns::self))
+            // .def(self_ns::repr(self_ns::self))
 
             .def("is_defined", &Orbit::isDefined)
 
-            .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
-            .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
-            .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+            // .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
+            // .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+            // .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+
+            .def("access_model", &Orbit::accessModel, return_value_policy::reference) // [TBR]
+            .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy::reference) // [TBR]
+            .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy::reference) // [TBR]
 
             .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt)
             .def("get_pass_at", &Orbit::getPassAt)
             .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber)
             .def("get_orbital_frame", &Orbit::getOrbitalFrame)
 
-            .def("undefined", &Orbit::Undefined).staticmethod("undefined")
-            .def("circular", &Orbit::Circular).staticmethod("circular")
-            .def("equatorial", &Orbit::Equatorial).staticmethod("equatorial")
-            .def("circular_equatorial", &Orbit::CircularEquatorial).staticmethod("circular_equatorial")
-            .def("sun_synchronous", &Orbit::SunSynchronous).staticmethod("sun_synchronous")
+            .def_static("undefined", &Orbit::Undefined)
+            .def_static("circular", &Orbit::Circular)
+            .def_static("equatorial", &Orbit::Equatorial)
+            .def_static("circular_equatorial", &Orbit::CircularEquatorial)
+            .def_static("sun_synchronous", &Orbit::SunSynchronous)
 
         ;
 
-        enum_<Orbit::FrameType>("FrameType")
+        enum_<Orbit::FrameType>(orbit_class, "FrameType")
 
             .value("Undefined", Orbit::FrameType::Undefined)
             .value("NED", Orbit::FrameType::NED)
@@ -79,15 +85,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     }
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory.orbit")))) ;
+    // Create "orbit" python submodule
+    auto orbit = aModule.def_submodule("orbit") ;
 
-    boost::python::scope().attr("orbit") = module ;
+    // Add __path__ attribute for "orbit" submodule
+    orbit.attr("__path__") = "ostk.astrodynamics.trajectory.orbit" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(orbit) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(orbit) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(orbit) ;
 
 }
 

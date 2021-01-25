@@ -13,10 +13,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model (        pybind11::module&   aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::astro::trajectory::orbit::Model ;
     using ostk::astro::trajectory::orbit::models::Kepler ;
@@ -24,20 +24,26 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>, boost::noncopyable>("OrbitModel", no_init)
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>>("OrbitModel", no_init)
-    scope in_Model = class_<Model, boost::noncopyable>("Model", no_init)
+    class_<Model>(aModule, "Model")
 
-        .def(self == self)
-        .def(self != self)
+        // no init
 
-        .def(self_ns::str(self_ns::self))
+        // .def(self == self)
+        // .def(self != self)
+        .def("__eq__", [](const Model &self, const Model &other){ return self == other; })
+        .def("__ne__", [](const Model &self, const Model &other){ return self != other; })
+
+        // .def(self_ns::str(self_ns::self))
 
         .def("is_defined", &Model::isDefined)
 
         .def("is_kepler", +[] (const Model& aModel) -> bool { return aModel.is<Kepler>() ; })
         .def("is_sgp4", +[] (const Model& aModel) -> bool { return aModel.is<SGP4>() ; })
 
-        .def("as_kepler", +[] (const Model& aModel) -> const Kepler& { return aModel.as<Kepler>() ; }, return_value_policy<reference_existing_object>())
-        .def("as_sgp4", +[] (const Model& aModel) -> const SGP4& { return aModel.as<SGP4>() ; }, return_value_policy<reference_existing_object>())
+        // .def("as_kepler", +[] (const Model& aModel) -> const Kepler& { return aModel.as<Kepler>() ; }, return_value_policy<reference_existing_object>())
+        // .def("as_sgp4", +[] (const Model& aModel) -> const SGP4& { return aModel.as<SGP4>() ; }, return_value_policy<reference_existing_object>())
+        .def("as_kepler", +[] (const Model& aModel) -> const Kepler& { return aModel.as<Kepler>() ; }, return_value_policy::reference)
+        .def("as_sgp4", +[] (const Model& aModel) -> const SGP4& { return aModel.as<SGP4>() ; }, return_value_policy::reference)
 
         .def("get_epoch", &Model::getEpoch)
         .def("get_revolution_number_at_epoch", &Model::getRevolutionNumberAtEpoch)

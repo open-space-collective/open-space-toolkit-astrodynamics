@@ -7,7 +7,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <boost/python.hpp>
+#include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
+#include <pybind11/eigen.h>
+#include <pybind11/numpy.h>
+
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ArrayCasting.hpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
@@ -15,16 +21,29 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-BOOST_PYTHON_MODULE (OpenSpaceToolkitAstrodynamicsPy)
+PYBIND11_MODULE (OpenSpaceToolkitAstrodynamicsPy, m)
 {
 
-	boost::python::object package = boost::python::scope() ;
+    // Add optional docstring for package OpenSpaceToolkitAstrodynamicsPy
+    m.doc() = "Orbit, attitude, access for OpenSpaceToolkit" ;
 
-	package.attr("__path__") = "ostk" ;
+    // Add __path__ attribute to python package
+    m.attr("__path__") = "ostk.astrodynamics" ;
 
-	OpenSpaceToolkitAstrodynamicsPy_Trajectory() ;
-	OpenSpaceToolkitAstrodynamicsPy_Flight() ;
-	OpenSpaceToolkitAstrodynamicsPy_Access() ;
+    // Change attribute __name__ to make OpenSpaceToolkitAstrodynamicsPy invisible in modules path
+    m.attr("__name__") = "ostk.astrodynamics" ;
+
+    // Package version information
+    #ifdef VERSION_INFO
+        m.attr("__version__") = VERSION_INFO ;
+    #else
+        m.attr("__version__") = "dev" ;
+    #endif
+
+    // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
+	OpenSpaceToolkitAstrodynamicsPy_Trajectory(m) ;
+	OpenSpaceToolkitAstrodynamicsPy_Flight(m) ;
+	OpenSpaceToolkitAstrodynamicsPy_Access(m) ;
 
 }
 

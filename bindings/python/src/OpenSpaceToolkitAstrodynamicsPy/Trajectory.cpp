@@ -15,25 +15,27 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (           pybind11::module&           aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::ctnr::Array ;
 
     using ostk::astro::Trajectory ;
     using ostk::astro::trajectory::State ;
 
-    class_<Trajectory>("Trajectory", init<const ostk::astro::trajectory::Model&>())
+    class_<Trajectory>(aModule, "Trajectory")
+
+        .def(init<const ostk::astro::trajectory::Model&>())
 
         .def(init<const Array<State>&>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        // .def(self_ns::str(self_ns::self))
+        // .def(self_ns::repr(self_ns::self))
 
         .def("is_defined", &Trajectory::isDefined)
 
@@ -42,20 +44,27 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  ( )
         .def("get_state_at", &Trajectory::getStateAt)
         .def("get_states_at", &Trajectory::getStatesAt)
 
-        .def("undefined", &Trajectory::Undefined).staticmethod("undefined")
-        .def("position", &Trajectory::Position).staticmethod("position")
+        .def_static("undefined", &Trajectory::Undefined)
+        .def_static("position", &Trajectory::Position)
 
     ;
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory")))) ;
+    // boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory")))) ;
 
-    boost::python::scope().attr("trajectory") = module ;
+    // boost::python::scope().attr("trajectory") = module ;
 
-    boost::python::scope scope = module ;
+    // boost::python::scope scope = module ;
 
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model() ;
+    // Create "trajectory" python submodule
+    auto trajectory = aModule.def_submodule("trajectory") ;
+
+    // Add __path__ attribute for "trajectory" submodule
+    trajectory.attr("__path__") = "ostk.astrodynamics.trajectory" ;
+
+    // Add objects to python submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory) ;
 
 }
 

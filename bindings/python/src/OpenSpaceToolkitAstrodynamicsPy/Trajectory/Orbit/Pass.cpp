@@ -11,10 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass (        pybind11::module&    aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Integer ;
 
@@ -22,13 +22,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     using ostk::astro::trajectory::orbit::Pass ;
 
-    scope in_Pass = class_<Pass>("Pass", init<const Pass::Type&, const Integer&, const Interval&>())
+    class_<Pass> pass_class(aModule, "Pass") ;
+
+    pass_class.def(init<const Pass::Type&, const Integer&, const Interval&>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        // .def(self_ns::str(self_ns::self))
+        // .def(self_ns::repr(self_ns::self))
 
         .def("is_defined", &Pass::isDefined)
         .def("is_complete", &Pass::isComplete)
@@ -37,14 +39,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_revolution_number", &Pass::getRevolutionNumber)
         .def("get_interval", &Pass::getInterval)
 
-        .def("undefined", &Pass::Undefined).staticmethod("undefined")
-        .def("string_from_type", &Pass::StringFromType).staticmethod("string_from_type")
-        .def("string_from_phase", &Pass::StringFromPhase).staticmethod("string_from_phase")
-        .def("string_from_quarter", &Pass::StringFromQuarter).staticmethod("string_from_quarter")
+        .def_static("undefined", &Pass::Undefined)
+        .def_static("string_from_type", &Pass::StringFromType)
+        .def_static("string_from_phase", &Pass::StringFromPhase)
+        .def_static("string_from_quarter", &Pass::StringFromQuarter)
 
     ;
 
-    enum_<Pass::Type>("Type")
+    enum_<Pass::Type>(pass_class, "Type")
 
         .value("Undefined", Pass::Type::Undefined)
         .value("Complete", Pass::Type::Complete)
@@ -52,7 +54,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     ;
 
-    enum_<Pass::Phase>("Phase")
+    enum_<Pass::Phase>(pass_class, "Phase")
 
         .value("Undefined", Pass::Phase::Undefined)
         .value("Ascending", Pass::Phase::Ascending)
@@ -60,7 +62,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     ;
 
-    enum_<Pass::Quarter>("Quarter")
+    enum_<Pass::Quarter>(pass_class, "Quarter")
 
         .value("Undefined", Pass::Quarter::Undefined)
         .value("First", Pass::Quarter::First)
