@@ -31,8 +31,8 @@ jobs:
       - name: Export Env Variables
         uses: secrethub/actions/env-export@v0.2.1
         env:
-          USERNAME: secrethub://remy15/docker/username
-          PASSWORD: secrethub://remy15/docker/password
+          USERNAME: secrethub://remy15/app/docker/username
+          PASSWORD: secrethub://remy15/app/docker/password
 
       # - name: Login DockerHub
       #   run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
