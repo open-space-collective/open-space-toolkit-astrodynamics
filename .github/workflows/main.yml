@@ -1,0 +1,75 @@
+name: Open Space Toolkit Astrodynamics GitHub Actions CI
+
+on:
+  push:
+    branches:
+      - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+      - master
+      - main
+      - dev
+  pull_request:
+    branches:
+      - master
+      - main
+
+env:
+  LANG: "en_US.UTF-8"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Build Development Images
+        run: make build-development-images
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Run Unit Tests Cpp
+        run: make test-unit-cpp-debian
+      - name: Run Unit Tests Python
+        run: make test-unit-python-debian
+      - name: Deploy Cpp Coverage Analysis Results
+        run: make deploy-coverage-cpp-results
+
+  deploy:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'created'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Deploy Image
+        run: make deploy-images
+
+      - name: Deploy Documentation
+        run: make deploy-documentation
+
+      - name: Build Packages
+        run: make build-packages
+
+      - name: Deploy Packages to GitHub Release
+        id: upload-release-asset
+        uses: svenstaro/upload-release-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: (./packages/cpp/* && ./packages/python/*)
+          tag: ${{ github.ref }}
+          # overwrite: true
+          file_glob: true
+
+      - name: Deploy Python package to PyPI
+        run: make deploy-packages-python
