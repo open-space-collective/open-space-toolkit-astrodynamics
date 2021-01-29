@@ -34,13 +34,14 @@ jobs:
           USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Login DockerHub
-        run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
       # - name: Login DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: $USERNAME
-      #     password: $TOKEN
+      #   run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
+      
+      - name: Login DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: $USERNAME
+          password: $PASSWORD
       - name: Deploy Development Image
         run: make deploy-development-images
 
