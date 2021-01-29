@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Deploy Development Image
-          make deploy-development-images
+        run: make deploy-development-images
 
   test:
     runs-on: ubuntu-latest
