@@ -31,19 +31,21 @@ jobs:
       - name: Export Env Variables
         uses: secrethub/actions/env-export@v0.2.1
         env:
-          USERNAME: secrethub://remy15/app/docker/username
-          PASSWORD: secrethub://remy15/app/docker/password
+          SECRETHUB_CREDENTIAL: ${{ secrets.SECRETHUB_CREDENTIAL }}
+          DOCKER_USERNAME: secrethub://remy15/app/docker/username
+          DOCKER_PASSWORD: secrethub://remy15/app/docker/password
 
-      # - name: Login DockerHub
-      #   run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
-
-      - name: Login DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: $USERNAME
-          password: $PASSWORD
       - name: Deploy Development Image
-        run: make deploy-development-images
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          make deploy-development-images
+      # - name: Login DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: $USERNAME
+      #     password: $PASSWORD
+      # - name: Deploy Development Image
+        # run: make deploy-development-images
 
   test:
     needs: [build]
