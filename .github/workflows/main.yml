@@ -25,7 +25,9 @@ jobs:
           fetch-depth: 0
 
       - name: Build Development Images
-        run: make build-development-images
+        run: |
+          make build-development-images
+          make deploy-development-images
 
   test:
     runs-on: ubuntu-latest
@@ -40,7 +42,7 @@ jobs:
 
       - name: Run Unit Tests Python
         run: make test-unit-python-debian
-        
+
       - name: Deploy Cpp Coverage Analysis Results
         run: make deploy-coverage-cpp-results
 
