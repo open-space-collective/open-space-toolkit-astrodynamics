@@ -27,6 +27,7 @@ jobs:
       - name: Build Development Images
         run: |
           make build-development-images
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
           make deploy-development-images
 
   test:
