@@ -27,20 +27,25 @@ jobs:
       - name: Build Development Images
         run: |
           make build-development-images
+
       - name: Export Env Variables
         uses: secrethub/actions/env-export@v0.2.1
         env:
           USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Login DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: $USERNAME
-          password: $TOKEN
+        run: echo $PASSWORD | docker login -u $USERNAME --password-stdin
+      # - name: Login DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: $USERNAME
+      #     password: $TOKEN
       - name: Deploy Development Image
         run: make deploy-development-images
 
   test:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
