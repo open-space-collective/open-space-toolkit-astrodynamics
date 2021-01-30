@@ -72,7 +72,7 @@ RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /t
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION=0.3.2
+ARG OSTK_CORE_VERSION=0.3.3
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
@@ -83,7 +83,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ## Open Space Toolkit ▸ IO
 
-ARG OSTK_IO_VERSION=0.3.2
+ARG OSTK_IO_VERSION=0.3.3
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
@@ -94,7 +94,7 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_VERSION=0.3.1
+ARG OSTK_MATHEMATICS_VERSION=0.3.4
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
@@ -105,7 +105,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION=0.4.4
+ARG OSTK_PHYSICS_VERSION=0.4.11
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
