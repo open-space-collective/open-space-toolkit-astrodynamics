@@ -34,7 +34,7 @@ setuptools.setup(
     packages = setuptools.find_packages(),
     package_data = {
         '': [
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/${LIBRARY_TARGET}.*{EXTENSION}*.so',
+            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/${LIBRARY_TARGET}.*${EXTENSION}*.so',
             '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0'
         ]
     },
