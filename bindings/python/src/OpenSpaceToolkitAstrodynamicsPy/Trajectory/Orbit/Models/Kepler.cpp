@@ -13,10 +13,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler (        pybind11::module& aModule                               )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Real ;
 
@@ -30,7 +30,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     {
 
-        scope in_Kepler = class_<Kepler, bases<ostk::astro::trajectory::orbit::Model>>("Kepler", init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
+        class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(aModule, "Kepler") ;
+
+        kepler_class.def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
 
             .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&>())
             .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>())
@@ -38,8 +40,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def(self == self)
             .def(self != self)
 
-            .def(self_ns::str(self_ns::self))
-            .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<Kepler>))
+            .def("__repr__", &(shiftToString<Kepler>))
 
             .def("is_defined", &Kepler::isDefined)
 
@@ -53,11 +55,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("calculate_state_at", &Kepler::calculateStateAt)
             .def("calculate_revolution_number_at", &Kepler::calculateRevolutionNumberAt)
 
-            .def("string_from_perturbation_type", &Kepler::StringFromPerturbationType).staticmethod("string_from_perturbation_type")
+            .def_static("string_from_perturbation_type", &Kepler::StringFromPerturbationType)
 
         ;
 
-        enum_<Kepler::PerturbationType>("PerturbationType")
+        enum_<Kepler::PerturbationType>(kepler_class, "PerturbationType")
 
             .value("No", Kepler::PerturbationType::None)
             .value("J2", Kepler::PerturbationType::J2)
@@ -66,13 +68,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     }
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory.orbit.models.kepler")))) ;
+    // Create "kepler" python submodule
+    auto kepler = aModule.def_submodule("kepler") ;
 
-    boost::python::scope().attr("kepler") = module ;
+    // Add __path__ attribute for "kepler" submodule
+    kepler.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.kepler" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE() ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(kepler) ;
 
 }
 

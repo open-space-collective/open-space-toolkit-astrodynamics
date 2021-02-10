@@ -11,10 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated (        pybind11::module& aModule                            )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Integer ;
     using ostk::core::ctnr::Array ;
@@ -22,13 +22,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     using ostk::astro::trajectory::State ;
     using ostk::astro::trajectory::orbit::models::Tabulated ;
 
-    scope in_Tabulated = class_<Tabulated>("Tabulated", init<Array<State>, Integer>())
+    class_<Tabulated>(aModule, "Tabulated")
+
+        .def(init<Array<State>, Integer>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<Tabulated>))
+        .def("__repr__", &(shiftToString<Tabulated>))
 
         .def("is_defined", &Tabulated::isDefined)
 

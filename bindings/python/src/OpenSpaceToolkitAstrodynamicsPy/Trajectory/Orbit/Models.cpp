@@ -13,18 +13,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models (       pybind11::module&   aModule                                     )
 {
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory.orbit.models")))) ;
+    // Create "models" python submodule
+    auto models = aModule.def_submodule("models") ;
 
-    boost::python::scope().attr("models") = module ;
+    // Add __path__ attribute for "models" submodule
+    models.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4() ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated() ;
+    // add objects to "models" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(models) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(models) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(models) ;
 
 }
 

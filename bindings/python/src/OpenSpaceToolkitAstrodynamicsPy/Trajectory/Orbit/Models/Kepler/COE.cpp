@@ -11,10 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE (        pybind11::module& aModule                           )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Real ;
 
@@ -23,13 +23,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
-    scope in_COE = class_<COE>("COE", init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>())
+    class_<COE>(aModule, "COE")
+
+        .def(init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<COE>))
+        .def("__repr__", &(shiftToString<COE>))
 
         .def("is_defined", &COE::isDefined)
 
@@ -45,12 +47,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_orbital_period", &COE::getOrbitalPeriod)
         .def("get_cartesian_state", &COE::getCartesianState)
 
-        .def("undefined", &COE::Undefined).staticmethod("undefined")
-        .def("cartesian", &COE::Cartesian).staticmethod("cartesian")
-        .def("eccentric_anomaly_from_true_anomaly", &COE::EccentricAnomalyFromTrueAnomaly).staticmethod("eccentric_anomaly_from_true_anomaly")
-        .def("true_anomaly_from_eccentric_anomaly", &COE::TrueAnomalyFromEccentricAnomaly).staticmethod("true_anomaly_from_eccentric_anomaly")
-        .def("mean_anomaly_from_eccentric_anomaly", &COE::MeanAnomalyFromEccentricAnomaly).staticmethod("mean_anomaly_from_eccentric_anomaly")
-        .def("eccentric_anomaly_from_mean_anomaly", &COE::EccentricAnomalyFromMeanAnomaly).staticmethod("eccentric_anomaly_from_mean_anomaly")
+        .def_static("undefined", &COE::Undefined)
+        .def_static("cartesian", &COE::Cartesian)
+        .def_static("eccentric_anomaly_from_true_anomaly", &COE::EccentricAnomalyFromTrueAnomaly)
+        .def_static("true_anomaly_from_eccentric_anomaly", &COE::TrueAnomalyFromEccentricAnomaly)
+        .def_static("mean_anomaly_from_eccentric_anomaly", &COE::MeanAnomalyFromEccentricAnomaly)
+        .def_static("eccentric_anomaly_from_mean_anomaly", &COE::EccentricAnomalyFromMeanAnomaly)
 
     ;
 

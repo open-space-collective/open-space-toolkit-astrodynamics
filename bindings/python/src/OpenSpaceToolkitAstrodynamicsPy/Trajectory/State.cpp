@@ -7,16 +7,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State (        pybind11::module&         aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::coord::Position ;
@@ -24,13 +22,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
 
     using ostk::astro::trajectory::State ;
 
-    scope in_State = class_<State>("State", init<const Instant&, const Position&, const Velocity&>())
+    class_<State>(aModule, "State")
+
+        .def(init<const Instant&, const Position&, const Velocity&>())
 
         .def(self == self)
         .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<State>))
+        .def("__repr__", &(shiftToString<State>))
 
         .def("is_defined", &State::isDefined)
 
@@ -39,16 +39,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
         .def("get_velocity", &State::getVelocity)
         .def("in_frame", &State::inFrame)
 
-        .def("undefined", &State::Undefined).staticmethod("undefined")
-
-    ;
-
-    using ostk::core::ctnr::Array ;
-
-    IterableConverter()
-
-        .from_python<Array<State>>()
-        .to_python<Array<State>>()
+        .def_static("undefined", &State::Undefined)
 
     ;
 

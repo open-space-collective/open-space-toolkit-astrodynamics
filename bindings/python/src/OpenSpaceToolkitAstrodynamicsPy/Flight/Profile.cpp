@@ -13,10 +13,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (        pybind11::module&           aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Shared ;
     using ostk::core::ctnr::Array ;
@@ -27,15 +27,17 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
     using ostk::astro::flight::Profile ;
     using ostk::astro::flight::profile::State ;
 
-    class_<Profile>("Profile", init<const DynamicProvider&, const Shared<const Frame>&>())
+    class_<Profile>(aModule, "Profile")
+
+        .def(init<const DynamicProvider&, const Shared<const Frame>&>())
 
         // .def(init<const Array<State>&>())
 
         // .def(self == self)
         // .def(self != self)
 
-        .def(self_ns::str(self_ns::self))
-        .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<Profile>))
+        .def("__repr__", &(shiftToString<Profile>))
 
         .def("is_defined", &Profile::isDefined)
 
@@ -43,19 +45,20 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         .def("get_states_at", &Profile::getStatesAt)
         .def("get_axes_at", &Profile::getAxesAt)
 
-        .def("undefined", &Profile::Undefined).staticmethod("undefined")
-        .def("inertial_pointing", &Profile::InertialPointing).staticmethod("inertial_pointing")
-        .def("nadir_pointing", &Profile::NadirPointing).staticmethod("nadir_pointing")
+        .def_static("undefined", &Profile::Undefined)
+        .def_static("inertial_pointing", &Profile::InertialPointing)
+        .def_static("nadir_pointing", &Profile::NadirPointing)
 
     ;
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.flight.profile")))) ;
+    // Create "profile" python submodule
+    auto profile = aModule.def_submodule("profile") ;
 
-    boost::python::scope().attr("profile") = module ;
+    // Add __path__ attribute for "profile" submodule
+    profile.attr("__path__") = "ostk.astrodynamics.flight.profile" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State() ;
+    // Add objects to "profile" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(profile) ;
 
 }
 

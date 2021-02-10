@@ -7,16 +7,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <pybind11/functional.h> // To pass anonymous functions directly
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/MapConverter.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator (        pybind11::module&         aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
@@ -28,50 +28,25 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
     using ostk::astro::Access ;
     using ostk::astro::access::Generator ;
 
-    scope in_Generator = class_<Generator>("Generator", init<const Environment&>())
+    class_<Generator, Shared<Generator>>(aModule, "Generator")
 
-        .def
-        (
-            "__init__",
-            make_constructor
-            (
-                +[] (const Environment& anEnvironment, const boost::python::object& anAerFilter) -> Shared<Generator>
-                {
-                    return std::make_shared<Generator>(anEnvironment, anAerFilter) ;
-                }
-            )
-        )
+        .def(init<const Environment&>())
 
-        .def
-        (
-            "__init__",
-            make_constructor
-            (
-                +[] (const Environment& anEnvironment, const boost::python::object& anAerFilter, const boost::python::object& anAccessFilter) -> Shared<Generator>
-                {
-                    return std::make_shared<Generator>(anEnvironment, anAerFilter, anAccessFilter) ;
-                }
-            )
-        )
+        .def(init<const Environment&, std::function<bool (const AER&)>&>())
+
+        .def(init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&>())
 
         .def("is_defined", &Generator::isDefined)
 
         .def("compute_accesses", &Generator::computeAccesses)
         .def("set_step", &Generator::setStep)
         .def("set_tolerance", &Generator::setTolerance)
-        .def("set_aer_filter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAerFilter(object) ; })
-        .def("set_access_filter", +[] (Generator& aGenerator, boost::python::object object) -> void { aGenerator.setAccessFilter(object) ; })
+        .def("set_aer_filter", &Generator::setAerFilter)
+        .def("set_access_filter", &Generator::setAccessFilter)
 
-        .def("undefined", &Generator::Undefined).staticmethod("undefined")
-        .def("aer_ranges", &Generator::AerRanges).staticmethod("aer_ranges")
-        .def("aer_mask", &Generator::AerMask).staticmethod("aer_mask")
-
-    ;
-
-    MapConverter()
-
-        .from_python<Map<Real, Real>>()
-        .to_python<Map<Real, Real>>()
+        .def_static("undefined", &Generator::Undefined)
+        .def_static("aer_ranges", &Generator::AerRanges)
+        .def_static("aer_mask", &Generator::AerMask)
 
     ;
 

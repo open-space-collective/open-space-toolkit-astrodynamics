@@ -13,24 +13,25 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4 ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4 (        pybind11::module& aModule                                 )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::astro::trajectory::orbit::models::SGP4 ;
     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
     {
 
-        scope in_SGP4 = class_<SGP4, bases<ostk::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
-        // scope in_SGP4 = class_<SGP4, bases<ostk::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
+        class_<SGP4, ostk::astro::trajectory::orbit::Model>(aModule, "SGP4")
+
+            .def(init<TLE>())
 
             .def(self == self)
             .def(self != self)
 
-            .def(self_ns::str(self_ns::self))
-            .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<SGP4>))
+            .def("__repr__", &(shiftToString<SGP4>))
 
             .def("is_defined", &SGP4::isDefined)
 
@@ -44,13 +45,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     }
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory.orbit.models.sgp4")))) ;
+    // Create "sgp4" python submodule
+    auto sgp4 = aModule.def_submodule("sgp4") ;
 
-    boost::python::scope().attr("sgp4") = module ;
+    // Add __path__ attribute for "sgp4" submodule
+    sgp4.attr("__path__") = "ostk.astrodynamics.sgp4" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE() ;
+    // Add objects to "sgp4" python submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(sgp4) ;
 
 }
 

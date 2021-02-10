@@ -11,16 +11,17 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight      ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight      (           pybind11::module&           aModule                                     )
 {
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.flight")))) ;
+    // Create "flight" python submodule
+    auto flight = aModule.def_submodule("flight") ;
 
-    boost::python::scope().attr("flight") = module ;
+    // Add __path__ attribute for "flight" submodule
+    flight.attr("__path__") = "ostk.astrodynamics.flight" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile() ;
+    // Add objects to "flight" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(flight) ;
 
 }
 

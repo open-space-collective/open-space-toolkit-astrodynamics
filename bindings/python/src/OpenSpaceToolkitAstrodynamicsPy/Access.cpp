@@ -8,16 +8,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (           pybind11::module&           aModule                                     )
 {
 
-    using namespace boost::python ;
+    using namespace pybind11 ;
 
     using ostk::physics::time::Instant ;
 
@@ -25,13 +24,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
 
     {
 
-        scope in_Access = class_<Access>("Access", init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
+        class_<Access> access_class(aModule, "Access") ;
+
+        access_class.def(init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
 
             .def(self == self)
             .def(self != self)
 
-            .def(self_ns::str(self_ns::self))
-            .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<Access>))
+            .def("__repr__", &(shiftToString<Access>))
 
             .def("is_defined", &Access::isDefined)
             .def("is_complete", &Access::isComplete)
@@ -43,13 +44,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
             .def("get_interval", &Access::getInterval)
             .def("get_duration", &Access::getDuration)
 
-            .def("undefined", &Access::Undefined).staticmethod("undefined")
+            .def_static("undefined", &Access::Undefined)
 
-            .def("string_from_type", &Access::StringFromType).staticmethod("string_from_type")
+            .def_static("string_from_type", &Access::StringFromType)
 
         ;
 
-        enum_<Access::Type>("Type")
+        enum_<Access::Type>(access_class, "Type")
 
             .value("Undefined", Access::Type::Undefined)
             .value("Complete", Access::Type::Complete)
@@ -57,24 +58,16 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      ( )
 
         ;
 
-        using ostk::core::ctnr::Array ;
-
-        IterableConverter()
-
-            .from_python<Array<Access>>()
-            .to_python<Array<Access>>()
-
-        ;
-
     }
 
-    boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.access")))) ;
+    // Create "access" python submodule
+    auto access = aModule.def_submodule("access") ;
 
-    boost::python::scope().attr("access") = module ;
+    // Add __path__ attribute for "access" submodule
+    access.attr("__path__") = "ostk.astrodynamics.access" ;
 
-    boost::python::scope scope = module ;
-
-    OpenSpaceToolkitAstrodynamicsPy_Access_Generator() ;
+    // Add elements to "access" module
+    OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access) ;
 
 }
 
