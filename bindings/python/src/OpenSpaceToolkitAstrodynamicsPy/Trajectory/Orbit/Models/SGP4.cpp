@@ -24,15 +24,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     {
 
         class_<SGP4, ostk::astro::trajectory::orbit::Model>(aModule, "SGP4")
-        // scope in_SGP4 = class_<SGP4, bases<ostk::astro::trajectory::orbit::Model>>("SGP4", init<TLE>())
 
             .def(init<TLE>())
 
             .def(self == self)
             .def(self != self)
 
-            // .def(self_ns::str(self_ns::self))
-            // .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<SGP4>))
+            .def("__repr__", &(shiftToString<SGP4>))
 
             .def("is_defined", &SGP4::isDefined)
 

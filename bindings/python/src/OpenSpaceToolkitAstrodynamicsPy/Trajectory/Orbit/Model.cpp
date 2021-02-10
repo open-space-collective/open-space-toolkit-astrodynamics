@@ -18,13 +18,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     using namespace pybind11 ;
 
+    // using BaseModel = ostk::astro::trajectory::Model ;
+
     using ostk::astro::trajectory::orbit::Model ;
     using ostk::astro::trajectory::orbit::models::Kepler ;
     using ostk::astro::trajectory::orbit::models::SGP4 ;
 
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>, boost::noncopyable>("OrbitModel", no_init)
     // scope in_Model = class_<Model, bases<ostk::astro::trajectory::Model>>("OrbitModel", no_init)
-    class_<Model>(aModule, "Model")
+    class_<Model>(aModule, "OrbitModel")
 
         // no init
 
@@ -33,7 +35,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("__eq__", [](const Model &self, const Model &other){ return self == other; })
         .def("__ne__", [](const Model &self, const Model &other){ return self != other; })
 
-        // .def(self_ns::str(self_ns::self))
+        .def("__str__", &(shiftToString<Model>))
 
         .def("is_defined", &Model::isDefined)
 

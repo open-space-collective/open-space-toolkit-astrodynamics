@@ -34,8 +34,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (   
         .def(self == self)
         .def(self != self)
 
-        // .def(self_ns::str(self_ns::self))
-        // .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<Trajectory>))
+        .def("__repr__", &(shiftToString<Trajectory>))
 
         .def("is_defined", &Trajectory::isDefined)
 
@@ -48,12 +48,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (   
         .def_static("position", &Trajectory::Position)
 
     ;
-
-    // boost::python::object module(boost::python::handle<>(boost::python::borrowed(PyImport_AddModule("ostk.astrodynamics.trajectory")))) ;
-
-    // boost::python::scope().attr("trajectory") = module ;
-
-    // boost::python::scope scope = module ;
 
     // Create "trajectory" python submodule
     auto trajectory = aModule.def_submodule("trajectory") ;

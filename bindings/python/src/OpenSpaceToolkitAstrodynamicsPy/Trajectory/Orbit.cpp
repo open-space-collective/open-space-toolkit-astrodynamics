@@ -44,8 +44,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def(self == self)
             .def(self != self)
 
-            // .def(self_ns::str(self_ns::self))
-            // .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<Orbit>))
+            .def("__repr__", &(shiftToString<Orbit>))
 
             .def("is_defined", &Orbit::isDefined)
 

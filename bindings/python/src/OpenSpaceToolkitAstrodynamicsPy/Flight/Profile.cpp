@@ -36,8 +36,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         // .def(self == self)
         // .def(self != self)
 
-        // .def(self_ns::str(self_ns::self))
-        // .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<Profile>))
+        .def("__repr__", &(shiftToString<Profile>))
 
         .def("is_defined", &Profile::isDefined)
 

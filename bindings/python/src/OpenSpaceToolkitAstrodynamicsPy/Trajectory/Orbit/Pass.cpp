@@ -29,8 +29,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def(self == self)
         .def(self != self)
 
-        // .def(self_ns::str(self_ns::self))
-        // .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<Pass>))
+        .def("__repr__", &(shiftToString<Pass>))
 
         .def("is_defined", &Pass::isDefined)
         .def("is_complete", &Pass::isComplete)

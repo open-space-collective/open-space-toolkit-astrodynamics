@@ -16,22 +16,22 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
 
     using namespace pybind11 ;
 
-    using ostk::astro::trajectory::Model ;
+    using BaseModel = ostk::astro::trajectory::Model ;
 
-    class_<Model>(aModule, "Model")
+    class_<BaseModel>(aModule, "Model")
 
         // .def(self == self)
         // .def(self != self)
         // Equivalence with default constructor deleted for class "Model"
-        .def("__eq__", [](const Model &self, const Model &other){ return self == other; })
-        .def("__ne__", [](const Model &self, const Model &other){ return self != other; })
+        .def("__eq__", [](const BaseModel &self, const BaseModel &other){ return self == other; })
+        .def("__ne__", [](const BaseModel &self, const BaseModel &other){ return self != other; })
 
-        // .def(self_ns::str(self_ns::self))
-        // .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<BaseModel>))
+        .def("__repr__", &(shiftToString<BaseModel>))
 
-        .def("is_defined", &Model::isDefined)
+        .def("is_defined", &BaseModel::isDefined)
 
-        .def("calculate_state_at", &Model::calculateStateAt)
+        .def("calculate_state_at", &BaseModel::calculateStateAt)
 
     ;
 

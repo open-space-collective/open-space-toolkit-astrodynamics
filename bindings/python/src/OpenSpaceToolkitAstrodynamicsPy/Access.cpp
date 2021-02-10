@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
@@ -31,8 +31,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
             .def(self == self)
             .def(self != self)
 
-            // .def(self_ns::str(self_ns::self))
-            // .def(self_ns::repr(self_ns::self))
+            .def("__str__", &(shiftToString<Access>))
+            .def("__repr__", &(shiftToString<Access>))
 
             .def("is_defined", &Access::isDefined)
             .def("is_complete", &Access::isComplete)
@@ -58,15 +58,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
 
         ;
 
-        // using ostk::core::ctnr::Array ;
-
-        // IterableConverter()
-
-        //     .from_python<Array<Access>>()
-        //     .to_python<Array<Access>>()
-
-        // ;
-
     }
 
     // Create "access" python submodule
@@ -76,7 +67,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
     access.attr("__path__") = "ostk.astrodynamics.access" ;
 
     // Add elements to "access" module
-    // OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access) ;
+    OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access) ;
 
 }
 

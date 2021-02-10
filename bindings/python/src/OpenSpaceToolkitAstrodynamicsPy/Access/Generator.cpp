@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <pybind11/functional.h> // To pass anonymous functions directly
 
-// #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/MapConverter.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,44 +28,27 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
     using ostk::astro::Access ;
     using ostk::astro::access::Generator ;
 
-    class_<Generator>(aModule, "Generator")
+    class_<Generator, Shared<Generator>>(aModule, "Generator")
 
         .def(init<const Environment&>())
 
-        .def("__init__",
-                +[] (const Environment& anEnvironment, const pybind11::object& anAerFilter) -> Shared<Generator>
-                {
-                    return std::make_shared<Generator>(anEnvironment, anAerFilter) ;
-                }
-        )
+        .def(init<const Environment&, std::function<bool (const AER&)>&>())
 
-        .def("__init__",
-                +[] (const Environment& anEnvironment, const pybind11::object& anAerFilter, const pybind11::object& anAccessFilter) -> Shared<Generator>
-                {
-                    return std::make_shared<Generator>(anEnvironment, anAerFilter, anAccessFilter) ;
-                }
-        )
+        .def(init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&>())
 
         .def("is_defined", &Generator::isDefined)
 
         .def("compute_accesses", &Generator::computeAccesses)
         .def("set_step", &Generator::setStep)
         .def("set_tolerance", &Generator::setTolerance)
-        // .def("set_aer_filter", +[] (Generator& aGenerator, pybind11::object object) -> void { aGenerator.setAerFilter(object) ; })    // [TBR]
-        // .def("set_access_filter", +[] (Generator& aGenerator, pybind11::object object) -> void { aGenerator.setAccessFilter(object) ; })   // [TBR]
+        .def("set_aer_filter", &Generator::setAerFilter)
+        .def("set_access_filter", &Generator::setAccessFilter)
 
         .def_static("undefined", &Generator::Undefined)
         .def_static("aer_ranges", &Generator::AerRanges)
         .def_static("aer_mask", &Generator::AerMask)
 
     ;
-
-    // MapConverter()
-
-    //     .from_python<Map<Real, Real>>()
-    //     .to_python<Map<Real, Real>>()
-
-    // ;
 
 }
 

@@ -7,8 +7,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/IterableConverter.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,8 +33,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
         .def(self == self)
         .def(self != self)
 
-        // .def(self_ns::str(self_ns::self))
-        // .def(self_ns::repr(self_ns::self))
+        .def("__str__", &(shiftToString<State>))
+        .def("__repr__", &(shiftToString<State>))
 
         .def("is_defined", &State::isDefined)
 
@@ -51,15 +49,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
         .def_static("undefined", &State::Undefined)
 
     ;
-
-    // using ostk::core::ctnr::Array ;
-
-    // IterableConverter()
-
-    //     .from_python<Array<State>>()
-    //     .to_python<Array<State>>()
-
-    // ;
 
 }
 

@@ -9,11 +9,12 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include <pybind11/stl.h>
 #include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ArrayCasting.hpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp
+#include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
