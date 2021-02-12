@@ -44,12 +44,13 @@ SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
 Generator = astrodynamics.access.Generator
 
+environment: Environment = Environment.default()
+
 ################################################################################################################################################################
 
 def test_access_generator_constructors ():
 
     # Contruction with environment and no filters
-    environment: Environment = Environment.default()
 
     generator: Generator = Generator(environment)
 
@@ -81,7 +82,6 @@ def test_access_generator_constructors ():
 def test_access_generator_compute_accesses ():
 
     # Contruction with environment and no filters
-    environment: Environment = Environment.default()
 
     generator: Generator = Generator(environment)
 
@@ -136,8 +136,6 @@ def test_access_generator_compute_accesses ():
 
 def test_access_generator_setters ():
 
-    environment: Environment = Environment.default()
-
     generator: Generator = Generator(environment)
 
     # set_step
@@ -180,8 +178,6 @@ def test_access_generator_aer_ranges ():
     elevation_interval = RealInterval.closed(0.0, 90.0)
     range_interval = RealInterval.closed(0.0, 7000e3)
 
-    environment = Environment.default()
-
     generator: Generator = Generator.aer_ranges(azimuth_interval, elevation_interval, range_interval, environment)
 
     assert generator is not None
@@ -190,6 +186,18 @@ def test_access_generator_aer_ranges ():
 
 ################################################################################################################################################################
 
-# def test_access_generator_aer_mask ():
+def test_access_generator_aer_mask ():
+
+    # Construct arbitrary anAzimuthElevationMask using python dict
+    an_azimuth_elevation_mask = {0.0: 30.0, 90.0: 60.0, 180.0: 60.0, 270.0: 30.0, 359.0: 30.0}
+
+    # Construct arbitrary aRangerange
+    a_range_range = RealInterval(0.0, 10e4, RealInterval.Type.Closed)
+
+    generator: Generator = Generator.aer_mask(an_azimuth_elevation_mask, a_range_range, environment)
+
+    assert generator is not None
+    assert isinstance(generator, Generator)
+    assert generator.is_defined()
 
 ################################################################################################################################################################
