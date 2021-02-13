@@ -45,10 +45,7 @@ earth = Environment.default().access_celestial_object_with_name('Earth')
 def test_trajcectory_orbit_constructors ():
 
     # Construct Two-Line Element set
-    tle = TLE(
-        '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
-        '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
-    )
+    tle = TLE('1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994','2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316')
 
     # Construct orbit using SGP4 model
     orbit = Orbit(SGP4(tle), earth)
