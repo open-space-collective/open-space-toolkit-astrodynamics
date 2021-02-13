@@ -131,6 +131,9 @@ def test_access_generator_compute_accesses ():
     accesses = generator.compute_accesses(interval, from_trajectory, to_trajectory)
 
     assert accesses is not None
+    assert isinstance(accesses, list)
+    assert accesses[0] is not None
+    assert isinstance(accesses[0], Access)
 
 ################################################################################################################################################################
 

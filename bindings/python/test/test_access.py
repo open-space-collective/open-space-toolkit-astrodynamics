@@ -105,10 +105,9 @@ def test_access_getters ():
     assert loss_signal == loss_of_signal
 
     # get_interval
-    # interval = access.get_interval()
-    # Unable to convert function return value to a Python type!
-    # assert interval is not None
-    # assert isinstance(interval, Interval)
+    interval = access.get_interval()
+    assert interval is not None
+    assert isinstance(interval, Interval)
 
     # get_duration
     duration: Duration = access.get_duration()
