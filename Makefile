@@ -26,9 +26,9 @@ export jupyter_notebook_image_repository := jupyter/scipy-notebook:latest
 export jupyter_notebook_port := 9005
 
 export open_space_toolkit_core_version := 0.4.2
-export open_space_toolkit_io_version := 0.4.0
+export open_space_toolkit_io_version := 0.4.1
 export open_space_toolkit_mathematics_version := 0.4.0
-export open_space_toolkit_physics_version := 0.5.3
+export open_space_toolkit_physics_version := 0.5.4
 
 export open_space_toolkit_core_directory := $(project_directory)/../open-space-toolkit-core
 export open_space_toolkit_io_directory := $(project_directory)/../open-space-toolkit-io
