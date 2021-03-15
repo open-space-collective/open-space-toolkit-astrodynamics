@@ -1,0 +1,15 @@
+"Pass Number","Start Time (ISO-YMD)","End Time (ISO-YMD)","Time of Ascen Node (ISO-YMD)","Time of Max Lat (ISO-YMD)","Time of Descen Node (ISO-YMD)","Time of Min Lat (ISO-YMD)"
+1,2018-01-01T00:00:00.000000000,2018-01-01T01:36:52.944646619,Equatorial,Equatorial,Equatorial,Equatorial
+2,2018-01-01T01:36:52.944646619,2018-01-01T03:13:45.889285211,Equatorial,Equatorial,Equatorial,Equatorial
+3,2018-01-01T03:13:45.889285211,2018-01-01T04:50:38.833907748,Equatorial,Equatorial,Equatorial,Equatorial
+4,2018-01-01T04:50:38.833907748,2018-01-01T06:27:31.778506204,Equatorial,Equatorial,Equatorial,Equatorial
+5,2018-01-01T06:27:31.778506204,2018-01-01T08:04:24.723072553,Equatorial,Equatorial,Equatorial,Equatorial
+6,2018-01-01T08:04:24.723072553,2018-01-01T09:41:17.667598774,Equatorial,Equatorial,Equatorial,Equatorial
+7,2018-01-01T09:41:17.667598774,2018-01-01T11:18:10.612076847,Equatorial,Equatorial,Equatorial,Equatorial
+8,2018-01-01T11:18:10.612076847,2018-01-01T12:55:03.556498755,Equatorial,Equatorial,Equatorial,Equatorial
+9,2018-01-01T12:55:03.556498755,2018-01-01T14:31:56.500856485,Equatorial,Equatorial,Equatorial,Equatorial
+10,2018-01-01T14:31:56.500856485,2018-01-01T16:08:49.445142030,Equatorial,Equatorial,Equatorial,Equatorial
+11,2018-01-01T16:08:49.445142030,2018-01-01T17:45:42.389347384,Equatorial,Equatorial,Equatorial,Equatorial
+12,2018-01-01T17:45:42.389347384,2018-01-01T19:22:35.333464551,Equatorial,Equatorial,Equatorial,Equatorial
+13,2018-01-01T19:22:35.333464551,2018-01-01T20:59:28.277485536,Equatorial,Equatorial,Equatorial,Equatorial
+14,2018-01-01T20:59:28.277485536,2018-01-01T22:36:21.221402356,Equatorial,Equatorial,Equatorial,Equatorial
