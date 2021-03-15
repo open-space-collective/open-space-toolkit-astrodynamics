@@ -32,7 +32,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(aModule, "Kepler") ;
 
-        kepler_class.def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Kepler::PerturbationType&>())
+        kepler_class.def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&, const Kepler::PerturbationType&>())
 
             .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&>())
             .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>())
@@ -51,6 +51,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_gravitational_parameter", &Kepler::getGravitationalParameter)
             .def("get_equatorial_radius", &Kepler::getEquatorialRadius)
             .def("get_j2", &Kepler::getJ2)
+            .def("get_j4", &Kepler::getJ4)
             .def("get_perturbation_type", &Kepler::getPerturbationType)
             .def("calculate_state_at", &Kepler::calculateStateAt)
             .def("calculate_revolution_number_at", &Kepler::calculateRevolutionNumberAt)
@@ -63,6 +64,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
             .value("No", Kepler::PerturbationType::None)
             .value("J2", Kepler::PerturbationType::J2)
+            .value("J4", Kepler::PerturbationType::J4)
 
         ;
 

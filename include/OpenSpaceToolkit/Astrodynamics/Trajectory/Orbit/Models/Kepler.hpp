@@ -61,7 +61,8 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
         {
 
             None,
-            J2
+            J2,
+            J4
 
         } ;
 
@@ -70,6 +71,7 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
                                                                                 const   Real&                       aJ2,
+                                                                                const   Real&                       aJ4,
                                                                                 const   Kepler::PerturbationType&   aPerturbationType                           ) ;
 
                                 Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
@@ -101,6 +103,8 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
 
         Real                    getJ2                                       ( ) const ;
 
+        Real                    getJ4                                       ( ) const ;
+
         Kepler::PerturbationType getPerturbationType                        ( ) const ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
@@ -125,6 +129,7 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
         Derived                 gravitationalParameter_ ;
         Length                  equatorialRadius_ ;
         Real                    j2_ ;
+        Real                    j4_ ;
         Kepler::PerturbationType perturbationType_ ;
 
         static COE              InertialCoeFromFixedCoe                     (   const   COE&                        aClassicalOrbitalElementSet,
@@ -154,6 +159,22 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Instant&                    anInstant,
                                                                                 const   Length&                     anEquatorialRadius,
                                                                                 const   Real&                       aJ2                                         ) ;
+
+        static State            CalculateJ4StateAt                          (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
+                                                                                const   Real&                       aJ4                                         ) ;
+
+        static Integer          CalculateJ4RevolutionNumberAt               (   const   COE&                        aClassicalOrbitalElementSet,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
+                                                                                const   Real&                       aJ4                                         ) ;
 
 } ;
 

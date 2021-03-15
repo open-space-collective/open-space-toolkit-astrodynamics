@@ -121,6 +121,10 @@ def test_trajectory_orbit_models_kepler_getters ():
 
     assert kepler.get_j2() is not None
 
+    # get_j4()
+
+    assert kepler.get_j4() is not None
+
     # get_perturbation_type()
 
     assert kepler.get_perturbation_type() is not None
