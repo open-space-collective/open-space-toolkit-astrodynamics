@@ -158,15 +158,13 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
 
         # Build wheels with cmake
         ADD_CUSTOM_COMMAND (OUTPUT ${OUTPUT}
-                            COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}"
-                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/test"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_GROUP}/__init__.py"
-                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/__init__.py"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0"
-                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/"
-                            COMMAND python${PYTHON_VERSION} ${SETUP_PY} bdist_wheel --python-tag=py${EXTENSION}
-                            COMMAND rm -rf "${CMAKE_CURRENT_BINARY_DIR}/build/lib"
-                            COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
+                            COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}"
+                            COMMAND cp -r "${CMAKE_CURRENT_SOURCE_DIR}/test" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/test"
+                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_GROUP}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_GROUP}/__init__.py"
+                            COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/tools/python/${PROJECT_PATH}/__init__.py" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/__init__.py"
+                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${SHARED_LIBRARY_TARGET}" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0"
+                            COMMAND cp "${CMAKE_SOURCE_DIR}/lib/${LIBRARY_TARGET}.*${EXTENSION}*.so" "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/"
+                            COMMAND python${PYTHON_VERSION} ${SETUP_PY} build --build-base=./lib${EXTENSION} bdist_wheel --python-tag=py${EXTENSION} --bdist-dir=./dist${EXTENSION}
                             DEPENDS ${DEPS})
 
         # Install package on the machine
@@ -199,7 +197,7 @@ FIND_PACKAGE (pybind11 2.6.0 REQUIRED)
 ### Python
 
 # Decide on the versions to build for and support
-SET (PYTHON_SEARCH_VERSIONS 2.7 3.5 3.6 3.7 3.8 3.9)
+SET (PYTHON_SEARCH_VERSIONS 2.7 3.5 3.6 3.7 3.8 3.9 3.10)
 
 MESSAGE (STATUS "Looking for available python versions...")
 FOREACH (PYTHON_VERSION ${PYTHON_SEARCH_VERSIONS})
