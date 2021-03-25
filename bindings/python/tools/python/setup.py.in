@@ -31,11 +31,12 @@ setuptools.setup(
         'Operating System :: POSIX :: Linux'
     ],
     keywords = 'open-space-collective open-space-toolkit astrodynamics',
-    packages = setuptools.find_packages(),
+    package_dir = {'': '${CMAKE_CURRENT_BINARY_DIR}/${NAME}'},
+    packages = setuptools.find_packages(where='${CMAKE_CURRENT_BINARY_DIR}/${NAME}'),
     package_data = {
         '': [
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/${LIBRARY_TARGET}.*${EXTENSION}*.so',
-            '${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0'
+            '${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/libopen-space-toolkit-astrodynamics.so.0',
+            '${CMAKE_CURRENT_BINARY_DIR}/${NAME}/${PROJECT_PATH}/${LIBRARY_TARGET}.*${EXTENSION}*.so'
         ]
     },
     install_requires = requirements
