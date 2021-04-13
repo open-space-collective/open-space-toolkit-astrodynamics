@@ -327,8 +327,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -424,8 +425,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 //         const Derived gravitationalParameter = Earth::GravitationalParameter ;
 //         const Length equatorialRadius = Earth::EquatorialRadius ;
 //         const Real J2 = Earth::J2 ;
+//         const Real J4 = Earth::J4 ;
 
-//         const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+//         const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
 //         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -521,8 +523,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -584,8 +587,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -647,8 +651,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 

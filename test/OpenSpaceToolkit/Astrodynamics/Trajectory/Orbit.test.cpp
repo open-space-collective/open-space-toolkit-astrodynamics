@@ -85,8 +85,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -165,8 +166,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -234,8 +236,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -302,8 +305,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -373,8 +377,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -455,8 +460,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -541,8 +547,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumb
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -593,8 +600,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumb
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::J2 } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2 } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
@@ -619,6 +627,59 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumb
 
             EXPECT_GT(Duration::Milliseconds(1.0), Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()) ;
             EXPECT_GT(Duration::Milliseconds(1.0), Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()) ;
+
+        }
+
+    }
+
+    {
+
+        // Environment setup
+
+        const Environment environment = Environment::Default() ;
+
+        // Orbit setup
+
+        const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+        const Real eccentricity = 0.0 ;
+        const Angle inclination = Angle::Degrees(45.0) ;
+        const Angle raan = Angle::Degrees(0.0) ;
+        const Angle aop = Angle::Degrees(0.0) ;
+        const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+        const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+        const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Derived gravitationalParameter = Earth::GravitationalParameter ;
+        const Length equatorialRadius = Earth::EquatorialRadius ;
+        const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
+
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4 } ;
+
+        const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+
+        // Reference data setup
+
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Passes.csv")), Table::Format::CSV, true) ;
+
+        // Pass test
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+            const Integer referenceRevolutionNumber = referenceRow[0].accessInteger() ;
+            const Instant referencePassStartInstant = Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC) ;
+            const Instant referencePassEndInstant = Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC) ;
+
+            const Pass pass = orbit.getPassWithRevolutionNumber(referenceRevolutionNumber) ;
+
+            EXPECT_TRUE(pass.isDefined()) ;
+
+            EXPECT_EQ(Pass::Type::Complete, pass.getType()) ;
+
+            EXPECT_GT(Duration::Milliseconds(2.0), Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()) ;
+            EXPECT_GT(Duration::Milliseconds(2.0), Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()) ;
 
         }
 
@@ -691,8 +752,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth")) ;
 
@@ -753,8 +815,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     //     const Derived gravitationalParameter = Earth::GravitationalParameter ;
     //     const Length equatorialRadius = Earth::EquatorialRadius ;
     //     const Real J2 = Earth::J2 ;
+    //     const Real J4 = Earth::J4 ;
 
-    //     const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+    //     const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
     //     const Shared<const Earth> earthSPtr = std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth")) ;
 
@@ -867,8 +930,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const Derived gravitationalParameter = Earth::GravitationalParameter ;
         const Length equatorialRadius = Earth::EquatorialRadius ;
         const Real J2 = Earth::J2 ;
+        const Real J4 = Earth::J4 ;
 
-        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, Kepler::PerturbationType::None } ;
+        const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
 
         const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
 
