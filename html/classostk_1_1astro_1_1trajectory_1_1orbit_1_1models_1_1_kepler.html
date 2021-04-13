@@ -104,14 +104,15 @@ Inheritance diagram for ostk::astro::trajectory::orbit::models::Kepler:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a3750f9177ff06a1938826e2c2881d5a9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9">PerturbationType</a> { <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a6adf97f83acf6453d4a6a4b1070f3754">PerturbationType::None</a>, 
-<a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494">PerturbationType::J2</a>
+<a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494">PerturbationType::J2</a>, 
+<a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369">PerturbationType::J4</a>
  }</td></tr>
 <tr class="separator:a3750f9177ff06a1938826e2c2881d5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9bf6dd4dbd63bb2551fa649b59ae297b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a9bf6dd4dbd63bb2551fa649b59ae297b">Kepler</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a> &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9">Kepler::PerturbationType</a> &amp;aPerturbationType)</td></tr>
-<tr class="separator:a9bf6dd4dbd63bb2551fa649b59ae297b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebd9792c0965b4539a553afad07aff7a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#aebd9792c0965b4539a553afad07aff7a">Kepler</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a> &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const Real &amp;aJ4, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9">Kepler::PerturbationType</a> &amp;aPerturbationType)</td></tr>
+<tr class="separator:aebd9792c0965b4539a553afad07aff7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc95c7ec38bba8e24eba704c408523b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#afc95c7ec38bba8e24eba704c408523b6">Kepler</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html">COE</a> &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9">Kepler::PerturbationType</a> &amp;aPerturbationType, const bool inFixedFrame=false)</td></tr>
 <tr class="separator:afc95c7ec38bba8e24eba704c408523b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb76b3571c73fb5c87129033f7d66520"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html">Kepler</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#afb76b3571c73fb5c87129033f7d66520">clone</a> () const override</td></tr>
@@ -134,6 +135,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abd9cabfcb1a39b627d2809d3cb11dad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeff5940802c7795d9d709a0fdf15fa64"><td class="memItemLeft" align="right" valign="top">Real&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#aeff5940802c7795d9d709a0fdf15fa64">getJ2</a> () const</td></tr>
 <tr class="separator:aeff5940802c7795d9d709a0fdf15fa64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e3600757f990a833910dc54c389462"><td class="memItemLeft" align="right" valign="top">Real&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a15e3600757f990a833910dc54c389462">getJ4</a> () const</td></tr>
+<tr class="separator:a15e3600757f990a833910dc54c389462"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6d00fe11481e9267aded6f9aeafb1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9">Kepler::PerturbationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a8f6d00fe11481e9267aded6f9aeafb1a">getPerturbationType</a> () const</td></tr>
 <tr class="separator:a8f6d00fe11481e9267aded6f9aeafb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4de0c3d7a2b37c1c2ab4d6e207339809"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4de0c3d7a2b37c1c2ab4d6e207339809">calculateStateAt</a> (const Instant &amp;anInstant) const override</td></tr>
@@ -199,13 +202,14 @@ Friends</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3750f9177ff06a1938826e2c2881d5a9a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494"></a>J2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369"></a>J4&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a9bf6dd4dbd63bb2551fa649b59ae297b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf6dd4dbd63bb2551fa649b59ae297b">&#9670;&nbsp;</a></span>Kepler() <span class="overload">[1/2]</span></h2>
+<a id="aebd9792c0965b4539a553afad07aff7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebd9792c0965b4539a553afad07aff7a">&#9670;&nbsp;</a></span>Kepler() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,6 +243,12 @@ Friends</h2></td></tr>
           <td></td>
           <td class="paramtype">const Real &amp;&#160;</td>
           <td class="paramname"><em>aJ2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aJ4</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -472,6 +482,23 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">Real ostk::astro::trajectory::orbit::models::Kepler::getJ2 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15e3600757f990a833910dc54c389462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e3600757f990a833910dc54c389462">&#9670;&nbsp;</a></span>getJ4()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Real ostk::astro::trajectory::orbit::models::Kepler::getJ4 </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

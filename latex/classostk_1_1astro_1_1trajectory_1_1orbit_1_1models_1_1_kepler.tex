@@ -14,13 +14,14 @@ Inheritance diagram for ostk\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+
 \begin{DoxyCompactItemize}
 \item 
 enum \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Perturbation\+Type} \{ \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a6adf97f83acf6453d4a6a4b1070f3754}{Perturbation\+Type\+::\+None}, 
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494}{Perturbation\+Type\+::\+J2}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494}{Perturbation\+Type\+::\+J2}, 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369}{Perturbation\+Type\+::\+J4}
  \}
 \end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9bf6dd4dbd63bb2551fa649b59ae297b}{Kepler} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+Classical\+Orbital\+Element\+Set, const Instant \&an\+Epoch, const Derived \&a\+Gravitational\+Parameter, const Length \&an\+Equatorial\+Radius, const Real \&a\+J2, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type)
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aebd9792c0965b4539a553afad07aff7a}{Kepler} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+Classical\+Orbital\+Element\+Set, const Instant \&an\+Epoch, const Derived \&a\+Gravitational\+Parameter, const Length \&an\+Equatorial\+Radius, const Real \&a\+J2, const Real \&a\+J4, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type)
 \item 
 \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_afc95c7ec38bba8e24eba704c408523b6}{Kepler} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&a\+Classical\+Orbital\+Element\+Set, const Instant \&an\+Epoch, const Celestial \&a\+Celestial\+Object, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \&a\+Perturbation\+Type, const bool in\+Fixed\+Frame=false)
 \item 
@@ -43,6 +44,8 @@ Derived \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_keple
 Length \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_abd9cabfcb1a39b627d2809d3cb11dad8}{get\+Equatorial\+Radius} () const
 \item 
 Real \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aeff5940802c7795d9d709a0fdf15fa64}{get\+J2} () const
+\item 
+Real \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a15e3600757f990a833910dc54c389462}{get\+J4} () const
 \item 
 \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a8f6d00fe11481e9267aded6f9aeafb1a}{get\+Perturbation\+Type} () const
 \item 
@@ -87,15 +90,19 @@ None&\\
 J2&\\
 \hline
 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{J4@{J4}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!J4@{J4}}}\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369}} 
+J4&\\
+\hline
+
 \end{DoxyEnumFields}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9bf6dd4dbd63bb2551fa649b59ae297b}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a9bf6dd4dbd63bb2551fa649b59ae297b}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aebd9792c0965b4539a553afad07aff7a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_aebd9792c0965b4539a553afad07aff7a}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!Kepler@{Kepler}}
 \index{Kepler@{Kepler}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
 \subsubsection{\texorpdfstring{Kepler()}{Kepler()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+Kepler (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+Classical\+Orbital\+Element\+Set,  }\item[{const Instant \&}]{an\+Epoch,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Length \&}]{an\+Equatorial\+Radius,  }\item[{const Real \&}]{a\+J2,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \&}]{a\+Perturbation\+Type }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::\+Kepler (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e}{C\+OE} \&}]{a\+Classical\+Orbital\+Element\+Set,  }\item[{const Instant \&}]{an\+Epoch,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter,  }\item[{const Length \&}]{an\+Equatorial\+Radius,  }\item[{const Real \&}]{a\+J2,  }\item[{const Real \&}]{a\+J4,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a3750f9177ff06a1938826e2c2881d5a9}{Kepler\+::\+Perturbation\+Type} \&}]{a\+Perturbation\+Type }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_afc95c7ec38bba8e24eba704c408523b6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_afc95c7ec38bba8e24eba704c408523b6}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!Kepler@{Kepler}}
@@ -169,6 +176,12 @@ Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a22055
 \index{get\+J2@{get\+J2}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
 \subsubsection{\texorpdfstring{get\+J2()}{getJ2()}}
 {\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+J2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a15e3600757f990a833910dc54c389462}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a15e3600757f990a833910dc54c389462}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+J4@{get\+J4}}
+\index{get\+J4@{get\+J4}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}}
+\subsubsection{\texorpdfstring{get\+J4()}{getJ4()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler\+::get\+J4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a8f6d00fe11481e9267aded6f9aeafb1a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a8f6d00fe11481e9267aded6f9aeafb1a}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}!get\+Perturbation\+Type@{get\+Perturbation\+Type}}
