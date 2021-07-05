@@ -278,6 +278,27 @@ class TLE
 
         Integer                 getSecondLineChecksum                       ( ) const ;
 
+        /// @brief              Set new satellite catalogue number in the existing TLE
+        ///
+        /// @param              [in] aSatelliteNumber a Satellite Number
+        /// @return             void
+
+        void                    setSatelliteNumber                          (   const   Integer&                    aSatelliteNumber                            ) ;
+
+        /// @brief              Set new revolution number at epoch in the existing TLE
+        ///
+        /// @param              [in] aRevolutionNumberAtEpoch a Revolution Number at Epoch
+        /// @return             void
+
+        void                    setEpoch                                    (   const   Instant&                    anInstant                                   ) ;
+
+        /// @brief              Set new epoch in the existing TLE
+        ///
+        /// @param              [in] anInstant an Instant (new Epoch)
+        /// @return             void
+
+        void                    setRevolutionNumberAtEpoch                  (   const   Integer&                    aRevolutionNumberAtEpoch                    ) ;
+
         /// @brief              Constructs an undefined TLE
         ///
         /// @code
