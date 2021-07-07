@@ -651,6 +651,260 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getSecond
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetSatelliteNumber)
+{
+
+    using ostk::core::types::Integer ;
+    using ostk::core::types::String ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(99993, tle.getSatelliteNumber()) ;
+
+        const Integer updatedSatelliteNumber = 99995 ;
+
+        tle.setSatelliteNumber(updatedSatelliteNumber) ;
+
+        EXPECT_EQ(99995, tle.getSatelliteNumber()) ;
+
+        const String newFirstLine = "1 99995U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99997" ;
+        const String newSecondLine = "2 99995 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009994" ;
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1     0U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99996" ;
+        const String secondLine = "2     0 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009993" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(0, tle.getSatelliteNumber()) ;
+
+        const Integer updatedSatelliteNumber = 99995 ;
+
+        tle.setSatelliteNumber(updatedSatelliteNumber) ;
+
+        EXPECT_EQ(99995, tle.getSatelliteNumber()) ;
+
+        const String newFirstLine = "1 99995U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99997" ;
+        const String newSecondLine = "2 99995 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009994" ;
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(99993, tle.getSatelliteNumber()) ;
+
+        const Integer updatedSatelliteNumber = 400 ;
+
+        tle.setSatelliteNumber(updatedSatelliteNumber) ;
+
+        EXPECT_EQ(400, tle.getSatelliteNumber()) ;
+
+        const String newFirstLine = "1   400U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99990" ;
+        const String newSecondLine = "2   400 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009997" ;
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_ANY_THROW(tle.setSatelliteNumber(100001)) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetEpoch)
+{
+
+    using ostk::core::types::String ;
+
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Duration ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        const Instant epoch = Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC) ;
+
+        EXPECT_EQ(epoch, tle.getEpoch()) ;
+
+        tle.setEpoch(epoch) ;
+
+        EXPECT_EQ(epoch, tle.getEpoch()) ;
+        EXPECT_EQ(firstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(secondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch()) ;
+
+        const Instant newEpoch = Instant::DateTime(DateTime::Parse("2020-09-20 20:25:30.103.142"), Scale::UTC) ;
+
+        tle.setEpoch(newEpoch) ;
+
+        ASSERT_GT(0.1, Duration::Between(newEpoch, tle.getEpoch()).inSeconds()) ;
+
+        const String newFirstLine = "1 25544U 98067A   20264.85104286 -.00002182  00000-0 -11606-4 0  2927" ;
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(secondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch()) ;
+
+        const Instant newEpoch = Instant::DateTime(DateTime::Parse("1987-02-20 20:25:30.103.142"), Scale::UTC) ;
+
+        tle.setEpoch(newEpoch) ;
+
+        ASSERT_GT(0.1, Duration::Between(newEpoch, tle.getEpoch()).inSeconds()) ;
+
+        const String newFirstLine = "1 25544U 98067A   87051.85104286 -.00002182  00000-0 -11606-4 0  2924" ;
+
+        EXPECT_EQ(newFirstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(secondLine, tle.getSecondLine()) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetRevolutionNumberAtEpoch)
+{
+
+    using ostk::core::types::Integer ;
+    using ostk::core::types::String ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch()) ;
+
+        const Integer updatedRevolutionNumberAtEpoch = 10 ;
+
+        tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch) ;
+
+        EXPECT_EQ(10, tle.getRevolutionNumberAtEpoch()) ;
+
+        const String newSecondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975000106" ;
+
+        EXPECT_EQ(firstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch()) ;
+
+        const Integer updatedRevolutionNumberAtEpoch = 56353 ;
+
+        tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch) ;
+
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+
+        const String newSecondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975563537" ;
+
+        EXPECT_EQ(firstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch()) ;
+
+        const Integer updatedRevolutionNumberAtEpoch = 56353 ;
+
+        tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch) ;
+
+        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+
+        const String newSecondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975563537" ;
+
+        EXPECT_EQ(firstLine, tle.getFirstLine()) ;
+        EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995" ;
+        const String secondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992" ;
+
+        TLE tle(firstLine, secondLine) ;
+
+        EXPECT_ANY_THROW(tle.setRevolutionNumberAtEpoch(459289)) ;
+
+    }
+
+}
+
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Undefined)
 {
 

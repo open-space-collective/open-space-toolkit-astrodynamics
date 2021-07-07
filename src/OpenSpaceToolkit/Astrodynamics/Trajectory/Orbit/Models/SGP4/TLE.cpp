@@ -372,6 +372,115 @@ Integer                         TLE::getSecondLineChecksum                  ( ) 
 
 }
 
+void                            TLE::setSatelliteNumber                     (   const   Integer&                    aSatelliteNumber                            )
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+    if (aSatelliteNumber > 99999 || aSatelliteNumber.isNegative())
+    {
+        throw ostk::core::error::runtime::Wrong("Provided Satellite Number") ;
+    }
+
+    const String satelliteNumberString = aSatelliteNumber.toString() ;
+    const String sanitizedSatelliteNumberString = String::Replicate(" ", 5 - satelliteNumberString.getLength()) + satelliteNumberString ;
+    const String newIntermediateFirstLine = firstLine_.getSubstring(0, 2) + sanitizedSatelliteNumberString + firstLine_.getSubstring(7, 62) ;
+    const String newIntermediateSecondLine = secondLine_.getSubstring(0, 2) + sanitizedSatelliteNumberString + secondLine_.getSubstring(7, 62) ;
+
+    const Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine) ;
+    const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine) ;
+
+    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString() ;
+    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString() ;
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+}
+
+void                            TLE::setEpoch                               (   const   Instant&                    anInstant                                   )
+{
+
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Date ;
+    using ostk::physics::time::DateTime ;
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+    const DateTime epochDateTime = anInstant.getDateTime(Scale::UTC) ;
+    const Integer epochYear = epochDateTime.getDate().getYear() ;
+    String epochYearTwoDigitsString ;
+
+    if (epochYear >= 1957 && epochYear <= 2056)
+    {
+        epochYearTwoDigitsString = epochYear.toString().getTail(2) ;
+    }
+
+    else
+    {
+        throw ostk::core::error::runtime::Wrong("Epoch Year") ;
+    }
+
+    const Real epochDay = Duration::Between(Instant::DateTime(DateTime(epochYear, 1, 1, 0, 0, 0), Scale::UTC), anInstant).inDays() + Duration::Days(1.0).inDays() ;
+
+    const Integer epochDayInteger = epochDay.floor() ;
+    const String epochDayIntegerString = epochDayInteger.toString() ;
+    const String sanitizedEpochDayIntegerString = String::Replicate("0", 3 - epochDayIntegerString.getLength()) + epochDayIntegerString ;
+
+    const Real epochDayFraction = epochDay - Real::Integer(epochDayInteger) ;
+    const String epochDayFractionString = epochDayFraction.toString() ;
+    const String sanitizedEpochDayFractionString = epochDayFractionString.getSubstring(1, 9) ;
+
+    const String newIntermediateFirstLine = firstLine_.getSubstring(0, 18) + epochYearTwoDigitsString + sanitizedEpochDayIntegerString + sanitizedEpochDayFractionString + firstLine_.getSubstring(32, 37) ;
+
+    Integer firstLineNewChecksum = TLE::GenerateChecksum(newIntermediateFirstLine) ;
+
+    firstLine_ = newIntermediateFirstLine.getSubstring(0, 68) + firstLineNewChecksum.toString() ;
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+}
+
+void                            TLE::setRevolutionNumberAtEpoch             (   const   Integer&                    aRevolutionNumberAtEpoch                    )
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+    if (aRevolutionNumberAtEpoch > 99999 || aRevolutionNumberAtEpoch.isNegative())
+    {
+        throw ostk::core::error::runtime::Wrong("Provided Revolution Number at Epoch") ;
+    }
+
+    const String revolutionNumberAtEpochString = aRevolutionNumberAtEpoch.toString() ;
+    const String sanitizedRevolutionNumberAtEpochString = String::Replicate("0", 5 - revolutionNumberAtEpochString.getLength()) + revolutionNumberAtEpochString ;
+    const String newIntermediateSecondLine = secondLine_.getSubstring(0, 63) + sanitizedRevolutionNumberAtEpochString + secondLine_.getSubstring(68, 1) ;
+
+    const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine) ;
+
+    secondLine_ = newIntermediateSecondLine.getSubstring(0, 68) + secondLineNewChecksum.toString() ;
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("TLE") ;
+    }
+
+}
+
 TLE                             TLE::Undefined                              ( )
 {
     return { String::Empty(), String::Empty(), String::Empty() } ;
