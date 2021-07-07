@@ -26,5 +26,8 @@ var classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e =
     [ "isDefined", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aa7fa1003a2b03fb7f3829bfdd342942f", null ],
     [ "operator!=", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a3b15abd9b07fb2a0851b680fe23da8f6", null ],
     [ "operator==", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a415bc7b3671eaa616dfd9e82f9fb9520", null ],
+    [ "setEpoch", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a1b31551503d41d052b3270782824e489", null ],
+    [ "setRevolutionNumberAtEpoch", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a71f0c58af0aac913f7025f7f7e9500d3", null ],
+    [ "setSatelliteNumber", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aaa3ce99b1a69028a94094b95eb91da2c", null ],
     [ "operator<<", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a54a7a3bca65674d5052031634f900984", null ]
 ];

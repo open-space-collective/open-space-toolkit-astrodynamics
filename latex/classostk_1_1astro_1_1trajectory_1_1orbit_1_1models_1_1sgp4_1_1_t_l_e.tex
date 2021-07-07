@@ -63,7 +63,13 @@ Derived \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1
 Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_abc96f40aa52b9451bf791253a61365e9}{get\+Revolution\+Number\+At\+Epoch} () const
 \begin{DoxyCompactList}\small\item\em Get revolution number at epoch. \end{DoxyCompactList}\item 
 Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a66f25eab1f7e8f7e511ad0a77da90de7}{get\+Second\+Line\+Checksum} () const
-\begin{DoxyCompactList}\small\item\em Get checksum of second line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get checksum of second line. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_aaa3ce99b1a69028a94094b95eb91da2c}{set\+Satellite\+Number} (const Integer \&a\+Satellite\+Number)
+\begin{DoxyCompactList}\small\item\em Set new satellite catalogue number in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a1b31551503d41d052b3270782824e489}{set\+Epoch} (const Instant \&an\+Instant)
+\begin{DoxyCompactList}\small\item\em Set new revolution number at epoch in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a71f0c58af0aac913f7025f7f7e9500d3}{set\+Revolution\+Number\+At\+Epoch} (const Integer \&a\+Revolution\+Number\+At\+Epoch)
+\begin{DoxyCompactList}\small\item\em Set new epoch in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -612,6 +618,60 @@ Constructs a \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1s
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a1b31551503d41d052b3270782824e489}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a1b31551503d41d052b3270782824e489}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}!set\+Epoch@{set\+Epoch}}
+\index{set\+Epoch@{set\+Epoch}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}}
+\subsubsection{\texorpdfstring{set\+Epoch()}{setEpoch()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+L\+E\+::set\+Epoch (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption})}
+
+
+
+Set new revolution number at epoch in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Revolution\+Number\+At\+Epoch} & a Revolution Number at Epoch \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a71f0c58af0aac913f7025f7f7e9500d3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a71f0c58af0aac913f7025f7f7e9500d3}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}!set\+Revolution\+Number\+At\+Epoch@{set\+Revolution\+Number\+At\+Epoch}}
+\index{set\+Revolution\+Number\+At\+Epoch@{set\+Revolution\+Number\+At\+Epoch}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}}
+\subsubsection{\texorpdfstring{set\+Revolution\+Number\+At\+Epoch()}{setRevolutionNumberAtEpoch()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+L\+E\+::set\+Revolution\+Number\+At\+Epoch (\begin{DoxyParamCaption}\item[{const Integer \&}]{a\+Revolution\+Number\+At\+Epoch }\end{DoxyParamCaption})}
+
+
+
+Set new epoch in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Instant} & an Instant (new Epoch) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_aaa3ce99b1a69028a94094b95eb91da2c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_aaa3ce99b1a69028a94094b95eb91da2c}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}!set\+Satellite\+Number@{set\+Satellite\+Number}}
+\index{set\+Satellite\+Number@{set\+Satellite\+Number}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}}
+\subsubsection{\texorpdfstring{set\+Satellite\+Number()}{setSatelliteNumber()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+L\+E\+::set\+Satellite\+Number (\begin{DoxyParamCaption}\item[{const Integer \&}]{a\+Satellite\+Number }\end{DoxyParamCaption})}
+
+
+
+Set new satellite catalogue number in the existing \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e}{T\+LE}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Satellite\+Number} & a Satellite Number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a871cdedd5bc51c9f3afa976e0597ea51}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_a871cdedd5bc51c9f3afa976e0597ea51}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::sgp4\+::\+T\+LE}!Undefined@{Undefined}}

@@ -2,6 +2,9 @@ var searchData=
 [
   ['setaccessfilter',['setAccessFilter',['../classostk_1_1astro_1_1access_1_1_generator.html#ade3c6b8b5afe0f850e3531d715eac826',1,'ostk::astro::access::Generator']]],
   ['setaerfilter',['setAerFilter',['../classostk_1_1astro_1_1access_1_1_generator.html#a4d82f15eb2da1fbf7c74b3136eed3301',1,'ostk::astro::access::Generator']]],
+  ['setepoch',['setEpoch',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a1b31551503d41d052b3270782824e489',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],
+  ['setrevolutionnumberatepoch',['setRevolutionNumberAtEpoch',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a71f0c58af0aac913f7025f7f7e9500d3',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],
+  ['setsatellitenumber',['setSatelliteNumber',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aaa3ce99b1a69028a94094b95eb91da2c',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],
   ['setstep',['setStep',['../classostk_1_1astro_1_1access_1_1_generator.html#a4c0cb8f1e59364029e88078c423cd96b',1,'ostk::astro::access::Generator']]],
   ['settolerance',['setTolerance',['../classostk_1_1astro_1_1access_1_1_generator.html#a9590a1ebb05d28f7934f8ccafbd02a60',1,'ostk::astro::access::Generator']]],
   ['sgp4',['SGP4',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html#a84e2bc60fdf9b295e0ab8a42ecfb51ff',1,'ostk::astro::trajectory::orbit::models::SGP4::SGP4(const TLE &amp;aTle)'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html#afe0c5fa943d25263097c242c5b289239',1,'ostk::astro::trajectory::orbit::models::SGP4::SGP4(const SGP4 &amp;aSGP4Model)']]],

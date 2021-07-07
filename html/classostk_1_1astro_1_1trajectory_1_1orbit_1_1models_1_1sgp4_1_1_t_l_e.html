@@ -172,6 +172,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a66f25eab1f7e8f7e511ad0a77da90de7"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a66f25eab1f7e8f7e511ad0a77da90de7">getSecondLineChecksum</a> () const</td></tr>
 <tr class="memdesc:a66f25eab1f7e8f7e511ad0a77da90de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get checksum of second line.  <a href="#a66f25eab1f7e8f7e511ad0a77da90de7">More...</a><br /></td></tr>
 <tr class="separator:a66f25eab1f7e8f7e511ad0a77da90de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa3ce99b1a69028a94094b95eb91da2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aaa3ce99b1a69028a94094b95eb91da2c">setSatelliteNumber</a> (const Integer &amp;aSatelliteNumber)</td></tr>
+<tr class="memdesc:aaa3ce99b1a69028a94094b95eb91da2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set new satellite catalogue number in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>.  <a href="#aaa3ce99b1a69028a94094b95eb91da2c">More...</a><br /></td></tr>
+<tr class="separator:aaa3ce99b1a69028a94094b95eb91da2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b31551503d41d052b3270782824e489"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a1b31551503d41d052b3270782824e489">setEpoch</a> (const Instant &amp;anInstant)</td></tr>
+<tr class="memdesc:a1b31551503d41d052b3270782824e489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set new revolution number at epoch in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>.  <a href="#a1b31551503d41d052b3270782824e489">More...</a><br /></td></tr>
+<tr class="separator:a1b31551503d41d052b3270782824e489"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71f0c58af0aac913f7025f7f7e9500d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a71f0c58af0aac913f7025f7f7e9500d3">setRevolutionNumberAtEpoch</a> (const Integer &amp;aRevolutionNumberAtEpoch)</td></tr>
+<tr class="memdesc:a71f0c58af0aac913f7025f7f7e9500d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set new epoch in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>.  <a href="#a71f0c58af0aac913f7025f7f7e9500d3">More...</a><br /></td></tr>
+<tr class="separator:a71f0c58af0aac913f7025f7f7e9500d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -925,6 +934,87 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1b31551503d41d052b3270782824e489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b31551503d41d052b3270782824e489">&#9670;&nbsp;</a></span>setEpoch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::orbit::models::sgp4::TLE::setEpoch </td>
+          <td>(</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set new revolution number at epoch in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aRevolutionNumberAtEpoch</td><td>a Revolution Number at Epoch </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a71f0c58af0aac913f7025f7f7e9500d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71f0c58af0aac913f7025f7f7e9500d3">&#9670;&nbsp;</a></span>setRevolutionNumberAtEpoch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::orbit::models::sgp4::TLE::setRevolutionNumberAtEpoch </td>
+          <td>(</td>
+          <td class="paramtype">const Integer &amp;&#160;</td>
+          <td class="paramname"><em>aRevolutionNumberAtEpoch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set new epoch in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>an Instant (new Epoch) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="aaa3ce99b1a69028a94094b95eb91da2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa3ce99b1a69028a94094b95eb91da2c">&#9670;&nbsp;</a></span>setSatelliteNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::orbit::models::sgp4::TLE::setSatelliteNumber </td>
+          <td>(</td>
+          <td class="paramtype">const Integer &amp;&#160;</td>
+          <td class="paramname"><em>aSatelliteNumber</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set new satellite catalogue number in the existing <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteNumber</td><td>a Satellite Number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
