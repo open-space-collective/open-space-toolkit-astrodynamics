@@ -698,6 +698,9 @@ State                           Kepler::CalculateJ4StateAt                  (   
     const Real semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
     const Real eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity() ;
     const Real inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
+    const Real raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians() ;
+    const Real aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
+    const Real meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians() ;
 
     // Calculation
     // Ref: Vallado, D. A (2013). Fundamentals of Astrodynamics and Applications.
@@ -712,7 +715,7 @@ State                           Kepler::CalculateJ4StateAt                  (   
     const Real sinInclinationSquared = sinInclination * sinInclination ;
 
     const Real eccentricityAtEpochSquared = eccentricityAtEpoch * eccentricityAtEpoch ;
-    const Real sqrtBeta = std::sqrt(1.0 - eccentricityAtEpochSquared);
+    const Real sqrtBeta = std::sqrt(1.0 - eccentricityAtEpochSquared) ;
 
     const Real expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2) ;
 
@@ -742,16 +745,16 @@ State                           Kepler::CalculateJ4StateAt                  (   
         1.0 + expr * (2.0 + eccentricityAtEpochSquared / 2.0 - 2.0 * sqrtBeta 
         - (43.0 / 24.0 - eccentricityAtEpochSquared / 48.0 - 3.0 * sqrtBeta) * sinInclinationSquared)
     )
-    - 45.0 / 36.0 * aJ2 * aJ2 * n_bar * std::pow(equatorialRadius_m / p, 4) * eccentricityAtEpochSquared * std::pow(cosInclination, 4)
+    - 45.0 / 36.0 * aJ2 * aJ2 * n * std::pow(equatorialRadius_m / p, 4) * eccentricityAtEpochSquared * std::pow(cosInclination, 4)
     - 35.0 / 8.0 * n * aJ4 * std::pow(equatorialRadius_m / p, 4) *
     (
         12.0 / 7.0 - 93.0 / 14.0 * sinInclinationSquared + 21.0 / 4.0 * std::pow(sinInclination, 4)
         + eccentricityAtEpochSquared * (27.0 / 14.0 - 189.0 / 28.0 * sinInclinationSquared + 81.0 / 16.0 * std::pow(sinInclination, 4))
     ) ;
 
-    const Real raan_bar_rad = raan_dot * durationFromEpoch_s ;
-    const Real aop_bar_rad = aop_dot * durationFromEpoch_s ;
-    const Real meanAnomaly_rad = n_bar * durationFromEpoch_s ;
+    const Real raan_bar_rad = raanAtEpoch_rad + raan_dot * durationFromEpoch_s ;
+    const Real aop_bar_rad = aopAtEpoch_rad + aop_dot * durationFromEpoch_s ;
+    const Real meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s ;
 
     // Orbital parameters at instant
 
@@ -824,7 +827,7 @@ Integer                         Kepler::CalculateJ4RevolutionNumberAt       (   
             1.0 + expr * (2.0 + e * e / 2.0 - 2.0 * std::sqrt(1.0 - e * e)
             - (43.0 / 24.0 - e * e / 48.0 - 3.0 * std::sqrt(1.0 - e * e)) * std::pow(std::sin(i_rad), 2))
         )
-        - 45.0 / 36.0 * aJ2 * aJ2 * n_bar * std::pow(R_m / p, 4) * e * e * std::pow(std::cos(i_rad), 4)
+        - 45.0 / 36.0 * aJ2 * aJ2 * n_0 * std::pow(R_m / p, 4) * e * e * std::pow(std::cos(i_rad), 4)
         - 35.0 / 8.0 * n_0 * aJ4 * std::pow(R_m / p, 4) *
         (
             12.0 / 7.0 - 93.0 / 14.0 * std::pow(std::sin(i_rad), 2) + 21.0 / 4.0 * std::pow(std::sin(i_rad), 4)
