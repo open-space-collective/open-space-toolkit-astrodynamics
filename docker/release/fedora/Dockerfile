@@ -52,7 +52,7 @@ FROM fedora:32 as python-builder
 COPY --from=cpp-builder /app/build/bindings/python/dist /dist
 
 RUN python3.8 -m ensurepip --default-pip \
- && python3.8 -m pip install /dist/*.whl
+ && python3.8 -m pip install /dist/*38*.whl
 
 ################################################################################################################################################################
 
