@@ -5,11 +5,12 @@ var classostk_1_1astro_1_1_access =
       [ "Complete", "classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93aae94f80b3ce82062a5dd7815daa04f9d", null ],
       [ "Partial", "classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27", null ]
     ] ],
-    [ "Access", "classostk_1_1astro_1_1_access.html#ace88d61843a4e38c39432a39e2864b04", null ],
+    [ "Access", "classostk_1_1astro_1_1_access.html#a48ecec813c4e317da2613eef8b107193", null ],
     [ "getAcquisitionOfSignal", "classostk_1_1astro_1_1_access.html#a07b36c41b6ecceab9d841197e6e412d2", null ],
     [ "getDuration", "classostk_1_1astro_1_1_access.html#afb542654ea7603d54773e612be071bc2", null ],
     [ "getInterval", "classostk_1_1astro_1_1_access.html#a44d8162ed0ea9bd599fe351639364ee0", null ],
     [ "getLossOfSignal", "classostk_1_1astro_1_1_access.html#ace680122654f24704fb6a40631b84afb", null ],
+    [ "getMaxElevation", "classostk_1_1astro_1_1_access.html#aa46499cf112a00ce3be12b4b8f23527c", null ],
     [ "getTimeOfClosestApproach", "classostk_1_1astro_1_1_access.html#aa5be394928873c5795cfb068b1e5bfb6", null ],
     [ "getType", "classostk_1_1astro_1_1_access.html#aa88d0d19a9386b9748f87263289195a2", null ],
     [ "isComplete", "classostk_1_1astro_1_1_access.html#ae6bfc3c40d23545d9c520e44550c5033", null ],

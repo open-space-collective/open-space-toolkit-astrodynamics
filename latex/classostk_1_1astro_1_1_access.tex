@@ -20,7 +20,7 @@ enum \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}{Access} (const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&a\+Type, const Instant \&an\+Acquisition\+Of\+Signal, const Instant \&a\+Time\+Of\+Closest\+Approach, const Instant \&a\+Loss\+Of\+Signal)
+\hyperlink{classostk_1_1astro_1_1_access_a48ecec813c4e317da2613eef8b107193}{Access} (const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&a\+Type, const Instant \&an\+Acquisition\+Of\+Signal, const Instant \&a\+Time\+Of\+Closest\+Approach, const Instant \&a\+Loss\+Of\+Signal, const Angle \&a\+Max\+Elevation)
 \item 
 bool \hyperlink{classostk_1_1astro_1_1_access_a4e336578930e1e1d49b7bdc279af4bdf}{operator==} (const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&an\+Access) const
 \item 
@@ -41,6 +41,8 @@ Instant \hyperlink{classostk_1_1astro_1_1_access_ace680122654f24704fb6a40631b84a
 Interval \hyperlink{classostk_1_1astro_1_1_access_a44d8162ed0ea9bd599fe351639364ee0}{get\+Interval} () const
 \item 
 Duration \hyperlink{classostk_1_1astro_1_1_access_afb542654ea7603d54773e612be071bc2}{get\+Duration} () const
+\item 
+Angle \hyperlink{classostk_1_1astro_1_1_access_aa46499cf112a00ce3be12b4b8f23527c}{get\+Max\+Elevation} () const
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -83,11 +85,11 @@ Partial&\\
 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}\label{classostk_1_1astro_1_1_access_ace88d61843a4e38c39432a39e2864b04}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_a48ecec813c4e317da2613eef8b107193}\label{classostk_1_1astro_1_1_access_a48ecec813c4e317da2613eef8b107193}} 
 \index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!Access@{Access}}
 \index{Access@{Access}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
 \subsubsection{\texorpdfstring{Access()}{Access()}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Access\+::\+Access (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&}]{a\+Type,  }\item[{const Instant \&}]{an\+Acquisition\+Of\+Signal,  }\item[{const Instant \&}]{a\+Time\+Of\+Closest\+Approach,  }\item[{const Instant \&}]{a\+Loss\+Of\+Signal }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Access\+::\+Access (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_access_aac00b1a6ead7db92eba5b71e43235c93}{Access\+::\+Type} \&}]{a\+Type,  }\item[{const Instant \&}]{an\+Acquisition\+Of\+Signal,  }\item[{const Instant \&}]{a\+Time\+Of\+Closest\+Approach,  }\item[{const Instant \&}]{a\+Loss\+Of\+Signal,  }\item[{const Angle \&}]{a\+Max\+Elevation }\end{DoxyParamCaption})}
 
 
 
@@ -115,6 +117,12 @@ Partial&\\
 \index{get\+Loss\+Of\+Signal@{get\+Loss\+Of\+Signal}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
 \subsubsection{\texorpdfstring{get\+Loss\+Of\+Signal()}{getLossOfSignal()}}
 {\footnotesize\ttfamily Instant ostk\+::astro\+::\+Access\+::get\+Loss\+Of\+Signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_access_aa46499cf112a00ce3be12b4b8f23527c}\label{classostk_1_1astro_1_1_access_aa46499cf112a00ce3be12b4b8f23527c}} 
+\index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Max\+Elevation@{get\+Max\+Elevation}}
+\index{get\+Max\+Elevation@{get\+Max\+Elevation}!ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}}
+\subsubsection{\texorpdfstring{get\+Max\+Elevation()}{getMaxElevation()}}
+{\footnotesize\ttfamily Angle ostk\+::astro\+::\+Access\+::get\+Max\+Elevation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1_access_aa5be394928873c5795cfb068b1e5bfb6}\label{classostk_1_1astro_1_1_access_aa5be394928873c5795cfb068b1e5bfb6}} 
 \index{ostk\+::astro\+::\+Access@{ostk\+::astro\+::\+Access}!get\+Time\+Of\+Closest\+Approach@{get\+Time\+Of\+Closest\+Approach}}
