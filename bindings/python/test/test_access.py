@@ -50,8 +50,9 @@ def test_access_constructors ():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
+    max_elevation = Angle.degrees(54.3)
 
-    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal)
+    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal, max_elevation)
 
     assert access is not None
     assert isinstance(access, Access)
@@ -73,8 +74,9 @@ def test_access_getters ():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
+    max_elevation = Angle.degrees(54.3)
 
-    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal)
+    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal, max_elevation)
 
     # get_type
     access_type: Access.Type = access.get_type()
@@ -114,6 +116,12 @@ def test_access_getters ():
 
     assert duration is not None
     assert isinstance(duration, Duration)
+
+    # get_max_elevation
+    max_el: Angle = access.get_max_elevation()
+
+    assert max_el is not None
+    assert isinstance(max_el, Angle)
 
 ################################################################################################################################################################
 
