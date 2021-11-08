@@ -19,6 +19,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
     using namespace pybind11 ;
 
     using ostk::physics::time::Instant ;
+    using ostk::physics::units::Angle ;
 
     using ostk::astro::Access ;
 
@@ -26,7 +27,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
 
         class_<Access> access_class(aModule, "Access") ;
 
-        access_class.def(init<const Access::Type&, const Instant&, const Instant&, const Instant&>())
+        access_class.def(init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>())
 
             .def(self == self)
             .def(self != self)
@@ -43,6 +44,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
             .def("get_loss_of_signal", &Access::getLossOfSignal)
             .def("get_interval", &Access::getInterval)
             .def("get_duration", &Access::getDuration)
+            .def("get_max_elevation", &Access::getMaxElevation)
 
             .def_static("undefined", &Access::Undefined)
 

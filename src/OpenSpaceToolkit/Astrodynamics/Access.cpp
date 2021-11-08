@@ -21,11 +21,13 @@ namespace astro
                                 Access::Access                              (   const   Access::Type&               aType,
                                                                                 const   Instant&                    anAcquisitionOfSignal,
                                                                                 const   Instant&                    aTimeOfClosestApproach,
-                                                                                const   Instant&                    aLossOfSignal                               )
+                                                                                const   Instant&                    aLossOfSignal,
+                                                                                const   Angle&                      aMaxElevation                               )
                                 :   type_(aType),
                                     acquisitionOfSignal_(anAcquisitionOfSignal),
                                     timeOfClosestApproach_(aTimeOfClosestApproach),
-                                    lossOfSignal_(aLossOfSignal)
+                                    lossOfSignal_(aLossOfSignal),
+                                    maxElevation_(aMaxElevation)
 {
 
     if (this->isDefined())
@@ -53,7 +55,7 @@ bool                            Access::operator ==                         (   
         return false ;
     }
 
-    return (type_ == anAccess.type_) && (acquisitionOfSignal_ == anAccess.acquisitionOfSignal_) && (timeOfClosestApproach_ == anAccess.timeOfClosestApproach_) && (lossOfSignal_ == anAccess.lossOfSignal_) ;
+    return (type_ == anAccess.type_) && (acquisitionOfSignal_ == anAccess.acquisitionOfSignal_) && (timeOfClosestApproach_ == anAccess.timeOfClosestApproach_) && (lossOfSignal_ == anAccess.lossOfSignal_) && (maxElevation_ == anAccess.maxElevation_) ;
 
 }
 
@@ -78,6 +80,8 @@ std::ostream&                   operator <<                                 (   
 
     ostk::core::utils::Print::Line(anOutputStream) << "Duration:"            << ((anAccess.acquisitionOfSignal_.isDefined() && anAccess.lossOfSignal_.isDefined()) ? Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString() : "Undefined") ;
 
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Elevation:"            << (anAccess.maxElevation_.isDefined() ? anAccess.maxElevation_.toString() : "Undefined") ;
+
     ostk::core::utils::Print::Footer(anOutputStream) ;
 
     return anOutputStream ;
@@ -86,7 +90,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            Access::isDefined                           ( ) const
 {
-    return (type_ != Access::Type::Undefined) && acquisitionOfSignal_.isDefined() && timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() ;
+    return (type_ != Access::Type::Undefined) && acquisitionOfSignal_.isDefined() && timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() && maxElevation_.isDefined() ;
 }
 
 bool                            Access::isComplete                          ( ) const
@@ -173,9 +177,21 @@ Duration                        Access::getDuration                         ( ) 
 
 }
 
+Angle                           Access::getMaxElevation                     ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Access") ;
+    }
+
+    return maxElevation_ ;
+
+}
+
 Access                          Access::Undefined                           ( )
 {
-    return Access(Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined()) ;
+    return Access(Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined()) ;
 }
 
 String                          Access::StringFromType                      (   const   Access::Type&               aType                                       )

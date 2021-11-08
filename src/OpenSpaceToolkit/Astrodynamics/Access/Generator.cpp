@@ -231,6 +231,22 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     } ;
 
+    const auto elevationAt = [calculateAer, getPositionsAt] (const Instant& anInstant) -> Angle
+    {
+
+        const Pair<Position, Position> positions = getPositionsAt(anInstant) ;
+
+        const Position& fromPosition = positions.first ;
+        const Position& toPosition = positions.second ;
+
+        const AER aer = calculateAer(anInstant, fromPosition, toPosition) ;
+
+        const Angle elevationAngle = aer.getElevation() ;
+
+        return elevationAngle ;
+
+    } ;
+
     const std::function<Instant (const Instant&, const Instant&, const Duration&, const bool, const std::function<bool (const Instant&)>&)> findSwitchingInstant =
     [&findSwitchingInstant] (const Instant& aPreviousInstant, const Instant& aNextInstant, const Duration& aTolerance, const bool isConditionActiveAtPreviousInstant, const std::function<bool (const Instant&)>& aCondition) -> Instant
     {
@@ -257,10 +273,10 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     Array<Access> accesses = Array<Access>::Empty() ;
 
-    const auto addAccess = [this, &accesses] (const Access::Type& aType, const Instant& anAcquisitionOfSignal, const Instant& aTimeOfClosestApproach, const Instant& aLossOfSignal)
+    const auto addAccess = [this, &accesses] (const Access::Type& aType, const Instant& anAcquisitionOfSignal, const Instant& aTimeOfClosestApproach, const Instant& aLossOfSignal, const Angle& aMaxElevation)
     {
 
-        const Access access = { aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal } ;
+        const Access access = { aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal, aMaxElevation } ;
 
         if (accessFilter_ ? accessFilter_(access) : true)
         {
@@ -310,8 +326,9 @@ Array<Access>                   Generator::computeAccesses                  (   
                 const Instant acquisitionOfSignal = acquisitionOfSignalCache ;
                 const Instant timeOfClosestApproach = timeOfClosestApproachCache ;
                 const Instant lossOfSignal = switchingInstant ;
+                const Angle maxElevation = elevationAt(timeOfClosestApproach) ; // TBR: Approximate
 
-                addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal) ;
+                addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation) ;
 
                 acquisitionOfSignalCache = Instant::Undefined() ;
                 timeOfClosestApproachCache = Instant::Undefined() ;
@@ -461,8 +478,9 @@ Array<Access>                   Generator::computeAccesses                  (   
         const Instant acquisitionOfSignal = acquisitionOfSignalCache ;
         const Instant timeOfClosestApproach = timeOfClosestApproachCache ;
         const Instant lossOfSignal = instants.accessLast() ;
+        const Angle maxElevation = elevationAt(timeOfClosestApproach) ; // TBR: Approximate
 
-        addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal) ;
+        addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation) ;
 
     }
 
@@ -541,7 +559,7 @@ Generator                       Generator::AerRanges                        (   
 Generator                       Generator::AerMask                           (  const   Map<Real, Real>&            anAzimuthElevationMask,
                                                                                 const   Interval<Real>&             aRangeRange,
                                                                                 const   Environment&                anEnvironment                               )
-{                    
+{
 
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Map ;
@@ -555,7 +573,7 @@ Generator                       Generator::AerMask                           (  
 
     for (const auto& azimuthElevationPair : anAzimuthElevationMask)
     {
-        if ((azimuthElevationPair.second).abs() > 90.0) 
+        if ((azimuthElevationPair.second).abs() > 90.0)
         {
             throw ostk::core::error::runtime::Wrong("Azimuth-Elevation Mask") ;
         }
@@ -597,7 +615,7 @@ Generator                       Generator::AerMask                           (  
             && ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters())) ;
 
     } ;
-    
+
     return { anEnvironment, aerFilter, {} } ;
 
 }
