@@ -111,7 +111,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION=0.5.10
+ARG OSTK_PHYSICS_VERSION=0.5.11
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
