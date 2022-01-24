@@ -326,7 +326,7 @@ Array<Access>                   Generator::computeAccesses                  (   
                 const Instant acquisitionOfSignal = acquisitionOfSignalCache ;
                 const Instant timeOfClosestApproach = timeOfClosestApproachCache ;
                 const Instant lossOfSignal = switchingInstant ;
-                const Angle maxElevation = elevationAt(timeOfClosestApproach) ; // TBR: Approximate
+                const Angle maxElevation = timeOfClosestApproach.isDefined() ? elevationAt(timeOfClosestApproach) : Angle::Undefined() ; // TBR: Approximate
 
                 addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation) ;
 
