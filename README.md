@@ -115,7 +115,7 @@ Documentation is available here:
 <summary>Structure</summary>
 <p>
 
-The library exhibits the following structure:
+The library exhibits the following detailed and descriptive structure:
 
 ```txt
 ├── Trajectory
@@ -126,15 +126,16 @@ The library exhibits the following structure:
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element set (TLE)
-│   │   │   └── Propagator
-│   │   ├── Pass
-│   │   └── Utilities
-│   └── Composite
+│   │   │   └── Tabulated (input csv)
+│   │   └── Pass
+│   └── Models
+│       ├── Static
+│       └── Tabulated
 ├── Flight
 │   └── Profile
 │       └── State
 ├── Access
-└── State Profile
+        └── Generator
 ```
 
 </p>
