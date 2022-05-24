@@ -1,6 +1,6 @@
 # Open Space Toolkit ▸ Astrodynamics
 
-[![Build Status](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics.svg?branch=master)](https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics)
+[![Build Status](https://app.travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics.svg?branch=master)](https://app.travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics)
 [![Code Coverage](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics/branch/master/graph/badge.svg)](https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics)
 [![Documentation](https://img.shields.io/readthedocs/pip/stable.svg)](https://open-space-collective.github.io/open-space-toolkit-astrodynamics)
 [![GitHub version](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics.svg)](https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics)
@@ -115,7 +115,7 @@ Documentation is available here:
 <summary>Structure</summary>
 <p>
 
-The library exhibits the following structure:
+The library exhibits the following detailed and descriptive structure:
 
 ```txt
 ├── Trajectory
@@ -126,15 +126,16 @@ The library exhibits the following structure:
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element set (TLE)
-│   │   │   └── Propagator
-│   │   ├── Pass
-│   │   └── Utilities
-│   └── Composite
+│   │   │   └── Tabulated (input csv)
+│   │   └── Pass
+│   └── Models
+│       ├── Static
+│       └── Tabulated
 ├── Flight
 │   └── Profile
 │       └── State
 ├── Access
-└── State Profile
+        └── Generator
 ```
 
 </p>
