@@ -7,8 +7,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <boost/numeric/odeint.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/CustomProp.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
@@ -34,6 +32,12 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 #include <Global.test.hpp>
+
+#include <boost/numeric/odeint.hpp>
+#include <boost/array.hpp>
+#include <boost/operators.hpp>
+
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,30 +70,50 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
     using ostk::astro::trajectory::Orbit ;
     using ostk::astro::trajectory::State ;
 
+    using ostk::astro::trajectory::orbit::models::CustomProp ;
+
     using namespace boost::numeric::odeint;
 
-    typedef std::vector< double > state_type; /* The type of container used to hold the state vector */
 
-    {
-        // 
-        size_t intAnswer = 36.0
+    // typedef std::vector< double > state_type; /* The type of container used to hold the state vector */
+
+    {        
+        double startEpoch = 0.0;
+        double endEpoch = 11345.0;
+        double initialTimeStep = 5.0;
+
+        CustomProp::state_type xECI(6);
+        xECI[0] = -2.577031509124861e+06; 
+        xECI[1] = -1.530158746164186e+06;
+        xECI[2] = -6.237029236139196e+06; 
+        xECI[3] = -6.763265635655096e+03;
+        xECI[4] = -1.356683663338969e+03; 
+        xECI[5] = 3.132719003502420e+03;
+
+        CustomProp::state_type xEndTrueECI(6); // Need to change these to match 2 body prop final state answer
+        xEndTrueECI[0] = -2019400;
+        xEndTrueECI[1] = -1419500;
+        xEndTrueECI[2] = -6465000;
+        xEndTrueECI[3] = -6981.9;
+        xEndTrueECI[4] = -1514.8;
+        xEndTrueECI[5] = 2517.3;
+
+        integrate ( CustomProp::TwoBodyDynamics , xECI , startEpoch , endEpoch , initialTimeStep , CustomProp::PropLog );
         
+        std::cout << "Answer is:" << std::endl;
+        std::cout << "Pos (" << xECI[0] << ", " << xECI[1] << ", " << xECI[2] << ")" << std::endl;
+        std::cout << "Vel (" << xECI[3] << ", " << xECI[4] << ", " << xECI[5] << ")" << std::endl;
         
-        state_type x(2);
-        x[0] = 1.0; // start at x=1.0, p=0.0
-        x[1] = 0.0;
+        double posErrTolerance = 10.0; 
+        double velErrTolerance = 0.1; 
+        double statePosError = sqrt(pow(xEndTrueECI[0]-xECI[0],2) + pow(xEndTrueECI[1]-xECI[1],2) + pow(xEndTrueECI[2]-xECI[2],2));
+        double stateVelError = sqrt(pow(xEndTrueECI[3]-xECI[3],2) + pow(xEndTrueECI[4]-xECI[4],2) + pow(xEndTrueECI[5]-xECI[5],2));
 
-        size_t step = integrate( ostk::astro::trajectory::orbit::models::harmonic_oscillator , x , 0.0 , 10.0 , 0.1 );
-        
-        std::cout << "Unit test answer is:" << step << std::endl;
-        ASSERT_EQ(intAnswer,step) ;
+        std::cout << "Position error is:" << statePosError << std::endl;
+        std::cout << "Velocity error is:" << stateVelError << std::endl;
 
-        // Call propagation function
-        // std::vector <double> custPropFunc( )
-
-
-        // double intAnswer = 1.00;
-        
+        ASSERT_GT(posErrTolerance,statePosError) ; // Assert position error
+        ASSERT_GT(velErrTolerance,stateVelError) ; // Assert velocity error
     }
 
 }
@@ -135,14 +159,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //         // Orbital model setup
 
-//         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+//         const Length semiMajorAxECIis = Length::Kilometers(7000.0) ;
 //         const Real eccentricity = 0.0 ;
 //         const Angle inclination = Angle::Degrees(45.0) ;
 //         const Angle raan = Angle::Degrees(0.0) ;
 //         const Angle aop = Angle::Degrees(0.0) ;
 //         const Angle trueAnomaly = Angle::Degrees(0.0) ;
 
-//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+//         const COE coe = { semiMajorAxECIis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
 //         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
 //         const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
@@ -201,15 +225,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //             ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
 
-//             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " << position_GCRF.accessCoordinates().toString(10) << std::endl ;
-//             // std::cout << "x @ ITRF = " << referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) << std::endl ;
-//             // std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm() << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+//             // std::cout << "xECI @ GCRF = " << referencePosition_GCRF.toString(10) << " / " << position_GCRF.accessCoordinates().toString(10) << std::endl ;
+//             // std::cout << "xECI @ ITRF = " << referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) << std::endl ;
+//             // std::cout << "dxECI = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm() << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
 
 //             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " << velocity_GCRF.accessCoordinates().toString(10) << std::endl ;
 //             // std::cout << "v @ ITRF = " << referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) << std::endl ;
 //             // std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm() << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
 
-//             // std::cout << "dx | dv = " << Real((position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+//             // std::cout << "dxECI | dv = " << Real((position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
 
 //         }
 
@@ -253,14 +277,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //     //     const Earth earth = Earth::Analytical() ;
 
-//     //     const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+//     //     const Length semiMajorAxECIis = Length::Kilometers(7000.0) ;
 //     //     const Real eccentricity = 0.0 ;
 //     //     const Angle inclination = Angle::Degrees(0.0) ;
 //     //     const Angle raan = Angle::Degrees(0.0) ;
 //     //     const Angle aop = Angle::Degrees(0.0) ;
 //     //     const Angle trueAnomaly = Angle::Degrees(0.0) ;
 
-//     //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+//     //     const COE coe = { semiMajorAxECIis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
 //     //     std::cout << coe << std::endl ;
 
@@ -276,14 +300,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //         const Earth earth = Earth::Analytical() ;
 
-//         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+//         const Length semiMajorAxECIis = Length::Kilometers(7000.0) ;
 //         const Real eccentricity = 0.0 ;
 //         const Angle inclination = Angle::Degrees(0.0) ;
 //         const Angle raan = Angle::Degrees(0.0) ;
 //         const Angle aop = Angle::Degrees(0.0) ;
 //         const Angle trueAnomaly = Angle::Degrees(0.0) ;
 
-//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+//         const COE coe = { semiMajorAxECIis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
 //         std::cout << coe << std::endl ;
 

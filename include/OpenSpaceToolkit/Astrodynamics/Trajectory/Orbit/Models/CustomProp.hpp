@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/CustomProp.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -10,7 +10,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -48,139 +48,106 @@ using ostk::physics::units::Derived ;
 using ostk::physics::env::obj::Celestial ;
 
 using ostk::astro::trajectory::State ;
-using ostk::astro::trajectory::orbit::models::kepler::COE ;
+// using ostk::astro::trajectory::orbit::models::kepler::COE ; should we make a subclass of prop or not really since state is the only relevant "subclass"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef std::vector< double > state_type; /* The type of container used to hold the state vector */
+class CustomProp : public ostk::astro::trajectory::orbit::Model
+{
 
-void harmonic_oscillator( const state_type &x , state_type &dxdt , const double /* t */ );
+    public:
 
-// class Kepler : public ostk::astro::trajectory::orbit::Model
-// {
+        enum class PerturbationType // Add astmospheric drag, lunisolar perturbs, and SRP
+        {
 
-//     public:
+            None,
+            J2,
+            J4
 
-//         enum class PerturbationType
-//         {
+        } ;
 
-//             None,
-//             J2,
-//             J4
+        typedef std::vector< double > state_type; 
+        /* The type of container used to hold the state vector */
 
-//         } ;
+                                CustomProp                                  (   const   State&                        aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
+                                                                                const   Real&                       aJ4,
+                                                                                const   CustomProp::PerturbationType&   aPerturbationType                           ) ;
 
-//                                 Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2,
-//                                                                                 const   Real&                       aJ4,
-//                                                                                 const   Kepler::PerturbationType&   aPerturbationType                           ) ;
+        virtual CustomProp*         clone                                   ( ) const override ;
 
-//                                 Kepler                                      (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Celestial&                  aCelestialObject,
-//                                                                                 const   Kepler::PerturbationType&   aPerturbationType,
-//                                                                                 const   bool                        inFixedFrame                                =   false ) ;
+        bool                    operator ==                                 (   const   CustomProp&                     aCustomPropModel                             ) const ;
 
-//         virtual Kepler*         clone                                       ( ) const override ;
+        bool                    operator !=                                 (   const   CustomProp&                     aCustomPropModel                             ) const ;
 
-//         bool                    operator ==                                 (   const   Kepler&                     aKeplerianModel                             ) const ;
+        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
+                                                                                const   CustomProp&                     aCustomPropModel                             ) ;
 
-//         bool                    operator !=                                 (   const   Kepler&                     aKeplerianModel                             ) const ;
+        virtual bool            isDefined                                   ( ) const override ;
 
-//         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-//                                                                                 const   Kepler&                     aKeplerianModel                             ) ;
+        // COE                     getClassicalOrbitalElements                 ( ) const ;
 
-//         virtual bool            isDefined                                   ( ) const override ;
+        virtual Instant         getEpoch                                    ( ) const override ;
 
-//         COE                     getClassicalOrbitalElements                 ( ) const ;
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
-//         virtual Instant         getEpoch                                    ( ) const override ;
+        Derived                 getGravitationalParameter                   ( ) const ;
 
-//         virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
+        Length                  getEquatorialRadius                         ( ) const ;
 
-//         Derived                 getGravitationalParameter                   ( ) const ;
+        Real                    getJ2                                       ( ) const ;
 
-//         Length                  getEquatorialRadius                         ( ) const ;
+        Real                    getJ4                                       ( ) const ;
 
-//         Real                    getJ2                                       ( ) const ;
+        CustomProp::PerturbationType getPerturbationType                        ( ) const ;
 
-//         Real                    getJ4                                       ( ) const ;
+        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-//         Kepler::PerturbationType getPerturbationType                        ( ) const ;
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
 
-//         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+        virtual void            print                                       (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            =   true ) const override ;
 
-//         virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
+        static String           StringFromPerturbationType                  (   const   CustomProp::PerturbationType&   aPerturbationType                           ) ;
 
-//         virtual void            print                                       (           std::ostream&               anOutputStream,
-//                                                                                         bool                        displayDecorator                            =   true ) const override ;
+        static void TwoBodyDynamics( const state_type &x , state_type &dxdt , const double t );
 
-//         static String           StringFromPerturbationType                  (   const   Kepler::PerturbationType&   aPerturbationType                           ) ;
+        static void PropLog( const state_type &x , const double t );
 
-//     protected:
+    protected:
 
-//         virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
-//         virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
-//     private:
+    private:
 
-//         COE                     coe_ ;
-//         Instant                 epoch_ ;
-//         Derived                 gravitationalParameter_ ;
-//         Length                  equatorialRadius_ ;
-//         Real                    j2_ ;
-//         Real                    j4_ ;
-//         Kepler::PerturbationType perturbationType_ ;
+        State                   state_ ;
+        Instant                 epoch_ ;
+        Derived                 gravitationalParameter_ ;
+        Length                  equatorialRadius_ ;
+        Real                    j2_ ;
+        Real                    j4_ ;
+        CustomProp::PerturbationType perturbationType_ ;
 
-//         static COE              InertialCoeFromFixedCoe                     (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Celestial&                  aCelestialObject                            ) ;
+        // static COE              InertialCoeFromFixedCoe                     (   const   COE&                        aClassicalOrbitalElementSet,
+        //                                                                         const   Instant&                    anEpoch,
+        //                                                                         const   Celestial&                  aCelestialObject                            ) ;
 
-//         static State            CalculateNoneStateAt                        (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant                                   ) ;
+        static State            CalculateStateAt                            (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   ) ;
 
-//         static Integer          CalculateNoneRevolutionNumberAt             (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant                                   ) ;
+        static Integer          CalculateRevolutionNumberAt                 (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   ) ;
 
-//         static State            CalculateJ2StateAt                          (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2                                         ) ;
-
-//         static Integer          CalculateJ2RevolutionNumberAt               (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2                                         ) ;
-
-//         static State            CalculateJ4StateAt                          (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2,
-//                                                                                 const   Real&                       aJ4                                         ) ;
-
-//         static Integer          CalculateJ4RevolutionNumberAt               (   const   COE&                        aClassicalOrbitalElementSet,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2,
-//                                                                                 const   Real&                       aJ4                                         ) ;
-
-// } ;
+} ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

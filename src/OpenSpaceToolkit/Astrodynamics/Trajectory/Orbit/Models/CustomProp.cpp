@@ -13,8 +13,11 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <iostream>
+#include <cmath>
 
 #include <boost/numeric/odeint.hpp>
+#include <boost/array.hpp>
+#include <boost/operators.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,24 +43,38 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 
 using namespace boost::numeric::odeint;
 
-typedef std::vector< double > state_type; /* The type of container used to hold the state vector */
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Implement odeint function to integrate a simple function
 
-
-
-const double gam = 0.15;
+const double mu = 3.986004418e14;
+double posMag;
 
 /* The rhs of x' = f(x) */
-void harmonic_oscillator( const state_type &x , state_type &dxdt , const double /* t */ )
+void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::state_type &dxdt , const double )
 {
-    dxdt[0] = x[1];
-    dxdt[1] = -x[0] - gam*x[1];
+    // Find position magnitude
+    posMag = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
+    
+    // Integrate position states
+    dxdt[0] = x[3];  
+    dxdt[1] = x[4];
+    dxdt[2] = x[5]; 
+
+    // Integrate velocity states
+    double posMagCube = pow(posMag,3);
+
+    dxdt[3] = -(mu/posMagCube) * x[0];
+    dxdt[4] = -(mu/posMagCube) * x[1];
+    dxdt[5] = -(mu/posMagCube) * x[2];
+
 }
 
 
+void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
+{
+    std::cout << t << "\t\t" << x[0] << '\t' << x[1] << '\t' << x[2]  << '\t' << x[3] << '\t' << x[4] << '\t' << x[5] << std::endl;
+}
 
 // Calculate J2 state at a desired time (code straight form Kepler.cpp)
 
