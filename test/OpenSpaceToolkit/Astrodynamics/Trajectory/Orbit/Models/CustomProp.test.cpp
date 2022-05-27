@@ -78,6 +78,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
     // typedef std::vector< double > state_type; /* The type of container used to hold the state vector */
 
     {        
+        // Initial propagation experimentation with CustomProp function without instantiating CustomProp
+
         double startEpoch = 0.0;
         double endEpoch = 11345.0;
         double initialTimeStep = 5.0;
@@ -90,13 +92,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         xECI[4] = -1.356683663338969e+03; 
         xECI[5] = 3.132719003502420e+03;
 
-        CustomProp::state_type xEndTrueECI(6); // Need to change these to match 2 body prop final state answer
-        xEndTrueECI[0] = -2019400;
-        xEndTrueECI[1] = -1419500;
-        xEndTrueECI[2] = -6465000;
-        xEndTrueECI[3] = -6981.9;
-        xEndTrueECI[4] = -1514.8;
-        xEndTrueECI[5] = 2517.3;
+        CustomProp::state_type xEndTwoBodyTrueECI(6); // Need to change these to match 2 body prop final state answer
+        xEndTwoBodyTrueECI[0] = -2195455.00352205;
+        xEndTwoBodyTrueECI[1] = -1451724.59333227;
+        xEndTwoBodyTrueECI[2] = -6399889.71639439;
+        xEndTwoBodyTrueECI[3] = -6923.342794492;
+        xEndTwoBodyTrueECI[4] = -1456.66369389355;
+        xEndTwoBodyTrueECI[5] = 2708.90840312134;
 
         integrate ( CustomProp::TwoBodyDynamics , xECI , startEpoch , endEpoch , initialTimeStep , CustomProp::PropLog );
         
@@ -106,14 +108,95 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         
         double posErrTolerance = 10.0; 
         double velErrTolerance = 0.1; 
-        double statePosError = sqrt(pow(xEndTrueECI[0]-xECI[0],2) + pow(xEndTrueECI[1]-xECI[1],2) + pow(xEndTrueECI[2]-xECI[2],2));
-        double stateVelError = sqrt(pow(xEndTrueECI[3]-xECI[3],2) + pow(xEndTrueECI[4]-xECI[4],2) + pow(xEndTrueECI[5]-xECI[5],2));
+        double statePosError = sqrt(pow(xEndTwoBodyTrueECI[0]-xECI[0],2) + pow(xEndTwoBodyTrueECI[1]-xECI[1],2) + pow(xEndTwoBodyTrueECI[2]-xECI[2],2));
+        double stateVelError = sqrt(pow(xEndTwoBodyTrueECI[3]-xECI[3],2) + pow(xEndTwoBodyTrueECI[4]-xECI[4],2) + pow(xEndTwoBodyTrueECI[5]-xECI[5],2));
 
-        std::cout << "Position error is:" << statePosError << std::endl;
-        std::cout << "Velocity error is:" << stateVelError << std::endl;
+        std::cout << "Position error is: " << statePosError << std::endl;
+        std::cout << "Velocity error is: " << stateVelError << std::endl;
 
         ASSERT_GT(posErrTolerance,statePosError) ; // Assert position error
         ASSERT_GT(velErrTolerance,stateVelError) ; // Assert velocity error
+
+
+
+
+        // // Propagation experimentation by instantiating CustomProp
+
+        // // Environment setup
+
+        // const Environment environment = Environment::Default() ;
+
+        // // Orbital model setup
+
+        // const Length semiMajorAxis = Length::Kilometers(7000.0) ;
+        // const Real eccentricity = 0.0 ;
+        // const Angle inclination = Angle::Degrees(45.0) ;
+        // const Angle raan = Angle::Degrees(0.0) ;
+        // const Angle aop = Angle::Degrees(0.0) ;
+        // const Angle trueAnomaly = Angle::Degrees(0.0) ;
+
+        // const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
+
+        // const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
+        // const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        // const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+        // const Real J2 = Earth::Models::EGM2008::J2 ;
+        // const Real J4 = Earth::Models::EGM2008::J4 ;
+
+        // const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None } ;
+
+        // // Orbit setup
+
+        // const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
+
+        // // Reference data setup
+
+        // const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv")), Table::Format::CSV, true) ;
+
+        // // Orbit test
+
+        // for (const auto& referenceRow : referenceData)
+        // {
+
+        //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
+
+        //     const Vector3d referencePosition_GCRF = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
+        //     const Vector3d referenceVelocity_GCRF = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
+
+        //     const Vector3d referencePosition_ITRF = { referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal() } ;
+        //     const Vector3d referenceVelocity_ITRF = { referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal() } ;
+
+        //     const Real referenceRevolutionNumber = referenceRow[13].accessReal() ;
+
+        //     const State state_GCRF = orbit.getStateAt(instant) ;
+
+        //     const Position position_GCRF = state_GCRF.accessPosition() ;
+        //     const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+
+        //     ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+        //     ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+        //     ASSERT_GT(1e-3, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
+        //     ASSERT_GT(1e-6, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
+
+        //     const Shared<const Frame> itrfFrame = Frame::ITRF() ;
+
+        //     const State state_ITRF = state_GCRF.inFrame(itrfFrame) ;
+
+        //     const Position position_ITRF = state_ITRF.accessPosition() ;
+        //     const Velocity velocity_ITRF = state_ITRF.accessVelocity() ;
+
+        //     ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame()) ;
+        //     ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame()) ;
+
+        //     ASSERT_GT(1e-1, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()) ;
+        //     ASSERT_GT(1e-0, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()) ;
+
+        //     ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
+
+        // }
+
+
     }
 
 }

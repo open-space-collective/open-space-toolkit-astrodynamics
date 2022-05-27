@@ -38,23 +38,121 @@ using ostk::physics::units::Length ;
 using ostk::physics::units::Time ;
 using ostk::physics::units::Derived ;
 
+using namespace boost::numeric::odeint;
+
 static const Real Tolerance = 1e-8 ;
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
+static const double mu = 3.986004418e14;
 
-using namespace boost::numeric::odeint;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Implement odeint function to integrate a simple function
+                                CustomProp::CustomProp                      (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Real&                       aJ2,
+                                                                                const   Real&                       aJ4,
+                                                                                const   CustomProp::PerturbationType&   aPerturbationType                           )
+                                :   Model(),
+                                    state_(aState),
+                                    epoch_(anEpoch),
+                                    gravitationalParameter_(aGravitationalParameter),
+                                    equatorialRadius_(anEquatorialRadius),
+                                    j2_(aJ2),
+                                    j4_(aJ4),
+                                    perturbationType_(aPerturbationType)
+{
 
-const double mu = 3.986004418e14;
-double posMag;
+}
 
-/* The rhs of x' = f(x) */
+// CustomProp*                         CustomProp::clone                               ( ) const
+// {
+//     return new CustomProp(*this) ;
+// }
+
+bool                            CustomProp::operator ==                         (   const   CustomProp&                     aCustomPropModel                             ) const
+{
+
+    if ((!this->isDefined()) || (!aCustomPropModel.isDefined()))
+    {
+        return false ;
+    }
+
+    return (state_ == aCustomPropModel.state_)
+        && (epoch_ == aCustomPropModel.epoch_)
+        && (gravitationalParameter_ == aCustomPropModel.gravitationalParameter_)
+        && (perturbationType_ == aCustomPropModel.perturbationType_) ;
+
+}
+
+bool                            CustomProp::operator !=                         (   const   CustomProp&                     aCustomPropModel                             ) const
+{
+    return !((*this) == aCustomPropModel) ;
+}
+
+std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
+                                                                                const   CustomProp&                 aCustomPropModel                            )
+{
+
+    aCustomPropModel.print(anOutputStream) ;
+
+    return anOutputStream ;
+
+}
+
+bool                            CustomProp::isDefined                           ( ) const
+{
+    return state_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() ;
+}
+
+void                            CustomProp::print                               (       std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
+{
+
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "CustomProp") : void () ;
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (epoch_.isDefined() ? epoch_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Type:"                << CustomProp::StringFromPerturbationType(perturbationType_) ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "State") ;
+
+    state_.print(anOutputStream, false) ;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
+
+}
+
+String                          CustomProp::StringFromPerturbationType          (   const   CustomProp::PerturbationType&   aPerturbationType                           )
+{
+
+    switch (aPerturbationType)
+    {
+
+        case CustomProp::PerturbationType::None:
+            return "None" ;
+
+        case CustomProp::PerturbationType::J2:
+            return "J2" ;
+
+        case CustomProp::PerturbationType::J4:
+            return "J4" ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+
+    }
+
+    return String::Empty() ;
+
+}
+
+// RHS of differential state space system
 void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::state_type &dxdt , const double )
 {
     // Find position magnitude
-    posMag = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
+    double positionMagnitude = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
     
     // Integrate position states
     dxdt[0] = x[3];  
@@ -62,23 +160,26 @@ void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::
     dxdt[2] = x[5]; 
 
     // Integrate velocity states
-    double posMagCube = pow(posMag,3);
+    double positionMagnitudeCube = pow(positionMagnitude,3);
 
-    dxdt[3] = -(mu/posMagCube) * x[0];
-    dxdt[4] = -(mu/posMagCube) * x[1];
-    dxdt[5] = -(mu/posMagCube) * x[2];
+    dxdt[3] = -(mu/positionMagnitudeCube) * x[0];
+    dxdt[4] = -(mu/positionMagnitudeCube) * x[1];
+    dxdt[5] = -(mu/positionMagnitudeCube) * x[2];
 
 }
 
 
 void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
 {
-    std::cout << t << "\t\t" << x[0] << '\t' << x[1] << '\t' << x[2]  << '\t' << x[3] << '\t' << x[4] << '\t' << x[5] << std::endl;
+    
+    std::cout << t << "\t\t" << x[0] << "\t\t" << x[1] << "\t\t" << x[2]  << "\t\t" << x[3] << "\t\t" << x[4] << "\t\t" << x[5] << std::endl;
 }
 
-// Calculate J2 state at a desired time (code straight form Kepler.cpp)
 
-// State                           Kepler::CalculateJ2StateAt                  (   const   COE&                        aClassicalOrbitalElementSet,
+
+// Calculate J2 state at a desired time (code straight form CustomProp.cpp)
+
+// State                           CustomProp::CalculateJ2StateAt                  (   const   State&                        aState,
 //                                                                                 const   Instant&                    anEpoch,
 //                                                                                 const   Derived&                    aGravitationalParameter,
 //                                                                                 const   Instant&                    anInstant,

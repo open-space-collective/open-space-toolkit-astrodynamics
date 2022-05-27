@@ -48,7 +48,6 @@ using ostk::physics::units::Derived ;
 using ostk::physics::env::obj::Celestial ;
 
 using ostk::astro::trajectory::State ;
-// using ostk::astro::trajectory::orbit::models::kepler::COE ; should we make a subclass of prop or not really since state is the only relevant "subclass"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,10 +65,10 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
-        typedef std::vector< double > state_type; 
         /* The type of container used to hold the state vector */
+        typedef std::vector< double > state_type; 
 
-                                CustomProp                                  (   const   State&                        aState,
+                                CustomProp                                  (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
@@ -77,7 +76,7 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Real&                       aJ4,
                                                                                 const   CustomProp::PerturbationType&   aPerturbationType                           ) ;
 
-        virtual CustomProp*         clone                                   ( ) const override ;
+        // virtual CustomProp*         clone                                   ( ) const override ;
 
         bool                    operator ==                                 (   const   CustomProp&                     aCustomPropModel                             ) const ;
 
@@ -88,11 +87,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         virtual bool            isDefined                                   ( ) const override ;
 
-        // COE                     getClassicalOrbitalElements                 ( ) const ;
+        // virtual Instant         getEpoch                                    ( ) const override ;
 
-        virtual Instant         getEpoch                                    ( ) const override ;
-
-        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
+        // virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
         Derived                 getGravitationalParameter                   ( ) const ;
 
@@ -104,9 +101,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         CustomProp::PerturbationType getPerturbationType                        ( ) const ;
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+        // virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
+        // virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
@@ -119,9 +116,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
     protected:
 
-        virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        // virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
-        virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        // virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
     private:
 
