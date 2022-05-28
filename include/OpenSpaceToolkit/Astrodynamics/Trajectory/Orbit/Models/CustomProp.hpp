@@ -10,7 +10,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
 
-// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -78,12 +77,12 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         // virtual CustomProp*         clone                                   ( ) const override ;
 
-        bool                    operator ==                                 (   const   CustomProp&                     aCustomPropModel                             ) const ;
+        bool                    operator ==                                 (   const   CustomProp&                 aCustomPropModel                             ) const ;
 
-        bool                    operator !=                                 (   const   CustomProp&                     aCustomPropModel                             ) const ;
+        bool                    operator !=                                 (   const   CustomProp&                 aCustomPropModel                             ) const ;
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   CustomProp&                     aCustomPropModel                             ) ;
+                                                                                const   CustomProp&                 aCustomPropModel                             ) ;
 
         virtual bool            isDefined                                   ( ) const override ;
 
@@ -101,9 +100,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         CustomProp::PerturbationType getPerturbationType                        ( ) const ;
 
-        // virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        // virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
@@ -130,20 +129,45 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
         Real                    j4_ ;
         CustomProp::PerturbationType perturbationType_ ;
 
-        // static COE              InertialCoeFromFixedCoe                     (   const   COE&                        aClassicalOrbitalElementSet,
+        static State            CalculateNoneStateAt                        (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   ) ;
+
+        static Integer          CalculateNoneRevolutionNumberAt             (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   ) ;
+
+        // static State            CalculateJ2StateAt                          (   const   State&                      aState,
         //                                                                         const   Instant&                    anEpoch,
-        //                                                                         const   Celestial&                  aCelestialObject                            ) ;
+        //                                                                         const   Derived&                    aGravitationalParameter,
+        //                                                                         const   Instant&                    anInstant,
+        //                                                                         const   Length&                     anEquatorialRadius,
+        //                                                                         const   Real&                       aJ2                                         ) ;
 
-        static State            CalculateStateAt                            (   const   State&                      aState,
-                                                                                const   Instant&                    anEpoch,
-                                                                                const   Derived&                    aGravitationalParameter,
-                                                                                const   Instant&                    anInstant                                   ) ;
+        // static Integer          CalculateJ2RevolutionNumberAt               (   const   State&                      aState,
+        //                                                                         const   Instant&                    anEpoch,
+        //                                                                         const   Derived&                    aGravitationalParameter,
+        //                                                                         const   Instant&                    anInstant,
+        //                                                                         const   Length&                     anEquatorialRadius,
+        //                                                                         const   Real&                       aJ2                                         ) ;
 
-        static Integer          CalculateRevolutionNumberAt                 (   const   State&                      aState,
-                                                                                const   Instant&                    anEpoch,
-                                                                                const   Derived&                    aGravitationalParameter,
-                                                                                const   Instant&                    anInstant                                   ) ;
+        // static State            CalculateJ4StateAt                          (   const   State&                      aState,
+        //                                                                         const   Instant&                    anEpoch,
+        //                                                                         const   Derived&                    aGravitationalParameter,
+        //                                                                         const   Instant&                    anInstant,
+        //                                                                         const   Length&                     anEquatorialRadius,
+        //                                                                         const   Real&                       aJ2,
+        //                                                                         const   Real&                       aJ4                                         ) ;
 
+        // static Integer          CalculateJ4RevolutionNumberAt               (   const   State&                      aState,
+        //                                                                         const   Instant&                    anEpoch,
+        //                                                                         const   Derived&                    aGravitationalParameter,
+        //                                                                         const   Instant&                    anInstant,
+        //                                                                         const   Length&                     anEquatorialRadius,
+        //                                                                         const   Real&                       aJ2,
+        //                                                                         const   Real&                       aJ4                                         ) ;
 } ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -106,6 +106,79 @@ bool                            CustomProp::isDefined                           
     return state_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() ;
 }
 
+State                           CustomProp::calculateStateAt                    (   const   Instant&                    anInstant                                   ) const
+{
+
+    if (!anInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant") ;
+    }
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CustomProp") ;
+    }
+
+    switch (perturbationType_)
+    {
+
+        case CustomProp::PerturbationType::None:
+            return CustomProp::CalculateNoneStateAt(state_, epoch_, gravitationalParameter_, anInstant) ;
+
+        // case CustomProp::PerturbationType::J2:
+        //     return CustomProp::CalculateJ2StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+
+        // case CustomProp::PerturbationType::J4:
+        //     return CustomProp::CalculateJ4StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+
+    }
+
+    return State::Undefined() ;
+
+}
+
+Integer                         CustomProp::calculateRevolutionNumberAt         (   const   Instant&                    anInstant                                   ) const
+{
+
+    if (!anInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant") ;
+    }
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CustomProp") ;
+    }
+
+    if (anInstant == epoch_)
+    {
+        return this->getRevolutionNumberAtEpoch() ;
+    }
+
+    switch (perturbationType_)
+    {
+
+        case CustomProp::PerturbationType::None:
+            return CustomProp::CalculateNoneRevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant) ;
+
+        // case CustomProp::PerturbationType::J2:
+        //     return CustomProp::CalculateJ2RevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+
+        // case CustomProp::PerturbationType::J4:
+        //     return CustomProp::CalculateJ4RevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+
+    }
+
+    return Integer::Undefined() ;
+
+}
+
 void                            CustomProp::print                               (       std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
@@ -173,6 +246,94 @@ void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
 {
     
     std::cout << t << "\t\t" << x[0] << "\t\t" << x[1] << "\t\t" << x[2]  << "\t\t" << x[3] << "\t\t" << x[4] << "\t\t" << x[5] << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+State                           CustomProp::CalculateNoneStateAt            (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   )
+{
+
+    using ostk::physics::units::Time ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::time::Duration ;
+
+    // // Duration from epoch
+
+    // const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds() ;
+
+    // // Orbital parameters
+
+    // const Real semiMajorAxis_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
+    // const Real eccentricity = aClassicalOrbitalElementSet.getEccentricity() ;
+    // const Real inclination_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
+    // const Real raan_rad = aClassicalOrbitalElementSet.getRaan().inRadians() ;
+    // const Real aop_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
+
+    // Real trueAnomaly_rad = aClassicalOrbitalElementSet.getTrueAnomaly().inRadians() ;
+
+    // // Mean motion
+
+    // const Real meanMotion_radSec = aClassicalOrbitalElementSet.getMeanMotion(aGravitationalParameter).in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
+
+    // if (eccentricity.abs() < Tolerance) // Circular orbit
+    // {
+    //     trueAnomaly_rad += meanMotion_radSec * durationFromEpoch_s ;
+    // }
+    // else
+    // {
+
+    //     // Mean anomaly
+
+    //     Real meanAnomaly_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians() ;
+
+    //     meanAnomaly_rad += meanMotion_radSec * durationFromEpoch_s ;
+    //     meanAnomaly_rad = std::fmod(meanAnomaly_rad, 2.0 * M_PI) ;
+
+    //     // Eccentric anomaly
+
+    //     const Angle eccentricAnomaly = State::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance) ;
+
+    //     // True anomaly
+
+    //     trueAnomaly_rad = State::TrueAnomalyFromEccentricAnomaly(eccentricAnomaly, eccentricity).inRadians() ;
+
+    // }
+
+    // const State coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
+
+    // static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    // const State::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr) ;
+
+    // const Position& position = cartesianState.first ;
+    // const Velocity& velocity = cartesianState.second ;
+
+    const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    const State state = { anInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+    return state ;
+
+}
+
+Integer                         CustomProp::CalculateNoneRevolutionNumberAt (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant                                   )
+{
+
+    using ostk::physics::time::Duration ;
+
+    // const Duration orbitalPeriod = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter) ;
+
+    // const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant) ;
+
+    return 3 ; // (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1 ;
+
 }
 
 
