@@ -55,7 +55,7 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
     public:
 
-        enum class PerturbationType // Add astmospheric drag, lunisolar perturbs, and SRP
+        enum class PerturbationType // Add astmospheric drag, lunisolar perturbs, and SRP as seperate enums for each type of perturbation type, so that they can be turned on an off independently during validation
         {
 
             None,
@@ -75,7 +75,7 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Real&                       aJ4,
                                                                                 const   CustomProp::PerturbationType&   aPerturbationType                           ) ;
 
-        // virtual CustomProp*         clone                                   ( ) const override ;
+        virtual CustomProp*         clone                                   ( ) const override ;
 
         bool                    operator ==                                 (   const   CustomProp&                 aCustomPropModel                             ) const ;
 
@@ -86,9 +86,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         virtual bool            isDefined                                   ( ) const override ;
 
-        // virtual Instant         getEpoch                                    ( ) const override ;
+        virtual Instant         getEpoch                                    ( ) const override ;
 
-        // virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
         Derived                 getGravitationalParameter                   ( ) const ;
 
@@ -115,9 +115,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
     protected:
 
-        // virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        virtual bool            operator ==                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
-        // virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
+        virtual bool            operator !=                                 (   const   trajectory::Model&          aModel                                      ) const override ;
 
     private:
 

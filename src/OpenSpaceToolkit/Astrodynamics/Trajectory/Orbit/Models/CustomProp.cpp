@@ -66,10 +66,10 @@ static const double mu = 3.986004418e14;
 
 }
 
-// CustomProp*                         CustomProp::clone                               ( ) const
-// {
-//     return new CustomProp(*this) ;
-// }
+CustomProp*                         CustomProp::clone                               ( ) const
+{
+    return new CustomProp(*this) ;
+}
 
 bool                            CustomProp::operator ==                         (   const   CustomProp&                     aCustomPropModel                             ) const
 {
@@ -104,6 +104,30 @@ std::ostream&                   operator <<                                 (   
 bool                            CustomProp::isDefined                           ( ) const
 {
     return state_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() ;
+}
+
+Instant                         CustomProp::getEpoch                            ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CustomProp") ;
+    }
+
+    return epoch_ ;
+
+}
+
+Integer                         CustomProp::getRevolutionNumberAtEpoch          ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("CustomProp") ;
+    }
+
+    return 1 ; // [TBI] With param
+
 }
 
 State                           CustomProp::calculateStateAt                    (   const   Instant&                    anInstant                                   ) const
@@ -250,6 +274,22 @@ void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+bool                            CustomProp::operator ==                         (   const   trajectory::Model&          aModel                                      ) const
+{
+
+    const CustomProp* customPropModelPtr = dynamic_cast<const CustomProp*>(&aModel) ;
+
+    return (customPropModelPtr != nullptr) && this->operator == (*customPropModelPtr) ;
+
+}
+
+bool                            CustomProp::operator !=                         (   const   trajectory::Model&          aModel                                      ) const
+{
+    return !((*this) == aModel) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 State                           CustomProp::CalculateNoneStateAt            (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
@@ -336,84 +376,6 @@ Integer                         CustomProp::CalculateNoneRevolutionNumberAt (   
 
 }
 
-
-
-// Calculate J2 state at a desired time (code straight form CustomProp.cpp)
-
-// State                           CustomProp::CalculateJ2StateAt                  (   const   State&                        aState,
-//                                                                                 const   Instant&                    anEpoch,
-//                                                                                 const   Derived&                    aGravitationalParameter,
-//                                                                                 const   Instant&                    anInstant,
-//                                                                                 const   Length&                     anEquatorialRadius,
-//                                                                                 const   Real&                       aJ2                                         )
-// {
-
-//     using ostk::physics::units::Mass ;
-//     using ostk::physics::units::Time ;
-//     using ostk::physics::units::Derived ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::time::Duration ;
-
-//     // Setup
-
-//     const Real equatorialRadius_m = anEquatorialRadius.inMeters() ;
-
-//     const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit) ;
-
-//     // Duration from epoch
-
-//     const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds() ;
-
-//     // Orbital parameters at epoch
-
-//     const Real semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
-//     const Real eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity() ;
-//     const Real inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
-//     const Real raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians() ;
-//     const Real aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
-//     const Real meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians() ;
-
-//     // Calculation
-//     // Ref: http://www.s3l.be/usr/files/di/fi/2/Lecture06_AnalyticNumeric_2018-2019_201811142121.pdf
-
-//     const Real n = std::sqrt(gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)) ;
-//     const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch) ;
-
-//     const Real cosInclination = std::cos(inclinationAtEpoch_rad) ;
-//     const Real sinInclination = std::sin(inclinationAtEpoch_rad) ;
-//     const Real sinInclinationSquared = sinInclination * sinInclination ;
-
-//     const Real expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2) ;
-
-//     const Real n_bar = n * (1.0 + expr * std::sqrt(1.0 - eccentricityAtEpoch * eccentricityAtEpoch) * (1.0 - (3.0 / 2.0) * sinInclinationSquared)) ;
-
-//     const Real aop_bar_rad = aopAtEpoch_rad + expr * (2.0 - (5.0 / 2.0) * sinInclinationSquared) * n_bar * durationFromEpoch_s ;
-//     const Real raan_bar_rad = raanAtEpoch_rad - expr * cosInclination * n_bar * durationFromEpoch_s ;
-//     const Real meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s ;
-
-//     // Orbital parameters at instant
-
-//     const Real semiMajorAxis_m = semiMajorAxisAtEpoch_m ;
-//     const Real eccentricity = eccentricityAtEpoch ;
-//     const Real inclination_rad = inclinationAtEpoch_rad ;
-//     const Real raan_rad = raan_bar_rad ;
-//     const Real aop_rad = aop_bar_rad ;
-//     const Real trueAnomaly_rad = COE::TrueAnomalyFromEccentricAnomaly(COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity).inRadians() ;
-
-//     const COE coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
-
-//     static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-//     const COE::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr) ;
-
-//     const Position& position = cartesianState.first ;
-//     const Velocity& velocity = cartesianState.second ;
-
-//     const State state = { anInstant, position, velocity } ;
-
-//     return state ;
-
-// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -140,8 +140,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         const Real J2 = Earth::Models::EGM2008::J2 ;
         const Real J4 = Earth::Models::EGM2008::J4 ;
 
-        // const CustomProp customModel = { state, epoch, gravitationalParameter, equatorialRadius, J2, J4, CustomProp::PerturbationType::None } ;
-        // std::cout << customModel << std::endl;
+        const CustomProp customModel = { state, epoch, gravitationalParameter, equatorialRadius, J2, J4, CustomProp::PerturbationType::None } ;
+        std::cout << customModel << std::endl;
         // // Orbit setup
 
         // const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
