@@ -41,6 +41,8 @@ using ostk::core::types::Integer ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
 
+using ostk::math::obj::Vector3d ;
+
 using ostk::physics::time::Instant ;
 using ostk::physics::units::Length ;
 using ostk::physics::units::Derived ;
@@ -105,9 +107,9 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         virtual bool            isDefined                                   ( ) const override ;
 
-        virtual Instant         getEpoch                                    ( ) const override ;
+        virtual Instant         getEpoch                                    ( ) const override ; // Not sure this needs to be virtual and overridden
 
-        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ; // Not sure this needs to be virtual and overridden
 
         // Derived                 getGravitationalParameter                   ( ) const ;
 
@@ -155,7 +157,7 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
                                                                                         state_type&                 dxdt, 
                                                                                 const   double                      t                                           ) ;
 
-        static void             PropLog                                     (   const   state_type&                 x, 
+        static void             PropObserver                                (   const   state_type&                 x, 
                                                                                 const   double                      t                                           ) ;
         
         static State            CalculateNoneStateAt                        (   const   State&                      aState,

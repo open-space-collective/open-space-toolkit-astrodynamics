@@ -13,9 +13,6 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <iostream>
-#include <cmath>
-
 #include <boost/numeric/odeint.hpp>
 #include <boost/array.hpp>
 #include <boost/operators.hpp>
@@ -55,7 +52,7 @@ static const Real J2 = Earth::Models::EGM2008::J2 ;
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   CustomProp::GravPerturbationType&       aGravPerturbationType,                       
                                                                                 const   CustomProp::AtmosPerturbationType&      aAtmosPerturbationType,                       
-                                                                                const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType       ) 
+                                                                                const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType      ) 
                                 :   Model(),
                                     state_(aState),
                                     epoch_(anEpoch),
@@ -72,7 +69,7 @@ CustomProp*                     CustomProp::clone                               
     return new CustomProp(*this) ;
 }
 
-bool                            CustomProp::operator ==                         (   const   CustomProp&                     aCustomPropModel                             ) const
+bool                            CustomProp::operator ==                         (   const   CustomProp&                     aCustomPropModel                    ) const
 {
 
     if ((!this->isDefined()) || (!aCustomPropModel.isDefined()))
@@ -88,7 +85,7 @@ bool                            CustomProp::operator ==                         
 
 }
 
-bool                            CustomProp::operator !=                         (   const   CustomProp&                     aCustomPropModel                             ) const
+bool                            CustomProp::operator !=                         (   const   CustomProp&                     aCustomPropModel                    ) const
 {
     return !((*this) == aCustomPropModel) ;
 }
@@ -132,7 +129,7 @@ Integer                         CustomProp::getRevolutionNumberAtEpoch          
 
 }
 
-State                           CustomProp::calculateStateAt                    (   const   Instant&                    anInstant                                   ) const
+State                           CustomProp::calculateStateAt                    (   const   Instant&                anInstant                                   ) const
 {
 
     if (!anInstant.isDefined())
@@ -151,22 +148,59 @@ State                           CustomProp::calculateStateAt                    
         case CustomProp::GravPerturbationType::None:
             return CustomProp::CalculateNoneStateAt(state_, epoch_, anInstant) ;
 
-        // case CustomProp::PerturbationType::J2:
-        //     return CustomProp::CalculateJ2StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+        // case CustomProp::GravPerturbationType::J2:
+        //     return CustomProp::CalculateJ2StateAt(state_, epoch_, anInstant) ;
 
-        // case CustomProp::PerturbationType::J4:
-        //     return CustomProp::CalculateJ4StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+        // case CustomProp::GravPerturbationType::TenByTen:
+        //     return CustomProp::CalculateTenByTenStateAt(state_, epoch_, anInstant) ;
+
+        // case CustomProp::GravPerturbationType::FourtyByFourty:
+        //     return CustomProp::CalculateFourtyByFourtyStateAt(state_, epoch_, anInstant) ;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Grav Perturbation type") ;
 
     }
 
+    //     switch (atmosPerturbationType_)
+    // {
+
+    //     case CustomProp::AtmosPerturbationType::None:
+    //         return CustomProp::CalculateNoneStateAt(state_, epoch_, anInstant) ;
+
+    //     // case CustomProp::PerturbationType::J2:
+    //     //     return CustomProp::CalculateJ2StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+
+    //     // case CustomProp::PerturbationType::J4:
+    //     //     return CustomProp::CalculateJ4StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+
+    //     default:
+    //         throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+
+    // }
+
+    //     switch (thirdBodyPerturbationType_)
+    // {
+
+    //     case CustomProp::GravPerturbationType::None:
+    //         return CustomProp::CalculateNoneStateAt(state_, epoch_, anInstant) ;
+
+    //     // case CustomProp::PerturbationType::J2:
+    //     //     return CustomProp::CalculateJ2StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+
+    //     // case CustomProp::PerturbationType::J4:
+    //     //     return CustomProp::CalculateJ4StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+
+    //     default:
+    //         throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+
+    // }
+    
     return State::Undefined() ;
 
 }
 
-Integer                         CustomProp::calculateRevolutionNumberAt         (   const   Instant&                    anInstant                                   ) const
+Integer                         CustomProp::calculateRevolutionNumberAt         (   const   Instant&                anInstant                                   ) const
 {
 
     if (!anInstant.isDefined())
@@ -190,14 +224,17 @@ Integer                         CustomProp::calculateRevolutionNumberAt         
         case CustomProp::GravPerturbationType::None:
             return CustomProp::CalculateNoneRevolutionNumberAt(state_, epoch_, anInstant) ;
 
-        // case CustomProp::PerturbationType::J2:
-        //     return CustomProp::CalculateJ2RevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
+        // case CustomProp::GravPerturbationType::J2:
+        //     return CustomProp::CalculateJ2RevolutionNumberAt(state_, epoch_, anInstant) ;
 
-        // case CustomProp::PerturbationType::J4:
-        //     return CustomProp::CalculateJ4RevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_) ;
+        // case CustomProp::GravPerturbationType::TenByTen:
+        //     return CustomProp::CalculateTenByTenRevolutionNumberAt(state_, epoch_, anInstant) ;
+
+        // case CustomProp::GravPerturbationType::FourtyByFourty:
+        //     return CustomProp::CalculateFourtyByFourtyRevolutionNumberAt(state_, epoch_, anInstant) ;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Grav Perturbation type") ;
 
     }
 
@@ -225,7 +262,7 @@ void                            CustomProp::print                               
 
 }
 
-String                          CustomProp::StringFromGravPerturbationType          (   const   CustomProp::GravPerturbationType&   aGravPerturbationType                           )
+String                          CustomProp::StringFromGravPerturbationType      (   const   CustomProp::GravPerturbationType&       aGravPerturbationType       )
 {
 
     switch (aGravPerturbationType)
@@ -252,7 +289,7 @@ String                          CustomProp::StringFromGravPerturbationType      
 
 }
 
-String                          CustomProp::StringFromAtmosPerturbationType          (   const   CustomProp::AtmosPerturbationType&   aAtmosPerturbationType                           )
+String                          CustomProp::StringFromAtmosPerturbationType     (   const   CustomProp::AtmosPerturbationType&      aAtmosPerturbationType      )
 {
 
     switch (aAtmosPerturbationType)
@@ -279,7 +316,7 @@ String                          CustomProp::StringFromAtmosPerturbationType     
 
 }
 
-String                          CustomProp::StringFromThirdBodyPerturbationType          (   const   CustomProp::ThirdBodyPerturbationType&   aThirdBodyPerturbationType                           )
+String                          CustomProp::StringFromThirdBodyPerturbationType (   const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType  )
 {
 
     switch (aThirdBodyPerturbationType)
@@ -306,12 +343,9 @@ String                          CustomProp::StringFromThirdBodyPerturbationType 
 
 }
 
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool                            CustomProp::operator ==                         (   const   trajectory::Model&          aModel                                      ) const
+bool                            CustomProp::operator ==                         (   const   trajectory::Model&      aModel                                      ) const
 {
 
     const CustomProp* customPropModelPtr = dynamic_cast<const CustomProp*>(&aModel) ;
@@ -320,17 +354,19 @@ bool                            CustomProp::operator ==                         
 
 }
 
-bool                            CustomProp::operator !=                         (   const   trajectory::Model&          aModel                                      ) const
+bool                            CustomProp::operator !=                         (   const   trajectory::Model&      aModel                                      ) const
 {
     return !((*this) == aModel) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::state_type &dxdt , const double )
+void                            CustomProp::TwoBodyDynamics                     (   const   CustomProp::state_type& x, 
+                                                                                            CustomProp::state_type& dxdt,
+                                                                                    const   double                                                              )
 {
     // Find position magnitude
-    double positionMagnitude = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
+    const double& positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));  // @BOSS for calculation speed would it make more sense to just put the whole sqrt expression in the velocity state equation or instead do what I have right now by defining a reference to pass into the std::pow function?
     
     // Integrate position states
     dxdt[0] = x[3];  
@@ -338,23 +374,29 @@ void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::
     dxdt[2] = x[5]; 
 
     // Integrate velocity states
-    double positionMagnitudeCube = pow(positionMagnitude,3);
-
-    dxdt[3] = -(mu_SI/positionMagnitudeCube) * x[0];
-    dxdt[4] = -(mu_SI/positionMagnitudeCube) * x[1];
-    dxdt[5] = -(mu_SI/positionMagnitudeCube) * x[2];
+    dxdt[3] = -(mu_SI/std::pow(positionMagnitude,3)) * x[0];
+    dxdt[4] = -(mu_SI/std::pow(positionMagnitude,3)) * x[1];
+    dxdt[5] = -(mu_SI/std::pow(positionMagnitude,3)) * x[2];
 
 }
 
-void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
+void                            CustomProp::PropObserver                        (   const   CustomProp::state_type& x,
+                                                                                    const   double                  t                                           )
 {
+    std::cout.precision(2);
+    std::cout.setf(std::ios::fixed,std::ios::floatfield);
+
+    std::cout << std::left << std::setw(15) << t ;
+    std::cout.precision(8);
+    std::cout.setf(std::ios::scientific,std::ios::floatfield);
     
-    std::cout << t << "\t\t" << x[0] << "\t\t" << x[1] << "\t\t" << x[2]  << "\t\t" << x[3] << "\t\t" << x[4] << "\t\t" << x[5] << std::endl;
+    std::cout << std::internal << std::setw(16) << x[0] << "     " << std::internal << std::setw(16) << x[1] << "     " << std::internal << std::setw(16) << x[2] << "     " << std::internal << std::setw(16) << x[3] << "     " << std::internal << std::setw(16) << x[4] << "     " << std::internal << std::setw(16) << x[5] << std::endl;
+    std::cout.setf(std::ios::fixed,std::ios::floatfield);
 }
 
-State                           CustomProp::CalculateNoneStateAt            (   const   State&                      aState,
-                                                                                const   Instant&                    anEpoch,
-                                                                                const   Instant&                    anInstant                                   )
+State                           CustomProp::CalculateNoneStateAt                (   const   State&                      aState,
+                                                                                    const   Instant&                    anEpoch,
+                                                                                    const   Instant&                    anInstant                               )
 {
 
     using ostk::physics::units::Time ;
@@ -366,7 +408,7 @@ State                           CustomProp::CalculateNoneStateAt            (   
 
     using ostk::math::obj::Vector3d ;
 
-    double initialTimeStep = 5.0; // Default value for now
+
 
     // Get state related parameters
     Position currPosition = aState.getPosition();
@@ -387,9 +429,20 @@ State                           CustomProp::CalculateNoneStateAt            (   
     Duration propDuration = anInstant - aState.getInstant();
     double propDurationInSecs = (double) propDuration.inSeconds();
 
-    integrate ( CustomProp::TwoBodyDynamics , fullState , (0.0) , propDurationInSecs , initialTimeStep ); 
+    const double timeStep = 5.0; // Default value for now
+    // const double largestTimeStep = 60.0;
 
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;  // Not sure about the static
+    // define odeint controlled error stepper 
+    typedef runge_kutta_cash_karp54< CustomProp::state_type > error_stepper_type; // modify later to take stepper type as an input to this func 
+    const double absErrTol = 1.0e-15; 
+    const double relErrTol = 1.0e-15; 
+    
+    // Call odeint function to perform numerical integration
+    integrate_adaptive (make_controlled( absErrTol , relErrTol , error_stepper_type() ) , CustomProp::TwoBodyDynamics , fullState , (0.0) , propDurationInSecs , timeStep , CustomProp::PropObserver); 
+    // integrate_const (make_controlled( absErrTol , relErrTol , error_stepper_type() ) , CustomProp::TwoBodyDynamics , fullState , (0.0) , propDurationInSecs , timeStep , CustomProp::PropObserver); 
+    
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;  // Not sure about using this frame 
+    std::cout << *gcrfSPtr << std::endl;
 
     const State state = { anInstant, Position::Meters({ fullState[0], fullState[1], fullState[2] }, gcrfSPtr), Velocity::MetersPerSecond({ fullState[3], fullState[4], fullState[5] }, gcrfSPtr) };
 
@@ -397,9 +450,9 @@ State                           CustomProp::CalculateNoneStateAt            (   
 
 }
 
-Integer                         CustomProp::CalculateNoneRevolutionNumberAt (   const   State&                      aState,
-                                                                                const   Instant&                    anEpoch,
-                                                                                const   Instant&                    anInstant                                   )
+Integer                         CustomProp::CalculateNoneRevolutionNumberAt     (   const   State&                      aState,
+                                                                                    const   Instant&                    anEpoch,
+                                                                                    const   Instant&                    anInstant                                   )
 {
 
     using ostk::physics::time::Duration ;

@@ -100,8 +100,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         // xEndTwoBodyTrueECI[4] = -1456.66369389355;
         // xEndTwoBodyTrueECI[5] = 2708.90840312134;
 
-        const Vector3d referencePosition_GCRF = {-2195455.00352205,-1451724.59333227,-6399889.71639439};
-        const Vector3d referenceVelocity_GCRF = {-6923.342794492,-1456.66369389355,2708.90840312134};
+        
 
         // integrate ( CustomProp::TwoBodyDynamics , xECI , startEpoch , endEpoch , initialTimeStep ); // , CustomProp::PropLog );
         
@@ -135,14 +134,18 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         Duration propDuration = Duration::Seconds(11345.0) ;
 
         std::vector< double > xStart(6);
-        xStart[0] = -2.577031509124861e+06; 
-        xStart[1] = -1.530158746164186e+06;
-        xStart[2] = -6.237029236139196e+06; 
-        xStart[3] = -6.763265635655096e+03;
-        xStart[4] = -1.356683663338969e+03; 
-        xStart[5] = 3.132719003502420e+03;
+        xStart[0] = -1260836.090852064; 
+        xStart[1] = 588280.4487875753;
+        xStart[2] = 6745839.542136152; 
+        xStart[3] = 7231.630244016249;
+        xStart[4] = 2060.732438433088; 
+        xStart[5] = 1167.816624957812;
 
-        const State state = { startInstant, Position::Meters({ xStart[0], xStart[1], xStart[2] }, gcrfSPtr), Velocity::MetersPerSecond({ xStart[4], xStart[5], xStart[6] }, gcrfSPtr) };
+        const Vector3d propPosition_refGCRF = {-1575658.863277743,        497462.0623771324,         6686886.954716642};
+        const Vector3d propVelocity_refGCRF = {7155.923407265891,         2089.711281165372,         1526.340363065099};
+                
+
+        const State state = { startInstant, Position::Meters({ xStart[0], xStart[1], xStart[2] }, gcrfSPtr), Velocity::MetersPerSecond({ xStart[3], xStart[4], xStart[5] }, gcrfSPtr) };
         std::cout << state << std::endl;
 
 
@@ -165,17 +168,19 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         const Position position_GCRF = state_GCRF.accessPosition() ;
         const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
 
-        const Real statePositionError_GCRF = (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm() ;
-        const Real stateVelocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm() ;
+        const Real statePositionError_GCRF = (position_GCRF.accessCoordinates() - propPosition_refGCRF).norm() ;
+        const Real stateVelocityError_GCRF = (velocity_GCRF.accessCoordinates() - propVelocity_refGCRF).norm() ;
 
-        std::cout << "Position error is: " << statePositionError_GCRF << std::endl;
-        std::cout << "Velocity error is: " << stateVelocityError_GCRF << std::endl;
-
+        std::cout << "**********" << std::endl;
+        std::cout << "Position error is: " << statePositionError_GCRF << "m" << std::endl;
+        std::cout << "Velocity error is: " << stateVelocityError_GCRF <<  "m/s" << std::endl;
+        std::cout << "**********" << std::endl;
+        
         ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
         ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
-        ASSERT_GT(10, statePositionError_GCRF) ;
-        ASSERT_GT(0.1, stateVelocityError_GCRF) ;
+        ASSERT_GT(1e-3, statePositionError_GCRF) ;
+        ASSERT_GT(1e-6, stateVelocityError_GCRF) ;
 
 
 
@@ -195,8 +200,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
         //     const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
 
-        //     const Vector3d referencePosition_GCRF = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
-        //     const Vector3d referenceVelocity_GCRF = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
+        //     const Vector3d propPosition_refGCRF = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
+        //     const Vector3d propVelocity_refGCRF = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
 
         //     const Vector3d referencePosition_ITRF = { referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal() } ;
         //     const Vector3d referenceVelocity_ITRF = { referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal() } ;
@@ -211,8 +216,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
         //     ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
         //     ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
-        //     ASSERT_GT(1e-3, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
-        //     ASSERT_GT(1e-6, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
+        //     ASSERT_GT(1e-3, (position_GCRF.accessCoordinates() - propPosition_refGCRF).norm()) ;
+        //     ASSERT_GT(1e-6, (velocity_GCRF.accessCoordinates() - propVelocity_refGCRF).norm()) ;
 
         //     const Shared<const Frame> itrfFrame = Frame::ITRF() ;
 
@@ -309,8 +314,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC) ;
 
-//             const Vector3d referencePosition_GCRF = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
-//             const Vector3d referenceVelocity_GCRF = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
+//             const Vector3d propPosition_refGCRF = { referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() } ;
+//             const Vector3d propVelocity_refGCRF = { referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() } ;
 
 //             const Vector3d referencePosition_ITRF = { referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal() } ;
 //             const Vector3d referenceVelocity_ITRF = { referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal() } ;
@@ -325,8 +330,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 //             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
 //             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
-//             ASSERT_GT(1e-3, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()) ;
-//             ASSERT_GT(1e-6, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()) ;
+//             ASSERT_GT(1e-3, (position_GCRF.accessCoordinates() - propPosition_refGCRF).norm()) ;
+//             ASSERT_GT(1e-6, (velocity_GCRF.accessCoordinates() - propVelocity_refGCRF).norm()) ;
 
 //             const Shared<const Frame> itrfFrame = Frame::ITRF() ;
 
@@ -343,15 +348,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 //             ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
 
-//             // std::cout << "xECI @ GCRF = " << referencePosition_GCRF.toString(10) << " / " << position_GCRF.accessCoordinates().toString(10) << std::endl ;
+//             // std::cout << "xECI @ GCRF = " << propPosition_refGCRF.toString(10) << " / " << position_GCRF.accessCoordinates().toString(10) << std::endl ;
 //             // std::cout << "xECI @ ITRF = " << referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) << std::endl ;
-//             // std::cout << "dxECI = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm() << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
+//             // std::cout << "dxECI = " << (position_GCRF.accessCoordinates() - propPosition_refGCRF).norm() << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl ;
 
-//             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " << velocity_GCRF.accessCoordinates().toString(10) << std::endl ;
+//             // std::cout << "v @ GCRF = " << propVelocity_refGCRF.toString(10) << " / " << velocity_GCRF.accessCoordinates().toString(10) << std::endl ;
 //             // std::cout << "v @ ITRF = " << referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) << std::endl ;
-//             // std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm() << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
+//             // std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - propVelocity_refGCRF).norm() << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl ;
 
-//             // std::cout << "dxECI | dv = " << Real((position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
+//             // std::cout << "dxECI | dv = " << Real((position_GCRF.accessCoordinates() - propPosition_refGCRF).norm()).toString(12) << " - " << Real((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm()).toString(12) << " | " << Real((velocity_GCRF.accessCoordinates() - propVelocity_refGCRF).norm()).toString(12) << " - " << Real((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm()).toString(12) << std::endl ;
 
 //         }
 
