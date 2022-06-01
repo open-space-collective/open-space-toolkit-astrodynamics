@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/CustomProp.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -37,36 +38,36 @@ namespace models
 using ostk::physics::units::Length ;
 using ostk::physics::units::Time ;
 using ostk::physics::units::Derived ;
+using ostk::physics::units::Unit ;
+using ostk::physics::env::obj::celest::Earth ;
 
 using namespace boost::numeric::odeint;
 
 static const Real Tolerance = 1e-8 ;
+static const Derived theGravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
-static const double mu = 3.986004418e14;
-
+static const Real mu_SI = theGravitationalParameter.in(GravitationalParameterSIUnit) ;
+static const Real J2 = Earth::Models::EGM2008::J2 ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 CustomProp::CustomProp                      (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
-                                                                                const   Derived&                    aGravitationalParameter,
-                                                                                const   Length&                     anEquatorialRadius,
-                                                                                const   Real&                       aJ2,
-                                                                                const   Real&                       aJ4,
-                                                                                const   CustomProp::PerturbationType&   aPerturbationType                           )
+                                                                                const   CustomProp::GravPerturbationType&       aGravPerturbationType,                       
+                                                                                const   CustomProp::AtmosPerturbationType&      aAtmosPerturbationType,                       
+                                                                                const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType       ) 
                                 :   Model(),
                                     state_(aState),
                                     epoch_(anEpoch),
-                                    gravitationalParameter_(aGravitationalParameter),
-                                    equatorialRadius_(anEquatorialRadius),
-                                    j2_(aJ2),
-                                    j4_(aJ4),
-                                    perturbationType_(aPerturbationType)
+                                    gravPerturbationType_(aGravPerturbationType),
+                                    atmosPerturbationType_(aAtmosPerturbationType),
+                                    thirdBodyPerturbationType_(aThirdBodyPerturbationType)
+                                    
 {
 
 }
 
-CustomProp*                         CustomProp::clone                               ( ) const
+CustomProp*                     CustomProp::clone                               ( ) const
 {
     return new CustomProp(*this) ;
 }
@@ -81,8 +82,9 @@ bool                            CustomProp::operator ==                         
 
     return (state_ == aCustomPropModel.state_)
         && (epoch_ == aCustomPropModel.epoch_)
-        && (gravitationalParameter_ == aCustomPropModel.gravitationalParameter_)
-        && (perturbationType_ == aCustomPropModel.perturbationType_) ;
+        && (gravPerturbationType_ == aCustomPropModel.gravPerturbationType_)
+        && (atmosPerturbationType_ == aCustomPropModel.atmosPerturbationType_)
+        && (thirdBodyPerturbationType_ == aCustomPropModel.thirdBodyPerturbationType_) ;
 
 }
 
@@ -103,7 +105,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            CustomProp::isDefined                           ( ) const
 {
-    return state_.isDefined() && epoch_.isDefined() && gravitationalParameter_.isDefined() ;
+    return state_.isDefined() && epoch_.isDefined() ;
 }
 
 Instant                         CustomProp::getEpoch                            ( ) const
@@ -126,7 +128,7 @@ Integer                         CustomProp::getRevolutionNumberAtEpoch          
         throw ostk::core::error::runtime::Undefined("CustomProp") ;
     }
 
-    return 1 ; // [TBI] With param
+    return 1 ; 
 
 }
 
@@ -143,11 +145,11 @@ State                           CustomProp::calculateStateAt                    
         throw ostk::core::error::runtime::Undefined("CustomProp") ;
     }
 
-    switch (perturbationType_)
+    switch (gravPerturbationType_)
     {
 
-        case CustomProp::PerturbationType::None:
-            return CustomProp::CalculateNoneStateAt(state_, epoch_, gravitationalParameter_, anInstant) ;
+        case CustomProp::GravPerturbationType::None:
+            return CustomProp::CalculateNoneStateAt(state_, epoch_, anInstant) ;
 
         // case CustomProp::PerturbationType::J2:
         //     return CustomProp::CalculateJ2StateAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
@@ -182,11 +184,11 @@ Integer                         CustomProp::calculateRevolutionNumberAt         
         return this->getRevolutionNumberAtEpoch() ;
     }
 
-    switch (perturbationType_)
+    switch (gravPerturbationType_)
     {
 
-        case CustomProp::PerturbationType::None:
-            return CustomProp::CalculateNoneRevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant) ;
+        case CustomProp::GravPerturbationType::None:
+            return CustomProp::CalculateNoneRevolutionNumberAt(state_, epoch_, anInstant) ;
 
         // case CustomProp::PerturbationType::J2:
         //     return CustomProp::CalculateJ2RevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_) ;
@@ -210,8 +212,10 @@ void                            CustomProp::print                               
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "CustomProp") : void () ;
 
     ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (epoch_.isDefined() ? epoch_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Type:"                << CustomProp::StringFromPerturbationType(perturbationType_) ;
+    // ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Grav perturbation type:"                << CustomProp::StringFromGravPerturbationType(gravPerturbationType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Atmospheric perturbation type:"                << CustomProp::StringFromAtmosPerturbationType(atmosPerturbationType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Third body perturbation type:"                << CustomProp::StringFromThirdBodyPerturbationType(thirdBodyPerturbationType_) ;
 
     ostk::core::utils::Print::Separator(anOutputStream, "State") ;
 
@@ -221,23 +225,26 @@ void                            CustomProp::print                               
 
 }
 
-String                          CustomProp::StringFromPerturbationType          (   const   CustomProp::PerturbationType&   aPerturbationType                           )
+String                          CustomProp::StringFromGravPerturbationType          (   const   CustomProp::GravPerturbationType&   aGravPerturbationType                           )
 {
 
-    switch (aPerturbationType)
+    switch (aGravPerturbationType)
     {
 
-        case CustomProp::PerturbationType::None:
+        case CustomProp::GravPerturbationType::None:
             return "None" ;
 
-        case CustomProp::PerturbationType::J2:
+        case CustomProp::GravPerturbationType::J2:
             return "J2" ;
 
-        case CustomProp::PerturbationType::J4:
-            return "J4" ;
+        case CustomProp::GravPerturbationType::TenByTen:
+            return "TenByTen" ;
+        
+        case CustomProp::GravPerturbationType::FourtyByFourty:
+            return "FourtyByFourty" ;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Grav Perturbation type") ;
 
     }
 
@@ -245,32 +252,62 @@ String                          CustomProp::StringFromPerturbationType          
 
 }
 
-// RHS of differential state space system
-void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::state_type &dxdt , const double )
+String                          CustomProp::StringFromAtmosPerturbationType          (   const   CustomProp::AtmosPerturbationType&   aAtmosPerturbationType                           )
 {
-    // Find position magnitude
-    double positionMagnitude = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
-    
-    // Integrate position states
-    dxdt[0] = x[3];  
-    dxdt[1] = x[4];
-    dxdt[2] = x[5]; 
 
-    // Integrate velocity states
-    double positionMagnitudeCube = pow(positionMagnitude,3);
+    switch (aAtmosPerturbationType)
+    {
 
-    dxdt[3] = -(mu/positionMagnitudeCube) * x[0];
-    dxdt[4] = -(mu/positionMagnitudeCube) * x[1];
-    dxdt[5] = -(mu/positionMagnitudeCube) * x[2];
+        case CustomProp::AtmosPerturbationType::None:
+            return "None" ;
+
+        case CustomProp::AtmosPerturbationType::Exponential:
+            return "Exponential" ;
+
+        case CustomProp::AtmosPerturbationType::JacchiaRoberts:
+            return "JacchiaRoberts" ;
+
+        case CustomProp::AtmosPerturbationType::NRLMISIS00:
+            return "NRLMISIS00" ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Atmos Perturbation type") ;
+
+    }
+
+    return String::Empty() ;
+
+}
+
+String                          CustomProp::StringFromThirdBodyPerturbationType          (   const   CustomProp::ThirdBodyPerturbationType&   aThirdBodyPerturbationType                           )
+{
+
+    switch (aThirdBodyPerturbationType)
+    {
+
+        case CustomProp::ThirdBodyPerturbationType::None:
+            return "None" ;
+
+        case CustomProp::ThirdBodyPerturbationType::Luni:
+            return "Luni" ;
+
+        case CustomProp::ThirdBodyPerturbationType::Solar:
+            return "Solar" ;
+
+        case CustomProp::ThirdBodyPerturbationType::LuniSolar:
+            return "LuniSolar" ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("Third Body Perturbation type") ;
+
+    }
+
+    return String::Empty() ;
 
 }
 
 
-void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
-{
-    
-    std::cout << t << "\t\t" << x[0] << "\t\t" << x[1] << "\t\t" << x[2]  << "\t\t" << x[3] << "\t\t" << x[4] << "\t\t" << x[5] << std::endl;
-}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -290,9 +327,33 @@ bool                            CustomProp::operator !=                         
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void CustomProp::TwoBodyDynamics( const CustomProp::state_type &x , CustomProp::state_type &dxdt , const double )
+{
+    // Find position magnitude
+    double positionMagnitude = (double) sqrt(pow(x[0],2) + pow(x[1],2) + pow(x[2],2));
+    
+    // Integrate position states
+    dxdt[0] = x[3];  
+    dxdt[1] = x[4];
+    dxdt[2] = x[5]; 
+
+    // Integrate velocity states
+    double positionMagnitudeCube = pow(positionMagnitude,3);
+
+    dxdt[3] = -(mu_SI/positionMagnitudeCube) * x[0];
+    dxdt[4] = -(mu_SI/positionMagnitudeCube) * x[1];
+    dxdt[5] = -(mu_SI/positionMagnitudeCube) * x[2];
+
+}
+
+void CustomProp::PropLog( const CustomProp::state_type &x , const double t )
+{
+    
+    std::cout << t << "\t\t" << x[0] << "\t\t" << x[1] << "\t\t" << x[2]  << "\t\t" << x[3] << "\t\t" << x[4] << "\t\t" << x[5] << std::endl;
+}
+
 State                           CustomProp::CalculateNoneStateAt            (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
-                                                                                const   Derived&                    aGravitationalParameter,
                                                                                 const   Instant&                    anInstant                                   )
 {
 
@@ -300,61 +361,37 @@ State                           CustomProp::CalculateNoneStateAt            (   
     using ostk::physics::units::Derived ;
     using ostk::physics::units::Angle ;
     using ostk::physics::time::Duration ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
 
-    // // Duration from epoch
+    using ostk::math::obj::Vector3d ;
 
-    // const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds() ;
+    double initialTimeStep = 5.0; // Default value for now
 
-    // // Orbital parameters
+    // Get state related parameters
+    Position currPosition = aState.getPosition();
+    Velocity currVelocity = aState.getVelocity();
 
-    // const Real semiMajorAxis_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters() ;
-    // const Real eccentricity = aClassicalOrbitalElementSet.getEccentricity() ;
-    // const Real inclination_rad = aClassicalOrbitalElementSet.getInclination().inRadians() ;
-    // const Real raan_rad = aClassicalOrbitalElementSet.getRaan().inRadians() ;
-    // const Real aop_rad = aClassicalOrbitalElementSet.getAop().inRadians() ;
+    Vector3d currPositionCoords = currPosition.inUnit(Position::Unit::Meter).accessCoordinates();
+    Vector3d currVelocityCoords = currVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    // Real trueAnomaly_rad = aClassicalOrbitalElementSet.getTrueAnomaly().inRadians() ;
+    CustomProp::state_type fullState(6);
+    fullState[0] = currPositionCoords[0];
+    fullState[1] = currPositionCoords[1];
+    fullState[2] = currPositionCoords[2];
 
-    // // Mean motion
+    fullState[3] = currVelocityCoords[0];
+    fullState[4] = currVelocityCoords[1];
+    fullState[5] = currVelocityCoords[2];
 
-    // const Real meanMotion_radSec = aClassicalOrbitalElementSet.getMeanMotion(aGravitationalParameter).in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second)) ;
+    Duration propDuration = anInstant - aState.getInstant();
+    double propDurationInSecs = (double) propDuration.inSeconds();
 
-    // if (eccentricity.abs() < Tolerance) // Circular orbit
-    // {
-    //     trueAnomaly_rad += meanMotion_radSec * durationFromEpoch_s ;
-    // }
-    // else
-    // {
+    integrate ( CustomProp::TwoBodyDynamics , fullState , (0.0) , propDurationInSecs , initialTimeStep ); 
 
-    //     // Mean anomaly
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;  // Not sure about the static
 
-    //     Real meanAnomaly_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians() ;
-
-    //     meanAnomaly_rad += meanMotion_radSec * durationFromEpoch_s ;
-    //     meanAnomaly_rad = std::fmod(meanAnomaly_rad, 2.0 * M_PI) ;
-
-    //     // Eccentric anomaly
-
-    //     const Angle eccentricAnomaly = State::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance) ;
-
-    //     // True anomaly
-
-    //     trueAnomaly_rad = State::TrueAnomalyFromEccentricAnomaly(eccentricAnomaly, eccentricity).inRadians() ;
-
-    // }
-
-    // const State coe = { Length::Meters(semiMajorAxis_m), eccentricity, Angle::Radians(inclination_rad), Angle::Radians(raan_rad), Angle::Radians(aop_rad), Angle::Radians(trueAnomaly_rad) } ;
-
-    // static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-    // const State::CartesianState cartesianState = coe.getCartesianState(aGravitationalParameter, gcrfSPtr) ;
-
-    // const Position& position = cartesianState.first ;
-    // const Velocity& velocity = cartesianState.second ;
-
-    const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-    const State state = { anInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+    const State state = { anInstant, Position::Meters({ fullState[0], fullState[1], fullState[2] }, gcrfSPtr), Velocity::MetersPerSecond({ fullState[3], fullState[4], fullState[5] }, gcrfSPtr) };
 
     return state ;
 
@@ -362,7 +399,6 @@ State                           CustomProp::CalculateNoneStateAt            (   
 
 Integer                         CustomProp::CalculateNoneRevolutionNumberAt (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
-                                                                                const   Derived&                    aGravitationalParameter,
                                                                                 const   Instant&                    anInstant                                   )
 {
 

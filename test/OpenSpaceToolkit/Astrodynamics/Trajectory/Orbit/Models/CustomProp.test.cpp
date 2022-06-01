@@ -80,39 +80,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
     {        
         // Initial propagation experimentation with CustomProp function without instantiating CustomProp
 
-        double startEpoch = 0.0;
-        double endEpoch = 11345.0;
-        double initialTimeStep = 5.0;
+        // double startEpoch = 0.0;
+        // double endEpoch = 11345.0;
+        // double initialTimeStep = 5.0;
 
-        CustomProp::state_type xECI(6);
-        xECI[0] = -2.577031509124861e+06; 
-        xECI[1] = -1.530158746164186e+06;
-        xECI[2] = -6.237029236139196e+06; 
-        xECI[3] = -6.763265635655096e+03;
-        xECI[4] = -1.356683663338969e+03; 
-        xECI[5] = 3.132719003502420e+03;
+        // CustomProp::state_type xECI(6);
+        // xECI[0] = -2.577031509124861e+06; 
+        // xECI[1] = -1.530158746164186e+06;
+        // xECI[2] = -6.237029236139196e+06; 
+        // xECI[3] = -6.763265635655096e+03;
+        // xECI[4] = -1.356683663338969e+03; 
+        // xECI[5] = 3.132719003502420e+03;
 
-        CustomProp::state_type xEndTwoBodyTrueECI(6); // Need to change these to match 2 body prop final state answer
-        xEndTwoBodyTrueECI[0] = -2195455.00352205;
-        xEndTwoBodyTrueECI[1] = -1451724.59333227;
-        xEndTwoBodyTrueECI[2] = -6399889.71639439;
-        xEndTwoBodyTrueECI[3] = -6923.342794492;
-        xEndTwoBodyTrueECI[4] = -1456.66369389355;
-        xEndTwoBodyTrueECI[5] = 2708.90840312134;
+        // CustomProp::state_type xEndTwoBodyTrueECI(6); // Need to change these to match 2 body prop final state answer
+        // xEndTwoBodyTrueECI[0] = -2195455.00352205;
+        // xEndTwoBodyTrueECI[1] = -1451724.59333227;
+        // xEndTwoBodyTrueECI[2] = -6399889.71639439;
+        // xEndTwoBodyTrueECI[3] = -6923.342794492;
+        // xEndTwoBodyTrueECI[4] = -1456.66369389355;
+        // xEndTwoBodyTrueECI[5] = 2708.90840312134;
 
-        integrate ( CustomProp::TwoBodyDynamics , xECI , startEpoch , endEpoch , initialTimeStep ); // , CustomProp::PropLog );
+        const Vector3d referencePosition_GCRF = {-2195455.00352205,-1451724.59333227,-6399889.71639439};
+        const Vector3d referenceVelocity_GCRF = {-6923.342794492,-1456.66369389355,2708.90840312134};
+
+        // integrate ( CustomProp::TwoBodyDynamics , xECI , startEpoch , endEpoch , initialTimeStep ); // , CustomProp::PropLog );
         
-        std::cout << "Answer is:" << std::endl;
-        std::cout << "Pos (" << xECI[0] << ", " << xECI[1] << ", " << xECI[2] << ")" << std::endl;
-        std::cout << "Vel (" << xECI[3] << ", " << xECI[4] << ", " << xECI[5] << ")" << std::endl;
+        // std::cout << "Answer is:" << std::endl;
+        // std::cout << "Pos (" << xECI[0] << ", " << xECI[1] << ", " << xECI[2] << ")" << std::endl;
+        // std::cout << "Vel (" << xECI[3] << ", " << xECI[4] << ", " << xECI[5] << ")" << std::endl;
         
-        double posErrTolerance = 10.0; 
-        double velErrTolerance = 0.1; 
-        double statePosError = sqrt(pow(xEndTwoBodyTrueECI[0]-xECI[0],2) + pow(xEndTwoBodyTrueECI[1]-xECI[1],2) + pow(xEndTwoBodyTrueECI[2]-xECI[2],2));
-        double stateVelError = sqrt(pow(xEndTwoBodyTrueECI[3]-xECI[3],2) + pow(xEndTwoBodyTrueECI[4]-xECI[4],2) + pow(xEndTwoBodyTrueECI[5]-xECI[5],2));
+        // double posErrTolerance = 10.0; 
+        // double velErrTolerance = 0.1; 
+        // double statePosError = sqrt(pow(xEndTwoBodyTrueECI[0]-xECI[0],2) + pow(xEndTwoBodyTrueECI[1]-xECI[1],2) + pow(xEndTwoBodyTrueECI[2]-xECI[2],2));
+        // double stateVelError = sqrt(pow(xEndTwoBodyTrueECI[3]-xECI[3],2) + pow(xEndTwoBodyTrueECI[4]-xECI[4],2) + pow(xEndTwoBodyTrueECI[5]-xECI[5],2));
 
-        std::cout << "Position error is: " << statePosError << std::endl;
-        std::cout << "Velocity error is: " << stateVelError << std::endl;
+        // std::cout << "Position error is: " << statePosError << std::endl;
+        // std::cout << "Velocity error is: " << stateVelError << std::endl;
 
         // ASSERT_GT(posErrTolerance,statePosError) ; // Assert position error
         // ASSERT_GT(velErrTolerance,stateVelError) ; // Assert velocity error
@@ -120,28 +123,63 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp, Test_Ba
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Propagation experimentation by instantiating CustomProp
-
         // Environment setup
-
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Orbital model setup
 
-        const Instant epoch = Instant::DateTime(DateTime::Parse("2022-03-05 13:26:46.742"), Scale::UTC) ;
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2022-03-05 13:26:46.742"), Scale::UTC) ;
 
-        const State state = { epoch, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+        Duration propDuration = Duration::Seconds(11345.0) ;
+
+        std::vector< double > xStart(6);
+        xStart[0] = -2.577031509124861e+06; 
+        xStart[1] = -1.530158746164186e+06;
+        xStart[2] = -6.237029236139196e+06; 
+        xStart[3] = -6.763265635655096e+03;
+        xStart[4] = -1.356683663338969e+03; 
+        xStart[5] = 3.132719003502420e+03;
+
+        const State state = { startInstant, Position::Meters({ xStart[0], xStart[1], xStart[2] }, gcrfSPtr), Velocity::MetersPerSecond({ xStart[4], xStart[5], xStart[6] }, gcrfSPtr) };
         std::cout << state << std::endl;
 
-        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
-        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
-        const Real J2 = Earth::Models::EGM2008::J2 ;
-        const Real J4 = Earth::Models::EGM2008::J4 ;
 
-        const CustomProp customModel = { state, epoch, gravitationalParameter, equatorialRadius, J2, J4, CustomProp::PerturbationType::None } ;
+        const CustomProp customModel = { state, startInstant, CustomProp::GravPerturbationType::None, CustomProp::AtmosPerturbationType::None, CustomProp::ThirdBodyPerturbationType::None } ;
         std::cout << customModel << std::endl;
+
+        const State state_GCRF = customModel.calculateStateAt(startInstant + propDuration) ;
+        
+        std::cout << state_GCRF << std::endl;
+        
+
+        // double statePosError = sqrt(pow(xEndTwoBodyTrueECI[0]-xECI[0],2) + pow(xEndTwoBodyTrueECI[1]-xECI[1],2) + pow(xEndTwoBodyTrueECI[2]-xECI[2],2));
+        // double stateVelError = sqrt(pow(xEndTwoBodyTrueECI[3]-xECI[3],2) + pow(xEndTwoBodyTrueECI[4]-xECI[4],2) + pow(xEndTwoBodyTrueECI[5]-xECI[5],2));
+
+        
+
+        // ASSERT_GT(posErrTolerance,statePosError) ; // Assert position error
+        // ASSERT_GT(velErrTolerance,stateVelError) ; // Assert velocity error
+
+        const Position position_GCRF = state_GCRF.accessPosition() ;
+        const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+
+        const Real statePositionError_GCRF = (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm() ;
+        const Real stateVelocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm() ;
+
+        std::cout << "Position error is: " << statePositionError_GCRF << std::endl;
+        std::cout << "Velocity error is: " << stateVelocityError_GCRF << std::endl;
+
+        ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+        ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+        ASSERT_GT(10, statePositionError_GCRF) ;
+        ASSERT_GT(0.1, stateVelocityError_GCRF) ;
+
+
+
+
         // // Orbit setup
 
         // const Orbit orbit = { keplerianModel, environment.accessCelestialObjectWithName("Earth") } ;
