@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/CustomProp.hpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_CustomProp__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated__
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -52,7 +52,7 @@ using ostk::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class CustomProp : public ostk::astro::trajectory::orbit::Model
+class Propagated : public ostk::astro::trajectory::orbit::Model
 {
 
     public:
@@ -90,20 +90,23 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
         /* The type of container used to hold the state vector */
         typedef std::vector< double > state_type; 
 
-                                CustomProp                                  (   const   State&                      aState,
+                                Propagated                                  (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
-                                                                                const   CustomProp::GravPerturbationType&       aGravPerturbationType,                       
-                                                                                const   CustomProp::AtmosPerturbationType&      aAtmosPerturbationType,                       
-                                                                                const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType       ) ;
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Length&                     anEquatorialRadius,
+                                                                                const   Propagated::GravPerturbationType&       aGravPerturbationType,                       
+                                                                                const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType,                       
+                                                                                const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
+                                                                                const   bool&                                   aPropagationLogStatus           ) ;
 
-        virtual CustomProp*     clone                                       ( ) const override ;
+        virtual Propagated*     clone                                       ( ) const override ;
 
-        bool                    operator ==                                 (   const   CustomProp&                 aCustomPropModel                             ) const ;
+        bool                    operator ==                                 (   const   Propagated&                 aPropagatedModel                             ) const ;
 
-        bool                    operator !=                                 (   const   CustomProp&                 aCustomPropModel                             ) const ;
+        bool                    operator !=                                 (   const   Propagated&                 aPropagatedModel                             ) const ;
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   CustomProp&                 aCustomPropModel                             ) ;
+                                                                                const   Propagated&                 aPropagatedModel                             ) ;
 
         virtual bool            isDefined                                   ( ) const override ;
 
@@ -111,33 +114,28 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ; // Not sure this needs to be virtual and overridden
 
-        // Derived                 getGravitationalParameter                   ( ) const ;
+        Derived                 getGravitationalParameter                   ( ) const ;
 
-        // Length                  getEquatorialRadius                         ( ) const ;
+        Length                  getEquatorialRadius                         ( ) const ;
 
-        // Real                    getJ2                                       ( ) const ;
+        Propagated::GravPerturbationType getGravPerturbationType            ( ) const ;
 
-        // Real                    getJ4                                       ( ) const ;
+        Propagated::AtmosPerturbationType getAtmosPerturbationType          ( ) const ;
 
-        CustomProp::GravPerturbationType getGravPerturbationType            ( ) const ;
-
-        CustomProp::AtmosPerturbationType getAtmosPerturbationType          ( ) const ;
-
-        CustomProp::ThirdBodyPerturbationType getThirdBodyPerturbationType  ( ) const ;
-
+        Propagated::ThirdBodyPerturbationType getThirdBodyPerturbationType  ( ) const ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
         virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
-
+        
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        static String           StringFromGravPerturbationType              (   const   CustomProp::GravPerturbationType&       aGravPerturbationType           ) ;
+        static String           StringFromGravPerturbationType              (   const   Propagated::GravPerturbationType&       aGravPerturbationType           ) ;
 
-        static String           StringFromAtmosPerturbationType             (   const   CustomProp::AtmosPerturbationType&      aAtmosPerturbationType          ) ;
+        static String           StringFromAtmosPerturbationType             (   const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType          ) ;
 
-        static String           StringFromThirdBodyPerturbationType         (   const   CustomProp::ThirdBodyPerturbationType&  aThirdBodyPerturbationType      ) ;
+        static String           StringFromThirdBodyPerturbationType         (   const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType      ) ;
 
     protected:
 
@@ -149,23 +147,29 @@ class CustomProp : public ostk::astro::trajectory::orbit::Model
 
         State                   state_ ;
         Instant                 epoch_ ;
-        CustomProp::GravPerturbationType gravPerturbationType_ ;
-        CustomProp::AtmosPerturbationType atmosPerturbationType_ ;
-        CustomProp::ThirdBodyPerturbationType thirdBodyPerturbationType_ ;
+        Derived                 gravitationalParameter_ ;
+        Length                  equatorialRadius_ ;
+        Propagated::GravPerturbationType gravPerturbationType_ ;
+        Propagated::AtmosPerturbationType atmosPerturbationType_ ;
+        Propagated::ThirdBodyPerturbationType thirdBodyPerturbationType_ ;
+        bool propagationLogStatus_ ;
 
         static void             TwoBodyDynamics                             (   const   state_type&                 x, 
                                                                                         state_type&                 dxdt, 
-                                                                                const   double                      t                                           ) ;
+                                                                                const   double                      t,
+                                                                                const   double&                     mu_SI                                       ) ;
 
         static void             PropObserver                                (   const   state_type&                 x, 
                                                                                 const   double                      t                                           ) ;
         
         static State            CalculateNoneStateAt                        (   const   State&                      aState,
-                                                                                const   Instant&                    anEpoch,
-                                                                                const   Instant&                    anInstant                                   ) ;
+                                                                                const   Derived&                    aGravitationalParameter,
+                                                                                const   Instant&                    anInstant,
+                                                                                const   bool&                       aPropagationLogStatus                       ) ;
 
         static Integer          CalculateNoneRevolutionNumberAt             (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
+                                                                                const   Derived&                    aGravitationalParameter,
                                                                                 const   Instant&                    anInstant                                   ) ;
 
         // static State            CalculateJ2StateAt                          (   const   State&                      aState,

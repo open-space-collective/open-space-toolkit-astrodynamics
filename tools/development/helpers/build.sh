@@ -12,6 +12,8 @@
 project_directory="$(git rev-parse --show-toplevel)"
 build_directory="${project_directory}/build"
 
+mkdir -p "${build_directory}"
+
 pushd "${build_directory}" > /dev/null
 
 if [[ ! -z $1 ]] && [[ $1 == "--debug" ]]; then
