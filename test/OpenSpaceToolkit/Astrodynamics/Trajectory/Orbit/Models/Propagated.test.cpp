@@ -190,6 +190,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Test_1_
 
         const State state_GCRF = orbit.getStateAt(startInstant + propDuration) ;
         
+        const int revNumber = orbit.getRevolutionNumberAt(startInstant + propDuration) ;
+        
         // Results check 
 
         const Position position_GCRF = state_GCRF.accessPosition() ;
@@ -216,7 +218,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Test_1_
         ASSERT_GT(1e-3, statePositionError_GCRF) ;
         ASSERT_GT(1e-6, stateVelocityError_GCRF) ;
 
-        // ASSERT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant)) ;
+        ASSERT_EQ(3763 , revNumber) ;
 
        
 
