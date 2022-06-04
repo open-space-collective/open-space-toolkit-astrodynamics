@@ -51,8 +51,8 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
-                                                                                const   Propagated::GravPerturbationType&       aGravPerturbationType,                       
-                                                                                const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType,                       
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,                       
+                                                                                const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType,                       
                                                                                 const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,      
                                                                                 const   bool&                                   aPropagationLogStatus                 ) 
                                 :   Model(),
@@ -60,8 +60,8 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     epoch_(anEpoch),
                                     gravitationalParameter_(aGravitationalParameter),
                                     equatorialRadius_(anEquatorialRadius),
-                                    gravPerturbationType_(aGravPerturbationType),
-                                    atmosPerturbationType_(aAtmosPerturbationType),
+                                    gravitationalPerturbationType_(aGravitationalPerturbationType),
+                                    atmosphericPerturbationType_(aAtmosphericPerturbationType),
                                     thirdBodyPerturbationType_(aThirdBodyPerturbationType),
                                     propagationLogStatus_ (aPropagationLogStatus)
                                     
@@ -85,8 +85,8 @@ bool                            Propagated::operator ==                         
     return (state_ == aPropagatedModel.state_)
         && (epoch_ == aPropagatedModel.epoch_)
         && (gravitationalParameter_ == aPropagatedModel.gravitationalParameter_)
-        && (gravPerturbationType_ == aPropagatedModel.gravPerturbationType_)
-        && (atmosPerturbationType_ == aPropagatedModel.atmosPerturbationType_)
+        && (gravitationalPerturbationType_ == aPropagatedModel.gravitationalPerturbationType_)
+        && (atmosphericPerturbationType_ == aPropagatedModel.atmosphericPerturbationType_)
         && (thirdBodyPerturbationType_ == aPropagatedModel.thirdBodyPerturbationType_) ;
 
 }
@@ -172,19 +172,19 @@ State                           Propagated::calculateStateAt                    
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    switch (gravPerturbationType_)
+    switch (gravitationalPerturbationType_)
     {
 
-        case Propagated::GravPerturbationType::None:
+        case Propagated::GravitationalPerturbationType::None:
             return Propagated::CalculateNoneStateAt(state_, gravitationalParameter_, anInstant, propagationLogStatus_) ;
 
-        // case Propagated::GravPerturbationType::J2:
+        // case Propagated::GravitationalPerturbationType::J2:
         //     return Propagated::CalculateJ2StateAt(state_, epoch_, anInstant) ;
 
-        // case Propagated::GravPerturbationType::TenByTen:
+        // case Propagated::GravitationalPerturbationType::TenByTen:
         //     return Propagated::CalculateTenByTenStateAt(state_, epoch_, anInstant) ;
 
-        // case Propagated::GravPerturbationType::FourtyByFourty:
+        // case Propagated::GravitationalPerturbationType::FourtyByFourty:
         //     return Propagated::CalculateFourtyByFourtyStateAt(state_, epoch_, anInstant) ;
 
         default:
@@ -192,10 +192,10 @@ State                           Propagated::calculateStateAt                    
 
     }
 
-    //     switch (atmosPerturbationType_)
+    //     switch (atmosphericPerturbationType_)
     // {
 
-    //     case Propagated::AtmosPerturbationType::None:
+    //     case Propagated::AtmosphericPerturbationType::None:
     //         return Propagated::CalculateNoneStateAt(state_, epoch_, anInstant) ;
 
     //     // case Propagated::PerturbationType::J2:
@@ -212,7 +212,7 @@ State                           Propagated::calculateStateAt                    
     //     switch (thirdBodyPerturbationType_)
     // {
 
-    //     case Propagated::GravPerturbationType::None:
+    //     case Propagated::GravitationalPerturbationType::None:
     //         return Propagated::CalculateNoneStateAt(state_, epoch_, anInstant) ;
 
     //     // case Propagated::PerturbationType::J2:
@@ -248,19 +248,19 @@ Integer                         Propagated::calculateRevolutionNumberAt         
         return this->getRevolutionNumberAtEpoch() ;
     }
 
-    switch (gravPerturbationType_)
+    switch (gravitationalPerturbationType_)
     {
 
-        case Propagated::GravPerturbationType::None:
+        case Propagated::GravitationalPerturbationType::None:
             return Propagated::CalculateNoneRevolutionNumberAt(state_, epoch_, gravitationalParameter_, anInstant) ;
 
-        // case Propagated::GravPerturbationType::J2:
+        // case Propagated::GravitationalPerturbationType::J2:
         //     return Propagated::CalculateJ2RevolutionNumberAt(state_, epoch_, anInstant) ;
 
-        // case Propagated::GravPerturbationType::TenByTen:
+        // case Propagated::GravitationalPerturbationType::TenByTen:
         //     return Propagated::CalculateTenByTenRevolutionNumberAt(state_, epoch_, anInstant) ;
 
-        // case Propagated::GravPerturbationType::FourtyByFourty:
+        // case Propagated::GravitationalPerturbationType::FourtyByFourty:
         //     return Propagated::CalculateFourtyByFourtyRevolutionNumberAt(state_, epoch_, anInstant) ;
 
         default:
@@ -280,8 +280,8 @@ void                            Propagated::print                               
 
     ostk::core::utils::Print::Line(anOutputStream) << "Epoch:"               << (epoch_.isDefined() ? epoch_.toString() : "Undefined") ;
     ostk::core::utils::Print::Line(anOutputStream) << "Gravitational parameter:" << (gravitationalParameter_.isDefined() ? gravitationalParameter_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Grav perturbation type:"                << Propagated::StringFromGravPerturbationType(gravPerturbationType_) ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Atmospheric perturbation type:"                << Propagated::StringFromAtmosPerturbationType(atmosPerturbationType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Grav perturbation type:"                << Propagated::StringFromGravitationalPerturbationType(gravitationalPerturbationType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Atmospheric perturbation type:"                << Propagated::StringFromAtmosphericPerturbationType(atmosphericPerturbationType_) ;
     ostk::core::utils::Print::Line(anOutputStream) << "Third body perturbation type:"                << Propagated::StringFromThirdBodyPerturbationType(thirdBodyPerturbationType_) ;
 
     ostk::core::utils::Print::Separator(anOutputStream, "State") ;
@@ -292,22 +292,22 @@ void                            Propagated::print                               
 
 }
 
-String                          Propagated::StringFromGravPerturbationType      (   const   Propagated::GravPerturbationType&       aGravPerturbationType       )
+String                          Propagated::StringFromGravitationalPerturbationType      (   const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType       )
 {
 
-    switch (aGravPerturbationType)
+    switch (aGravitationalPerturbationType)
     {
 
-        case Propagated::GravPerturbationType::None:
+        case Propagated::GravitationalPerturbationType::None:
             return "None" ;
 
-        case Propagated::GravPerturbationType::J2:
+        case Propagated::GravitationalPerturbationType::J2:
             return "J2" ;
 
-        case Propagated::GravPerturbationType::TenByTen:
+        case Propagated::GravitationalPerturbationType::TenByTen:
             return "TenByTen" ;
         
-        case Propagated::GravPerturbationType::FourtyByFourty:
+        case Propagated::GravitationalPerturbationType::FourtyByFourty:
             return "FourtyByFourty" ;
 
         default:
@@ -319,22 +319,22 @@ String                          Propagated::StringFromGravPerturbationType      
 
 }
 
-String                          Propagated::StringFromAtmosPerturbationType     (   const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType      )
+String                          Propagated::StringFromAtmosphericPerturbationType     (   const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType      )
 {
 
-    switch (aAtmosPerturbationType)
+    switch (aAtmosphericPerturbationType)
     {
 
-        case Propagated::AtmosPerturbationType::None:
+        case Propagated::AtmosphericPerturbationType::None:
             return "None" ;
 
-        case Propagated::AtmosPerturbationType::Exponential:
+        case Propagated::AtmosphericPerturbationType::Exponential:
             return "Exponential" ;
 
-        case Propagated::AtmosPerturbationType::JacchiaRoberts:
+        case Propagated::AtmosphericPerturbationType::JacchiaRoberts:
             return "JacchiaRoberts" ;
 
-        case Propagated::AtmosPerturbationType::NRLMISIS00:
+        case Propagated::AtmosphericPerturbationType::NRLMISIS00:
             return "NRLMISIS00" ;
 
         default:

@@ -38,6 +38,7 @@ State =  astrodynamics.flight.profile.State
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
 Kepler = astrodynamics.trajectory.orbit.models.Kepler
+Propgated = astrodynamics.trajectory.orbit.models.Propagated
 COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access

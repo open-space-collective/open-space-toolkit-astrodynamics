@@ -181,7 +181,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Test_1_
         const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 
-        const Propagated propagatedModel = { state, epochInstant, gravitationalParameter, equatorialRadius, Propagated::GravPerturbationType::None, Propagated::AtmosPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        const Propagated propagatedModel = { state, epochInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
         std::cout << propagatedModel << std::endl;
         
         // Orbit setup

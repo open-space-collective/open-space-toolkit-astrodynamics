@@ -21,6 +21,7 @@ class TestImport:
         from ostk.astrodynamics.trajectory import Model
         from ostk.astrodynamics.trajectory.orbit import Pass
         from ostk.astrodynamics.trajectory.orbit.models import Kepler
+        from ostk.astrodynamics.trajectory.orbit.models import Propagated
         from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
         from ostk.astrodynamics.trajectory.orbit.models import SGP4
         from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE

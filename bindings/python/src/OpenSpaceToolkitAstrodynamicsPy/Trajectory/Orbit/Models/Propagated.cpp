@@ -30,7 +30,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<Propagated, ostk::astro::trajectory::orbit::Model> propagated_class(aModule, "Propagated") ;
 
-        propagated_class.def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravPerturbationType&, const Propagated::AtmosPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const bool&>())
+        propagated_class.def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const bool&>())
 
             .def(self == self)
             .def(self != self)
@@ -45,34 +45,34 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_gravitational_parameter", &Propagated::getGravitationalParameter)
             .def("get_equatorial_radius", &Propagated::getEquatorialRadius)
 
-            .def("get_grav_perturbation_type", &Propagated::getGravPerturbationType)
-            .def("get_atmos_perturbation_type", &Propagated::getAtmosPerturbationType)
-            .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
+            // .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) @BOSS Bindings these functions that output enum class types to python is causing everything to break, not sure how to proceed
+            // .def("get_atmospheric_perturbation_type", &Propagated::getAtmosphericPerturbationType)
+            // .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
 
             .def("calculate_state_at", &Propagated::calculateStateAt)
             .def("calculate_revolution_number_at", &Propagated::calculateRevolutionNumberAt)
 
-            .def_static("string_from_grav_perturbation_type", &Propagated::StringFromGravPerturbationType)
-            .def_static("string_from_atmos_perturbation_type", &Propagated::StringFromAtmosPerturbationType)
+            .def_static("string_from_grav_perturbation_type", &Propagated::StringFromGravitationalPerturbationType)
+            .def_static("string_from_atmos_perturbation_type", &Propagated::StringFromAtmosphericPerturbationType)
             .def_static("string_from_thirdbody_perturbation_type", &Propagated::StringFromThirdBodyPerturbationType)
 
         ;
 
-        enum_<Propagated::GravPerturbationType>(propagated_class, "GravPerturbationType")
+        enum_<Propagated::GravitationalPerturbationType>(propagated_class, "GravitationalPerturbationType")
 
-            .value("No", Propagated::GravPerturbationType::None)
-            .value("J2", Propagated::GravPerturbationType::J2)
-            .value("10x10", Propagated::GravPerturbationType::TenByTen)
-            .value("40x40", Propagated::GravPerturbationType::FourtyByFourty)
+            .value("No", Propagated::GravitationalPerturbationType::None)
+            .value("J2", Propagated::GravitationalPerturbationType::J2)
+            .value("10x10", Propagated::GravitationalPerturbationType::TenByTen)
+            .value("40x40", Propagated::GravitationalPerturbationType::FourtyByFourty)
 
         ;
 
-        enum_<Propagated::AtmosPerturbationType>(propagated_class, "AtmosPerturbationType")
+        enum_<Propagated::AtmosphericPerturbationType>(propagated_class, "AtmosphericPerturbationType")
 
-            .value("No", Propagated::AtmosPerturbationType::None)
-            .value("Exp", Propagated::AtmosPerturbationType::Exponential)
-            .value("JR", Propagated::AtmosPerturbationType::JacchiaRoberts)
-            .value("NRL", Propagated::AtmosPerturbationType::NRLMISIS00)
+            .value("No", Propagated::AtmosphericPerturbationType::None)
+            .value("Exp", Propagated::AtmosphericPerturbationType::Exponential)
+            .value("JR", Propagated::AtmosphericPerturbationType::JacchiaRoberts)
+            .value("NRL", Propagated::AtmosphericPerturbationType::NRLMISIS00)
 
         ;
 

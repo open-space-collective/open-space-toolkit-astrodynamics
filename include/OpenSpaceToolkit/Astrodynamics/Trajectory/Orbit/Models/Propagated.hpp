@@ -57,7 +57,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     public:
 
-        enum class GravPerturbationType 
+        enum class GravitationalPerturbationType 
         {
 
             None,
@@ -67,7 +67,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
-        enum class AtmosPerturbationType 
+        enum class AtmosphericPerturbationType 
         {
 
             None,
@@ -94,8 +94,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
-                                                                                const   Propagated::GravPerturbationType&       aGravPerturbationType,                       
-                                                                                const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType,                       
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,                       
+                                                                                const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType,                       
                                                                                 const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
                                                                                 const   bool&                                   aPropagationLogStatus           ) ;
 
@@ -118,9 +118,9 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         Length                  getEquatorialRadius                         ( ) const ;
 
-        Propagated::GravPerturbationType getGravPerturbationType            ( ) const ;
+        Propagated::GravitationalPerturbationType getGravitationalPerturbationType            ( ) const ;
 
-        Propagated::AtmosPerturbationType getAtmosPerturbationType          ( ) const ;
+        Propagated::AtmosphericPerturbationType getAtmosphericPerturbationType          ( ) const ;
 
         Propagated::ThirdBodyPerturbationType getThirdBodyPerturbationType  ( ) const ;
 
@@ -131,9 +131,9 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        static String           StringFromGravPerturbationType              (   const   Propagated::GravPerturbationType&       aGravPerturbationType           ) ;
+        static String           StringFromGravitationalPerturbationType              (   const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType           ) ;
 
-        static String           StringFromAtmosPerturbationType             (   const   Propagated::AtmosPerturbationType&      aAtmosPerturbationType          ) ;
+        static String           StringFromAtmosphericPerturbationType             (   const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType          ) ;
 
         static String           StringFromThirdBodyPerturbationType         (   const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType      ) ;
 
@@ -149,8 +149,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         Instant                 epoch_ ;
         Derived                 gravitationalParameter_ ;
         Length                  equatorialRadius_ ;
-        Propagated::GravPerturbationType gravPerturbationType_ ;
-        Propagated::AtmosPerturbationType atmosPerturbationType_ ;
+        Propagated::GravitationalPerturbationType gravitationalPerturbationType_ ;
+        Propagated::AtmosphericPerturbationType atmosphericPerturbationType_ ;
         Propagated::ThirdBodyPerturbationType thirdBodyPerturbationType_ ;
         bool propagationLogStatus_ ;
 
