@@ -159,6 +159,42 @@ Integer                         Propagated::getRevolutionNumberAtEpoch          
 
 }
 
+Propagated::GravitationalPerturbationType        Propagated::getGravitationalPerturbationType                 ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    return gravitationalPerturbationType_ ;
+
+}
+
+Propagated::AtmosphericPerturbationType        Propagated::getAtmosphericPerturbationType                 ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    return atmosphericPerturbationType_ ;
+
+}
+
+Propagated::ThirdBodyPerturbationType        Propagated::getThirdBodyPerturbationType                 ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    return thirdBodyPerturbationType_ ;
+
+}
+
 State                           Propagated::calculateStateAt                    (   const   Instant&                anInstant                                   ) const
 {
 
@@ -311,7 +347,7 @@ String                          Propagated::StringFromGravitationalPerturbationT
             return "FourtyByFourty" ;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Grav Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Gravitational Perturbation type") ;
 
     }
 
@@ -338,7 +374,7 @@ String                          Propagated::StringFromAtmosphericPerturbationTyp
             return "NRLMISIS00" ;
 
         default:
-            throw ostk::core::error::runtime::Wrong("Atmos Perturbation type") ;
+            throw ostk::core::error::runtime::Wrong("Atmospheric Perturbation type") ;
 
     }
 

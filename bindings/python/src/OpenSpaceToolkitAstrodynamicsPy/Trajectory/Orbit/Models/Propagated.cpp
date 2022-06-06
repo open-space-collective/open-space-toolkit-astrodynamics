@@ -45,9 +45,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_gravitational_parameter", &Propagated::getGravitationalParameter)
             .def("get_equatorial_radius", &Propagated::getEquatorialRadius)
 
-            // .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) @BOSS Bindings these functions that output enum class types to python is causing everything to break, not sure how to proceed
-            // .def("get_atmospheric_perturbation_type", &Propagated::getAtmosphericPerturbationType)
-            // .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
+            .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) //@BOSS Bindings these functions that output enum class types to python is causing everything to break, not sure how to proceed
+            .def("get_atmospheric_perturbation_type", &Propagated::getAtmosphericPerturbationType)
+            .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
 
             .def("calculate_state_at", &Propagated::calculateStateAt)
             .def("calculate_revolution_number_at", &Propagated::calculateRevolutionNumberAt)

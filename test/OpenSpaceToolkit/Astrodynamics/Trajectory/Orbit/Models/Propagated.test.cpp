@@ -33,95 +33,13 @@
 
 #include <Global.test.hpp>
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/array.hpp>
-#include <boost/operators.hpp>
-
-#include <cmath>
+#include <typeinfo> //@BOSS typeid requires this, which makes it less standardized to use
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor_Propagated)
-// {
-
-//     using ostk::core::types::Shared ;
-//     using ostk::core::types::Real ;
-//     using ostk::core::ctnr::Array ;
-//     using ostk::core::ctnr::Table ;
-//     using ostk::core::fs::Path ;
-//     using ostk::core::fs::File ;
-
-//     using ostk::math::obj::Vector3d ;
-
-//     using ostk::physics::units::Length ;
-//     using ostk::physics::units::Angle ;
-//     using ostk::physics::units::Derived ;
-//     using ostk::physics::time::Scale ;
-//     using ostk::physics::time::Instant ;
-//     using ostk::physics::time::Duration ;
-//     using ostk::physics::time::Interval ;
-//     using ostk::physics::time::DateTime ;
-//     using ostk::physics::coord::Frame ;
-//     using ostk::physics::coord::Position ;
-//     using ostk::physics::coord::Velocity ;
-//     using ostk::physics::env::obj::celest::Earth ;
-
-//     using ostk::astro::trajectory::Orbit ;
-//     using ostk::astro::trajectory::State ;
-//     using ostk::astro::trajectory::orbit::models::Kepler ;
-//     using ostk::astro::trajectory::orbit::models::kepler::COE ;
-
-//     // {
-
-//     //     const Earth earth = Earth::Analytical() ;
-
-//     //     const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-//     //     const Real eccentricity = 0.0 ;
-//     //     const Angle inclination = Angle::Degrees(0.0) ;
-//     //     const Angle raan = Angle::Degrees(0.0) ;
-//     //     const Angle aop = Angle::Degrees(0.0) ;
-//     //     const Angle trueAnomaly = Angle::Degrees(0.0) ;
-
-//     //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
-
-//     //     std::cout << coe << std::endl ;
-
-//     //     const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
-
-//     //     const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None } ;
-
-//     //     std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl ;
-
-//     // }
-
-//     {
-
-//         const Earth earth = Earth::Analytical() ;
-
-//         const Length semiMajorAxis = Length::Kilometers(7000.0) ;
-//         const Real eccentricity = 0.0 ;
-//         const Angle inclination = Angle::Degrees(0.0) ;
-//         const Angle raan = Angle::Degrees(0.0) ;
-//         const Angle aop = Angle::Degrees(0.0) ;
-//         const Angle trueAnomaly = Angle::Degrees(0.0) ;
-
-//         const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
-
-//         std::cout << coe << std::endl ;
-
-//         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC) ;
-
-//         const Kepler keplerianModel = { coe, epoch, earth, Kepler::PerturbationType::None, true } ;
-
-//         std::cout << keplerianModel.getClassicalOrbitalElements() << std::endl ;
-
-//     }
-
-// }
-
+/* UNIT TESTS */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Test_1_Propagated)
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constructor)
 {
 
     using ostk::core::types::Shared ;
@@ -152,7 +70,780 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Test_1_
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
-    using namespace boost::numeric::odeint;
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+        
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_NO_THROW(propagatedModel) ; // @BOSS I feel that this is the best way to to test the constructor no?
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualToOperator)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_A = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel_A = { state_A, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_TRUE(propagatedModel_A == propagatedModel_A) ;
+
+
+        // Current state and instant setup
+
+        const State state_B = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        const Propagated propagatedModel_B = { state_B, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_FALSE(propagatedModel_A == propagatedModel_B) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqualToOperator)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_A = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel_A = { state_A, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_FALSE(propagatedModel_A != propagatedModel_A) ;
+
+
+        // Current state and instant setup
+
+        const State state_B = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        const Propagated propagatedModel_B = { state_B, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_TRUE(propagatedModel_A != propagatedModel_B) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefined)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+        
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_TRUE(propagatedModel.isDefined()) ; 
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StreamOperator)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+        
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        testing::internal::CaptureStdout() ;
+
+        EXPECT_NO_THROW(std::cout << propagatedModel << std::endl) ;
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty()) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+        
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        testing::internal::CaptureStdout() ;
+
+        EXPECT_NO_THROW(propagatedModel.print(std::cout, true)) ;
+        EXPECT_NO_THROW(propagatedModel.print(std::cout, false)) ;
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty()) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpochANDgetRevolutionNumberAtEpoch)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_EQ(propagatedModel.getEpoch(),startInstant) ;
+        EXPECT_TRUE(typeid(propagatedModel.getEpoch())==typeid(startInstant)) ; // @BOSS do I need both of these or does the first one suffice cause if .getEpoch() doesn't return an Instant type it would error right? Or is that not necessarily true
+
+        EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(),1) ;
+        EXPECT_TRUE(typeid(propagatedModel.getRevolutionNumberAtEpoch())==typeid(Integer)) ; 
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getGravitationalParameterANDgetEquatorialRadius)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+    
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_EQ(propagatedModel.getEquatorialRadius(),equatorialRadius) ;
+        EXPECT_TRUE(typeid(propagatedModel.getEquatorialRadius())==typeid(Length)) ; // @BOSS do I need both of these or does the first one suffice cause if .getEpoch() doesn't return an Instant type it would error right? Or is that not necessarily true
+
+        EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(),1) ;
+        EXPECT_TRUE(typeid(propagatedModel.getRevolutionNumberAtEpoch())==typeid(Integer)) ; 
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getPerturbationType)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+    
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel_None = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_None.getGravitationalPerturbationType(),Propagated::GravitationalPerturbationType::None) ;
+
+        const Propagated propagatedModel_J2 = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::J2, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_J2.getGravitationalPerturbationType(),Propagated::GravitationalPerturbationType::J2) ;
+
+        const Propagated propagatedModel_TenByTen = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::TenByTen, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_TenByTen.getGravitationalPerturbationType(),Propagated::GravitationalPerturbationType::TenByTen) ;
+
+        const Propagated propagatedModel_FourtyByFourty = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::FourtyByFourty, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_FourtyByFourty.getGravitationalPerturbationType(),Propagated::GravitationalPerturbationType::FourtyByFourty) ;
+
+    }
+
+        {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel_None = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_None.getAtmosphericPerturbationType(),Propagated::AtmosphericPerturbationType::None) ;
+
+        const Propagated propagatedModel_Exponential = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::Exponential, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_Exponential.getAtmosphericPerturbationType(),Propagated::AtmosphericPerturbationType::Exponential) ;
+
+        const Propagated propagatedModel_JacchiaRoberts = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::JacchiaRoberts, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_JacchiaRoberts.getAtmosphericPerturbationType(),Propagated::AtmosphericPerturbationType::JacchiaRoberts) ;
+
+        const Propagated propagatedModel_NRLMISIS00 = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::NRLMISIS00, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_NRLMISIS00.getAtmosphericPerturbationType(),Propagated::AtmosphericPerturbationType::NRLMISIS00) ;
+    }
+
+        {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel_None = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+        EXPECT_EQ(propagatedModel_None.getThirdBodyPerturbationType(),Propagated::ThirdBodyPerturbationType::None) ;
+
+        const Propagated propagatedModel_Luni = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::Luni , false } ;
+        EXPECT_EQ(propagatedModel_Luni.getThirdBodyPerturbationType(),Propagated::ThirdBodyPerturbationType::Luni) ;
+
+        const Propagated propagatedModel_Solar = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::Solar , false } ;
+        EXPECT_EQ(propagatedModel_Solar.getThirdBodyPerturbationType(),Propagated::ThirdBodyPerturbationType::Solar) ;
+
+        const Propagated propagatedModel_LuniSolar = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::LuniSolar , false } ;
+        EXPECT_EQ(propagatedModel_LuniSolar.getThirdBodyPerturbationType(),Propagated::ThirdBodyPerturbationType::LuniSolar) ;
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, calculateStateAtANDcalculateRevolutionNumberAt)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+
+        // Environment setup
+        const Environment environment = Environment::Default() ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        
+        // Current state and instant setup
+
+        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        // Orbital model setup
+        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
+        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
+
+        const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None , false } ;
+
+        EXPECT_TRUE(typeid(propagatedModel.calculateStateAt(startInstant))==typeid(State)) ; 
+
+        EXPECT_TRUE(typeid(propagatedModel.calculateRevolutionNumberAt(startInstant))==typeid(Integer)) ; 
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StringFromPerturbationType)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::types::Integer ;
+    using ostk::core::types::String ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    {
+        
+        EXPECT_TRUE(typeid(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::None))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::None)=="None") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::J2))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::J2)=="J2") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::TenByTen))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::TenByTen)=="TenByTen") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::FourtyByFourty))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::FourtyByFourty)=="FourtyByFourty") ; 
+
+    }
+
+    {
+        
+        EXPECT_TRUE(typeid(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::None))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::None)=="None") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::Exponential))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::Exponential)=="Exponential") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::JacchiaRoberts))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::JacchiaRoberts)=="JacchiaRoberts") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::NRLMISIS00))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::NRLMISIS00)=="NRLMISIS00") ; 
+
+    }
+
+    {
+        
+        EXPECT_TRUE(typeid(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::None))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::None)=="None") ; 
+
+        EXPECT_TRUE(typeid(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Luni))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Luni)=="Luni") ;
+
+        EXPECT_TRUE(typeid(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Solar))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Solar)=="Solar") ;
+
+        EXPECT_TRUE(typeid(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::LuniSolar))==typeid(String)) ; 
+        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::LuniSolar)=="LuniSolar") ;
+
+    }
+    
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* INTEGRATION PERFORMANCE TESTS */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropagationAccuracyTwoBody) // @BOSS will be modified to compare propagation accuracy using csv file produced by STK
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
 
     {        
         // Environment setup

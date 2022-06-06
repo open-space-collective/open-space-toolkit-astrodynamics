@@ -105,9 +105,17 @@ def test_trajectory_orbit_models_propagated_getters ():
 
     assert propagated.get_equatorial_radius() is not None
 
-    # # get_perturbation_type() # TODO Add get perturbation type binding @BOSS
+    # get_gravitational_perturbation_type() 
 
-    # assert propagated.get_perturbation_type() is not None
+    assert propagated.get_gravitational_perturbation_type() is not None
+
+    # get_atmospheric_perturbation_type() 
+
+    assert propagated.get_atmospheric_perturbation_type() is not None
+
+    # get_thirdbody_perturbation_type() 
+
+    assert propagated.get_thirdbody_perturbation_type() is not None
 
 # ################################################################################################################################################################
 
