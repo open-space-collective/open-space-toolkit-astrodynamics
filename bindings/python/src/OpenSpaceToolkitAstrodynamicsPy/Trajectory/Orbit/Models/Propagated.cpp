@@ -2,7 +2,7 @@
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Propagated.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<Propagated, ostk::astro::trajectory::orbit::Model> propagated_class(aModule, "Propagated") ;
 
-        propagated_class.def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const bool&>())
+        propagated_class.def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&>())
+            .def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const Propagated::IntegrationStepperType&, const Propagated::IntegrationLogType&, const Real&, const Real&>())
 
             .def(self == self)
             .def(self != self)
@@ -45,16 +46,21 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_gravitational_parameter", &Propagated::getGravitationalParameter)
             .def("get_equatorial_radius", &Propagated::getEquatorialRadius)
 
-            .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) //@BOSS Bindings these functions that output enum class types to python is causing everything to break, not sure how to proceed
+            .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) 
             .def("get_atmospheric_perturbation_type", &Propagated::getAtmosphericPerturbationType)
             .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
+            .def("get_integration_stepper_type", &Propagated::getIntegrationStepperType)
+            .def("get_integration_log_type", &Propagated::getIntegrationLogType)
+
 
             .def("calculate_state_at", &Propagated::calculateStateAt)
             .def("calculate_revolution_number_at", &Propagated::calculateRevolutionNumberAt)
 
-            .def_static("string_from_grav_perturbation_type", &Propagated::StringFromGravitationalPerturbationType)
-            .def_static("string_from_atmos_perturbation_type", &Propagated::StringFromAtmosphericPerturbationType)
+            .def_static("string_from_gravitational_perturbation_type", &Propagated::StringFromGravitationalPerturbationType)
+            .def_static("string_from_atmospheric_perturbation_type", &Propagated::StringFromAtmosphericPerturbationType)
             .def_static("string_from_thirdbody_perturbation_type", &Propagated::StringFromThirdBodyPerturbationType)
+            .def_static("string_from_integration_stepper_type", &Propagated::StringFromIntegrationStepperType)
+            .def_static("string_from_integration_log_type", &Propagated::StringFromIntegrationLogType)
 
         ;
 
@@ -62,17 +68,17 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
             .value("No", Propagated::GravitationalPerturbationType::None)
             .value("J2", Propagated::GravitationalPerturbationType::J2)
-            .value("10x10", Propagated::GravitationalPerturbationType::TenByTen)
-            .value("40x40", Propagated::GravitationalPerturbationType::FourtyByFourty)
+            .value("Ten_by_ten", Propagated::GravitationalPerturbationType::TenByTen)
+            .value("Fourty_by_fourty", Propagated::GravitationalPerturbationType::FourtyByFourty)
 
         ;
 
         enum_<Propagated::AtmosphericPerturbationType>(propagated_class, "AtmosphericPerturbationType")
 
             .value("No", Propagated::AtmosphericPerturbationType::None)
-            .value("Exp", Propagated::AtmosphericPerturbationType::Exponential)
-            .value("JR", Propagated::AtmosphericPerturbationType::JacchiaRoberts)
-            .value("NRL", Propagated::AtmosphericPerturbationType::NRLMISIS00)
+            .value("Exponential", Propagated::AtmosphericPerturbationType::Exponential)
+            .value("Jacchia_roberts", Propagated::AtmosphericPerturbationType::JacchiaRoberts)
+            .value("NRLMISIS00", Propagated::AtmosphericPerturbationType::NRLMISIS00)
 
         ;
 
@@ -81,10 +87,23 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .value("No", Propagated::ThirdBodyPerturbationType::None)
             .value("Luni", Propagated::ThirdBodyPerturbationType::Luni)
             .value("Solar", Propagated::ThirdBodyPerturbationType::Solar)
-            .value("LuniSolar", Propagated::ThirdBodyPerturbationType::LuniSolar)
+            .value("Luni_solar", Propagated::ThirdBodyPerturbationType::LuniSolar)
 
         ;
 
+        enum_<Propagated::IntegrationStepperType>(propagated_class, "IntegrationStepperType")
+
+            .value("Runge_Kutta_Cash_Karp_54", Propagated::IntegrationStepperType::RungeKuttaCashKarp54)
+
+        ;
+
+        enum_<Propagated::IntegrationLogType>(propagated_class, "IntegrationLogType")
+
+            .value("No_log", Propagated::IntegrationLogType::NoLog)
+            .value("Log_constant", Propagated::IntegrationLogType::LogConstant)
+            .value("Log_adaptive", Propagated::IntegrationLogType::LogAdaptive)
+
+        ;
     }
 
 }

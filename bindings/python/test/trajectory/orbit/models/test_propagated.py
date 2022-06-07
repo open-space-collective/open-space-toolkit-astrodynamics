@@ -2,7 +2,7 @@
 
 # @project        Open Space Toolkit ▸ Astrodynamics
 # @file           bindings/python/test/trajectory/orbit/models/test_propagated.py
-# @author         Remy Derollez <remy@loftorbital.com>
+# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
@@ -42,7 +42,6 @@ earth_env = Environment.default().access_celestial_object_with_name("Earth")
 
 def construct_propagated ():
 
-
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
     frame: Frame = Frame.GCRF()
@@ -53,8 +52,15 @@ def construct_propagated ():
 
     assert state is not None
     assert isinstance(state, State)
+
+    propagated = Propagated(state, epoch, Earth.gravitational_parameter, Earth.equatorial_radius, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No,
+                            Propagated.IntegrationStepperType.Runge_Kutta_Cash_Karp_54, Propagated.IntegrationLogType.No_log, 1.0e-15, 1.0e-15)
     
-    propagated = Propagated(state, epoch, Earth.gravitational_parameter, Earth.equatorial_radius, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No, False)
+    assert propagated is not None
+    assert isinstance(propagated, Propagated)
+    assert propagated.is_defined()
+
+    propagated = Propagated(state, epoch, Earth.gravitational_parameter, Earth.equatorial_radius, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No)
     
     assert propagated is not None
     assert isinstance(propagated, Propagated)
@@ -67,8 +73,6 @@ def construct_propagated ():
 def test_trajectory_orbit_models_propagated_constructors ():
 
     propagated: Propagated = construct_propagated()
-
-    print(propagated)
 
     assert propagated is not None
     assert isinstance(propagated, Propagated)
@@ -116,6 +120,50 @@ def test_trajectory_orbit_models_propagated_getters ():
     # get_thirdbody_perturbation_type() 
 
     assert propagated.get_thirdbody_perturbation_type() is not None
+
+    # get_integration_stepper_type() 
+
+    assert propagated.get_integration_stepper_type() is not None
+
+    # get_integration_log_type() 
+
+    assert propagated.get_integration_log_type() is not None
+
+# ################################################################################################################################################################
+
+def test_trajectory_orbit_models_propagated_get_string_from_perturbation_type ():
+
+    assert Propagated.string_from_gravitational_perturbation_type(Propagated.GravitationalPerturbationType.No) is not None
+
+    assert Propagated.string_from_gravitational_perturbation_type(Propagated.GravitationalPerturbationType.J2) is not None
+
+    assert Propagated.string_from_gravitational_perturbation_type(Propagated.GravitationalPerturbationType.Ten_by_ten) is not None
+
+    assert Propagated.string_from_gravitational_perturbation_type(Propagated.GravitationalPerturbationType.Fourty_by_fourty) is not None
+
+    assert Propagated.string_from_atmospheric_perturbation_type(Propagated.AtmosphericPerturbationType.No) is not None
+
+    assert Propagated.string_from_atmospheric_perturbation_type(Propagated.AtmosphericPerturbationType.Exponential) is not None
+
+    assert Propagated.string_from_atmospheric_perturbation_type(Propagated.AtmosphericPerturbationType.Jacchia_roberts) is not None
+
+    assert Propagated.string_from_atmospheric_perturbation_type(Propagated.AtmosphericPerturbationType.NRLMISIS00) is not None
+
+    assert Propagated.string_from_thirdbody_perturbation_type(Propagated.ThirdBodyPerturbationType.No) is not None
+
+    assert Propagated.string_from_thirdbody_perturbation_type(Propagated.ThirdBodyPerturbationType.Luni) is not None
+
+    assert Propagated.string_from_thirdbody_perturbation_type(Propagated.ThirdBodyPerturbationType.Solar) is not None
+
+    assert Propagated.string_from_thirdbody_perturbation_type(Propagated.ThirdBodyPerturbationType.Luni_solar) is not None
+
+    assert Propagated.string_from_integration_stepper_type(Propagated.IntegrationStepperType.Runge_Kutta_Cash_Karp_54) is not None
+
+    assert Propagated.string_from_integration_log_type(Propagated.IntegrationLogType.No_log) is not None
+
+    assert Propagated.string_from_integration_log_type(Propagated.IntegrationLogType.Log_constant) is not None
+
+    assert Propagated.string_from_integration_log_type(Propagated.IntegrationLogType.Log_adaptive) is not None
 
 # ################################################################################################################################################################
 

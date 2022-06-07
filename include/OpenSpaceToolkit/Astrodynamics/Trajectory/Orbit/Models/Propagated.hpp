@@ -2,7 +2,7 @@
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
+/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,17 +87,32 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
+        enum class IntegrationStepperType 
+        {
+            RungeKuttaCashKarp54
+        } ;
+        
+        enum class IntegrationLogType 
+        {
+            NoLog,
+            LogConstant,
+            LogAdaptive
+        } ;
+
         /* The type of container used to hold the state vector */
-        typedef std::vector< double > state_type; 
+        typedef std::vector<double> state_type; 
 
                                 Propagated                                  (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
                                                                                 const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,                       
-                                                                                const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType,                       
+                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,                       
                                                                                 const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
-                                                                                const   bool&                                   aPropagationLogStatus           ) ;
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType            = Propagated::IntegrationStepperType::RungeKuttaCashKarp54,
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType                    = Propagated::IntegrationLogType::NoLog,
+                                                                                const   Real&                       aRelativeTolerance                          = 1.0e-15,
+                                                                                const   Real&                       anAbsoluteTolerance                         = 1.0e-15   ) ;
 
         virtual Propagated*     clone                                       ( ) const override ;
 
@@ -124,18 +139,26 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         Propagated::ThirdBodyPerturbationType getThirdBodyPerturbationType  ( ) const ;
 
+        Propagated::IntegrationStepperType getIntegrationStepperType        ( ) const ;
+
+        Propagated::IntegrationLogType getIntegrationLogType                ( ) const ;
+
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; // [TBR] ?
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; 
         
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
         static String           StringFromGravitationalPerturbationType     (   const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType           ) ;
 
-        static String           StringFromAtmosphericPerturbationType       (   const   Propagated::AtmosphericPerturbationType&      aAtmosphericPerturbationType          ) ;
+        static String           StringFromAtmosphericPerturbationType       (   const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType          ) ;
 
         static String           StringFromThirdBodyPerturbationType         (   const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType      ) ;
+
+        static String           StringFromIntegrationStepperType            (   const   Propagated::IntegrationStepperType&  aIntegrationStepperType            ) ;
+
+        static String           StringFromIntegrationLogType                (   const   Propagated::IntegrationLogType&  aIntegrationLogType                    ) ;
 
     protected:
 
@@ -152,26 +175,32 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         Propagated::GravitationalPerturbationType gravitationalPerturbationType_ ;
         Propagated::AtmosphericPerturbationType atmosphericPerturbationType_ ;
         Propagated::ThirdBodyPerturbationType thirdBodyPerturbationType_ ;
-        bool propagationLogStatus_ ;
+        Propagated::IntegrationStepperType integrationStepperType_ ;
+        Propagated::IntegrationLogType integrationLogType_ ;
+        Real relativeTolerance_ ;
+        Real absoluteTolerance_ ;
 
         static void             TwoBodyDynamics                             (   const   state_type&                 x, 
                                                                                         state_type&                 dxdt, 
                                                                                 const   double                      t,
                                                                                 const   double&                     mu_SI                                       ) ;
 
-        static void             PropObserver                                (   const   state_type&                 x, 
+        static void             NumericalIntegrationLogger                  (   const   state_type&                 x, 
                                                                                 const   double                      t                                           ) ;
         
         static State            CalculateNoneStateAt                        (   const   State&                      aState,
                                                                                 const   Derived&                    aGravitationalParameter,
-                                                                                const   Instant&                    anInstant,
-                                                                                const   bool&                       aPropagationLogStatus                       ) ;
+                                                                                const   Instant&                    anInstant,       
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType, 
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,                          
+                                                                                const   Real&                       aRelativeTolerance,
+                                                                                const   Real&                       anAbsoluteTolerance                         ) ;
 
         static Integer          CalculateNoneRevolutionNumberAt             (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Instant&                    anInstant                                   ) ;
-
+        //[TBI] add more complicated combinations of force models
 } ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

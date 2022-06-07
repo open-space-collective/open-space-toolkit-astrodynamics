@@ -18,6 +18,8 @@ python_directory="${project_directory}/build/bindings/python/OpenSpaceToolkitAst
 
 pushd "${python_directory}" > /dev/null
 
-pip install .
+pip install . --force-reinstall
 
 popd > /dev/null
+
+################################################################################################################################################################
