@@ -32,6 +32,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         propagated_class.def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&>())
             .def(init<const State&, const Instant&, const Derived&, const Length&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const Propagated::IntegrationStepperType&, const Propagated::IntegrationLogType&, const Real&, const Real&>())
+            .def(init<const State&, const Instant&, const   Celestial&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&>())
+            .def(init<const State&, const Instant&, const   Celestial&, const Propagated::GravitationalPerturbationType&, const Propagated::AtmosphericPerturbationType&, const Propagated::ThirdBodyPerturbationType&, const Propagated::IntegrationStepperType&, const Propagated::IntegrationLogType&, const Real&, const Real&>())
 
             .def(self == self)
             .def(self != self)
@@ -46,7 +48,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_gravitational_parameter", &Propagated::getGravitationalParameter)
             .def("get_equatorial_radius", &Propagated::getEquatorialRadius)
 
-            .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType) 
+            .def("get_gravitational_perturbation_type", &Propagated::getGravitationalPerturbationType)
             .def("get_atmospheric_perturbation_type", &Propagated::getAtmosphericPerturbationType)
             .def("get_thirdbody_perturbation_type", &Propagated::getThirdBodyPerturbationType)
             .def("get_integration_stepper_type", &Propagated::getIntegrationStepperType)

@@ -50,13 +50,13 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
-                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,                       
-                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,                       
-                                                                                const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,      
-                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType,            
-                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,                    
-                                                                                const   Real&                       aRelativeTolerance,                          
-                                                                                const   Real&                       anAbsoluteTolerance                         ) 
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,
+                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,
+                                                                                const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType,
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,
+                                                                                const   Real&                       aRelativeTolerance,
+                                                                                const   Real&                       anAbsoluteTolerance                         )
                                 :   Model(),
                                     state_(aState),
                                     epoch_(anEpoch),
@@ -69,7 +69,34 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     integrationLogType_(anIntegrationLogType),
                                     relativeTolerance_(aRelativeTolerance),
                                     absoluteTolerance_(anAbsoluteTolerance)
-                                    
+
+{
+
+}
+
+                                Propagated::Propagated                      (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject,
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,
+                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,
+                                                                                const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType,
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,
+                                                                                const   Real&                       aRelativeTolerance,
+                                                                                const   Real&                       anAbsoluteTolerance                         )
+                                :   Model(),
+                                    state_(aState),
+                                    epoch_(anEpoch),
+                                    gravitationalParameter_(aCelestialObject.getGravitationalParameter()),
+                                    equatorialRadius_(aCelestialObject.getEquatorialRadius()),
+                                    gravitationalPerturbationType_(aGravitationalPerturbationType),
+                                    atmosphericPerturbationType_(anAtmosphericPerturbationType),
+                                    thirdBodyPerturbationType_(aThirdBodyPerturbationType),
+                                    integrationStepperType_(anIntegrationStepperType),
+                                    integrationLogType_(anIntegrationLogType),
+                                    relativeTolerance_(aRelativeTolerance),
+                                    absoluteTolerance_(anAbsoluteTolerance)
+
 {
 
 }
@@ -92,10 +119,10 @@ bool                            Propagated::operator ==                         
         && (gravitationalParameter_ == aPropagatedModel.gravitationalParameter_)
         && (gravitationalPerturbationType_ == aPropagatedModel.gravitationalPerturbationType_)
         && (atmosphericPerturbationType_ == aPropagatedModel.atmosphericPerturbationType_)
-        && (thirdBodyPerturbationType_ == aPropagatedModel.thirdBodyPerturbationType_) 
-        && (integrationStepperType_ == aPropagatedModel.integrationStepperType_) 
-        && (integrationLogType_ == aPropagatedModel.integrationLogType_) 
-        && (relativeTolerance_ == aPropagatedModel.relativeTolerance_) 
+        && (thirdBodyPerturbationType_ == aPropagatedModel.thirdBodyPerturbationType_)
+        && (integrationStepperType_ == aPropagatedModel.integrationStepperType_)
+        && (integrationLogType_ == aPropagatedModel.integrationLogType_)
+        && (relativeTolerance_ == aPropagatedModel.relativeTolerance_)
         && (absoluteTolerance_ == aPropagatedModel.absoluteTolerance_) ;
 
 }
@@ -164,7 +191,7 @@ Integer                         Propagated::getRevolutionNumberAtEpoch          
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    return 1 ; 
+    return 1 ;
 
 }
 
@@ -204,7 +231,7 @@ Propagated::ThirdBodyPerturbationType       Propagated::getThirdBodyPerturbation
 
 }
 
-Propagated::IntegrationStepperType          Propagated::getIntegrationStepperType           ( ) const 
+Propagated::IntegrationStepperType          Propagated::getIntegrationStepperType           ( ) const
 {
 
     if (!this->isDefined())
@@ -216,7 +243,7 @@ Propagated::IntegrationStepperType          Propagated::getIntegrationStepperTyp
 
 }
 
-Propagated::IntegrationLogType              Propagated::getIntegrationLogType               ( ) const 
+Propagated::IntegrationLogType              Propagated::getIntegrationLogType               ( ) const
 {
 
     if (!this->isDefined())
@@ -294,7 +321,7 @@ State                           Propagated::calculateStateAt                    
     //         throw ostk::core::error::runtime::Wrong("Perturbation type") ;
 
     // }
-    
+
     return State::Undefined() ;
 
 }
@@ -355,8 +382,8 @@ void                            Propagated::print                               
     ostk::core::utils::Print::Line(anOutputStream) << "Integration stepper type:"                << Propagated::StringFromIntegrationStepperType(integrationStepperType_) ;
     ostk::core::utils::Print::Line(anOutputStream) << "Integration logging type:"                << Propagated::StringFromIntegrationLogType(integrationLogType_) ;
     ostk::core::utils::Print::Line(anOutputStream) << "Integration relative tolerance:"                << (relativeTolerance_.isDefined() ? relativeTolerance_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration absolute tolerance:"                << (absoluteTolerance_.isDefined() ? absoluteTolerance_.toString() : "Undefined") ;    
-    
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration absolute tolerance:"                << (absoluteTolerance_.isDefined() ? absoluteTolerance_.toString() : "Undefined") ;
+
     ostk::core::utils::Print::Separator(anOutputStream, "State") ;
 
     state_.print(anOutputStream, false) ;
@@ -379,7 +406,7 @@ String                          Propagated::StringFromGravitationalPerturbationT
 
         case Propagated::GravitationalPerturbationType::TenByTen:
             return "TenByTen" ;
-        
+
         case Propagated::GravitationalPerturbationType::FourtyByFourty:
             return "FourtyByFourty" ;
 
@@ -472,7 +499,7 @@ String                          Propagated::StringFromIntegrationLogType (   con
 
         case Propagated::IntegrationLogType::NoLog:
             return "NoLog" ;
-        
+
         case Propagated::IntegrationLogType::LogConstant:
             return "LogConstant" ;
 
@@ -506,18 +533,18 @@ bool                            Propagated::operator !=                         
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            Propagated::TwoBodyDynamics                     (   const   Propagated::state_type& x, 
+void                            Propagated::TwoBodyDynamics                     (   const   Propagated::state_type& x,
                                                                                             Propagated::state_type& dxdt,
                                                                                     const   double                  ,
                                                                                     const   double&                 mu_SI                                       )
 {
     // Find position magnitude
-    const double& positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));  
-    
+    const double& positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));
+
     // Integrate position states
-    dxdt[0] = x[3];  
+    dxdt[0] = x[3];
     dxdt[1] = x[4];
-    dxdt[2] = x[5]; 
+    dxdt[2] = x[5];
 
     // Integrate velocity states
     dxdt[3] = -(mu_SI / std::pow(positionMagnitude,3)) * x[0];
@@ -535,16 +562,16 @@ void                            Propagated::NumericalIntegrationLogger          
     std::cout << std::left << std::setw(15) << t ;
     std::cout.precision(8) ;
     std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
-    
+
     std::cout << std::internal << std::setw(16) << x[0] << "     " << std::internal << std::setw(16) << x[1] << "     " << std::internal << std::setw(16) << x[2] << "     " << std::internal << std::setw(16) << x[3] << "     " << std::internal << std::setw(16) << x[4] << "     " << std::internal << std::setw(16) << x[5] << std::endl ;
     std::cout.setf(std::ios::fixed,std::ios::floatfield) ;
 }
 
 State                           Propagated::CalculateNoneStateAt                (   const   State&                  aState,
                                                                                     const   Derived&                aGravitationalParameter,
-                                                                                    const   Instant&                anInstant,       
-                                                                                    const   Propagated::IntegrationStepperType& anIntegrationStepperType, 
-                                                                                    const   Propagated::IntegrationLogType& anIntegrationLogType,                          
+                                                                                    const   Instant&                anInstant,
+                                                                                    const   Propagated::IntegrationStepperType& anIntegrationStepperType,
+                                                                                    const   Propagated::IntegrationLogType& anIntegrationLogType,
                                                                                     const   Real&                   aRelativeTolerance,
                                                                                     const   Real&                   anAbsoluteTolerance                         )
 {
@@ -590,18 +617,18 @@ State                           Propagated::CalculateNoneStateAt                
             switch (anIntegrationLogType)
             {
                 case Propagated::IntegrationLogType::NoLog: //[TBR] determine whether or not the adaptive is the best to use when no log is specified
-                    integrate_adaptive (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep) ; 
+                    integrate_adaptive (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep) ;
                     break ;
                 case Propagated::IntegrationLogType::LogConstant:
-                    integrate_const (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep, Propagated::NumericalIntegrationLogger) ; 
+                    integrate_const (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep, Propagated::NumericalIntegrationLogger) ;
                     break ;
                 case Propagated::IntegrationLogType::LogAdaptive:
-                    integrate_adaptive (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep, Propagated::NumericalIntegrationLogger) ; 
+                    integrate_adaptive (make_controlled( anAbsoluteTolerance, aRelativeTolerance, error_stepper_type() ), [=] (const Propagated::state_type& x, Propagated::state_type& dxdt, const double t) -> void { return Propagated::TwoBodyDynamics(x, dxdt, t, mu_SI); }, fullState, (0.0), propDurationInSecs, timeStep, Propagated::NumericalIntegrationLogger) ;
                     break ;
             }
-    }    
-          
-    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ; 
+    }
+
+    static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
     const State state = { anInstant, Position::Meters({ fullState[0], fullState[1], fullState[2] }, gcrfSPtr), Velocity::MetersPerSecond({ fullState[3], fullState[4], fullState[5] }, gcrfSPtr) } ;
 
@@ -618,7 +645,7 @@ Integer                         Propagated::CalculateNoneRevolutionNumberAt     
     using ostk::physics::time::Duration ;
 
     const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit) ;
-    
+
     // Get state related parameters
     Position currentPosition = aState.getPosition();
     Velocity currentVelocity = aState.getVelocity();
@@ -627,7 +654,7 @@ Integer                         Propagated::CalculateNoneRevolutionNumberAt     
     Vector3d currentVelocityCoords = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
     const Real semiMajorAxis = - gravitationalParameter_SI * currentPositionCoords.norm() / (currentPositionCoords.norm() * std::pow(currentVelocityCoords.norm(),2) - 2.0 * gravitationalParameter_SI);
-    
+
     const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis,3) / gravitationalParameter_SI)) ;
 
     const Duration durationFromEpoch = Duration::Between(anEpoch, anInstant) ;

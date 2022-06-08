@@ -74,7 +74,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -85,11 +85,19 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 
         const Propagated propagatedModel_1 = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
-        const Propagated propagatedModel_2 = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_2 = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-15 } ;
-        
-        EXPECT_NO_THROW(propagatedModel_1) ; 
-        EXPECT_NO_THROW(propagatedModel_2) ; 
+
+        EXPECT_NO_THROW(propagatedModel_1) ;
+        EXPECT_NO_THROW(propagatedModel_2) ;
+
+        // Orbital model setup with Celestial object
+        const Propagated propagatedModel_3 = { state, startInstant, *environment.accessCelestialObjectWithName("Earth"), Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
+        const Propagated propagatedModel_4 = { state, startInstant, *environment.accessCelestialObjectWithName("Earth"), Propagated::GravitationalPerturbationType::None,
+                                               Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-15 } ;
+
+        EXPECT_NO_THROW(propagatedModel_3) ;
+        EXPECT_NO_THROW(propagatedModel_4) ;
 
     }
 
@@ -134,7 +142,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -144,10 +152,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 
-        const Propagated propagatedModel_A = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_A = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-15 } ;
 
-        const Propagated propagatedModel_B = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_B = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
 
         EXPECT_TRUE(propagatedModel_A == propagatedModel_B) ;
@@ -155,10 +163,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         // Current state and instant setup
         const State state_CD = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
 
-        const Propagated propagatedModel_C = { state_CD, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_C = { state_CD, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-14 } ;
 
-        const Propagated propagatedModel_D = { state_CD, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_D = { state_CD, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
 
         EXPECT_FALSE(propagatedModel_C == propagatedModel_D) ;
@@ -166,13 +174,28 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         // Current state and instant setup
         const State state_EF = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
 
-        const Propagated propagatedModel_E = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_E = { state_AB, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-15 } ;
 
-        const Propagated propagatedModel_F = { state_EF, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_F = { state_EF, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
 
         EXPECT_FALSE(propagatedModel_E == propagatedModel_F) ;
+
+        // Current state and instant setup
+        const State state_GH = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+
+        const Propagated propagatedModel_G = { state_GH, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
+                                               Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
+
+        const Propagated propagatedModel_H = { state_GH, startInstant, *environment.accessCelestialObjectWithName("Earth"), Propagated::GravitationalPerturbationType::None,
+                                               Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
+
+        const Propagated propagatedModel_I = { state_GH, startInstant, *environment.accessCelestialObjectWithName("Moon"), Propagated::GravitationalPerturbationType::None,
+                                               Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
+
+        EXPECT_TRUE(propagatedModel_G == propagatedModel_H) ;
+        EXPECT_FALSE(propagatedModel_I == propagatedModel_H) ;
 
     }
 
@@ -217,7 +240,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqua
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -281,7 +304,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefin
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -293,7 +316,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefin
 
         const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
 
-        EXPECT_TRUE(propagatedModel.isDefined()) ; 
+        EXPECT_TRUE(propagatedModel.isDefined()) ;
 
     }
 
@@ -338,9 +361,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StreamO
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
-        
+
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
         const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
@@ -400,7 +423,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -462,7 +485,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpoc
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -496,7 +519,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getGrav
     using ostk::core::fs::File ;
 
     using ostk::math::obj::Vector3d ;
-    
+
     using ostk::physics::units::Length ;
     using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
@@ -522,7 +545,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getGrav
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -556,7 +579,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
     using ostk::core::fs::File ;
 
     using ostk::math::obj::Vector3d ;
-    
+
     using ostk::physics::units::Length ;
     using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
@@ -582,7 +605,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
@@ -613,7 +636,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
@@ -643,7 +666,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
@@ -673,7 +696,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
@@ -695,7 +718,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
 
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
@@ -706,20 +729,20 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getType
         const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter ;
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 
-        const Propagated propagatedModel_NoLog = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_NoLog = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                    Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::NoLog, 1.0e-15, 1.0e-15 } ;
         EXPECT_EQ(propagatedModel_NoLog.getIntegrationLogType(),Propagated::IntegrationLogType::NoLog) ;
 
-        const Propagated propagatedModel_LogConstant = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_LogConstant = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                    Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::LogConstant, 1.0e-15, 1.0e-15 } ;
         EXPECT_EQ(propagatedModel_LogConstant.getIntegrationLogType(),Propagated::IntegrationLogType::LogConstant) ;
 
-        const Propagated propagatedModel_LogAdaptive = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, 
+        const Propagated propagatedModel_LogAdaptive = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None,
                                                    Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None, Propagated::IntegrationStepperType::RungeKuttaCashKarp54, Propagated::IntegrationLogType::LogAdaptive, 1.0e-15, 1.0e-15 } ;
         EXPECT_EQ(propagatedModel_LogAdaptive.getIntegrationLogType(),Propagated::IntegrationLogType::LogAdaptive) ;
 
     }
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -762,7 +785,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, calcula
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
@@ -774,8 +797,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, calcula
 
         const Propagated propagatedModel = { state, startInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
 
-        EXPECT_TRUE(propagatedModel.calculateStateAt(startInstant) == state) ; 
-        EXPECT_TRUE(propagatedModel.calculateRevolutionNumberAt(startInstant) == 1) ; 
+        EXPECT_TRUE(propagatedModel.calculateStateAt(startInstant) == state) ;
+        EXPECT_TRUE(propagatedModel.calculateRevolutionNumberAt(startInstant) == 1) ;
 
     }
 
@@ -817,26 +840,26 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StringF
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
     {
-        
-        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::None) == "None") ; 
-        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::J2) == "J2") ; 
-        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::TenByTen) == "TenByTen") ; 
-        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::FourtyByFourty) == "FourtyByFourty") ; 
+
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::None) == "None") ;
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::J2) == "J2") ;
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::TenByTen) == "TenByTen") ;
+        EXPECT_TRUE(Propagated::StringFromGravitationalPerturbationType(Propagated::GravitationalPerturbationType::FourtyByFourty) == "FourtyByFourty") ;
 
     }
 
     {
-        
-        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::None) == "None") ; 
-        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::Exponential) == "Exponential") ; 
-        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::JacchiaRoberts) == "JacchiaRoberts") ; 
-        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::NRLMISIS00) == "NRLMISIS00") ; 
+
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::None) == "None") ;
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::Exponential) == "Exponential") ;
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::JacchiaRoberts) == "JacchiaRoberts") ;
+        EXPECT_TRUE(Propagated::StringFromAtmosphericPerturbationType(Propagated::AtmosphericPerturbationType::NRLMISIS00) == "NRLMISIS00") ;
 
     }
 
     {
-        
-        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::None) == "None") ; 
+
+        EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::None) == "None") ;
         EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Luni) == "Luni") ;
         EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::Solar) == "Solar") ;
         EXPECT_TRUE(Propagated::StringFromThirdBodyPerturbationType(Propagated::ThirdBodyPerturbationType::LuniSolar) == "LuniSolar") ;
@@ -844,18 +867,18 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StringF
     }
 
     {
-        
-        EXPECT_TRUE(Propagated::StringFromIntegrationStepperType(Propagated::IntegrationStepperType::RungeKuttaCashKarp54) == "RungeKuttaCashKarp54") ; 
+
+        EXPECT_TRUE(Propagated::StringFromIntegrationStepperType(Propagated::IntegrationStepperType::RungeKuttaCashKarp54) == "RungeKuttaCashKarp54") ;
 
     }
 
     {
-        
-        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::NoLog) == "NoLog") ; 
-        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::LogConstant) == "LogConstant") ; 
-        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::LogAdaptive) == "LogAdaptive") ; 
+
+        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::NoLog) == "NoLog") ;
+        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::LogConstant) == "LogConstant") ;
+        EXPECT_TRUE(Propagated::StringFromIntegrationLogType(Propagated::IntegrationLogType::LogAdaptive) == "LogAdaptive") ;
     }
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -893,22 +916,22 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propaga
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
-    {        
+    {
         // Environment setup
         const Environment environment = Environment::Default() ;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-        
+
         // Current state and instant setup
-        
+
         const Instant epochInstant = Instant::DateTime(DateTime::Parse("2021-06-30 17:26:46.742"), Scale::UTC) ; // Launch time
-        
+
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2022-03-05 13:26:46.742"), Scale::UTC) ;
 
         Duration propDuration = Duration::Seconds(11345.0) ;
 
         std::vector<double> xStart(6);
-        xStart[0] = -1260836.090852064; xStart[1] = 588280.4487875753; xStart[2] = 6745839.542136152; 
+        xStart[0] = -1260836.090852064; xStart[1] = 588280.4487875753; xStart[2] = 6745839.542136152;
         xStart[3] = 7231.630244016249; xStart[4] = 2060.732438433088;  xStart[5] = 1167.816624957812;
 
         const Vector3d propPosition_refGCRF = {-1575658.863277743, 497462.0623771324, 6686886.954716642};
@@ -921,16 +944,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propaga
         const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius ;
 
         const Propagated propagatedModel = { state, epochInstant, gravitationalParameter, equatorialRadius, Propagated::GravitationalPerturbationType::None, Propagated::AtmosphericPerturbationType::None, Propagated::ThirdBodyPerturbationType::None } ;
-        
+
         // Orbit setup
 
         const Orbit orbit = { propagatedModel, environment.accessCelestialObjectWithName("Earth") } ;
 
         const State state_GCRF = orbit.getStateAt(startInstant + propDuration) ;
-        
+
         const int revolutionNumber = orbit.getRevolutionNumberAt(startInstant + propDuration) ;
-        
-        // Results check 
+
+        // Results check
 
         const Position position_GCRF = state_GCRF.accessPosition() ;
         const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
@@ -947,7 +970,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propaga
         std::cout << "Velocity error is: " << stateVelocityError_GCRF <<  "m/s" << std::endl;
         std::cout.setf(std::ios::fixed,std::ios::floatfield);
         std::cout << "**************************************" << std::endl;
-        
+
 
         // ASSERTS
         ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
@@ -1009,4 +1032,3 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propaga
     }
 
 }
-

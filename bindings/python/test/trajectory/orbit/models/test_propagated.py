@@ -44,7 +44,7 @@ def construct_propagated ():
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
     velocity: Velocity = Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
-    
+
     state = State(epoch, position, velocity)
 
     assert state is not None
@@ -52,13 +52,26 @@ def construct_propagated ():
 
     propagated = Propagated(state, epoch, Earth.gravitational_parameter, Earth.equatorial_radius, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No,
                             Propagated.IntegrationStepperType.Runge_Kutta_Cash_Karp_54, Propagated.IntegrationLogType.No_log, 1.0e-15, 1.0e-15)
-    
+
     assert propagated is not None
     assert isinstance(propagated, Propagated)
     assert propagated.is_defined()
 
     propagated = Propagated(state, epoch, Earth.gravitational_parameter, Earth.equatorial_radius, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No)
-    
+
+    assert propagated is not None
+    assert isinstance(propagated, Propagated)
+    assert propagated.is_defined()
+
+    propagated = Propagated(state, epoch, earth_env, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No,
+                            Propagated.IntegrationStepperType.Runge_Kutta_Cash_Karp_54, Propagated.IntegrationLogType.No_log, 1.0e-15, 1.0e-15)
+
+    assert propagated is not None
+    assert isinstance(propagated, Propagated)
+    assert propagated.is_defined()
+
+    propagated = Propagated(state, epoch, earth_env, Propagated.GravitationalPerturbationType.No, Propagated.AtmosphericPerturbationType.No, Propagated.ThirdBodyPerturbationType.No)
+
     assert propagated is not None
     assert isinstance(propagated, Propagated)
     assert propagated.is_defined()
@@ -106,23 +119,23 @@ def test_trajectory_orbit_models_propagated_getters ():
 
     assert propagated.get_equatorial_radius() is not None
 
-    # get_gravitational_perturbation_type() 
+    # get_gravitational_perturbation_type()
 
     assert propagated.get_gravitational_perturbation_type() is not None
 
-    # get_atmospheric_perturbation_type() 
+    # get_atmospheric_perturbation_type()
 
     assert propagated.get_atmospheric_perturbation_type() is not None
 
-    # get_thirdbody_perturbation_type() 
+    # get_thirdbody_perturbation_type()
 
     assert propagated.get_thirdbody_perturbation_type() is not None
 
-    # get_integration_stepper_type() 
+    # get_integration_stepper_type()
 
     assert propagated.get_integration_stepper_type() is not None
 
-    # get_integration_log_type() 
+    # get_integration_log_type()
 
     assert propagated.get_integration_log_type() is not None
 

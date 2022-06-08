@@ -114,6 +114,17 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Real&                       aRelativeTolerance                          = 1.0e-15,
                                                                                 const   Real&                       anAbsoluteTolerance                         = 1.0e-15   ) ;
 
+                                Propagated                                  (   const   State&                      aState,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Celestial&                  aCelestialObject,
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,
+                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,
+                                                                                const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType            = Propagated::IntegrationStepperType::RungeKuttaCashKarp54,
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType                    = Propagated::IntegrationLogType::NoLog,
+                                                                                const   Real&                       aRelativeTolerance                          = 1.0e-15,
+                                                                                const   Real&                       anAbsoluteTolerance                         = 1.0e-15   ) ;
+
         virtual Propagated*     clone                                       ( ) const override ;
 
         bool                    operator ==                                 (   const   Propagated&                 aPropagatedModel                             ) const ;
