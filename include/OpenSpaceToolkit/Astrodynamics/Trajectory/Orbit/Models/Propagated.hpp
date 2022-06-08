@@ -57,7 +57,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     public:
 
-        enum class GravitationalPerturbationType 
+        enum class GravitationalPerturbationType
         {
 
             None,
@@ -67,7 +67,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
-        enum class AtmosphericPerturbationType 
+        enum class AtmosphericPerturbationType
         {
 
             None,
@@ -77,7 +77,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
-        enum class ThirdBodyPerturbationType 
+        enum class ThirdBodyPerturbationType
         {
 
             None,
@@ -87,12 +87,12 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         } ;
 
-        enum class IntegrationStepperType 
+        enum class IntegrationStepperType
         {
             RungeKuttaCashKarp54
         } ;
-        
-        enum class IntegrationLogType 
+
+        enum class IntegrationLogType
         {
             NoLog,
             LogConstant,
@@ -100,14 +100,14 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         } ;
 
         /* The type of container used to hold the state vector */
-        typedef std::vector<double> state_type; 
+        typedef std::vector<double> state_type;
 
                                 Propagated                                  (   const   State&                      aState,
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Derived&                    aGravitationalParameter,
                                                                                 const   Length&                     anEquatorialRadius,
-                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,                       
-                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,                       
+                                                                                const   Propagated::GravitationalPerturbationType&       aGravitationalPerturbationType,
+                                                                                const   Propagated::AtmosphericPerturbationType&      anAtmosphericPerturbationType,
                                                                                 const   Propagated::ThirdBodyPerturbationType&  aThirdBodyPerturbationType,
                                                                                 const   Propagated::IntegrationStepperType& anIntegrationStepperType            = Propagated::IntegrationStepperType::RungeKuttaCashKarp54,
                                                                                 const   Propagated::IntegrationLogType& anIntegrationLogType                    = Propagated::IntegrationLogType::NoLog,
@@ -125,9 +125,9 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual bool            isDefined                                   ( ) const override ;
 
-        virtual Instant         getEpoch                                    ( ) const override ; // Not sure this needs to be virtual and overridden
+        virtual Instant         getEpoch                                    ( ) const override ;
 
-        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ; // Not sure this needs to be virtual and overridden
+        virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
         Derived                 getGravitationalParameter                   ( ) const ;
 
@@ -145,8 +145,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ; 
-        
+        virtual Integer         calculateRevolutionNumberAt                 (   const   Instant&                    anInstant                                   ) const override ;
+
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
@@ -180,19 +180,19 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         Real relativeTolerance_ ;
         Real absoluteTolerance_ ;
 
-        static void             TwoBodyDynamics                             (   const   state_type&                 x, 
-                                                                                        state_type&                 dxdt, 
+        static void             TwoBodyDynamics                             (   const   state_type&                 x,
+                                                                                        state_type&                 dxdt,
                                                                                 const   double                      t,
                                                                                 const   double&                     mu_SI                                       ) ;
 
-        static void             NumericalIntegrationLogger                  (   const   state_type&                 x, 
+        static void             NumericalIntegrationLogger                  (   const   state_type&                 x,
                                                                                 const   double                      t                                           ) ;
-        
+
         static State            CalculateNoneStateAt                        (   const   State&                      aState,
                                                                                 const   Derived&                    aGravitationalParameter,
-                                                                                const   Instant&                    anInstant,       
-                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType, 
-                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,                          
+                                                                                const   Instant&                    anInstant,
+                                                                                const   Propagated::IntegrationStepperType& anIntegrationStepperType,
+                                                                                const   Propagated::IntegrationLogType& anIntegrationLogType,
                                                                                 const   Real&                       aRelativeTolerance,
                                                                                 const   Real&                       anAbsoluteTolerance                         ) ;
 
