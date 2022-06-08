@@ -380,8 +380,8 @@ debug-jupyter-notebook: build-release-image-jupyter
 	--publish="${jupyter_notebook_port}:8888" \
 	--volume="${project_directory}/bindings/python/docs:/home/jovyan/docs" \
 	--volume="${project_directory}/tutorials/python/notebooks:/home/jovyan/tutorials" \
-	--volume="${project_directory}/lib/libopen-space-toolkit-astrodynamics.so.0:/opt/conda/lib/python3.7/site-packages/ostk/astrodynamics/libopen-space-toolkit-astrodynamics.so.0:ro" \
-	--volume="${project_directory}/lib/OpenSpaceToolkitAstrodynamicsPy.so:/opt/conda/lib/python3.7/site-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.so:ro" \
+	--volume="${project_directory}/lib/libopen-space-toolkit-astrodynamics.so.0:/opt/conda/lib/python3.10/site-packages/ostk/astrodynamics/libopen-space-toolkit-astrodynamics.so.0:ro" \
+	--volume="${project_directory}/lib/OpenSpaceToolkitAstrodynamicsPy.cpython-310-x86_64-linux-gnu.so:/opt/conda/lib/python3.10/site-packages/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-310-x86_64-linux-gnu.so:ro" \
 	--workdir="/home/jovyan" \
 	$(docker_release_image_jupyter_repository):$(docker_image_version) \
 	bash -c "start-notebook.sh --NotebookApp.token=''"

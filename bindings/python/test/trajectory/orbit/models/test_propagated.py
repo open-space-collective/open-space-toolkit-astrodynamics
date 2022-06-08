@@ -23,7 +23,6 @@ DateTime = physics.time.DateTime
 Position = physics.coordinate.Position
 Velocity = physics.coordinate.Velocity
 Frame = physics.coordinate.Frame
-Unit = physics.units.Length.Unit
 Environment = physics.Environment
 Earth = physics.environment.objects.celestial_bodies.Earth
 
@@ -32,9 +31,7 @@ Model = astrodynamics.trajectory.Model
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
 Propagated = astrodynamics.trajectory.orbit.models.Propagated
-
 State = astrodynamics.trajectory.State
-Access = astrodynamics.Access
 
 earth_env = Environment.default().access_celestial_object_with_name("Earth")
 
