@@ -1,6 +1,6 @@
 Structure
 
-\href{https://travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
+\href{https://app.travis-ci.com/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
 
 Orbit, attitude, access.
 
@@ -126,7 +126,7 @@ Documentation is available here\+:
 
 $<$details$>$
 
-The library exhibits the following structure\+:
+The library exhibits the following detailed and descriptive structure\+:
 
 
 \begin{DoxyCode}
@@ -138,15 +138,16 @@ The library exhibits the following structure\+:
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element \textcolor{keyword}{set} (TLE)
-│   │   │   └── Propagator
-│   │   ├── Pass
-│   │   └── Utilities
-│   └── Composite
+│   │   │   └── Tabulated (input csv)
+│   │   └── Pass
+│   └── Models
+│       ├── Static
+│       └── Tabulated
 ├── Flight
 │   └── Profile
 │       └── State
 ├── Access
-└── State Profile
+        └── Generator
 \end{DoxyCode}
 
 
