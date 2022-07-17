@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG BASE_IMAGE_VERSION=latest
+ARG BASE_IMAGE_VERSION=0.2.1
 
 FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}-fedora
 
