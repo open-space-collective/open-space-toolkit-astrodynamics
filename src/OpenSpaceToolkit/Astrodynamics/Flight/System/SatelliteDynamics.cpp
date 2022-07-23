@@ -1,0 +1,348 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @project        Open Space Toolkit ▸ Astrodynamics
+/// @file           OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.cpp
+/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
+/// @license        Apache License 2.0
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.hpp>
+
+#include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Utilities.hpp>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+namespace ostk
+{
+namespace astro
+{
+namespace flight
+{
+namespace system
+{
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using ostk::physics::units::Length ;
+using ostk::physics::units::Time ;
+using ostk::physics::units::Derived ;
+
+static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                SatelliteDynamics::SatelliteDynamics        (   const   Environment&                anEnvironment,
+                                                                                const   SatelliteSystem&            aSatelliteSystem,
+                                                                                const   State&                      aState,
+                                                                                const   SatelliteDynamics::StateVectorType&  aStateVectorType                   )
+                                :   environment_(anEnvironment),
+                                    gcrfSPtr_(Frame::GCRF()),
+                                    satelliteSystem_(aSatelliteSystem),
+                                    state_(aState),
+                                    stateVectorType_(aStateVectorType)
+
+{
+
+    environment_.setInstant(aState.getInstant()) ;
+
+}
+
+                                SatelliteDynamics::SatelliteDynamics        (   const   SatelliteDynamics&          aSatelliteDynamics                          )
+                                :   environment_(aSatelliteDynamics.environment_),
+                                    gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
+                                    satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
+                                    state_(aSatelliteDynamics.state_),
+                                    stateVectorType_(aSatelliteDynamics.stateVectorType_)
+
+{
+
+    environment_.setInstant(aSatelliteDynamics.state_.getInstant()) ;
+
+}
+
+SatelliteDynamics*              SatelliteDynamics::clone                    ( ) const
+{
+    return new SatelliteDynamics(*this) ;
+}
+
+bool                            SatelliteDynamics::operator ==              (   const   SatelliteDynamics&          aSatelliteDynamics                     ) const
+{
+
+    if ((!this->isDefined()) || (!aSatelliteDynamics.isDefined()))
+    {
+        return false ;
+    }
+
+    return (environment_.getInstant() == aSatelliteDynamics.environment_.getInstant())
+        && (environment_.getObjectNames() == aSatelliteDynamics.environment_.getObjectNames())
+        && (satelliteSystem_ == aSatelliteDynamics.satelliteSystem_)
+        && (state_ == aSatelliteDynamics.state_)
+        && (stateVectorType_ == aSatelliteDynamics.stateVectorType_) ;
+
+}
+
+bool                            SatelliteDynamics::operator !=              (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const
+{
+    return !((*this) == aSatelliteDynamics) ;
+}
+
+std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
+                                                                                const   SatelliteDynamics&          aSatelliteDynamics                          )
+{
+
+    aSatelliteDynamics.print(anOutputStream) ;
+
+    return anOutputStream ;
+
+}
+
+bool                            SatelliteDynamics::isDefined                ( ) const
+{
+
+     bool stateVectorTypeIsDefinedBool ;
+    switch (stateVectorType_)
+    {
+        case SatelliteDynamics::StateVectorType::PositionVelocity:
+            stateVectorTypeIsDefinedBool = true ;
+            break ;
+        case SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient:
+            stateVectorTypeIsDefinedBool = true ;
+            break ;
+        default:
+            stateVectorTypeIsDefinedBool = false ;
+            break ;
+    }
+
+    return environment_.isDefined() && satelliteSystem_.isDefined() && state_.isDefined() && stateVectorTypeIsDefinedBool ;
+}
+
+void                            SatelliteDynamics::print                    (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
+{
+
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SatelliteDynamics") : void () ;
+    ostk::core::utils::Print::Line(anOutputStream) << "State vector type:"                << SatelliteDynamics::StringFromStateVectorType(stateVectorType_) ;
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Environment:" << environment_ ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Satellite System") ;
+    satelliteSystem_.print(anOutputStream, false) ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "State") ;
+    state_.print(anOutputStream, false) ;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
+
+}
+
+SatelliteDynamics::StateVectorType       SatelliteDynamics::getStateVectorType                            ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SatelliteDynamics") ;
+    }
+
+    return stateVectorType_ ;
+
+}
+
+State                           SatelliteDynamics::getState                 ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Satellite Dynamics") ;
+    }
+
+    return state_ ;
+
+}
+
+void                            SatelliteDynamics::setState                 (   const   State&                      aState                                      )
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Satellite Dynamics") ;
+    }
+
+    state_ = aState ;
+    environment_.setInstant(aState.getInstant()) ;
+
+}
+
+SatelliteDynamics::DynamicalEquationFuncCallback  SatelliteDynamics::accessDynamicalEquations             ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SatelliteDynamics") ;
+    }
+
+    return std::bind(&SatelliteDynamics::GravityTable_Dynamics, this, std::placeholders::_1,  std::placeholders::_2,  std::placeholders::_3) ;
+
+}
+
+String                          SatelliteDynamics::StringFromStateVectorType                                    (   const   SatelliteDynamics::StateVectorType&  aStateVectorType      )
+{
+
+    switch (aStateVectorType)
+    {
+
+        case SatelliteDynamics::StateVectorType::PositionVelocity:
+            return "PositionVelocity" ;
+
+        case SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient:
+            return "PositionVelocitywithDragCoefficient" ;
+
+        default:
+            throw ostk::core::error::runtime::Wrong("State Vector type") ;
+
+    }
+
+    return String::Empty() ;
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void                            SatelliteDynamics::GravityTable_Dynamics    (   const   SatelliteDynamics::StateVector&     x,
+                                                                                        SatelliteDynamics::StateVector&     dxdt,
+                                                                                const   double                              t                                   ) const
+{
+
+    const Position currentPosition = Position::Meters({ x[0], x[1], x[2] }, gcrfSPtr_) ;
+
+    const Instant currentInstant = state_.getInstant() + Duration::Seconds(t) ;
+    environment_.setInstant(currentInstant) ;
+
+    const Vector gravitationalAcceleration = (*environment_.accessCelestialObjectWithName("Earth")).getGravitationalFieldAt(currentPosition) ;
+
+    Vector3d gravitationalAcceleration_SI = (gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant)).getValue() ;
+
+    // Integrate position and velocity states
+    dxdt[0] = x[3];
+    dxdt[1] = x[4];
+    dxdt[2] = x[5];
+    dxdt[3] = (double)gravitationalAcceleration_SI[0];
+    dxdt[4] = (double)gravitationalAcceleration_SI[1];
+    dxdt[5] = (double)gravitationalAcceleration_SI[2];
+
+}
+
+// void                            SatelliteDynamics::Exponential_Dynamics
+//                                                                             (   const   SatelliteDynamics::StateVector&     x,
+//                                                                                         SatelliteDynamics::StateVector&     dxdt,
+//                                                                                 const   double                                                                  ) const
+// {
+//     // Find position magnitude
+//     const double positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));
+
+//     // Integrate velocity states
+//     const double positionMagnitudeCubed = std::pow(positionMagnitude,3) ;
+
+//     // Access constants
+//     const double mu_SI = ((environment_.accessCelestialObjectWithName("Earth"))->getGravitationalParameter()).in(GravitationalParameterSIUnit) ;
+//     const double Re = ((environment_.accessCelestialObjectWithName("Earth"))->getEquatorialRadius()).inMeters() ;
+//     const double dragCoefficient = satelliteSystem_.getDragCoefficient() ;
+//     const double surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
+//     const double mass = satelliteSystem_.getMass().inKilograms() ;
+//     const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+//     const double rho0 = 6.967e-13 ; // kg/m^3
+//     const double h0 = 500000 ;
+//     const double H = 63822 ;
+
+//     // Calculate relative velocity to wind
+//     const Vector3d relativeVelocity = Vector3d({ x[3], x[4], x[5] }) - Vector3d({earthAngularVelocity.cross(Vector3d({ x[0], x[1], x[2] }))}) ;
+//     const double relativeVelocityMagnitude = std::sqrt(std::pow(relativeVelocity[0],2) + std::pow(relativeVelocity[1],2) + std::pow(relativeVelocity[2],2)) ;
+
+//     // Calculate density parameters
+//     const double hEllipse = positionMagnitude - Re ;
+//     const double rho = rho0 * std::exp( - (hEllipse - h0) / H ) ;
+
+//     // Calculate drag acceleration
+//     const Vector3d dragAcceleration = -0.5 * dragCoefficient * (surfaceArea / mass) * rho * relativeVelocityMagnitude * relativeVelocity ;
+
+//     // Integrate position and velocity states
+//     dxdt[0] = x[3];
+//     dxdt[1] = x[4];
+//     dxdt[2] = x[5];
+//     dxdt[3] = -(mu_SI / positionMagnitudeCubed) * x[0] + dragAcceleration[0];
+//     dxdt[4] = -(mu_SI / positionMagnitudeCubed) * x[1] + dragAcceleration[1];
+//     dxdt[5] = -(mu_SI / positionMagnitudeCubed) * x[2] + dragAcceleration[2];
+
+// }
+
+// void                            SatelliteDynamics::ThirdBodyTable_Dynamics
+//                                                                             (   const   SatelliteDynamics::StateVector&     x,
+//                                                                                         SatelliteDynamics::StateVector&     dxdt,
+//                                                                                 const   double                              t                                   ) const
+// {
+//     const Position currentPosition = Position::Meters({ x[0], x[1], x[2] }, gcrfSPtr_) ;
+//     // std::cout << "Pos Mag (m): " << std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2)) << std::endl ;
+
+//     // Find position magnitude
+//     const double positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));
+
+//     const double positionMagnitudeCubed = std::pow(positionMagnitude,3) ;
+
+//     // Access graviational parameter
+//     const double mu_SI = ((environment_.accessCelestialObjectWithName("Earth"))->getGravitationalParameter()).in(GravitationalParameterSIUnit) ;
+
+//     const Instant currentInstant = state_.getInstant() + Duration::Seconds(t) ;
+//     // std::cout << "Previous Env Instant: " << environment_.getInstant() << std::endl ;
+//     environment_.setInstant(currentInstant) ;
+//     // std::cout << "Current Env Instant: " << environment_.getInstant() << std::endl ;
+
+//     Array<Shared<const Object>> environmentObjectArray = environment_.accessObjects() ;
+
+//     Vector3d gravitationalAccelerationThirdBody_SI = {0, 0, 0};
+//     for (size_t i = 0; i < (size_t)environmentObjectArray.getSize(); i++)
+//     {
+//         if (environmentObjectArray[i]->getName() != "Earth")
+//         {
+//             // Obtain third body's gravitational parameter
+//             const double mu_ThirdBody_SI = (environment_.accessCelestialObjectWithName(environmentObjectArray[i]->getName()))->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
+
+//             const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(environmentObjectArray[i]->getName()))->getPositionIn(gcrfSPtr_) ;
+
+//             // Obtain relative position vector
+//             const Vector3d relativePositionCoordinates = currentPosition.accessCoordinates() - thirdBodyPosition.accessCoordinates() ;
+
+//             // Find relative position magnitude
+//             const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(),3) ;
+
+//             gravitationalAccelerationThirdBody_SI = gravitationalAccelerationThirdBody_SI + Vector3d(   -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[0],
+//                                                                                                         -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[1],
+//                                                                                                         -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[2] ) ;
+
+//         }
+//     }
+
+
+//     // std::cout << "Integration Time " << t << std::endl ;
+
+//     // std::cout << "Position x: " << x[0] << "\nPosition y: " << x[1] << "\nPosition z: " << x[2] << std::endl ;
+//     // std::cout << "Velocity x: " << x[3] << "\nVelocity y: " << x[4] << "\nVelocity z: " << x[5] << std::endl ;
+//     // std::cout << "Grav Accel:\n " << gravitationalAcceleration_SI << std::endl ;
+
+//     // Integrate position and velocity states
+//     dxdt[0] = x[3];
+//     dxdt[1] = x[4];
+//     dxdt[2] = x[5];
+//     dxdt[3] = -(mu_SI / positionMagnitudeCubed) * x[0] + (double)gravitationalAccelerationThirdBody_SI[0];
+//     dxdt[4] = -(mu_SI / positionMagnitudeCubed) * x[1] + (double)gravitationalAccelerationThirdBody_SI[1];
+//     dxdt[5] = -(mu_SI / positionMagnitudeCubed) * x[2] + (double)gravitationalAccelerationThirdBody_SI[2];
+
+// }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+}
+}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

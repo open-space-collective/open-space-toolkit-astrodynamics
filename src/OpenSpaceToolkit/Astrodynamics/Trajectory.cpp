@@ -109,16 +109,56 @@ State                           Trajectory::getStateAt                      (   
 Array<State>                    Trajectory::getStatesAt                     (   const   Array<Instant>&             anInstantArray                              ) const
 {
 
-    Array<State> stateArray = Array<State>::Empty() ;
-
-    stateArray.reserve(anInstantArray.getSize()) ;
-
-    for (const auto& instant : anInstantArray)
+    if (!this->isDefined())
     {
-        stateArray.add(this->getStateAt(instant)) ;
+        throw ostk::core::error::runtime::Undefined("Trajectory") ;
     }
 
-    return stateArray ;
+    // Check if array is empty, and if not then sort it before it is looped through
+    if (anInstantArray.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("Empty Instant Array supplied") ;
+    }
+
+    Array<std::pair<Instant, size_t>> instantArrayPair  = Array<std::pair<Instant, size_t>>::Empty() ;
+    instantArrayPair.reserve(anInstantArray.getSize()) ;
+
+    for (size_t i = 0 ; i < anInstantArray.getSize() ; i++)
+    {
+        instantArrayPair.push_back(std::make_pair(anInstantArray[i], i));
+    }
+
+    // Sort instant array pair chronologically
+    std::sort(instantArrayPair.begin(), instantArrayPair.end(), [] (const auto& lhs, const auto& rhs) { return lhs.first < rhs.first ; }) ;
+
+    Array<State> stateArraySorted = Array<State>::Empty() ;
+    stateArraySorted.reserve(anInstantArray.getSize()) ;
+
+    for (size_t j = 0 ; j < anInstantArray.getSize() ; j++)
+    {
+        stateArraySorted.add(this->getStateAt((instantArrayPair[j]).first)) ;
+    }
+
+    Array<std::pair<State, size_t>> stateArrayPair = Array<std::pair<State, size_t>>::Empty() ;
+    stateArrayPair.reserve(anInstantArray.getSize()) ;
+
+    for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
+    {
+        stateArrayPair.push_back(std::make_pair(stateArraySorted[k], (instantArrayPair[k]).second));
+    }
+
+    std::sort(stateArrayPair.begin(), stateArrayPair.end(), [] (const auto& lhs, const auto& rhs) { return lhs.second < rhs.second ; }) ;
+
+
+    Array<State> stateArrayUnsorted = Array<State>::Empty() ;
+    stateArrayUnsorted.reserve(anInstantArray.getSize()) ;
+
+    for (size_t l = 0 ; l < anInstantArray.getSize() ; l++)
+    {
+        stateArrayUnsorted.add((stateArrayPair[l]).first);
+    }
+
+    return stateArrayUnsorted ;
 
 }
 

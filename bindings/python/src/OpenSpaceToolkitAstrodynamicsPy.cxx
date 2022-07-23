@@ -19,6 +19,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/NumericalSolver.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,6 +46,7 @@ PYBIND11_MODULE (OpenSpaceToolkitAstrodynamicsPy, m)
 	OpenSpaceToolkitAstrodynamicsPy_Trajectory(m) ;
 	OpenSpaceToolkitAstrodynamicsPy_Flight(m) ;
 	OpenSpaceToolkitAstrodynamicsPy_Access(m) ;
+    OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(m) ; // [TBI] This module will likely be moved to ostk-mathemetics in a future version
 
 }
 

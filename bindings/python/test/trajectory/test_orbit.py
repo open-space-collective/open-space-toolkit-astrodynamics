@@ -41,7 +41,7 @@ Access = astrodynamics.Access
 earth = Environment.default().access_celestial_object_with_name('Earth')
 
 ################################################################################################################################################################
-
+# [TBI] add a propagated constructor test here
 def test_trajcectory_orbit_constructors ():
 
     # Construct Two-Line Element set

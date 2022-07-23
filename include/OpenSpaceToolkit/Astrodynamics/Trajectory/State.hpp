@@ -71,6 +71,9 @@ class State
 
         State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
+        void                    print                                       (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            =   true ) const ;
+
         static State            Undefined                                   ( ) ;
 
     private:

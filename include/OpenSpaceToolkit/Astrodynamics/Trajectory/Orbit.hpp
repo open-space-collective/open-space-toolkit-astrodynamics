@@ -194,6 +194,8 @@ class Orbit : public Trajectory
         mutable std::mutex      mutex_ ;
         mutable Map<Integer, Pass> passMap_ ;
 
+        // [TBR] Since these are not implemented in the .cpp they should be commented out here
+        // [TBI] The GenerateStates could be implemented with the PropagatedModel potentially? However it might be messy to try and handle its cachedStateArray outside of Propagated itself
         static Map<Index, Pass> GeneratePassMap                             (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber                   ) ;
 

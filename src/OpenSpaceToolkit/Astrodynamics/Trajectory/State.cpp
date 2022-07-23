@@ -54,13 +54,7 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   State&                      aState                                      )
 {
 
-    ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") ;
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
-
-    ostk::core::utils::Print::Footer(anOutputStream) ;
+     aState.print(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -139,6 +133,22 @@ State                           State::inFrame                              (   
     const Velocity velocity = velocity_.inFrame(position_, aFrameSPtr, instant_) ;
 
     return { instant_, position, velocity } ;
+
+}
+
+void                            State::print                                  (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
+{
+
+    using ostk::core::types::String ;
+
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") : void () ;
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (instant_.isDefined() ? instant_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (position_.isDefined() ? position_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (velocity_.isDefined() ? velocity_.toString(12) : "Undefined") ;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
