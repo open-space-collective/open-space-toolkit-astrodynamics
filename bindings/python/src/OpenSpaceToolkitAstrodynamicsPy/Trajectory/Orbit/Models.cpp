@@ -10,7 +10,6 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/SGP4.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Propagated.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,7 +26,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(models) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4(models) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(models) ;
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(models) ;
 
 }
 
