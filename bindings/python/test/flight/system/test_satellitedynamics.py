@@ -41,30 +41,18 @@ SatelliteDynamics = astrodynamics.flight.system.SatelliteDynamics
 
 ################################################################################################################################################################
 
-def construct_satellitedynamics ():
+@pytest.fixture
+def satellitedynamics_default_inputs_fix ():
 
-    satellitesystem = SatelliteSystem.default_yam()
+    environment = Environment.default()
 
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
+    mass = Mass(90.0, Mass.Unit.Kilogram)
+    inertia_tensor = np.ndarray(shape=(3, 3))
+    satellite_geometry = Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] )
+    surface_area = 0.8
+    drag_coefficient = 2.2
 
-    epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    state:State = State(epoch, position, velocity)
-
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(Environment.default(), satellitesystem, state, SatelliteDynamics.StateVectorType.Position_velocity)
-
-    assert satellitedynamics is not None
-    assert isinstance(satellitedynamics, SatelliteDynamics)
-    assert satellitedynamics.is_defined()
-
-    return satellitedynamics
-
-################################################################################################################################################################
-
-def test_flight_system_satellitedynamics_constructors ():
-
-    satellitesystem = SatelliteSystem.default_yam()
+    satellitesystem = SatelliteSystem(mass, inertia_tensor, satellite_geometry, surface_area, drag_coefficient)
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -73,65 +61,65 @@ def test_flight_system_satellitedynamics_constructors ():
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(epoch, position, velocity)
 
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(Environment.default(), satellitesystem, state, SatelliteDynamics.StateVectorType.Position_velocity)
+    state_vector_type = SatelliteDynamics.StateVectorType.Position_velocity
 
-    assert satellitedynamics is not None
-    assert isinstance(satellitedynamics, SatelliteDynamics)
-    assert satellitedynamics.is_defined()
+    return environment, satellitesystem, state, state_vector_type
 
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(satellitedynamics)
+@pytest.fixture
+def satellitedynamics_fix (satellitedynamics_default_inputs_fix) -> SatelliteDynamics:
 
-    assert satellitedynamics is not None
-    assert isinstance(satellitedynamics, SatelliteDynamics)
-    assert satellitedynamics.is_defined()
+    environment, satellitesystem, state, state_vector_type = satellitedynamics_default_inputs_fix
 
-################################################################################################################################################################
+    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state, state_vector_type)
 
-def test_flight_system_satellitedynamics_comparators ():
-
-    satellitedynamics: SatelliteDynamics = construct_satellitedynamics()
-
-    assert satellitedynamics == satellitedynamics
-    assert (satellitedynamics != satellitedynamics) is False
+    return satellitedynamics
 
 ################################################################################################################################################################
 
-def test_flight_system_satellitedynamics_getters_setters ():
+class TestSatelliteDynamics:
 
-    satellitedynamics: SatelliteDynamics = construct_satellitedynamics()
+    def test_constructors (self, satellitedynamics_fix: SatelliteDynamics):
 
-    # get_state
-    state = State(Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC), Position.meters([6371000.0, 0.0, 0.0], Frame.GCRF()), Velocity.meters_per_second([7600.0, 0.0, 0.0], Frame.GCRF()))
+        assert satellitedynamics_fix is not None
+        assert isinstance(satellitedynamics_fix, SatelliteDynamics)
+        assert satellitedynamics_fix.is_defined()
 
-    assert satellitedynamics.get_state() == state
+        satellitedynamics: SatelliteDynamics = SatelliteDynamics(satellitedynamics_fix)
 
-    # set_state
+        assert satellitedynamics is not None
+        assert isinstance(satellitedynamics, SatelliteDynamics)
+        assert satellitedynamics.is_defined()
 
-    state_1 = State(Instant.date_time(DateTime(2019, 1, 1, 0, 0, 0), Scale.UTC), Position.meters([6371000.0, 0.0, 0.0], Frame.GCRF()), Velocity.meters_per_second([7600.0, 0.0, 0.0], Frame.GCRF()))
+    def test_comparators (self, satellitedynamics_fix: SatelliteDynamics):
 
-    satellitedynamics.set_state(state_1)
+        assert satellitedynamics_fix == satellitedynamics_fix
+        assert (satellitedynamics_fix != satellitedynamics_fix) is False
 
-    assert satellitedynamics.is_defined()
-    assert satellitedynamics.get_state() == state_1
+    def test_setters (self, satellitedynamics_default_inputs_fix, satellitedynamics_fix: SatelliteDynamics):
+        environment, satellitesystem, state, state_vector_type = satellitedynamics_default_inputs_fix
 
-    # get_integration_stepper_type()
+        # get_state
+        assert satellitedynamics_fix.get_state() == state
 
-    assert satellitedynamics.get_state_vector_type() == SatelliteDynamics.StateVectorType.Position_velocity
+        # set_state
+        state_1 = State(Instant.date_time(DateTime(2019, 1, 1, 0, 0, 0), Scale.UTC), Position.meters([6371000.0, 0.0, 0.0], Frame.GCRF()), Velocity.meters_per_second([7600.0, 0.0, 0.0], Frame.GCRF()))
 
-################################################################################################################################################################
+        satellitedynamics_fix.set_state(state_1)
 
-def test_flight_system_satellitedynamics_get_string_from_type ():
+        assert satellitedynamics_fix.is_defined()
+        assert satellitedynamics_fix.get_state() == state_1
 
-    assert SatelliteDynamics.string_from_state_vector_type(SatelliteDynamics.StateVectorType.Position_velocity) == 'PositionVelocity'
+        # get_integration_stepper_type()
+        assert satellitedynamics_fix.get_state_vector_type() == SatelliteDynamics.StateVectorType.Position_velocity
 
-    assert SatelliteDynamics.string_from_state_vector_type(SatelliteDynamics.StateVectorType.Position_velocity_dragcoeff) == 'PositionVelocitywithDragCoefficient'
+    def test_get_string_from_type (self):
 
-################################################################################################################################################################
+        assert SatelliteDynamics.string_from_state_vector_type(SatelliteDynamics.StateVectorType.Position_velocity) == 'PositionVelocity'
 
-def test_flight_system_satellitedynamics_calculate_state_at_epoch ():
+        assert SatelliteDynamics.string_from_state_vector_type(SatelliteDynamics.StateVectorType.Position_velocity_dragcoeff) == 'PositionVelocitywithDragCoefficient'
 
-    satellitedynamics: SatelliteDynamics = construct_satellitedynamics()
+    def test_calculate_state_at_epoch (self, satellitedynamics_fix: SatelliteDynamics):
 
-    assert satellitedynamics.access_dynamical_equations() is not None #[TBI] add typing to ensure that it return a function pointer?
+        assert satellitedynamics_fix.access_dynamical_equations() is not None #[TBI] add typing to ensure that it return a function pointer?
 
 ################################################################################################################################################################
