@@ -31,9 +31,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
     {
 
-        class_<NumericalSolver> numericalsolver_class(aModule, "NumericalSolver") ;
+        class_<NumericalSolver> numerical_solver_class(aModule, "NumericalSolver") ;
 
-        numericalsolver_class
+        numerical_solver_class
             .def(init<const   NumericalSolver::IntegrationLogType&, const   NumericalSolver::IntegrationStepperType&, const   Real&, const   Real&, const   Real&>())
             .def(init<const   NumericalSolver&>())
 
@@ -89,18 +89,18 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
         ;
 
-        enum_<NumericalSolver::IntegrationStepperType>(numericalsolver_class, "IntegrationStepperType")
+        enum_<NumericalSolver::IntegrationStepperType>(numerical_solver_class, "IntegrationStepperType")
 
-            .value("Runge_Kutta_Cash_Karp_54", NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54)
-            .value("Runge_Kutta_Fehlberg_78", NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78)
+            .value("RungeKuttaCashKarp54", NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54)
+            .value("RungeKuttaFehlberg78", NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78)
 
         ;
 
-        enum_<NumericalSolver::IntegrationLogType>(numericalsolver_class, "IntegrationLogType")
+        enum_<NumericalSolver::IntegrationLogType>(numerical_solver_class, "IntegrationLogType")
 
-            .value("No_log", NumericalSolver::IntegrationLogType::NoLog)
-            .value("Log_constant", NumericalSolver::IntegrationLogType::LogConstant)
-            .value("Log_adaptive", NumericalSolver::IntegrationLogType::LogAdaptive)
+            .value("NoLog", NumericalSolver::IntegrationLogType::NoLog)
+            .value("LogConstant", NumericalSolver::IntegrationLogType::LogConstant)
+            .value("LogAdaptive", NumericalSolver::IntegrationLogType::LogAdaptive)
 
         ;
 

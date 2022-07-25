@@ -48,8 +48,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Satellite
             .def("get_cross_sectional_surface_area", &SatelliteSystem::getCrossSectionalSurfaceArea)
             .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
 
-            .def_static("default_yam", &SatelliteSystem::DefaultYam)
-
         ;
 
         // Create "system" python submodule

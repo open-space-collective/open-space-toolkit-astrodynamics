@@ -14,7 +14,7 @@ test_directory="${project_directory}/bindings/python/test"
 
 pushd "${test_directory}" > /dev/null
 
-python3.9 -m pytest -svx ${@}
+python3.8 -m pytest -svx ${@}
 
 popd > /dev/null
 

@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/test_satellitesystem.py
+# @file           bindings/python/test/flight/test_satellite_system.py
 # @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -54,12 +54,6 @@ class TestSatelliteSystem:
         assert satellitesystem_fix is not None
         assert isinstance(satellitesystem_fix, SatelliteSystem)
         assert satellitesystem_fix.is_defined()
-
-        satellitesystem_default_yam: SatelliteSystem = SatelliteSystem.default_yam()
-
-        assert satellitesystem_default_yam is not None
-        assert isinstance(satellitesystem_default_yam, SatelliteSystem)
-        assert satellitesystem_default_yam.is_defined()
 
     def test_comparators (self, satellitesystem_fix: SatelliteSystem):
 

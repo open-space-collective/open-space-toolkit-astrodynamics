@@ -159,20 +159,6 @@ Real                            SatelliteSystem::getDragCoefficient         ( ) 
 
 }
 
-SatelliteSystem                 SatelliteSystem::DefaultYam                 ( )
-{
-
-    return
-    {
-        { 90.0, Mass::Unit::Kilogram },
-        Matrix3d::Identity(),
-        { Point { 0.0, 0.0, 0.0 }, std::array<Vector3d, 3> { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, std::array<Real, 3> { 1.0, 2.0, 3.0 } },
-        0.8,
-        2.2
-    }  ;
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

@@ -26,10 +26,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
 
     {
 
-        class_<SatelliteDynamics> satellitedynamics_class(aModule, "SatelliteDynamics") ;
+        class_<SatelliteDynamics> satellite_dynamics_class(aModule, "SatelliteDynamics") ;
 
-        satellitedynamics_class
-            .def(init<const Environment&, const   SatelliteSystem&, const   State&, const   SatelliteDynamics::StateVectorType&>())
+        satellite_dynamics_class
+            .def(init<const Environment&, const   SatelliteSystem&, const   State&, const   SatelliteDynamics::StateVectorDimension&>())
             .def(init<const   SatelliteDynamics&>())
 
             .def(self == self)
@@ -40,20 +40,20 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
 
             .def("is_defined", &SatelliteDynamics::isDefined)
 
-            .def("get_state_vector_type", &SatelliteDynamics::getStateVectorType)
+            .def("get_state_vector_dimension", &SatelliteDynamics::getStateVectorDimension)
 
             .def("get_state", &SatelliteDynamics::getState)
             .def("set_state", &SatelliteDynamics::setState)
             .def("access_dynamical_equations", &SatelliteDynamics::accessDynamicalEquations)
 
-            .def_static("string_from_state_vector_type", &SatelliteDynamics::StringFromStateVectorType)
+            .def_static("string_from_state_vector_dimension", &SatelliteDynamics::StringFromStateVectorDimension)
 
         ;
 
-        enum_<SatelliteDynamics::StateVectorType>(satellitedynamics_class, "StateVectorType")
+        enum_<SatelliteDynamics::StateVectorDimension>(satellite_dynamics_class, "StateVectorDimension")
 
-            .value("Position_velocity", SatelliteDynamics::StateVectorType::PositionVelocity)
-            .value("Position_velocity_dragcoeff", SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient)
+            .value("PositionVelocity", SatelliteDynamics::StateVectorDimension::PositionVelocity)
+            .value("PositionVelocityDragCoefficient", SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient)
 
         ;
     }

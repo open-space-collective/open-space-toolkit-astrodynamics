@@ -93,7 +93,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, Constructo
 
         // Satellite dynamics setup
         EXPECT_NO_THROW(SatelliteDynamics( defaultEnvironment, satelliteSystem, state )) ;
-        EXPECT_NO_THROW(SatelliteDynamics( defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity )) ;
+        EXPECT_NO_THROW(SatelliteDynamics( defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity )) ;
 
     }
 
@@ -153,30 +153,30 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, EqualToOpe
 
         // Orbital model setup with Celestial object
         const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_TRUE(satelliteDynamics == satelliteDynamics_0) ;
 
         // Test for different satellite system
         const SatelliteSystem satelliteSystem_1 = { Mass {100.0, Mass::Unit::Kilogram } } ;
-        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_FALSE(satelliteDynamics == satelliteDynamics_1) ;
 
         // Test for different state
         const State state_2 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_FALSE(satelliteDynamics == satelliteDynamics_2) ;
 
         // Test for different start instant
         const Instant startInstant_3 = Instant::DateTime(DateTime(2018, 2, 1, 0, 0, 0), Scale::UTC) ;
         const State state_3 = { startInstant_3, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
         EXPECT_FALSE(satelliteDynamics == satelliteDynamics_3) ;
 
         // Test for different state vector type
-        const SatelliteDynamics satelliteDynamics_4 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient } ;
+        const SatelliteDynamics satelliteDynamics_4 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient } ;
 
         EXPECT_FALSE(satelliteDynamics == satelliteDynamics_4) ;
 
@@ -238,30 +238,30 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, NotEqualTo
 
         // Orbital model setup with Celestial object
         const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_FALSE(satelliteDynamics != satelliteDynamics_0) ;
 
         // Test for different satellite system
         const SatelliteSystem satelliteSystem_1 = { Mass {100.0, Mass::Unit::Kilogram } } ;
-        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_TRUE(satelliteDynamics != satelliteDynamics_1) ;
 
         // Test for different state
         const State state_2 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         EXPECT_TRUE(satelliteDynamics != satelliteDynamics_2) ;
 
         // Test for different start instant
         const Instant startInstant_3 = Instant::DateTime(DateTime(2018, 2, 1, 0, 0, 0), Scale::UTC) ;
         const State state_3 = { startInstant_3, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
         EXPECT_TRUE(satelliteDynamics != satelliteDynamics_3) ;
 
         // Test for different perturbation types
-        const SatelliteDynamics satelliteDynamics_4 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient } ;
+        const SatelliteDynamics satelliteDynamics_4 = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient } ;
 
         EXPECT_TRUE(satelliteDynamics != satelliteDynamics_4) ;
 
@@ -513,11 +513,11 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, GetType)
         const SatelliteSystem satelliteSystem = { } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics_PV = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
-        EXPECT_EQ(satelliteDynamics_PV.getStateVectorType(), SatelliteDynamics::StateVectorType::PositionVelocity) ;
+        const SatelliteDynamics satelliteDynamics_PV = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
+        EXPECT_EQ(satelliteDynamics_PV.getStateVectorDimension(), SatelliteDynamics::StateVectorDimension::PositionVelocity) ;
 
-        const SatelliteDynamics satelliteDynamics_PVD = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient } ;
-        EXPECT_EQ(satelliteDynamics_PVD.getStateVectorType(), SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient) ;
+        const SatelliteDynamics satelliteDynamics_PVD = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient } ;
+        EXPECT_EQ(satelliteDynamics_PVD.getStateVectorDimension(), SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient) ;
 
     }
 
@@ -576,7 +576,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, GetState)
         const SatelliteSystem satelliteSystem = { } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
         EXPECT_EQ(satelliteDynamics.getState(), state) ;
 
     }
@@ -636,7 +636,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, SetState)
         const SatelliteSystem satelliteSystem = { } ;
 
         // Orbital model setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         const State state_0 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
@@ -700,7 +700,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, AccessDyna
         const SatelliteSystem satelliteSystem = { } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics_NoneAll = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorType::PositionVelocity } ;
+        const SatelliteDynamics satelliteDynamics_NoneAll = { defaultEnvironment, satelliteSystem, state, SatelliteDynamics::StateVectorDimension::PositionVelocity } ;
 
         // Repeat these tests to make sure you get the correct function pointer for each type of perturbation?
 
@@ -748,8 +748,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, StringFrom
 
     {
 
-        EXPECT_TRUE(SatelliteDynamics::StringFromStateVectorType(SatelliteDynamics::StateVectorType::PositionVelocity) == "PositionVelocity") ;
-        EXPECT_TRUE(SatelliteDynamics::StringFromStateVectorType(SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient) == "PositionVelocitywithDragCoefficient") ;
+        EXPECT_TRUE(SatelliteDynamics::StringFromStateVectorDimension(SatelliteDynamics::StateVectorDimension::PositionVelocity) == "PositionVelocity") ;
+        EXPECT_TRUE(SatelliteDynamics::StringFromStateVectorDimension(SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient) == "PositionVelocitywithDragCoefficient") ;
 
     }
 

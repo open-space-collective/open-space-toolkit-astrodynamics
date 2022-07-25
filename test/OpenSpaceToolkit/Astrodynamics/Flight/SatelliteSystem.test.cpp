@@ -570,18 +570,3 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getDragCoefficient)
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, DefaultYam)
-{
-
-    using ostk::astro::flight::SatelliteSystem ;
-
-    {
-
-        EXPECT_NO_THROW(SatelliteSystem::DefaultYam()) ;
-
-    }
-
-}

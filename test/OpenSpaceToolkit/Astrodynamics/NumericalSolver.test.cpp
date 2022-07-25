@@ -37,8 +37,6 @@
 #include <Global.test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* UNIT TESTS */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 {
@@ -220,7 +218,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreaOperator)
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
 {
 
     using ostk::core::types::Shared ;
@@ -413,10 +411,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* VALIDATION TESTS */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidation_integrateStateForDuration)
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 {
 
     using ostk::core::types::Shared ;
@@ -470,8 +466,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-8,stateError[0] ) ;
-        EXPECT_GT( 2e-8,stateError[1] ) ;
+        EXPECT_GT(2e-8, stateError[0]) ;
+        EXPECT_GT(2e-8, stateError[1]) ;
 
     }
 
@@ -492,8 +488,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-8,stateError[0] ) ;
-        EXPECT_GT( 2e-8,stateError[1] ) ;
+        EXPECT_GT(2e-8, stateError[0]) ;
+        EXPECT_GT(2e-8, stateError[1]) ;
 
     }
 
@@ -514,8 +510,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-10,stateError[0] ) ;
-        EXPECT_GT( 2e-10,stateError[1] ) ;
+        EXPECT_GT(2e-10, stateError[0]) ;
+        EXPECT_GT(2e-10, stateError[1]) ;
 
     }
 
@@ -536,14 +532,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-10,stateError[0] ) ;
-        EXPECT_GT( 2e-10,stateError[1] ) ;
+        EXPECT_GT(2e-10,stateError[0]) ;
+        EXPECT_GT(2e-10,stateError[1]) ;
 
     }
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidation_integrateInstantToInstant)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
 {
 
     using ostk::core::types::Shared ;
@@ -598,8 +596,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-8,stateError[0] ) ;
-        EXPECT_GT( 2e-8,stateError[1] ) ;
+        EXPECT_GT(2e-8, stateError[0]) ;
+        EXPECT_GT(2e-8, stateError[1]) ;
 
     }
 
@@ -621,8 +619,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-8,stateError[0] ) ;
-        EXPECT_GT( 2e-8,stateError[1] ) ;
+        EXPECT_GT(2e-8, stateError[0]) ;
+        EXPECT_GT(2e-8, stateError[1]) ;
 
     }
 
@@ -644,8 +642,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-10,stateError[0] ) ;
-        EXPECT_GT( 2e-10,stateError[1] ) ;
+        EXPECT_GT(2e-10, stateError[0]) ;
+        EXPECT_GT(2e-10, stateError[1]) ;
 
     }
 
@@ -667,8 +665,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrationWrapperValidati
         stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
         stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT( 2e-10,stateError[0] ) ;
-        EXPECT_GT( 2e-10,stateError[1] ) ;
+        EXPECT_GT(2e-10, stateError[0]) ;
+        EXPECT_GT(2e-10, stateError[1]) ;
 
     }
 

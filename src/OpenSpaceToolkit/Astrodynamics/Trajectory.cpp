@@ -117,7 +117,7 @@ Array<State>                    Trajectory::getStatesAt                     (   
     // Check if array is empty, and if not then sort it before it is looped through
     if (anInstantArray.isEmpty())
     {
-        throw ostk::core::error::runtime::Undefined("Empty Instant Array supplied") ;
+        throw ostk::core::error::runtime::Wrong("Empty Instant Array supplied") ;
     }
 
     Array<std::pair<Instant, size_t>> instantArrayPair  = Array<std::pair<Instant, size_t>>::Empty() ;
@@ -129,7 +129,7 @@ Array<State>                    Trajectory::getStatesAt                     (   
     }
 
     // Sort instant array pair chronologically
-    std::sort(instantArrayPair.begin(), instantArrayPair.end(), [] (const auto& lhs, const auto& rhs) { return lhs.first < rhs.first ; }) ;
+    std::sort(instantArrayPair.begin(), instantArrayPair.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
 
     Array<State> stateArraySorted = Array<State>::Empty() ;
     stateArraySorted.reserve(anInstantArray.getSize()) ;

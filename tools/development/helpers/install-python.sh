@@ -9,7 +9,7 @@
 
 ################################################################################################################################################################
 
-PYTHON_VERSION="3.9"
+PYTHON_VERSION="3.8"
 
 ################################################################################################################################################################
 
@@ -18,7 +18,7 @@ python_directory="${project_directory}/build/bindings/python/OpenSpaceToolkitAst
 
 pushd "${python_directory}" > /dev/null
 
-pip install . --force-reinstall
+python${PYTHON_VERSION} -m pip install . --force-reinstall
 
 popd > /dev/null
 

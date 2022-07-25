@@ -36,12 +36,12 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                 SatelliteDynamics::SatelliteDynamics        (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
                                                                                 const   State&                      aState,
-                                                                                const   SatelliteDynamics::StateVectorType&  aStateVectorType                   )
+                                                                                const   SatelliteDynamics::StateVectorDimension&  aStateVectorDimension                   )
                                 :   environment_(anEnvironment),
                                     gcrfSPtr_(Frame::GCRF()),
                                     satelliteSystem_(aSatelliteSystem),
                                     state_(aState),
-                                    stateVectorType_(aStateVectorType)
+                                    stateVectorDimension_(aStateVectorDimension)
 
 {
 
@@ -54,7 +54,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
                                     state_(aSatelliteDynamics.state_),
-                                    stateVectorType_(aSatelliteDynamics.stateVectorType_)
+                                    stateVectorDimension_(aSatelliteDynamics.stateVectorDimension_)
 
 {
 
@@ -79,7 +79,7 @@ bool                            SatelliteDynamics::operator ==              (   
         && (environment_.getObjectNames() == aSatelliteDynamics.environment_.getObjectNames())
         && (satelliteSystem_ == aSatelliteDynamics.satelliteSystem_)
         && (state_ == aSatelliteDynamics.state_)
-        && (stateVectorType_ == aSatelliteDynamics.stateVectorType_) ;
+        && (stateVectorDimension_ == aSatelliteDynamics.stateVectorDimension_) ;
 
 }
 
@@ -101,21 +101,21 @@ std::ostream&                   operator <<                                 (   
 bool                            SatelliteDynamics::isDefined                ( ) const
 {
 
-     bool stateVectorTypeIsDefinedBool ;
-    switch (stateVectorType_)
+    bool stateVectorDimensionIsDefined ;
+    switch (stateVectorDimension_)
     {
-        case SatelliteDynamics::StateVectorType::PositionVelocity:
-            stateVectorTypeIsDefinedBool = true ;
+        case SatelliteDynamics::StateVectorDimension::PositionVelocity:
+            stateVectorDimensionIsDefined = true ;
             break ;
-        case SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient:
-            stateVectorTypeIsDefinedBool = true ;
+        case SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient:
+            stateVectorDimensionIsDefined = true ;
             break ;
         default:
-            stateVectorTypeIsDefinedBool = false ;
+            stateVectorDimensionIsDefined = false ;
             break ;
     }
 
-    return environment_.isDefined() && satelliteSystem_.isDefined() && state_.isDefined() && stateVectorTypeIsDefinedBool ;
+    return environment_.isDefined() && satelliteSystem_.isDefined() && state_.isDefined() && stateVectorDimensionIsDefined ;
 }
 
 void                            SatelliteDynamics::print                    (           std::ostream&               anOutputStream,
@@ -123,7 +123,7 @@ void                            SatelliteDynamics::print                    (   
 {
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SatelliteDynamics") : void () ;
-    ostk::core::utils::Print::Line(anOutputStream) << "State vector type:"                << SatelliteDynamics::StringFromStateVectorType(stateVectorType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "State vector type:"                << SatelliteDynamics::StringFromStateVectorDimension(stateVectorDimension_) ;
 
     ostk::core::utils::Print::Line(anOutputStream) << "Environment:" << environment_ ;
 
@@ -137,7 +137,7 @@ void                            SatelliteDynamics::print                    (   
 
 }
 
-SatelliteDynamics::StateVectorType       SatelliteDynamics::getStateVectorType                            ( ) const
+SatelliteDynamics::StateVectorDimension       SatelliteDynamics::getStateVectorDimension                            ( ) const
 {
 
     if (!this->isDefined())
@@ -145,7 +145,7 @@ SatelliteDynamics::StateVectorType       SatelliteDynamics::getStateVectorType  
         throw ostk::core::error::runtime::Undefined("SatelliteDynamics") ;
     }
 
-    return stateVectorType_ ;
+    return stateVectorDimension_ ;
 
 }
 
@@ -181,20 +181,20 @@ SatelliteDynamics::DynamicalEquationFuncCallback  SatelliteDynamics::accessDynam
         throw ostk::core::error::runtime::Undefined("SatelliteDynamics") ;
     }
 
-    return std::bind(&SatelliteDynamics::GravityTable_Dynamics, this, std::placeholders::_1,  std::placeholders::_2,  std::placeholders::_3) ;
+    return std::bind(&SatelliteDynamics::DynamicalEquations, this, std::placeholders::_1,  std::placeholders::_2,  std::placeholders::_3) ;
 
 }
 
-String                          SatelliteDynamics::StringFromStateVectorType                                    (   const   SatelliteDynamics::StateVectorType&  aStateVectorType      )
+String                          SatelliteDynamics::StringFromStateVectorDimension                                    (   const   SatelliteDynamics::StateVectorDimension&  aStateVectorDimension      )
 {
 
-    switch (aStateVectorType)
+    switch (aStateVectorDimension)
     {
 
-        case SatelliteDynamics::StateVectorType::PositionVelocity:
+        case SatelliteDynamics::StateVectorDimension::PositionVelocity:
             return "PositionVelocity" ;
 
-        case SatelliteDynamics::StateVectorType::PositionVelocitywithDragCoefficient:
+        case SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient:
             return "PositionVelocitywithDragCoefficient" ;
 
         default:
@@ -208,7 +208,7 @@ String                          SatelliteDynamics::StringFromStateVectorType    
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            SatelliteDynamics::GravityTable_Dynamics    (   const   SatelliteDynamics::StateVector&     x,
+void                            SatelliteDynamics::DynamicalEquations    (   const   SatelliteDynamics::StateVector&     x,
                                                                                         SatelliteDynamics::StateVector&     dxdt,
                                                                                 const   double                              t                                   ) const
 {

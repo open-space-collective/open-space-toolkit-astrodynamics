@@ -44,7 +44,7 @@ using ostk::physics::units::Mass ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines the dynamics system who's motion is being studied, in particular this a satellite system
+/// @brief                      Defines the dynamics system who's motion is being studied, in particular this is a satellite system
 
 class SatelliteSystem
 {
@@ -80,8 +80,6 @@ class SatelliteSystem
         Real                    getCrossSectionalSurfaceArea                ( ) const ;
 
         Real                    getDragCoefficient                          ( ) const ;
-
-        static SatelliteSystem  DefaultYam                                  ( ) ;
 
     private:
 

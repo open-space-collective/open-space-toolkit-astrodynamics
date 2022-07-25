@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_numericalsolver.py
+# @file           bindings/python/test/test_numerical_solver.py
 # @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -31,8 +31,8 @@ NumericalSolver = astrodynamics.NumericalSolver
 @pytest.fixture
 def numericalsolver_default_inputs_fix ():
 
-    integration_log_type = NumericalSolver.IntegrationLogType.No_log
-    integration_stepper_type = NumericalSolver.IntegrationStepperType.Runge_Kutta_Cash_Karp_54
+    integration_log_type = NumericalSolver.IntegrationLogType.NoLog
+    integration_stepper_type = NumericalSolver.IntegrationStepperType.RungeKuttaCashKarp54
     initial_time_step = 5.0
     relative_tolerance = 1.0e-15
     absolute_tolerance = 1.0e-15
@@ -79,15 +79,15 @@ class TestNumericalSolver:
 
     def test_get_string_from_types (self):
 
-        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.Runge_Kutta_Cash_Karp_54) == 'RungeKuttaCashKarp54'
+        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.RungeKuttaCashKarp54) == 'RungeKuttaCashKarp54'
 
-        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.Runge_Kutta_Fehlberg_78) == 'RungeKuttaFehlberg78'
+        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.RungeKuttaFehlberg78) == 'RungeKuttaFehlberg78'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.No_log) == 'NoLog'
+        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.NoLog) == 'NoLog'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.Log_constant) == 'LogConstant'
+        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.LogConstant) == 'LogConstant'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.Log_adaptive) == 'LogAdaptive'
+        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.LogAdaptive) == 'LogAdaptive'
 
     def test_integrate_state_for_duration (self, numericalsolver_fix: NumericalSolver):
 

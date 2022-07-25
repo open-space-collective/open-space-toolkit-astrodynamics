@@ -75,14 +75,14 @@ using ostk::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equationals that can be solved by calling the NumericalSolver class.
+/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the NumericalSolver class.
 
 class SatelliteDynamics
 {
 
     public:
 
-        enum class StateVectorType // Enum class values to represent dimension of state vector
+        enum class StateVectorDimension // Enum class values to represent dimension of state vector
         {
             PositionVelocity = 6,
             PositionVelocitywithDragCoefficient = 7
@@ -94,7 +94,7 @@ class SatelliteDynamics
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
                                                                                 const   State&                      aState,
-                                                                                const   SatelliteDynamics::StateVectorType&  aStateVectorType                   = SatelliteDynamics::StateVectorType::PositionVelocity   ) ;
+                                                                                const   SatelliteDynamics::StateVectorDimension&  aStateVectorDimension                   = SatelliteDynamics::StateVectorDimension::PositionVelocity   ) ;
 
                                 SatelliteDynamics                           (   const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
 
@@ -112,7 +112,7 @@ class SatelliteDynamics
         void                    print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const ;
 
-        SatelliteDynamics::StateVectorType getStateVectorType                               ( ) const ;
+        SatelliteDynamics::StateVectorDimension getStateVectorDimension                               ( ) const ;
 
         State                   getState                                    ( ) const ;
 
@@ -120,7 +120,7 @@ class SatelliteDynamics
 
         SatelliteDynamics::DynamicalEquationFuncCallback  accessDynamicalEquations ( ) const ;
 
-        static String           StringFromStateVectorType                   (   const   SatelliteDynamics::StateVectorType& aStateVectorType                            ) ;
+        static String           StringFromStateVectorDimension              (   const   SatelliteDynamics::StateVectorDimension& aStateVectorDimension                            ) ;
 
     private:
 
@@ -128,10 +128,10 @@ class SatelliteDynamics
         Shared<const Frame>     gcrfSPtr_ ;
         SatelliteSystem         satelliteSystem_ ;
         State                   state_ ;
-        SatelliteDynamics::StateVectorType stateVectorType_ ;
+        SatelliteDynamics::StateVectorDimension stateVectorDimension_ ;
 
         // Only currently used force model that incorporates only Earth's gravity
-        void                    GravityTable_Dynamics                       (   const   SatelliteDynamics::StateVector&     x,
+        void                    DynamicalEquations                          (   const   SatelliteDynamics::StateVector&     x,
                                                                                         SatelliteDynamics::StateVector&     dxdt,
                                                                                 const   double                              t                                   ) const ;
 
