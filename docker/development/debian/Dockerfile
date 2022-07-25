@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG BASE_IMAGE_VERSION=latest
+ARG BASE_IMAGE_VERSION=0.2.1
 
 FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}-debian
 
@@ -111,7 +111,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION=0.5.15
+ARG OSTK_PHYSICS_VERSION=0.5.16
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
@@ -119,6 +119,10 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-physics
+
+# Install data
+
+COPY --from=us.gcr.io/loft-orbital-public/software/open-space-toolkit/data:0.3.0 /open-space-toolkit/physics /usr/local/share/OpenSpaceToolkit/Physics
 
 ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/coordinate/frame/providers/iers"
 ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/ephemerides/spice"
