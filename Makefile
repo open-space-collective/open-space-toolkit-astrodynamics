@@ -455,7 +455,6 @@ _test-unit-cpp: _build-development-image
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version)-$(target) \
@@ -474,7 +473,6 @@ _test-unit-python: _build-release-image-python
 
 	docker run \
 		--rm \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--workdir=/usr/local/lib/python3.8/site-packages/ostk/$(project_name) \
 		--entrypoint="" \
 		$(docker_release_image_python_repository):$(docker_image_version)-$(target) \
@@ -504,7 +502,6 @@ _test-coverage-cpp: _build-development-image
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version)-$(target) \
