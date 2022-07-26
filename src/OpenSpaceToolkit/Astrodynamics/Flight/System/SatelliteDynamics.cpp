@@ -208,27 +208,59 @@ String                          SatelliteDynamics::StringFromStateVectorDimensio
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            SatelliteDynamics::DynamicalEquations    (   const   SatelliteDynamics::StateVector&     x,
+void                            SatelliteDynamics::DynamicalEquations       (   const   SatelliteDynamics::StateVector&     x,
                                                                                         SatelliteDynamics::StateVector&     dxdt,
                                                                                 const   double                              t                                   ) const
 {
 
     const Position currentPosition = Position::Meters({ x[0], x[1], x[2] }, gcrfSPtr_) ;
 
+    // Update environment time
     const Instant currentInstant = state_.getInstant() + Duration::Seconds(t) ;
     environment_.setInstant(currentInstant) ;
 
-    const Vector gravitationalAcceleration = (*environment_.accessCelestialObjectWithName("Earth")).getGravitationalFieldAt(currentPosition) ;
+    // Initialize gravitational acceleration vector
+    Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
 
-    Vector3d gravitationalAcceleration_SI = (gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant)).getValue() ;
+    // Access all objects in the environment and loop through them
+    Array<String> objectNameArray = environment_.getObjectNames() ;
+
+    for (size_t i = 0; i < (size_t)objectNameArray.getSize(); i++)
+    {
+        if (objectNameArray[i] == "Earth")
+        {
+            // Obtain gravitational acceleration from current object
+            const Vector gravitationalAcceleration = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getGravitationalFieldAt(currentPosition) ;
+
+            // Add object's gravity to total gravitational acceleration
+            totalGravitationalAcceleration_SI += (gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant)).getValue() ;
+        }
+        else
+        {
+            const double mu_ThirdBody_SI = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
+
+            const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getPositionIn(gcrfSPtr_) ;
+
+            // Obtain relative position vector
+            const Vector3d relativePositionCoordinates = currentPosition.accessCoordinates() - thirdBodyPosition.accessCoordinates() ;
+
+            // Find relative position magnitude
+            const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(),3) ;
+
+            totalGravitationalAcceleration_SI += Vector3d(  -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[0],
+                                                            -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[1],
+                                                            -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[2] ) ;
+        }
+
+    }
 
     // Integrate position and velocity states
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
-    dxdt[3] = (double)gravitationalAcceleration_SI[0];
-    dxdt[4] = (double)gravitationalAcceleration_SI[1];
-    dxdt[5] = (double)gravitationalAcceleration_SI[2];
+    dxdt[3] = totalGravitationalAcceleration_SI[0];
+    dxdt[4] = totalGravitationalAcceleration_SI[1];
+    dxdt[5] = totalGravitationalAcceleration_SI[2];
 
 }
 

@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,9 +24,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
     using ostk::physics::time::Duration ;
 
     using ostk::astro::NumericalSolver ;
-    using ostk::astro::flight::system::SatelliteDynamics ;
 
-    typedef std::function<NumericalSolver::StateVector(const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t)> pythonDynamicsEquationSignature ;
+    typedef std::function<NumericalSolver::StateVector(const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t)> pythonSystemOfEquationsSignature ;
 
     {
 
@@ -51,36 +49,36 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
             .def("get_relative_tolerance", &NumericalSolver::getRelativeTolerance)
             .def("get_absolute_tolerance", &NumericalSolver::getAbsoluteTolerance)
 
-            .def("integrate_state_for_duration", +[](NumericalSolver& aNumericalSolver, const object& stateVectorObject, const object& durationObject, const object &aDynamicsEquationObject)
+            .def("integrate_state_for_duration", +[](NumericalSolver& aNumericalSolver, const object& stateVectorObject, const object& durationObject, const object &aSystemOfEquationsObject)
                                                     {
                                                         const NumericalSolver::StateVector stateVector = pybind11::cast<NumericalSolver::StateVector>(stateVectorObject) ;
                                                         const Duration duration = pybind11::cast<Duration>(durationObject) ;
 
-                                                        const auto pythonDynamicsEquation = pybind11::cast<pythonDynamicsEquationSignature>(aDynamicsEquationObject) ;
+                                                        const auto pythonDynamicsEquation = pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject) ;
 
-                                                        const SatelliteDynamics::DynamicalEquationFuncCallback aDynamicsEquationCallback = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
+                                                        const NumericalSolver::SystemOfEquationsCallback& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
                                                             {
                                                                 dxdt = pythonDynamicsEquation(x, dxdt, t) ;
                                                             } ;
 
-                                                        return aNumericalSolver.integrateStateForDuration(stateVector, duration, aDynamicsEquationCallback) ;
+                                                        return aNumericalSolver.integrateStateForDuration(stateVector, duration, aSystemOfEquations) ;
                                                     }
                                                 )
 
-            .def("integrate_state_from_instant_to_instant", +[](NumericalSolver& aNumericalSolver, const object& stateVectorObject, const object& startInstantObject, const object& endInstantObject, const object &aDynamicsEquationObject)
+            .def("integrate_state_from_instant_to_instant", +[](NumericalSolver& aNumericalSolver, const object& stateVectorObject, const object& startInstantObject, const object& endInstantObject, const object &aSystemOfEquationsObject)
                                                     {
                                                         const NumericalSolver::StateVector stateVector = pybind11::cast<NumericalSolver::StateVector>(stateVectorObject) ;
                                                         const Instant startInstant = pybind11::cast<Instant>(startInstantObject) ;
                                                         const Instant endInstant = pybind11::cast<Instant>(endInstantObject) ;
 
-                                                        const auto pythonDynamicsEquation = pybind11::cast<pythonDynamicsEquationSignature>(aDynamicsEquationObject) ;
+                                                        const auto pythonDynamicsEquation = pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject) ;
 
-                                                        const SatelliteDynamics::DynamicalEquationFuncCallback aDynamicsEquationCallback = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
+                                                        const NumericalSolver::SystemOfEquationsCallback& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
                                                             {
                                                                 dxdt = pythonDynamicsEquation(x, dxdt, t) ;
                                                             } ;
 
-                                                        return aNumericalSolver.integrateStateFromInstantToInstant(stateVector, startInstant, endInstant, aDynamicsEquationCallback) ;
+                                                        return aNumericalSolver.integrateStateFromInstantToInstant(stateVector, startInstant, endInstant, aSystemOfEquations) ;
                                                     }
                                                 )
 

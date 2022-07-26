@@ -12,8 +12,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.hpp>
-
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
@@ -41,8 +39,6 @@ using ostk::core::types::Integer ;
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
 
-using ostk::astro::flight::system::SatelliteDynamics ;
-
 using namespace boost::numeric::odeint ; // TODO move into function where it is actually used instead of putting it at top
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +64,8 @@ class NumericalSolver
         } ;
 
         typedef std::vector<double> StateVector ; // Container used to hold the state vector
+        typedef std::function<void(const StateVector&, StateVector&, const double)> SystemOfEquationsCallback ; // Function pointer type for returning dynamical equation's pointers
+
         typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54 ;
         typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78 ;
 
@@ -104,13 +102,13 @@ class NumericalSolver
         Real                    getAbsoluteTolerance                        ( ) const ;
 
         StateVector             integrateStateFromInstantToInstant          (   const   StateVector&                anInitialStateVector,
-                                                                                const   Instant&                    aStartInstant,                              // Can take in an instant with a bit of overhead and make lighter internally
+                                                                                const   Instant&                    aStartInstant,
                                                                                 const   Instant&                    anEndInstant,
-                                                                                const   SatelliteDynamics::DynamicalEquationFuncCallback&  aDynamicsEquationCallback ) const ;
+                                                                                const   SystemOfEquationsCallback&  aSystemOfEquations ) const ;
 
         StateVector             integrateStateForDuration                   (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   SatelliteDynamics::DynamicalEquationFuncCallback&  aDynamicsEquationCallback ) const ;
+                                                                                const   SystemOfEquationsCallback&  aSystemOfEquations ) const ;
 
         static String           StringFromIntegrationStepperType            (   const   NumericalSolver::IntegrationStepperType&  aIntegrationStepperType            ) ;
 

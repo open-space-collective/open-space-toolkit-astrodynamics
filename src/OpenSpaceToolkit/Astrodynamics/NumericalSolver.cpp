@@ -208,7 +208,7 @@ Real                            NumericalSolver::getAbsoluteTolerance       ( ) 
 
 NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   SatelliteDynamics::DynamicalEquationFuncCallback& aDynamicsEquationCallback ) const
+                                                                                const   NumericalSolver::SystemOfEquationsCallback&  aSystemOfEquations ) const
 {
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector ;
@@ -233,10 +233,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
                         return aStateVector ;
                 }
         }
@@ -245,10 +245,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                 }
         }
@@ -257,10 +257,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                 }
         }
@@ -276,7 +276,7 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
 NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInstant (   const   StateVector&        anInitialStateVector,
                                                                                         const   Instant&            aStartInstant,                              // Can take in an instant with a bit of overhead and make lighter internally
                                                                                         const   Instant&            anEndInstant,
-                                                                                        const   SatelliteDynamics::DynamicalEquationFuncCallback& aDynamicsEquationCallback) const
+                                                                                        const   NumericalSolver::SystemOfEquationsCallback&  aSystemOfEquations ) const
 {
 
 // [TBI] Incldue safety checks to make sure incoming parameters don't break stuff
@@ -286,7 +286,6 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInst
     double propDurationInSecs ;
     if ( ((anEndInstant-aStartInstant).inSeconds()).isZero() ) // If integration duration is zero seconds long, skip integration
     {
-        // std::cout << "NumericalSolver.cpp: " <<  "Integration duration is zero? " << (anIntegrationDuration.inSeconds()).isZero() << std::endl ;
         return anInitialStateVector ;
     }
     else
@@ -304,10 +303,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInst
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
                         return aStateVector ;
                 }
         }
@@ -316,10 +315,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInst
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                 }
         }
@@ -328,10 +327,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInst
             switch (integrationStepperType_)
                 {
                     case NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                     case NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aDynamicsEquationCallback, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
                         return aStateVector ;
                 }
         }
