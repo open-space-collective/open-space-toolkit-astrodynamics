@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -71,10 +71,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, Constructo
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -131,10 +131,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, EqualToOpe
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -216,10 +216,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, NotEqualTo
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -301,10 +301,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, IsDefined)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
         // Create environment
@@ -361,10 +361,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, StreamOper
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -427,10 +427,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, Print)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -492,10 +492,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, GetType)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -555,10 +555,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, GetState)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -615,10 +615,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, SetState)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 
@@ -682,10 +682,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, AccessDyna
     using ostk::physics::env::obj::Celestial ;
     using ostk::physics::env::Object ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     using namespace boost::numeric::odeint ;
 
@@ -980,10 +980,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteDynamics, StringFrom
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 

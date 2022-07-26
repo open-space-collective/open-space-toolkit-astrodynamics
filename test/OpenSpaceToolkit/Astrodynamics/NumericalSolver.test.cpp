@@ -10,8 +10,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/SatelliteSystem.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -444,8 +443,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     using ostk::astro::trajectory::Orbit ;
     using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::SatelliteSystem ;
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
     using ostk::astro::NumericalSolver ;
 
 
@@ -573,8 +571,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
 
     using ostk::astro::trajectory::Orbit ;
     using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::SatelliteSystem ;
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
     using ostk::astro::NumericalSolver ;
 
 

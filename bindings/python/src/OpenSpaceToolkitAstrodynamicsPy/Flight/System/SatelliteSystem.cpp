@@ -1,19 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/SatelliteSystem.cpp
+/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp
 /// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics//Flight/SatelliteSystem.hpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteDynamics.cpp>
-
+#include <OpenSpaceToolkit/Astrodynamics//Flight/System/SatelliteSystem.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_SatelliteSystem (        pybind11::module& aModule                               )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem (        pybind11::module& aModule                               )
 {
 
     using namespace pybind11 ;
@@ -25,7 +23,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Satellite
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -49,15 +47,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Satellite
             .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
 
         ;
-
-        // Create "system" python submodule
-        auto system = aModule.def_submodule("system") ;
-
-        // Add __path__ attribute for "trajectory" submodule
-        system.attr("__path__") = "ostk.astrodynamics.flight.system" ;
-
-        // Add objects to python submodule
-        OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteDynamics(system) ;
 
     }
 

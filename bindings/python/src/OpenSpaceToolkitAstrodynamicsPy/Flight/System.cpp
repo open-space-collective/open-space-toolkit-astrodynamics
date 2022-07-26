@@ -7,23 +7,23 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight      (           pybind11::module&           aModule                                     )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System   (           pybind11::module&           aModule                                     )
 {
 
     // Create "flight" python submodule
-    auto flight = aModule.def_submodule("flight") ;
+    auto system = aModule.def_submodule("system") ;
 
     // Add __path__ attribute for "flight" submodule
-    flight.attr("__path__") = "ostk.astrodynamics.flight" ;
+    system.attr("__path__") = "ostk.astrodynamics.flight.system" ;
 
-    // Add objects to "flight" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(flight) ;
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System(flight) ;
+    // Add objects to "system" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(system) ;
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(system) ;
 
 }
 

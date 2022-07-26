@@ -1,17 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteDynamics.cpp
+/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/SatelliteDynamics.cpp
 /// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics//Flight/System/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics//Flight/System/Dynamics/SatelliteDynamics.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteDynamics (        pybind11::module& aModule                               )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_SatelliteDynamics (        pybind11::module& aModule                               )
 {
 
     using namespace pybind11 ;
@@ -19,10 +19,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
     using ostk::physics::time::Instant ;
     using ostk::physics::Environment ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
-    using ostk::astro::flight::system::SatelliteDynamics ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
 

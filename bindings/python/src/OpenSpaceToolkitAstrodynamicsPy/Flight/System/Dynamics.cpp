@@ -1,29 +1,27 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight.cpp
+/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics.cpp
 /// @author         Lucas Brémond <lucas@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/SatelliteDynamics.cpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight      (           pybind11::module&           aModule                                     )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics   (           pybind11::module&           aModule                                     )
 {
 
     // Create "flight" python submodule
-    auto flight = aModule.def_submodule("flight") ;
+    auto dynamics = aModule.def_submodule("dynamics") ;
 
     // Add __path__ attribute for "flight" submodule
-    flight.attr("__path__") = "ostk.astrodynamics.flight" ;
+    dynamics.attr("__path__") = "ostk.astrodynamics.flight.system.dynamics" ;
 
-    // Add objects to "flight" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(flight) ;
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System(flight) ;
+    // Add objects to "system" submodule
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_SatelliteDynamics(dynamics) ;
 
 }
 

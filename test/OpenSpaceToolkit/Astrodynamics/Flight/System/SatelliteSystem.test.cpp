@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
@@ -48,7 +48,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, Constructor)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -99,7 +99,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, EqualToOperator)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
         // Test for all same parameters
@@ -168,7 +168,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, NotEqualToOperator)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
         // Test for all same parameters
@@ -237,7 +237,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, IsDefined)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -279,7 +279,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, StreamOperator)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -325,7 +325,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, Print)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -371,7 +371,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getMass)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -413,7 +413,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getInertiaTensor)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -455,7 +455,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getGeometry)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -497,7 +497,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getCrossSectionalSu
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
@@ -542,7 +542,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_SatelliteSystem, getDragCoefficient)
 
     using ostk::physics::units::Mass ;
 
-    using ostk::astro::flight::SatelliteSystem ;
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 

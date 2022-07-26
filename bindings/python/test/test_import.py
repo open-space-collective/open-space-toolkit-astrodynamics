@@ -25,8 +25,8 @@ class TestImport:
         from ostk.astrodynamics.trajectory.orbit.models import SGP4
         from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
         from ostk.astrodynamics.flight import Profile
-        from ostk.astrodynamics.flight import SatelliteSystem
-        from ostk.astrodynamics.flight.system import SatelliteDynamics
+        from ostk.astrodynamics.flight.system import SatelliteSystem
+        from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
         from ostk.astrodynamics import Access
         from ostk.astrodynamics.access import Generator
         from ostk.astrodynamics import NumericalSolver

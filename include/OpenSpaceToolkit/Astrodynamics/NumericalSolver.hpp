@@ -39,7 +39,7 @@ using ostk::core::types::Integer ;
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
 
-using namespace boost::numeric::odeint ; // TODO move into function where it is actually used instead of putting it at top
+using namespace boost::numeric::odeint ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

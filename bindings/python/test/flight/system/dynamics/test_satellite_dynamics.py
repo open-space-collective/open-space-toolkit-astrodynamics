@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/system/test_satellite_dynamics.py
+# @file           bindings/python/test/flight/system/dynamics/test_satellite_dynamics.py
 # @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -36,8 +36,8 @@ Environment = physics.Environment
 Earth = physics.environment.objects.celestial_bodies.Earth
 
 State = astrodynamics.trajectory.State
-SatelliteSystem = astrodynamics.flight.SatelliteSystem
-SatelliteDynamics = astrodynamics.flight.system.SatelliteDynamics
+SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
+SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
 
 ################################################################################################################################################################
 

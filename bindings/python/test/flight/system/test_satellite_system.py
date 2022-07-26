@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/test_satellite_system.py
+# @file           bindings/python/test/flight/system/test_satellite_system.py
 # @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -23,7 +23,7 @@ Point = mathematics.geometry.d3.objects.Point
 
 Mass = physics.units.Mass
 
-SatelliteSystem = astrodynamics.flight.SatelliteSystem
+SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
 
 ################################################################################################################################################################
 
