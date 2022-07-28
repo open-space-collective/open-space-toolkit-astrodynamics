@@ -19,13 +19,14 @@
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Data/Vector.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -56,21 +57,19 @@ using ostk::core::ctnr::Array ;
 
 using ostk::math::obj::Vector3d ;
 
+using ostk::physics::Environment ;
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
 using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
-using ostk::physics::env::obj::Celestial ;
-using ostk::physics::Environment ;
-using ostk::physics::env::obj::celest::Earth ;
-using ostk::physics::env::obj::celest::Sun ;
-using ostk::physics::env::obj::celest::Moon ;
 using ostk::physics::data::Vector ;
+using ostk::physics::env::obj::celest::Earth ;
+using ostk::physics::env::obj::celest::Moon ;
+using ostk::physics::env::obj::celest::Sun ;
 
-using ostk::astro::flight::system::SatelliteSystem ;
 using ostk::astro::trajectory::State ;
-
+using ostk::astro::flight::system::SatelliteSystem ;
 using ostk::astro::flight::system::Dynamics ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +132,7 @@ class SatelliteDynamics : public Dynamics
         /// @brief              Output stream operator
         ///
         /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSatelliteDynamics An satellite dynamics
+        /// @param              [in] aSatelliteDynamics A satellite dynamics
         /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,

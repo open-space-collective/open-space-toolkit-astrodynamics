@@ -14,15 +14,14 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,10 +38,10 @@ namespace system
 
 using ostk::core::types::Real ;
 
+using ostk::math::obj::Vector3d ;
 using ostk::math::obj::Matrix3d ;
 using ostk::math::geom::d3::objects::Cuboid ;
 using ostk::math::geom::d3::objects::Composite ;
-using ostk::math::obj::Vector3d ;
 using ostk::math::geom::d3::objects::Point ;
 
 using ostk::physics::units::Mass ;
@@ -64,8 +63,8 @@ class SatelliteSystem : public System
         ///                     Mass mass = { ... } ;
         ///                     Composite composite ( ... ) ;
         ///                     Matrix3d intertiaTensor ( ... ) ;
-        ///                     crossSectionalSurfaceArea = 0.8 ;
-        ///                     dragCoefficient = 2.2 ;
+        ///                     Real crossSectionalSurfaceArea = 0.8 ;
+        ///                     Real dragCoefficient = 2.2 ;
         ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea, dragCoefficient } ;
         /// @endcode
         ///
@@ -83,7 +82,7 @@ class SatelliteSystem : public System
 
         /// @brief              Copy Constructor
         ///
-        /// @param              [in] SatelliteSystem A satellite system
+        /// @param              [in] aSatelliteSystem A satellite system
 
                                 SatelliteSystem                             (   const   SatelliteSystem&            aSatelliteSystem                            ) ;
 
@@ -114,7 +113,7 @@ class SatelliteSystem : public System
         /// @brief              Output stream operator
         ///
         /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSatelliteSystem An satellite system
+        /// @param              [in] aSatelliteSystem A satellite system
         /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
@@ -137,7 +136,7 @@ class SatelliteSystem : public System
         /// @brief              Get satellite system's intertia tensor
         ///
         /// @code
-        ///                     Matrix3d intertiaTensor = satelliteSystem.getInertiaTensor() ;
+        ///                     Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
         /// @endcode
         ///
         /// @return             Matrix3d

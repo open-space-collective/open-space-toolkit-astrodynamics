@@ -2,7 +2,7 @@
 
 ################################################################################################################################################################
 
-# @project        Open Space Toolkit ▸ Physics
+# @project        Open Space Toolkit ▸ Astrodynamics
 # @file           tools/development/helpers/install-python.sh
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0

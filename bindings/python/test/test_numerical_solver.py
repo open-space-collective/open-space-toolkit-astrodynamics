@@ -31,19 +31,19 @@ NumericalSolver = astrodynamics.NumericalSolver
 @pytest.fixture
 def numericalsolver_default_inputs_fix ():
 
-    integration_log_type = NumericalSolver.IntegrationLogType.NoLog
-    integration_stepper_type = NumericalSolver.IntegrationStepperType.RungeKuttaCashKarp54
+    log_type = NumericalSolver.LogType.NoLog
+    stepper_type = NumericalSolver.StepperType.RungeKuttaCashKarp54
     initial_time_step = 5.0
     relative_tolerance = 1.0e-15
     absolute_tolerance = 1.0e-15
 
-    return integration_log_type, integration_stepper_type, initial_time_step, relative_tolerance, absolute_tolerance
+    return log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance
 
 @pytest.fixture
 def numericalsolver_fix (numericalsolver_default_inputs_fix) -> NumericalSolver:
-    integration_log_type, integration_stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
+    log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
 
-    numerical_solver: NumericalSolver = NumericalSolver(integration_log_type, integration_stepper_type, initial_time_step, relative_tolerance, absolute_tolerance)
+    numerical_solver: NumericalSolver = NumericalSolver(log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance)
 
     return numerical_solver
 
@@ -69,25 +69,25 @@ class TestNumericalSolver:
         assert (numericalsolver_fix != numericalsolver_fix) is False
 
     def test_get_types (self, numericalsolver_default_inputs_fix, numericalsolver_fix: NumericalSolver):
-        integration_log_type, integration_stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
+        log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
 
-        assert numericalsolver_fix.get_integration_log_type() == integration_log_type
-        assert numericalsolver_fix.get_integration_stepper_type() == integration_stepper_type
+        assert numericalsolver_fix.get_log_type() == log_type
+        assert numericalsolver_fix.get_stepper_type() == stepper_type
         assert numericalsolver_fix.get_time_step() == initial_time_step
         assert numericalsolver_fix.get_relative_tolerance() == relative_tolerance
         assert numericalsolver_fix.get_absolute_tolerance() == absolute_tolerance
 
     def test_get_string_from_types (self):
 
-        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.RungeKuttaCashKarp54) == 'RungeKuttaCashKarp54'
+        assert NumericalSolver.string_from_stepper_type(NumericalSolver.StepperType.RungeKuttaCashKarp54) == 'RungeKuttaCashKarp54'
 
-        assert NumericalSolver.string_from_integration_stepper_type(NumericalSolver.IntegrationStepperType.RungeKuttaFehlberg78) == 'RungeKuttaFehlberg78'
+        assert NumericalSolver.string_from_stepper_type(NumericalSolver.StepperType.RungeKuttaFehlberg78) == 'RungeKuttaFehlberg78'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.NoLog) == 'NoLog'
+        assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == 'NoLog'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.LogConstant) == 'LogConstant'
+        assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogConstant) == 'LogConstant'
 
-        assert NumericalSolver.string_from_integration_log_type(NumericalSolver.IntegrationLogType.LogAdaptive) == 'LogAdaptive'
+        assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogAdaptive) == 'LogAdaptive'
 
     def test_integrate_state_for_duration (self, numericalsolver_fix: NumericalSolver):
 

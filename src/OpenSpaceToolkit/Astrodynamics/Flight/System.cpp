@@ -24,10 +24,10 @@ namespace flight
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 System::System                              (   const   Mass&                       aMass,
-                                                                                const   Composite&                  aCompositeGeometry                          )
+                                                                                const   Composite&                  aGeometry                                   )
 
                                 :   mass_(aMass),
-                                    geometry_(aCompositeGeometry)
+                                    geometry_(aGeometry)
 
 {
 

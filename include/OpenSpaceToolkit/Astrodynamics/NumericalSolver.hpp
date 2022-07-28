@@ -14,14 +14,12 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
 #include <boost/numeric/odeint.hpp>
-#include <boost/bind.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,9 +30,9 @@ namespace astro
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using ostk::core::types::Integer ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
-using ostk::core::types::Integer ;
 
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
@@ -50,13 +48,13 @@ class NumericalSolver
 
     public:
 
-        enum class IntegrationStepperType
+        enum class StepperType
         {
             RungeKuttaCashKarp54,
             RungeKuttaFehlberg78
         } ;
 
-        enum class IntegrationLogType
+        enum class LogType
         {
             NoLog,
             LogConstant,
@@ -72,20 +70,20 @@ class NumericalSolver
         /// @brief              Constructor
         ///
         /// @code
-        ///                     NumericalSolver numericalSolver = { anIntegrationLogType, anIntegrationStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance } ;
+        ///                     NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance } ;
         /// @endcode
         ///
-        /// @param              [in] anIntegrationLogType An enum indicating the amount of verbosity wanted to be logged during numerical integration
-        /// @param              [in] anIntegrationStepperType An enum indicating the type of numerical stepper used to perform integration
+        /// @param              [in] aLogType An enum indicating the amount of verbosity wanted to be logged during numerical integration
+        /// @param              [in] aStepperType An enum indicating the type of numerical stepper used to perform integration
         /// @param              [in] aTimeStep A number indicating the initial guess time step the numerical solver will take
         /// @param              [in] aRelativeTolerance A number indicating the relative intergration tolerance
         /// @param              [in] anAbsoluteTolerance A number indicating the absolute intergration tolerance
 
-                                NumericalSolver                             (   const   NumericalSolver::IntegrationLogType& anIntegrationLogType               = NumericalSolver::IntegrationLogType::NoLog,
-                                                                                const   NumericalSolver::IntegrationStepperType& anIntegrationStepperType       = NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54,
-                                                                                const   Real&                       aTimeStep                                   = 5.0,
-                                                                                const   Real&                       aRelativeTolerance                          = 1.0e-15,
-                                                                                const   Real&                       anAbsoluteTolerance                         = 1.0e-15   ) ;
+                                NumericalSolver                             (   const   NumericalSolver::LogType&   aLogType,
+                                                                                const   NumericalSolver::StepperType& aStepperType,
+                                                                                const   Real&                       aTimeStep,
+                                                                                const   Real&                       aRelativeTolerance,
+                                                                                const   Real&                       anAbsoluteTolerance                         ) ;
 
         /// @brief              Copy Constructor
         ///
@@ -116,13 +114,13 @@ class NumericalSolver
         /// @brief              Output stream operator
         ///
         /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aNumericalSolver An numerical solver
+        /// @param              [in] aNumericalSolver A numerical solver
         /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   NumericalSolver&            aNumericalSolver                                     ) ;
+                                                                                const   NumericalSolver&            aNumericalSolver                            ) ;
 
-        /// @brief              Check if numerical solver  is defined
+        /// @brief              Check if numerical solver is defined
         ///
         /// @return             True if numerical solver is defined
 
@@ -139,22 +137,22 @@ class NumericalSolver
         /// @brief              Get integration logging enum
         ///
         /// @code
-        ///                     numericalsolver.getIntegrationLogType() ;
+        ///                     numericalsolver.getLogType() ;
         /// @endcode
         ///
-        /// @return             IntegrationLogType
+        /// @return             LogType
 
-        NumericalSolver::IntegrationLogType getIntegrationLogType           ( ) const ;
+        NumericalSolver::LogType getLogType                                 ( ) const ;
 
         /// @brief              Get integration stepper enum
         ///
         /// @code
-        ///                     numericalsolver.getIntegrationStepperType() ;
+        ///                     numericalsolver.getStepperType() ;
         /// @endcode
         ///
-        /// @return             IntegrationStepperType
+        /// @return             StepperType
 
-        NumericalSolver::IntegrationStepperType getIntegrationStepperType   ( ) const ;
+        NumericalSolver::StepperType getStepperType                         ( ) const ;
 
         /// @brief              Get initial time step guess
         ///
@@ -200,7 +198,7 @@ class NumericalSolver
         StateVector             integrateStateFromInstantToInstant          (   const   StateVector&                anInitialStateVector,
                                                                                 const   Instant&                    aStartInstant,
                                                                                 const   Instant&                    anEndInstant,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations ) const ;
+                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) const ;
 
         /// @brief              Perform numerical integration for a certain duration
         ///
@@ -214,32 +212,32 @@ class NumericalSolver
 
         StateVector             integrateStateForDuration                   (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations ) const ;
+                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) const ;
 
         /// @brief              Get string from the integration stepper type
         ///
         /// @code
-        ///                     NumericalSolver::StringFromIntegrationStepperType() ;
+        ///                     NumericalSolver::StringFromStepperType() ;
         /// @endcode
-        ///
-        /// @return             IntegrationStepperType
+        /// @param              [in] aStepperType An integration stepper type enum
+        /// @return             StepperType
 
-        static String           StringFromIntegrationStepperType            (   const   NumericalSolver::IntegrationStepperType&  aIntegrationStepperType            ) ;
+        static String           StringFromStepperType                       (   const   NumericalSolver::StepperType&  aStepperType                             ) ;
 
         /// @brief              Get string from the integration log type
         ///
         /// @code
-        ///                     NumericalSolver::StringFromIntegrationLogType() ;
+        ///                     NumericalSolver::StringFromLogType() ;
         /// @endcode
-        ///
-        /// @return             IntegrationLogType
+        /// @param              [in] aLogType An integration log type enum
+        /// @return             LogType
 
-        static String           StringFromIntegrationLogType                (   const   NumericalSolver::IntegrationLogType&  aIntegrationLogType                    ) ;
+        static String           StringFromLogType                           (   const   NumericalSolver::LogType&   aLogType                                    ) ;
 
     private:
 
-        NumericalSolver::IntegrationLogType integrationLogType_ ;
-        NumericalSolver::IntegrationStepperType integrationStepperType_ ;
+        NumericalSolver::LogType logType_ ;
+        NumericalSolver::StepperType stepperType_ ;
         Real timeStep_ ;
         Real relativeTolerance_ ;
         Real absoluteTolerance_ ;

@@ -51,10 +51,10 @@ class System
         /// @endcode
         ///
         /// @param              [in] aMass A mass
-        /// @param              [in] aCompositeGeometry A composite geometry
+        /// @param              [in] aGeometry A geometry
 
                                 System                                      (   const   Mass&                       aMass,
-                                                                                const   Composite&                  aCompositeGeometry                          ) ;
+                                                                                const   Composite&                  aGeometry                                   ) ;
 
         /// @brief              Copy Constructor
         ///
@@ -89,7 +89,7 @@ class System
         /// @brief              Output stream operator
         ///
         /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSystem An system
+        /// @param              [in] aSystem A system
         /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,

@@ -160,7 +160,7 @@ class Trajectory
         /// @param              [in] anInstantArray An array of instants
         /// @return             Array of states
 
-        virtual Array<State>    getStatesAt                                 (   const   Array<Instant>&             anInstantArray                              ) const ;
+        Array<State>            getStatesAt                                 (   const   Array<Instant>&             anInstantArray                              ) const ;
 
         /// @brief              Print trajectory to output stream
         ///

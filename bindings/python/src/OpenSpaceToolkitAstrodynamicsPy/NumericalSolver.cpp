@@ -32,7 +32,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
         class_<NumericalSolver> numerical_solver_class(aModule, "NumericalSolver") ;
 
         numerical_solver_class
-            .def(init<const   NumericalSolver::IntegrationLogType&, const   NumericalSolver::IntegrationStepperType&, const   Real&, const   Real&, const   Real&>())
+            .def(init<const   NumericalSolver::LogType&, const   NumericalSolver::StepperType&, const   Real&, const   Real&, const   Real&>())
             .def(init<const   NumericalSolver&>())
 
             .def(self == self)
@@ -43,8 +43,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
             .def("is_defined", &NumericalSolver::isDefined)
 
-            .def("get_integration_stepper_type", &NumericalSolver::getIntegrationStepperType)
-            .def("get_integration_log_type", &NumericalSolver::getIntegrationLogType)
+            .def("get_stepper_type", &NumericalSolver::getStepperType)
+            .def("get_log_type", &NumericalSolver::getLogType)
             .def("get_time_step", &NumericalSolver::getTimeStep)
             .def("get_relative_tolerance", &NumericalSolver::getRelativeTolerance)
             .def("get_absolute_tolerance", &NumericalSolver::getAbsoluteTolerance)
@@ -82,23 +82,23 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
                                                     }
                                                 )
 
-            .def_static("string_from_integration_stepper_type", &NumericalSolver::StringFromIntegrationStepperType)
-            .def_static("string_from_integration_log_type", &NumericalSolver::StringFromIntegrationLogType)
+            .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType)
+            .def_static("string_from_log_type", &NumericalSolver::StringFromLogType)
 
         ;
 
-        enum_<NumericalSolver::IntegrationStepperType>(numerical_solver_class, "IntegrationStepperType")
+        enum_<NumericalSolver::StepperType>(numerical_solver_class, "StepperType")
 
-            .value("RungeKuttaCashKarp54", NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54)
-            .value("RungeKuttaFehlberg78", NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78)
+            .value("RungeKuttaCashKarp54", NumericalSolver::StepperType::RungeKuttaCashKarp54)
+            .value("RungeKuttaFehlberg78", NumericalSolver::StepperType::RungeKuttaFehlberg78)
 
         ;
 
-        enum_<NumericalSolver::IntegrationLogType>(numerical_solver_class, "IntegrationLogType")
+        enum_<NumericalSolver::LogType>(numerical_solver_class, "LogType")
 
-            .value("NoLog", NumericalSolver::IntegrationLogType::NoLog)
-            .value("LogConstant", NumericalSolver::IntegrationLogType::LogConstant)
-            .value("LogAdaptive", NumericalSolver::IntegrationLogType::LogAdaptive)
+            .value("NoLog", NumericalSolver::LogType::NoLog)
+            .value("LogConstant", NumericalSolver::LogType::LogConstant)
+            .value("LogAdaptive", NumericalSolver::LogType::LogAdaptive)
 
         ;
 

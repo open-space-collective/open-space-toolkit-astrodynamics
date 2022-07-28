@@ -59,12 +59,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 
     {
 
-        EXPECT_NO_THROW(NumericalSolver()) ;
-        EXPECT_NO_THROW(NumericalSolver(NumericalSolver::IntegrationLogType::NoLog)) ;
-        EXPECT_NO_THROW(NumericalSolver(NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54)) ;
-        EXPECT_NO_THROW(NumericalSolver(NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0)) ;
-        EXPECT_NO_THROW(NumericalSolver(NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15)) ;
-        EXPECT_NO_THROW(NumericalSolver(NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15)) ;
+        EXPECT_NO_THROW(NumericalSolver numericalsolver(NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15)) ;
+
+    }
+
+    {
+
+        const NumericalSolver numericalsolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_NO_THROW(NumericalSolver numericalsolverCopy(numericalsolver)) ;
 
     }
 
@@ -93,32 +95,31 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
     using ostk::astro::NumericalSolver ;
 
     {
-        // Test default constructor
-        const NumericalSolver numericalSolver = { } ;
-        const NumericalSolver numericalSolver_0 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test equality of identical objects
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        EXPECT_TRUE(numericalSolver == numericalSolver_0) ;
+        EXPECT_TRUE(numericalSolver == numericalSolver) ;
 
-        // Test IntegrationLogType
-        const NumericalSolver numericalSolver_1 = { NumericalSolver::IntegrationLogType::LogConstant, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test LogType
+        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
         EXPECT_FALSE(numericalSolver == numericalSolver_1) ;
 
-        // Test IntegrationStepperType
-        const NumericalSolver numericalSolver_2 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test StepperType
+        const NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         EXPECT_FALSE(numericalSolver == numericalSolver_2) ;
 
         // Test timeStep
-        const NumericalSolver numericalSolver_3 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 4.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_3 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 4.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_FALSE(numericalSolver == numericalSolver_3) ;
 
         // Test relativeTolerance
-        const NumericalSolver numericalSolver_4 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-14, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_4 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-14, 1.0e-15 } ;
 
         EXPECT_FALSE(numericalSolver == numericalSolver_4) ;
 
          // Test absoluteTolerance
-        const NumericalSolver numericalSolver_5 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-14 } ;
+        const NumericalSolver numericalSolver_5 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-14 } ;
 
         EXPECT_FALSE(numericalSolver == numericalSolver_5) ;
 
@@ -149,33 +150,32 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
     using ostk::astro::NumericalSolver ;
 
     {
-        // Test default constructor
-        const NumericalSolver numericalSolver = { } ;
-        const NumericalSolver numericalSolver_0 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test ineequality of identical objects
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        EXPECT_FALSE(numericalSolver != numericalSolver_0) ;
+        EXPECT_FALSE(numericalSolver != numericalSolver) ;
 
-        // Test IntegrationLogType
-        const NumericalSolver numericalSolver_1 = { NumericalSolver::IntegrationLogType::LogConstant, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test LogType
+        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver != numericalSolver_1) ;
 
-        // Test IntegrationStepperType
-        const NumericalSolver numericalSolver_2 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        // Test StepperType
+        const NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         EXPECT_TRUE(numericalSolver != numericalSolver_2) ;
 
         // Test timeStep
-        const NumericalSolver numericalSolver_3 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 4.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_3 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 4.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver != numericalSolver_3) ;
 
         // Test relativeTolerance
-        const NumericalSolver numericalSolver_4 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-14, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_4 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-14, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver != numericalSolver_4) ;
 
          // Test absoluteTolerance
-        const NumericalSolver numericalSolver_5 = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-14 } ;
+        const NumericalSolver numericalSolver_5 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-14 } ;
 
         EXPECT_TRUE(numericalSolver != numericalSolver_5) ;
 
@@ -207,7 +207,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
 
     {
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver.isDefined()) ;
 
@@ -239,7 +239,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
 
     {
 
-        const NumericalSolver numericalSolver = { } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -275,7 +275,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
 
     {
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -311,23 +311,23 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 
     {
 
-        const NumericalSolver numericalSolver_NoLog = { NumericalSolver::IntegrationLogType::NoLog } ;
-        EXPECT_EQ(numericalSolver_NoLog.getIntegrationLogType(),NumericalSolver::IntegrationLogType::NoLog) ;
+        const NumericalSolver numericalSolver_NoLog = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_EQ(numericalSolver_NoLog.getLogType(),NumericalSolver::LogType::NoLog) ;
 
-        const NumericalSolver numericalSolver_LogConstant = { NumericalSolver::IntegrationLogType::LogConstant } ;
-        EXPECT_EQ(numericalSolver_LogConstant.getIntegrationLogType(),NumericalSolver::IntegrationLogType::LogConstant) ;
+        const NumericalSolver numericalSolver_LogConstant = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_EQ(numericalSolver_LogConstant.getLogType(),NumericalSolver::LogType::LogConstant) ;
 
-        const NumericalSolver numericalSolver_LogAdaptive = { NumericalSolver::IntegrationLogType::LogAdaptive } ;
-        EXPECT_EQ(numericalSolver_LogAdaptive.getIntegrationLogType(),NumericalSolver::IntegrationLogType::LogAdaptive) ;
+        const NumericalSolver numericalSolver_LogAdaptive = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_EQ(numericalSolver_LogAdaptive.getLogType(),NumericalSolver::LogType::LogAdaptive) ;
 
     }
 
     {
-        const NumericalSolver numericalSolver_RungeKuttaKashCarp54 = {  NumericalSolver::IntegrationLogType::NoLog , NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54 } ;
-        EXPECT_EQ(numericalSolver_RungeKuttaKashCarp54.getIntegrationStepperType(),NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54) ;
+        const NumericalSolver numericalSolver_RungeKuttaKashCarp54 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_EQ(numericalSolver_RungeKuttaKashCarp54.getStepperType(),NumericalSolver::StepperType::RungeKuttaCashKarp54) ;
 
-        const NumericalSolver numericalSolver_RungeKuttaFehlberg78 = {  NumericalSolver::IntegrationLogType::NoLog , NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78 } ;
-        EXPECT_EQ(numericalSolver_RungeKuttaFehlberg78.getIntegrationStepperType(),NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78) ;
+        const NumericalSolver numericalSolver_RungeKuttaFehlberg78 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        EXPECT_EQ(numericalSolver_RungeKuttaFehlberg78.getStepperType(),NumericalSolver::StepperType::RungeKuttaFehlberg78) ;
     }
 
 }
@@ -357,7 +357,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
     {
 
         // Define numbers
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0) ;
 
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15) ;
@@ -393,16 +393,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 
     {
 
-        EXPECT_TRUE(NumericalSolver::StringFromIntegrationStepperType(NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54) == "RungeKuttaCashKarp54") ;
-        EXPECT_TRUE(NumericalSolver::StringFromIntegrationStepperType(NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78) == "RungeKuttaFehlberg78") ;
+        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) == "RungeKuttaCashKarp54") ;
+        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) == "RungeKuttaFehlberg78") ;
 
     }
 
     {
 
-        EXPECT_TRUE(NumericalSolver::StringFromIntegrationLogType(NumericalSolver::IntegrationLogType::NoLog) == "NoLog") ;
-        EXPECT_TRUE(NumericalSolver::StringFromIntegrationLogType(NumericalSolver::IntegrationLogType::LogConstant) == "LogConstant") ;
-        EXPECT_TRUE(NumericalSolver::StringFromIntegrationLogType(NumericalSolver::IntegrationLogType::LogAdaptive) == "LogAdaptive") ;
+        EXPECT_TRUE(NumericalSolver::StringFromLogType(NumericalSolver::LogType::NoLog) == "NoLog") ;
+        EXPECT_TRUE(NumericalSolver::StringFromLogType(NumericalSolver::LogType::LogConstant) == "LogConstant") ;
+        EXPECT_TRUE(NumericalSolver::StringFromLogType(NumericalSolver::LogType::LogAdaptive) == "LogAdaptive") ;
 
     }
 
@@ -455,7 +455,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -477,7 +477,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -499,7 +499,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -521,7 +521,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -584,7 +584,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -607,7 +607,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -630,7 +630,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -653,7 +653,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::IntegrationLogType::NoLog, NumericalSolver::IntegrationStepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 

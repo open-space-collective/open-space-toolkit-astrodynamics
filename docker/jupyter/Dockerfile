@@ -8,7 +8,6 @@
 ################################################################################################################################################################
 
 ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:latest
-# ARG NB_UIB
 
 FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
@@ -17,17 +16,16 @@ LABEL maintainer="lucas@loftorbital.com"
 ENV JUPYTER_ENABLE_LAB yes
 
 # Set user to root
-# RUN id -u
 
 USER root
 
 # Install Python utilities
 
-RUN sudo apt-get update
-RUN sudo apt-get install -y curl
+RUN apt-get update \
+ && apt-get install -y curl
 
-RUN pip install --quiet numpy pandas plotly
-RUN conda install ipympl=0.4.0
+RUN pip install --quiet numpy pandas plotly \
+ && conda install ipympl=0.4.0
 
 # Install JupyterLab extensions
 
