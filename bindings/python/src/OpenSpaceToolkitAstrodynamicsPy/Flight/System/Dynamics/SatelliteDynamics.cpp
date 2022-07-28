@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics//Flight/System/Dynamics/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,6 +22,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
 
+    using ostk::astro::flight::system::Dynamics ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
     {
@@ -29,7 +30,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
         class_<SatelliteDynamics> satellite_dynamics_class(aModule, "SatelliteDynamics") ;
 
         satellite_dynamics_class
-            .def(init<const Environment&, const   SatelliteSystem&, const   State&, const   SatelliteDynamics::StateVectorDimension&>())
+            .def(init<const   Environment&, const   SatelliteSystem&, const   State&>())
             .def(init<const   SatelliteDynamics&>())
 
             .def(self == self)
@@ -40,22 +41,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
             .def("is_defined", &SatelliteDynamics::isDefined)
 
-            .def("get_state_vector_dimension", &SatelliteDynamics::getStateVectorDimension)
-
             .def("get_state", &SatelliteDynamics::getState)
             .def("set_state", &SatelliteDynamics::setState)
-            .def("access_dynamical_equations", &SatelliteDynamics::accessDynamicalEquations)
-
-            .def_static("string_from_state_vector_dimension", &SatelliteDynamics::StringFromStateVectorDimension)
+            .def("get_dynamical_equations", &SatelliteDynamics::getDynamicalEquations)
 
         ;
 
-        enum_<SatelliteDynamics::StateVectorDimension>(satellite_dynamics_class, "StateVectorDimension")
-
-            .value("PositionVelocity", SatelliteDynamics::StateVectorDimension::PositionVelocity)
-            .value("PositionVelocityDragCoefficient", SatelliteDynamics::StateVectorDimension::PositionVelocitywithDragCoefficient)
-
-        ;
     }
 
 }

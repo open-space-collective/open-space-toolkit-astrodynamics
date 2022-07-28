@@ -64,7 +64,7 @@ class NumericalSolver
         } ;
 
         typedef std::vector<double> StateVector ; // Container used to hold the state vector
-        typedef std::function<void(const StateVector&, StateVector&, const double)> SystemOfEquationsCallback ; // Function pointer type for returning dynamical equation's pointers
+        typedef std::function<void(const StateVector&, StateVector&, const double)> SystemOfEquationsWrapper ; // Function pointer type for returning dynamical equation's pointers
 
         typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54 ;
         typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78 ;
@@ -104,11 +104,11 @@ class NumericalSolver
         StateVector             integrateStateFromInstantToInstant          (   const   StateVector&                anInitialStateVector,
                                                                                 const   Instant&                    aStartInstant,
                                                                                 const   Instant&                    anEndInstant,
-                                                                                const   SystemOfEquationsCallback&  aSystemOfEquations ) const ;
+                                                                                const   SystemOfEquationsWrapper&  aSystemOfEquations ) const ;
 
         StateVector             integrateStateForDuration                   (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   SystemOfEquationsCallback&  aSystemOfEquations ) const ;
+                                                                                const   SystemOfEquationsWrapper&  aSystemOfEquations ) const ;
 
         static String           StringFromIntegrationStepperType            (   const   NumericalSolver::IntegrationStepperType&  aIntegrationStepperType            ) ;
 

@@ -208,7 +208,7 @@ Real                            NumericalSolver::getAbsoluteTolerance       ( ) 
 
 NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   NumericalSolver::SystemOfEquationsCallback&  aSystemOfEquations ) const
+                                                                                const   NumericalSolver::SystemOfEquationsWrapper&  aSystemOfEquations ) const
 {
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector ;
@@ -276,7 +276,7 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
 NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInstant (   const   StateVector&        anInitialStateVector,
                                                                                         const   Instant&            aStartInstant,                              // Can take in an instant with a bit of overhead and make lighter internally
                                                                                         const   Instant&            anEndInstant,
-                                                                                        const   NumericalSolver::SystemOfEquationsCallback&  aSystemOfEquations ) const
+                                                                                        const   NumericalSolver::SystemOfEquationsWrapper&  aSystemOfEquations ) const
 {
 
 // [TBI] Incldue safety checks to make sure incoming parameters don't break stuff

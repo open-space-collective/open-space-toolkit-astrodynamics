@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics//Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,18 +19,20 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
     using ostk::core::types::Real ;
 
     using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
 
     using ostk::physics::units::Mass ;
 
+    using ostk::astro::flight::System ;
     using ostk::astro::flight::system::SatelliteSystem ;
 
     {
 
-        class_<SatelliteSystem> satellitesystem_class(aModule, "SatelliteSystem") ;
+        class_<SatelliteSystem, System> satellitesystem_class(aModule, "SatelliteSystem") ;
 
         satellitesystem_class
-            .def(init<const   Mass&, const   Matrix3d&, const   Cuboid&, const   Real&, const   Real&>())
+            .def(init<const   Mass&, const   Composite&, const   Matrix3d&, const   Real&, const   Real&>())
+            .def(init<const   SatelliteSystem&>())
 
             .def(self == self)
             .def(self != self)
@@ -40,9 +42,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
 
             .def("is_defined", &SatelliteSystem::isDefined)
 
-            .def("get_mass", &SatelliteSystem::getMass)
             .def("get_inertia_tensor", &SatelliteSystem::getInertiaTensor)
-            .def("get_geometry", &SatelliteSystem::getGeometry)
             .def("get_cross_sectional_surface_area", &SatelliteSystem::getCrossSectionalSurfaceArea)
             .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
 

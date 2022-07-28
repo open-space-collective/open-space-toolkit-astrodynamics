@@ -18,6 +18,7 @@ import ostk.astrodynamics as astrodynamics
 ################################################################################################################################################################
 
 Cuboid = mathematics.geometry.d3.objects.Cuboid
+Composite = mathematics.geometry.d3.objects.Composite
 Point = mathematics.geometry.d3.objects.Point
 
 Length = physics.units.Length
@@ -47,12 +48,12 @@ def satellite_dynamics_default_inputs_fix ():
     environment = Environment.default()
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
+    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
     inertia_tensor = np.ndarray(shape=(3, 3))
-    satellite_geometry = Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] )
     surface_area = 0.8
     drag_coefficient = 2.2
 
-    satellitesystem = SatelliteSystem(mass, inertia_tensor, satellite_geometry, surface_area, drag_coefficient)
+    satellitesystem = SatelliteSystem(mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -61,16 +62,14 @@ def satellite_dynamics_default_inputs_fix ():
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(epoch, position, velocity)
 
-    state_vector_dimension = SatelliteDynamics.StateVectorDimension.PositionVelocity
-
-    return environment, satellitesystem, state, state_vector_dimension
+    return environment, satellitesystem, state
 
 @pytest.fixture
 def satellitedynamics_fix (satellite_dynamics_default_inputs_fix) -> SatelliteDynamics:
 
-    environment, satellitesystem, state, state_vector_dimension = satellite_dynamics_default_inputs_fix
+    environment, satellitesystem, state = satellite_dynamics_default_inputs_fix
 
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state, state_vector_dimension)
+    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state)
 
     return satellitedynamics
 
@@ -96,7 +95,7 @@ class TestSatelliteDynamics:
         assert (satellitedynamics_fix != satellitedynamics_fix) is False
 
     def test_setters (self, satellite_dynamics_default_inputs_fix, satellitedynamics_fix: SatelliteDynamics):
-        environment, satellitesystem, state, state_vector_dimension = satellite_dynamics_default_inputs_fix
+        environment, satellitesystem, state = satellite_dynamics_default_inputs_fix
 
         # get_state
         assert satellitedynamics_fix.get_state() == state
@@ -109,17 +108,8 @@ class TestSatelliteDynamics:
         assert satellitedynamics_fix.is_defined()
         assert satellitedynamics_fix.get_state() == state_1
 
-        # get_integration_stepper_type()
-        assert satellitedynamics_fix.get_state_vector_dimension() == SatelliteDynamics.StateVectorDimension.PositionVelocity
-
-    def test_get_string_from_type (self):
-
-        assert SatelliteDynamics.string_from_state_vector_dimension(SatelliteDynamics.StateVectorDimension.PositionVelocity) == 'PositionVelocity'
-
-        assert SatelliteDynamics.string_from_state_vector_dimension(SatelliteDynamics.StateVectorDimension.PositionVelocityDragCoefficient) == 'PositionVelocitywithDragCoefficient'
-
     def test_calculate_state_at_epoch (self, satellitedynamics_fix: SatelliteDynamics):
 
-        assert satellitedynamics_fix.access_dynamical_equations() is not None #[TBI] add typing to ensure that it return a function pointer?
+        assert satellitedynamics_fix.get_dynamical_equations() is not None #[TBI] add typing to ensure that it return a function pointer?
 
 ################################################################################################################################################################

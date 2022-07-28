@@ -56,7 +56,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
                                                         const auto pythonDynamicsEquation = pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject) ;
 
-                                                        const NumericalSolver::SystemOfEquationsCallback& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
+                                                        const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
                                                             {
                                                                 dxdt = pythonDynamicsEquation(x, dxdt, t) ;
                                                             } ;
@@ -73,7 +73,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
                                                         const auto pythonDynamicsEquation = pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject) ;
 
-                                                        const NumericalSolver::SystemOfEquationsCallback& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
+                                                        const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations = [&pythonDynamicsEquation, &stateVector]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t) -> void
                                                             {
                                                                 dxdt = pythonDynamicsEquation(x, dxdt, t) ;
                                                             } ;

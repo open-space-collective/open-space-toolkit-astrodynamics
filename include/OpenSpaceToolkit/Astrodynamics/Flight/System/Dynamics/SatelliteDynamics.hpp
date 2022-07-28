@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -55,17 +56,12 @@ using ostk::core::ctnr::Array ;
 
 using ostk::math::obj::Vector3d ;
 
-using ostk::physics::Unit ;
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
-using ostk::physics::units::Length ;
-using ostk::physics::units::Mass ;
-using ostk::physics::units::Derived ;
 using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
 using ostk::physics::env::obj::Celestial ;
-using ostk::physics::env::Object ;
 using ostk::physics::Environment ;
 using ostk::physics::env::obj::celest::Earth ;
 using ostk::physics::env::obj::celest::Sun ;
@@ -75,32 +71,26 @@ using ostk::physics::data::Vector ;
 using ostk::astro::flight::system::SatelliteSystem ;
 using ostk::astro::trajectory::State ;
 
+using ostk::astro::flight::system::Dynamics ;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the NumericalSolver class.
 
-class SatelliteDynamics
+class SatelliteDynamics : public Dynamics
 {
 
     public:
 
-        enum class StateVectorDimension // Enum class values to represent dimension of state vector
-        {
-            PositionVelocity = 6,
-            PositionVelocitywithDragCoefficient = 7
-        } ;
-
-        typedef std::vector<double> StateVector ; // Container used to hold the state vector
-        typedef std::function<void(const StateVector&, StateVector&, const double)> DynamicalEquationFuncCallback ; // Function pointer type for returning dynamical equation's pointers
-
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   State&                      aState,
-                                                                                const   SatelliteDynamics::StateVectorDimension&  aStateVectorDimension                   = SatelliteDynamics::StateVectorDimension::PositionVelocity   ) ;
+                                                                                const   State&                      aState                                      ) ;
 
                                 SatelliteDynamics                           (   const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
 
-        SatelliteDynamics*      clone                                       ( ) const ;
+        virtual                 ~SatelliteDynamics                          ( ) override ;
+
+        virtual SatelliteDynamics*  clone                                   ( ) const override ;
 
         bool                    operator ==                                 (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const ;
 
@@ -109,43 +99,33 @@ class SatelliteDynamics
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
 
-        bool                    isDefined                                   ( ) const ;
+        virtual bool            isDefined                                   ( ) const override ;
 
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
-
-        SatelliteDynamics::StateVectorDimension getStateVectorDimension                               ( ) const ;
+        virtual void            print                                       (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            =   true ) const override ;
 
         State                   getState                                    ( ) const ;
 
         void                    setState                                    (   const   State&                      aState                                      ) ;
 
-        SatelliteDynamics::DynamicalEquationFuncCallback  accessDynamicalEquations ( ) const ;
-
-        static String           StringFromStateVectorDimension              (   const   SatelliteDynamics::StateVectorDimension& aStateVectorDimension                            ) ;
+        virtual Dynamics::DynamicalEquationWrapper  getDynamicalEquations   ( )  override ;
 
     private:
 
-        mutable Environment     environment_ ;
+        Environment             environment_ ;
         Shared<const Frame>     gcrfSPtr_ ;
         SatelliteSystem         satelliteSystem_ ;
         State                   state_ ;
-        SatelliteDynamics::StateVectorDimension stateVectorDimension_ ;
 
         // Only currently used force model that incorporates only Earth's gravity
-        void                    DynamicalEquations                          (   const   SatelliteDynamics::StateVector&     x,
-                                                                                        SatelliteDynamics::StateVector&     dxdt,
-                                                                                const   double                              t                                   ) const ;
+        void                    DynamicalEquations                          (   const   Dynamics::StateVector&      x,
+                                                                                        Dynamics::StateVector&      dxdt,
+                                                                                const   double                      t                                           ) ;
 
         // // Atmospheric perturbations only
         // void                    Exponential_Dynamics                        (   const   SatelliteDynamics::StateVector&     x,
         //                                                                                 SatelliteDynamics::StateVector&     dxdt,
         //                                                                         const   double                                                                  ) const ;
-
-        // // Third Body perturbations only
-        // void                    ThirdBodyTable_Dynamics                     (   const   SatelliteDynamics::StateVector&     x,
-        //                                                                                 SatelliteDynamics::StateVector&     dxdt,
-        //                                                                         const   double                              t                                   ) const ;
 
 } ;
 
