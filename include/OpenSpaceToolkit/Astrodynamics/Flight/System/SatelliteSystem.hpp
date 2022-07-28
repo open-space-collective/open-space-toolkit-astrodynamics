@@ -58,33 +58,109 @@ class SatelliteSystem : public System
 
     public:
 
+        /// @brief              Constructor
+        ///
+        /// @code
+        ///                     Mass mass = { ... } ;
+        ///                     Composite composite ( ... ) ;
+        ///                     Matrix3d intertiaTensor ( ... ) ;
+        ///                     crossSectionalSurfaceArea = 0.8 ;
+        ///                     dragCoefficient = 2.2 ;
+        ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea, dragCoefficient } ;
+        /// @endcode
+        ///
+        /// @param              [in] aMass A mass
+        /// @param              [in] aCompositeGeometry A composite geometry
+        /// @param              [in] anInertiaTensor An inertia tensor
+        /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
+        /// @param              [in] aDragCoefficient A drag coefficient
+
                                 SatelliteSystem                             (   const   Mass&                       aMass,
                                                                                 const   Composite&                  aSatelliteGeometry,
                                                                                 const   Matrix3d&                   anInertiaTensor,
                                                                                 const   Real&                       aCrossSectionalSurfaceArea,
                                                                                 const   Real&                       aDragCoefficient                            ) ;
 
+        /// @brief              Copy Constructor
+        ///
+        /// @param              [in] SatelliteSystem A satellite system
+
                                 SatelliteSystem                             (   const   SatelliteSystem&            aSatelliteSystem                            ) ;
+
+        /// @brief              Destructor
 
         virtual                 ~SatelliteSystem                            ( ) override ;
 
+        /// @brief              Clone satellite system
+        ///
+        /// @return             Pointer to cloned satellite system
+
         SatelliteSystem*        clone                                       ( ) const ;
+
+        /// @brief              Equal to operator
+        ///
+        /// @param              [in] aSatelliteSystem A satellite system
+        /// @return             True if satellite systems are equal
 
         bool                    operator ==                                 (   const   SatelliteSystem&            aSatelliteSystem                            ) const ;
 
+        /// @brief              Not equal to operator
+        ///
+        /// @param              [in] aSatelliteSystem A satellite system
+        /// @return             True if satellite systems are not equal
+
         bool                    operator !=                                 (   const   SatelliteSystem&            aSatelliteSystem                            ) const ;
+
+        /// @brief              Output stream operator
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] aSatelliteSystem An satellite system
+        /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   SatelliteSystem&            aSatelliteSystem                            ) ;
 
+        /// @brief              Check if satellite system is defined
+        ///
+        /// @return             True if satellite system is defined
+
         virtual bool            isDefined                                   ( ) const override ;
+
+        /// @brief              Print satellite system
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] (optional) displayDecorators If true, display decorators
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
+        /// @brief              Get satellite system's intertia tensor
+        ///
+        /// @code
+        ///                     Matrix3d intertiaTensor = satelliteSystem.getInertiaTensor() ;
+        /// @endcode
+        ///
+        /// @return             Matrix3d
+
         Matrix3d                getInertiaTensor                            ( ) const ;
 
+        /// @brief              Get satellite system's surface area
+        ///
+        /// @code
+        ///                     Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
+        /// @endcode
+        ///
+        /// @return             Real
+
         Real                    getCrossSectionalSurfaceArea                ( ) const ;
+
+        /// @brief              Get satellite system's drag coefficient
+        ///
+        /// @code
+        ///                     Real dragCoefficient = satelliteSystem.getCrossSectionalSurfaceArea() ;
+        /// @endcode
+        ///
+        /// @return             Real
 
         Real                    getDragCoefficient                          ( ) const ;
 

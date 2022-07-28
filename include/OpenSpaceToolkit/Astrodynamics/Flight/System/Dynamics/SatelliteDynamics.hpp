@@ -82,31 +82,103 @@ class SatelliteDynamics : public Dynamics
 
     public:
 
+
+        /// @brief              Constructor
+        ///
+        /// @code
+        ///                     Environment env = { ... } ;
+        ///                     SatelliteSystem satellitesystem = { ... } ;
+        ///                     State state = { ... } ;
+        ///                     SatelliteDynamics satelliteDynamics = { env, satellitesystem, state } ;
+        /// @endcode
+        ///
+        /// @param              [in] anEnvironment An environment
+        /// @param              [in] aSatelliteSystem A satellite system
+        /// @param              [in] aState A 3 DOF state
+
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
                                                                                 const   State&                      aState                                      ) ;
 
+        /// @brief              Copy Constructor
+        ///
+        /// @param              [in] SatelliteDynamics A satellite dynamics
+
                                 SatelliteDynamics                           (   const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
+
+        /// @brief              Destructor
 
         virtual                 ~SatelliteDynamics                          ( ) override ;
 
+        /// @brief              Clone satellite dynamics
+        ///
+        /// @return             Pointer to cloned satellite dynamics
+
         virtual SatelliteDynamics*  clone                                   ( ) const override ;
+
+        /// @brief              Equal to operator
+        ///
+        /// @param              [in] aSatelliteDynamics A satellite dynamics
+        /// @return             True if satellite dynamics are equal
 
         bool                    operator ==                                 (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const ;
 
+        /// @brief              Not equal to operator
+        ///
+        /// @param              [in] aSatelliteDynamics A satellite dynamics
+        /// @return             True if satellite dynamics are not equal
+
         bool                    operator !=                                 (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const ;
+
+        /// @brief              Output stream operator
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] aSatelliteDynamics An satellite dynamics
+        /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
 
+        /// @brief              Check if satellite dynamics is defined
+        ///
+        /// @return             True if satellite dynamics is defined
+
         virtual bool            isDefined                                   ( ) const override ;
+
+        /// @brief              Print satellite dynamics
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] (optional) displayDecorators If true, display decorators
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
+        /// @brief              Get satellite dynamics's 3 DOF State
+        ///
+        /// @code
+        ///                     State state = satelliteDynamics.getState() ;
+        /// @endcode
+        ///
+        /// @return             State
+
         State                   getState                                    ( ) const ;
 
+        /// @brief              Set satellite dynamics's 3 DOF State
+        ///
+        /// @code
+        ///                     State state = { ... } ;
+        ///                     satelliteDynamics.setState(state) ;
+        /// @endcode
+        /// @param              [in] aState A 3DOF state
+
         void                    setState                                    (   const   State&                      aState                                      ) ;
+
+        /// @brief              Obtain dynamical equations function wrapper
+        ///
+        /// @code
+        ///                     Dynamics::DynamicalEquationWrapper dyneq = satelliteDynamics.getDynamicalEquations() ;
+        /// @endcode
+        /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
         virtual Dynamics::DynamicalEquationWrapper  getDynamicalEquations   ( )  override ;
 
