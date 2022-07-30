@@ -25,15 +25,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
     using ostk::astro::NumericalSolver ;
 
-    typedef std::function<NumericalSolver::StateVector(const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double t)> pythonSystemOfEquationsSignature ;
+    typedef std::function<NumericalSolver::StateVector(const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double t)> pythonSystemOfEquationsSignature ;
 
     {
 
         class_<NumericalSolver> numerical_solver_class(aModule, "NumericalSolver") ;
 
         numerical_solver_class
-            .def(init<const   NumericalSolver::LogType&, const   NumericalSolver::StepperType&, const   Real&, const   Real&, const   Real&>())
-            .def(init<const   NumericalSolver&>())
+            .def(init<const NumericalSolver::LogType&, const NumericalSolver::StepperType&, const Real&, const Real&, const Real&>())
+            .def(init<const NumericalSolver&>())
 
             .def(self == self)
             .def(self != self)

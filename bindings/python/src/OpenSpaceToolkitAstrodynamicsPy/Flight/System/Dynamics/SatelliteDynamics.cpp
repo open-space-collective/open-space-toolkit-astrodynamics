@@ -30,8 +30,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
         class_<SatelliteDynamics> satellite_dynamics_class(aModule, "SatelliteDynamics") ;
 
         satellite_dynamics_class
-            .def(init<const   Environment&, const   SatelliteSystem&, const   State&>())
-            .def(init<const   SatelliteDynamics&>())
+            .def(init<const Environment&, const SatelliteSystem&, const State&>())
+            .def(init<const SatelliteDynamics&>())
 
             .def(self == self)
             .def(self != self)

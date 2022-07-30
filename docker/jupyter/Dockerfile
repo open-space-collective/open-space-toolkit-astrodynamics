@@ -22,7 +22,8 @@ USER root
 # Install Python utilities
 
 RUN apt-get update \
- && apt-get install -y curl
+ && apt-get install -y curl \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --quiet numpy pandas plotly \
  && conda install ipympl=0.4.0

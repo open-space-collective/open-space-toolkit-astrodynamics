@@ -75,7 +75,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
         // Construct System object
         const System system = { systemMass, systemGeometry } ;
 
-        EXPECT_NO_THROW(System systemCopy( system )) ;
+        EXPECT_NO_THROW(System systemCopy(system)) ;
 
     }
 

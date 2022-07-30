@@ -119,7 +119,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
         // Satellite dynamics setup
         const SatelliteDynamics satellitedynamics = { defaultEnvironment, satelliteSystem, state } ;
 
-        EXPECT_NO_THROW(SatelliteDynamics satellitedynamicsCopy( satellitedynamics )) ;
+        EXPECT_NO_THROW(SatelliteDynamics satellitedynamicsCopy(satellitedynamics)) ;
 
 
     }
