@@ -81,14 +81,13 @@ class SatelliteDynamics : public Dynamics
 
     public:
 
-
         /// @brief              Constructor
         ///
         /// @code
         ///                     Environment env = { ... } ;
-        ///                     SatelliteSystem satellitesystem = { ... } ;
+        ///                     SatelliteSystem satelliteSystem = { ... } ;
         ///                     State state = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { env, satellitesystem, state } ;
+        ///                     SatelliteDynamics satelliteDynamics = { env, satelliteSystem, state } ;
         /// @endcode
         ///
         /// @param              [in] anEnvironment An environment
@@ -113,7 +112,7 @@ class SatelliteDynamics : public Dynamics
         ///
         /// @return             Pointer to cloned satellite dynamics
 
-        virtual SatelliteDynamics*  clone                                   ( ) const override ;
+        virtual SatelliteDynamics* clone                                    ( ) const override ;
 
         /// @brief              Equal to operator
         ///
@@ -179,7 +178,7 @@ class SatelliteDynamics : public Dynamics
         /// @endcode
         /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-        virtual Dynamics::DynamicalEquationWrapper  getDynamicalEquations   ( )  override ;
+        virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations    ( ) override ;
 
     private:
 

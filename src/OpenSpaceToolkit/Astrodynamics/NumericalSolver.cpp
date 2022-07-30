@@ -31,7 +31,6 @@ namespace astro
                                     timeStep_(aTimeStep),
                                     relativeTolerance_(aRelativeTolerance),
                                     absoluteTolerance_(anAbsoluteTolerance)
-
 {
 
 }
@@ -42,14 +41,15 @@ namespace astro
                                     timeStep_(aNumericalSolver.timeStep_),
                                     relativeTolerance_(aNumericalSolver.relativeTolerance_),
                                     absoluteTolerance_(aNumericalSolver.absoluteTolerance_)
-
 {
 
 }
 
 NumericalSolver*                NumericalSolver::clone                      ( ) const
 {
+
     return new NumericalSolver(*this) ;
+
 }
 
 bool                            NumericalSolver::operator ==                (   const   NumericalSolver&            aNumericalSolver                            ) const
@@ -70,7 +70,9 @@ bool                            NumericalSolver::operator ==                (   
 
 bool                            NumericalSolver::operator !=                (   const   NumericalSolver&            aNumericalSolver                            ) const
 {
+
     return !((*this) == aNumericalSolver) ;
+
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -100,7 +102,7 @@ bool                            NumericalSolver::isDefined                  ( ) 
             break ;
     }
 
-     bool logTypeIsDefinedBool  ;
+    bool logTypeIsDefinedBool  ;
     switch (logType_)
     {
         case NumericalSolver::LogType::NoLog:
@@ -117,20 +119,21 @@ bool                            NumericalSolver::isDefined                  ( ) 
             break ;
     }
 
-    return logTypeIsDefinedBool && stepperTypeIsDefinedBool && timeStep_.isDefined() && relativeTolerance_.isDefined() && absoluteTolerance_.isDefined();
+    return logTypeIsDefinedBool && stepperTypeIsDefinedBool && timeStep_.isDefined() && relativeTolerance_.isDefined() && absoluteTolerance_.isDefined() ;
+
 }
 
 void                            NumericalSolver::print                      (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "NumericalSolver") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Numerical Solver") : void () ;
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration logging type:"                << NumericalSolver::StringFromLogType(logType_) ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration stepper type:"                << NumericalSolver::StringFromStepperType(stepperType_) ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration time step:"                << (timeStep_.isDefined() ? timeStep_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration relative tolerance:"                << (relativeTolerance_.isDefined() ? relativeTolerance_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Integration absolute tolerance:"                << (absoluteTolerance_.isDefined() ? absoluteTolerance_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration logging type:"           << NumericalSolver::StringFromLogType(logType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration stepper type:"           << NumericalSolver::StringFromStepperType(stepperType_) ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration time step:"              << (timeStep_.isDefined() ? timeStep_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration relative tolerance:"     << (relativeTolerance_.isDefined() ? relativeTolerance_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Integration absolute tolerance:"     << (absoluteTolerance_.isDefined() ? absoluteTolerance_.toString() : "Undefined") ;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
@@ -203,56 +206,52 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector ;
 
-    double propDurationInSecs ;
     if ( (anIntegrationDuration.inSeconds()).isZero() ) // If integration duration is zero seconds long, skip integration
     {
         return anInitialStateVector ;
     }
-    else
-    {
-        propDurationInSecs = (double)(anIntegrationDuration.inSeconds()) ;
-    }
+    const double integrationDurationInSecs = anIntegrationDuration.inSeconds() ;
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * propDurationInSecs / std::abs(propDurationInSecs) ;
+    const double adjustedTimeStep = timeStep_ * integrationDurationInSecs / std::abs(integrationDurationInSecs) ;
 
     switch (logType_)
     {
         case NumericalSolver::LogType::NoLog:
         {
             switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
-                        return aStateVector ;
-                }
+            {
+                case NumericalSolver::StepperType::RungeKuttaCashKarp54:
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep) ;
+                    return aStateVector ;
+                case NumericalSolver::StepperType::RungeKuttaFehlberg78:
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep) ;
+                    return aStateVector ;
+            }
         }
         case NumericalSolver::LogType::LogConstant:
         {
             switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                }
+            {
+                case NumericalSolver::StepperType::RungeKuttaCashKarp54:
+                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                    return aStateVector ;
+                case NumericalSolver::StepperType::RungeKuttaFehlberg78:
+                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                    return aStateVector ;
+            }
         }
         case NumericalSolver::LogType::LogAdaptive:
         {
             switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                }
+            {
+                case NumericalSolver::StepperType::RungeKuttaCashKarp54:
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                    return aStateVector ;
+                case NumericalSolver::StepperType::RungeKuttaFehlberg78:
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
+                    return aStateVector ;
+            }
         }
     }
 
@@ -269,65 +268,7 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInst
                                                                                         const   NumericalSolver::SystemOfEquationsWrapper&  aSystemOfEquations  ) const
 {
 
-// [TBI] Incldue safety checks to make sure incoming parameters don't break stuff
-
-    NumericalSolver::StateVector aStateVector = anInitialStateVector ;
-
-    double propDurationInSecs ;
-    if ( ((anEndInstant-aStartInstant).inSeconds()).isZero() ) // If integration duration is zero seconds long, skip integration
-    {
-        return anInitialStateVector ;
-    }
-    else
-    {
-        propDurationInSecs = (double)((anEndInstant-aStartInstant).inSeconds()) ;
-    }
-
-    // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * propDurationInSecs / std::abs(propDurationInSecs) ;
-
-    switch (logType_)
-    {
-        case NumericalSolver::LogType::NoLog: //[TBR] determine whether or not the adaptive is the best to use when no log is specified
-        {
-            switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep) ;
-                        return aStateVector ;
-                }
-        }
-        case NumericalSolver::LogType::LogConstant:
-        {
-            switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_const (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                }
-        }
-        case NumericalSolver::LogType::LogAdaptive:
-        {
-            switch (stepperType_)
-                {
-                    case NumericalSolver::StepperType::RungeKuttaCashKarp54:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_54() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                    case NumericalSolver::StepperType::RungeKuttaFehlberg78:
-                        integrate_adaptive (make_controlled( absoluteTolerance_, relativeTolerance_, NumericalSolver::error_stepper_type_78() ), aSystemOfEquations, aStateVector, (0.0), propDurationInSecs, adjustedTimeStep, NumericalSolver::NumericalIntegrationLogger) ;
-                        return aStateVector ;
-                }
-        }
-    }
-
-    throw ostk::core::error::runtime::Undefined("No StateVector returned from Odeint") ;
-    return NumericalSolver::StateVector(anInitialStateVector.size()) ;
+    return this->integrateStateForDuration(anInitialStateVector, (anEndInstant - aStartInstant), aSystemOfEquations) ;
 
 }
 
@@ -338,19 +279,14 @@ String                          NumericalSolver::StringFromLogType          (   
 
     switch (aLogType)
     {
-
         case NumericalSolver::LogType::NoLog:
             return "NoLog" ;
-
         case NumericalSolver::LogType::LogConstant:
             return "LogConstant" ;
-
         case NumericalSolver::LogType::LogAdaptive:
             return "LogAdaptive" ;
-
         default:
             throw ostk::core::error::runtime::Wrong("Integration Stepper Type") ;
-
     }
 
     return String::Empty() ;
@@ -362,15 +298,12 @@ String                          NumericalSolver::StringFromStepperType      (   
 
     switch (aStepperType)
     {
-
         case NumericalSolver::StepperType::RungeKuttaCashKarp54:
             return "RungeKuttaCashKarp54" ;
         case NumericalSolver::StepperType::RungeKuttaFehlberg78:
             return "RungeKuttaFehlberg78" ;
-
         default:
             throw ostk::core::error::runtime::Wrong("Integration Stepper Type") ;
-
     }
 
     return String::Empty() ;
@@ -382,6 +315,7 @@ String                          NumericalSolver::StringFromStepperType      (   
 void                            NumericalSolver::NumericalIntegrationLogger (   const   NumericalSolver::StateVector&   x,
                                                                                 const   double                          t                                       )
 {
+
     std::cout.precision(3) ;
     std::cout.setf(std::ios::fixed,std::ios::floatfield) ;
 
@@ -397,6 +331,7 @@ void                            NumericalSolver::NumericalIntegrationLogger (   
     std::cout << std::endl ;
 
     std::cout.setf(std::ios::fixed,std::ios::floatfield) ;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

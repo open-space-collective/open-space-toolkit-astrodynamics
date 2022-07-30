@@ -120,34 +120,34 @@ Array<State>                    Trajectory::getStatesAt                     (   
         throw ostk::core::error::runtime::Wrong("Empty Instant Array supplied") ;
     }
 
-    Array<std::pair<Instant, size_t>> instantArrayPair  = Array<std::pair<Instant, size_t>>::Empty() ;
-    instantArrayPair.reserve(anInstantArray.getSize()) ;
+    Array<std::pair<Instant, size_t>> instantArrayPairs  = Array<std::pair<Instant, size_t>>::Empty() ;
+    instantArrayPairs.reserve(anInstantArray.getSize()) ;
 
     for (size_t i = 0 ; i < anInstantArray.getSize() ; i++)
     {
-        instantArrayPair.push_back(std::make_pair(anInstantArray[i], i));
+        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i));
     }
 
-    // Sort instant array pair chronologically
-    std::sort(instantArrayPair.begin(), instantArrayPair.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
+    // Sort instant array pairs chronologically
+    std::sort(instantArrayPairs.begin(), instantArrayPairs.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
 
     Array<State> stateArraySorted = Array<State>::Empty() ;
     stateArraySorted.reserve(anInstantArray.getSize()) ;
 
-    for (size_t j = 0 ; j < anInstantArray.getSize() ; j++)
+    for (const auto& instantArrayPair : instantArrayPairs)
     {
-        stateArraySorted.add(this->getStateAt((instantArrayPair[j]).first)) ;
+        stateArraySorted.add(this->getStateAt(instantArrayPair.first)) ;
     }
 
-    Array<std::pair<State, size_t>> stateArrayPair = Array<std::pair<State, size_t>>::Empty() ;
-    stateArrayPair.reserve(anInstantArray.getSize()) ;
+    Array<std::pair<State, size_t>> stateArrayPairs = Array<std::pair<State, size_t>>::Empty() ;
+    stateArrayPairs.reserve(anInstantArray.getSize()) ;
 
     for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
     {
-        stateArrayPair.push_back(std::make_pair(stateArraySorted[k], (instantArrayPair[k]).second));
+        stateArrayPairs.push_back(std::make_pair(stateArraySorted[k], (instantArrayPairs[k]).second));
     }
 
-    std::sort(stateArrayPair.begin(), stateArrayPair.end(), [] (const auto& lhs, const auto& rhs) { return lhs.second < rhs.second ; }) ;
+    std::sort(stateArrayPairs.begin(), stateArrayPairs.end(), [] (const auto& lhs, const auto& rhs) { return lhs.second < rhs.second ; }) ;
 
 
     Array<State> stateArrayUnsorted = Array<State>::Empty() ;
@@ -155,7 +155,7 @@ Array<State>                    Trajectory::getStatesAt                     (   
 
     for (size_t l = 0 ; l < anInstantArray.getSize() ; l++)
     {
-        stateArrayUnsorted.add((stateArrayPair[l]).first);
+        stateArrayUnsorted.add((stateArrayPairs[l]).first);
     }
 
     return stateArrayUnsorted ;

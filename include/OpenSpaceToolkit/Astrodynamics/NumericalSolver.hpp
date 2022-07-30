@@ -137,7 +137,7 @@ class NumericalSolver
         /// @brief              Get integration logging enum
         ///
         /// @code
-        ///                     numericalsolver.getLogType() ;
+        ///                     numericalSolver.getLogType() ;
         /// @endcode
         ///
         /// @return             LogType
@@ -147,7 +147,7 @@ class NumericalSolver
         /// @brief              Get integration stepper enum
         ///
         /// @code
-        ///                     numericalsolver.getStepperType() ;
+        ///                     numericalSolver.getStepperType() ;
         /// @endcode
         ///
         /// @return             StepperType
@@ -157,7 +157,7 @@ class NumericalSolver
         /// @brief              Get initial time step guess
         ///
         /// @code
-        ///                     numericalsolver.getTimeStep() ;
+        ///                     numericalSolver.getTimeStep() ;
         /// @endcode
         ///
         /// @return             Real
@@ -167,7 +167,7 @@ class NumericalSolver
         /// @brief              Get relative integration tolerance
         ///
         /// @code
-        ///                     numericalsolver.getRelativeTolerance() ;
+        ///                     numericalSolver.getRelativeTolerance() ;
         /// @endcode
         ///
         /// @return             Real
@@ -177,7 +177,7 @@ class NumericalSolver
         /// @brief              Get absolute integration tolerance
         ///
         /// @code
-        ///                     numericalsolver.getAbsoluteTolerance() ;
+        ///                     numericalSolver.getAbsoluteTolerance() ;
         /// @endcode
         ///
         /// @return             Real
@@ -187,7 +187,7 @@ class NumericalSolver
         /// @brief              Perform numerical integration from an instant to another instant
         ///
         /// @code
-        ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, SystemofEquations) ;
+        ///                     StateVector stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, systemOfEquations) ;
         /// @endcode
         /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
         /// @param              [in] aStartInstant An instant to begin integrating from
@@ -217,7 +217,7 @@ class NumericalSolver
         /// @brief              Get string from the integration stepper type
         ///
         /// @code
-        ///                     NumericalSolver::StringFromStepperType() ;
+        ///                     NumericalSolver::StringFromStepperType(aStepperType) ;
         /// @endcode
         /// @param              [in] aStepperType An integration stepper type enum
         /// @return             StepperType
@@ -227,7 +227,7 @@ class NumericalSolver
         /// @brief              Get string from the integration log type
         ///
         /// @code
-        ///                     NumericalSolver::StringFromLogType() ;
+        ///                     NumericalSolver::StringFromLogType(aLogType) ;
         /// @endcode
         /// @param              [in] aLogType An integration log type enum
         /// @return             LogType

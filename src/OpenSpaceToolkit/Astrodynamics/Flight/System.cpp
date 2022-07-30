@@ -28,7 +28,6 @@ namespace flight
 
                                 :   mass_(aMass),
                                     geometry_(aGeometry)
-
 {
 
 }
@@ -36,20 +35,20 @@ namespace flight
                                 System::System                              (   const   System&                     aSystem                                     )
                                 :   mass_(aSystem.mass_),
                                     geometry_(aSystem.geometry_)
-
 {
 
 }
 
                                 System::~System                             ( )
-
 {
 
 }
 
 System*                         System::clone                               ( ) const
 {
+
     return new System(*this) ;
+
 }
 
 bool                            System::operator ==                         (   const   System&                             aSystem                            ) const
@@ -67,7 +66,9 @@ bool                            System::operator ==                         (   
 
 bool                            System::operator !=                         (   const   System&            aSystem                            ) const
 {
+
     return !((*this) == aSystem) ;
+
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -80,9 +81,11 @@ std::ostream&                   operator <<                                 (   
 
 }
 
-bool                            System::isDefined                  ( ) const
+bool                            System::isDefined                           ( ) const
 {
+
     return mass_.isDefined() && geometry_.isDefined() ;
+
 }
 
 void                            System::print                               (           std::ostream&               anOutputStream,
@@ -91,9 +94,9 @@ void                            System::print                               (   
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "System") : void () ;
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Mass:"                    << (mass_.isDefined() ? mass_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Mass:" << (mass_.isDefined() ? mass_.toString() : "Undefined") ;
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Composite Geometry") ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Geometry") ;
     geometry_.print(anOutputStream, false) ;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;

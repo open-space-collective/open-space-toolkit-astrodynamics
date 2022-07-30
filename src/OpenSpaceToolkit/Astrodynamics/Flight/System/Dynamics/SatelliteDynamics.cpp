@@ -43,7 +43,6 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     gcrfSPtr_(Frame::GCRF()),
                                     satelliteSystem_(aSatelliteSystem),
                                     state_(aState)
-
 {
 
     environment_.setInstant(aState.getInstant()) ;
@@ -56,7 +55,6 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
                                     state_(aSatelliteDynamics.state_)
-
 {
 
     environment_.setInstant(aSatelliteDynamics.state_.getInstant()) ;
@@ -64,17 +62,18 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 }
 
                                 SatelliteDynamics::~SatelliteDynamics       ( )
-
 {
 
 }
 
 SatelliteDynamics*              SatelliteDynamics::clone                    ( ) const
 {
+
     return new SatelliteDynamics(*this) ;
+
 }
 
-bool                            SatelliteDynamics::operator ==              (   const   SatelliteDynamics&          aSatelliteDynamics                     ) const
+bool                            SatelliteDynamics::operator ==              (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const
 {
 
     if ((!this->isDefined()) || (!aSatelliteDynamics.isDefined()))
@@ -91,7 +90,9 @@ bool                            SatelliteDynamics::operator ==              (   
 
 bool                            SatelliteDynamics::operator !=              (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const
 {
+
     return !((*this) == aSatelliteDynamics) ;
+
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -152,7 +153,7 @@ void                            SatelliteDynamics::setState                 (   
 
 }
 
-Dynamics::DynamicalEquationWrapper  SatelliteDynamics::getDynamicalEquations( )
+Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations ( )
 {
 
     if (!this->isDefined())
@@ -178,26 +179,24 @@ void                            SatelliteDynamics::DynamicalEquations       (   
     environment_.setInstant(currentInstant) ;
 
     // Initialize gravitational acceleration vector
-    Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
+    Vector3d totalGravitationalAcceleration_SI = { 0.0, 0.0, 0.0 } ;
 
     // Access all objects in the environment and loop through them
-    Array<String> objectNameArray = environment_.getObjectNames() ;
-
-    for (size_t i = 0; i < (size_t)objectNameArray.getSize(); i++)
+    for (const auto& objectName : environment_.getObjectNames())
     {
-        if (objectNameArray[i] == "Earth")
+        if (objectName == "Earth")
         {
             // Obtain gravitational acceleration from current object
-            const Vector gravitationalAcceleration = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getGravitationalFieldAt(currentPosition) ;
+            const Vector gravitationalAcceleration = environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition) ;
 
             // Add object's gravity to total gravitational acceleration
-            totalGravitationalAcceleration_SI += (gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant)).getValue() ;
+            totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue() ;
         }
         else
         {
-            const double mu_ThirdBody_SI = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
+            const double mu_ThirdBody_SI = environment_.accessCelestialObjectWithName(objectName)->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
 
-            const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(objectNameArray[i]))->getPositionIn(gcrfSPtr_) ;
+            const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(objectName))->getPositionIn(gcrfSPtr_) ;
 
             // Obtain relative position vector
             const Vector3d relativePositionCoordinates = currentPosition.accessCoordinates() - thirdBodyPosition.accessCoordinates() ;
@@ -209,16 +208,15 @@ void                            SatelliteDynamics::DynamicalEquations       (   
                                                             -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[1],
                                                             -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[2] ) ;
         }
-
     }
 
     // Integrate position and velocity states
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-    dxdt[3] = totalGravitationalAcceleration_SI[0];
-    dxdt[4] = totalGravitationalAcceleration_SI[1];
-    dxdt[5] = totalGravitationalAcceleration_SI[2];
+    dxdt[0] = x[3] ;
+    dxdt[1] = x[4] ;
+    dxdt[2] = x[5] ;
+    dxdt[3] = totalGravitationalAcceleration_SI[0] ;
+    dxdt[4] = totalGravitationalAcceleration_SI[1] ;
+    dxdt[5] = totalGravitationalAcceleration_SI[2] ;
 
 }
 
@@ -256,12 +254,12 @@ void                            SatelliteDynamics::DynamicalEquations       (   
 //     const Vector3d dragAcceleration = -0.5 * dragCoefficient * (surfaceArea / mass) * rho * relativeVelocityMagnitude * relativeVelocity ;
 
 //     // Integrate position and velocity states
-//     dxdt[0] = x[3];
-//     dxdt[1] = x[4];
-//     dxdt[2] = x[5];
-//     dxdt[3] = -(mu_SI / positionMagnitudeCubed) * x[0] + dragAcceleration[0];
-//     dxdt[4] = -(mu_SI / positionMagnitudeCubed) * x[1] + dragAcceleration[1];
-//     dxdt[5] = -(mu_SI / positionMagnitudeCubed) * x[2] + dragAcceleration[2];
+//     dxdt[0] = x[3] ;
+//     dxdt[1] = x[4] ;
+//     dxdt[2] = x[5] ;
+//     dxdt[3] = -(mu_SI / positionMagnitudeCubed) * x[0] + dragAcceleration[0] ;
+//     dxdt[4] = -(mu_SI / positionMagnitudeCubed) * x[1] + dragAcceleration[1] ;
+//     dxdt[5] = -(mu_SI / positionMagnitudeCubed) * x[2] + dragAcceleration[2] ;
 
 // }
 

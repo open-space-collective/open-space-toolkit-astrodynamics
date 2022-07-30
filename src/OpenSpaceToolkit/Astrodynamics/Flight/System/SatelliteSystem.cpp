@@ -34,7 +34,6 @@ namespace system
                                     inertiaTensor_(anInertiaTensor),
                                     crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
                                     dragCoefficient_(aDragCoefficient)
-
 {
 
 }
@@ -44,13 +43,11 @@ namespace system
                                     inertiaTensor_(aSatelliteSystem.inertiaTensor_),
                                     crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
                                     dragCoefficient_(aSatelliteSystem.dragCoefficient_)
-
 {
 
 }
 
                                 SatelliteSystem::~SatelliteSystem           ( )
-
 {
 
 }
@@ -58,7 +55,9 @@ namespace system
 
 SatelliteSystem*                SatelliteSystem::clone                      ( ) const
 {
+
     return new SatelliteSystem(*this) ;
+
 }
 
 bool                            SatelliteSystem::operator ==                (   const   SatelliteSystem&            aSatelliteSystem                            ) const
@@ -79,7 +78,9 @@ bool                            SatelliteSystem::operator ==                (   
 
 bool                            SatelliteSystem::operator !=                (   const   SatelliteSystem&            aSatelliteSystem                            ) const
 {
+
     return !((*this) == aSatelliteSystem) ;
+
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -94,7 +95,9 @@ std::ostream&                   operator <<                                 (   
 
 bool                            SatelliteSystem::isDefined                  ( ) const
 {
-    return System::isDefined() && inertiaTensor_.isDefined() && dragCoefficient_.isDefined() ; //[TBI] add is defined check for inertia tensor
+
+    return System::isDefined() && inertiaTensor_.isDefined() && crossSectionalSurfaceArea_.isDefined() && dragCoefficient_.isDefined() ;
+
 }
 
 void                            SatelliteSystem::print                      (           std::ostream&               anOutputStream,
@@ -105,10 +108,9 @@ void                            SatelliteSystem::print                      (   
 
     System::print(anOutputStream, false) ;
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined") ;
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Cross Sectional Surface Area:" << (crossSectionalSurfaceArea_.isDefined() ? crossSectionalSurfaceArea_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Inertia Tensor:"                 << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Cross Sectional Surface Area:"   << (crossSectionalSurfaceArea_.isDefined() ? crossSectionalSurfaceArea_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Drag Coefficient:"               << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined") ;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
@@ -126,7 +128,7 @@ Matrix3d                        SatelliteSystem::getInertiaTensor           ( ) 
 
 }
 
-Real                            SatelliteSystem::getCrossSectionalSurfaceArea( ) const
+Real                            SatelliteSystem::getCrossSectionalSurfaceArea( )const
 {
 
     if (!this->isDefined())
