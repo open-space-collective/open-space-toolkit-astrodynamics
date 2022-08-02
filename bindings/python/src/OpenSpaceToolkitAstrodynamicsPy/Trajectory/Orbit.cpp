@@ -13,6 +13,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +33,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     using ostk::astro::trajectory::Orbit ;
     using ostk::astro::trajectory::orbit::models::Kepler ;
     using ostk::astro::trajectory::orbit::models::SGP4 ;
+    using ostk::astro::trajectory::orbit::models::Propagated ;
 
     {
 
@@ -64,10 +66,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             // .def("access_model", &Orbit::accessModel, return_value_policy<reference_existing_object>())
             // .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
             // .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
+            // .def("access_propagated_model", +[] (const Orbit& anOrbit) -> const Propagated& { return anOrbit.accessModel().as<Propagated>() ; }, return_value_policy<reference_existing_object>()) // [TBR]
 
             .def("access_model", &Orbit::accessModel, return_value_policy::reference) // [TBR]
             .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy::reference) // [TBR]
             .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy::reference) // [TBR]
+            .def("access_propagated_model", +[] (const Orbit& anOrbit) -> const Propagated& { return anOrbit.accessModel().as<Propagated>() ; }, return_value_policy::reference) // [TBR]
 
             .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt, arg("instant"))
             .def("get_pass_at", &Orbit::getPassAt, arg("instant"))
