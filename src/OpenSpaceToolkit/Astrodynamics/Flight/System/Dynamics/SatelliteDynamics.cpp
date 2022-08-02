@@ -192,18 +192,14 @@ void                            SatelliteDynamics::DynamicalEquations       (   
             const double mu_ThirdBody_SI = environment_.accessCelestialObjectWithName(objectName)->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
 
             // Obtain 3rd body position vector relative to Earth
-            const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(objectName))->getPositionIn(gcrfSPtr_) ;
-            const Vector3d thirdBodyPositionCoordinates = thirdBodyPosition.accessCoordinates() ;
+            const Vector3d thirdBodyPositionCoordinates = environment_.accessCelestialObjectWithName(objectName)->getPositionIn(gcrfSPtr_).accessCoordinates() ;
             const double thirdBodyPositionMagnitudeCubed = std::pow(thirdBodyPositionCoordinates.norm(), 3) ;
 
             // Obtain satellite position vector relative to 3rd body
             const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - currentPosition.accessCoordinates() ;
             const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(), 3) ;
 
-            totalGravitationalAcceleration_SI += Vector3d(  mu_ThirdBody_SI * ( ( relativePositionCoordinates[0] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[0] / thirdBodyPositionMagnitudeCubed ) ),
-                                                            mu_ThirdBody_SI * ( ( relativePositionCoordinates[1] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[1] / thirdBodyPositionMagnitudeCubed ) ),
-                                                            mu_ThirdBody_SI * ( ( relativePositionCoordinates[2] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[2] / thirdBodyPositionMagnitudeCubed ) ) ) ;
-
+            totalGravitationalAcceleration_SI += mu_ThirdBody_SI * (relativePositionCoordinates / relativePositionMagnitudeCubed) - (thirdBodyPositionCoordinates / thirdBodyPositionMagnitudeCubed) ;
         }
     }
 
