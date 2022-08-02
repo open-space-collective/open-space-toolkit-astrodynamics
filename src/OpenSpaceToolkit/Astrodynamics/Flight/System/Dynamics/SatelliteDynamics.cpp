@@ -199,7 +199,7 @@ void                            SatelliteDynamics::DynamicalEquations       (   
             const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - currentPosition.accessCoordinates() ;
             const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(), 3) ;
 
-            totalGravitationalAcceleration_SI += mu_ThirdBody_SI * (relativePositionCoordinates / relativePositionMagnitudeCubed) - (thirdBodyPositionCoordinates / thirdBodyPositionMagnitudeCubed) ;
+            totalGravitationalAcceleration_SI += mu_ThirdBody_SI * ( (relativePositionCoordinates / relativePositionMagnitudeCubed) - (thirdBodyPositionCoordinates / thirdBodyPositionMagnitudeCubed) ) ;
         }
     }
 
