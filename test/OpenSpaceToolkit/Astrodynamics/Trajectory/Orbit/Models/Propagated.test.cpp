@@ -758,7 +758,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -803,7 +803,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -859,7 +859,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -910,7 +910,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -962,7 +962,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -1014,7 +1014,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -1066,7 +1066,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -1110,7 +1110,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -1210,7 +1210,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         // Create environment
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::WGS84())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
@@ -1544,8 +1544,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
+    // EGM96 perturbation
     {
-
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
         const Array<Shared<Object>> objects =
@@ -1619,6 +1619,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         // ASSERT_EQ(3763, revolutionNumber) ;
 
     }
+
+    // Repeat this test for all force models
 
 }
 
@@ -1757,7 +1759,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_CSV_Table_STK )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_CSV_Table_STK )
 {
 
     using ostk::core::types::Shared ;
@@ -1831,7 +1833,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Instant instantJ2000 = Instant::J2000() ;
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::Default())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
@@ -1912,6 +1914,8 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
     }
 
+    // Repeat this test for all force models
+
 }
 
 TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_ExtendedDuration_GMAT )
@@ -1959,6 +1963,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
+    // EGM96 perturbation
     {
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
@@ -2049,7 +2054,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 /* Propagation Interval validation tests */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_ShortInterval )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_ShortInterval )
 {
 
     using ostk::core::types::Shared ;
@@ -2119,7 +2124,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Instant instantJ2000 = Instant::J2000() ;
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::EGM96())
+            std::make_shared<Earth>(Earth::Spherical())
         } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
@@ -2181,7 +2186,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_MediumInterval )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_MediumInterval )
 {
 
     using ostk::core::types::Shared ;
@@ -2251,7 +2256,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Instant instantJ2000 = Instant::J2000() ;
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::EGM96()),
+            std::make_shared<Earth>(Earth::Spherical()),
         } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
@@ -2313,7 +2318,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_LongInterval )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_LongInterval )
 {
 
     using ostk::core::types::Shared ;
@@ -2383,7 +2388,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Instant instantJ2000 = Instant::J2000() ;
         const Array<Shared<Object>> objects =
         {
-            std::make_shared<Earth>(Earth::EGM96()),
+            std::make_shared<Earth>(Earth::Spherical()),
         } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
@@ -2709,7 +2714,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
 {
 
     using ostk::core::types::Shared ;
