@@ -84,10 +84,10 @@ class SatelliteDynamics : public Dynamics
         /// @brief              Constructor
         ///
         /// @code
-        ///                     Environment env = { ... } ;
+        ///                     Environment environment = { ... } ;
         ///                     SatelliteSystem satelliteSystem = { ... } ;
         ///                     State state = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { env, satelliteSystem, state } ;
+        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem, state } ;
         /// @endcode
         ///
         /// @param              [in] anEnvironment An environment

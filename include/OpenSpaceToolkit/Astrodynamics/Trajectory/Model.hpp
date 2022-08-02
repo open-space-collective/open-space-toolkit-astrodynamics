@@ -14,6 +14,8 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace ostk
@@ -24,6 +26,8 @@ namespace trajectory
 {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using ostk::core::ctnr::Array ;
 
 using ostk::physics::time::Instant ;
 
@@ -83,6 +87,8 @@ class Model
         }
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const = 0 ;
+
+        virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const ;
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const = 0 ;

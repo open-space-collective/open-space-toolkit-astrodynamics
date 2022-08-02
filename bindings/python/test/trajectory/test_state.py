@@ -27,7 +27,7 @@ State = astrodynamics.trajectory.State
 ################################################################################################################################################################
 
 @pytest.fixture
-def state_default_inputs_fix ():
+def state_default_inputs ():
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -35,40 +35,41 @@ def state_default_inputs_fix ():
 
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
-    return instant, position, velocity, frame
+    return (instant, position, velocity, frame)
 
 @pytest.fixture
-def state_fix (state_default_inputs_fix) -> State:
-    instant, position, velocity, frame = state_default_inputs_fix
-    state: State = State(instant, position, velocity)
+def state (state_default_inputs) -> State:
 
-    return state
+    return State(*state_default_inputs[0:-1])
 
 ################################################################################################################################################################
 
 class TestState:
-    def test_constructors(self, state_fix: State):
 
-        assert state_fix is not None
-        assert isinstance(state_fix, State)
-        assert state_fix.is_defined()
+    def test_constructors(self, state: State):
 
-    def test_comparators (self, state_fix: State):
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.is_defined()
 
-        assert state_fix == state_fix
-        assert (state_fix != state_fix) is False
+    def test_comparators (self, state: State):
 
-    def test_getters (self, state_fix: State, state_default_inputs_fix):
+        assert (state == state) is True
+        assert (state != state) is False
 
-        instant, position, velocity, frame = state_default_inputs_fix
-        assert state_fix.get_instant() == instant
-        assert state_fix.get_position() == position
-        assert state_fix.get_velocity() == velocity
+    def test_getters (self, state: State, state_default_inputs):
 
-    def test_in_frame (self, state_fix: State, state_default_inputs_fix):
+        (instant, position, velocity, frame) = state_default_inputs
 
-        instant, position, velocity, frame = state_default_inputs_fix
-        assert state_fix.in_frame(frame) == state_fix
-        assert state_fix.in_frame(Frame.ITRF()) != state_fix
+        assert state.get_instant() == instant
+        assert state.get_position() == position
+        assert state.get_velocity() == velocity
+
+    def test_in_frame (self, state: State, state_default_inputs):
+
+        (instant, position, velocity, frame) = state_default_inputs
+
+        assert state.in_frame(frame) == state
+        assert state.in_frame(Frame.ITRF()) != state
 
 ################################################################################################################################################################

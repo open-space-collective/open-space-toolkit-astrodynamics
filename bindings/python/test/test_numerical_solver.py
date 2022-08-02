@@ -29,7 +29,7 @@ NumericalSolver = astrodynamics.NumericalSolver
 ################################################################################################################################################################
 
 @pytest.fixture
-def numericalsolver_default_inputs_fix ():
+def numerical_solver_default_inputs ():
 
     log_type = NumericalSolver.LogType.NoLog
     stepper_type = NumericalSolver.StepperType.RungeKuttaCashKarp54
@@ -40,56 +40,50 @@ def numericalsolver_default_inputs_fix ():
     return log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance
 
 @pytest.fixture
-def numericalsolver_fix (numericalsolver_default_inputs_fix) -> NumericalSolver:
-    log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
+def numerical_solver (numerical_solver_default_inputs) -> NumericalSolver:
 
-    numerical_solver: NumericalSolver = NumericalSolver(log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance)
-
-    return numerical_solver
+    return NumericalSolver(*numerical_solver_default_inputs)
 
 ################################################################################################################################################################
 
 class TestNumericalSolver:
 
-    def test_constructors (self, numericalsolver_fix: NumericalSolver):
+    def test_constructors (self, numerical_solver: NumericalSolver):
 
-        assert numericalsolver_fix is not None
-        assert isinstance(numericalsolver_fix, NumericalSolver)
-        assert numericalsolver_fix.is_defined()
+        assert numerical_solver is not None
+        assert isinstance(numerical_solver, NumericalSolver)
+        assert numerical_solver.is_defined()
 
-        numericalsolver_2: NumericalSolver = NumericalSolver(numericalsolver_fix)
+        numericalsolver_2: NumericalSolver = NumericalSolver(numerical_solver)
 
         assert numericalsolver_2 is not None
         assert isinstance(numericalsolver_2, NumericalSolver)
         assert numericalsolver_2.is_defined()
 
-    def test_comparators (self, numericalsolver_fix: NumericalSolver):
+    def test_comparators (self, numerical_solver: NumericalSolver):
 
-        assert numericalsolver_fix == numericalsolver_fix
-        assert (numericalsolver_fix != numericalsolver_fix) is False
+        assert numerical_solver == numerical_solver
+        assert (numerical_solver != numerical_solver) is False
 
-    def test_get_types (self, numericalsolver_default_inputs_fix, numericalsolver_fix: NumericalSolver):
-        log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance = numericalsolver_default_inputs_fix
+    def test_get_types (self, numerical_solver_default_inputs, numerical_solver: NumericalSolver):
 
-        assert numericalsolver_fix.get_log_type() == log_type
-        assert numericalsolver_fix.get_stepper_type() == stepper_type
-        assert numericalsolver_fix.get_time_step() == initial_time_step
-        assert numericalsolver_fix.get_relative_tolerance() == relative_tolerance
-        assert numericalsolver_fix.get_absolute_tolerance() == absolute_tolerance
+        (log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance) = numerical_solver_default_inputs
+
+        assert numerical_solver.get_log_type() == log_type
+        assert numerical_solver.get_stepper_type() == stepper_type
+        assert numerical_solver.get_time_step() == initial_time_step
+        assert numerical_solver.get_relative_tolerance() == relative_tolerance
+        assert numerical_solver.get_absolute_tolerance() == absolute_tolerance
 
     def test_get_string_from_types (self):
 
         assert NumericalSolver.string_from_stepper_type(NumericalSolver.StepperType.RungeKuttaCashKarp54) == 'RungeKuttaCashKarp54'
-
         assert NumericalSolver.string_from_stepper_type(NumericalSolver.StepperType.RungeKuttaFehlberg78) == 'RungeKuttaFehlberg78'
-
         assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == 'NoLog'
-
         assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogConstant) == 'LogConstant'
-
         assert NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogAdaptive) == 'LogAdaptive'
 
-    def test_integrate_state_for_duration (self, numericalsolver_fix: NumericalSolver):
+    def test_integrate_state_for_duration (self, numerical_solver: NumericalSolver):
 
         initial_state_vec = np.array([0., 1.])
 
@@ -100,12 +94,12 @@ class TestNumericalSolver:
             dxdt[1] = -x[0]
             return dxdt
 
-        prop_state_vector = numericalsolver_fix.integrate_state_for_duration(initial_state_vec, integration_duration, oscillator)
+        prop_state_vector = numerical_solver.integrate_state_for_duration(initial_state_vec, integration_duration, oscillator)
 
         assert 5e-9 >= abs(prop_state_vector[0] - math.sin(integration_duration.in_seconds()))
         assert 5e-9 >= abs(prop_state_vector[1] - math.cos(integration_duration.in_seconds()))
 
-    def test_integrate_state_from_instant_to_instant (self, numericalsolver_fix: NumericalSolver):
+    def test_integrate_state_from_instant_to_instant (self, numerical_solver: NumericalSolver):
 
         initial_state_vec = np.array([0., 1.])
 
@@ -117,9 +111,9 @@ class TestNumericalSolver:
             dxdt[1] = -x[0]
             return dxdt
 
-        prop_state_vector = numericalsolver_fix.integrate_state_from_instant_to_instant(initial_state_vec, start_instant, end_instant, oscillator)
+        prop_state_vector = numerical_solver.integrate_state_from_instant_to_instant(initial_state_vec, start_instant, end_instant, oscillator)
 
-        assert 5e-9 >= abs(prop_state_vector[0] - math.sin( (end_instant - start_instant).in_seconds() ))
-        assert 5e-9 >= abs(prop_state_vector[1] - math.cos( (end_instant - start_instant).in_seconds() ))
+        assert 5e-9 >= abs(prop_state_vector[0] - math.sin((end_instant - start_instant).in_seconds()))
+        assert 5e-9 >= abs(prop_state_vector[1] - math.cos((end_instant - start_instant).in_seconds()))
 
 ################################################################################################################################################################

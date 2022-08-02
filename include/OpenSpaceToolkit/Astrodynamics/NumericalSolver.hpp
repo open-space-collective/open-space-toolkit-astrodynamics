@@ -19,8 +19,6 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
-#include <boost/numeric/odeint.hpp>
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace ostk
@@ -36,8 +34,6 @@ using ostk::core::types::String ;
 
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
-
-using namespace boost::numeric::odeint ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,9 +59,6 @@ class NumericalSolver
 
         typedef std::vector<double> StateVector ; // Container used to hold the state vector
         typedef std::function<void(const StateVector&, StateVector&, const double)> SystemOfEquationsWrapper ; // Function pointer type for returning dynamical equation's pointers
-
-        typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54 ;
-        typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78 ;
 
         /// @brief              Constructor
         ///
@@ -222,7 +215,7 @@ class NumericalSolver
         /// @param              [in] aStepperType An integration stepper type enum
         /// @return             StepperType
 
-        static String           StringFromStepperType                       (   const   NumericalSolver::StepperType&  aStepperType                             ) ;
+        static String           StringFromStepperType                       (   const   NumericalSolver::StepperType& aStepperType                              ) ;
 
         /// @brief              Get string from the integration log type
         ///

@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System   (           pybind11::module&           aModule                                     )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System (     pybind11::module&               aModule                                     )
 {
 
     using namespace pybind11 ;
@@ -27,9 +27,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System   
 
     {
 
-        class_<System> system_class(aModule, "System") ;
+        class_<System>(aModule, "System")
 
-        system_class
             .def(init<const Mass&, const Composite&>())
             .def(init<const System&>())
 

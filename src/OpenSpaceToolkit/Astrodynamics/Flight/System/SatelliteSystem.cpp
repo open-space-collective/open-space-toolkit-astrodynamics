@@ -29,7 +29,7 @@ namespace system
                                                                                 const   Composite&                  aSatelliteGeometry,
                                                                                 const   Matrix3d&                   anInertiaTensor,
                                                                                 const   Real&                       aCrossSectionalSurfaceArea,
-                                                                                const   Real&                       aDragCoefficient                             )
+                                                                                const   Real&                       aDragCoefficient                            )
                                 :   System(aMass, aSatelliteGeometry),
                                     inertiaTensor_(anInertiaTensor),
                                     crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
@@ -39,7 +39,7 @@ namespace system
 }
 
                                 SatelliteSystem::SatelliteSystem            (   const   SatelliteSystem&            aSatelliteSystem                            )
-                                :   System(aSatelliteSystem.getMass(), aSatelliteSystem.getGeometry()),
+                                :   System(aSatelliteSystem),
                                     inertiaTensor_(aSatelliteSystem.inertiaTensor_),
                                     crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
                                     dragCoefficient_(aSatelliteSystem.dragCoefficient_)
@@ -55,9 +55,7 @@ namespace system
 
 SatelliteSystem*                SatelliteSystem::clone                      ( ) const
 {
-
     return new SatelliteSystem(*this) ;
-
 }
 
 bool                            SatelliteSystem::operator ==                (   const   SatelliteSystem&            aSatelliteSystem                            ) const
@@ -68,8 +66,7 @@ bool                            SatelliteSystem::operator ==                (   
         return false ;
     }
 
-    return (System::getMass() == aSatelliteSystem.getMass())
-        && (System::getGeometry() == aSatelliteSystem.getGeometry())
+    return (System::operator == (aSatelliteSystem))
         && (inertiaTensor_ == aSatelliteSystem.inertiaTensor_)
         && (crossSectionalSurfaceArea_ == aSatelliteSystem.crossSectionalSurfaceArea_)
         && (dragCoefficient_ == aSatelliteSystem.dragCoefficient_) ;
@@ -78,9 +75,7 @@ bool                            SatelliteSystem::operator ==                (   
 
 bool                            SatelliteSystem::operator !=                (   const   SatelliteSystem&            aSatelliteSystem                            ) const
 {
-
     return !((*this) == aSatelliteSystem) ;
-
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -104,7 +99,7 @@ void                            SatelliteSystem::print                      (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SatelliteSystem") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Satellite System") : void () ;
 
     System::print(anOutputStream, false) ;
 

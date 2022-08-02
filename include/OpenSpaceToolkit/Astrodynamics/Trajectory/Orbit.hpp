@@ -194,7 +194,6 @@ class Orbit : public Trajectory
         mutable std::mutex      mutex_ ;
         mutable Map<Integer, Pass> passMap_ ;
 
-        // [TBR] Since these are not implemented in the .cpp they should be commented out here
         static Map<Index, Pass> GeneratePassMap                             (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber                   ) ;
 

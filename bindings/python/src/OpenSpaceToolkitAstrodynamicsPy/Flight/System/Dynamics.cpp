@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics   (           pybind11::module&           aModule                                     )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics   ( pybind11::module&        aModule                                     )
 {
 
     // Create "dynamics" python submodule

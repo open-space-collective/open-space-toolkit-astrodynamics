@@ -70,7 +70,7 @@ class Dynamics
         ///
         /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-        virtual DynamicalEquationWrapper  getDynamicalEquations             ( ) = 0 ;
+        virtual DynamicalEquationWrapper getDynamicalEquations              ( ) = 0 ;
 
 } ;
 

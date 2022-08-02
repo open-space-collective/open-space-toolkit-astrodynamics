@@ -51,7 +51,7 @@ System*                         System::clone                               ( ) 
 
 }
 
-bool                            System::operator ==                         (   const   System&                             aSystem                            ) const
+bool                            System::operator ==                         (   const   System&                     aSystem                                     ) const
 {
 
     if ((!this->isDefined()) || (!aSystem.isDefined()))
@@ -64,7 +64,7 @@ bool                            System::operator ==                         (   
 
 }
 
-bool                            System::operator !=                         (   const   System&            aSystem                            ) const
+bool                            System::operator !=                         (   const   System&                     aSystem                                     ) const
 {
 
     return !((*this) == aSystem) ;
@@ -72,7 +72,7 @@ bool                            System::operator !=                         (   
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   System&            aSystem                            )
+                                                                                const   System&                     aSystem                                     )
 {
 
     aSystem.print(anOutputStream) ;
@@ -83,9 +83,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            System::isDefined                           ( ) const
 {
-
     return mass_.isDefined() && geometry_.isDefined() ;
-
 }
 
 void                            System::print                               (           std::ostream&               anOutputStream,

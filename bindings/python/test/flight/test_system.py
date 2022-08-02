@@ -29,39 +29,38 @@ System = astrodynamics.flight.System
 ################################################################################################################################################################
 
 @pytest.fixture
-def system_default_inputs_fix ():
+def system_default_inputs ():
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
-    geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
+    geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], [1.0, 0.0, 0.0]))
 
-    return mass, geometry
+    return (mass, geometry)
 
 @pytest.fixture
-def system_fix (system_default_inputs_fix) -> System:
-    mass, geometry = system_default_inputs_fix
-    satellite_system = System(mass, geometry)
+def system (system_default_inputs) -> System:
 
-    return satellite_system
+    return System(*system_default_inputs)
 
 ################################################################################################################################################################
 
 class TestSatelliteSystem:
 
-    def test_constructors (self, system_fix: System):
+    def test_constructors (self, system: System):
 
-        assert system_fix is not None
-        assert isinstance(system_fix, System)
-        assert system_fix.is_defined()
+        assert system is not None
+        assert isinstance(system, System)
+        assert system.is_defined()
 
-    def test_comparators (self, system_fix: System):
+    def test_comparators (self, system: System):
 
-        assert system_fix == system_fix
-        assert (system_fix != system_fix) is False
+        assert (system == system) is True
+        assert (system != system) is False
 
-    def test_getters (self, system_default_inputs_fix, system_fix: System):
-        mass, geometry = system_default_inputs_fix
+    def test_getters (self, system_default_inputs, system: System):
 
-        assert system_fix.get_mass() == mass
-        assert system_fix.get_geometry() == geometry
+        (mass, geometry) = system_default_inputs
+
+        assert system.get_mass() == mass
+        assert system.get_geometry() == geometry
 
 ################################################################################################################################################################
