@@ -191,20 +191,19 @@ void                            SatelliteDynamics::DynamicalEquations       (   
         {
             const double mu_ThirdBody_SI = environment_.accessCelestialObjectWithName(objectName)->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
 
+            // Obtain 3rd body position vector relative to Earth
             const Position thirdBodyPosition = (environment_.accessCelestialObjectWithName(objectName))->getPositionIn(gcrfSPtr_) ;
+            const Vector3d thirdBodyPositionCoordinates = thirdBodyPosition.accessCoordinates() ;
+            const double thirdBodyPositionMagnitudeCubed = std::pow(thirdBodyPositionCoordinates.norm(), 3) ;
 
-            // Obtain relative position vector
-            const Vector3d relativePositionCoordinates = currentPosition.accessCoordinates() - thirdBodyPosition.accessCoordinates() ;
-
-            // Find relative position magnitude
+            // Obtain satellite position vector relative to 3rd body
+            const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - currentPosition.accessCoordinates() ;
             const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(), 3) ;
 
-            // TBI: Fix equation by adding term corrective the non-inertial effect of using GCRF
-            // See Vallado p. 574
+            totalGravitationalAcceleration_SI += Vector3d(  mu_ThirdBody_SI * ( ( relativePositionCoordinates[0] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[0] / thirdBodyPositionMagnitudeCubed ) ),
+                                                            mu_ThirdBody_SI * ( ( relativePositionCoordinates[1] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[1] / thirdBodyPositionMagnitudeCubed ) ),
+                                                            mu_ThirdBody_SI * ( ( relativePositionCoordinates[2] / relativePositionMagnitudeCubed ) - (thirdBodyPositionCoordinates[2] / thirdBodyPositionMagnitudeCubed ) ) ) ;
 
-            totalGravitationalAcceleration_SI += Vector3d(  -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[0],
-                                                            -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[1],
-                                                            -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[2] ) ;
         }
     }
 

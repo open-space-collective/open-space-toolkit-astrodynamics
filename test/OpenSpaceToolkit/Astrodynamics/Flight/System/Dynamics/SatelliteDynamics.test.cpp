@@ -126,8 +126,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, EqualToOperator)
 {
 
@@ -210,8 +208,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, E
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, NotEqualToOperator)
 {
@@ -296,8 +292,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, N
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, IsDefined)
 {
 
@@ -359,8 +353,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, I
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, StreamOperator)
 {
@@ -430,8 +422,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, Print)
 {
 
@@ -499,8 +489,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, GetState)
 {
 
@@ -562,8 +550,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, G
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, SetState)
 {
@@ -630,8 +616,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, getDynamicalEquations)
 {
@@ -723,17 +707,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         Earth_ReferencePull[0] = 6.999995932647768e+06 ; Earth_ReferencePull[1] = -2.312964634635743e-17 ;  Earth_ReferencePull[2] = 0.000000000000000e+00 ;
         Earth_ReferencePull[3] = -8.134706038871020e+00 ; Earth_ReferencePull[4] = -4.625929269271485e-17 ;  Earth_ReferencePull[5] = 0.000000000000000e+00 ;
 
-        EXPECT_GT(1e-9, startStateVector[0] - Earth_ReferencePull[0]) ;
-        EXPECT_GT(1e-9, startStateVector[1] - Earth_ReferencePull[1]) ;
-        EXPECT_GT(1e-9, startStateVector[2] - Earth_ReferencePull[2]) ;
-        EXPECT_GT(1e-9, startStateVector[3] - Earth_ReferencePull[3]) ;
-        EXPECT_GT(1e-9, startStateVector[4] - Earth_ReferencePull[4]) ;
-        EXPECT_GT(1e-9, startStateVector[5] - Earth_ReferencePull[5]) ;
+        EXPECT_GT(1e-15, startStateVector[0] - Earth_ReferencePull[0]) ;
+        EXPECT_GT(1e-15, startStateVector[1] - Earth_ReferencePull[1]) ;
+        EXPECT_GT(1e-15, startStateVector[2] - Earth_ReferencePull[2]) ;
+        EXPECT_GT(1e-15, startStateVector[3] - Earth_ReferencePull[3]) ;
+        EXPECT_GT(1e-15, startStateVector[4] - Earth_ReferencePull[4]) ;
+        EXPECT_GT(1e-15, startStateVector[5] - Earth_ReferencePull[5]) ;
 
         // std::cout.precision(15) ;
         // std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
-
-
         // std::cout << startStateVector[0] << std::endl ;
         // std::cout << startStateVector[1] << std::endl ;
         // std::cout << startStateVector[2] << std::endl ;
@@ -782,20 +764,18 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0) ;
 
         // Set reference pull values for the Earth
-        Sun_ReferencePull[0] = 7.000000002989579e06 ; Sun_ReferencePull[1] = -8.983629560302395e-06 ;  Sun_ReferencePull[2] = -3.903244968847363e-06 ;
-        Sun_ReferencePull[3] = 5.979155765283343e-03 ; Sun_ReferencePull[4] = -1.796707558028250e-05 ;  Sun_ReferencePull[5] = - 7.806410365948309e-06 ;
+        Sun_ReferencePull[0] = 7.000000000000282e+06 ; Sun_ReferencePull[1] = -1.266173652819505e-09 ;  Sun_ReferencePull[2] = -5.501324277544413e-10 ;
+        Sun_ReferencePull[3] = 5.618209329643997e-07 ; Sun_ReferencePull[4] = -2.532321435973975e-09 ;  Sun_ReferencePull[5] = -1.100253640019350e-09 ;
 
-        EXPECT_GT(1e-9, startStateVector[0] - Sun_ReferencePull[0]) ;
-        EXPECT_GT(1e-9, startStateVector[1] - Sun_ReferencePull[1]) ;
-        EXPECT_GT(1e-9, startStateVector[2] - Sun_ReferencePull[2]) ;
-        EXPECT_GT(1e-9, startStateVector[3] - Sun_ReferencePull[3]) ;
-        EXPECT_GT(1e-9, startStateVector[4] - Sun_ReferencePull[4]) ;
-        EXPECT_GT(1e-9, startStateVector[5] - Sun_ReferencePull[5]) ;
+        EXPECT_GT(1e-15, startStateVector[0] - Sun_ReferencePull[0]) ;
+        EXPECT_GT(1e-15, startStateVector[1] - Sun_ReferencePull[1]) ;
+        EXPECT_GT(1e-15, startStateVector[2] - Sun_ReferencePull[2]) ;
+        EXPECT_GT(1e-15, startStateVector[3] - Sun_ReferencePull[3]) ;
+        EXPECT_GT(1e-15, startStateVector[4] - Sun_ReferencePull[4]) ;
+        EXPECT_GT(1e-15, startStateVector[5] - Sun_ReferencePull[5]) ;
 
         // std::cout.precision(15) ;
         // std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
-
-
         // std::cout << startStateVector[0] << std::endl ;
         // std::cout << startStateVector[1] << std::endl ;
         // std::cout << startStateVector[2] << std::endl ;
@@ -844,20 +824,18 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0) ;
 
         // Set reference pull values for the Earth
-        Moon_ReferencePull[0] = 7.000000000003034e+06 ; Moon_ReferencePull[1] = 1.368411761367117e-05 ;  Moon_ReferencePull[2] = 6.040563015622355e-06 ;
-        Moon_ReferencePull[3] = 6.066782131026325e-06 ; Moon_ReferencePull[4] = 2.736823736584779e-05 ;  Moon_ReferencePull[5] = 1.208112814387077e-05 ;
+        Moon_ReferencePull[0] = 6.999999999999768e+06 ; Moon_ReferencePull[1] = 1.474353635647267e-07 ;  Moon_ReferencePull[2] = 6.508220913373722e-08 ;
+        Moon_ReferencePull[3] = -4.620551958115301e-07 ; Moon_ReferencePull[4] = 2.948701962648114e-07 ;  Moon_ReferencePull[5] = 1.301641965195380e-07 ;
 
-        EXPECT_GT(1e-9, startStateVector[0] - Moon_ReferencePull[0]) ;
-        EXPECT_GT(1e-9, startStateVector[1] - Moon_ReferencePull[1]) ;
-        EXPECT_GT(1e-9, startStateVector[2] - Moon_ReferencePull[2]) ;
-        EXPECT_GT(1e-9, startStateVector[3] - Moon_ReferencePull[3]) ;
-        EXPECT_GT(1e-9, startStateVector[4] - Moon_ReferencePull[4]) ;
-        EXPECT_GT(1e-9, startStateVector[5] - Moon_ReferencePull[5]) ;
+        EXPECT_GT(1e-15, startStateVector[0] - Moon_ReferencePull[0]) ;
+        EXPECT_GT(1e-15, startStateVector[1] - Moon_ReferencePull[1]) ;
+        EXPECT_GT(1e-15, startStateVector[2] - Moon_ReferencePull[2]) ;
+        EXPECT_GT(1e-15, startStateVector[3] - Moon_ReferencePull[3]) ;
+        EXPECT_GT(1e-15, startStateVector[4] - Moon_ReferencePull[4]) ;
+        EXPECT_GT(1e-15, startStateVector[5] - Moon_ReferencePull[5]) ;
 
         // std::cout.precision(15) ;
         // std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
-
-
         // std::cout << startStateVector[0] << std::endl ;
         // std::cout << startStateVector[1] << std::endl ;
         // std::cout << startStateVector[2] << std::endl ;
@@ -918,16 +896,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         // [0] = 6.999995935640380e+06 ; Earth_Sun_Moon_ReferencePull[1] = 4.700487584518332e-06 ;  Earth_Sun_Moon_ReferencePull[2] = 2.137317833766671e-06 ;
         // Earth_Sun_Moon_ReferencePull[3] = -8.128720814005144 ; Earth_Sun_Moon_ReferencePull[4] = 9.401159910098908e-06 ;  Earth_Sun_Moon_ReferencePull[5] = 4.274716925865539e-06 ;
 
-        EXPECT_GT(1e-8, startStateVector[0] - Earth_Sun_Moon_ReferencePull[0]) ;
-        EXPECT_GT(1e-8, startStateVector[1] - Earth_Sun_Moon_ReferencePull[1]) ;
-        EXPECT_GT(1e-8, startStateVector[2] - Earth_Sun_Moon_ReferencePull[2]) ;
-        EXPECT_GT(1e-8, startStateVector[3] - Earth_Sun_Moon_ReferencePull[3]) ;
-        EXPECT_GT(1e-8, startStateVector[4] - Earth_Sun_Moon_ReferencePull[4]) ;
-        EXPECT_GT(1e-8, startStateVector[5] - Earth_Sun_Moon_ReferencePull[5]) ;
+        EXPECT_GT(5e-14, startStateVector[0] - Earth_Sun_Moon_ReferencePull[0]) ;
+        EXPECT_GT(5e-14, startStateVector[1] - Earth_Sun_Moon_ReferencePull[1]) ;
+        EXPECT_GT(5e-14, startStateVector[2] - Earth_Sun_Moon_ReferencePull[2]) ;
+        EXPECT_GT(5e-14, startStateVector[3] - Earth_Sun_Moon_ReferencePull[3]) ;
+        EXPECT_GT(5e-14, startStateVector[4] - Earth_Sun_Moon_ReferencePull[4]) ;
+        EXPECT_GT(5e-14, startStateVector[5] - Earth_Sun_Moon_ReferencePull[5]) ;
 
         // std::cout.precision(15) ;
         // std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
-
         // std::cout << Earth_Sun_Moon_ReferencePull[3] << std::endl ;
         // std::cout << startStateVector[0] << std::endl ;
         // std::cout << startStateVector[1] << std::endl ;
