@@ -40,7 +40,7 @@ def state_default_inputs ():
 @pytest.fixture
 def state (state_default_inputs) -> State:
 
-    return State(*state_default_inputs)
+    return State(*state_default_inputs[0:-1])
 
 ################################################################################################################################################################
 

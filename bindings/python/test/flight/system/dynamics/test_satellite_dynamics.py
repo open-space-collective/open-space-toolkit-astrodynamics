@@ -43,7 +43,7 @@ SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
 ################################################################################################################################################################
 
 @pytest.fixture
-def satellite_dynamics_default_inputs () -> tuple[Environment, SatelliteSystem, State]:
+def satellite_dynamics_default_inputs () :
 
     environment = Environment.default()
 
