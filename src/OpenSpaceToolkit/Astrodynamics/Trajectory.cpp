@@ -109,16 +109,12 @@ State                           Trajectory::getStateAt                      (   
 Array<State>                    Trajectory::getStatesAt                     (   const   Array<Instant>&             anInstantArray                              ) const
 {
 
-    Array<State> stateArray = Array<State>::Empty() ;
-
-    stateArray.reserve(anInstantArray.getSize()) ;
-
-    for (const auto& instant : anInstantArray)
+    if (!this->isDefined())
     {
-        stateArray.add(this->getStateAt(instant)) ;
+        throw ostk::core::error::runtime::Undefined("Trajectory") ;
     }
 
-    return stateArray ;
+    return modelUPtr_->calculateStatesAt(anInstantArray) ;
 
 }
 

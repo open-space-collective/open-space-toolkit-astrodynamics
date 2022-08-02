@@ -427,6 +427,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
     using ostk::astro::trajectory::State ;
     using ostk::astro::trajectory::models::Tabulated ;
 
+    // Test correct handling of state array dimensions
     {
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -472,6 +473,46 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
             } ;
 
             EXPECT_ANY_THROW(trajectory.getStatesAt(referenceInstants)) ;
+
+        }
+
+    }
+
+    // Test correct handling of state array sorting and unsorting
+    {
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        const Array<State> states =
+        {
+            { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+            { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC), Position::Meters({ 2.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+
+        } ;
+
+        const Tabulated model = { states } ;
+
+        const Trajectory trajectory = { model } ;
+
+        {
+
+            const Array<Instant> desiredInstants =
+            {
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
+                states.at(1).accessInstant(),
+                states.at(0).accessInstant(),
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1, 500), Scale::UTC),
+            } ;
+
+            const Array<State> referenceStates =
+            {
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC), Position::Meters({ 0.5, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC), Position::Meters({ 2.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1, 500), Scale::UTC), Position::Meters({ 1.5, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) }
+            } ;
+
+            EXPECT_EQ(referenceStates, trajectory.getStatesAt(desiredInstants)) ;
 
         }
 

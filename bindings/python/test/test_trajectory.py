@@ -35,12 +35,15 @@ Earth = physics.environment.objects.celestial_bodies.Earth
 Trajectory = astrodynamics.Trajectory
 Profile = astrodynamics.flight.Profile
 State =  astrodynamics.flight.profile.State
+SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
+SatelliteDynamics =  astrodynamics.flight.system.dynamics.SatelliteDynamics
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
 Kepler = astrodynamics.trajectory.orbit.models.Kepler
 COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
+NumericalSolver = astrodynamics.NumericalSolver
 
 ################################################################################################################################################################
 
@@ -67,9 +70,11 @@ def test_trajectory_undefined ():
 ################################################################################################################################################################
 
 # def test_trajectory_get_state_at ():
+# [TBI] add actual unit tests
 
 ################################################################################################################################################################
 
 # def test_trajectory_get_states_at ():
+# [TBI] add actual unit tests to test sorting and array lengths, can be done with a propagated object
 
 ################################################################################################################################################################

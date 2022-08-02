@@ -42,7 +42,7 @@ earth = Environment.default().access_celestial_object_with_name('Earth')
 
 ################################################################################################################################################################
 
-def test_trajcectory_orbit_constructors ():
+def test_trajectory_orbit_constructors ():
 
     # Construct Two-Line Element set
     tle = TLE('1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994','2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316')
@@ -62,7 +62,7 @@ def test_trajcectory_orbit_constructors ():
 
 ################################################################################################################################################################
 
-def test_trajcectory_orbit_circular ():
+def test_trajectory_orbit_circular ():
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     altitude = Length.kilometers(500.0)
@@ -73,7 +73,7 @@ def test_trajcectory_orbit_circular ():
 ################################################################################################################################################################
 
 @pytest.mark.skip
-def test_trajcectory_orbit_equatorial ():
+def test_trajectory_orbit_equatorial ():
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     altitude = Length.kilometers(500.0)
@@ -88,7 +88,7 @@ def test_trajcectory_orbit_equatorial ():
 ################################################################################################################################################################
 
 @pytest.mark.skip
-def test_trajcectory_orbit_circular_equatorial ():
+def test_trajectory_orbit_circular_equatorial ():
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     altitude = Length.kilometers(500.0)
@@ -102,7 +102,7 @@ def test_trajcectory_orbit_circular_equatorial ():
 ################################################################################################################################################################
 
 @pytest.mark.skip
-def test_trajcectory_orbit_sun_synchronous ():
+def test_trajectory_orbit_sun_synchronous ():
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     altitude = Length.kilometers(500.0)

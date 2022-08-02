@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:latest
+ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.8.8
 
 FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
@@ -21,8 +21,12 @@ USER root
 
 # Install Python utilities
 
-RUN pip install --quiet numpy pandas plotly
-RUN conda install ipympl=0.4.0
+RUN apt-get update \
+ && apt-get install -y curl \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --quiet numpy pandas plotly \
+ && conda install ipympl=0.4.0
 
 # Install JupyterLab extensions
 

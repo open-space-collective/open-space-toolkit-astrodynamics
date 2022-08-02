@@ -19,10 +19,10 @@ docker_release_image_cpp_repository := $(docker_image_repository)-cpp
 docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
-jupyter_notebook_image_repository := jupyter/scipy-notebook:latest
+jupyter_notebook_image_repository := jupyter/scipy-notebook:python-3.8.8
 jupyter_notebook_port := 9005
-
-project_name_camel_case := $(shell P=$(project_name); echo $${P^})
+jupyter_python_version := 3.8
+jupyter_project_name_python_shared_object := OpenSpaceToolkitAstrodynamicsPy.cpython-38-x86_64-linux-gnu
 
 ################################################################################################################################################################
 
@@ -355,8 +355,8 @@ debug-jupyter-notebook: build-release-image-jupyter
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
-		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.0:/opt/conda/lib/python3.7/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.0:ro" \
-		--volume="$(CURDIR)/lib/OpenSpaceToolkit$(project_name_camel_case)Py.so:/opt/conda/lib/python3.7/site-packages/ostk/$(project_name)/OpenSpaceToolkit$(project_name_camel_case)Py.so:ro" \
+		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.0:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.0:ro" \
+		--volume="$(CURDIR)/lib/$(jupyter_project_name_python_shared_object).so:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/$(jupyter_project_name_python_shared_object).so:ro" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
 		bash -c "start-notebook.sh --NotebookApp.token=''"
