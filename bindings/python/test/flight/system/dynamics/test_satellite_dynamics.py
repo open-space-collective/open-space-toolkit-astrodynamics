@@ -43,17 +43,17 @@ SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
 ################################################################################################################################################################
 
 @pytest.fixture
-def satellite_dynamics_default_inputs_fix ():
+def satellite_dynamics_default_inputs () -> tuple[Environment, SatelliteSystem, State]:
 
     environment = Environment.default()
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
-    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
-    inertia_tensor = np.ndarray(shape=(3, 3))
+    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], [1.0, 0.0, 0.0]))
+    inertia_tensor = np.ndarray(shape = (3, 3))
     surface_area = 0.8
     drag_coefficient = 2.2
 
-    satellitesystem = SatelliteSystem(mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
+    satellite_system = SatelliteSystem(mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -62,54 +62,51 @@ def satellite_dynamics_default_inputs_fix ():
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(epoch, position, velocity)
 
-    return environment, satellitesystem, state
+    return (environment, satellite_system, state)
 
 @pytest.fixture
-def satellitedynamics_fix (satellite_dynamics_default_inputs_fix) -> SatelliteDynamics:
+def satellite_dynamics (satellite_dynamics_default_inputs) -> SatelliteDynamics:
 
-    environment, satellitesystem, state = satellite_dynamics_default_inputs_fix
-
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state)
-
-    return satellitedynamics
+    return SatelliteDynamics(*satellite_dynamics_default_inputs)
 
 ################################################################################################################################################################
 
 class TestSatelliteDynamics:
 
-    def test_constructors (self, satellitedynamics_fix: SatelliteDynamics):
+    def test_constructors (self, satellite_dynamics: SatelliteDynamics):
 
-        assert satellitedynamics_fix is not None
-        assert isinstance(satellitedynamics_fix, SatelliteDynamics)
-        assert satellitedynamics_fix.is_defined()
+        assert satellite_dynamics is not None
+        assert isinstance(satellite_dynamics, SatelliteDynamics)
+        assert satellite_dynamics.is_defined()
 
-        satellitedynamics: SatelliteDynamics = SatelliteDynamics(satellitedynamics_fix)
+        satellite_dynamics: SatelliteDynamics = SatelliteDynamics(satellite_dynamics)
 
-        assert satellitedynamics is not None
-        assert isinstance(satellitedynamics, SatelliteDynamics)
-        assert satellitedynamics.is_defined()
+        assert satellite_dynamics is not None
+        assert isinstance(satellite_dynamics, SatelliteDynamics)
+        assert satellite_dynamics.is_defined()
 
-    def test_comparators (self, satellitedynamics_fix: SatelliteDynamics):
+    def test_comparators (self, satellite_dynamics: SatelliteDynamics):
 
-        assert satellitedynamics_fix == satellitedynamics_fix
-        assert (satellitedynamics_fix != satellitedynamics_fix) is False
+        assert (satellite_dynamics == satellite_dynamics) is True
+        assert (satellite_dynamics != satellite_dynamics) is False
 
-    def test_setters (self, satellite_dynamics_default_inputs_fix, satellitedynamics_fix: SatelliteDynamics):
-        environment, satellitesystem, state = satellite_dynamics_default_inputs_fix
+    def test_setters (self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics):
+
+        (environment, satellitesystem, state) = satellite_dynamics_default_inputs
 
         # get_state
-        assert satellitedynamics_fix.get_state() == state
+        assert satellite_dynamics.get_state() == state
 
         # set_state
         state_1 = State(Instant.date_time(DateTime(2019, 1, 1, 0, 0, 0), Scale.UTC), Position.meters([6371000.0, 0.0, 0.0], Frame.GCRF()), Velocity.meters_per_second([7600.0, 0.0, 0.0], Frame.GCRF()))
 
-        satellitedynamics_fix.set_state(state_1)
+        satellite_dynamics.set_state(state_1)
 
-        assert satellitedynamics_fix.is_defined()
-        assert satellitedynamics_fix.get_state() == state_1
+        assert satellite_dynamics.is_defined()
+        assert satellite_dynamics.get_state() == state_1
 
-    def test_calculate_state_at_epoch (self, satellitedynamics_fix: SatelliteDynamics):
+    def test_calculate_state_at_epoch (self, satellite_dynamics: SatelliteDynamics):
 
-        assert satellitedynamics_fix.get_dynamical_equations() is not None #[TBI] add typing to ensure that it return a function pointer?
+        assert satellite_dynamics.get_dynamical_equations() is not None  # [TBI] add typing to ensure that it return a function pointer?
 
 ################################################################################################################################################################

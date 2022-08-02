@@ -114,51 +114,7 @@ Array<State>                    Trajectory::getStatesAt                     (   
         throw ostk::core::error::runtime::Undefined("Trajectory") ;
     }
 
-    // Check if array is empty, and if not then sort it before it is looped through
-    if (anInstantArray.isEmpty())
-    {
-        throw ostk::core::error::runtime::Wrong("Empty Instant Array supplied") ;
-    }
-
-    Array<std::pair<Instant, size_t>> instantArrayPairs  = Array<std::pair<Instant, size_t>>::Empty() ;
-    instantArrayPairs.reserve(anInstantArray.getSize()) ;
-
-    for (size_t i = 0 ; i < anInstantArray.getSize() ; i++)
-    {
-        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i));
-    }
-
-    // Sort instant array pairs chronologically
-    std::sort(instantArrayPairs.begin(), instantArrayPairs.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
-
-    Array<State> stateArraySorted = Array<State>::Empty() ;
-    stateArraySorted.reserve(anInstantArray.getSize()) ;
-
-    for (const auto& instantArrayPair : instantArrayPairs)
-    {
-        stateArraySorted.add(this->getStateAt(instantArrayPair.first)) ;
-    }
-
-    Array<std::pair<State, size_t>> stateArrayPairs = Array<std::pair<State, size_t>>::Empty() ;
-    stateArrayPairs.reserve(anInstantArray.getSize()) ;
-
-    for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
-    {
-        stateArrayPairs.push_back(std::make_pair(stateArraySorted[k], (instantArrayPairs[k]).second));
-    }
-
-    std::sort(stateArrayPairs.begin(), stateArrayPairs.end(), [] (const auto& lhs, const auto& rhs) { return lhs.second < rhs.second ; }) ;
-
-
-    Array<State> stateArrayUnsorted = Array<State>::Empty() ;
-    stateArrayUnsorted.reserve(anInstantArray.getSize()) ;
-
-    for (size_t l = 0 ; l < anInstantArray.getSize() ; l++)
-    {
-        stateArrayUnsorted.add((stateArrayPairs[l]).first);
-    }
-
-    return stateArrayUnsorted ;
+    return modelUPtr_->calculateStatesAt(anInstantArray) ;
 
 }
 

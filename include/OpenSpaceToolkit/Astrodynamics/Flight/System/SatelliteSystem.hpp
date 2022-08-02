@@ -133,7 +133,7 @@ class SatelliteSystem : public System
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Get satellite system's intertia tensor
+        /// @brief              Get satellite system's inertia tensor
         ///
         /// @code
         ///                     Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
@@ -156,7 +156,7 @@ class SatelliteSystem : public System
         /// @brief              Get satellite system's drag coefficient
         ///
         /// @code
-        ///                     Real dragCoefficient = satelliteSystem.getCrossSectionalSurfaceArea() ;
+        ///                     Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
         /// @endcode
         ///
         /// @return             Real

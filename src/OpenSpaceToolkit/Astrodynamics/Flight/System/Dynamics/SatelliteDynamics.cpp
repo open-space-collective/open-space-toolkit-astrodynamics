@@ -50,7 +50,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 }
 
                                 SatelliteDynamics::SatelliteDynamics        (   const   SatelliteDynamics&          aSatelliteDynamics                          )
-                                :   Dynamics(),
+                                :   Dynamics(aSatelliteDynamics),
                                     environment_(aSatelliteDynamics.environment_),
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
@@ -68,9 +68,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 
 SatelliteDynamics*              SatelliteDynamics::clone                    ( ) const
 {
-
     return new SatelliteDynamics(*this) ;
-
 }
 
 bool                            SatelliteDynamics::operator ==              (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const
@@ -90,9 +88,7 @@ bool                            SatelliteDynamics::operator ==              (   
 
 bool                            SatelliteDynamics::operator !=              (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const
 {
-
     return !((*this) == aSatelliteDynamics) ;
-
 }
 
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
@@ -107,7 +103,6 @@ std::ostream&                   operator <<                                 (   
 
 bool                            SatelliteDynamics::isDefined                ( ) const
 {
-
     return environment_.isDefined() && satelliteSystem_.isDefined() && state_.isDefined() ;
 }
 
@@ -115,7 +110,7 @@ void                            SatelliteDynamics::print                    (   
                                                                                         bool                        displayDecorator                            ) const
 {
 
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SatelliteDynamics") : void () ;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Satellite Dynamics") : void () ;
 
     ostk::core::utils::Print::Line(anOutputStream) << "Environment:" << environment_ ;
 
@@ -202,7 +197,10 @@ void                            SatelliteDynamics::DynamicalEquations       (   
             const Vector3d relativePositionCoordinates = currentPosition.accessCoordinates() - thirdBodyPosition.accessCoordinates() ;
 
             // Find relative position magnitude
-            const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(),3) ;
+            const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(), 3) ;
+
+            // TBI: Fix equation by adding term corrective the non-inertial effect of using GCRF
+            // See Vallado p. 574
 
             totalGravitationalAcceleration_SI += Vector3d(  -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[0],
                                                             -(mu_ThirdBody_SI / relativePositionMagnitudeCubed) * relativePositionCoordinates[1],

@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_SatelliteDynamics (        pybind11::module& aModule                               )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_SatelliteDynamics ( pybind11::module& aModule                            )
 {
 
     using namespace pybind11 ;
@@ -27,9 +27,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
     {
 
-        class_<SatelliteDynamics> satellite_dynamics_class(aModule, "SatelliteDynamics") ;
+        class_<SatelliteDynamics>(aModule, "SatelliteDynamics")
 
-        satellite_dynamics_class
             .def(init<const Environment&, const SatelliteSystem&, const State&>())
             .def(init<const SatelliteDynamics&>())
 
