@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.8.8
+ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.9.12
 
 FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
@@ -52,7 +52,7 @@ COPY --from=us.gcr.io/loft-orbital-public/software/open-space-toolkit/data:lates
 
 ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_MODE "Automatic"
 ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY "/open-space-toolkit/physics/coordinate/frame/providers/iers"
-ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_REMOTE_URL "https://storage.googleapis.com/loft-orbital-open-space-toolkit/physics/coordinate/frame/providers/iers/latest/"
+# ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_REMOTE_URL "https://storage.googleapis.com/loft-orbital-open-space-toolkit/physics/coordinate/frame/providers/iers/latest/"
 ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_ENGINE_MODE "Automatic"
 ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY "/open-space-toolkit/physics/environment/ephemerides/spice"
 ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_REMOTE_URL "https://storage.googleapis.com/loft-orbital-open-space-toolkit/physics/environment/ephemerides/spice/"
