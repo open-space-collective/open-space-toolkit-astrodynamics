@@ -206,7 +206,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     private:
 
-        mutable Array<State>    cachedStateArray_ ; // can't make this non-mutable because I can't change the function signature of calculateStateAt since its had to override Model's calculateStateAt, which is a const function
+        mutable Array<State>    cachedStateArray_ ;
         mutable SatelliteDynamics satelliteDynamics_ ;
         NumericalSolver         numericalSolver_ ;
 
