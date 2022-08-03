@@ -2500,7 +2500,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
 
         // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_24hr_run.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_EGM96_24hr_30sInterval_run.csv")), Table::Format::CSV, true) ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
