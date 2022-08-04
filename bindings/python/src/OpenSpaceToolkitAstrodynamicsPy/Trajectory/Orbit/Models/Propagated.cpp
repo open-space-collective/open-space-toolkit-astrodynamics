@@ -43,6 +43,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_revolution_number_at_epoch", &Propagated::getRevolutionNumberAtEpoch)
 
             .def("calculate_state_at", &Propagated::calculateStateAt)
+            .def("calculate_states_at", &Propagated::calculateStatesAt)
             .def("calculate_revolution_number_at", &Propagated::calculateRevolutionNumberAt)
 
             .def("access_cached_state_array", &Propagated::accessCachedStateArray)
