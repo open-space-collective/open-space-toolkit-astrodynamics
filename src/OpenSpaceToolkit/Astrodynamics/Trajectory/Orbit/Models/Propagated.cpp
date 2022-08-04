@@ -247,6 +247,55 @@ State                           Propagated::calculateStateAt                (   
     return propagatedState ;
 
 }
+
+Array<State>                    Propagated::calculateStatesAt               (   const   Array<Instant>&             anInstantArray                              ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    if (anInstantArray.isEmpty())
+    {
+        return Array<State>::Empty() ;
+    }
+
+    Array<Pair<Instant, size_t>> instantArrayPairs = Array<Pair<Instant, size_t>>::Empty() ;
+    instantArrayPairs.reserve(anInstantArray.getSize()) ;
+
+    for (size_t i = 0 ; i < anInstantArray.getSize() ; i++)
+    {
+        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i)) ;
+    }
+
+    // Sort instant array pairs chronologically
+    std::sort(instantArrayPairs.begin(), instantArrayPairs.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
+
+    // Create an unpaired sorted instant array to be fed into Moedl::calculateStatesAt()
+    Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
+    sortedInstantArray.reserve(anInstantArray.getSize()) ;
+
+    for (size_t j = 0 ; j < anInstantArray.getSize() ; j++)
+    {
+        sortedInstantArray.push_back(instantArrayPairs[j].first) ;
+    }
+
+    // Call Model's calculateStatesAt method which iteratively call
+    Array<State> stateArraySorted = Model::calculateStatesAt(sortedInstantArray) ;
+
+    Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
+    unsortedStateArray.reserve(anInstantArray.getSize()) ;
+
+    for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
+    {
+        unsortedStateArray[instantArrayPairs[k].second] = stateArraySorted[k] ;
+    }
+
+    return unsortedStateArray ;
+
+}
+
 // [TBI] add a more exact calculation of the orbital period by checking for when the sat goes above the x-y plane in GCRF
 Integer                         Propagated::calculateRevolutionNumberAt     (   const   Instant&                    anInstant                                   ) const
 {

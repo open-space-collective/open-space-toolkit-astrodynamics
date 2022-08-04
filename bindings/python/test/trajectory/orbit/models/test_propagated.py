@@ -64,8 +64,8 @@ def propagated_default_inputs ():
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
     velocity: Velocity = Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
 
-    epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    state: State = State(epoch, position, velocity)
+    instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    state: State = State(instant, position, velocity)
 
     satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state)
 
@@ -116,16 +116,16 @@ class TestPropagated:
 
         assert propagated.get_revolution_number_at_epoch() == 1
 
-    def test_calculate_state_at_epoch (self, propagated: Propagated, propagated_default_inputs):
+    def test_calculate_state_at (self, propagated: Propagated, propagated_default_inputs):
 
         (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
-        epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
-        propagated_state = propagated.calculate_state_at(epoch)
-        propagated_state_orbit = orbit.get_state_at(epoch)
+        propagated_state = propagated.calculate_state_at(instant)
+        propagated_state_orbit = orbit.get_state_at(instant)
 
         assert propagated_state == propagated_state_orbit
 
@@ -137,18 +137,34 @@ class TestPropagated:
 
         assert all([round(propagated_state_position[i], -9) == round(propagated_state_position_ref[i], -9) for i in range(0, len(propagated_state_position_ref))])
         assert all([round(propagated_state_velocity[i], -9) == round(propagated_state_velocity_ref[i], -9) for i in range(0, len(propagated_state_velocity_ref))])
-        assert propagated_state.get_instant() == epoch
+        assert propagated_state.get_instant() == instant
 
-    def test_calculate_rev_number_at_epoch (self, propagated: Propagated, propagated_default_inputs):
+    def test_calculate_states_at (self, propagated: Propagated, propagated_default_inputs):
 
         (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
-        epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 1, 40, 0), Scale.UTC)
+        instant_array = [Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC), Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC)]
 
-        assert propagated.calculate_revolution_number_at(epoch) == 2
-        assert orbit.get_revolution_number_at(epoch) == 2
+        propagated_state_array = propagated.calculate_states_at(instant_array)
+        propagated_state_array_orbit = orbit.get_states_at(instant_array)
+
+        assert propagated_state_array_orbit == propagated_state_array
+
+        assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
+        assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
+
+    def test_calculate_rev_number_at (self, propagated: Propagated, propagated_default_inputs):
+
+        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+
+        orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
+
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 1, 40, 0), Scale.UTC)
+
+        assert propagated.calculate_revolution_number_at(instant) == 2
+        assert orbit.get_revolution_number_at(instant) == 2
 
     def test_access_cached_state_array (self, propagated: Propagated, propagated_default_inputs):
 

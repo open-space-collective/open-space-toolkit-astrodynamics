@@ -781,7 +781,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
-        // Calculate revolution number at instant
+        // Setup instants
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC) ;
         const Instant instant_before1 = Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC) ;
         const Instant instant_after1 = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC) ;
@@ -1102,9 +1102,55 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
     }
 
-    // Test that CalculateStateAt is propagating the shortest distance based on the existing states in the cachedStateArray
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateStatesAt)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Test correct handling of state array sorting and unsorting in propagatedModel and in orbit
     {
-        // Test valid and chronological state array input
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
@@ -1126,33 +1172,32 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
-        // testing::internal::CaptureStdout() ;
+        // Setup instants
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
 
-        // Check nearest neighbor propagation
-        propagatedModel.calculateStateAt(Instant::DateTime(DateTime(2018, 1, 1, 23, 59, 45), Scale::UTC)) ;
-        // String propOutput_1 = testing::internal::GetCapturedStdout() ;
-        //backwards
+        Array<State> orbitStateArray = orbit.getStatesAt(instantArray) ;
+        Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
-        // testing::internal::CaptureStdout() ;
-        propagatedModel.calculateStateAt(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 20), Scale::UTC)) ;
-        // String propOutput_2 = testing::internal::GetCapturedStdout() ;
-        // std::cout << testing::internal::GetCapturedStdout() << std::endl ;
-        //forwards
+        // Check getStatesAt vs calculateStatesAt
+        EXPECT_EQ(orbitStateArray, propagatedStateArray) ;
 
-        propagatedModel.calculateStateAt(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 9), Scale::UTC)) ;
-        // std::cout << testing::internal::GetCapturedStdout() << std::endl ;
-        //forwards
+        // Check that the states are in the same order from the original instant array that was supplied
 
-        propagatedModel.calculateStateAt(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 15), Scale::UTC)) ;
-        // std::cout << testing::internal::GetCapturedStdout() << std::endl ;
-        //backwards
+        EXPECT_EQ(instantArray[0], orbitStateArray[0].getInstant()) ;
+        EXPECT_EQ(instantArray[1], orbitStateArray[1].getInstant()) ;
+        EXPECT_EQ(instantArray[2], orbitStateArray[2].getInstant()) ;
+        EXPECT_EQ(instantArray[3], orbitStateArray[3].getInstant()) ;
 
     }
 
