@@ -51,6 +51,7 @@ using ostk::physics::coord::spherical::AER ;
 using ostk::physics::Environment ;
 
 using ostk::astro::Trajectory ;
+using ostk::astro::trajectory::State ;
 using ostk::astro::Access ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,6 +73,7 @@ class Generator
                                 Generator                                   (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
                                                                                 const   std::function<bool (const Access&)>& anAccessFilter                     =   {},
+                                                                                const   std::function<bool (const State&, const State&)>& aStateFilter          =   {},
                                                                                 const   Duration&                   aStep                                       =   DEFAULT_STEP,
                                                                                 const   Duration&                   aTolerance                                  =   DEFAULT_TOLERANCE ) ;
 
@@ -92,6 +94,8 @@ class Generator
         void                    setAerFilter                                (   const   std::function<bool (const AER&)>& anAerFilter                           ) ;
 
         void                    setAccessFilter                             (   const   std::function<bool (const Access&)>& anAccessFilter                     ) ;
+
+        void                    setStateFilter                              (   const   std::function<bool (const State&, const State&)>& aStateFilter          ) ;
 
         static Generator        Undefined                                   ( ) ;
 
@@ -128,6 +132,7 @@ class Generator
 
         std::function<bool (const AER&)> aerFilter_ ;
         std::function<bool (const Access&)> accessFilter_ ;
+        std::function<bool (const State&, const State&)> stateFilter_ ;
 
 } ;
 
