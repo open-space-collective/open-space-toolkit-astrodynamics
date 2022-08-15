@@ -27,7 +27,11 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
@@ -35,7 +39,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_access_8cpp.html",
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#ad2980a78e9a34cc95c906d72839450a0"
+"classostk_1_1astro_1_1trajectory_1_1_model.html#a4b2098483430a820481ed50b81656e31",
+"functions_func_d.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

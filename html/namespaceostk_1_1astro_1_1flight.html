@@ -91,11 +91,16 @@ $(document).ready(function(){initNavTree('namespaceostk_1_1astro_1_1flight.html'
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceostk_1_1astro_1_1flight_1_1profile"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1profile.html">profile</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1flight_1_1system"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system.html">system</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1_profile.html">Profile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spacecraft flight profile.  <a href="classostk_1_1astro_1_1flight_1_1_profile.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the generic physical system that has a mass and a certain geometry that can be composed of multiple subgeometries.  <a href="classostk_1_1astro_1_1flight_1_1_system.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -107,6 +112,8 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ad4a6bc77a55e55a29abdc5b4e3d8a346"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight.html#ad4a6bc77a55e55a29abdc5b4e3d8a346">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1_profile.html">Profile</a> &amp;aProfile)</td></tr>
 <tr class="separator:ad4a6bc77a55e55a29abdc5b4e3d8a346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a634c76052b78e11d9f56d11ac989fc20"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight.html#a634c76052b78e11d9f56d11ac989fc20">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a> &amp;aSystem)</td></tr>
+<tr class="separator:a634c76052b78e11d9f56d11ac989fc20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a30fb17f0f77e97e4d6bb5567218816bd"></a>
@@ -125,7 +132,7 @@ Functions</h2></td></tr>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ad4a6bc77a55e55a29abdc5b4e3d8a346"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4a6bc77a55e55a29abdc5b4e3d8a346">&#9670;&nbsp;</a></span>operator<<()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4a6bc77a55e55a29abdc5b4e3d8a346">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,6 +160,42 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aProfile</td><td>A flight profile </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
+
+</div>
+</div>
+<a id="a634c76052b78e11d9f56d11ac989fc20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a634c76052b78e11d9f56d11ac989fc20">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::flight::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1_system.html">System</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSystem</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystem</td><td>A system </td></tr>
   </table>
   </dd>
 </dl>

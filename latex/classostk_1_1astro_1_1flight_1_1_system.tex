@@ -1,0 +1,258 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1_system}{}\section{ostk\+:\+:astro\+:\+:flight\+:\+:System Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1_system}\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+
+
+Defines the generic physical system that has a mass and a certain geometry that can be composed of multiple subgeometries.  
+
+
+
+
+{\ttfamily \#include $<$System.\+hpp$>$}
+
+Inheritance diagram for ostk\+:\+:astro\+:\+:flight\+:\+:System\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1_system}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1_system_afac17c0d5e2b1fb9416babf240a1aa65}{System} (const Mass \&a\+Mass, const Composite \&a\+Geometry)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1_system_a01f4e86fb2ffa95f70cd56b1ff1c80e7}{System} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&a\+System)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a465eb91f18cbc10466b30694daab39fd}{$\sim$\+System} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} $\ast$ \hyperlink{classostk_1_1astro_1_1flight_1_1_system_ade321754db6db7f635def34cb137d9c4}{clone} () const
+\begin{DoxyCompactList}\small\item\em Clone system. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a8d8602da9451044f9810eaf22076b852}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&a\+System) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a5426b85c139cf30be998e0a983fe5978}{operator!=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&a\+System) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a45d6ad6bca50c0d9cb9b50135ed2efa3}{is\+Defined} () const
+\begin{DoxyCompactList}\small\item\em Check if system is defined. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a24d1aacf9355f5ee56fa56eeabe231ab}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print system. \end{DoxyCompactList}\item 
+Mass \hyperlink{classostk_1_1astro_1_1flight_1_1_system_a5c83b22d462c5d4b3f9766430c17d646}{get\+Mass} () const
+\begin{DoxyCompactList}\small\item\em Get system\textquotesingle{}s mass. \end{DoxyCompactList}\item 
+Composite \hyperlink{classostk_1_1astro_1_1flight_1_1_system_ac50685f33e3442384ed41b3b8c2d6549}{get\+Geometry} () const
+\begin{DoxyCompactList}\small\item\em Get system\textquotesingle{}s geometry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1_system_aaf88422b640217e9e1c2c354a7e05634}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&a\+System)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the generic physical system that has a mass and a certain geometry that can be composed of multiple subgeometries. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_afac17c0d5e2b1fb9416babf240a1aa65}\label{classostk_1_1astro_1_1flight_1_1_system_afac17c0d5e2b1fb9416babf240a1aa65}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!System@{System}}
+\index{System@{System}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{System()}{System()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+System\+::\+System (\begin{DoxyParamCaption}\item[{const Mass \&}]{a\+Mass,  }\item[{const Composite \&}]{a\+Geometry }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}
+Mass mass = \{ ... \} ;
+Composite composite ( ... ) ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_system_afac17c0d5e2b1fb9416babf240a1aa65}{System} system = \{ mass, composite \} ;
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Mass} & A mass \\
+\hline
+\mbox{\tt in}  & {\em a\+Geometry} & A geometry \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a01f4e86fb2ffa95f70cd56b1ff1c80e7}\label{classostk_1_1astro_1_1flight_1_1_system_a01f4e86fb2ffa95f70cd56b1ff1c80e7}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!System@{System}}
+\index{System@{System}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{System()}{System()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+System\+::\+System (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&}]{a\+System }\end{DoxyParamCaption})}
+
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+System} & A system \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a465eb91f18cbc10466b30694daab39fd}\label{classostk_1_1astro_1_1flight_1_1_system_a465eb91f18cbc10466b30694daab39fd}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!````~System@{$\sim$\+System}}
+\index{````~System@{$\sim$\+System}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{$\sim$\+System()}{~System()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+System\+::$\sim$\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_ade321754db6db7f635def34cb137d9c4}\label{classostk_1_1astro_1_1flight_1_1_system_ade321754db6db7f635def34cb137d9c4}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} $\ast$ ostk\+::astro\+::flight\+::\+System\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Clone system. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned system 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_ac50685f33e3442384ed41b3b8c2d6549}\label{classostk_1_1astro_1_1flight_1_1_system_ac50685f33e3442384ed41b3b8c2d6549}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!get\+Geometry@{get\+Geometry}}
+\index{get\+Geometry@{get\+Geometry}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{get\+Geometry()}{getGeometry()}}
+{\footnotesize\ttfamily Composite ostk\+::astro\+::flight\+::\+System\+::get\+Geometry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get system\textquotesingle{}s geometry. 
+
+
+\begin{DoxyCode}
+Mass mass = system.getGeometry() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Composite 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a5c83b22d462c5d4b3f9766430c17d646}\label{classostk_1_1astro_1_1flight_1_1_system_a5c83b22d462c5d4b3f9766430c17d646}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!get\+Mass@{get\+Mass}}
+\index{get\+Mass@{get\+Mass}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{get\+Mass()}{getMass()}}
+{\footnotesize\ttfamily Mass ostk\+::astro\+::flight\+::\+System\+::get\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get system\textquotesingle{}s mass. 
+
+
+\begin{DoxyCode}
+Mass mass = system.getMass() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Mass 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a45d6ad6bca50c0d9cb9b50135ed2efa3}\label{classostk_1_1astro_1_1flight_1_1_system_a45d6ad6bca50c0d9cb9b50135ed2efa3}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::\+System\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Check if system is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if system is defined 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a6d10fc37776cc87a74fe8b7e2ccb9843}{ostk\+::astro\+::flight\+::system\+::\+Satellite\+System}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a5426b85c139cf30be998e0a983fe5978}\label{classostk_1_1astro_1_1flight_1_1_system_a5426b85c139cf30be998e0a983fe5978}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::\+System\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&}]{a\+System }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+System} & A system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if systems are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a8d8602da9451044f9810eaf22076b852}\label{classostk_1_1astro_1_1flight_1_1_system_a8d8602da9451044f9810eaf22076b852}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::\+System\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&}]{a\+System }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+System} & A system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if systems are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_a24d1aacf9355f5ee56fa56eeabe231ab}\label{classostk_1_1astro_1_1flight_1_1_system_a24d1aacf9355f5ee56fa56eeabe231ab}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::\+System\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print system. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a0d4ca06c426773f667018581945dbf57}{ostk\+::astro\+::flight\+::system\+::\+Satellite\+System}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_system_aaf88422b640217e9e1c2c354a7e05634}\label{classostk_1_1astro_1_1flight_1_1_system_aaf88422b640217e9e1c2c354a7e05634}} 
+\index{ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight\+::\+System@{ostk\+::astro\+::flight\+::\+System}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&}]{a\+System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+System} & A system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\hyperlink{_system_8hpp}{System.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\hyperlink{_system_8cpp}{System.\+cpp}\end{DoxyCompactItemize}

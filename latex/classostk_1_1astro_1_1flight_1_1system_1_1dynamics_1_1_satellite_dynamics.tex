@@ -1,0 +1,291 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{}\section{ostk\+:\+:astro\+:\+:flight\+:\+:system\+:\+:dynamics\+:\+:Satellite\+Dynamics Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+
+
+Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} class.  
+
+
+
+
+{\ttfamily \#include $<$Satellite\+Dynamics.\+hpp$>$}
+
+Inheritance diagram for ostk\+:\+:astro\+:\+:flight\+:\+:system\+:\+:dynamics\+:\+:Satellite\+Dynamics\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a756ced12a03832285a4a0fa89b0b8085}{Satellite\+Dynamics} (const Environment \&an\+Environment, const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System} \&a\+Satellite\+System, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a8ced1fec7e36003eb50b8e15202fa571}{Satellite\+Dynamics} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a19f580468419341d3754707917aa835a}{$\sim$\+Satellite\+Dynamics} () override
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} $\ast$ \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a57d066e3876e999e288d00a23fb9ec9c}{clone} () const override
+\begin{DoxyCompactList}\small\item\em Clone satellite dynamics. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a911f594991ee3b3a9187a34904118fc6}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a0f65a238480359b9baf68ea4b2155eda}{operator!=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aa58384471ec8825964af48a4a2235fab}{is\+Defined} () const override
+\begin{DoxyCompactList}\small\item\em Check if satellite dynamics is defined. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_af60a82bf97622e5b3a670c38ab4ddd32}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print satellite dynamics. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_addceb352f6da2de12c1e9fe506533740}{get\+State} () const
+\begin{DoxyCompactList}\small\item\em Get satellite dynamics\textquotesingle{}s 3 D\+OF State. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a464f46a92c559bf82bc466e7f77195e2}{set\+State} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
+\begin{DoxyCompactList}\small\item\em Set satellite dynamics\textquotesingle{}s 3 D\+OF State. \end{DoxyCompactList}\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamics\+::\+Dynamical\+Equation\+Wrapper} \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aed9ddda1a1d1c4636e2c0d6ccc9d5a16}{get\+Dynamical\+Equations} () override
+\begin{DoxyCompactList}\small\item\em Obtain dynamical equations function wrapper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a26dfc3296b117e4887b254e5746b51bb}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} class. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a756ced12a03832285a4a0fa89b0b8085}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a756ced12a03832285a4a0fa89b0b8085}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!Satellite\+Dynamics@{Satellite\+Dynamics}}
+\index{Satellite\+Dynamics@{Satellite\+Dynamics}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{Satellite\+Dynamics()}{SatelliteDynamics()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::\+Satellite\+Dynamics (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System} \&}]{a\+Satellite\+System,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}
+Environment environment = \{ ... \} ;
+SatelliteSystem satelliteSystem = \{ ... \} ;
+State state = \{ ... \} ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a756ced12a03832285a4a0fa89b0b8085}{SatelliteDynamics} satelliteDynamics = \{ environment, satelliteSystem, state \} ;
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Environment} & An environment \\
+\hline
+\mbox{\tt in}  & {\em a\+Satellite\+System} & A satellite system \\
+\hline
+\mbox{\tt in}  & {\em a\+State} & A 3 D\+OF state \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a8ced1fec7e36003eb50b8e15202fa571}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a8ced1fec7e36003eb50b8e15202fa571}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!Satellite\+Dynamics@{Satellite\+Dynamics}}
+\index{Satellite\+Dynamics@{Satellite\+Dynamics}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{Satellite\+Dynamics()}{SatelliteDynamics()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::\+Satellite\+Dynamics (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics }\end{DoxyParamCaption})}
+
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} & A satellite dynamics \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a19f580468419341d3754707917aa835a}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a19f580468419341d3754707917aa835a}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!````~Satellite\+Dynamics@{$\sim$\+Satellite\+Dynamics}}
+\index{````~Satellite\+Dynamics@{$\sim$\+Satellite\+Dynamics}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{$\sim$\+Satellite\+Dynamics()}{~SatelliteDynamics()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::$\sim$\+Satellite\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a57d066e3876e999e288d00a23fb9ec9c}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a57d066e3876e999e288d00a23fb9ec9c}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} $\ast$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Clone satellite dynamics. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned satellite dynamics 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aed9ddda1a1d1c4636e2c0d6ccc9d5a16}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aed9ddda1a1d1c4636e2c0d6ccc9d5a16}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!get\+Dynamical\+Equations@{get\+Dynamical\+Equations}}
+\index{get\+Dynamical\+Equations@{get\+Dynamical\+Equations}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{get\+Dynamical\+Equations()}{getDynamicalEquations()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamics\+::\+Dynamical\+Equation\+Wrapper} ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::get\+Dynamical\+Equations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Obtain dynamical equations function wrapper. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamics::DynamicalEquationWrapper} dyneq = satelliteDynamics.
+      getDynamicalEquations() ;
+\end{DoxyCode}
+ \begin{DoxyReturn}{Returns}
+std\+::function$<$void(const std\+::vector$<$double$>$\&, std\+::vector$<$double$>$\&, const double)$>$ 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a2001816629758bad7e960af54e87ddaa}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_addceb352f6da2de12c1e9fe506533740}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_addceb352f6da2de12c1e9fe506533740}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!get\+State@{get\+State}}
+\index{get\+State@{get\+State}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{get\+State()}{getState()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get satellite dynamics\textquotesingle{}s 3 D\+OF State. 
+
+
+\begin{DoxyCode}
+State state = satelliteDynamics.getState() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+State 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aa58384471ec8825964af48a4a2235fab}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_aa58384471ec8825964af48a4a2235fab}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if satellite dynamics is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if satellite dynamics is defined 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a13160e001990a6ce8db807e39b8f97df}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a0f65a238480359b9baf68ea4b2155eda}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a0f65a238480359b9baf68ea4b2155eda}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if satellite dynamics are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a911f594991ee3b3a9187a34904118fc6}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a911f594991ee3b3a9187a34904118fc6}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if satellite dynamics are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_af60a82bf97622e5b3a670c38ab4ddd32}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_af60a82bf97622e5b3a670c38ab4ddd32}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print satellite dynamics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_aa3fdfebb45a96bb0c6405c750e1c6d30}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a464f46a92c559bf82bc466e7f77195e2}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a464f46a92c559bf82bc466e7f77195e2}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!set\+State@{set\+State}}
+\index{set\+State@{set\+State}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{set\+State()}{setState()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics\+::set\+State (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})}
+
+
+
+Set satellite dynamics\textquotesingle{}s 3 D\+OF State. 
+
+
+\begin{DoxyCode}
+State state = \{ ... \} ;
+satelliteDynamics.setState(state) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+State} & A 3\+D\+OF state \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a26dfc3296b117e4887b254e5746b51bb}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics_a26dfc3296b117e4887b254e5746b51bb}} 
+\index{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics@{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Satellite\+Dynamics}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\hyperlink{_satellite_dynamics_8hpp}{Satellite\+Dynamics.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\hyperlink{_satellite_dynamics_8cpp}{Satellite\+Dynamics.\+cpp}\end{DoxyCompactItemize}

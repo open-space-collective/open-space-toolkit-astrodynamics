@@ -4,5 +4,6 @@ var namespaceostk_1_1astro =
     [ "flight", "namespaceostk_1_1astro_1_1flight.html", "namespaceostk_1_1astro_1_1flight" ],
     [ "trajectory", "namespaceostk_1_1astro_1_1trajectory.html", "namespaceostk_1_1astro_1_1trajectory" ],
     [ "Access", "classostk_1_1astro_1_1_access.html", "classostk_1_1astro_1_1_access" ],
+    [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", "classostk_1_1astro_1_1_numerical_solver" ],
     [ "Trajectory", "classostk_1_1astro_1_1_trajectory.html", "classostk_1_1astro_1_1_trajectory" ]
 ];

@@ -14,22 +14,48 @@
 \item 
 class \hyperlink{classostk_1_1astro_1_1_access}{Access}
 \begin{DoxyCompactList}\small\item\em Object-\/to-\/object visibility. \end{DoxyCompactList}\item 
+class \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}
+\begin{DoxyCompactList}\small\item\em Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. \end{DoxyCompactList}\item 
 class \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}
 \begin{DoxyCompactList}\small\item\em Path followed by an object through space as a function of time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector} $>$ \hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{error\+\_\+stepper\+\_\+type\+\_\+54}
+\item 
+typedef runge\+\_\+kutta\+\_\+fehlberg78$<$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector} $>$ \hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{error\+\_\+stepper\+\_\+type\+\_\+78}
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \hyperlink{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&an\+Access)
 \item 
+std\+::ostream \& \hyperlink{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver)
+\item 
 std\+::ostream \& \hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory)
 \end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}\label{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}} 
+\index{ostk\+::astro@{ostk\+::astro}!error\+\_\+stepper\+\_\+type\+\_\+54@{error\+\_\+stepper\+\_\+type\+\_\+54}}
+\index{error\+\_\+stepper\+\_\+type\+\_\+54@{error\+\_\+stepper\+\_\+type\+\_\+54}!ostk\+::astro@{ostk\+::astro}}
+\subsubsection{\texorpdfstring{error\+\_\+stepper\+\_\+type\+\_\+54}{error\_stepper\_type\_54}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}$>$ \hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+54}}
+
+\mbox{\Hypertarget{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}\label{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}} 
+\index{ostk\+::astro@{ostk\+::astro}!error\+\_\+stepper\+\_\+type\+\_\+78@{error\+\_\+stepper\+\_\+type\+\_\+78}}
+\index{error\+\_\+stepper\+\_\+type\+\_\+78@{error\+\_\+stepper\+\_\+type\+\_\+78}!ostk\+::astro@{ostk\+::astro}}
+\subsubsection{\texorpdfstring{error\+\_\+stepper\+\_\+type\+\_\+78}{error\_stepper\_type\_78}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+fehlberg78$<$\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}$>$ \hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+78}}
+
 
 
 \subsection{Function Documentation}
 \mbox{\Hypertarget{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}\label{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}} 
 \index{ostk\+::astro@{ostk\+::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro@{ostk\+::astro}}
-\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
 
 
@@ -51,6 +77,22 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}\label{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}} 
 \index{ostk\+::astro@{ostk\+::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro@{ostk\+::astro}}
-\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_access}{Access} \&}]{an\+Access }\end{DoxyParamCaption})}
 
+\mbox{\Hypertarget{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}\label{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}} 
+\index{ostk\+::astro@{ostk\+::astro}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro@{ostk\+::astro}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}

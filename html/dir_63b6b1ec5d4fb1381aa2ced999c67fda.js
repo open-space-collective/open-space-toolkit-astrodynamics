@@ -7,6 +7,9 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
       [ "Access", "classostk_1_1astro_1_1_access.html", "classostk_1_1astro_1_1_access" ]
     ] ],
     [ "Flight.hpp", "_flight_8hpp.html", null ],
+    [ "NumericalSolver.hpp", "_numerical_solver_8hpp.html", [
+      [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", "classostk_1_1astro_1_1_numerical_solver" ]
+    ] ],
     [ "Trajectory.hpp", "_trajectory_8hpp.html", [
       [ "Trajectory", "classostk_1_1astro_1_1_trajectory.html", "classostk_1_1astro_1_1_trajectory" ]
     ] ]

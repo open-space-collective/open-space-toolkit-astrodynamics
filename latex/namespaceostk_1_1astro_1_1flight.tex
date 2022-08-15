@@ -4,12 +4,16 @@
 \begin{DoxyCompactItemize}
 \item 
  \hyperlink{namespaceostk_1_1astro_1_1flight_1_1profile}{profile}
+\item 
+ \hyperlink{namespaceostk_1_1astro_1_1flight_1_1system}{system}
 \end{DoxyCompactItemize}
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile}
-\begin{DoxyCompactList}\small\item\em Spacecraft flight profile. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Spacecraft flight profile. \end{DoxyCompactList}\item 
+class \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System}
+\begin{DoxyCompactList}\small\item\em Defines the generic physical system that has a mass and a certain geometry that can be composed of multiple subgeometries. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -19,6 +23,8 @@ using \hyperlink{namespaceostk_1_1astro_1_1flight_a30fb17f0f77e97e4d6bb556721881
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \hyperlink{namespaceostk_1_1astro_1_1flight_ad4a6bc77a55e55a29abdc5b4e3d8a346}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile)
+\item 
+std\+::ostream \& \hyperlink{namespaceostk_1_1astro_1_1flight_a634c76052b78e11d9f56d11ac989fc20}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&a\+System)
 \end{DoxyCompactItemize}
 
 
@@ -35,7 +41,7 @@ std\+::ostream \& \hyperlink{namespaceostk_1_1astro_1_1flight_ad4a6bc77a55e55a29
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1flight_ad4a6bc77a55e55a29abdc5b4e3d8a346}\label{namespaceostk_1_1astro_1_1flight_ad4a6bc77a55e55a29abdc5b4e3d8a346}} 
 \index{ostk\+::astro\+::flight@{ostk\+::astro\+::flight}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight@{ostk\+::astro\+::flight}}
-\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::flight\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption})}
 
 
@@ -49,6 +55,22 @@ std::cout << Profile(...) ;
 \mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
 \hline
 \mbox{\tt in}  & {\em a\+Profile} & A flight profile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_1_1flight_a634c76052b78e11d9f56d11ac989fc20}\label{namespaceostk_1_1astro_1_1flight_a634c76052b78e11d9f56d11ac989fc20}} 
+\index{ostk\+::astro\+::flight@{ostk\+::astro\+::flight}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight@{ostk\+::astro\+::flight}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::flight\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_system}{System} \&}]{a\+System }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+System} & A system \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

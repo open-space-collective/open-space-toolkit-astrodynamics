@@ -36,6 +36,8 @@ virtual bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a0d5cf6f75490
 \begin{DoxyCompactList}\small\item\em \hyperlink{classostk_1_1astro_1_1_access}{Access} model as its underlying type. \end{DoxyCompactList}\item 
 virtual \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_ad25eeaded2946bf73d44161b5f4e9a0e}{calculate\+State\+At} (const Instant \&an\+Instant) const =0
 \item 
+virtual Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a3c3e4913aed2272174c0e6cd0d1a6415}{calculate\+States\+At} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const
+\item 
 virtual void \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model_a4b2098483430a820481ed50b81656e31}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const =0
 \end{DoxyCompactItemize}
 \subsection*{Friends}
@@ -91,6 +93,12 @@ Reference to underlying type
 
 
 Implemented in \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler_a4de0c3d7a2b37c1c2ab4d6e207339809}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Kepler}, \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4_ad88439d9c46a75d3da8c20d2872271e3}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+S\+G\+P4}, \hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated_af2ebaa6456986636aa58c2f8666ed0b9}{ostk\+::astro\+::trajectory\+::models\+::\+Tabulated}, \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated_ad7935cafe71b572b97b9df93e469d2f8}{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Tabulated}, \hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_static_a4297a74c953a105dc887a31227fbe1ff}{ostk\+::astro\+::trajectory\+::models\+::\+Static}, and \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a34a0d8979ec1f7ade3e434fc0dad3711}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_model_a3c3e4913aed2272174c0e6cd0d1a6415}\label{classostk_1_1astro_1_1trajectory_1_1_model_a3c3e4913aed2272174c0e6cd0d1a6415}} 
+\index{ostk\+::astro\+::trajectory\+::\+Model@{ostk\+::astro\+::trajectory\+::\+Model}!calculate\+States\+At@{calculate\+States\+At}}
+\index{calculate\+States\+At@{calculate\+States\+At}!ostk\+::astro\+::trajectory\+::\+Model@{ostk\+::astro\+::trajectory\+::\+Model}}
+\subsubsection{\texorpdfstring{calculate\+States\+At()}{calculateStatesAt()}}
+{\footnotesize\ttfamily Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ ostk\+::astro\+::trajectory\+::\+Model\+::calculate\+States\+At (\begin{DoxyParamCaption}\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_model_ad9f1467f711b07796ddc1437fb9ad9df}\label{classostk_1_1astro_1_1trajectory_1_1_model_ad9f1467f711b07796ddc1437fb9ad9df}} 
 \index{ostk\+::astro\+::trajectory\+::\+Model@{ostk\+::astro\+::trajectory\+::\+Model}!clone@{clone}}

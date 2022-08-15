@@ -1,0 +1,481 @@
+\hypertarget{classostk_1_1astro_1_1_numerical_solver}{}\section{ostk\+:\+:astro\+:\+:Numerical\+Solver Class Reference}
+\label{classostk_1_1astro_1_1_numerical_solver}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+
+
+Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future.  
+
+
+
+
+{\ttfamily \#include $<$Numerical\+Solver.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Stepper\+Type} \{ \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37}{Stepper\+Type\+::\+Runge\+Kutta\+Cash\+Karp54}, 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7}{Stepper\+Type\+::\+Runge\+Kutta\+Fehlberg78}
+ \}
+\item 
+enum \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Log\+Type} \{ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4cac224e58a49e83bb9b94e2bd594fd5231}{Log\+Type\+::\+No\+Log}, 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4ca40b79e6f53444b0a01aa353abfd9fe91}{Log\+Type\+::\+Log\+Constant}, 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e}{Log\+Type\+::\+Log\+Adaptive}
+ \}
+\item 
+typedef std\+::vector$<$ double $>$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector}
+\item 
+typedef std\+::function$<$ void(const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&, \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&, const double)$>$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{System\+Of\+Equations\+Wrapper}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}{Numerical\+Solver} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} \&a\+Log\+Type, const \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} \&a\+Stepper\+Type, const Real \&a\+Time\+Step, const Real \&a\+Relative\+Tolerance, const Real \&an\+Absolute\+Tolerance)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_ab156915994e0b9207d9c240114f6ed67}{Numerical\+Solver} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver)
+\begin{DoxyCompactList}\small\item\em Copy Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} $\ast$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a5b96baffe23b77c14046e4fb7ffc89a1}{clone} () const
+\begin{DoxyCompactList}\small\item\em Clone numerical solver. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4ec848789b81d968cdc1d3d5003ea66a}{operator==} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1_numerical_solver_af488ebaa295739474e0f696aa9134171}{operator!=} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1_numerical_solver_a936f93694a47c4ebca82fb6e233b8b4a}{is\+Defined} () const
+\begin{DoxyCompactList}\small\item\em Check if numerical solver is defined. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1_numerical_solver_a8572e8bc097feb35d7e7ba293ffd511a}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print numerical solver. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} \hyperlink{classostk_1_1astro_1_1_numerical_solver_ad0403195d44325cc71a8a19359640329}{get\+Log\+Type} () const
+\begin{DoxyCompactList}\small\item\em Get integration logging enum. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} \hyperlink{classostk_1_1astro_1_1_numerical_solver_adb327bb6a9dc0fc4ab8fca57030b51e6}{get\+Stepper\+Type} () const
+\begin{DoxyCompactList}\small\item\em Get integration stepper enum. \end{DoxyCompactList}\item 
+Real \hyperlink{classostk_1_1astro_1_1_numerical_solver_a1caf9f97b27630a5baa4444e76fe9ad4}{get\+Time\+Step} () const
+\begin{DoxyCompactList}\small\item\em Get initial time step guess. \end{DoxyCompactList}\item 
+Real \hyperlink{classostk_1_1astro_1_1_numerical_solver_acdd27776ff2d4fca2bb6cb4fbb94b547}{get\+Relative\+Tolerance} () const
+\begin{DoxyCompactList}\small\item\em Get relative integration tolerance. \end{DoxyCompactList}\item 
+Real \hyperlink{classostk_1_1astro_1_1_numerical_solver_a0f768255c5f2f51f395e4515db245930}{get\+Absolute\+Tolerance} () const
+\begin{DoxyCompactList}\small\item\em Get absolute integration tolerance. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \hyperlink{classostk_1_1astro_1_1_numerical_solver_a7cfa85bfdcd4c258b2bc923150c7497b}{integrate\+State\+From\+Instant\+To\+Instant} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&an\+Initial\+State\+Vector, const Instant \&a\+Start\+Instant, const Instant \&an\+End\+Instant, const \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{System\+Of\+Equations\+Wrapper} \&a\+System\+Of\+Equations) const
+\begin{DoxyCompactList}\small\item\em Perform numerical integration from an instant to another instant. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \hyperlink{classostk_1_1astro_1_1_numerical_solver_a20b6bec03702bbe76e919a4a3fbf6cd9}{integrate\+State\+For\+Duration} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&an\+Initial\+State\+Vector, const Duration \&an\+Integration\+Duration, const \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{System\+Of\+Equations\+Wrapper} \&a\+System\+Of\+Equations) const
+\begin{DoxyCompactList}\small\item\em Perform numerical integration for a certain duration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classostk_1_1astro_1_1_numerical_solver_a3dd4e9b6acffec931c3748d4d851155b}{String\+From\+Stepper\+Type} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} \&a\+Stepper\+Type)
+\begin{DoxyCompactList}\small\item\em Get string from the integration stepper type. \end{DoxyCompactList}\item 
+static String \hyperlink{classostk_1_1astro_1_1_numerical_solver_ab75ca02c5e4d0b2b2390045c353bf66f}{String\+From\+Log\+Type} (const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} \&a\+Log\+Type)
+\begin{DoxyCompactList}\small\item\em Get string from the integration log type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1_numerical_solver_a28e4d7a66856d0bedb035589eb5e70f7}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. 
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}\label{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!State\+Vector@{State\+Vector}}
+\index{State\+Vector@{State\+Vector}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{State\+Vector}{StateVector}}
+{\footnotesize\ttfamily typedef std\+::vector$<$double$>$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{ostk\+::astro\+::\+Numerical\+Solver\+::\+State\+Vector}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}\label{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!System\+Of\+Equations\+Wrapper@{System\+Of\+Equations\+Wrapper}}
+\index{System\+Of\+Equations\+Wrapper@{System\+Of\+Equations\+Wrapper}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{System\+Of\+Equations\+Wrapper}{SystemOfEquationsWrapper}}
+{\footnotesize\ttfamily typedef std\+::function$<$void(const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector}\&, \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector}\&, const double)$>$ \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{ostk\+::astro\+::\+Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper}}
+
+
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}\label{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Log\+Type@{Log\+Type}}
+\index{Log\+Type@{Log\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{Log\+Type}{LogType}}
+{\footnotesize\ttfamily enum \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{ostk\+::astro\+::\+Numerical\+Solver\+::\+Log\+Type}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{No\+Log@{No\+Log}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!No\+Log@{No\+Log}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4cac224e58a49e83bb9b94e2bd594fd5231}\label{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4cac224e58a49e83bb9b94e2bd594fd5231}} 
+No\+Log&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Log\+Constant@{Log\+Constant}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Log\+Constant@{Log\+Constant}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4ca40b79e6f53444b0a01aa353abfd9fe91}\label{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4ca40b79e6f53444b0a01aa353abfd9fe91}} 
+Log\+Constant&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Log\+Adaptive@{Log\+Adaptive}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Log\+Adaptive@{Log\+Adaptive}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e}\label{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e}} 
+Log\+Adaptive&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}\label{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Stepper\+Type@{Stepper\+Type}}
+\index{Stepper\+Type@{Stepper\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{Stepper\+Type}{StepperType}}
+{\footnotesize\ttfamily enum \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{ostk\+::astro\+::\+Numerical\+Solver\+::\+Stepper\+Type}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Runge\+Kutta\+Cash\+Karp54@{Runge\+Kutta\+Cash\+Karp54}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Runge\+Kutta\+Cash\+Karp54@{Runge\+Kutta\+Cash\+Karp54}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37}\label{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37}} 
+Runge\+Kutta\+Cash\+Karp54&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Runge\+Kutta\+Fehlberg78@{Runge\+Kutta\+Fehlberg78}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Runge\+Kutta\+Fehlberg78@{Runge\+Kutta\+Fehlberg78}}}\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7}\label{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7}} 
+Runge\+Kutta\+Fehlberg78&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}\label{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Numerical\+Solver@{Numerical\+Solver}}
+\index{Numerical\+Solver@{Numerical\+Solver}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{Numerical\+Solver()}{NumericalSolver()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Numerical\+Solver\+::\+Numerical\+Solver (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} \&}]{a\+Log\+Type,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} \&}]{a\+Stepper\+Type,  }\item[{const Real \&}]{a\+Time\+Step,  }\item[{const Real \&}]{a\+Relative\+Tolerance,  }\item[{const Real \&}]{an\+Absolute\+Tolerance }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}{NumericalSolver} numericalSolver = \{ aLogType, aStepperType, aTimeStep, aRelativeTolerance, 
+      anAbsoluteTolerance \} ;
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Log\+Type} & An enum indicating the amount of verbosity wanted to be logged during numerical integration \\
+\hline
+\mbox{\tt in}  & {\em a\+Stepper\+Type} & An enum indicating the type of numerical stepper used to perform integration \\
+\hline
+\mbox{\tt in}  & {\em a\+Time\+Step} & A number indicating the initial guess time step the numerical solver will take \\
+\hline
+\mbox{\tt in}  & {\em a\+Relative\+Tolerance} & A number indicating the relative intergration tolerance \\
+\hline
+\mbox{\tt in}  & {\em an\+Absolute\+Tolerance} & A number indicating the absolute intergration tolerance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_ab156915994e0b9207d9c240114f6ed67}\label{classostk_1_1astro_1_1_numerical_solver_ab156915994e0b9207d9c240114f6ed67}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!Numerical\+Solver@{Numerical\+Solver}}
+\index{Numerical\+Solver@{Numerical\+Solver}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{Numerical\+Solver()}{NumericalSolver()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Numerical\+Solver\+::\+Numerical\+Solver (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
+
+
+
+Copy Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} & A numerical solver \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a5b96baffe23b77c14046e4fb7ffc89a1}\label{classostk_1_1astro_1_1_numerical_solver_a5b96baffe23b77c14046e4fb7ffc89a1}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} $\ast$ ostk\+::astro\+::\+Numerical\+Solver\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Clone numerical solver. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned numerical solver 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a0f768255c5f2f51f395e4515db245930}\label{classostk_1_1astro_1_1_numerical_solver_a0f768255c5f2f51f395e4515db245930}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!get\+Absolute\+Tolerance@{get\+Absolute\+Tolerance}}
+\index{get\+Absolute\+Tolerance@{get\+Absolute\+Tolerance}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{get\+Absolute\+Tolerance()}{getAbsoluteTolerance()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::\+Numerical\+Solver\+::get\+Absolute\+Tolerance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get absolute integration tolerance. 
+
+
+\begin{DoxyCode}
+numericalSolver.getAbsoluteTolerance() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Real 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_ad0403195d44325cc71a8a19359640329}\label{classostk_1_1astro_1_1_numerical_solver_ad0403195d44325cc71a8a19359640329}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!get\+Log\+Type@{get\+Log\+Type}}
+\index{get\+Log\+Type@{get\+Log\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{get\+Log\+Type()}{getLogType()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} ostk\+::astro\+::\+Numerical\+Solver\+::get\+Log\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get integration logging enum. 
+
+
+\begin{DoxyCode}
+numericalSolver.getLogType() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Log\+Type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_acdd27776ff2d4fca2bb6cb4fbb94b547}\label{classostk_1_1astro_1_1_numerical_solver_acdd27776ff2d4fca2bb6cb4fbb94b547}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!get\+Relative\+Tolerance@{get\+Relative\+Tolerance}}
+\index{get\+Relative\+Tolerance@{get\+Relative\+Tolerance}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{get\+Relative\+Tolerance()}{getRelativeTolerance()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::\+Numerical\+Solver\+::get\+Relative\+Tolerance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get relative integration tolerance. 
+
+
+\begin{DoxyCode}
+numericalSolver.getRelativeTolerance() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Real 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_adb327bb6a9dc0fc4ab8fca57030b51e6}\label{classostk_1_1astro_1_1_numerical_solver_adb327bb6a9dc0fc4ab8fca57030b51e6}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!get\+Stepper\+Type@{get\+Stepper\+Type}}
+\index{get\+Stepper\+Type@{get\+Stepper\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{get\+Stepper\+Type()}{getStepperType()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} ostk\+::astro\+::\+Numerical\+Solver\+::get\+Stepper\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get integration stepper enum. 
+
+
+\begin{DoxyCode}
+numericalSolver.getStepperType() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Stepper\+Type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a1caf9f97b27630a5baa4444e76fe9ad4}\label{classostk_1_1astro_1_1_numerical_solver_a1caf9f97b27630a5baa4444e76fe9ad4}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!get\+Time\+Step@{get\+Time\+Step}}
+\index{get\+Time\+Step@{get\+Time\+Step}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{get\+Time\+Step()}{getTimeStep()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::\+Numerical\+Solver\+::get\+Time\+Step (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get initial time step guess. 
+
+
+\begin{DoxyCode}
+numericalSolver.getTimeStep() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Real 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a20b6bec03702bbe76e919a4a3fbf6cd9}\label{classostk_1_1astro_1_1_numerical_solver_a20b6bec03702bbe76e919a4a3fbf6cd9}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!integrate\+State\+For\+Duration@{integrate\+State\+For\+Duration}}
+\index{integrate\+State\+For\+Duration@{integrate\+State\+For\+Duration}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{integrate\+State\+For\+Duration()}{integrateStateForDuration()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector} ostk\+::astro\+::\+Numerical\+Solver\+::integrate\+State\+For\+Duration (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&}]{an\+Initial\+State\+Vector,  }\item[{const Duration \&}]{an\+Integration\+Duration,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{System\+Of\+Equations\+Wrapper} \&}]{a\+System\+Of\+Equations }\end{DoxyParamCaption}) const}
+
+
+
+Perform numerical integration for a certain duration. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector} stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector, 
+      instant, otherInstant, SystemofEquations) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Initial\+State\+Vector} & An initial n-\/dimensional state vector to begin integrating at \\
+\hline
+\mbox{\tt in}  & {\em an\+Integration\+Duration} & A duration over which to integration \\
+\hline
+\mbox{\tt in}  & {\em a\+System\+Of\+Equations} & An std\+::function wrapper with a particular signature that boost\+::odeint accepts to perform numerical integration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$double$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a7cfa85bfdcd4c258b2bc923150c7497b}\label{classostk_1_1astro_1_1_numerical_solver_a7cfa85bfdcd4c258b2bc923150c7497b}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!integrate\+State\+From\+Instant\+To\+Instant@{integrate\+State\+From\+Instant\+To\+Instant}}
+\index{integrate\+State\+From\+Instant\+To\+Instant@{integrate\+State\+From\+Instant\+To\+Instant}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{integrate\+State\+From\+Instant\+To\+Instant()}{integrateStateFromInstantToInstant()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector} ostk\+::astro\+::\+Numerical\+Solver\+::integrate\+State\+From\+Instant\+To\+Instant (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{State\+Vector} \&}]{an\+Initial\+State\+Vector,  }\item[{const Instant \&}]{a\+Start\+Instant,  }\item[{const Instant \&}]{an\+End\+Instant,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{System\+Of\+Equations\+Wrapper} \&}]{a\+System\+Of\+Equations }\end{DoxyParamCaption}) const}
+
+
+
+Perform numerical integration from an instant to another instant. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector} stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector, 
+      instant, otherInstant, systemOfEquations) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Initial\+State\+Vector} & An initial n-\/dimensional state vector to begin integrating at \\
+\hline
+\mbox{\tt in}  & {\em a\+Start\+Instant} & An instant to begin integrating from \\
+\hline
+\mbox{\tt in}  & {\em an\+End\+Instant} & An instant to finish integrating at \\
+\hline
+\mbox{\tt in}  & {\em a\+System\+Of\+Equations} & An std\+::function wrapper with a particular signature that boost\+::odeint accepts to perform numerical integration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::vector$<$double$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a936f93694a47c4ebca82fb6e233b8b4a}\label{classostk_1_1astro_1_1_numerical_solver_a936f93694a47c4ebca82fb6e233b8b4a}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Numerical\+Solver\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if numerical solver is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if numerical solver is defined 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_af488ebaa295739474e0f696aa9134171}\label{classostk_1_1astro_1_1_numerical_solver_af488ebaa295739474e0f696aa9134171}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Numerical\+Solver\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if numerical solver are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a4ec848789b81d968cdc1d3d5003ea66a}\label{classostk_1_1astro_1_1_numerical_solver_a4ec848789b81d968cdc1d3d5003ea66a}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Numerical\+Solver\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if numerical solver are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a8572e8bc097feb35d7e7ba293ffd511a}\label{classostk_1_1astro_1_1_numerical_solver_a8572e8bc097feb35d7e7ba293ffd511a}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::\+Numerical\+Solver\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print numerical solver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_ab75ca02c5e4d0b2b2390045c353bf66f}\label{classostk_1_1astro_1_1_numerical_solver_ab75ca02c5e4d0b2b2390045c353bf66f}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!String\+From\+Log\+Type@{String\+From\+Log\+Type}}
+\index{String\+From\+Log\+Type@{String\+From\+Log\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{String\+From\+Log\+Type()}{StringFromLogType()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Numerical\+Solver\+::\+String\+From\+Log\+Type (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_a23e9e3f7d630f3097b4cbd91d9a2aa4c}{Numerical\+Solver\+::\+Log\+Type} \&}]{a\+Log\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get string from the integration log type. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_ab75ca02c5e4d0b2b2390045c353bf66f}{NumericalSolver::StringFromLogType}(aLogType) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Log\+Type} & An integration log type enum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Log\+Type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a3dd4e9b6acffec931c3748d4d851155b}\label{classostk_1_1astro_1_1_numerical_solver_a3dd4e9b6acffec931c3748d4d851155b}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!String\+From\+Stepper\+Type@{String\+From\+Stepper\+Type}}
+\index{String\+From\+Stepper\+Type@{String\+From\+Stepper\+Type}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{String\+From\+Stepper\+Type()}{StringFromStepperType()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Numerical\+Solver\+::\+String\+From\+Stepper\+Type (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver_afb80f81b2c3cc1d356b0b4749e45b947}{Numerical\+Solver\+::\+Stepper\+Type} \&}]{a\+Stepper\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get string from the integration stepper type. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1_numerical_solver_a3dd4e9b6acffec931c3748d4d851155b}{NumericalSolver::StringFromStepperType}(aStepperType) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Stepper\+Type} & An integration stepper type enum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stepper\+Type 
+\end{DoxyReturn}
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_numerical_solver_a28e4d7a66856d0bedb035589eb5e70f7}\label{classostk_1_1astro_1_1_numerical_solver_a28e4d7a66856d0bedb035589eb5e70f7}} 
+\index{ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::\+Numerical\+Solver@{ostk\+::astro\+::\+Numerical\+Solver}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_numerical_solver_8hpp}{Numerical\+Solver.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_numerical_solver_8cpp}{Numerical\+Solver.\+cpp}\end{DoxyCompactItemize}

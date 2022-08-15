@@ -6,7 +6,7 @@ var classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler =
       [ "J4", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369", null ]
     ] ],
     [ "Kepler", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#aebd9792c0965b4539a553afad07aff7a", null ],
-    [ "Kepler", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#afc95c7ec38bba8e24eba704c408523b6", null ],
+    [ "Kepler", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#af91d91131679176d920c658facaab07c", null ],
     [ "calculateRevolutionNumberAt", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a312fe4296eadcb00799ce9981b0c4f18", null ],
     [ "calculateStateAt", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4de0c3d7a2b37c1c2ab4d6e207339809", null ],
     [ "clone", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#afb76b3571c73fb5c87129033f7d66520", null ],

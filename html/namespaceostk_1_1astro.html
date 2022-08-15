@@ -80,6 +80,7 @@ $(document).ready(function(){initNavTree('namespaceostk_1_1astro.html','');});
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ostk::astro Namespace Reference</div>  </div>
@@ -100,20 +101,61 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_access.html">Access</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object-to-object visibility.  <a href="classostk_1_1astro_1_1_access.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OSTk-math in the future.  <a href="classostk_1_1astro_1_1_numerical_solver.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path followed by an object through space as a function of time.  <a href="classostk_1_1astro_1_1_trajectory.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ae0e87d949c5bf8265860957bc3e551a4"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_cash_karp54&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#ae0e87d949c5bf8265860957bc3e551a4">error_stepper_type_54</a></td></tr>
+<tr class="separator:ae0e87d949c5bf8265860957bc3e551a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65cff551d02047f499131307bd5f688"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_fehlberg78&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#ac65cff551d02047f499131307bd5f688">error_stepper_type_78</a></td></tr>
+<tr class="separator:ac65cff551d02047f499131307bd5f688"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad6bf403749e98996e2e56cd6dc8cc848"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#ad6bf403749e98996e2e56cd6dc8cc848">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_access.html">Access</a> &amp;anAccess)</td></tr>
 <tr class="separator:ad6bf403749e98996e2e56cd6dc8cc848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1504859af3ff5ed6cea30697522bbf4e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a1504859af3ff5ed6cea30697522bbf4e">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver)</td></tr>
+<tr class="separator:a1504859af3ff5ed6cea30697522bbf4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cb767c3814a31416e0491406bc56ed2"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a0cb767c3814a31416e0491406bc56ed2">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aTrajectory)</td></tr>
 <tr class="separator:a0cb767c3814a31416e0491406bc56ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ae0e87d949c5bf8265860957bc3e551a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0e87d949c5bf8265860957bc3e551a4">&#9670;&nbsp;</a></span>error_stepper_type_54</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef runge_kutta_cash_karp54&lt;<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a>&gt; <a class="el" href="namespaceostk_1_1astro.html#ae0e87d949c5bf8265860957bc3e551a4">ostk::astro::error_stepper_type_54</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac65cff551d02047f499131307bd5f688"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac65cff551d02047f499131307bd5f688">&#9670;&nbsp;</a></span>error_stepper_type_78</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef runge_kutta_fehlberg78&lt;<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a>&gt; <a class="el" href="namespaceostk_1_1astro.html#ac65cff551d02047f499131307bd5f688">ostk::astro::error_stepper_type_78</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a0cb767c3814a31416e0491406bc56ed2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cb767c3814a31416e0491406bc56ed2">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cb767c3814a31416e0491406bc56ed2">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +191,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad6bf403749e98996e2e56cd6dc8cc848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6bf403749e98996e2e56cd6dc8cc848">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6bf403749e98996e2e56cd6dc8cc848">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -173,6 +215,42 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1504859af3ff5ed6cea30697522bbf4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1504859af3ff5ed6cea30697522bbf4e">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>aNumericalSolver</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
 
 </div>
 </div>
