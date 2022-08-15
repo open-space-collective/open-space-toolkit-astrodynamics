@@ -37,7 +37,8 @@ namespace access
                                     step_(aStep),
                                     tolerance_(aTolerance),
                                     aerFilter_({}),
-                                    accessFilter_({})
+                                    accessFilter_({}),
+                                    stateFilter_({})
 {
 
 }
@@ -45,13 +46,15 @@ namespace access
                                 Generator::Generator                        (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
                                                                                 const   std::function<bool (const Access&)>& anAccessFilter,
+                                                                                const   std::function<bool (const State&, const State&)>& aStateFilter,
                                                                                 const   Duration&                   aStep,
                                                                                 const   Duration&                   aTolerance                                  )
                                 :   environment_(anEnvironment),
                                     step_(aStep),
                                     tolerance_(aTolerance),
                                     aerFilter_(anAerFilter),
-                                    accessFilter_(anAccessFilter)
+                                    accessFilter_(anAccessFilter),
+                                    stateFilter_(aStateFilter)
 {
 
 }
@@ -191,6 +194,11 @@ Array<Access>                   Generator::computeAccesses                  (   
     {
 
         environment.setInstant(anInstant) ;
+
+        if (stateFilter_ && (!stateFilter_(aFromState, aToState)))
+        {
+            return false ;
+        }
 
         const auto [ fromPosition, toPosition ] = getPositionsFromStates(aFromState, aToState) ;
 
@@ -558,6 +566,11 @@ void                            Generator::setAerFilter                     (   
 void                            Generator::setAccessFilter                  (   const   std::function<bool (const Access&)>& anAccessFilter                     )
 {
     accessFilter_ = anAccessFilter ;
+}
+
+void                            Generator::setStateFilter                  (   const   std::function<bool (const State&, const State&)>& aStateFilter           )
+{
+    stateFilter_ = aStateFilter ;
 }
 
 Generator                       Generator::Undefined                        ( )

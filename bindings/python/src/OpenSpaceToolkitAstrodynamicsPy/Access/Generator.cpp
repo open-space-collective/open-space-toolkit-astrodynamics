@@ -26,6 +26,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
     using ostk::physics::time::Duration ;
     using ostk::physics::coord::spherical::AER ;
 
+    using ostk::astro::trajectory::State ;
     using ostk::astro::Access ;
     using ostk::astro::access::Generator ;
 
@@ -33,10 +34,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
 
         .def
         (
-            init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&, const Duration&, const Duration&>(),
+            init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&, std::function<bool (const State&, const State&)>&, const Duration&, const Duration&>(),
             arg("environment"),
             arg("aer_filter") = none(),
             arg("access_filter") = none(),
+            arg("state_filter") = none(),
             arg("step") = DEFAULT_STEP,
             arg("tolerance") = DEFAULT_TOLERANCE
         )
@@ -89,6 +91,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
             "set_access_filter",
             &Generator::setAccessFilter,
             arg("access_filter")
+        )
+        .def
+        (
+            "set_state_filter",
+            &Generator::setStateFilter,
+            arg("state_filter")
         )
 
         .def_static

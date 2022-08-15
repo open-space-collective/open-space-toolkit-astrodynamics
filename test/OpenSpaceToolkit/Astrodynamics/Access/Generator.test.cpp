@@ -36,6 +36,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
     using ostk::physics::Environment ;
 
     using ostk::astro::Access ;
+    using ostk::astro::trajectory::State ;
     using ostk::astro::access::Generator ;
 
     {
@@ -61,6 +62,29 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
         } ;
 
         EXPECT_NO_THROW(Generator generator(environment, aerFilter, accessFilter) ;) ;
+
+    }
+
+    {
+
+        const Environment environment = Environment::Default() ;
+
+        const auto aerFilter = [] (const AER&) -> bool
+        {
+            return true ;
+        } ;
+
+        const auto accessFilter = [] (const Access&) -> bool
+        {
+            return true ;
+        } ;
+
+        const auto stateFilter = [] (const State&, const State&) -> bool
+        {
+            return true ;
+        } ;
+
+        EXPECT_NO_THROW(Generator generator(environment, aerFilter, accessFilter, stateFilter) ;) ;
 
     }
 
@@ -182,11 +206,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
     using ostk::physics::time::Interval ;
     using ostk::physics::coord::spherical::LLA ;
     using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
     using ostk::physics::Environment ;
     using ostk::physics::env::obj::celest::Earth ;
 
     using ostk::astro::Trajectory ;
+    using ostk::astro::trajectory::State ;
     using ostk::astro::trajectory::Orbit ;
     using ostk::astro::trajectory::orbit::models::Kepler ;
     using ostk::astro::trajectory::orbit::models::kepler::COE ;
@@ -458,6 +484,97 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
     }
 
+    {
+
+        const Instant startInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Instant endInstant = Instant::DateTime(DateTime(2020, 1, 1, 0, 10, 0), Scale::UTC) ;
+
+        const Interval interval = Interval::Closed(startInstant, endInstant) ;
+        const Duration step = Duration::Minutes(1.0) ;
+
+        const auto generateTrajectory = [&interval, &step] (const Position& aStartPosition, const Velocity& aVelocity) -> Trajectory
+        {
+
+            Array<State> states = Array<State>::Empty() ;
+
+            for (const auto& instant : interval.generateGrid(step))
+            {
+
+                const State state =
+                {
+                    instant,
+                    Position::Meters(aStartPosition.getCoordinates() + (aVelocity.getCoordinates() * (instant - interval.getStart()).inSeconds()), Frame::GCRF()),
+                    aVelocity
+                } ;
+
+                states.add(state) ;
+
+            }
+
+            return Trajectory(states) ;
+
+        } ;
+
+        const Trajectory firstTrajectory = generateTrajectory
+        (
+            Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()),
+            Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, Frame::GCRF())
+        ) ;
+
+        const Trajectory secondTrajectory =  generateTrajectory
+        (
+            Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()),
+            Velocity::MetersPerSecond({ 0.0, 0.0, 1.0 }, Frame::GCRF())
+        ) ;
+
+        {
+
+            const auto stateFilter = [] (const State& aFirstState, const State& aSecondState) -> bool
+            {
+                (void) aFirstState ;
+                (void) aSecondState ;
+                return true ;
+            } ;
+
+            const Generator generator = { Environment::Default(), {}, {}, stateFilter } ;
+
+            const Array<Access> accesses = generator.computeAccesses(interval, firstTrajectory, secondTrajectory) ;
+
+            EXPECT_EQ(1, accesses.getSize()) ;
+
+            const Duration toleranceDuration = Duration::Microseconds(1.0) ;
+
+            EXPECT_TRUE(accesses.at(0).getAcquisitionOfSignal().isNear(startInstant, toleranceDuration)) ;
+            EXPECT_TRUE(accesses.at(0).getLossOfSignal().isNear(endInstant, toleranceDuration)) ;
+
+        }
+
+        {
+
+            const auto stateFilter = [] (const State& aFirstState, const State& aSecondState) -> bool
+            {
+                (void) aSecondState ;
+                return (aFirstState.getInstant() - Instant::DateTime(DateTime(2020, 1, 1, 0, 5, 0), Scale::UTC)).getAbsolute() >= Duration::Minutes(2.0) ;
+            } ;
+
+            const Generator generator = { Environment::Default(), {}, {}, stateFilter } ;
+
+            const Array<Access> accesses = generator.computeAccesses(interval, firstTrajectory, secondTrajectory) ;
+
+            EXPECT_EQ(2, accesses.getSize()) ;
+
+            const Duration toleranceDuration = Duration::Microseconds(1.0) ;
+
+            EXPECT_TRUE(accesses.at(0).getAcquisitionOfSignal().isNear(startInstant, toleranceDuration)) ;
+            EXPECT_TRUE(accesses.at(0).getLossOfSignal().isNear(Instant::DateTime(DateTime(2020, 1, 1, 0, 3, 0), Scale::UTC), toleranceDuration)) ;
+
+            EXPECT_TRUE(accesses.at(1).getAcquisitionOfSignal().isNear(Instant::DateTime(DateTime(2020, 1, 1, 0, 7, 0), Scale::UTC), toleranceDuration)) ;
+            EXPECT_TRUE(accesses.at(1).getLossOfSignal().isNear(endInstant, toleranceDuration)) ;
+
+        }
+
+    }
+
 }
 
 TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
@@ -558,6 +675,35 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAccessFilter)
         EXPECT_NO_THROW(generator.setAccessFilter(accessFilter)) ;
 
         EXPECT_NO_THROW(generator.setAccessFilter({})) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
+{
+
+    using ostk::physics::coord::spherical::AER ;
+    using ostk::physics::Environment ;
+
+    using ostk::astro::Access ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::access::Generator ;
+
+    {
+
+        const Environment environment = Environment::Default() ;
+
+        Generator generator = { environment } ;
+
+        const auto stateFilter = [] (const State&, const State&) -> bool
+        {
+            return true ;
+        } ;
+
+        EXPECT_NO_THROW(generator.setStateFilter(stateFilter)) ;
+
+        EXPECT_NO_THROW(generator.setStateFilter({})) ;
 
     }
 
