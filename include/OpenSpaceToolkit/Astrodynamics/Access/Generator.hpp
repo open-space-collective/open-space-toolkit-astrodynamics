@@ -46,6 +46,7 @@ using ostk::math::obj::Interval ;
 using ostk::physics::units::Length ;
 using ostk::physics::units::Angle ;
 using ostk::physics::time::Instant ;
+using ostk::physics::time::Duration ;
 using ostk::physics::coord::spherical::AER ;
 using ostk::physics::Environment ;
 
@@ -54,18 +55,31 @@ using ostk::astro::Access ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define                         DEFAULT_STEP                                    Duration::Minutes(1.0)
+#define                         DEFAULT_TOLERANCE                               Duration::Microseconds(1.0)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Generator
 {
 
     public:
 
-                                Generator                                   (   const   Environment&                anEnvironment                               ) ;
+                                Generator                                   (   const   Environment&                anEnvironment,
+                                                                                const   Duration&                   aStep                                       =   DEFAULT_STEP,
+                                                                                const   Duration&                   aTolerance                                  =   DEFAULT_TOLERANCE ) ;
 
                                 Generator                                   (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
-                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     =   {} ) ;
+                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     =   {},
+                                                                                const   Duration&                   aStep                                       =   DEFAULT_STEP,
+                                                                                const   Duration&                   aTolerance                                  =   DEFAULT_TOLERANCE ) ;
 
         bool                    isDefined                                   ( ) const ;
+
+        Duration                getStep                                     ( ) const ;
+
+        Duration                getTolerance                                ( ) const ;
 
         Array<Access>           computeAccesses                             (   const   physics::time::Interval&    anInterval,
                                                                                 const   Trajectory&                 aFromTrajectory,

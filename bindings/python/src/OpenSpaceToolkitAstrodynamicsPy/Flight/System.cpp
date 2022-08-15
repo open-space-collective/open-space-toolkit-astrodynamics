@@ -29,8 +29,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System ( 
 
         class_<System>(aModule, "System")
 
-            .def(init<const Mass&, const Composite&>())
-            .def(init<const System&>())
+            .def
+            (
+                init<const Mass&, const Composite&>(),
+                arg("mass"),
+                arg("geometry")
+            )
 
             .def(self == self)
             .def(self != self)

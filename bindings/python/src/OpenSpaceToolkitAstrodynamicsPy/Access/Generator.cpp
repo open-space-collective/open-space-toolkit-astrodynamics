@@ -23,6 +23,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
     using ostk::core::ctnr::Map ;
 
     using ostk::physics::Environment ;
+    using ostk::physics::time::Duration ;
     using ostk::physics::coord::spherical::AER ;
 
     using ostk::astro::Access ;
@@ -30,23 +31,88 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
 
     class_<Generator, Shared<Generator>>(aModule, "Generator")
 
-        .def(init<const Environment&>())
+        .def
+        (
+            init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&, const Duration&, const Duration&>(),
+            arg("environment"),
+            arg("aer_filter") = none(),
+            arg("access_filter") = none(),
+            arg("step") = DEFAULT_STEP,
+            arg("tolerance") = DEFAULT_TOLERANCE
+        )
 
-        .def(init<const Environment&, std::function<bool (const AER&)>&>())
+        .def
+        (
+            "is_defined",
+            &Generator::isDefined
+        )
 
-        .def(init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&>())
+        .def
+        (
+            "get_step",
+            &Generator::getStep
+        )
+        .def
+        (
+            "get_tolerance",
+            &Generator::getTolerance
+        )
 
-        .def("is_defined", &Generator::isDefined)
+        .def
+        (
+            "compute_accesses",
+            &Generator::computeAccesses,
+            arg("interval"),
+            arg("from_trajectory"),
+            arg("to_trajectory")
+        )
+        .def
+        (
+            "set_step",
+            &Generator::setStep,
+            arg("step")
+        )
+        .def
+        (
+            "set_tolerance",
+            &Generator::setTolerance,
+            arg("tolerance")
+        )
+        .def
+        (
+            "set_aer_filter",
+            &Generator::setAerFilter,
+            arg("aer_filter")
+        )
+        .def
+        (
+            "set_access_filter",
+            &Generator::setAccessFilter,
+            arg("access_filter")
+        )
 
-        .def("compute_accesses", &Generator::computeAccesses)
-        .def("set_step", &Generator::setStep)
-        .def("set_tolerance", &Generator::setTolerance)
-        .def("set_aer_filter", &Generator::setAerFilter)
-        .def("set_access_filter", &Generator::setAccessFilter)
-
-        .def_static("undefined", &Generator::Undefined)
-        .def_static("aer_ranges", &Generator::AerRanges)
-        .def_static("aer_mask", &Generator::AerMask)
+        .def_static
+        (
+            "undefined",
+            &Generator::Undefined
+        )
+        .def_static
+        (
+            "aer_ranges",
+            &Generator::AerRanges,
+            arg("azimuth_range"),
+            arg("elevation_range"),
+            arg("range_range"),
+            arg("environment")
+        )
+        .def_static
+        (
+            "aer_mask",
+            &Generator::AerMask,
+            arg("azimuth_elevation_mask"),
+            arg("range_range"),
+            arg("environment")
+        )
 
     ;
 

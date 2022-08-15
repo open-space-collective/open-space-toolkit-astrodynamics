@@ -52,6 +52,10 @@ using ostk::astro::trajectory::orbit::models::kepler::COE ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#define                         DEFAULT_IN_FIXED_FRAME                          false
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Kepler : public ostk::astro::trajectory::orbit::Model
 {
 
@@ -78,7 +82,7 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
                                                                                 const   Instant&                    anEpoch,
                                                                                 const   Celestial&                  aCelestialObject,
                                                                                 const   Kepler::PerturbationType&   aPerturbationType,
-                                                                                const   bool                        inFixedFrame                                =   false ) ;
+                                                                                const   bool                        inFixedFrame                                =   DEFAULT_IN_FIXED_FRAME ) ;
 
         virtual Kepler*         clone                                       ( ) const override ;
 

@@ -50,8 +50,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         .def("get_epoch", &Model::getEpoch)
         .def("get_revolution_number_at_epoch", &Model::getRevolutionNumberAtEpoch)
-        .def("calculate_state_at", &Model::calculateStateAt)
-        .def("calculate_revolution_number_at", &Model::calculateRevolutionNumberAt)
+        .def("calculate_state_at", &Model::calculateStateAt, arg("instant"))
+        .def("calculate_revolution_number_at", &Model::calculateRevolutionNumberAt, arg("instant"))
 
     ;
 

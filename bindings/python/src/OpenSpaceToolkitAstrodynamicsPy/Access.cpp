@@ -27,7 +27,17 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
 
         class_<Access> access_class(aModule, "Access") ;
 
-        access_class.def(init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>())
+        access_class
+
+            .def
+            (
+                init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
+                arg("type"),
+                arg("acquisition_of_signal"),
+                arg("time_of_closest_approach"),
+                arg("loss_of_signal"),
+                arg("max_elevation")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -48,7 +58,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
 
             .def_static("undefined", &Access::Undefined)
 
-            .def_static("string_from_type", &Access::StringFromType)
+            .def_static("string_from_type", &Access::StringFromType, arg("type"))
 
         ;
 

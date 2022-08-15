@@ -30,8 +30,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
 
         class_<SatelliteSystem, System>(aModule, "SatelliteSystem")
 
-            .def(init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&>())
-            .def(init<const SatelliteSystem&>())
+            .def
+            (
+                init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&>(),
+                arg("mass"),
+                arg("satellite_geometry"),
+                arg("inertia_tensor"),
+                arg("cross_sectional_surface_area"),
+                arg("drag_coefficient")
+            )
 
             .def(self == self)
             .def(self != self)

@@ -8,9 +8,6 @@
 ################################################################################################################################################################
 
 import pytest
-
-import numpy as np
-
 import ostk.physics as physics
 import ostk.mathematics as mathematics
 
@@ -35,7 +32,7 @@ Environment = physics.Environment
 Earth = physics.environment.objects.celestial_bodies.Earth
 Trajectory = astrodynamics.Trajectory
 Profile = astrodynamics.flight.Profile
-State =  astrodynamics.flight.profile.State
+State = astrodynamics.flight.profile.State
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
 Kepler = astrodynamics.trajectory.orbit.models.Kepler
@@ -48,159 +45,180 @@ environment: Environment = Environment.default()
 
 ################################################################################################################################################################
 
-def test_access_generator_constructors ():
+@pytest.fixture
+def generator () -> Generator:
 
-    # Contruction with environment and no filters
-
-    generator: Generator = Generator(environment)
-
-    assert generator is not None
-    assert isinstance(generator, Generator)
-
-    # Construction with environment and AER filter
-    def aer_filter (aer):
-
-        return True
-
-    generator: Generator = Generator(environment, aer_filter)
-
-    assert generator is not None
-    assert isinstance(generator, Generator)
-
-    # Construction iwth environment and both AER and Access Filters
-    def access_filter (access):
-
-        return True
-
-    generator: Generator = Generator(environment, aer_filter, access_filter)
-
-    assert generator is not None
-    assert isinstance(generator, Generator)
+    return Generator(environment)
 
 ################################################################################################################################################################
 
-def test_access_generator_compute_accesses ():
+class TestGenerator:
 
-    # Contruction with environment and no filters
+    def test_constructor_success_environment (self):
 
-    generator: Generator = Generator(environment)
+        generator = Generator(
+            environment = environment,
+        )
 
-    start_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    end_instant = Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC)
-    interval = Interval.closed(start_instant, end_instant)
+        assert generator is not None
+        assert isinstance(generator, Generator)
 
-    def generate_first_trajectory ():
+    def test_constructor_success_environment_aer_filter (self):
 
-        a = Length.kilometers(7000.0)
-        e = 0.0
-        i = Angle.degrees(45.0)
-        raan = Angle.degrees(0.0)
-        aop = Angle.degrees(0.0)
-        nu = Angle.degrees(0.0)
+        generator = Generator(
+            environment = environment,
+            aer_filter = lambda aer: True,
+        )
 
-        coe = COE(a, e, i, raan, aop, nu)
+        assert generator is not None
+        assert isinstance(generator, Generator)
 
-        epoch = start_instant
-        earth = Earth.default()
+    def test_constructor_success_environment_access_filter (self):
 
-        kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
+        generator = Generator(
+            environment = environment,
+            access_filter = lambda access: True,
+        )
 
-        return Orbit(kepler, earth)
+        assert generator is not None
+        assert isinstance(generator, Generator)
 
-    def generate_second_trajectory ():
+    def test_constructor_success_environment_step_tolerance (self):
 
-        a = Length.kilometers(7000.0)
-        e = 0.0
-        i = Angle.degrees(45.0)
-        raan = Angle.degrees(180.0)
-        aop = Angle.degrees(0.0)
-        nu = Angle.degrees(180.0)
+        generator = Generator(
+            environment = environment,
+            step = Duration.seconds(1.0),
+            tolerance = Duration.minutes(1.0),
+        )
 
-        coe = COE(a, e, i, raan, aop, nu)
+        assert generator is not None
+        assert isinstance(generator, Generator)
+        assert generator.get_step() == Duration.seconds(1.0)
+        assert generator.get_tolerance() == Duration.minutes(1.0)
 
-        epoch = start_instant
-        earth = Earth.default()
+    def test_getters_success (self, generator: Generator):
 
-        kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
+        assert generator.get_step() == Duration.minutes(1.0)
+        assert generator.get_tolerance() == Duration.microseconds(1.0)
 
-        return Orbit(kepler, earth)
+    def test_compute_accesses_success (self):
 
-    from_trajectory = generate_first_trajectory()
-    to_trajectory = generate_second_trajectory()
+        # Contruction with environment and no filters
 
-    accesses = generator.compute_accesses(interval, from_trajectory, to_trajectory)
+        generator = Generator(environment)
 
-    assert accesses is not None
-    assert isinstance(accesses, list)
-    assert accesses[0] is not None
-    assert isinstance(accesses[0], Access)
+        start_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+        end_instant = Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC)
+        interval = Interval.closed(start_instant, end_instant)
 
-################################################################################################################################################################
+        def generate_first_trajectory ():
 
-def test_access_generator_setters ():
+            a = Length.kilometers(7000.0)
+            e = 0.0
+            i = Angle.degrees(45.0)
+            raan = Angle.degrees(0.0)
+            aop = Angle.degrees(0.0)
+            nu = Angle.degrees(0.0)
 
-    generator: Generator = Generator(environment)
+            coe = COE(a, e, i, raan, aop, nu)
 
-    # set_step
-    step: Duration = Duration(1)
+            epoch = start_instant
+            earth = Earth.default()
 
-    generator.set_step(step)
-    # set_tolerance
-    tolerance: Duration = Duration(1)
+            kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
 
-    generator.set_step(tolerance)
+            return Orbit(kepler, earth)
 
-    # set_aer_filter
-    def aer_filter (aer):
-        return True
+        def generate_second_trajectory ():
 
-    generator.set_aer_filter(aer_filter)
+            a = Length.kilometers(7000.0)
+            e = 0.0
+            i = Angle.degrees(45.0)
+            raan = Angle.degrees(180.0)
+            aop = Angle.degrees(0.0)
+            nu = Angle.degrees(180.0)
 
-    # set_access_filter
-    def access_filter (access):
-        return True
+            coe = COE(a, e, i, raan, aop, nu)
 
-    generator.set_access_filter(access_filter)
+            epoch = start_instant
+            earth = Earth.default()
 
-################################################################################################################################################################
+            kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
 
-def test_access_generator_undefined ():
+            return Orbit(kepler, earth)
 
-    generator: Generator = Generator.undefined()
+        from_trajectory = generate_first_trajectory()
+        to_trajectory = generate_second_trajectory()
 
-    assert generator is not None
-    assert isinstance(generator, Generator)
-    assert generator.is_defined() is False
+        accesses = generator.compute_accesses(
+            interval = interval,
+            from_trajectory = from_trajectory,
+            to_trajectory = to_trajectory,
+        )
 
-################################################################################################################################################################
+        assert accesses is not None
+        assert isinstance(accesses, list)
+        assert accesses[0] is not None
+        assert isinstance(accesses[0], Access)
 
-def test_access_generator_aer_ranges ():
+    def test_set_step_success (self, generator: Generator):
 
-    # Construct arbitrary AER ranges
-    azimuth_interval = RealInterval.closed(0.0, 360.0)
-    elevation_interval = RealInterval.closed(0.0, 90.0)
-    range_interval = RealInterval.closed(0.0, 7000e3)
+        generator.set_step(Duration.seconds(1.0))
 
-    generator: Generator = Generator.aer_ranges(azimuth_interval, elevation_interval, range_interval, environment)
+    def test_set_tolerance_success (self, generator: Generator):
 
-    assert generator is not None
-    assert isinstance(generator, Generator)
-    assert generator.is_defined()
+        generator.set_tolerance(Duration.seconds(1.0))
 
-################################################################################################################################################################
+    def test_set_aer_filter_success (self, generator: Generator):
 
-def test_access_generator_aer_mask ():
+        generator.set_aer_filter(aer_filter = lambda aer: True)
 
-    # Construct arbitrary anAzimuthElevationMask using python dict
-    an_azimuth_elevation_mask = {0.0: 30.0, 90.0: 60.0, 180.0: 60.0, 270.0: 30.0, 359.0: 30.0}
+    def test_set_access_filter_success (self, generator: Generator):
 
-    # Construct arbitrary aRangerange
-    a_range_range = RealInterval(0.0, 10e4, RealInterval.Type.Closed)
+        generator.set_access_filter(access_filter = lambda access: True)
 
-    generator: Generator = Generator.aer_mask(an_azimuth_elevation_mask, a_range_range, environment)
+    def test_undefined_success (self):
 
-    assert generator is not None
-    assert isinstance(generator, Generator)
-    assert generator.is_defined()
+        generator = Generator.undefined()
+
+        assert generator is not None
+        assert isinstance(generator, Generator)
+        assert generator.is_defined() is False
+
+    def test_aer_ranges_success (self):
+
+        # Construct arbitrary AER ranges
+        azimuth_interval = RealInterval.closed(0.0, 360.0)
+        elevation_interval = RealInterval.closed(0.0, 90.0)
+        range_interval = RealInterval.closed(0.0, 7000e3)
+
+        generator = Generator.aer_ranges(
+            azimuth_range = azimuth_interval,
+            elevation_range = elevation_interval,
+            range_range = range_interval,
+            environment = environment,
+        )
+
+        assert generator is not None
+        assert isinstance(generator, Generator)
+        assert generator.is_defined()
+
+    def test_aer_mask_success (self):
+
+        # Construct arbitrary anAzimuthElevationMask using python dict
+        an_azimuth_elevation_mask = {0.0: 30.0, 90.0: 60.0, 180.0: 60.0, 270.0: 30.0, 359.0: 30.0}
+
+        # Construct arbitrary aRangerange
+        a_range_range = RealInterval(0.0, 10e4, RealInterval.Type.Closed)
+
+        generator = Generator.aer_mask(
+            azimuth_elevation_mask = an_azimuth_elevation_mask,
+            range_range = a_range_range,
+            environment = environment,
+        )
+
+        assert generator is not None
+        assert isinstance(generator, Generator)
+        assert generator.is_defined()
 
 ################################################################################################################################################################

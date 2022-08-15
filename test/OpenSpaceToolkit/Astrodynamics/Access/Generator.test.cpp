@@ -113,6 +113,54 @@ TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
+{
+
+    using ostk::physics::Environment ;
+    using ostk::physics::time::Duration ;
+
+    using ostk::astro::access::Generator ;
+
+    {
+
+        const Generator generator = { Environment::Default() } ;
+
+        EXPECT_EQ(Duration::Minutes(1.0), generator.getStep()) ;
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(Generator::Undefined().getStep()) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
+{
+
+    using ostk::physics::Environment ;
+    using ostk::physics::time::Duration ;
+
+    using ostk::astro::access::Generator ;
+
+    {
+
+        const Generator generator = { Environment::Default() } ;
+
+        EXPECT_EQ(Duration::Microseconds(1.0), generator.getTolerance()) ;
+
+    }
+
+    {
+
+        EXPECT_ANY_THROW(Generator::Undefined().getTolerance()) ;
+
+    }
+
+}
+
 TEST (OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 {
 

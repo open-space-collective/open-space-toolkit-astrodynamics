@@ -30,10 +30,12 @@ namespace access
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Generator::Generator                        (   const   Environment&                anEnvironment                               )
+                                Generator::Generator                        (   const   Environment&                anEnvironment,
+                                                                                const   Duration&                   aStep,
+                                                                                const   Duration&                   aTolerance                                  )
                                 :   environment_(anEnvironment),
-                                    step_(Duration::Minutes(1.0)),
-                                    tolerance_(Duration::Microseconds(1.0)),
+                                    step_(aStep),
+                                    tolerance_(aTolerance),
                                     aerFilter_({}),
                                     accessFilter_({})
 {
@@ -42,10 +44,12 @@ namespace access
 
                                 Generator::Generator                        (   const   Environment&                anEnvironment,
                                                                                 const   std::function<bool (const AER&)>& anAerFilter,
-                                                                                const   std::function<bool (const Access&)>& anAccessFilter                     )
+                                                                                const   std::function<bool (const Access&)>& anAccessFilter,
+                                                                                const   Duration&                   aStep,
+                                                                                const   Duration&                   aTolerance                                  )
                                 :   environment_(anEnvironment),
-                                    step_(Duration::Minutes(1.0)),
-                                    tolerance_(Duration::Microseconds(1.0)),
+                                    step_(aStep),
+                                    tolerance_(aTolerance),
                                     aerFilter_(anAerFilter),
                                     accessFilter_(anAccessFilter)
 {
@@ -55,6 +59,30 @@ namespace access
 bool                            Generator::isDefined                        ( ) const
 {
     return environment_.isDefined() && step_.isDefined() && tolerance_.isDefined() ;
+}
+
+Duration                        Generator::getStep                          ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Generator") ;
+    }
+
+    return step_ ;
+
+}
+
+Duration                        Generator::getTolerance                     ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Generator") ;
+    }
+
+    return tolerance_ ;
+
 }
 
 Array<Access>                   Generator::computeAccesses                  (   const   physics::time::Interval&    anInterval,
@@ -114,16 +142,28 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     const auto earthSPtr = environment.accessCelestialObjectWithName("Earth") ; // [TBR] This is Earth specific
 
-    const auto getPositionsAt = [&aFromTrajectory, &aToTrajectory] (const Instant& anInstant) -> Pair<Position, Position>
+    const auto getStatesAt = [&aFromTrajectory, &aToTrajectory] (const Instant& anInstant) -> Pair<State, State>
     {
-
-        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
 
         const State fromState = aFromTrajectory.getStateAt(anInstant) ;
         const State toState = aToTrajectory.getStateAt(anInstant) ;
 
-        const Position fromPosition = fromState.accessPosition().inFrame(commonFrameSPtr, anInstant) ;
-        const Position toPosition = toState.accessPosition().inFrame(commonFrameSPtr, anInstant) ;
+        return { fromState, toState } ;
+
+    } ;
+
+    const auto getPositionsFromStates = [] (const State& aFromState, const State& aToState) -> Pair<Position, Position>
+    {
+
+        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
+
+        if (aFromState.accessInstant() != aToState.accessInstant())
+        {
+            // TBI: Throw
+        }
+
+        const Position fromPosition = aFromState.accessPosition().inFrame(commonFrameSPtr, aFromState.accessInstant()) ;
+        const Position toPosition = aToState.accessPosition().inFrame(commonFrameSPtr, aFromState.accessInstant()) ;
 
         return { fromPosition, toPosition } ;
 
@@ -147,43 +187,43 @@ Array<Access>                   Generator::computeAccesses                  (   
 
     } ;
 
-    const auto isAccessActive = [this, &environment, &earthSPtr, calculateAer] (const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> bool
+    const auto isAccessActive = [this, &environment, &earthSPtr, getPositionsFromStates, calculateAer] (const Instant& anInstant, const State& aFromState, const State& aToState) -> bool
     {
 
         environment.setInstant(anInstant) ;
 
-        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
-
-        const Point fromPositionCoordinates = Point::Vector(aFromPosition.accessCoordinates()) ;
-        const Point toPositionCoordinates = Point::Vector(aToPosition.accessCoordinates()) ;
+        const auto [ fromPosition, toPosition ] = getPositionsFromStates(aFromState, aToState) ;
 
         // Debug
 
-        {
+        // {
 
-            const Point fromPoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
-            const Point toPoint_ITRF = Point::Vector(aToPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+        //     const Point fromPoint_ITRF = Point::Vector(fromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
+        //     const Point toPoint_ITRF = Point::Vector(toPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
 
-            const LLA fromPoint_LLA = LLA::Cartesian(fromPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
-            const LLA toPoint_LLA = LLA::Cartesian(toPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+        //     const LLA fromPoint_LLA = LLA::Cartesian(fromPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
+        //     const LLA toPoint_LLA = LLA::Cartesian(toPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
 
-            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
+        //     const AER aer = calculateAer(anInstant, fromPosition, toPosition) ;
 
-            // std::cout   << anInstant.getDateTime(ostk::physics::time::Scale::UTC).toString(ostk::physics::time::DateTime::Format::ISO8601) << ", "
-            //             << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-            //             << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-            //             << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-            //             << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-            //             << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-            //             << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-            //             << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
-            //             << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
+        //     std::cout   << anInstant.getDateTime(ostk::physics::time::Scale::UTC).toString(ostk::physics::time::DateTime::Format::ISO8601) << ", "
+        //                 << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+        //                 << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+        //                 << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+        //                 << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
+        //                 << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
+        //                 << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
+        //                 << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
+        //                 << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
 
-        }
+        // }
 
         // Line of sight
 
-        bool lineOfSight = true ;
+        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF() ;
+
+        const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates()) ;
+        const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates()) ;
 
         if (fromPositionCoordinates != toPositionCoordinates)
         {
@@ -192,52 +232,49 @@ Array<Access>                   Generator::computeAccesses                  (   
 
             const Object::Geometry fromToSegmentGeometry = { fromToSegment, commonFrameSPtr } ;
 
-            lineOfSight = !environment.intersects(fromToSegmentGeometry) ;
+            const bool lineOfSight = !environment.intersects(fromToSegmentGeometry) ;
+
+            if (!lineOfSight)
+            {
+                return false ;
+            }
 
         }
 
-        // Filtering
+        // AER filtering
 
-        bool filterIsOk = true ;
-
-        if (lineOfSight)
+        if (aerFilter_)
         {
 
-            const AER aer = calculateAer(anInstant, aFromPosition, aToPosition) ;
+            const AER aer = calculateAer(anInstant, fromPosition, toPosition) ;
 
-            const bool aerFilterIsOk = aerFilter_ ? aerFilter_(aer) : true ;
-
-            filterIsOk = aerFilterIsOk ;
+            if (!aerFilter_(aer))
+            {
+                return false ;
+            }
 
         }
 
-        const bool accessIsActive = (lineOfSight && filterIsOk) ;
+        return true ;
+
+    } ;
+
+    const auto isAccessActiveAt = [getStatesAt, isAccessActive] (const Instant& aNextInstant) -> bool
+    {
+
+        const auto [ fromState, toState ] = getStatesAt(aNextInstant) ;
+
+        const bool accessIsActive = isAccessActive(aNextInstant, fromState, toState) ;
 
         return accessIsActive ;
 
     } ;
 
-    const auto isAccessActiveAt = [getPositionsAt, isAccessActive] (const Instant& aNextInstant) -> bool
+    const auto elevationAt = [calculateAer, getStatesAt, getPositionsFromStates] (const Instant& anInstant) -> Angle
     {
 
-        const Pair<Position, Position> positions = getPositionsAt(aNextInstant) ;
-
-        const Position& fromPosition = positions.first ;
-        const Position& toPosition = positions.second ;
-
-        const bool accessIsActive = isAccessActive(aNextInstant, fromPosition, toPosition) ;
-
-        return accessIsActive ;
-
-    } ;
-
-    const auto elevationAt = [calculateAer, getPositionsAt] (const Instant& anInstant) -> Angle
-    {
-
-        const Pair<Position, Position> positions = getPositionsAt(anInstant) ;
-
-        const Position& fromPosition = positions.first ;
-        const Position& toPosition = positions.second ;
+        const auto [ fromState, toState ] = getStatesAt(anInstant) ;
+        const auto [ fromPosition, toPosition ] = getPositionsFromStates(fromState, toState) ;
 
         const AER aer = calculateAer(anInstant, fromPosition, toPosition) ;
 
@@ -297,12 +334,9 @@ Array<Access>                   Generator::computeAccesses                  (   
     for (const auto& instant : instants)
     {
 
-        const Pair<Position, Position> position = getPositionsAt(instant) ;
+        const auto [ fromState, toState ] = getStatesAt(instant) ;
 
-        const Position& fromPosition = position.first ;
-        const Position& toPosition = position.second ;
-
-        const bool accessIsActive = isAccessActive(instant, fromPosition, toPosition) ;
+        const bool accessIsActive = isAccessActive(instant, fromState, toState) ;
 
         const bool accessIsSwitching = (accessIsActive != inAccess) || (accessIsActive && (!acquisitionOfSignalCache.isDefined())) ;
 
@@ -343,6 +377,8 @@ Array<Access>                   Generator::computeAccesses                  (   
         if (inAccess)
         {
 
+            const auto [ fromPosition, toPosition ] = getPositionsFromStates(fromState, toState) ;
+
             const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates()) ;
             const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates()) ;
 
@@ -374,7 +410,8 @@ Array<Access>                   Generator::computeAccesses                  (   
                     {
 
                         const Instant& instant ;
-                        const std::function<Pair<Position, Position> (const Instant& anInstant)>& getPositionsAt ;
+                        const std::function<Pair<State, State> (const Instant& anInstant)>& getStatesAt ;
+                        const std::function<Pair<Position, Position> (const State& aFromState, const State& aToState)>& getPositionsFromStates ;
 
                     } ;
 
@@ -393,9 +430,10 @@ Array<Access>                   Generator::computeAccesses                  (   
                         const Duration offset = Duration::Seconds(x[0]) ;
                         const Instant queryInstant = contextPtr->instant + offset ;
 
-                        const Pair<Position, Position> positions = contextPtr->getPositionsAt(queryInstant) ;
+                        const auto [ queryFromState, queryToState ] = contextPtr->getStatesAt(queryInstant) ;
+                        const auto [ queryFromPosition, queryToPosition ] = contextPtr->getPositionsFromStates(queryFromState, queryToState) ;
 
-                        const Real squaredRange_m = (positions.second.accessCoordinates() - positions.first.accessCoordinates()).squaredNorm() ;
+                        const Real squaredRange_m = (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm() ;
 
                         // std::cout << String::Format("{} [s] @ {} => {} [m]", x[0], queryInstant.toString(), squaredRange_m.toString()) << std::endl ;
 
@@ -403,7 +441,7 @@ Array<Access>                   Generator::computeAccesses                  (   
 
                     } ;
 
-                    Context context = { instant, getPositionsAt } ;
+                    Context context = { instant, getStatesAt, getPositionsFromStates } ;
 
                     nlopt::opt optimizer = { nlopt::LN_COBYLA, 1 } ;
 
@@ -524,7 +562,7 @@ void                            Generator::setAccessFilter                  (   
 
 Generator                       Generator::Undefined                        ( )
 {
-    return { Environment::Undefined(), {}, {} } ;
+    return { Environment::Undefined() } ;
 }
 
 Generator                       Generator::AerRanges                        (   const   Interval<Real>&             anAzimuthRange,
@@ -552,7 +590,7 @@ Generator                       Generator::AerRanges                        (   
 
     } ;
 
-    return { anEnvironment, aerFilter, {} } ;
+    return { anEnvironment, aerFilter } ;
 
 }
 
@@ -616,7 +654,7 @@ Generator                       Generator::AerMask                           (  
 
     } ;
 
-    return { anEnvironment, aerFilter, {} } ;
+    return { anEnvironment, aerFilter } ;
 
 }
 

@@ -31,8 +31,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
 
         .def("is_defined", &BaseModel::isDefined)
 
-        .def("calculate_state_at", &BaseModel::calculateStateAt)
-        .def("calculate_states_at", &BaseModel::calculateStatesAt)
+        .def("calculate_state_at", &BaseModel::calculateStateAt, arg("instant"))
+        .def("calculate_states_at", &BaseModel::calculateStatesAt, arg("instants"))
 
     ;
 

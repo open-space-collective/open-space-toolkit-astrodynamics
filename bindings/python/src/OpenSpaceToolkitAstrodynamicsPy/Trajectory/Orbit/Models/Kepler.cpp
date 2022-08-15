@@ -32,10 +32,28 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(aModule, "Kepler") ;
 
-        kepler_class.def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&, const Kepler::PerturbationType&>())
+        kepler_class
 
-            .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&>())
-            .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>())
+            .def
+            (
+                init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&, const Kepler::PerturbationType&>(),
+                arg("coe"),
+                arg("epoch"),
+                arg("gravitational_parameter"),
+                arg("equatorial_radius"),
+                arg("j2"),
+                arg("j4"),
+                arg("perturbation_type")
+            )
+            .def
+            (
+                init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
+                arg("coe"),
+                arg("epoch"),
+                arg("celestial_object"),
+                arg("perturbation_type"),
+                arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME
+            )
 
             .def(self == self)
             .def(self != self)
@@ -53,10 +71,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_j2", &Kepler::getJ2)
             .def("get_j4", &Kepler::getJ4)
             .def("get_perturbation_type", &Kepler::getPerturbationType)
-            .def("calculate_state_at", &Kepler::calculateStateAt)
-            .def("calculate_revolution_number_at", &Kepler::calculateRevolutionNumberAt)
+            .def("calculate_state_at", &Kepler::calculateStateAt, arg("instant"))
+            .def("calculate_revolution_number_at", &Kepler::calculateRevolutionNumberAt, arg("instant"))
 
-            .def_static("string_from_perturbation_type", &Kepler::StringFromPerturbationType)
+            .def_static("string_from_perturbation_type", &Kepler::StringFromPerturbationType, arg("perturbation_type"))
 
         ;
 

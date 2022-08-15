@@ -28,7 +28,7 @@ Axes = physics.coordinate.Axes
 DynamicProvider = physics.coordinate.frame.providers.Dynamic
 Trajectory = astrodynamics.Trajectory
 Profile = astrodynamics.flight.Profile
-State =  astrodynamics.flight.profile.State
+State = astrodynamics.flight.profile.State
 
 ################################################################################################################################################################
 
