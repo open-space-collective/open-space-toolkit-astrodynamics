@@ -24,7 +24,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
 
     class_<State>(aModule, "State")
 
-        .def(init<const Instant&, const Position&, const Velocity&>())
+        .def
+        (
+            init<const Instant&, const Position&, const Velocity&>(),
+            arg("instant"),
+            arg("position"),
+            arg("velocity")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -37,7 +43,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
         .def("get_instant", &State::getInstant)
         .def("get_position", &State::getPosition)
         .def("get_velocity", &State::getVelocity)
-        .def("in_frame", &State::inFrame)
+        .def("in_frame", &State::inFrame, arg("frame"))
 
         .def_static("undefined", &State::Undefined)
 

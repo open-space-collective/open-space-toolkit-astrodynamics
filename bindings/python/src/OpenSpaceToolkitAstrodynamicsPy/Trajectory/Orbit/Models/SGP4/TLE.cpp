@@ -22,9 +22,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     class_<TLE>(aModule, "TLE")
 
-        .def(init<String, String>())
-
-        .def(init<String, String, String>())
+        .def(init<String, String>(), arg("first_line"), arg("second_line"))
+        .def(init<String, String, String>(), arg("satellite_name"), arg("first_line"), arg("second_line"))
 
         .def(self == self)
         .def(self != self)
@@ -56,14 +55,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_revolution_number_at_epoch", &TLE::getRevolutionNumberAtEpoch)
         .def("get_second_line_checksum", &TLE::getSecondLineChecksum)
 
-        .def("set_satellite_number", &TLE::setSatelliteNumber)
-        .def("set_epoch", &TLE::setEpoch)
-        .def("set_revolution_number_at_epoch", &TLE::setRevolutionNumberAtEpoch)
+        .def("set_satellite_number", &TLE::setSatelliteNumber, arg("satellite_number"))
+        .def("set_epoch", &TLE::setEpoch, arg("epoch"))
+        .def("set_revolution_number_at_epoch", &TLE::setRevolutionNumberAtEpoch, arg("revolution_number"))
 
         .def_static("undefined", &TLE::Undefined)
-        .def("can_parse", +[] (const String& aFirstLine, const String& aSecondLine) -> bool { return TLE::CanParse(aFirstLine, aSecondLine) ; })
-        .def_static("parse", &TLE::Parse)
-        .def_static("load", &TLE::Load)
+        .def_static("can_parse", +[] (const String& aFirstLine, const String& aSecondLine) -> bool { return TLE::CanParse(aFirstLine, aSecondLine) ; }, arg("first_line"), arg("second_line"))
+        .def_static("parse", &TLE::Parse, arg("string"))
+        .def_static("load", &TLE::Load, arg("file"))
 
     ;
 

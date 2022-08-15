@@ -24,7 +24,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     class_<Tabulated>(aModule, "Tabulated")
 
-        .def(init<Array<State>, Integer>())
+        .def(init<Array<State>, Integer>(), arg("states"), arg("initial_revolution_number"))
 
         .def(self == self)
         .def(self != self)
@@ -36,8 +36,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         .def("get_epoch", &Tabulated::getEpoch)
         .def("get_revolution_number_at_epoch", &Tabulated::getRevolutionNumberAtEpoch)
-        .def("calculate_state_at", &Tabulated::calculateStateAt)
-        .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt)
+        .def("calculate_state_at", &Tabulated::calculateStateAt, arg("instant"))
+        .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))
 
     ;
 

@@ -41,13 +41,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
 
         .def("is_defined", &Profile::isDefined)
 
-        .def("get_state_at", &Profile::getStateAt)
-        .def("get_states_at", &Profile::getStatesAt)
-        .def("get_axes_at", &Profile::getAxesAt)
+        .def("get_state_at", &Profile::getStateAt, arg("instant"))
+        .def("get_states_at", &Profile::getStatesAt, arg("instants"))
+        .def("get_axes_at", &Profile::getAxesAt, arg("instant"))
 
         .def_static("undefined", &Profile::Undefined)
-        .def_static("inertial_pointing", &Profile::InertialPointing)
-        .def_static("nadir_pointing", &Profile::NadirPointing)
+        .def_static("inertial_pointing", &Profile::InertialPointing, arg("trajectory"), arg("quaternion"))
+        .def_static("nadir_pointing", &Profile::NadirPointing, arg("orbit"), arg("orbital_frame_type"))
 
     ;
 

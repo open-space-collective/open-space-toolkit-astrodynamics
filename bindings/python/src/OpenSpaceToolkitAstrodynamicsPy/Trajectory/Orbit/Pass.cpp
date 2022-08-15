@@ -24,7 +24,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     class_<Pass> pass_class(aModule, "Pass") ;
 
-    pass_class.def(init<const Pass::Type&, const Integer&, const Interval&>())
+    pass_class
+
+        .def
+        (
+            init<const Pass::Type&, const Integer&, const Interval&>(),
+            arg("type"),
+            arg("revolution_number"),
+            arg("interval")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -40,9 +48,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_interval", &Pass::getInterval)
 
         .def_static("undefined", &Pass::Undefined)
-        .def_static("string_from_type", &Pass::StringFromType)
-        .def_static("string_from_phase", &Pass::StringFromPhase)
-        .def_static("string_from_quarter", &Pass::StringFromQuarter)
+        .def_static("string_from_type", &Pass::StringFromType, arg("type"))
+        .def_static("string_from_phase", &Pass::StringFromPhase, arg("phase"))
+        .def_static("string_from_quarter", &Pass::StringFromQuarter, arg("quarter"))
 
     ;
 

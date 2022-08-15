@@ -29,8 +29,13 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
         class_<SatelliteDynamics>(aModule, "SatelliteDynamics")
 
-            .def(init<const Environment&, const SatelliteSystem&, const State&>())
-            .def(init<const SatelliteDynamics&>())
+            .def
+            (
+                init<const Environment&, const SatelliteSystem&, const State&>(),
+                arg("environment"),
+                arg("satellite_system"),
+                arg("state")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -41,7 +46,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
             .def("is_defined", &SatelliteDynamics::isDefined)
 
             .def("get_state", &SatelliteDynamics::getState)
-            .def("set_state", &SatelliteDynamics::setState)
+            .def("set_state", &SatelliteDynamics::setState, arg("state"))
             .def("get_dynamical_equations", &SatelliteDynamics::getDynamicalEquations)
 
         ;

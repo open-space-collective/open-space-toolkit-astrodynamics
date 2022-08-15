@@ -28,7 +28,16 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
 
     class_<State>(aModule, "State")
 
-        .def(init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>())
+        .def
+        (
+            init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>(),
+            arg("instant"),
+            arg("position"),
+            arg("velocity"),
+            arg("attitude"),
+            arg("angular_velocity"),
+            arg("reference_frame")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -44,7 +53,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
         .def("get_attitude", &State::getAttitude)
         .def("get_angular_velocity", &State::getAngularVelocity)
         .def("get_frame", &State::getFrame)
-        .def("in_frame", &State::inFrame)
+        .def("in_frame", &State::inFrame, arg("frame"))
 
         .def_static("undefined", &State::Undefined)
 

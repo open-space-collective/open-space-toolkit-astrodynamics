@@ -73,24 +73,18 @@ def satellite_dynamics (satellite_dynamics_default_inputs) -> SatelliteDynamics:
 
 class TestSatelliteDynamics:
 
-    def test_constructors (self, satellite_dynamics: SatelliteDynamics):
+    def test_constructor_success (self, satellite_dynamics: SatelliteDynamics):
 
         assert satellite_dynamics is not None
         assert isinstance(satellite_dynamics, SatelliteDynamics)
         assert satellite_dynamics.is_defined()
 
-        satellite_dynamics: SatelliteDynamics = SatelliteDynamics(satellite_dynamics)
-
-        assert satellite_dynamics is not None
-        assert isinstance(satellite_dynamics, SatelliteDynamics)
-        assert satellite_dynamics.is_defined()
-
-    def test_comparators (self, satellite_dynamics: SatelliteDynamics):
+    def test_comparators_success (self, satellite_dynamics: SatelliteDynamics):
 
         assert (satellite_dynamics == satellite_dynamics) is True
         assert (satellite_dynamics != satellite_dynamics) is False
 
-    def test_setters (self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics):
+    def test_getters_setters_success (self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics):
 
         (environment, satellitesystem, state) = satellite_dynamics_default_inputs
 
@@ -105,7 +99,7 @@ class TestSatelliteDynamics:
         assert satellite_dynamics.is_defined()
         assert satellite_dynamics.get_state() == state_1
 
-    def test_calculate_state_at_epoch (self, satellite_dynamics: SatelliteDynamics):
+    def test_calculate_state_at_epoch_success (self, satellite_dynamics: SatelliteDynamics):
 
         assert satellite_dynamics.get_dynamical_equations() is not None  # [TBI] add typing to ensure that it return a function pointer?
 

@@ -37,9 +37,21 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<Orbit, ostk::astro::Trajectory> orbit_class(aModule, "Orbit") ;
 
-        orbit_class.def(init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>())
+        orbit_class
 
-            .def(init<const Array<State>&, const Integer&, const Shared<const Celestial>&>())
+            .def
+            (
+                init<const ostk::astro::trajectory::orbit::Model&, const Shared<const Celestial>&>(),
+                arg("model"),
+                arg("celestial_object")
+            )
+            .def
+            (
+                init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
+                arg("states"),
+                arg("initial_revolution_number"),
+                arg("celestial_object")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -57,16 +69,51 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("access_kepler_model", +[] (const Orbit& anOrbit) -> const Kepler& { return anOrbit.accessModel().as<Kepler>() ; }, return_value_policy::reference) // [TBR]
             .def("access_sgp4_model", +[] (const Orbit& anOrbit) -> const SGP4& { return anOrbit.accessModel().as<SGP4>() ; }, return_value_policy::reference) // [TBR]
 
-            .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt)
-            .def("get_pass_at", &Orbit::getPassAt)
-            .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber)
-            .def("get_orbital_frame", &Orbit::getOrbitalFrame)
+            .def("get_revolution_number_at", &Orbit::getRevolutionNumberAt, arg("instant"))
+            .def("get_pass_at", &Orbit::getPassAt, arg("instant"))
+            .def("get_pass_with_revolution_number", &Orbit::getPassWithRevolutionNumber, arg("revolution_number"))
+            .def("get_orbital_frame", &Orbit::getOrbitalFrame, arg("frame_type"))
 
-            .def_static("undefined", &Orbit::Undefined)
-            .def_static("circular", &Orbit::Circular)
-            .def_static("equatorial", &Orbit::Equatorial)
-            .def_static("circular_equatorial", &Orbit::CircularEquatorial)
-            .def_static("sun_synchronous", &Orbit::SunSynchronous)
+            .def_static
+            (
+                "undefined",
+                &Orbit::Undefined
+            )
+            .def_static
+            (
+                "circular",
+                &Orbit::Circular,
+                arg("epoch"),
+                arg("altitude"),
+                arg("inclination"),
+                arg("celestial_object")
+            )
+            .def_static
+            (
+                "equatorial",
+                &Orbit::Equatorial,
+                arg("epoch"),
+                arg("apoapsis_altitude"),
+                arg("periapsis_altitude"),
+                arg("celestial_object")
+            )
+            .def_static
+            (
+                "circular_equatorial",
+                &Orbit::CircularEquatorial,
+                arg("epoch"),
+                arg("altitude"),
+                arg("celestial_object")
+            )
+            .def_static
+            (
+                "sun_synchronous",
+                &Orbit::SunSynchronous,
+                arg("epoch"),
+                arg("altitude"),
+                arg("local_time_at_descending_node"),
+                arg("celestial_object")
+            )
 
         ;
 

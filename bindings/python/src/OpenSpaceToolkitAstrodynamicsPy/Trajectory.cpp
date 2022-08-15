@@ -27,9 +27,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (   
 
     class_<Trajectory>(aModule, "Trajectory")
 
-        .def(init<const ostk::astro::trajectory::Model&>())
-
-        .def(init<const Array<State>&>())
+        .def(init<const ostk::astro::trajectory::Model&>(), arg("model"))
+        .def(init<const Array<State>&>(), arg("states"))
 
         .def(self == self)
         .def(self != self)
@@ -41,11 +40,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (   
 
         // .def("access_model", &Trajectory::accessModel, return_value_policy<reference_existing_object>())
 
-        .def("get_state_at", &Trajectory::getStateAt)
-        .def("get_states_at", &Trajectory::getStatesAt)
+        .def("get_state_at", &Trajectory::getStateAt, arg("instant"))
+        .def("get_states_at", &Trajectory::getStatesAt, arg("instants"))
 
         .def_static("undefined", &Trajectory::Undefined)
-        .def_static("position", &Trajectory::Position)
+        .def_static("position", &Trajectory::Position, arg("position"))
 
     ;
 
