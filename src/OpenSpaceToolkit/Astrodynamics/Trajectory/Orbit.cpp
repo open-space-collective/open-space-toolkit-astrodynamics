@@ -415,7 +415,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                 const Quaternion q_VVLH_next_GCRF = anAttitudeGenerator(this->getStateAt(anInstant + delta).inFrame(Frame::GCRF())) ;
 
-                const Quaternion q_VVLH_next_VVLH = q_VVLH_next_GCRF * q_VVLH_GCRF.toConjugate() ;
+                const Quaternion q_VVLH_next_VVLH = (q_VVLH_next_GCRF * q_VVLH_GCRF.toConjugate()).toNormalized() ;
                 const RotationVector rv_VVLH_next_VVLH = RotationVector::Quaternion(q_VVLH_next_VVLH) ;
 
                 const Vector3d w_VVLH_GCRF_in_VVLH = rv_VVLH_next_VVLH.getAxis() * (rv_VVLH_next_VVLH.getAngle().inRadians() / delta.inSeconds()) ; // [rad/s]
@@ -452,7 +452,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                 const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
 
-                const Quaternion q_NED_GCRF = transform.getOrientation() ;
+                const Quaternion q_NED_GCRF = transform.getOrientation().toNormalized() ;
 
                 return q_NED_GCRF ;
 
@@ -481,7 +481,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
                 const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                const Quaternion q_LVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                const Quaternion q_LVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify() ;
 
                 return q_LVLH_GCRF ;
 
@@ -510,7 +510,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
                 const Vector3d yAxis = -x_GCRF.cross(v_GCRF).normalized() ;
                 const Vector3d xAxis = yAxis.cross(zAxis) ;
 
-                const Quaternion q_VVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                const Quaternion q_VVLH_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify() ;
 
                 return q_VVLH_GCRF ;
 
@@ -538,7 +538,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
                 const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                const Quaternion q_QSW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                const Quaternion q_QSW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify() ;
 
                 return q_QSW_GCRF ;
 
@@ -566,7 +566,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized() ;
                 const Vector3d yAxis = zAxis.cross(xAxis) ;
 
-                const Quaternion q_TNW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                const Quaternion q_TNW_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify() ;
 
                 return q_TNW_GCRF ;
 
@@ -594,7 +594,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
                 const Vector3d yAxis = x_GCRF.cross(v_GCRF).normalized() ;
                 const Vector3d zAxis = xAxis.cross(yAxis) ;
 
-                const Quaternion q_VNC_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).rectify() ;
+                const Quaternion q_VNC_GCRF = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify() ;
 
                 return q_VNC_GCRF ;
 
