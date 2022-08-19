@@ -219,7 +219,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         mutable Array<State>    cachedStateArray_ ;
         mutable SatelliteDynamics satelliteDynamics_ ;
-        NumericalSolver         numericalSolver_ ;
+        mutable NumericalSolver numericalSolver_ ;
 
         void                    sortStateArray                              ( ) ;
 

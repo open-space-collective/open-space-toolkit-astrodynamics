@@ -18,6 +18,7 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +32,7 @@ namespace astro
 using ostk::core::types::Integer ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
+using ostk::core::ctnr::Array ;
 
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Duration ;
@@ -177,6 +179,11 @@ class NumericalSolver
 
         Real                    getAbsoluteTolerance                        ( ) const ;
 
+        Array<StateVector>      integrateStatesAtSortedInstants             (   const   StateVector&                anInitialStateVector,
+                                                                                const   Instant&                    aStartInstant,
+                                                                                const   Array<Instant>&             anInstantArray,
+                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
+
         /// @brief              Perform numerical integration from an instant to another instant
         ///
         /// @code
@@ -191,7 +198,7 @@ class NumericalSolver
         StateVector             integrateStateFromInstantToInstant          (   const   StateVector&                anInitialStateVector,
                                                                                 const   Instant&                    aStartInstant,
                                                                                 const   Instant&                    anEndInstant,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) const ;
+                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
 
         /// @brief              Perform numerical integration for a certain duration
         ///
@@ -205,7 +212,7 @@ class NumericalSolver
 
         StateVector             integrateStateForDuration                   (   const   StateVector&                anInitialStateVector,
                                                                                 const   Duration&                   anIntegrationDuration,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) const ;
+                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
 
         /// @brief              Get string from the integration stepper type
         ///
@@ -234,8 +241,10 @@ class NumericalSolver
         Real timeStep_ ;
         Real relativeTolerance_ ;
         Real absoluteTolerance_ ;
+        std::vector<StateVector> states_ ;
+        std::vector<double> times_ ;
 
-        static void             NumericalIntegrationLogger                  (   const   StateVector&                x,
+        void             NumericalIntegrationObserver                (   const   StateVector&                x,
                                                                                 const   double                      t                                           ) ;
 
 } ;

@@ -227,11 +227,12 @@ State                           Propagated::calculateStateAt                (   
     // std::cout << "propDuation: " << propDuration << std::endl ;
     // std::cout << "startState: " << startState << std::endl ;
 
-    // [TBI]: Could potentially implement a way to check to see if enough instants are being requrested at too small intervals to warn about outputted accuracy
+    // [TBI]: Could potentially implement a way to check to see if enough instants are being requested at too small intervals to warn about outputted accuracy
 
     SatelliteDynamics::StateVector startStateVector(6) ;
     const Vector3d startPositionCoordinates = (startState.getPosition()).inUnit(Position::Unit::Meter).accessCoordinates() ;
     const Vector3d startVelocityCoordinates = (startState.getVelocity()).inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+
     startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
     startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
 
@@ -272,7 +273,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     // Sort instant array pairs chronologically
     std::sort(instantArrayPairs.begin(), instantArrayPairs.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
 
-    // Create an unpaired sorted instant array to be fed into Moedl::calculateStatesAt()
+    // Create an unpaired sorted instant array to be fed into Model::calculateStatesAt()
     Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
     sortedInstantArray.reserve(anInstantArray.getSize()) ;
 
@@ -281,7 +282,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
         sortedInstantArray.push_back(instantArrayPairs[j].first) ;
     }
 
-    // Call Model's calculateStatesAt method which iteratively call
+    // Call Model's calculateStatesAt method which iteratively calls Propageted::calculateStateAt()
     Array<State> stateArraySorted = Model::calculateStatesAt(sortedInstantArray) ;
 
     Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
