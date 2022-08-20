@@ -179,6 +179,17 @@ class NumericalSolver
 
         Real                    getAbsoluteTolerance                        ( ) const ;
 
+        /// @brief              Perform numerical integration from a starting instant to an array of states
+        ///
+        /// @code
+        ///                     Array<StateVector> stateVectorArray = numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray, systemOfEquations) ;
+        /// @endcode
+        /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+        /// @param              [in] aStartInstant An instant to begin integrating from
+        /// @param              [in] anInstantArray An instant array to integrate to
+        /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration
+        /// @return             std::vector<std::vector<double>>
+
         Array<StateVector>      integrateStatesAtSortedInstants             (   const   StateVector&                anInitialStateVector,
                                                                                 const   Instant&                    aStartInstant,
                                                                                 const   Array<Instant>&             anInstantArray,

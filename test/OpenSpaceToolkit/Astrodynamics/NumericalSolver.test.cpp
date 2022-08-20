@@ -94,7 +94,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
 
     {
         // Test equality of identical objects
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver == numericalSolver) ;
 
@@ -147,7 +147,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
 
     {
         // Test ineequality of identical objects
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_FALSE(numericalSolver != numericalSolver) ;
 
@@ -201,7 +201,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
 
     {
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         EXPECT_TRUE(numericalSolver.isDefined()) ;
 
@@ -231,7 +231,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
 
     {
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -265,7 +265,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
 
     {
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -343,7 +343,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
     {
 
         // Define numbers
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0) ;
 
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15) ;
@@ -393,6 +393,171 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInstants)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::Celestial ;
+
+    using ostk::astro::NumericalSolver ;
+
+    // Performance test with RungeKuttaCashKarp54 and integrateStatesAtSortedInstants in forward time
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant startInstant = Instant::J2000() ;
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(startInstant + Duration::Seconds(100)) ;
+        instantArray.add(startInstant + Duration::Seconds(400)) ;
+        instantArray.add(startInstant + Duration::Seconds(700)) ;
+        instantArray.add(startInstant + Duration::Seconds(1000)) ;
+
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+
+        for (size_t i = 0; i < instantArray.size(); i++)
+        {
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
+            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+
+            EXPECT_GT(2e-8, stateError[0]) ;
+            EXPECT_GT(2e-8, stateError[1]) ;
+        }
+
+    }
+
+    // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant startInstant = Instant::J2000() ;
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(startInstant + Duration::Seconds(-100)) ;
+        instantArray.add(startInstant + Duration::Seconds(-400)) ;
+        instantArray.add(startInstant + Duration::Seconds(-700)) ;
+        instantArray.add(startInstant + Duration::Seconds(-1000)) ;
+
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+
+        for (size_t i = 0; i < instantArray.size(); i++)
+        {
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+
+            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
+            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+
+            EXPECT_GT(2e-8, stateError[0]) ;
+            EXPECT_GT(2e-8, stateError[1]) ;
+        }
+
+    }
+
+    // Performance test with RungeKuttaFehlberg78 in forward time
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant startInstant = Instant::J2000() ;
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(startInstant + Duration::Seconds(100)) ;
+        instantArray.add(startInstant + Duration::Seconds(400)) ;
+        instantArray.add(startInstant + Duration::Seconds(700)) ;
+        instantArray.add(startInstant + Duration::Seconds(1000)) ;
+
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+
+        for (size_t i = 0; i < instantArray.size(); i++)
+        {
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+
+            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
+            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+
+            EXPECT_GT(2e-10, stateError[0]) ;
+            EXPECT_GT(2e-10, stateError[1]) ;
+        }
+
+    }
+
+    // Performance test with RungeKuttaFehlberg78 in backward time
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant startInstant = Instant::J2000() ;
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(startInstant + Duration::Seconds(-100)) ;
+        instantArray.add(startInstant + Duration::Seconds(-400)) ;
+        instantArray.add(startInstant + Duration::Seconds(-700)) ;
+        instantArray.add(startInstant + Duration::Seconds(-1000)) ;
+
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+
+        for (size_t i = 0; i < instantArray.size(); i++)
+        {
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+
+            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
+            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+
+            EXPECT_GT(2e-10, stateError[0]) ;
+            EXPECT_GT(2e-10, stateError[1]) ;
+        }
+
+    }
+
+}
+
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 {
 
@@ -423,21 +588,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
     using ostk::astro::NumericalSolver ;
 
-
+    // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in forward time
     {
-        // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in forward time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -451,15 +612,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     }
 
+    // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
     {
-        // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -473,15 +634,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     }
 
+    // Performance test with RungeKuttaFehlberg78 in forward time
     {
-        // Performance test with RungeKuttaFehlberg78 in forward time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -495,15 +656,15 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     }
 
+    // Performance test with RungeKuttaFehlberg78 in backward time
     {
-        // Performance test with RungeKuttaFehlberg78 in backward time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
         currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -519,7 +680,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantToInstant)
 {
 
     using ostk::core::types::Shared ;
@@ -549,14 +710,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::Celestial ;
 
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
     using ostk::astro::NumericalSolver ;
 
-
+    // Performance test with RungeKuttaCashKarp54 in forward time
     {
-        // Performance test with RungeKuttaCashKarp54 in forward time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
@@ -564,7 +721,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -578,8 +735,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
 
     }
 
+    // Performance test with RungeKuttaCashKarp54 in backwards time
     {
-        // Performance test with RungeKuttaCashKarp54 in backwards time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
@@ -587,7 +744,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -601,8 +758,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
 
     }
 
+    // Performance test with RungeKuttaFehlberg78 in forwards time
     {
-        // Performance test with RungeKuttaFehlberg78 in forwards time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
@@ -610,7 +767,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 
@@ -624,8 +781,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
 
     }
 
+    // Performance test with RungeKuttaFehlberg78 in backwards time
     {
-        // Performance test with RungeKuttaFehlberg78 in backwards time
 
         // Setup initial state vector
         NumericalSolver::StateVector currentStateVector(2) ;
@@ -633,7 +790,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateInstantToInstant)
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
-        const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
 

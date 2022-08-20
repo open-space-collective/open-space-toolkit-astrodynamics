@@ -282,6 +282,8 @@ Array<State>                    Propagated::calculateStatesAt               (   
         sortedInstantArray.push_back(instantArrayPairs[j].first) ;
     }
 
+
+    // don't have to iteratively call this method
     // Call Model's calculateStatesAt method which iteratively calls Propageted::calculateStateAt()
     Array<State> stateArraySorted = Model::calculateStatesAt(sortedInstantArray) ;
 
