@@ -1201,6 +1201,58 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
     }
 
+    // Test correct handling of state array sorting and unsorting in propagatedModel and in orbit
+    {
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Create environment
+        const Array<Shared<Object>> objects =
+        {
+            std::make_shared<Earth>(Earth::Spherical())
+        } ;
+
+        const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+
+        // Current state and instant setup
+        const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
+
+        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+        // Setup instants
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
+
+        Array<State> orbitStateArray = orbit.getStatesAt(instantArray) ;
+        Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+        // Check getStatesAt vs calculateStatesAt
+        EXPECT_EQ(orbitStateArray, propagatedStateArray) ;
+
+        // Check that the states are in the same order from the original instant array that was supplied
+
+        EXPECT_EQ(instantArray[0], orbitStateArray[0].getInstant()) ;
+        EXPECT_EQ(instantArray[1], orbitStateArray[1].getInstant()) ;
+        EXPECT_EQ(instantArray[2], orbitStateArray[2].getInstant()) ;
+        EXPECT_EQ(instantArray[3], orbitStateArray[3].getInstant()) ;
+
+    }
+
 }
 
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)

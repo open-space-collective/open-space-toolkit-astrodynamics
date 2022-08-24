@@ -199,7 +199,7 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
     }
 
     // Add start instant to the start of array and convert to integration seconds
-    Array<double> anIntegrationDurationInSecsArray(1, 0) ;
+    Array<double> anIntegrationDurationInSecsArray = { 0 } ;
 
     for (const auto& instant : anInstantArray)
     {
