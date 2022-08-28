@@ -405,7 +405,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
             stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
             stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
 
@@ -437,7 +437,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
             stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
             stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
@@ -470,7 +470,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
             stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
             stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
@@ -503,7 +503,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i+1] ;
+            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
             stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
             stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;

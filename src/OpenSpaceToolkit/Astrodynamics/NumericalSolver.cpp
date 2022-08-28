@@ -200,14 +200,23 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
 
     // Add start instant to the start of array and convert to integration seconds
     Array<double> anIntegrationDurationInSecsArray = { 0 } ;
+    Integer stopCounter = 0 ;
+    Integer durationSign = Integer::Undefined() ;
 
     for (const auto& instant : anInstantArray)
     {
-        anIntegrationDurationInSecsArray.add((instant - aStartInstant).inSeconds()) ;
+        const double durationInSecs = (instant - aStartInstant).inSeconds() ;
+        anIntegrationDurationInSecsArray.add(durationInSecs) ;
+
+        if (durationInSecs != 0 && stopCounter == 0)
+        {
+            durationSign = durationInSecs / std::abs(durationInSecs) ;
+            stopCounter++ ;
+        }
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * anIntegrationDurationInSecsArray[1] / std::abs(anIntegrationDurationInSecsArray[1]) ;
+    const double adjustedTimeStep = timeStep_ * (double)durationSign ;
 
     switch (stepperType_)
     {
@@ -227,7 +236,8 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
             throw ostk::core::error::runtime::Wrong("Stepper type") ;
     }
 
-    return states_ ;
+    // Return array of StateVectors excluding first element which is a repeat of the startState
+    return Array<NumericalSolver::StateVector> (states_.begin() + 1, states_.end()) ;
 
 }
 
