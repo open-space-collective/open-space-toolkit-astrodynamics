@@ -282,9 +282,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
         sortedInstantArray.push_back(instantArrayPairs[j].first) ;
     }
 
-    // Remove duplicate states (need to remember to also sort instantArrayPairs)
-    // sortedInstantArray.erase(std::unique(sortedInstantArray.begin(), sortedInstantArray.end()), sortedInstantArray.end()) ;
-
     Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
     // TODO go through and add reserve words
 
@@ -300,7 +297,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
             cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
             cachedStatesDistanceFromInstantArrayAbs.add(std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds())) ;
         }
-        //TODO remove instants that already exist in the cached state
 
         // Find min value of cachedStatesDistanceFromInstantArray
         const auto nearestCachedStateIndex =  std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(), cachedStatesDistanceFromInstantArrayAbs.end()) - cachedStatesDistanceFromInstantArrayAbs.begin() ;
@@ -325,11 +321,19 @@ Array<State>                    Propagated::calculateStatesAt               (   
         {
                 duplicateCounterPairs.back().second++;
         }
+
+        // std::cout << "nearestCachedStatePairs first: " << nearestcachedStatePair.first << std::endl ;
+        // std::cout << "nearestCachedStatePairs second: " << nearestcachedStatePair.second << std::endl ;
     }
 
+    // for (const auto& duplicateCounterPair : duplicateCounterPairs)
+    // {
+    //     std::cout << "duplicateCounterPairs first: " << duplicateCounterPair.first << std::endl ;
+    //     std::cout << "duplicateCounterPairs second: " << duplicateCounterPair.second << std::endl ;
+    // }
 
     // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, can execute that propagation
-    Array<State> stateArraySorted = Array<State>::Empty() ;
+    Array<State> sortedStateArray = Array<State>::Empty() ;
 
     size_t anInstantArrayIndexCount = 0 ;
     for (const auto& duplicateCounterPair : duplicateCounterPairs)
@@ -366,6 +370,9 @@ Array<State>                    Propagated::calculateStatesAt               (   
             anInstantArrayIndexCount++ ;
         }
 
+        // std::cout << "desiredPositiveInstantArray\n" << desiredPositiveInstantArray << std::endl ;
+        // std::cout << "desiredNegativeInstantArray\n" << desiredNegativeInstantArray << std::endl ;
+
         Array<Array<Instant>> desiredInstantNestedArray = Array<Array<Instant>>::Empty() ;
         if (!desiredNegativeInstantArray.empty() && !desiredPositiveInstantArray.empty())
         {
@@ -390,23 +397,31 @@ Array<State>                    Propagated::calculateStatesAt               (   
             // Call numerical solver to perform propagation
             Array<SatelliteDynamics::StateVector> propagatedStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
-            for (size_t k = 0; k < propagatedStateVectorArray.getSize(); k++)
+            for (size_t k = 0; k < desiredInstantArray.getSize(); k++)
             {
+                // std::cout << desiredInstantArray << std::endl ;
+                // std::cout << "desiredInstantArray size: " << desiredInstantArray.getSize() << std::endl ;
+                // std::cout << "propagatedStateVectorArray size: " << propagatedStateVectorArray.getSize() << std::endl ;
+
+                // std::cout << desiredInstantNestedArray << std::endl ;
+
                 const State propagatedState = { desiredInstantArray[k], Position::Meters({ propagatedStateVectorArray[k][0], propagatedStateVectorArray[k][1], propagatedStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedStateVectorArray[k][3], propagatedStateVectorArray[k][4], propagatedStateVectorArray[k][5] }, gcrfSPtr) } ;
-
+                // std::cout << propagatedState << std::endl ;
                 satelliteDynamics_.setState(propagatedState) ;
-                stateArraySorted.add(propagatedState) ;
 
-                // Add propagated state to the cache in the correct location
-                for (size_t l = 0; l < cachedStateArray_.getSize(); l++)
-                {
-                    // Loop through cachedStateArray until you find a state after the propagated state, and insert the propagated state at that position and then break from the loop
-                    if (cachedStateArray_[l].getInstant() > propagatedState.getInstant())
-                    {
-                        cachedStateArray_.insert(cachedStateArray_.begin() + l, propagatedState) ;
-                        break ;
-                    }
-                }
+                // Add propagatedState to sorted StateArray for propagation
+                sortedStateArray.add(propagatedState) ;
+
+                // for (size_t l = 0; l < cachedStateArray_.getSize(); l++)
+                // {
+                //     // Loop through cachedStateArray until you find a state after the propagated state, and insert the propagated state at that position and then break from the loop
+                //     if (cachedStateArray_[l].getInstant() > propagatedState.getInstant())
+                //     {
+                //         cachedStateArray_.insert(cachedStateArray_.begin() + l, propagatedState) ;
+                //         break ;
+                //     }
+                // }
+
             }
         }
     }
@@ -417,8 +432,15 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
     for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
     {
-        unsortedStateArray[instantArrayPairs[k].second] = stateArraySorted[k] ;
+        unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k] ;
     }
+
+    // Add newly propagated states to the cachedStateArray and then resort
+    cachedStateArray_.add(sortedStateArray) ;
+    std::sort(cachedStateArray_.begin(), cachedStateArray_.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
+
+    // Remove duplicate states from sortedStateArray in case any were recently added during this run of desired instants
+    cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end()) ;
 
     return unsortedStateArray ;
 

@@ -756,10 +756,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -801,10 +798,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -857,10 +851,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -908,10 +899,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -960,10 +948,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -1012,10 +997,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -1064,10 +1046,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -1150,108 +1129,118 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
     // Test correct handling of state array sorting and unsorting in propagatedModel and in orbit
+    // {
+    //     const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+    //     // Create environment
+    //     const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+    //     const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+
+    //     // Current state and instant setup
+    //     const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+
+    //     // Satellite system setup
+    //     const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    //     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+    //     // Satellite dynamics setup
+    //     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+    //     // Construct default numerical solver
+    //     NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+    //     // Setup Propagated model and orbit
+    //     const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
+
+    //     const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+    //     // Setup instants
+    //     Array<Instant> instantArray = Array<Instant>::Empty() ;
+    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
+    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
+
+    //     Array<State> orbitPropagatedStateArray = orbit.getStatesAt(instantArray) ;
+    //     Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+    //     // Check getStatesAt vs calculateStatesAt
+    //     EXPECT_EQ(orbitPropagatedStateArray, propagatedStateArray) ;
+
+    //     // Check that the states are in the same order from the original instant array that was supplied
+    //     EXPECT_EQ(instantArray[0], orbitPropagatedStateArray[0].getInstant()) ;
+    //     EXPECT_EQ(instantArray[1], orbitPropagatedStateArray[1].getInstant()) ;
+    //     EXPECT_EQ(instantArray[2], orbitPropagatedStateArray[2].getInstant()) ;
+    //     EXPECT_EQ(instantArray[3], orbitPropagatedStateArray[3].getInstant()) ;
+
+    // }
+
+    // Test various combinations of cachedStateArray cases and InstantArray cases
+
+    // Test interlocking of new states into cachedStateArray
     {
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
-
-        // Current state and instant setup
-        const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
 
         // Satellite system setup
         const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
+        // Setup cachedStateArray
+        Array<State> cachedStateArray = Array<State>::Empty() ;
+        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+        cachedStateArray.add(state_1) ;
+        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+        cachedStateArray.add(state_2) ;
+        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+        cachedStateArray.add(state_3) ;
+
+        // Setup instant Array
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 23, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 3, 0, 0), Scale::UTC)) ;
+
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
 
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Setup instants
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
-
-        Array<State> orbitStateArray = orbit.getStatesAt(instantArray) ;
         Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
-        // Check getStatesAt vs calculateStatesAt
-        EXPECT_EQ(orbitStateArray, propagatedStateArray) ;
+        Array<State> propagatedCachedStateArray = propagatedModel.accessCachedStateArray() ;
 
-        // Check that the states are in the same order from the original instant array that was supplied
+        // Check that the cachedStateArray have the states in chronological order and that there is one of each kind
+        EXPECT_EQ(propagatedCachedStateArray.getSize(), instantArray.getSize() + cachedStateArray.getSize()) ;
 
-        EXPECT_EQ(instantArray[0], orbitStateArray[0].getInstant()) ;
-        EXPECT_EQ(instantArray[1], orbitStateArray[1].getInstant()) ;
-        EXPECT_EQ(instantArray[2], orbitStateArray[2].getInstant()) ;
-        EXPECT_EQ(instantArray[3], orbitStateArray[3].getInstant()) ;
+        EXPECT_LT(propagatedCachedStateArray[0].getInstant(), propagatedCachedStateArray[1].getInstant()) ;
+        EXPECT_LT(propagatedCachedStateArray[1].getInstant(), propagatedCachedStateArray[2].getInstant()) ;
+        EXPECT_LT(propagatedCachedStateArray[2].getInstant(), propagatedCachedStateArray[3].getInstant()) ;
+        EXPECT_LT(propagatedCachedStateArray[3].getInstant(), propagatedCachedStateArray[4].getInstant()) ;
+        EXPECT_LT(propagatedCachedStateArray[4].getInstant(), propagatedCachedStateArray[5].getInstant()) ;
+
+        std::cout << propagatedCachedStateArray << std::endl ;
+        // EXPECT_EQ(propagatedCachedStateArray[0].getInstant(), cachedStateArray[0].getInstant()) ;
+        // EXPECT_EQ(propagatedCachedStateArray[1].getInstant(), instantArray[0]) ;
+        // EXPECT_EQ(propagatedCachedStateArray[2].getInstant(), cachedStateArray[1].getInstant()) ;
+        // EXPECT_EQ(propagatedCachedStateArray[3].getInstant(), instantArray[1]) ;
+        // EXPECT_EQ(propagatedCachedStateArray[4].getInstant(), cachedStateArray[2].getInstant()) ;
+        // EXPECT_EQ(propagatedCachedStateArray[5].getInstant(), instantArray[2]) ;
 
     }
 
-    // Test correct handling of state array sorting and unsorting in propagatedModel and in orbit
-    {
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+    // Test insertion into cached state array of duplicates
 
-        // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
-
-        const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
-
-        // Current state and instant setup
-        const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
-
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Setup instants
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
-
-        Array<State> orbitStateArray = orbit.getStatesAt(instantArray) ;
-        Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
-
-        // Check getStatesAt vs calculateStatesAt
-        EXPECT_EQ(orbitStateArray, propagatedStateArray) ;
-
-        // Check that the states are in the same order from the original instant array that was supplied
-
-        EXPECT_EQ(instantArray[0], orbitStateArray[0].getInstant()) ;
-        EXPECT_EQ(instantArray[1], orbitStateArray[1].getInstant()) ;
-        EXPECT_EQ(instantArray[2], orbitStateArray[2].getInstant()) ;
-        EXPECT_EQ(instantArray[3], orbitStateArray[3].getInstant()) ;
-
-    }
+    // Test that insertions into propagatedStateArray match insertions into cachedStateArray, including duplicate edge cases
 
 }
 
@@ -1305,10 +1294,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
@@ -1394,7 +1380,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
-    // Test array sorting during construction, accessing, and array edge cases
+    // Test cachedStateArray sorting during construction and accessing (not during propagation)
     {
         // Test valid and chronological state array input
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -1645,10 +1631,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
     {
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::EGM96()),
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
@@ -1790,10 +1773,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::EGM96()),
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -1928,10 +1908,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2084,10 +2061,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::EGM96()),
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2219,10 +2193,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2351,10 +2322,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical()),
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2483,10 +2451,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical()),
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2615,10 +2580,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2755,10 +2717,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::EGM96())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -2898,10 +2857,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::EGM96())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
