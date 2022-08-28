@@ -671,10 +671,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -730,10 +727,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Sun>(Sun::Default())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Sun>(Sun::Default()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -791,10 +785,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Moon>(Moon::Default())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Moon>(Moon::Default()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -851,12 +842,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Moon>(Moon::Default()),
-            std::make_shared<Sun>(Sun::Default()),
-            std::make_shared<Earth>(Earth::Spherical())
-        } ;
+        const Array<Shared<Object>> objects = { std::make_shared<Moon>(Moon::Default()), std::make_shared<Sun>(Sun::Default()), std::make_shared<Earth>(Earth::Spherical()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
