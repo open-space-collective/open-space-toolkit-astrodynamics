@@ -8,23 +8,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
-
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
@@ -48,9 +39,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -83,9 +71,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -136,9 +121,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -191,9 +173,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
-
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
 
@@ -220,9 +199,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -255,9 +231,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
-
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
 
@@ -288,9 +261,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -332,9 +302,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
-
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
 
@@ -366,9 +333,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -416,12 +380,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
     using ostk::physics::time::Duration ;
     using ostk::physics::time::Interval ;
     using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
 
     using ostk::astro::NumericalSolver ;
 
@@ -581,12 +539,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
     using ostk::physics::time::Duration ;
     using ostk::physics::time::Interval ;
     using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
 
     using ostk::astro::NumericalSolver ;
 
@@ -678,6 +630,63 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     }
 
+    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Duration propDuration = Duration::Seconds(1000) ;
+
+        NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        testing::internal::CaptureStdout() ;
+        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        testing::internal::GetCapturedStdout().empty() ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
+        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
+
+        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        EXPECT_GT(1e-9, stateError[0]) ;
+        EXPECT_GT(1e-9, stateError[1]) ;
+        EXPECT_FALSE(stateError[0] == 0.0) ;
+        EXPECT_FALSE(stateError[1] == 0.0) ;
+
+    }
+
+    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Duration propDuration = Duration::Seconds(1000) ;
+
+        NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        testing::internal::CaptureStdout() ;
+        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        testing::internal::GetCapturedStdout().empty() ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
+        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
+
+        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        EXPECT_GT(1e-11, stateError[0]) ;
+        EXPECT_GT(1e-11, stateError[1]) ;
+        EXPECT_FALSE(stateError[0] == 0.0) ;
+        EXPECT_FALSE(stateError[1] == 0.0) ;
+
+    }
 }
 
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantToInstant)
@@ -703,12 +712,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
     using ostk::physics::time::Duration ;
     using ostk::physics::time::Interval ;
     using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
 
     using ostk::astro::NumericalSolver ;
 
@@ -804,4 +807,63 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
 
     }
 
+    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant instant = Instant::J2000() ;
+        const Duration propDuration = Duration::Seconds(1000) ;
+
+        NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        testing::internal::CaptureStdout() ;
+        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        testing::internal::GetCapturedStdout().empty() ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
+        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
+
+        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        EXPECT_GT(1e-9, stateError[0]) ;
+        EXPECT_GT(1e-9, stateError[1]) ;
+        EXPECT_FALSE(stateError[0] == 0.0) ;
+        EXPECT_FALSE(stateError[1] == 0.0) ;
+
+    }
+
+    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
+    {
+
+        // Setup initial state vector
+        NumericalSolver::StateVector currentStateVector(2) ;
+        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const Instant instant = Instant::J2000() ;
+        const Duration propDuration = Duration::Seconds(1000) ;
+
+        NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        testing::internal::CaptureStdout() ;
+        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        testing::internal::GetCapturedStdout().empty() ;
+
+        // Validate the output against an analytical function
+        NumericalSolver::StateVector stateError(2) ;
+        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
+        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
+
+        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        EXPECT_GT(1e-11, stateError[0]) ;
+        EXPECT_GT(1e-11, stateError[1]) ;
+        EXPECT_FALSE(stateError[0] == 0.0) ;
+        EXPECT_FALSE(stateError[1] == 0.0) ;
+
+    }
 }
