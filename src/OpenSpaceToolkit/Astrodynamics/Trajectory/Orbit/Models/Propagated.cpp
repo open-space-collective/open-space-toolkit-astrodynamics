@@ -307,7 +307,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
     }
 
-    // Group desired instants into subarrays based on where they are located relative to existing cached states
+    // Group desired instants into subarrays based on where they are located relative to existing cached states: Array<Pair<Index of cachedState, Number of time that cachedState is closed to a desired instant in the desiredInstantArray)
     Array<Pair<Integer, Integer>> duplicateCounterPairs = Array<Pair<Integer, Integer>>::Empty() ;
 
     // Loop through nearestCachedStatePairs to group instants with duplicate corresponding cached states together
@@ -325,12 +325,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
         // std::cout << "nearestCachedStatePairs first: " << nearestcachedStatePair.first << std::endl ;
         // std::cout << "nearestCachedStatePairs second: " << nearestcachedStatePair.second << std::endl ;
     }
-
-    // for (const auto& duplicateCounterPair : duplicateCounterPairs)
-    // {
-    //     std::cout << "duplicateCounterPairs first: " << duplicateCounterPair.first << std::endl ;
-    //     std::cout << "duplicateCounterPairs second: " << duplicateCounterPair.second << std::endl ;
-    // }
 
     // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, can execute that propagation
     Array<State> sortedStateArray = Array<State>::Empty() ;
@@ -350,7 +344,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
         startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
         startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
 
-        // Obtain array of desired instants around startState by looking through duplicateCounterPair
+        // Obtain array of desired instants around startState by looking through duplicateCounterPair, segregate by positive and negative propagation durations
         Array<Instant> desiredPositiveInstantArray = Array<Instant>::Empty() ;
         Array<Instant> desiredNegativeInstantArray = Array<Instant>::Empty() ;
 
@@ -358,6 +352,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
         {
             Duration nearestCachedStatePropDuration = nearestCachedStatePairs[anInstantArrayIndexCount].second ;
 
+            // Duration is positive or zero put into desiredPositiveInstantArray and if negative put into desiredNegativeInstantArray
             if (nearestCachedStatePropDuration.isPositive())
             {
                 desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
@@ -370,65 +365,53 @@ Array<State>                    Propagated::calculateStatesAt               (   
             anInstantArrayIndexCount++ ;
         }
 
-        // std::cout << "desiredPositiveInstantArray\n" << desiredPositiveInstantArray << std::endl ;
-        // std::cout << "desiredNegativeInstantArray\n" << desiredNegativeInstantArray << std::endl ;
 
-        Array<Array<Instant>> desiredInstantNestedArray = Array<Array<Instant>>::Empty() ;
-        if (!desiredNegativeInstantArray.empty() && !desiredPositiveInstantArray.empty())
-        {
-            desiredInstantNestedArray.add(desiredNegativeInstantArray) ;
-            desiredInstantNestedArray.add(desiredPositiveInstantArray) ;
-        }
-        else if (desiredNegativeInstantArray.empty())
-        {
-            desiredInstantNestedArray.add(desiredPositiveInstantArray) ;
-        }
-        else if (desiredPositiveInstantArray.empty())
-        {
-            desiredInstantNestedArray.add(desiredNegativeInstantArray) ;
-        }
-        else
-        {
-            throw ostk::core::error::RuntimeError("There are no instants in the desiredInstantArray") ;
-        }
+        // std::cout << "desiredNegativeInstantArray length:" << desiredNegativeInstantArray.getSize() << std::endl ;
+        // std::cout << "desiredPositiveInstantArray length:" << desiredPositiveInstantArray.getSize() << std::endl ;
 
-        for (const auto& desiredInstantArray : desiredInstantNestedArray)
+        // Execute propagation in reverse time
+        if (!desiredNegativeInstantArray.empty())
         {
+            // Reverse direction of desiredNegativeInstantArray so that integrate_times can integrate it in negative time and reverse chronological order
+            std::reverse(desiredNegativeInstantArray.begin(), desiredNegativeInstantArray.end()) ;
+
             // Call numerical solver to perform propagation
-            Array<SatelliteDynamics::StateVector> propagatedStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
+            Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredNegativeInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
-            for (size_t k = 0; k < desiredInstantArray.getSize(); k++)
+            // Create orbital states from integration solution and add them to sortedStateArray by looping backwards through
+            for (int k = desiredNegativeInstantArray.getSize() - 1; k >= 0 ; k--)
             {
-                // std::cout << desiredInstantArray << std::endl ;
-                // std::cout << "desiredInstantArray size: " << desiredInstantArray.getSize() << std::endl ;
-                // std::cout << "propagatedStateVectorArray size: " << propagatedStateVectorArray.getSize() << std::endl ;
+                const State propagatedNegativeState = { desiredNegativeInstantArray[k], Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedNegativeState << std::endl ;
+                satelliteDynamics_.setState(propagatedNegativeState) ;
 
-                // std::cout << desiredInstantNestedArray << std::endl ;
-
-                const State propagatedState = { desiredInstantArray[k], Position::Meters({ propagatedStateVectorArray[k][0], propagatedStateVectorArray[k][1], propagatedStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedStateVectorArray[k][3], propagatedStateVectorArray[k][4], propagatedStateVectorArray[k][5] }, gcrfSPtr) } ;
-                // std::cout << propagatedState << std::endl ;
-                satelliteDynamics_.setState(propagatedState) ;
-
-                // Add propagatedState to sorted StateArray for propagation
-                sortedStateArray.add(propagatedState) ;
-
-                // for (size_t l = 0; l < cachedStateArray_.getSize(); l++)
-                // {
-                //     // Loop through cachedStateArray until you find a state after the propagated state, and insert the propagated state at that position and then break from the loop
-                //     if (cachedStateArray_[l].getInstant() > propagatedState.getInstant())
-                //     {
-                //         cachedStateArray_.insert(cachedStateArray_.begin() + l, propagatedState) ;
-                //         break ;
-                //     }
-                // }
-
+                // Add propagatedNegativeState to sorted StateArray for propagation
+                sortedStateArray.add(propagatedNegativeState) ;
             }
         }
+        // Execute propagation in forwards time
+        if (!desiredPositiveInstantArray.empty())
+        {
+            // Call numerical solver to perform propagation
+            Array<SatelliteDynamics::StateVector> propagatedPositiveStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredPositiveInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
+
+            // Create orbital states from integration solution and add them to sortedStateArray
+            for (size_t k = 0; k < desiredPositiveInstantArray.getSize(); k++)
+            {
+                const State propagatedPositiveState = { desiredPositiveInstantArray[k], Position::Meters({ propagatedPositiveStateVectorArray[k][0], propagatedPositiveStateVectorArray[k][1], propagatedPositiveStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedPositiveStateVectorArray[k][3], propagatedPositiveStateVectorArray[k][4], propagatedPositiveStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedPositiveState << std::endl ;
+                satelliteDynamics_.setState(propagatedPositiveState) ;
+
+                // Add propagatedPositiveState to sorted StateArray for propagation
+                sortedStateArray.add(propagatedPositiveState) ;
+            }
+        }
+
     }
+
+    // std::cout << "sortedStateArray size:" << sortedStateArray.getSize() << std::endl ;
+    // std::cout << "anInstantArray size:" << anInstantArray.getSize() << std::endl ;
 
     // Desort the sorted state array to return it to user as was requested
     Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
-    unsortedStateArray.reserve(anInstantArray.getSize()) ;
 
     for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
     {
