@@ -1128,120 +1128,598 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
-    // Test correct handling of state array sorting and unsorting in propagatedModel and in orbit
-    // {
-    //     const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+    // Test only instant sorting and insertion into cachedStateArray
 
-    //     // Create environment
-    //     const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+        // Test correct handling of state array sorting and unsorting in propagatedModel and in Orbit
+        {
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-    //     const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+            // Create environment
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
-    //     // Current state and instant setup
-    //     const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+            const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
-    //     // Satellite system setup
-    //     const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-    //     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+            // Current state and instant setup
+            const State state = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
 
-    //     // Satellite dynamics setup
-    //     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
-    //     // Construct default numerical solver
-    //     NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
-    //     // Setup Propagated model and orbit
-    //     const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-    //     const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+            // Setup Propagated model and orbit
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
-    //     // Setup instants
-    //     Array<Instant> instantArray = Array<Instant>::Empty() ;
-    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
-    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
-    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
-    //     instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
+            const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
-    //     Array<State> orbitPropagatedStateArray = orbit.getStatesAt(instantArray) ;
-    //     Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+            // Setup instants
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)) ;
 
-    //     // Check getStatesAt vs calculateStatesAt
-    //     EXPECT_EQ(orbitPropagatedStateArray, propagatedStateArray) ;
+            Array<State> orbitPropagatedStateArray = orbit.getStatesAt(instantArray) ;
+            Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
-    //     // Check that the states are in the same order from the original instant array that was supplied
-    //     EXPECT_EQ(instantArray[0], orbitPropagatedStateArray[0].getInstant()) ;
-    //     EXPECT_EQ(instantArray[1], orbitPropagatedStateArray[1].getInstant()) ;
-    //     EXPECT_EQ(instantArray[2], orbitPropagatedStateArray[2].getInstant()) ;
-    //     EXPECT_EQ(instantArray[3], orbitPropagatedStateArray[3].getInstant()) ;
+            // Check getStatesAt vs calculateStatesAt
+            EXPECT_EQ(orbitPropagatedStateArray, propagatedStateArray) ;
 
-    // }
+            // Check that the states are in the same order from the original instant array that was supplied
+            EXPECT_EQ(instantArray[0], orbitPropagatedStateArray[0].getInstant()) ;
+            EXPECT_EQ(instantArray[1], orbitPropagatedStateArray[1].getInstant()) ;
+            EXPECT_EQ(instantArray[2], orbitPropagatedStateArray[2].getInstant()) ;
+            EXPECT_EQ(instantArray[3], orbitPropagatedStateArray[3].getInstant()) ;
 
-    // Test various combinations of cachedStateArray cases and InstantArray cases
+        }
 
-    // Test interlocking of new states into cachedStateArray
-    {
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+        // Test interlocking of new states into cachedStateArray in terms of instants
+        {
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Create environment
-        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+            // Create environment
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
-        const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+            const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
-        // Setup cachedStateArray
-        Array<State> cachedStateArray = Array<State>::Empty() ;
-        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
-        cachedStateArray.add(state_1) ;
-        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
-        cachedStateArray.add(state_2) ;
-        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
-        cachedStateArray.add(state_3) ;
+            // Setup cachedStateArray
+            Array<State> cachedStateArray = Array<State>::Empty() ;
+            const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+            cachedStateArray.add(state_1) ;
+            const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+            cachedStateArray.add(state_2) ;
+            const State state_3 = { Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+            cachedStateArray.add(state_3) ;
 
-        // Setup instant Array
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 23, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
-        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 3, 0, 0), Scale::UTC)) ;
+            // Setup instant Array
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 23, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 3, 0, 0), Scale::UTC)) ;
 
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
+            // Setup Propagated model and orbit
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
 
-        Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+            Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
-        Array<State> propagatedCachedStateArray = propagatedModel.accessCachedStateArray() ;
+            Array<State> propagatedCachedStateArray = propagatedModel.accessCachedStateArray() ;
 
-        // Check that the cachedStateArray have the states in chronological order and that there is one of each kind
-        EXPECT_EQ(propagatedCachedStateArray.getSize(), instantArray.getSize() + cachedStateArray.getSize()) ;
+            // Check that the cachedStateArray have the states in chronological order and that there is one of each kind
+            EXPECT_EQ(propagatedCachedStateArray.getSize(), instantArray.getSize() + cachedStateArray.getSize()) ;
 
-        EXPECT_LT(propagatedCachedStateArray[0].getInstant(), propagatedCachedStateArray[1].getInstant()) ;
-        EXPECT_LT(propagatedCachedStateArray[1].getInstant(), propagatedCachedStateArray[2].getInstant()) ;
-        EXPECT_LT(propagatedCachedStateArray[2].getInstant(), propagatedCachedStateArray[3].getInstant()) ;
-        EXPECT_LT(propagatedCachedStateArray[3].getInstant(), propagatedCachedStateArray[4].getInstant()) ;
-        EXPECT_LT(propagatedCachedStateArray[4].getInstant(), propagatedCachedStateArray[5].getInstant()) ;
+            EXPECT_EQ(propagatedCachedStateArray[0].getInstant(), cachedStateArray[0].getInstant()) ;
+            EXPECT_EQ(propagatedCachedStateArray[1].getInstant(), instantArray[0]) ;
+            EXPECT_EQ(propagatedCachedStateArray[2].getInstant(), cachedStateArray[1].getInstant()) ;
+            EXPECT_EQ(propagatedCachedStateArray[3].getInstant(), instantArray[1]) ;
+            EXPECT_EQ(propagatedCachedStateArray[4].getInstant(), cachedStateArray[2].getInstant()) ;
+            EXPECT_EQ(propagatedCachedStateArray[5].getInstant(), instantArray[2]) ;
 
-        std::cout << propagatedCachedStateArray << std::endl ;
-        // EXPECT_EQ(propagatedCachedStateArray[0].getInstant(), cachedStateArray[0].getInstant()) ;
-        // EXPECT_EQ(propagatedCachedStateArray[1].getInstant(), instantArray[0]) ;
-        // EXPECT_EQ(propagatedCachedStateArray[2].getInstant(), cachedStateArray[1].getInstant()) ;
-        // EXPECT_EQ(propagatedCachedStateArray[3].getInstant(), instantArray[1]) ;
-        // EXPECT_EQ(propagatedCachedStateArray[4].getInstant(), cachedStateArray[2].getInstant()) ;
-        // EXPECT_EQ(propagatedCachedStateArray[5].getInstant(), instantArray[2]) ;
+        }
 
-    }
+        // Test edge case: requesting of duplicate instants that also match an instant already in the catched state array
+        {
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-    // Test insertion into cached state array of duplicates
+            // Create environment
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
 
-    // Test that insertions into propagatedStateArray match insertions into cachedStateArray, including duplicate edge cases
+            const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Setup cachedStateArray
+            Array<State> cachedStateArray = Array<State>::Empty() ;
+            const State state_1 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+            cachedStateArray.add(state_1) ;
+
+            // Setup instant Array
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC)) ;
+            instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC)) ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and orbit
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
+
+            Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            Array<State> propagatedCachedStateArray = propagatedModel.accessCachedStateArray() ;
+
+            // Check that the propagatedStateArray has the requested instants even if they are duplicates
+            EXPECT_EQ(propagatedStateArray.getSize(), 3 ) ;
+            EXPECT_EQ(propagatedStateArray[0].getInstant(), instantArray[0]) ;
+            EXPECT_EQ(propagatedStateArray[1].getInstant(), instantArray[1]) ;
+            EXPECT_EQ(propagatedStateArray[2].getInstant(), instantArray[2]) ;
+
+            // Check that the cachedStateArray have the states in chronological order and that there is one of each kind
+            EXPECT_EQ(propagatedCachedStateArray.getSize(), 2 ) ;
+            EXPECT_EQ(propagatedCachedStateArray[0].getInstant(), cachedStateArray[0].getInstant()) ;
+            EXPECT_EQ(propagatedCachedStateArray[1].getInstant(), instantArray.back()) ;
+
+        }
+
+    // Test full state results against reference trajectory
+        // Test cachedStateArray with one cachedState at the beginning of reference states
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose state to put into cachedStateArray
+            size_t cachedStateReferenceIndex = 0 ;
+            const Instant startInstant = instantArray[cachedStateReferenceIndex] ;
+            const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
+
+        // Test cachedStateArray with one cachedState at the middle of reference states
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose state to put into cachedStateArray
+            size_t cachedStateReferenceIndex = 30 ;
+            const Instant startInstant = instantArray[cachedStateReferenceIndex] ;
+            const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
+
+        // Test cachedStateArray with one cachedState at the end of reference states
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose state to put into cachedStateArray
+            size_t cachedStateReferenceIndex = 60 ;
+            const Instant startInstant = instantArray[cachedStateReferenceIndex] ;
+            const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
+
+        // Test cachedStateArray with two cachedStates, one at the beginning and one at the end of reference states
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose states to put into cachedStateArray
+            Array<State> cachedStateArray = Array<State>::Empty() ;
+            size_t cachedStateReferenceIndex_1 = 0 ;
+            const State state_1 = { instantArray[cachedStateReferenceIndex_1], Position::Meters({ referencePositionArray[cachedStateReferenceIndex_1] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex_1] }, gcrfSPtr) } ;
+            cachedStateArray.add(state_1) ;
+            size_t cachedStateReferenceIndex_2 = 60 ;
+            const State state_2 = { instantArray[cachedStateReferenceIndex_2], Position::Meters({ referencePositionArray[cachedStateReferenceIndex_2] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex_2] }, gcrfSPtr) } ;
+            cachedStateArray.add(state_2) ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
+
+        // Test cachedStateArray with half of reference states already in cachedStateArray
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose states to put into cachedStateArray
+            Array<State> cachedStateArray = Array<State>::Empty() ;
+            for (size_t i = 0; i < instantArray.getSize(); i++)
+            {
+                if (i % 2 == 0)
+                {
+                    const State state = { instantArray[i], Position::Meters({ referencePositionArray[i] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[i] }, gcrfSPtr) } ;
+                    cachedStateArray.add(state) ;
+                }
+            }
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0] } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
+
+        // Test cachedStateArray with all reference states already in cachedStateArray (no propagation should be needed)
+        {
+            // Reference data setup
+            const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/CalculateStatesAt_StateValidation.csv")), Table::Format::CSV, true) ;
+
+            Array<Instant> instantArray = Array<Instant>::Empty() ;
+            Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty() ;
+            Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty() ;
+
+            for (const auto& referenceRow : referenceData)
+            {
+                    instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
+
+                    referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
+                    referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+            }
+
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+            const Environment customEnvironment = Environment(instantJ2000, objects) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Choose states to put into cachedStateArray
+            Array<State> cachedStateArray = Array<State>::Empty() ;
+            for (size_t i = 0; i < instantArray.getSize(); i++)
+            {
+                const State state = { instantArray[i], Position::Meters({ referencePositionArray[i] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[i] }, gcrfSPtr) } ;
+                cachedStateArray.add(state) ;
+            }
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0] } ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup Propagated model and perform propagation
+            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+            // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
+            EXPECT_EQ(propagatedModel.accessCachedStateArray().getSize(), instantArray.getSize()) ;
+
+            // Validation loop
+            for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+            {
+
+                const Position position = propagatedStateArray[i].accessPosition() ;
+                const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+                const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+                const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+                ASSERT_GT(2e-7, positionError) ;
+                ASSERT_GT(2e-10, velocityError) ;
+                ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+                // // Results console output
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position error is: " << positionError << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+
+            }
+        }
 }
 
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)
@@ -1578,6 +2056,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* VALIDATION TESTS */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TODO add instant validation to all unit tests as well as positin and velocity
 
 /* Force model validation tests */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
