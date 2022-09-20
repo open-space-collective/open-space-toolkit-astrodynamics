@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.test.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.test.cpp
 /// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -2274,19 +2274,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-            const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << state_GCRF << std::endl ;
-            // std::cout << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2413,16 +2410,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2434,8 +2431,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
             ASSERT_GT(1e-6, velocityError_GCRF) ;
 
             // ITRF Compare
-            const Position position_ITRF = (state_GCRF.inFrame(itrfSPtr)).accessPosition() ;
-            const Velocity velocity_ITRF = (state_GCRF.inFrame(itrfSPtr)).accessVelocity() ;
+            const Position position_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).accessPosition() ;
+            const Velocity velocity_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).accessVelocity() ;
 
             const double positionError_ITRF = (position_ITRF.accessCoordinates() - referencePositionArray_ITRF[i]).norm() ;
             const double velocityError_ITRF = (velocity_ITRF.accessCoordinates() - referenceVelocityArray_ITRF[i]).norm() ;
@@ -2562,19 +2559,16 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-            const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << state_GCRF << std::endl ;
-            // std::cout << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2694,19 +2688,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-            const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << "Resulting state in test loop:" << state_GCRF << std::endl ;
-            // std::cout << "Resulting cached state array in test loop:" << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2823,19 +2814,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-            const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << state_GCRF << std::endl ;
-            // std::cout << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2952,19 +2940,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_GCRF = orbit.getStateAt(instantArray[i]) ;
-            const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << state_GCRF << std::endl ;
-            // std::cout << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_GCRF = state_GCRF.accessPosition() ;
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity() ;
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
             const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
@@ -2991,7 +2976,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison ) // This test cannot be switched to the getStatesAt() paradigm
 {
 
     using ostk::core::types::Shared ;
@@ -3128,7 +3113,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96_IntervalSelfComparison )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96_IntervalSelfComparison )   // this test cannot be switched to the getStatesAt() paradigm
 {
 
     using ostk::core::types::Shared ;
@@ -3362,24 +3347,19 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Orbit orbit_54 = { propagatedModel_54, customEnvironment.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_78 = { propagatedModel_78, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
+        // Propagate all states
+        const Array<State> propagatedStateArray_54 = orbit_54.getStatesAt(instantArray) ;
+        const Array<State> propagatedStateArray_78 = orbit_78.getStatesAt(instantArray) ;
+
         // Validation loop
         for (int i = 0; i < (int)instantArray.getSize(); i++)
         {
 
-            // Propagated output generated
-            const State state_54 = orbit_54.getStateAt(instantArray[i]) ;
-
-            const State state_78 = orbit_78.getStateAt(instantArray[i]) ;
-
-            // const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-            // std::cout << "Resulting state in test loop:" << state_GCRF << std::endl ;
-            // std::cout << "Resulting cached state array in test loop:" << cachedStateArray << std::endl ;
-
             // GCRF Compare
-            const Position position_54 = state_54.accessPosition() ;
-            const Velocity velocity_54 = state_54.accessVelocity() ;
-            const Position position_78 = state_78.accessPosition() ;
-            const Velocity velocity_78 = state_78.accessVelocity() ;
+            const Position position_54 = propagatedStateArray_54[i].accessPosition() ;
+            const Velocity velocity_54 = propagatedStateArray_54[i].accessVelocity() ;
+            const Position position_78 = propagatedStateArray_78[i].accessPosition() ;
+            const Velocity velocity_78 = propagatedStateArray_78[i].accessVelocity() ;
 
             const double positionError_GCRF = (position_54.accessCoordinates() - position_78.accessCoordinates()).norm() ;
             const double velocityError_GCRF = (velocity_54.accessCoordinates() - velocity_78.accessCoordinates()).norm() ;
