@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG BASE_IMAGE_VERSION=0.2.1
+ARG BASE_IMAGE_VERSION=latest
 
 FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}-debian
 
