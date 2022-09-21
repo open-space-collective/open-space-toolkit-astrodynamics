@@ -1295,4 +1295,34 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GenerateChecksum)
+{
+
+    using ostk::core::types::String ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537" ;
+
+        EXPECT_EQ(7, TLE::GenerateChecksum(firstLine)) ;
+        EXPECT_EQ(7, TLE::GenerateChecksum(secondLine)) ;
+
+        EXPECT_EQ(7, TLE::GenerateChecksum(firstLine.getSubstring(0, 68).trim() + "0")) ;
+        EXPECT_EQ(7, TLE::GenerateChecksum(secondLine.getSubstring(0, 68).trim() + "9")) ;
+
+    }
+
+    {
+
+        const String firstLine = "" ;
+
+        EXPECT_ANY_THROW(TLE::GenerateChecksum(firstLine)) ;
+
+    }
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
