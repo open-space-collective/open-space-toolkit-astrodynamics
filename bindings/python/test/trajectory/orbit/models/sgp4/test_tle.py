@@ -1,14 +1,15 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/sgp4/test_tlepy
+# @file           bindings/python/test/trajectory/orbit/models/sgp4/test_tle.py
 # @author         Remy Derollez <remy@loftorbital.com>
 # @license        Apache License 2.0
 
 ################################################################################################################################################################
 
 import pytest
-import datetime
+
+from datetime import datetime
 
 from ostk.core.types import String, Real, Integer
 
@@ -31,7 +32,8 @@ TLE = astrodynamics.trajectory.orbit.models.sgp4.TLE
 
 ################################################################################################################################################################
 
-def construct_tle ():
+@pytest.fixture
+def tle () -> TLE:
 
     tle: TLE = TLE('1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994','2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316')
 
@@ -50,8 +52,6 @@ def test_trajectory_orbit_models_sgp4_tle_constructors ():
     assert tle is not None
     assert isinstance(tle, TLE)
 
-    # Construct Three-Line Element set
-
 ################################################################################################################################################################
 
 def test_trajectory_orbit_models_sgp4_tle_comparators ():
@@ -67,9 +67,7 @@ def test_trajectory_orbit_models_sgp4_tle_comparators ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_is_defined ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_is_defined (tle: TLE):
 
     assert tle is not None
     assert tle.is_defined()
@@ -82,12 +80,9 @@ def test_trajectory_orbit_models_sgp4_tle_is_defined ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_lines ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_lines (tle: TLE):
 
     # get_first_line
-
     first_line: String = tle.get_first_line()
 
     assert first_line is not None
@@ -103,9 +98,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_lines ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_satellite_number ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_satellite_number (tle: TLE):
 
     satellite_number = tle.get_satellite_number()
 
@@ -115,9 +108,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_satellite_number ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_classification ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_classification (tle: TLE):
 
     # get_classification
     classification: String = tle.get_classification()
@@ -128,9 +119,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_classification ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_international_designator ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_international_designator (tle: TLE):
 
     # get_international_designator
     international_designator: String = tle.get_international_designator()
@@ -141,9 +130,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_international_designator ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_epoch ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_epoch (tle: TLE):
 
     # get_epoch
     epoch: Instant = tle.get_epoch()
@@ -152,16 +139,14 @@ def test_trajectory_orbit_models_sgp4_tle_get_epoch ():
     assert isinstance(epoch, Instant)
     assert epoch == Instant.date_time(DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC)
 
-    date_time : datetime.datetime = epoch.get_date_time(Scale.UTC)
+    date_time : datetime = epoch.get_date_time(Scale.UTC)
 
     assert date_time is not None
-    assert isinstance(date_time, datetime.datetime)
+    assert isinstance(date_time, datetime)
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_mean_motion_derivatives ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_mean_motion_derivatives (tle: TLE):
 
     # get_mean_motion_first_time_derivative_divided_by_two
     first_derivative: Real = tle.get_mean_motion_first_time_derivative_divided_by_two()
@@ -179,9 +164,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_mean_motion_derivatives ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_b_star_drag_term ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_b_star_drag_term (tle: TLE):
 
     # get_b_star_drag_term
     b_star: Real = tle.get_b_star_drag_term()
@@ -192,9 +175,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_b_star_drag_term ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_ephemeris_type ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_ephemeris_type (tle: TLE):
 
     ephemeris_type = tle.get_ephemeris_type()
 
@@ -204,9 +185,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_ephemeris_type ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_element_set_number ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_element_set_number (tle: TLE):
 
     element_set_number = tle.get_element_set_number()
 
@@ -216,9 +195,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_element_set_number ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_first_line_checksum ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_first_line_checksum (tle: TLE):
 
     checksum = tle.get_first_line_checksum()
 
@@ -228,9 +205,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_first_line_checksum ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_inclination ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_inclination (tle: TLE):
 
     inclination = tle.get_inclination().in_degrees()
 
@@ -240,9 +215,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_inclination ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_raan ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_raan (tle: TLE):
 
     raan = tle.get_raan().in_degrees()
 
@@ -252,9 +225,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_raan ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_eccentricity ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_eccentricity (tle: TLE):
 
     eccentricity = tle.get_eccentricity()
 
@@ -264,9 +235,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_eccentricity ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_aop ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_aop (tle: TLE):
 
     aop = tle.get_aop().in_degrees()
 
@@ -276,9 +245,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_aop ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_mean_anomaly ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_mean_anomaly (tle: TLE):
 
     mean_anomaly = tle.get_mean_anomaly().in_degrees()
 
@@ -288,9 +255,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_mean_anomaly ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_mean_motion ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_mean_motion (tle: TLE):
 
     mean_motion = tle.get_mean_motion().in_unit(Derived.Unit.angular_velocity(Angle.Unit.Revolution, Time.Unit.Day))
 
@@ -300,9 +265,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_mean_motion ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_revolution_number_at_epoch ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_revolution_number_at_epoch (tle: TLE):
 
     revolution_at_epoch = tle.get_revolution_number_at_epoch()
 
@@ -312,9 +275,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_revolution_number_at_epoch ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_get_second_line_checksum ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_get_second_line_checksum (tle: TLE):
 
     checksum = tle.get_second_line_checksum()
 
@@ -324,9 +285,7 @@ def test_trajectory_orbit_models_sgp4_tle_get_second_line_checksum ():
 
 ################################################################################################################################################################
 
-def test_trajectory_orbit_models_sgp4_tle_can_parse ():
-
-    tle: TLE = construct_tle()
+def test_trajectory_orbit_models_sgp4_tle_can_parse (tle: TLE):
 
     first_line = tle.get_first_line()
     second_line = tle.get_second_line()
@@ -335,14 +294,24 @@ def test_trajectory_orbit_models_sgp4_tle_can_parse ():
 
 ################################################################################################################################################################
 
-# def test_trajectory_orbit_models_sgp4_tle_parse ():
+# def test_trajectory_orbit_models_sgp4_tle_parse (tle: TLE):
 
-#     tle: TLE = construct_tle()
+#     ...
 
 ################################################################################################################################################################
 
-# def test_trajectory_orbit_models_sgp4_tle_load ():
+# def test_trajectory_orbit_models_sgp4_tle_load (tle: TLE):
 
-#     tle: TLE = construct_tle()
+#     ...
+
+################################################################################################################################################################
+
+def test_trajectory_orbit_models_sgp4_tle_generate_checksum (tle: TLE):
+
+    assert TLE.generate_checksum(tle.get_first_line()) == tle.get_first_line_checksum()
+    assert TLE.generate_checksum(tle.get_second_line()) == tle.get_second_line_checksum()
+
+    assert TLE.generate_checksum(f'{str(tle.get_first_line())[:-1]}0') == tle.get_first_line_checksum()
+    assert TLE.generate_checksum(f'{str(tle.get_second_line())[:-1]}9') == tle.get_second_line_checksum()
 
 ################################################################################################################################################################

@@ -358,13 +358,13 @@ class TLE
 
         static TLE              Load                                        (   const   File&                       aFile                                       ) ;
 
+        static Integer          GenerateChecksum                            (   const   String&                     aLine                                       ) ;
+
     private:
 
         String                  satelliteName_ ;
         String                  firstLine_ ;
         String                  secondLine_ ;
-
-        static Integer          GenerateChecksum                            (   const   String&                     aLine                                       ) ;
 
         static Real             ParseReal                                   (   const   String&                     aString,
                                                                                         bool                        isDecimalPointAssumed                       ) ;

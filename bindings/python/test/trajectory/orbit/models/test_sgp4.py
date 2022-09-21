@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/sgp4/test_tle.py
+# @file           bindings/python/test/trajectory/orbit/models/test_sgp4.py
 # @author         Remy Derollez <remy@loftorbital.com>
 # @license        Apache License 2.0
 

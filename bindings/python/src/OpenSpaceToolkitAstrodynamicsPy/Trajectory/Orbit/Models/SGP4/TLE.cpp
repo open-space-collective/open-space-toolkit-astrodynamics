@@ -63,6 +63,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def_static("can_parse", +[] (const String& aFirstLine, const String& aSecondLine) -> bool { return TLE::CanParse(aFirstLine, aSecondLine) ; }, arg("first_line"), arg("second_line"))
         .def_static("parse", &TLE::Parse, arg("string"))
         .def_static("load", &TLE::Load, arg("file"))
+        .def_static("generate_checksum", &TLE::GenerateChecksum, arg("string"))
 
     ;
 
