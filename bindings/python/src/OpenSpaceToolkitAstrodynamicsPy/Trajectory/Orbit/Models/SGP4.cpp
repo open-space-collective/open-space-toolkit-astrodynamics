@@ -25,7 +25,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         class_<SGP4, ostk::astro::trajectory::orbit::Model>(aModule, "SGP4")
 
-            .def(init<TLE>(), arg("tle"))
+            .def
+            (
+                init<TLE>(),
+                arg("tle")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -38,8 +42,20 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_tle", &SGP4::getTle)
             .def("get_epoch", &SGP4::getEpoch)
             .def("get_revolution_number_at_epoch", &SGP4::getRevolutionNumberAtEpoch)
-            .def("calculate_state_at", &SGP4::calculateStateAt, arg("instant"))
-            .def("calculate_revolution_number_at", &SGP4::calculateRevolutionNumberAt, arg("instant"))
+
+            .def
+            (
+                "calculate_state_at",
+                &SGP4::calculateStateAt,
+                arg("instant")
+            )
+
+            .def
+            (
+                "calculate_revolution_number_at",
+                &SGP4::calculateRevolutionNumberAt,
+                arg("instant")
+            )
 
         ;
 

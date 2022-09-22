@@ -11,7 +11,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated (        pybind11::module& aModule                               )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated (        pybind11::module& aModule                           )
 {
 
     using namespace pybind11 ;
@@ -28,8 +28,21 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         class_<Propagated, ostk::astro::trajectory::orbit::Model> propagated_class(aModule, "Propagated") ;
 
         propagated_class
-            .def(init<const SatelliteDynamics&, const NumericalSolver&>())
-            .def(init<const SatelliteDynamics&, const NumericalSolver&, const Array<State>&>())
+
+            .def
+            (
+                init<const SatelliteDynamics&, const NumericalSolver&>(),
+                arg("satellite_dynamics"),
+                arg("numerical_solver")
+            )
+
+            .def
+            (
+                init<const SatelliteDynamics&, const NumericalSolver&, const Array<State>&>(),
+                arg("satellite_dynamics"),
+                arg("numerical_solver"),
+                arg("state_array")
+            )
 
             .def(self == self)
             .def(self != self)
@@ -42,9 +55,26 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("get_epoch", &Propagated::getEpoch)
             .def("get_revolution_number_at_epoch", &Propagated::getRevolutionNumberAtEpoch)
 
-            .def("calculate_state_at", &Propagated::calculateStateAt)
-            .def("calculate_states_at", &Propagated::calculateStatesAt)
-            .def("calculate_revolution_number_at", &Propagated::calculateRevolutionNumberAt)
+            .def
+            (
+                "calculate_state_at",
+                &Propagated::calculateStateAt,
+                arg("instant")
+            )
+
+            .def
+            (
+                "calculate_states_at",
+                &Propagated::calculateStatesAt,
+                arg("instant_array")
+            )
+
+            .def
+            (
+                "calculate_revolution_number_at",
+                &Propagated::calculateRevolutionNumberAt,
+                arg("instant")
+            )
 
             .def("access_cached_state_array", &Propagated::accessCachedStateArray)
 

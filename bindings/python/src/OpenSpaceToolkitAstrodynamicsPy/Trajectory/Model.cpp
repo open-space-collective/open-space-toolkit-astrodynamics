@@ -20,9 +20,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
 
     class_<BaseModel>(aModule, "Model")
 
-        // .def(self == self)
-        // .def(self != self)
-        // Equivalence with default constructor deleted for class "Model"
         .def("__eq__", [](const BaseModel &self, const BaseModel &other){ return self == other; })
         .def("__ne__", [](const BaseModel &self, const BaseModel &other){ return self != other; })
 

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.cpp
 /// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -27,6 +27,8 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using ostk::core::types::Size ;
+
 using ostk::physics::units::Length ;
 using ostk::physics::units::Time ;
 using ostk::physics::units::Derived ;
@@ -39,7 +41,7 @@ static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
                                 Propagated::Propagated                      (   const   SatelliteDynamics&          aSatelliteDynamics,
                                                                                 const   NumericalSolver&            aNumericalSolver                            )
                                 :   Model(),
-                                    cachedStateArray_(Array(1,aSatelliteDynamics.getState())),
+                                    cachedStateArray_(Array(1, aSatelliteDynamics.getState())),
                                     satelliteDynamics_(aSatelliteDynamics),
                                     numericalSolver_(aNumericalSolver)
 
@@ -93,25 +95,6 @@ std::ostream&                   operator <<                                 (   
 
 }
 
-void                            Propagated::print                           (       std::ostream&                   anOutputStream,
-                                                                                    bool                            displayDecorator                            ) const
-{
-
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void () ;
-
-    ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array:") ;
-    [&] (const Array<State>&) -> void { for(State iterState:cachedStateArray_) {iterState.print(anOutputStream, false) ;} ; } ;
-
-    ostk::core::utils::Print::Separator(anOutputStream, "SatelliteDynamics") ;
-    satelliteDynamics_.print(anOutputStream, false) ;
-
-    ostk::core::utils::Print::Separator(anOutputStream, "NumericalSolver") ;
-    numericalSolver_.print(anOutputStream, false) ;
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
-
-}
-
 bool                            Propagated::isDefined                       ( ) const
 {
     return !cachedStateArray_.isEmpty() && satelliteDynamics_.isDefined() && numericalSolver_.isDefined() ;
@@ -137,7 +120,7 @@ Integer                         Propagated::getRevolutionNumberAtEpoch      ( ) 
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    return 1 ;
+    return 1 ; // [TBI] With param
 
 }
 
@@ -154,78 +137,92 @@ State                           Propagated::calculateStateAt                (   
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    // Logic to determine from which to state in the cache to propagate to the desired instant
+    // Logic to determine from which state in the cached state array to propagate to the desired instant
     State startState = State::Undefined() ;
-    Duration propDuration = Duration::Undefined() ;
+    Duration propagationDuration = Duration::Undefined() ;
     Array<Duration> absoluteDurationDifferenceArray = Array<Duration>::Empty() ;
     Integer propagatedStateInsertIndex = Integer::Undefined() ;
 
     // If cached state array has length 1 and the supplied instant is the same as the one in the cache, return the one in the cache
     if (cachedStateArray_.getSize() == 1 && cachedStateArray_[0].getInstant() == anInstant)
     {
-        // std::cout << "same state as already exists" << std::endl ;
         return cachedStateArray_[0] ;
     }
+
     // If instant is within bounds of cached state array, find which state is closest to the instant and propagate forwards/backwards from that one
     else if ( (anInstant >= cachedStateArray_.accessFirst().getInstant()) && (anInstant <= cachedStateArray_.accessLast().getInstant()) && (cachedStateArray_.getSize() > 1) )
     {
+
         absoluteDurationDifferenceArray.reserve(cachedStateArray_.getSize()) ;
 
-        for (size_t i = 0; i < cachedStateArray_.getSize(); i++) // Find the indices and duration differences of the two closest state instants in the cache
+        for(size_t i = 0 ; i < cachedStateArray_.getSize() ; i++) // Find the indices and duration differences of the two closest state instants in the cache
         {
+
             if (cachedStateArray_[i].getInstant() == anInstant)
             {
-                // std::cout << "same state as already exists" << std::endl ;
                 return cachedStateArray_[i] ;
             }
+
             else
             {
+
                 absoluteDurationDifferenceArray.add(anInstant - cachedStateArray_[i].getInstant()) ;
 
                 if (!absoluteDurationDifferenceArray.accessLast().isPositive())
                 {
                     break ;
                 }
+
             }
+
         }
-        // If an instant is closer to last array element, propagate backwards from that one
-        if (absoluteDurationDifferenceArray.accessLast().getAbsolute().inSeconds() < absoluteDurationDifferenceArray[absoluteDurationDifferenceArray.getSize()-2].getAbsolute().inSeconds())
+
+        // If an instant is closer to the last array element, propagate backwards from that one
+        if (absoluteDurationDifferenceArray.accessLast().getAbsolute().inSeconds() < absoluteDurationDifferenceArray[absoluteDurationDifferenceArray.getSize() - 2].getAbsolute().inSeconds())
         {
-            propDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize()-1].getInstant() ;
-            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize()-1] ;
+
+            propagationDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 1].getInstant() ;
+            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 1] ;
+
         }
+
         // If an instant is closer to the second last array element, propagate forwards from that one
         else
         {
-            propDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize()-2].getInstant() ;
-            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize()-2] ;
+
+            propagationDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 2].getInstant() ;
+            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 2] ;
+
         }
 
-        propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize()-1 ; // Insert between second to last and last index of absoluteDurationDifferenceArray
+        propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize() - 1 ; // Insert between second to last and last index of absoluteDurationDifferenceArray
 
     }
+
     // If instant is past last state in cache, propagate forwards
     else if (anInstant > cachedStateArray_.accessLast().getInstant())
     {
-        propDuration = anInstant - cachedStateArray_.accessLast().getInstant() ;
+
+        propagationDuration = anInstant - cachedStateArray_.accessLast().getInstant() ;
         startState = cachedStateArray_.accessLast() ;
         absoluteDurationDifferenceArray.mergeWith(Array((size_t)cachedStateArray_.getSize(),Duration::Seconds(1.0))) ;
         propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize() ; // Insert at end of state array
+
     }
     // If instant is before first state in cache, propagate backwards
     else if (anInstant < cachedStateArray_.accessFirst().getInstant())
     {
-        propDuration = anInstant - cachedStateArray_.accessFirst().getInstant() ;
+
+        propagationDuration = anInstant - cachedStateArray_.accessFirst().getInstant() ;
         startState = cachedStateArray_.accessFirst() ;
         propagatedStateInsertIndex = 0 ; // Insert at beginning of state array
+
     }
+
     else
     {
         throw ostk::core::error::runtime::Undefined("Propagation Duration") ;
     }
-
-    // std::cout << "propDuation: " << propDuration << std::endl ;
-    // std::cout << "startState: " << startState << std::endl ;
 
     // [TBI]: Could potentially implement a way to check to see if enough instants are being requested at too small intervals to warn about outputted accuracy
 
@@ -237,7 +234,7 @@ State                           Propagated::calculateStateAt                (   
     startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
 
     // Call numerical solver to perform propagation
-    SatelliteDynamics::StateVector propagatedStateVector = numericalSolver_.integrateStateForDuration(startStateVector, propDuration, satelliteDynamics_.getDynamicalEquations()) ;
+    SatelliteDynamics::StateVector propagatedStateVector = numericalSolver_.integrateStateForDuration(startStateVector, propagationDuration, satelliteDynamics_.getDynamicalEquations()) ;
 
     const State propagatedState = { anInstant, Position::Meters({ propagatedStateVector[0], propagatedStateVector[1], propagatedStateVector[2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedStateVector[3], propagatedStateVector[4], propagatedStateVector[5] }, gcrfSPtr) } ;
     satelliteDynamics_.setState(propagatedState) ;
@@ -283,6 +280,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     }
 
     Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
+
     // TODO go through and add reserve words
 
     // Iterate through sortedInstantArray and cachedStateArray
@@ -292,10 +290,13 @@ Array<State>                    Propagated::calculateStatesAt               (   
         // For each desired instant, check where the closest cachedState is
         Array<Duration> cachedStatesDistanceFromInstantArray = Array<Duration>::Empty() ;
         Array<double> cachedStatesDistanceFromInstantArrayAbs = Array<double>::Empty() ;
+
         for (size_t j = 0; j < cachedStateArray_.getSize(); j++)
         {
+
             cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
             cachedStatesDistanceFromInstantArrayAbs.add(std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds())) ;
+
         }
 
         // Find min value of cachedStatesDistanceFromInstantArray
@@ -313,25 +314,26 @@ Array<State>                    Propagated::calculateStatesAt               (   
     // Loop through nearestCachedStatePairs to group instants with duplicate corresponding cached states together
     for (const auto& nearestcachedStatePair : nearestCachedStatePairs)
     {
+
         if (duplicateCounterPairs.empty() || duplicateCounterPairs.back().first != nearestcachedStatePair.first)
         {
-                duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1));
+            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1));
         }
+
         else
         {
                 duplicateCounterPairs.back().second++;
         }
 
-        // std::cout << "nearestCachedStatePairs first: " << nearestcachedStatePair.first << std::endl ;
-        // std::cout << "nearestCachedStatePairs second: " << nearestcachedStatePair.second << std::endl ;
     }
 
-    // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, can execute that propagation
+    // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, we can execute that propagation
     Array<State> sortedStateArray = Array<State>::Empty() ;
-
     size_t anInstantArrayIndexCount = 0 ;
+
     for (const auto& duplicateCounterPair : duplicateCounterPairs)
     {
+
         // Find starting state for each instant array of desired instants
         const State startState = cachedStateArray_[duplicateCounterPair.first] ;
         const Instant startInstant = startState.getInstant() ;
@@ -350,6 +352,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
         for (int i = 0; i < duplicateCounterPair.second; i++)
         {
+
             Duration nearestCachedStatePropDuration = nearestCachedStatePairs[anInstantArrayIndexCount].second ;
 
             // Duration is positive or zero put into desiredPositiveInstantArray and if negative put into desiredNegativeInstantArray
@@ -357,21 +360,20 @@ Array<State>                    Propagated::calculateStatesAt               (   
             {
                 desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
             }
+
             else
             {
                 desiredNegativeInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
             }
 
             anInstantArrayIndexCount++ ;
+
         }
-
-
-        // std::cout << "desiredNegativeInstantArray length:" << desiredNegativeInstantArray.getSize() << std::endl ;
-        // std::cout << "desiredPositiveInstantArray length:" << desiredPositiveInstantArray.getSize() << std::endl ;
 
         // Execute propagation in reverse time
         if (!desiredNegativeInstantArray.empty())
         {
+
             // Reverse direction of desiredNegativeInstantArray so that integrate_times can integrate it in negative time and reverse chronological order
             std::reverse(desiredNegativeInstantArray.begin(), desiredNegativeInstantArray.end()) ;
 
@@ -379,36 +381,41 @@ Array<State>                    Propagated::calculateStatesAt               (   
             Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredNegativeInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray by looping backwards through
-            for (int k = desiredNegativeInstantArray.getSize() - 1; k >= 0 ; k--)
+            for (size_t k = desiredNegativeInstantArray.getSize() - 1 ; k >= 0 ; k--)
             {
+
                 const State propagatedNegativeState = { desiredNegativeInstantArray[k], Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedNegativeState << std::endl ;
                 satelliteDynamics_.setState(propagatedNegativeState) ;
 
                 // Add propagatedNegativeState to sorted StateArray for propagation
                 sortedStateArray.add(propagatedNegativeState) ;
+
             }
+
         }
+
         // Execute propagation in forwards time
         if (!desiredPositiveInstantArray.empty())
         {
+
             // Call numerical solver to perform propagation
             Array<SatelliteDynamics::StateVector> propagatedPositiveStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredPositiveInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray
             for (size_t k = 0; k < desiredPositiveInstantArray.getSize(); k++)
             {
+
                 const State propagatedPositiveState = { desiredPositiveInstantArray[k], Position::Meters({ propagatedPositiveStateVectorArray[k][0], propagatedPositiveStateVectorArray[k][1], propagatedPositiveStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedPositiveStateVectorArray[k][3], propagatedPositiveStateVectorArray[k][4], propagatedPositiveStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedPositiveState << std::endl ;
+
                 satelliteDynamics_.setState(propagatedPositiveState) ;
 
-                // Add propagatedPositiveState to sorted StateArray for propagation
-                sortedStateArray.add(propagatedPositiveState) ;
+                sortedStateArray.add(propagatedPositiveState) ;  // Add propagatedPositiveState to sorted StateArray for propagation
+
             }
+
         }
 
     }
-
-    // std::cout << "sortedStateArray size:" << sortedStateArray.getSize() << std::endl ;
-    // std::cout << "anInstantArray size:" << anInstantArray.getSize() << std::endl ;
 
     // Desort the sorted state array to return it to user as was requested
     Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
@@ -449,18 +456,16 @@ Integer                         Propagated::calculateRevolutionNumberAt     (   
     }
 
     const double gravitationalParameter_SI = 3.986004418e14 ; // [TBI] will find a way to incorporate the real graviational parameter from the shared celestial object pointer later
-    // const double mu_SI = ((environment_.accessCelestialObjectWithName("Earth"))->getGravitationalParameter()).in(GravitationalParameterSIUnit) ;
 
-    // Get state related parameters
     Position currentPosition = cachedStateArray_[0].getPosition();
     Velocity currentVelocity = cachedStateArray_[0].getVelocity();
 
     Vector3d currentPositionCoords = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     Vector3d currentVelocityCoords = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    const Real semiMajorAxis = - gravitationalParameter_SI * currentPositionCoords.norm() / (currentPositionCoords.norm() * std::pow(currentVelocityCoords.norm(),2) - 2.0 * gravitationalParameter_SI);
+    const Real semiMajorAxis = - gravitationalParameter_SI * currentPositionCoords.norm() / (currentPositionCoords.norm() * std::pow(currentVelocityCoords.norm(), 2) - 2.0 * gravitationalParameter_SI);
 
-    const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis,3) / gravitationalParameter_SI)) ;
+    const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI)) ;
 
     const Duration durationFromEpoch = Duration::Between(cachedStateArray_[0].getInstant(), anInstant) ;
 
@@ -470,12 +475,33 @@ Integer                         Propagated::calculateRevolutionNumberAt     (   
 
 const Array<State>&             Propagated::accessCachedStateArray          ( ) const
 {
+
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
     return cachedStateArray_ ;
+
+}
+
+void                            Propagated::print                           (       std::ostream&                   anOutputStream,
+                                                                                    bool                            displayDecorator                            ) const
+{
+
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void () ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array") ;
+    [&] (const Array<State>&) -> void { for(State iterState:cachedStateArray_) {iterState.print(anOutputStream, false) ;} ; } ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Satellite Dynamics") ;
+    satelliteDynamics_.print(anOutputStream, false) ;
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Numerical Solver") ;
+    numericalSolver_.print(anOutputStream, false) ;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -498,17 +524,20 @@ bool                            Propagated::operator !=                     (   
 
 void                            Propagated::sortStateArray                  ( )
 {
-    // Check if array is sorted, and if not then sort it
-    if (cachedStateArray_.isEmpty())
+
+    if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Cached State Array") ;
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
+
     else if (cachedStateArray_.getSize() == 1)
     {
         satelliteDynamics_.setState(cachedStateArray_[0]) ;
     }
+
     else
     {
+
         // Add state contained in satellite dynamics to the end of the array
         cachedStateArray_.add(satelliteDynamics_.getState()) ;
 
@@ -517,7 +546,7 @@ void                            Propagated::sortStateArray                  ( )
 
         cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end()) ;
 
-        // Check to see if there are any duplicate instants with different positions and velocities
+        // Check to see if there are any duplicated instants with different positions and velocities
         Array<State> cachedStateArrayUnique(cachedStateArray_) ;
         cachedStateArrayUnique.erase(std::unique(cachedStateArrayUnique.begin(), cachedStateArrayUnique.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() == rhs.getInstant() ; }), cachedStateArrayUnique.end() ) ;
 
@@ -527,6 +556,7 @@ void                            Propagated::sortStateArray                  ( )
         }
 
     }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
