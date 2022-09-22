@@ -47,6 +47,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 arg("model"),
                 arg("celestial_object")
             )
+
             .def
             (
                 init<const Array<State>&, const Integer&, const Shared<const Celestial>&>(),
@@ -83,6 +84,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 "undefined",
                 &Orbit::Undefined
             )
+
             .def_static
             (
                 "circular",
@@ -92,6 +94,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 arg("inclination"),
                 arg("celestial_object")
             )
+
             .def_static
             (
                 "equatorial",
@@ -101,6 +104,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 arg("periapsis_altitude"),
                 arg("celestial_object")
             )
+
             .def_static
             (
                 "circular_equatorial",
@@ -109,6 +113,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 arg("altitude"),
                 arg("celestial_object")
             )
+            
             .def_static
             (
                 "sun_synchronous",

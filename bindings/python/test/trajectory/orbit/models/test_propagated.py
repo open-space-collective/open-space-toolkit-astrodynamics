@@ -79,7 +79,12 @@ def propagated (propagated_default_inputs) -> Propagated:
 ################################################################################################################################################################
 
 class TestPropagated:
-    def test_constructors (self, propagated: Propagated, propagated_default_inputs):
+
+    def test_constructors (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
         assert propagated is not None
         assert isinstance(propagated, Propagated)
@@ -100,25 +105,33 @@ class TestPropagated:
         assert isinstance(propagated_with_state_array, Propagated)
         assert propagated_with_state_array.is_defined()
 
-    def test_comparators (self, propagated: Propagated):
+    def test_comparators (
+        self,
+        propagated: Propagated
+    ):
 
         assert (propagated == propagated) is True
         assert (propagated != propagated) is False
 
-    def test_getters (self, propagated: Propagated, propagated_default_inputs):
+    def test_getters (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
-        # get_epoch
-        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
 
         assert propagated.get_epoch() == state.get_instant()
 
-        # get_revolution_number_at_epoch()
-
         assert propagated.get_revolution_number_at_epoch() == 1
 
-    def test_calculate_state_at (self, propagated: Propagated, propagated_default_inputs):
+    def test_calculate_state_at (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
-        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -129,8 +142,8 @@ class TestPropagated:
 
         assert propagated_state == propagated_state_orbit
 
-        propagated_state_position_ref = np.array([ 9.66277505e+06,  2.06755709e-04, -5.20957785e+00])
-        propagated_state_velocity_ref = np.array([ 3.88382712e+03,  5.27400057e-07, -1.32866852e-02])
+        propagated_state_position_ref = np.array([9.66277505e+06, 2.06755709e-04, -5.20957785e+00])
+        propagated_state_velocity_ref = np.array([3.88382712e+03, 5.27400057e-07, -1.32866852e-02])
 
         propagated_state_position = propagated_state.get_position().get_coordinates()
         propagated_state_velocity = propagated_state.get_velocity().get_coordinates()
@@ -139,9 +152,13 @@ class TestPropagated:
         assert all([round(propagated_state_velocity[i], -9) == round(propagated_state_velocity_ref[i], -9) for i in range(0, len(propagated_state_velocity_ref))])
         assert propagated_state.get_instant() == instant
 
-    def test_calculate_states_at (self, propagated: Propagated, propagated_default_inputs):
+    def test_calculate_states_at (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
-        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -155,9 +172,13 @@ class TestPropagated:
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
 
-    def test_calculate_rev_number_at (self, propagated: Propagated, propagated_default_inputs):
+    def test_calculate_rev_number_at (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
-        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -166,9 +187,15 @@ class TestPropagated:
         assert propagated.calculate_revolution_number_at(instant) == 2
         assert orbit.get_revolution_number_at(instant) == 2
 
-    def test_access_cached_state_array (self, propagated: Propagated, propagated_default_inputs):
+    def test_access_cached_state_array (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
 
-        (satellite_dynamics, numerical_solver, state, environment)  = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
 
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
+
+################################################################################################################################################################

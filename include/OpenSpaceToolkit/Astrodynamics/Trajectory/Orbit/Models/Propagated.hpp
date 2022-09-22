@@ -63,7 +63,7 @@ using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines an orbit model that is calculated using numerical propagation with high fidelity force models.
+/// @brief                      Defines an orbit model that is computed using numerical propagation
 
 class Propagated : public ostk::astro::trajectory::orbit::Model
 {
@@ -125,14 +125,6 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   Propagated&                 aPropagatedModel                            ) ;
 
-        /// @brief              Print propagated
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
-
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
-
         /// @brief              Check if propagated is defined
         ///
         /// @return             True if propagated is defined
@@ -159,7 +151,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
-        /// @brief              Calculate a state at a certain instant, utilizing internal cached state array to propagated shortest amount of time
+        /// @brief              Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time
         /// @brief              Does not have macro-level sorting optimization, should not be used with disorded instant array
         /// @code
         ///                     State state = propagated.calculateStateAt(anInstant) ;
@@ -169,8 +161,8 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        /// @brief              Calculate a state at a certain array of instants, utilizing internal cached state array to propagated shortest amount of time
-        /// @brief              Has macro-level sorting optimization, can use with disorded instant array
+        /// @brief              Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time
+        /// @brief              Has macro-level sorting optimization, can be used with disorded instant array
         /// @code
         ///                     State state = propagated.calculateStateAt(anInstant) ;
         /// @endcode
@@ -179,7 +171,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
 
-        /// @brief              Calculate a revolution number at a certain instant
+        /// @brief              Calculate a revolution number at an instant
         ///
         /// @code
         ///                     Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;
@@ -198,6 +190,14 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @return             Array<State>&
 
         const Array<State>&     accessCachedStateArray                      ( ) const ;
+
+        /// @brief              Print propagated
+        ///
+        /// @param              [in] anOutputStream An output stream
+        /// @param              [in] (optional) displayDecorators If true, display decorators
+
+        virtual void            print                                       (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            =   true ) const override ;
 
     protected:
 
@@ -222,7 +222,6 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         mutable NumericalSolver numericalSolver_ ;
 
         void                    sortStateArray                              ( ) ;
-
 
 } ;
 

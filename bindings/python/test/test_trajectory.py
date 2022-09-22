@@ -72,8 +72,10 @@ def test_trajectory_undefined ():
 
 # def test_trajectory_get_state_at ():
 # [TBI] add actual unit tests
+
 ################################################################################################################################################################
 
 # def test_trajectory_get_states_at ():
 # [TBI] add actual unit tests to test sorting and array lengths, can be done with a propagated object
+
 ################################################################################################################################################################

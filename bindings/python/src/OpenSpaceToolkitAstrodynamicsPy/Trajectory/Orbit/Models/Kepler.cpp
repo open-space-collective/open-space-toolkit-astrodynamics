@@ -45,6 +45,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
                 arg("j4"),
                 arg("perturbation_type")
             )
+
             .def
             (
                 init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
