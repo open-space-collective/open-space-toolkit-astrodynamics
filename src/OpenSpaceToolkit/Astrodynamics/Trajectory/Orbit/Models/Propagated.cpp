@@ -381,7 +381,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
             Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredNegativeInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray by looping backwards through
-            for (size_t k = desiredNegativeInstantArray.getSize() - 1 ; k >= 0 ; k--)
+            for (int k = desiredNegativeInstantArray.getSize() - 1 ; k >= 0 ; k--)
             {
 
                 const State propagatedNegativeState = { desiredNegativeInstantArray[k], Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedNegativeState << std::endl ;
