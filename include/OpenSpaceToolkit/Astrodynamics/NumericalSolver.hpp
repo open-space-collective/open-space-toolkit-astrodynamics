@@ -32,6 +32,7 @@ namespace astro
 using ostk::core::types::Integer ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
+using ostk::core::types::Size ;
 using ostk::core::ctnr::Array ;
 
 using ostk::physics::time::Instant ;

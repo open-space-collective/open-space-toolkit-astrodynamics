@@ -58,7 +58,7 @@ static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
                                     numericalSolver_(aNumericalSolver)
 
 {
-    this->sortStateArray() ;
+    this->sortAndSanitizeStateArray() ;
 }
 
 Propagated*                     Propagated::clone                           ( ) const
@@ -155,7 +155,7 @@ State                           Propagated::calculateStateAt                (   
 
         absoluteDurationDifferenceArray.reserve(cachedStateArray_.getSize()) ;
 
-        for(size_t i = 0 ; i < cachedStateArray_.getSize() ; i++) // Find the indices and duration differences of the two closest state instants in the cache
+        for(Size i = 0 ; i < cachedStateArray_.getSize() ; i++) // Find the indices and duration differences of the two closest state instants in the cache
         {
 
             if (cachedStateArray_[i].getInstant() == anInstant)
@@ -205,7 +205,7 @@ State                           Propagated::calculateStateAt                (   
 
         propagationDuration = anInstant - cachedStateArray_.accessLast().getInstant() ;
         startState = cachedStateArray_.accessLast() ;
-        absoluteDurationDifferenceArray.mergeWith(Array((size_t)cachedStateArray_.getSize(),Duration::Seconds(1.0))) ;
+        absoluteDurationDifferenceArray.mergeWith(Array((Size)cachedStateArray_.getSize(),Duration::Seconds(1.0))) ;
         propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize() ; // Insert at end of state array
 
     }
@@ -259,10 +259,10 @@ Array<State>                    Propagated::calculateStatesAt               (   
         return Array<State>::Empty() ;
     }
 
-    Array<Pair<Instant, size_t>> instantArrayPairs = Array<Pair<Instant, size_t>>::Empty() ;
+    Array<Pair<Instant, Size>> instantArrayPairs = Array<Pair<Instant, Size>>::Empty() ;
     instantArrayPairs.reserve(anInstantArray.getSize()) ;
 
-    for (size_t i = 0 ; i < anInstantArray.getSize() ; i++)
+    for (Size i = 0 ; i < anInstantArray.getSize() ; i++)
     {
         instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i)) ;
     }
@@ -274,24 +274,25 @@ Array<State>                    Propagated::calculateStatesAt               (   
     Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
     sortedInstantArray.reserve(anInstantArray.getSize()) ;
 
-    for (size_t j = 0 ; j < anInstantArray.getSize() ; j++)
+    for (Size j = 0 ; j < anInstantArray.getSize() ; j++)
     {
         sortedInstantArray.push_back(instantArrayPairs[j].first) ;
     }
 
     Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
-
-    // TODO go through and add reserve words
+    nearestCachedStatePairs.reserve(sortedInstantArray.getSize()) ;
 
     // Iterate through sortedInstantArray and cachedStateArray
-    for (size_t i = 0; i < sortedInstantArray.getSize(); i++)
+    for (Size i = 0; i < sortedInstantArray.getSize(); i++)
     {
 
         // For each desired instant, check where the closest cachedState is
         Array<Duration> cachedStatesDistanceFromInstantArray = Array<Duration>::Empty() ;
+        cachedStatesDistanceFromInstantArray.reserve(cachedStateArray_.getSize()) ;
         Array<double> cachedStatesDistanceFromInstantArrayAbs = Array<double>::Empty() ;
+        cachedStatesDistanceFromInstantArrayAbs.reserve(cachedStateArray_.getSize()) ;
 
-        for (size_t j = 0; j < cachedStateArray_.getSize(); j++)
+        for (Size j = 0; j < cachedStateArray_.getSize(); j++)
         {
 
             cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
@@ -329,7 +330,8 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
     // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, we can execute that propagation
     Array<State> sortedStateArray = Array<State>::Empty() ;
-    size_t anInstantArrayIndexCount = 0 ;
+    sortedStateArray.reserve(sortedInstantArray.getSize()) ;
+    Size anInstantArrayIndexCount = 0 ;
 
     for (const auto& duplicateCounterPair : duplicateCounterPairs)
     {
@@ -348,7 +350,9 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
         // Obtain array of desired instants around startState by looking through duplicateCounterPair, segregate by positive and negative propagation durations
         Array<Instant> desiredPositiveInstantArray = Array<Instant>::Empty() ;
+        desiredPositiveInstantArray.reserve(duplicateCounterPair.second) ;
         Array<Instant> desiredNegativeInstantArray = Array<Instant>::Empty() ;
+        desiredNegativeInstantArray.reserve(duplicateCounterPair.second) ;
 
         for (int i = 0; i < duplicateCounterPair.second; i++)
         {
@@ -402,7 +406,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
             Array<SatelliteDynamics::StateVector> propagatedPositiveStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredPositiveInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray
-            for (size_t k = 0; k < desiredPositiveInstantArray.getSize(); k++)
+            for (Size k = 0; k < desiredPositiveInstantArray.getSize(); k++)
             {
 
                 const State propagatedPositiveState = { desiredPositiveInstantArray[k], Position::Meters({ propagatedPositiveStateVectorArray[k][0], propagatedPositiveStateVectorArray[k][1], propagatedPositiveStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedPositiveStateVectorArray[k][3], propagatedPositiveStateVectorArray[k][4], propagatedPositiveStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedPositiveState << std::endl ;
@@ -420,7 +424,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     // Desort the sorted state array to return it to user as was requested
     Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
 
-    for (size_t k = 0 ; k < anInstantArray.getSize() ; k++)
+    for (Size k = 0 ; k < anInstantArray.getSize() ; k++)
     {
         unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k] ;
     }
@@ -522,7 +526,7 @@ bool                            Propagated::operator !=                     (   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            Propagated::sortStateArray                  ( )
+void                            Propagated::sortAndSanitizeStateArray                  ( )
 {
 
     if (!this->isDefined())

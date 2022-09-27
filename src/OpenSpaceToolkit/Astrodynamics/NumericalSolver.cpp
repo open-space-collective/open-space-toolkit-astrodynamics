@@ -385,7 +385,7 @@ void                            NumericalSolver::NumericalIntegrationObserver ( 
             std::cout.precision(10) ;
             std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
 
-            for (size_t i = 0; i < x.size(); i++)
+            for (Size i = 0; i < x.size(); i++)
             {
                 std::cout << std::internal << std::setw(16) << x[i] << "     " ;
             }

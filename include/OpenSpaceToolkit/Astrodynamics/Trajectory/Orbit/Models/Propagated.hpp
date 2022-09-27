@@ -221,7 +221,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         mutable SatelliteDynamics satelliteDynamics_ ;
         mutable NumericalSolver numericalSolver_ ;
 
-        void                    sortStateArray                              ( ) ;
+        void                    sortAndSanitizeStateArray                   ( ) ;
 
 } ;
 
