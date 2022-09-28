@@ -179,28 +179,20 @@ void                            SatelliteDynamics::DynamicalEquations       (   
     // Access all objects in the environment and loop through them
     for (const auto& objectName : environment_.getObjectNames())
     {
-        if (objectName == "Earth")
+        if (objectName != "Earth")
         {
-            // Obtain gravitational acceleration from current object
-            const Vector gravitationalAcceleration = environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition) ;
+            // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
+            const Vector gravitationalAcceleration3rdBodyCorrection = environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr_)) ;
 
-            // Add object's gravity to total gravitational acceleration
-            totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue() ;
+            // Subtract 3rd body correct from total gravitational acceleration
+            totalGravitationalAcceleration_SI -= gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, currentInstant).getValue() ;
         }
-        else
-        {
-            const double mu_ThirdBody_SI = environment_.accessCelestialObjectWithName(objectName)->getGravitationalParameter().in(GravitationalParameterSIUnit) ;
 
-            // Obtain 3rd body position vector relative to Earth
-            const Vector3d thirdBodyPositionCoordinates = environment_.accessCelestialObjectWithName(objectName)->getPositionIn(gcrfSPtr_).accessCoordinates() ;
-            const double thirdBodyPositionMagnitudeCubed = std::pow(thirdBodyPositionCoordinates.norm(), 3) ;
+        // Obtain gravitational acceleration from current object
+        const Vector gravitationalAcceleration = environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition) ;
 
-            // Obtain satellite position vector relative to 3rd body
-            const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - currentPosition.accessCoordinates() ;
-            const double relativePositionMagnitudeCubed = std::pow(relativePositionCoordinates.norm(), 3) ;
-
-            totalGravitationalAcceleration_SI += mu_ThirdBody_SI * ( (relativePositionCoordinates / relativePositionMagnitudeCubed) - (thirdBodyPositionCoordinates / thirdBodyPositionMagnitudeCubed) ) ;
-        }
+        // Add object's gravity to total gravitational acceleration
+        totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue() ;
     }
 
     // Integrate position and velocity states
