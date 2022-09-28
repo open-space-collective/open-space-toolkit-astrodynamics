@@ -431,10 +431,9 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
     // Add newly propagated states to the cachedStateArray and then resort
     cachedStateArray_.add(sortedStateArray) ;
-    std::sort(cachedStateArray_.begin(), cachedStateArray_.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
 
-    // Remove duplicate states from sortedStateArray in case any were recently added during this run of desired instants
-    cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end()) ;
+    // Re-sort and sanitize cachedStateArray of duplicates and duplicate instants that have different positions/velocities
+    this->sortAndSanitizeStateArray() ;
 
     return unsortedStateArray ;
 
@@ -526,7 +525,7 @@ bool                            Propagated::operator !=                     (   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            Propagated::sortAndSanitizeStateArray                  ( )
+void                            Propagated::sortAndSanitizeStateArray                  ( ) const
 {
 
     if (!this->isDefined())
@@ -556,7 +555,7 @@ void                            Propagated::sortAndSanitizeStateArray           
 
         if (cachedStateArray_.getSize() != cachedStateArrayUnique.getSize())
         {
-            throw ostk::core::error::runtime::Wrong("State array with States at same instant but different coordinates supplied") ;
+            throw ostk::core::error::runtime::Wrong("State array with States at same instant but different position/velocity were found in cachedStateArray") ;
         }
 
     }
