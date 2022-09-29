@@ -2185,7 +2185,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
     }
 
-    // EGM96 perturbation only
+    // EGM96 360x360 perturbation only
     {
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
@@ -2264,6 +2264,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         }
 
     }
+
+    // EGM96 180x180 perturbation only
+
 
     // Moon perturbation only
 
