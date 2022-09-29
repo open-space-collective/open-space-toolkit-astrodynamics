@@ -108,7 +108,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_0 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         EXPECT_NO_THROW(Propagated( satelliteDynamics , numericalSolver )) ;
@@ -140,7 +140,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_0 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -214,14 +214,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_TRUE(propagatedModel == propagatedModel_x) ;
 
-        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         const Propagated propagatedModel_1 = {satelliteDynamics , numericalSolver_1} ;
         EXPECT_FALSE(propagatedModel == propagatedModel_1) ;
 
@@ -307,14 +307,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqua
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_FALSE(propagatedModel != propagatedModel_x) ;
 
-        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         const Propagated propagatedModel_1 = {satelliteDynamics , numericalSolver_1} ;
         EXPECT_TRUE(propagatedModel != propagatedModel_1) ;
 
@@ -401,7 +401,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefin
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -472,7 +472,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StreamO
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -547,7 +547,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -623,7 +623,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpoc
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -695,7 +695,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRevo
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -771,7 +771,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
@@ -819,7 +819,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -872,7 +872,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -920,7 +920,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -969,7 +969,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -1018,7 +1018,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -1061,7 +1061,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
@@ -1150,7 +1150,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and orbit
             const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
@@ -1210,7 +1210,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and orbit
             const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
@@ -1259,7 +1259,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and orbit
             const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
@@ -1319,7 +1319,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -1390,7 +1390,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -1461,7 +1461,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
@@ -1536,7 +1536,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1 } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
@@ -1613,7 +1613,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0] } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
@@ -1687,7 +1687,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0] } ;
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
             const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
@@ -1787,7 +1787,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
@@ -1883,7 +1883,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -1923,7 +1923,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_4 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -1965,7 +1965,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -2005,7 +2005,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, stateArray} ;
@@ -2044,7 +2044,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1 } ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Check that warning is received
         EXPECT_ANY_THROW(Propagated(satelliteDynamics, numericalSolver, stateArray)) ;
@@ -2135,7 +2135,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2215,7 +2215,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2307,7 +2307,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2346,12 +2346,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         // Results console output
 
-        std::cout << "**************************************" << std::endl;
-        std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        std::cout << "**************************************" << std::endl;
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
 
         }
 
@@ -2445,7 +2445,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Instant startInstant = instantArray[0] ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2600,7 +2600,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2729,7 +2729,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2855,7 +2855,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -2981,7 +2981,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -3033,7 +3033,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison ) // This test cannot be switched to the getStatesAt() paradigm
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
 {
 
     using ostk::core::types::Shared ;
@@ -3107,7 +3107,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
@@ -3126,33 +3126,41 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Orbit orbit_short = { propagatedModel_short, customEnvironment.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_long = { propagatedModel_long, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        // Propagate all states at short interval
+        const Array<State> propagatedStateArray_short = orbit_short.getStatesAt(instantArray) ;
+
+        // Propagate all states at long interval
+        Array<Instant> instantArray_longInterval = Array<Instant>::Empty() ;
+        const size_t indexIncrement = 10 ;
+        for (int i = 0; i < (int)instantArray.getSize(); i += indexIncrement)
         {
+            instantArray_longInterval.add(instantArray[i]) ;
+        }
+        const Array<State> propagatedStateArray_long = orbit_short.getStatesAt(instantArray_longInterval) ;
 
-            // Propagated output generated
-            const State state_short = orbit_short.getStateAt(instantArray[i]) ;
-
+        // Validation loop
+        for (size_t i = 0; i < (size_t)instantArray.getSize(); i++)
+        {
             // Run once every X times
-            if (i%20 == 0)
+            if (i%indexIncrement == 0)
             {
-                const State state_long = orbit_long.getStateAt(instantArray[i]) ;
-
-                // const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
-                // std::cout << "Resulting state in test loop:" << state_GCRF << std::endl ;
-                // std::cout << "Resulting cached state array in test loop:" << cachedStateArray << std::endl ;
 
                 // GCRF Compare
-                const Position position_short = state_short.accessPosition() ;
-                const Velocity velocity_short = state_short.accessVelocity() ;
-                const Position position_long = state_long.accessPosition() ;
-                const Velocity velocity_long = state_long.accessVelocity() ;
+                const Position position_short = propagatedStateArray_short[i].accessPosition() ;
+                const Velocity velocity_short = propagatedStateArray_short[i].accessVelocity() ;
+                const Position position_long = propagatedStateArray_long[i/indexIncrement].accessPosition() ;
+                const Velocity velocity_long = propagatedStateArray_long[i/indexIncrement].accessVelocity() ;
 
                 const double positionError_GCRF = (position_short.accessCoordinates() - position_long.accessCoordinates()).norm() ;
                 const double velocityError_GCRF = (velocity_short.accessCoordinates() - velocity_long.accessCoordinates()).norm() ;
 
-                ASSERT_GT(5e-5, positionError_GCRF) ;
-                ASSERT_GT(5e-8, velocityError_GCRF) ;
+                ASSERT_EQ(*Frame::GCRF(), *position_short.accessFrame()) ;
+                ASSERT_EQ(*Frame::GCRF(), *velocity_short.accessFrame()) ;
+                ASSERT_EQ(*Frame::GCRF(), *position_long.accessFrame()) ;
+                ASSERT_EQ(*Frame::GCRF(), *velocity_long.accessFrame()) ;
+
+                ASSERT_GT(1.0e-30, positionError_GCRF) ;
+                ASSERT_GT(1.0e-30, velocityError_GCRF) ;
 
                 // Results console output
 
@@ -3163,7 +3171,6 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
                 // std::cout.setf(std::ios::fixed,std::ios::floatfield);
                 // std::cout << "**************************************" << std::endl;
             }
-
         }
 
     }
