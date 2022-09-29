@@ -2060,7 +2060,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
 /* Force model validation tests */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_CSV_Table_GMAT ) // This includes two body, EGM96
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody )
 {
 
     using ostk::core::types::Shared ;
@@ -2105,13 +2105,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
 
-    // Two body only
+    // Two body vs GMAT
     {
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
 
         // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_1hr_60sInterval_run.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_2hr_run.csv")), Table::Format::CSV, true) ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
@@ -2168,8 +2168,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
 
-            ASSERT_GT(6e-2, positionError_GCRF) ;
-            ASSERT_GT(6e-5, velocityError_GCRF) ;
+            ASSERT_GT(2e-3, positionError_GCRF) ;
+            ASSERT_GT(2e-6, velocityError_GCRF) ;
 
 
         // Results console output
@@ -2185,234 +2185,11 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
     }
 
-    // EGM96 360x360 perturbation only
-    {
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
-
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_EGM96_1hr_120sInterval_run.csv")), Table::Format::CSV, true) ;
-
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
-        {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
-        }
-
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
-
-        const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Propagate all states
-        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
-
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
-        {
-
-            // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
-
-            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
-            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
-
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
-
-            ASSERT_GT(5e-2, positionError_GCRF) ;
-            ASSERT_GT(5e-5, velocityError_GCRF) ;
-
-
-        // Results console output
-
-        // std::cout << "**************************************" << std::endl;
-        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
-
-        }
-
-    }
-
-    // EGM96 180x180 perturbation only
-
-
-    // Moon perturbation only
-
-    // Sun perturbation only
-
-    // Moon+Sun perturbation only
-    {
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
-
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_MoonSun_1hr_100sInterval_run.csv")), Table::Format::CSV, true) ;
-
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
-        {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
-        }
-
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects =
-        {
-            std::make_shared<Earth>(Earth::Spherical()),
-            std::make_shared<Moon>(Moon::Spherical()),
-            std::make_shared<Sun>(Sun::Spherical())
-        } ;
-
-        const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Propagate all states
-        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
-
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
-        {
-
-            // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
-
-            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
-            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
-
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
-
-            ASSERT_GT(6e-2, positionError_GCRF) ;
-            ASSERT_GT(6e-5, velocityError_GCRF) ;
-
-
-        // Results console output
-
-        // std::cout << "**************************************" << std::endl;
-        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
-
-        }
-
-    }
-
-    // EGM96 + Moon+Sun perturbations
-
-    // Repeat this test for all force models and combinations of them
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_CSV_Table_STK ) // This includes two body, EGM2008
-{
-
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
-    using ostk::core::types::String ;
-    using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
-    using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::geom::d3::objects::Point ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::celest::Sun ;
-    using ostk::physics::env::obj::celest::Moon ;
-    using ostk::physics::env::obj::Celestial ;
-    using ostk::physics::env::Object ;
-
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
-    using ostk::astro::NumericalSolver ;
-
-    using ostk::astro::trajectory::orbit::models::Propagated ;
-
-    // Two body only
+   // Two body vs STK
     {
 
         // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/STK_TwoBodyGravity_1hr_60sInterval_run.csv")), Table::Format::CSV, true) ;
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/STK_TwoBody_2hr_run.csv")), Table::Format::CSV, true) ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
@@ -2515,17 +2292,662 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
     }
 
-    // EGM2008 perturbation only
+}
 
-    // EGM84 perturbation only
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96 )
+{
 
-    // WGS84 perturbation only
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
 
-    // Repeat this test for all force models and combinations of them
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+
+    // EGM96 360x360 perturbation only vs GMAT
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_EGM96_360x360_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
+
+                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96(360, 360)) } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
+        // Validation loop
+        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        {
+
+            // GCRF Compare
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
+            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
+
+            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+            ASSERT_GT(9e-2, positionError_GCRF) ;
+            ASSERT_GT(9e-5, velocityError_GCRF) ;
+
+
+        // Results console output
+
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
+
+    // EGM96 180x180, 90x90, 45x45 perturbation only self comparison
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_EGM96_360x360_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
+
+                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects_360 = { std::make_shared<Earth>(Earth::EGM96(360, 360)) } ;
+        const Array<Shared<Object>> objects_180 = { std::make_shared<Earth>(Earth::EGM96(180, 180)) } ;
+        const Array<Shared<Object>> objects_90 = { std::make_shared<Earth>(Earth::EGM96(90, 90)) } ;
+        const Array<Shared<Object>> objects_45 = { std::make_shared<Earth>(Earth::EGM96(45, 45)) } ;
+
+        const Environment customEnvironment_360 = Environment(instantJ2000, objects_360) ;
+        const Environment customEnvironment_180 = Environment(instantJ2000, objects_180) ;
+        const Environment customEnvironment_90 = Environment(instantJ2000, objects_90) ;
+        const Environment customEnvironment_45 = Environment(instantJ2000, objects_45) ;
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics_360 = { customEnvironment_360, satelliteSystem, state } ;
+        SatelliteDynamics satelliteDynamics_180 = { customEnvironment_180, satelliteSystem, state } ;
+        SatelliteDynamics satelliteDynamics_90 = { customEnvironment_90, satelliteSystem, state } ;
+        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel_360 = {satelliteDynamics_360 , numericalSolver} ;
+        const Propagated propagatedModel_180 = {satelliteDynamics_180 , numericalSolver} ;
+        const Propagated propagatedModel_90 = {satelliteDynamics_90 , numericalSolver} ;
+        const Propagated propagatedModel_45 = {satelliteDynamics_45 , numericalSolver} ;
+
+        const Orbit orbit_360 = { propagatedModel_360, customEnvironment_360.accessCelestialObjectWithName("Earth") } ;
+        const Orbit orbit_180 = { propagatedModel_180, customEnvironment_180.accessCelestialObjectWithName("Earth") } ;
+        const Orbit orbit_90 = { propagatedModel_90, customEnvironment_90.accessCelestialObjectWithName("Earth") } ;
+        const Orbit orbit_45 = { propagatedModel_45, customEnvironment_45.accessCelestialObjectWithName("Earth") } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray_360 = orbit_360.getStatesAt(instantArray) ;
+        const Array<State> propagatedStateArray_180 = orbit_180.getStatesAt(instantArray) ;
+        const Array<State> propagatedStateArray_90 = orbit_90.getStatesAt(instantArray) ;
+        const Array<State> propagatedStateArray_45 = orbit_45.getStatesAt(instantArray) ;
+
+        // Validation loop
+        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        {
+
+            // GCRF Compare
+            const Position position_GCRF_360 = propagatedStateArray_360[i].accessPosition() ;
+            const Velocity velocity_GCRF_360 = propagatedStateArray_360[i].accessVelocity() ;
+            const Position position_GCRF_180 = propagatedStateArray_180[i].accessPosition() ;
+            const Velocity velocity_GCRF_180 = propagatedStateArray_180[i].accessVelocity() ;
+            const Position position_GCRF_90 = propagatedStateArray_90[i].accessPosition() ;
+            const Velocity velocity_GCRF_90 = propagatedStateArray_90[i].accessVelocity() ;
+            const Position position_GCRF_45 = propagatedStateArray_45[i].accessPosition() ;
+            const Velocity velocity_GCRF_45 = propagatedStateArray_45[i].accessVelocity() ;
+
+            // 360 vs 180
+            const double positionError_GCRF_360_180 = (position_GCRF_360.accessCoordinates() - position_GCRF_180.accessCoordinates()).norm() ;
+            const double velocityError_GCRF_360_180 = (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_180.accessCoordinates()).norm() ;
+            ASSERT_GT(9e-7, positionError_GCRF_360_180) ;
+            ASSERT_GT(9e-10, velocityError_GCRF_360_180) ;
+
+            // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "360 vs 180 Position error is: " << positionError_GCRF_360_180 << "m" << std::endl;
+            // std::cout << "360 vs 180 Velocity error is: " << velocityError_GCRF_360_180 <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+
+
+            // 360 vs 90
+            const double positionError_GCRF_360_90 = (position_GCRF_360.accessCoordinates() - position_GCRF_90.accessCoordinates()).norm() ;
+            const double velocityError_GCRF_360_90 = (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_90.accessCoordinates()).norm() ;
+            ASSERT_GT(7e-3, positionError_GCRF_360_90) ;
+            ASSERT_GT(7e-6, velocityError_GCRF_360_90) ;
+
+            // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "360 vs 90 Position error is: " << positionError_GCRF_360_90 << "m" << std::endl;
+            // std::cout << "360 vs 90 Velocity error is: " << velocityError_GCRF_360_90 <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+
+
+            // 360 vs 45
+            const double positionError_GCRF_360_45 = (position_GCRF_360.accessCoordinates() - position_GCRF_45.accessCoordinates()).norm() ;
+            const double velocityError_GCRF_360_45 = (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_45.accessCoordinates()).norm() ;
+            ASSERT_GT(5e-1, positionError_GCRF_360_45) ;
+            ASSERT_GT(5e-4, velocityError_GCRF_360_45) ;
+
+            // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "360 vs 45 Position error is: " << positionError_GCRF_360_45 << "m" << std::endl;
+            // std::cout << "360 vs 45 Velocity error is: " << velocityError_GCRF_360_45 <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_ExtendedDuration_GMAT )
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun_Moon )
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Sun+Moon perturbation only vs GMAT
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_Sun_Moon_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
+
+                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects =
+        {
+            std::make_shared<Earth>(Earth::Spherical()),
+            std::make_shared<Moon>(Moon::Spherical()),
+            std::make_shared<Sun>(Sun::Spherical())
+        } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
+        // Validation loop
+        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        {
+
+            // GCRF Compare
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
+            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
+
+            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+            ASSERT_GT(2e-3, positionError_GCRF) ;
+            ASSERT_GT(2e-6, velocityError_GCRF) ;
+
+
+        // Results console output
+
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun )
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Sun perturbation only vs GMAT
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_Sun_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
+
+                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects =
+        {
+            std::make_shared<Earth>(Earth::Spherical()),
+            std::make_shared<Sun>(Sun::Spherical())
+        } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
+        // Validation loop
+        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        {
+
+            // GCRF Compare
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
+            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
+
+            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+            ASSERT_GT(2e-3, positionError_GCRF) ;
+            ASSERT_GT(2e-6, velocityError_GCRF) ;
+
+
+        // Results console output
+
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Moon )
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Moon perturbation only vs GMAT
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_Moon_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
+
+                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects =
+        {
+            std::make_shared<Earth>(Earth::Spherical()),
+            std::make_shared<Moon>(Moon::Spherical())
+        } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
+
+        // Validation loop
+        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        {
+
+            // GCRF Compare
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
+            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
+
+            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+            ASSERT_GT(2e-3, positionError_GCRF) ;
+            ASSERT_GT(2e-6, velocityError_GCRF) ;
+
+
+        // Results console output
+
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
+
+}
+
+TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_ExtendedDuration_GMAT ) // These tests take a long time and are for local testing only (not to be run on every push to git)
 {
 
     using ostk::core::types::Shared ;
@@ -2652,386 +3074,8 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 
 }
 
-/* Propagation Interval validation tests */
+/* Propagation Interval validation test */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_ShortInterval )
-{
-
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
-    using ostk::core::types::String ;
-    using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
-    using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::geom::d3::objects::Point ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::celest::Sun ;
-    using ostk::physics::env::obj::celest::Moon ;
-    using ostk::physics::env::obj::Celestial ;
-    using ostk::physics::env::Object ;
-
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
-    using ostk::astro::NumericalSolver ;
-
-    using ostk::astro::trajectory::orbit::models::Propagated ;
-
-    {
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
-
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_1hr_60sInterval_run.csv")), Table::Format::CSV, true) ;
-
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
-        {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
-        }
-
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
-
-        const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Propagate all states
-        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
-
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
-        {
-
-            // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
-
-            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
-            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
-
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
-
-            ASSERT_GT(1e-1, positionError_GCRF) ;
-            ASSERT_GT(1e-4, velocityError_GCRF) ;
-
-
-        // Results console output
-
-        // std::cout << "**************************************" << std::endl;
-        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
-
-        }
-
-    }
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_MediumInterval )
-{
-
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
-    using ostk::core::types::String ;
-    using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
-    using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::geom::d3::objects::Point ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::celest::Sun ;
-    using ostk::physics::env::obj::celest::Moon ;
-    using ostk::physics::env::obj::Celestial ;
-    using ostk::physics::env::Object ;
-
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
-    using ostk::astro::NumericalSolver ;
-
-    using ostk::astro::trajectory::orbit::models::Propagated ;
-
-    {
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
-
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_1hr_300sInterval_run.csv")), Table::Format::CSV, true) ;
-
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
-        {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
-        }
-
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
-
-        const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Propagate all states
-        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
-
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
-        {
-
-            // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
-
-            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
-            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
-
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
-
-            ASSERT_GT(5e-3, positionError_GCRF) ;
-            ASSERT_GT(5e-6, velocityError_GCRF) ;
-
-
-        // Results console output
-
-        // std::cout << "**************************************" << std::endl;
-        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
-
-        }
-
-    }
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_GMAT_LongInterval )
-{
-
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
-    using ostk::core::types::String ;
-    using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
-    using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::geom::d3::objects::Point ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::celest::Sun ;
-    using ostk::physics::env::obj::celest::Moon ;
-    using ostk::physics::env::obj::Celestial ;
-    using ostk::physics::env::Object ;
-
-    using ostk::astro::trajectory::Orbit ;
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
-    using ostk::astro::NumericalSolver ;
-
-    using ostk::astro::trajectory::orbit::models::Propagated ;
-
-    {
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
-
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_1hr_600sInterval_run.csv")), Table::Format::CSV, true) ;
-
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
-        {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
-        }
-
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000() ;
-        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
-
-        const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Construct default numerical solver
-        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-
-        // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
-
-        // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
-
-        // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
-
-        // Propagate all states
-        const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
-
-        // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
-        {
-
-            // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
-
-            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
-            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
-
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
-
-            ASSERT_GT(2e-3, positionError_GCRF) ;
-            ASSERT_GT(2e-6, velocityError_GCRF) ;
-
-
-        // Results console output
-
-        // std::cout << "**************************************" << std::endl;
-        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
-
-        }
-
-    }
-
-}
 
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
 {
@@ -3082,21 +3126,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
 
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_24hr_30sInterval_run.csv")), Table::Format::CSV, true) ;
+        const size_t propagationSpanHours = 24 ;
+        const size_t propagationIntervalSeconds = 30 ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
+        for (size_t i = 0; i < (propagationSpanHours * 3600) / propagationIntervalSeconds; i += propagationIntervalSeconds)
         {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
+            instantArray.add(startInstant + Duration::Seconds(i)) ;
         }
 
         // Create environment
@@ -3110,7 +3146,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+        const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) } ;
 
         // Satellite system setup
         const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
@@ -3177,7 +3213,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-/* Stepper validation tests */
+/* Stepper validation test */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_StepperTypeSelfComparison )
@@ -3229,21 +3265,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
 
-        // Reference data setup
-        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBodyGravity_1hr_30sInterval_run.csv")), Table::Format::CSV, true) ;
+        const size_t propagationSpanHours = 24 ;
+        const size_t propagationIntervalSeconds = 30 ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
-
-        for (const auto& referenceRow : referenceData)
+        for (size_t i = 0; i < (propagationSpanHours * 3600) / propagationIntervalSeconds; i += propagationIntervalSeconds)
         {
-
-                instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal())) ;
-
-                referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()) ) ;
-                referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()) ) ;
-
+            instantArray.add(startInstant + Duration::Seconds(i)) ;
         }
 
         // Create environment
@@ -3258,7 +3286,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const NumericalSolver numericalSolver_78 = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup initial conditions
-        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
+        const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) } ;
 
         // Satellite system setup
         const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
@@ -3308,9 +3336,5 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
     }
 
 }
-
-/* Tests to add */
-// - GMAT vs STK file similarity test
-// - validation tests for other force models: EGM84,96,2008, WGS84 and for truncations of those force models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
