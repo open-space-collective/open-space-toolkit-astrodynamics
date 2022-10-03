@@ -137,112 +137,11 @@ State                           Propagated::calculateStateAt                (   
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    // Logic to determine from which state in the cached state array to propagate to the desired instant
-    State startState = State::Undefined() ;
-    Duration propagationDuration = Duration::Undefined() ;
-    Array<Duration> absoluteDurationDifferenceArray = Array<Duration>::Empty() ;
-    Integer propagatedStateInsertIndex = Integer::Undefined() ;
+    std::cout << "[WARN]  :  Using getStateAt/calculateStateAt is not recommended since it is slower and less accurate than getStatesAt/calculateStatesAt. " << std::endl ;
 
-    // If cached state array has length 1 and the supplied instant is the same as the one in the cache, return the one in the cache
-    if (cachedStateArray_.getSize() == 1 && cachedStateArray_[0].getInstant() == anInstant)
-    {
-        return cachedStateArray_[0] ;
-    }
+    const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant)) ;
 
-    // If instant is within bounds of cached state array, find which state is closest to the instant and propagate forwards/backwards from that one
-    else if ( (anInstant >= cachedStateArray_.accessFirst().getInstant()) && (anInstant <= cachedStateArray_.accessLast().getInstant()) && (cachedStateArray_.getSize() > 1) )
-    {
-
-        absoluteDurationDifferenceArray.reserve(cachedStateArray_.getSize()) ;
-
-        for(Size i = 0 ; i < cachedStateArray_.getSize() ; i++) // Find the indices and duration differences of the two closest state instants in the cache
-        {
-
-            if (cachedStateArray_[i].getInstant() == anInstant)
-            {
-                return cachedStateArray_[i] ;
-            }
-
-            else
-            {
-
-                absoluteDurationDifferenceArray.add(anInstant - cachedStateArray_[i].getInstant()) ;
-
-                if (!absoluteDurationDifferenceArray.accessLast().isPositive())
-                {
-                    break ;
-                }
-
-            }
-
-        }
-
-        // If an instant is closer to the last array element, propagate backwards from that one
-        if (absoluteDurationDifferenceArray.accessLast().getAbsolute().inSeconds() < absoluteDurationDifferenceArray[absoluteDurationDifferenceArray.getSize() - 2].getAbsolute().inSeconds())
-        {
-
-            propagationDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 1].getInstant() ;
-            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 1] ;
-
-        }
-
-        // If an instant is closer to the second last array element, propagate forwards from that one
-        else
-        {
-
-            propagationDuration = anInstant - cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 2].getInstant() ;
-            startState = cachedStateArray_[absoluteDurationDifferenceArray.getSize() - 2] ;
-
-        }
-
-        propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize() - 1 ; // Insert between second to last and last index of absoluteDurationDifferenceArray
-
-    }
-
-    // If instant is past last state in cache, propagate forwards
-    else if (anInstant > cachedStateArray_.accessLast().getInstant())
-    {
-
-        propagationDuration = anInstant - cachedStateArray_.accessLast().getInstant() ;
-        startState = cachedStateArray_.accessLast() ;
-        absoluteDurationDifferenceArray.mergeWith(Array((Size)cachedStateArray_.getSize(),Duration::Seconds(1.0))) ;
-        propagatedStateInsertIndex = absoluteDurationDifferenceArray.getSize() ; // Insert at end of state array
-
-    }
-    // If instant is before first state in cache, propagate backwards
-    else if (anInstant < cachedStateArray_.accessFirst().getInstant())
-    {
-
-        propagationDuration = anInstant - cachedStateArray_.accessFirst().getInstant() ;
-        startState = cachedStateArray_.accessFirst() ;
-        propagatedStateInsertIndex = 0 ; // Insert at beginning of state array
-
-    }
-
-    else
-    {
-        throw ostk::core::error::runtime::Undefined("Propagation Duration") ;
-    }
-
-    // [TBI]: Could potentially implement a way to check to see if enough instants are being requested at too small intervals to warn about outputted accuracy
-
-    SatelliteDynamics::StateVector startStateVector(6) ;
-    const Vector3d startPositionCoordinates = (startState.getPosition()).inUnit(Position::Unit::Meter).accessCoordinates() ;
-    const Vector3d startVelocityCoordinates = (startState.getVelocity()).inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
-
-    startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
-    startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
-
-    // Call numerical solver to perform propagation
-    SatelliteDynamics::StateVector propagatedStateVector = numericalSolver_.integrateStateForDuration(startStateVector, propagationDuration, satelliteDynamics_.getDynamicalEquations()) ;
-
-    const State propagatedState = { anInstant, Position::Meters({ propagatedStateVector[0], propagatedStateVector[1], propagatedStateVector[2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedStateVector[3], propagatedStateVector[4], propagatedStateVector[5] }, gcrfSPtr) } ;
-    satelliteDynamics_.setState(propagatedState) ;
-
-    // Add propagated state to the cache
-    cachedStateArray_.insert(cachedStateArray_.begin() + propagatedStateInsertIndex, propagatedState) ;
-
-    return propagatedState ;
+    return propagatedStateArray[0] ;
 
 }
 
