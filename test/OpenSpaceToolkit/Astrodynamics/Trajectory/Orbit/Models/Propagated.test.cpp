@@ -36,6 +36,8 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
+#include <numeric>
+
 #include <Global.test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3706,6 +3708,143 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
             // std::cout << "**************************************" << std::endl;
 
         }
+
+    }
+
+}
+
+/* Benmarking speed test */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_SpeedTest )
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::Object ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Benchmark the performance of a particular configuration vs TwoBody
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
+
+        const size_t propagationSpanHours = 24*7 ;
+        const size_t propagationIntervalSeconds = 30 ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        for (size_t i = 0; i < (propagationSpanHours * 3600) / propagationIntervalSeconds; i += propagationIntervalSeconds)
+        {
+            instantArray.add(startInstant + Duration::Seconds(i)) ;
+        }
+
+        // Create loop to run timing test multiple times in a row and average them
+        const size_t timingTestSampleSize = 10 ;
+        Array<double> timeArray_default = Array<double>::Empty() ;
+        Array<double> timeArray_tested = Array<double>::Empty() ;
+
+        for (size_t i = 0; i < timingTestSampleSize; i++)
+        {
+            // Create environment
+            const Instant instantJ2000 = Instant::J2000() ;
+            // Two body default
+            const Array<Shared<Object>> objects_default = { std::make_shared<Earth>(Earth::Spherical()) } ;
+            // Environment being compared
+            const Array<Shared<Object>> objects_tested = { std::make_shared<Earth>(Earth::EGM2008(100,100)) } ;
+
+            const Environment customEnvironment_default = Environment(instantJ2000, objects_default) ;
+            const Environment customEnvironment_tested = Environment(instantJ2000, objects_tested) ;
+            const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+            // Construct default numerical solver
+            NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+            // Setup initial conditions
+            const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) } ;
+
+            // Satellite system setup
+            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+            // Satellite dynamics setup
+            SatelliteDynamics satelliteDynamics_default = { customEnvironment_default, satelliteSystem, state } ;
+            SatelliteDynamics satelliteDynamics_tested = { customEnvironment_tested, satelliteSystem, state } ;
+
+            // Setup Propagated model and orbit
+            const Propagated propagatedModel_default = {satelliteDynamics_default , numericalSolver} ;
+            const Propagated propagatedModel_tested = {satelliteDynamics_tested , numericalSolver} ;
+
+            const Orbit orbit_default = { propagatedModel_default, customEnvironment_default.accessCelestialObjectWithName("Earth") } ;
+            const Orbit orbit_tested = { propagatedModel_tested, customEnvironment_tested.accessCelestialObjectWithName("Earth") } ;
+
+
+            // Propagate all default states
+            auto startTimer_default = std::chrono::steady_clock::now();
+            const Array<State> propagatedStateArray_default = orbit_default.getStatesAt(instantArray) ;
+            auto endTimer_default = std::chrono::steady_clock::now();
+
+            auto startTimer_tested = std::chrono::steady_clock::now();
+            const Array<State> propagatedStateArray_tested = orbit_tested.getStatesAt(instantArray) ;
+            auto endTimer_tested = std::chrono::steady_clock::now();
+
+            std::chrono::duration<double> elapsed_seconds_default = endTimer_default-startTimer_default;
+            timeArray_default.add(elapsed_seconds_default.count()) ;
+
+            std::chrono::duration<double> elapsed_seconds_tested = endTimer_tested-startTimer_tested;
+            timeArray_tested.add(elapsed_seconds_tested.count()) ;
+
+        }
+
+        // Remove first and last couple of elements due to timinig inconsitincies
+        timeArray_default.erase(timeArray_default.begin(), timeArray_default.begin() + 2) ;
+        timeArray_default.erase(timeArray_default.end() - 2, timeArray_default.end()) ;
+
+        timeArray_tested.erase(timeArray_tested.begin(), timeArray_tested.begin() + 2) ;
+        timeArray_tested.erase(timeArray_tested.end() - 2, timeArray_tested.end()) ;
+
+        const double timeAverage_default = std::accumulate(timeArray_default.begin(), timeArray_default.end(), 0.0) / timeArray_default.getSize() ;
+        std::cout << "timeAverage_default: " << timeAverage_default << std::endl ;
+        const double timeAverage_tested = std::accumulate(timeArray_tested.begin(), timeArray_tested.end(), 0.0) / timeArray_tested.getSize() ;
+        std::cout << "timeAverage_tested: " << timeAverage_tested << std::endl ;
+
+        std::cout << "Ratio of tested to default is: " << timeAverage_tested / timeAverage_default << std::endl ;
 
     }
 
