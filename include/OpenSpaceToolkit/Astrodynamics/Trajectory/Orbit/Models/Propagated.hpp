@@ -11,17 +11,29 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated__
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -198,6 +210,26 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
+
+        /// @brief              Create a Medium fidelity Propagated object with recommended settings
+        ///
+        /// @code
+        ///                     Propagated propagated = Propagated::MediumFidelity(aState) ;
+        /// @endcode
+        /// @param              [in] aState A State
+        /// @return             Propagated
+
+        static Propagated       MediumFidelity                              (   const   State&                      aState                                      ) ;
+
+        /// @brief              Create a High fidelity Propagated object with recommended settings
+        ///
+        /// @code
+        ///                     Propagated propagated = Propagated::HighFidelity(aState) ;
+        /// @endcode
+        /// @param              [in] aState A State
+        /// @return             Propagated
+
+        static Propagated       HighFidelity                                (   const   State&                      aState                                      ) ;
 
     protected:
 

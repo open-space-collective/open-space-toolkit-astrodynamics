@@ -17,16 +17,22 @@
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
@@ -1829,6 +1835,63 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
 
         // Check that warning is received
         EXPECT_ANY_THROW(Propagated(satelliteDynamics, numericalSolver, stateArray)) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StaticMethods)
+{
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::ctnr::Table ;
+    using ostk::core::fs::Path ;
+    using ostk::core::fs::File ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::Celestial ;
+
+    using ostk::astro::trajectory::Orbit ;
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+    using ostk::astro::NumericalSolver ;
+
+    using ostk::astro::trajectory::orbit::models::Propagated ;
+
+    // Test Propagated object construction through factory method
+    {
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const State state = { instant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+
+        EXPECT_NO_THROW(Propagated::MediumFidelity(state)) ;
+        EXPECT_NO_THROW(Propagated::HighFidelity(state)) ;
+
+        EXPECT_FALSE(Propagated::HighFidelity(state) == Propagated::MediumFidelity(state)) ;
 
     }
 

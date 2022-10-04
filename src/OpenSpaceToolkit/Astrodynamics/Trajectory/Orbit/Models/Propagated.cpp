@@ -338,7 +338,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
 }
 
-// [TBI] add a more exact calculation of the orbital period by checking for when the sat goes above the x-y plane in GCRF
 Integer                         Propagated::calculateRevolutionNumberAt     (   const   Instant&                    anInstant                                   ) const
 {
 
@@ -438,6 +437,86 @@ void                            Propagated::print                           (   
     numericalSolver_.print(anOutputStream, false) ;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
+
+}
+
+Propagated                      Propagated::MediumFidelity                  (   const   State&                      aState                                      )
+{
+
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::Environment ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::env::Object ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+
+    using ostk::astro::flight::system::SatelliteSystem ;
+
+    // Create environment
+    const Array<Shared<Object>> objects = // [TBI] Add drag to environment once it is added in ostk-physics
+    {
+        std::make_shared<Earth>(Earth::EGM2008(35, 35))
+    } ;
+
+    const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+
+    // Satellite system setup
+    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+    // Satellite dynamics setup
+    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, aState } ;
+
+    // Construct default numerical solver
+    const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+    return { satelliteDynamics, numericalSolver } ;
+
+}
+
+Propagated                      Propagated::HighFidelity                    (   const   State&                      aState                                      )
+{
+
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::Environment ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::env::Object ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+
+    using ostk::astro::flight::system::SatelliteSystem ;
+
+    // Create environment
+    const Array<Shared<Object>> objects = // [TBI] Add drag to environment once it is added in ostk-physics
+    {
+        std::make_shared<Earth>(Earth::EGM2008(100, 100)),
+        std::make_shared<Sun>(Sun::Spherical()),
+        std::make_shared<Moon>(Moon::Spherical())
+    } ;
+
+    const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
+
+    // Satellite system setup
+    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+    // Satellite dynamics setup
+    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, aState } ;
+
+    // Construct default numerical solver
+    const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+    return { satelliteDynamics, numericalSolver } ;
 
 }
 

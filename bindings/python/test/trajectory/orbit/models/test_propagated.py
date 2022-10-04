@@ -46,11 +46,11 @@ Propagated = astrodynamics.trajectory.orbit.models.Propagated
 def propagated_default_inputs ():
 
     instant_J2000 = Instant.J2000()
-    objects = [Earth.WGS84()]
+    objects = [Earth.WGS84(20, 0)]
 
     environment = Environment(instant_J2000, objects)
 
-    numericalsolver = NumericalSolver(NumericalSolver.LogType.NoLog, NumericalSolver.StepperType.RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15)
+    numericalsolver = NumericalSolver(NumericalSolver.LogType.NoLog, NumericalSolver.StepperType.RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15)
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
     satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
@@ -182,10 +182,10 @@ class TestPropagated:
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
-        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 1, 40, 0), Scale.UTC)
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC)
 
-        assert propagated.calculate_revolution_number_at(instant) == 2
-        assert orbit.get_revolution_number_at(instant) == 2
+        assert propagated.calculate_revolution_number_at(instant) == 1
+        assert orbit.get_revolution_number_at(instant) == 1
 
     def test_access_cached_state_array (
         self,
@@ -197,5 +197,24 @@ class TestPropagated:
 
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
+
+    def test_static_methods (
+        self,
+        propagated_default_inputs
+    ):
+
+        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+
+        propagated = Propagated.medium_fidelity(state)
+
+        assert propagated is not None
+        assert isinstance(propagated, Propagated)
+        assert propagated.is_defined()
+
+        propagated = Propagated.high_fidelity(state)
+
+        assert propagated is not None
+        assert isinstance(propagated, Propagated)
+        assert propagated.is_defined()
 
 ################################################################################################################################################################
