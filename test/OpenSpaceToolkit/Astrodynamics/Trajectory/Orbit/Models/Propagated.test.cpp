@@ -1461,6 +1461,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
     using ostk::physics::units::Mass ;
     using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
+    using ostk::physics::units::Time ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -1483,7 +1484,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
     using ostk::astro::NumericalSolver ;
 
     using ostk::astro::trajectory::orbit::models::Propagated ;
-    // [TBI] add more stringent Rev Number tests
+
+    // Test basic positive and negative revolution numbers
     {
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
@@ -1519,15 +1521,77 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
         // Check revolution numbers for propagated model
         EXPECT_EQ(1, propagatedModel.calculateRevolutionNumberAt(instant)) ;
-        EXPECT_EQ(-1, propagatedModel.calculateRevolutionNumberAt(instant_before1)) ;
+        EXPECT_EQ(-2, propagatedModel.calculateRevolutionNumberAt(instant_before1)) ;
         EXPECT_EQ(1, propagatedModel.calculateRevolutionNumberAt(instant_after1)) ;
         EXPECT_EQ(2, propagatedModel.calculateRevolutionNumberAt(instant_after2)) ;
 
         // Check revolution numbers for orbit
         EXPECT_EQ(1, orbit.getRevolutionNumberAt(instant)) ;
-        EXPECT_EQ(-1, orbit.getRevolutionNumberAt(instant_before1)) ;
+        EXPECT_EQ(-2, orbit.getRevolutionNumberAt(instant_before1)) ;
         EXPECT_EQ(1, orbit.getRevolutionNumberAt(instant_after1)) ;
         EXPECT_EQ(2, orbit.getRevolutionNumberAt(instant_after2)) ;
+
+    }
+
+    // Test accuracy of calculateRevolutionNumber at by checking that it returns results accurate to the force model it is using
+    {
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Create environment
+        const Array<Shared<Object>> objects_twobody = { std::make_shared<Earth>(Earth::Spherical()) } ;
+        const Array<Shared<Object>> objects_fullgrav = { std::make_shared<Earth>(Earth::EGM2008(70,70)) } ;
+
+        const Environment customEnvironment_twobody = Environment(Instant::J2000(), objects_twobody) ;
+        const Environment customEnvironment_fullgrav = Environment(Instant::J2000(), objects_fullgrav) ;
+
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC) ;
+
+        const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
+
+        // Satellite system setup
+        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics_twobody = { customEnvironment_twobody, satelliteSystem, state } ;
+        SatelliteDynamics satelliteDynamics_fullgrav = { customEnvironment_fullgrav, satelliteSystem, state } ;
+
+        // Construct default numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup Propagated model and orbit
+        const Propagated propagatedModel_twobody = {satelliteDynamics_twobody, numericalSolver} ;
+        const Propagated propagatedModel_fullgrav = {satelliteDynamics_fullgrav, numericalSolver} ;
+
+        // Calculate gravitational parameter
+        const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter ;
+        const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
+        const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit) ;
+
+        // Get position and velocity coordinates from starting state
+        Position currentPosition = state.getPosition() ;
+        Velocity currentVelocity = state.getVelocity() ;
+        Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates() ;
+        Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+
+        // Calculate orbital period
+        const double semiMajorAxis = - gravitationalParameter_SI * currentPositionCoordinates.norm() / (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) - 2.0 * gravitationalParameter_SI);
+        const Duration currentOrbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI)) ;
+
+        // Calculate revolution number at instant
+        const int propagationRevolutions = 5 ;
+        const Instant endInstant = startInstant - currentOrbitalPeriod * propagationRevolutions ;
+
+        const Integer revolutionNumber_twobody = propagatedModel_twobody.calculateRevolutionNumberAt(endInstant) ;
+        const Integer revolutionNumber_fullgrav = propagatedModel_fullgrav.calculateRevolutionNumberAt(endInstant) ;
+
+        // Check that revolution numbers for two body are exact, for full grav are 1 higher due to losses (which are gains in negative time), and that they are not equal
+        EXPECT_EQ(-propagationRevolutions - 1, revolutionNumber_twobody) ;
+        EXPECT_EQ(-propagationRevolutions, revolutionNumber_fullgrav) ;
+
+        EXPECT_FALSE(revolutionNumber_twobody == revolutionNumber_fullgrav) ;
 
     }
 
@@ -1872,7 +1936,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -1959,7 +2023,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2106,7 +2170,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2206,7 +2270,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray_45 = orbit_45.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2363,7 +2427,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2443,7 +2507,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2543,7 +2607,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray_45 = orbit_45.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2701,7 +2765,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2795,7 +2859,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray_45 = orbit_45.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -2941,7 +3005,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -3072,7 +3136,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -3203,7 +3267,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -3235,7 +3299,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
 }
 
-TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_ExtendedDuration_GMAT ) // These tests take a long time and are for local testing only (not to be run on every push to git)
+TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_ExtendedDuration ) // These tests take a long time and are for local testing only (not to be run on every push to git)
 {
 
     using ostk::core::types::Shared ;
@@ -3330,7 +3394,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Array<State> propagatedStateArray = orbit.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare
@@ -3457,14 +3521,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         // Propagate all states at long interval
         Array<Instant> instantArray_longInterval = Array<Instant>::Empty() ;
         const size_t indexIncrement = 10 ;
-        for (int i = 0; i < (int)instantArray.getSize(); i += indexIncrement)
+        for (size_t i = 0; i < instantArray.getSize(); i += indexIncrement)
         {
             instantArray_longInterval.add(instantArray[i]) ;
         }
         const Array<State> propagatedStateArray_long = orbit_short.getStatesAt(instantArray_longInterval) ;
 
         // Validation loop
-        for (size_t i = 0; i < (size_t)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // Run once every X times
             if (i%indexIncrement == 0)
@@ -3544,7 +3608,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         testing::internal::CaptureStdout() ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // Propagated output generated
@@ -3683,7 +3747,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const Array<State> propagatedStateArray_78 = orbit_78.getStatesAt(instantArray) ;
 
         // Validation loop
-        for (int i = 0; i < (int)instantArray.getSize(); i++)
+        for (size_t i = 0; i < instantArray.getSize(); i++)
         {
 
             // GCRF Compare

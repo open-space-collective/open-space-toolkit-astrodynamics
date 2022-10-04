@@ -200,7 +200,7 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
 
     // Add start instant to the start of array and convert to integration seconds
     Array<double> anIntegrationDurationInSecsArray = { 0 } ;
-    Integer stopCounter = 0 ;
+    Size stopCounter = 0 ;
     Integer durationSign = Integer::Undefined() ;
 
     for (const auto& instant : anInstantArray)
@@ -210,13 +210,13 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
 
         if (durationInSecs != 0 && stopCounter == 0)
         {
-            durationSign = durationInSecs / std::abs(durationInSecs) ;
+            durationSign = (durationInSecs > 0) - (durationInSecs < 0) ;
             stopCounter++ ;
         }
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * (double)durationSign ;
+    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign) ;
 
     switch (stepperType_)
     {
@@ -258,7 +258,8 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
     const double integrationDurationInSecs = anIntegrationDuration.inSeconds() ;
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * integrationDurationInSecs / std::abs(integrationDurationInSecs) ;
+    Integer durationSign = (integrationDurationInSecs > 0) - (integrationDurationInSecs < 0) ;
+    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign) ;
 
     switch (stepperType_)
     {

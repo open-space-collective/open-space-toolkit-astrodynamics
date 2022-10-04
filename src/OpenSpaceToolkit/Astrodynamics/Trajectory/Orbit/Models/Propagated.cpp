@@ -200,11 +200,11 @@ Array<State>                    Propagated::calculateStatesAt               (   
         }
 
         // Find min value of cachedStatesDistanceFromInstantArray
-        const auto nearestCachedStateIndex =  std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(), cachedStatesDistanceFromInstantArrayAbs.end()) - cachedStatesDistanceFromInstantArrayAbs.begin() ;
+        const double nearestCachedStateIndex =  std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(), cachedStatesDistanceFromInstantArrayAbs.end()) - cachedStatesDistanceFromInstantArrayAbs.begin() ;
         const Duration nearestCachedStatePropDuration = cachedStatesDistanceFromInstantArray[nearestCachedStateIndex] ;
 
         // Add the cachedStateArray index of the nearest cachedState and the propagation duration from that cached state as a pair for each desired instant
-        nearestCachedStatePairs.add(std::make_pair((int)nearestCachedStateIndex, nearestCachedStatePropDuration)) ;
+        nearestCachedStatePairs.add(std::make_pair(static_cast<int>(nearestCachedStateIndex), nearestCachedStatePropDuration)) ;
 
     }
 
@@ -357,21 +357,56 @@ Integer                         Propagated::calculateRevolutionNumberAt     (   
         return this->getRevolutionNumberAtEpoch() ;
     }
 
-    const double gravitationalParameter_SI = 3.986004418e14 ; // [TBI] will find a way to incorporate the real graviational parameter from the shared celestial object pointer later
+    // Calculate gravitational parameter (Spherical earth has the most modern value which is the correct one)
+    using ostk::physics::env::obj::celest::Earth ;
 
-    Position currentPosition = cachedStateArray_[0].getPosition();
-    Velocity currentVelocity = cachedStateArray_[0].getVelocity();
+    const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter ;
+    const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit) ;
 
-    Vector3d currentPositionCoords = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    Vector3d currentVelocityCoords = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    // Obtain state at position of cachedStateArray
+    Instant currentInstant = cachedStateArray_[0].getInstant() ;
+    Position currentPosition = cachedStateArray_[0].getPosition() ;
+    Velocity currentVelocity = cachedStateArray_[0].getVelocity() ;
 
-    const Real semiMajorAxis = - gravitationalParameter_SI * currentPositionCoords.norm() / (currentPositionCoords.norm() * std::pow(currentVelocityCoords.norm(), 2) - 2.0 * gravitationalParameter_SI);
+    Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates() ;
+    Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
 
-    const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI)) ;
+    SatelliteDynamics::StateVector currentStateVector(6) ;
+    currentStateVector[0] = currentPositionCoordinates[0]; currentStateVector[1] = currentPositionCoordinates[1]; currentStateVector[2] = currentPositionCoordinates[2] ;
+    currentStateVector[3] = currentVelocityCoordinates[0]; currentStateVector[4] = currentVelocityCoordinates[1]; currentStateVector[5] = currentVelocityCoordinates[2] ;
 
-    const Duration durationFromEpoch = Duration::Between(cachedStateArray_[0].getInstant(), anInstant) ;
+    // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
+    const double durationInSecs = (anInstant - currentInstant).inSeconds() ;
+    if (durationInSecs == 0.0) { return 1 ; }
+    Integer durationSign = (durationInSecs > 0) - (durationInSecs < 0) ;
 
-    return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1 ;
+    // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired instant
+    Integer revolutionNumber = 0 ;
+    while (true)
+    {
+
+        // Calculate orbital period
+        const double semiMajorAxis = - gravitationalParameter_SI * currentPositionCoordinates.norm() / (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) - 2.0 * gravitationalParameter_SI);
+        const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI)) ;
+
+        // If we have passed the desired instant during our progration, break from the loop
+        if (durationSign.isPositive() && currentInstant > anInstant) break ;
+        if (durationSign.isNegative() && currentInstant < anInstant) break ;
+
+        // Increase or decrease revolution number by 1
+        revolutionNumber += durationSign ;
+
+        // Propagate for duration of this orbital period
+        currentStateVector = numericalSolver_.integrateStateForDuration(currentStateVector, durationSign * orbitalPeriod, satelliteDynamics_.getDynamicalEquations()) ;
+
+        // Update the current instant position and velocity coordinates
+        currentInstant += durationSign * orbitalPeriod ;
+        currentPositionCoordinates = { currentStateVector[0], currentStateVector[1], currentStateVector[2] } ;
+        currentVelocityCoordinates = { currentStateVector[3], currentStateVector[4], currentStateVector[5] } ;
+
+    }
+
+    return revolutionNumber ;
 
 }
 
