@@ -15,10 +15,10 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,8 +72,8 @@ class NumericalSolver
         /// @param              [in] aLogType An enum indicating the amount of verbosity wanted to be logged during numerical integration
         /// @param              [in] aStepperType An enum indicating the type of numerical stepper used to perform integration
         /// @param              [in] aTimeStep A number indicating the initial guess time step the numerical solver will take
-        /// @param              [in] aRelativeTolerance A number indicating the relative intergration tolerance
-        /// @param              [in] anAbsoluteTolerance A number indicating the absolute intergration tolerance
+        /// @param              [in] aRelativeTolerance A number indicating the relative integration tolerance
+        /// @param              [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
 
                                 NumericalSolver                             (   const   NumericalSolver::LogType&   aLogType,
                                                                                 const   NumericalSolver::StepperType& aStepperType,
@@ -254,7 +254,7 @@ class NumericalSolver
         Real relativeTolerance_ ;
         Real absoluteTolerance_ ;
         std::vector<StateVector> states_ ;
-        std::vector<double> times_ ;
+        std::vector<double> instants_ ;
 
         void             NumericalIntegrationObserver                (   const   StateVector&                x,
                                                                                 const   double                      t                                           ) ;

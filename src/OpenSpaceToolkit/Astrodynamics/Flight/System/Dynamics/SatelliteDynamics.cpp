@@ -179,6 +179,7 @@ void                            SatelliteDynamics::DynamicalEquations       (   
     // Access all objects in the environment and loop through them
     for (const auto& objectName : environment_.getObjectNames())
     {
+
         if (objectName != "Earth")
         {
             // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
@@ -193,6 +194,7 @@ void                            SatelliteDynamics::DynamicalEquations       (   
 
         // Add object's gravity to total gravitational acceleration
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue() ;
+
     }
 
     // Integrate position and velocity states

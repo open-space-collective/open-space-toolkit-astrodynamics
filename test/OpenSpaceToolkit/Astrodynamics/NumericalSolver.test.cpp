@@ -9,18 +9,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
-#include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
@@ -31,12 +24,8 @@
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -51,6 +40,21 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 
     }
 
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, CopyConstructor)
+{
+
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+
+    using ostk::astro::NumericalSolver ;
+
     {
 
         const NumericalSolver numericalsolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -63,12 +67,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -113,12 +113,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -164,12 +160,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -191,12 +183,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -222,12 +210,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -253,12 +237,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -293,12 +273,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -325,12 +301,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
@@ -360,26 +332,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInstants)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Vector3d ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
 
     using ostk::astro::NumericalSolver ;
 
@@ -519,26 +478,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Vector3d ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
 
     using ostk::astro::NumericalSolver ;
 
@@ -692,26 +638,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantToInstant)
 {
 
-    using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
-    using ostk::math::obj::Vector3d ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
 
     using ostk::astro::NumericalSolver ;
 

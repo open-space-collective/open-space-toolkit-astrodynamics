@@ -137,7 +137,7 @@ State                           Propagated::calculateStateAt                (   
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    std::cout << "[WARN]  :  Using getStateAt/calculateStateAt is not recommended since it is slower and less accurate than getStatesAt/calculateStatesAt. " << std::endl ;
+    std::cout << "[WARN]  :  Using getStateAt/calculateStateAt is not recommended since it is slower and less accurate than getStatesAt/calculateStatesAt." << std::endl ;
 
     const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant)) ;
 
@@ -173,7 +173,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
     sortedInstantArray.reserve(anInstantArray.getSize()) ;
 
-    for (Size j = 0 ; j < anInstantArray.getSize() ; j++)
+    for (Size j = 0; j < anInstantArray.getSize(); j++)
     {
         sortedInstantArray.push_back(instantArrayPairs[j].first) ;
     }
@@ -284,7 +284,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
             Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredNegativeInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray by looping backwards through
-            for (int k = desiredNegativeInstantArray.getSize() - 1 ; k >= 0 ; k--)
+            for (int k = desiredNegativeInstantArray.getSize() - 1; k >= 0; k--)
             {
 
                 const State propagatedNegativeState = { desiredNegativeInstantArray[k], Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedNegativeState << std::endl ;
@@ -323,7 +323,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     // Desort the sorted state array to return it to user as was requested
     Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
 
-    for (Size k = 0 ; k < anInstantArray.getSize() ; k++)
+    for (Size k = 0; k < anInstantArray.getSize(); k++)
     {
         unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k] ;
     }

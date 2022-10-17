@@ -12,20 +12,22 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
@@ -44,21 +46,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -69,13 +67,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
-    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::trajectory::State ;
-
+    using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     // Constructor
     {
@@ -97,6 +98,46 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
         EXPECT_NO_THROW(SatelliteDynamics satellitedynamics( defaultEnvironment, satelliteSystem, state )) ;
 
     }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, CopyConstructor)
+{
+
+    using ostk::core::types::Shared ;
+    using ostk::core::types::Real ;
+    using ostk::core::ctnr::Array ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Length ;
+    using ostk::physics::units::Mass ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::Duration ;
+    using ostk::physics::time::Interval ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
+    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
+
+    using ostk::astro::trajectory::State ;
+    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     // Copy constructor
     {
@@ -129,21 +170,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, E
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -154,12 +191,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, E
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -211,21 +252,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, N
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -236,12 +273,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, N
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -293,21 +334,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, I
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -318,12 +355,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, I
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -355,21 +396,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -380,12 +417,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -421,21 +462,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -446,12 +483,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -487,21 +528,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, G
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -512,12 +549,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, G
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -548,21 +589,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -573,12 +610,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::Celestial ;
+    using ostk::physics::env::obj::celest::Sun ;
+    using ostk::physics::env::obj::celest::Moon ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -613,21 +654,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
     using ostk::core::types::Shared ;
     using ostk::core::types::Real ;
     using ostk::core::ctnr::Array ;
-    using ostk::core::ctnr::Table ;
-    using ostk::core::fs::Path ;
-    using ostk::core::fs::File ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Length ;
     using ostk::physics::units::Mass ;
-    using ostk::physics::units::Angle ;
     using ostk::physics::units::Derived ;
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
@@ -638,11 +675,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
     using ostk::physics::coord::Position ;
     using ostk::physics::coord::Velocity ;
     using ostk::physics::Environment ;
+    using ostk::physics::env::Object ;
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::celest::Sun ;
     using ostk::physics::env::obj::celest::Moon ;
-    using ostk::physics::env::obj::Celestial ;
-    using ostk::physics::env::Object ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;

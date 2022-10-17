@@ -54,15 +54,15 @@ def propagated_default_inputs ():
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
     satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
-    inertia_tensor = np.ndarray(shape=(3, 3))
+    inertia_tensor = np.ndarray(shape = (3, 3))
     surface_area = 0.8
     drag_coefficient = 2.2
 
     satellitesystem = SatelliteSystem(mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
 
     frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
+    position: Position = Position.meters([7500000.0, 0.0, 0.0], frame)
+    velocity: Velocity = Velocity.meters_per_second([0.0, 5335.865450622126, 5335.865450622126], frame)
 
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(instant, position, velocity)
@@ -142,14 +142,15 @@ class TestPropagated:
 
         assert propagated_state == propagated_state_orbit
 
-        propagated_state_position_ref = np.array([9.66277505e+06, 2.06755709e-04, -5.20957785e+00])
-        propagated_state_velocity_ref = np.array([3.88382712e+03, 5.27400057e-07, -1.32866852e-02])
+
+        propagated_state_position_ref = np.array([6265892.25765909, 3024770.94961259, 3024359.72137468])
+        propagated_state_velocity_ref = np.array([-3974.49168221,  4468.16996776,  4466.19232746])
 
         propagated_state_position = propagated_state.get_position().get_coordinates()
         propagated_state_velocity = propagated_state.get_velocity().get_coordinates()
 
-        assert all([round(propagated_state_position[i], -9) == round(propagated_state_position_ref[i], -9) for i in range(0, len(propagated_state_position_ref))])
-        assert all([round(propagated_state_velocity[i], -9) == round(propagated_state_velocity_ref[i], -9) for i in range(0, len(propagated_state_velocity_ref))])
+        assert all([round(propagated_state_position[i], 8) == round(propagated_state_position_ref[i], 8) for i in range(0, len(propagated_state_position_ref))])
+        assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
         assert propagated_state.get_instant() == instant
 
     def test_calculate_states_at (

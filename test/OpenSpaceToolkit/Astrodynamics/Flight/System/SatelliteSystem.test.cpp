@@ -9,25 +9,14 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Table.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
@@ -43,9 +32,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -79,6 +68,25 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
         EXPECT_NO_THROW(SatelliteSystem satellitesystem( satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient )) ;
 
     }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstructor)
+{
+
+    using ostk::core::types::Real ;
+    using ostk::core::types::String ;
+    using ostk::core::types::Integer ;
+
+    using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
+    using ostk::math::geom::d3::objects::Cuboid ;
+    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::math::geom::d3::objects::Point ;
+
+    using ostk::physics::units::Mass ;
+
+    using ostk::astro::flight::system::SatelliteSystem ;
 
     // Copy constructor
     {
@@ -120,9 +128,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOpera
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -190,9 +198,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOp
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -260,9 +268,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -302,9 +310,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, StreamOperat
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -348,9 +356,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Print)
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -394,9 +402,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getMass)
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -436,9 +444,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getGeometry)
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -478,9 +486,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getInertiaTe
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -520,9 +528,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getCrossSect
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;
@@ -565,9 +573,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getDragCoeff
     using ostk::core::types::Integer ;
 
     using ostk::math::obj::Matrix3d ;
+    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Cuboid ;
     using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::obj::Vector3d ;
     using ostk::math::geom::d3::objects::Point ;
 
     using ostk::physics::units::Mass ;

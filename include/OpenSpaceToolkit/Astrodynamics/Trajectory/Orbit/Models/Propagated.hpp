@@ -75,7 +75,7 @@ using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines an orbit model that is computed using numerical propagation
+/// @brief                      Defines an orbit model that is propagated using numerical propagation
 
 class Propagated : public ostk::astro::trajectory::orbit::Model
 {
@@ -131,15 +131,15 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @brief              Output stream operator
         ///
         /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aPropagatedModel A propagated
+        /// @param              [in] aPropagatedModel A propagated model
         /// @return             A reference to output stream
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   Propagated&                 aPropagatedModel                            ) ;
 
-        /// @brief              Check if propagated is defined
+        /// @brief              Check if propagated model is defined
         ///
-        /// @return             True if propagated is defined
+        /// @return             True if propagated model is defined
 
         virtual bool            isDefined                                   ( ) const override ;
 
@@ -174,12 +174,12 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
         /// @brief              Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time
-        /// @brief              Has macro-level sorting optimization, can be used with disorded instant array
+        /// @brief              Has macro-level sorting optimization, can be used with unsorted instant array
         /// @code
-        ///                     State state = propagated.calculateStateAt(anInstant) ;
+        ///                     Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
         /// @endcode
-        /// @param              [in] anInstant An instant
-        /// @return             State
+        /// @param              [in] anInstantArray An instant array
+        /// @return             Array<State>
 
         virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
 
@@ -211,7 +211,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Create a Medium fidelity Propagated object with recommended settings
+        /// @brief              Create a medium fidelity Propagated object with recommended settings
         ///
         /// @code
         ///                     Propagated propagated = Propagated::MediumFidelity(aState) ;
@@ -221,7 +221,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         static Propagated       MediumFidelity                              (   const   State&                      aState                                      ) ;
 
-        /// @brief              Create a High fidelity Propagated object with recommended settings
+        /// @brief              Create a high fidelity Propagated object with recommended settings
         ///
         /// @code
         ///                     Propagated propagated = Propagated::HighFidelity(aState) ;
