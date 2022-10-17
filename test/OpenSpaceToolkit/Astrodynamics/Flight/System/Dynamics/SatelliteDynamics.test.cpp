@@ -887,6 +887,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
 
     }
 
+    // Minimum radius "re-entry" test
+    {
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::Spherical()) } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+
+        // Current state and instant setup, choose equinox as instant to make geometry simple
+        const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC) ;
+
+        const State startState = { startInstant, Position::Meters({ 700000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
+
+        // Default satellite system being used
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+        // Satellite dynamics setup with Celestial object
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+
+        // Set up initial state vector
+        SatelliteDynamics::StateVector startStateVector(6) ;
+        const Vector3d startPositionCoordinates = (startState.getPosition()).inUnit(Position::Unit::Meter).accessCoordinates() ;
+        const Vector3d startVelocityCoordinates = (startState.getVelocity()).inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+        startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
+        startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
+
+        // Perform 1.0s integration step
+        runge_kutta4<SatelliteDynamics::StateVector> stepper ;
+
+        EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0) ) ;
+
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

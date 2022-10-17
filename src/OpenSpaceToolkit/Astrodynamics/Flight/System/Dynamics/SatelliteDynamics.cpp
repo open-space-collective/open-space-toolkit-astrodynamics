@@ -169,6 +169,12 @@ void                            SatelliteDynamics::DynamicalEquations       (   
 
     const Position currentPosition = Position::Meters({ x[0], x[1], x[2] }, gcrfSPtr_) ;
 
+    // Check for radii below 70km altitude
+    if (currentPosition.getCoordinates().norm() < Earth::Models::EGM2008::EquatorialRadius.inMeters() + 70000.0)
+    {
+        throw ostk::core::error::RuntimeError("Satellite altitude too low, has re-entered.") ;
+    }
+
     // Update environment time
     const Instant currentInstant = state_.getInstant() + Duration::Seconds(t) ;
     environment_.setInstant(currentInstant) ;
