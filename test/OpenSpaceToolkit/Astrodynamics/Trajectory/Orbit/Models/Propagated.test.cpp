@@ -3897,13 +3897,13 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const size_t propagationIntervalSeconds = 30 ;
 
         Array<Instant> instantArray = Array<Instant>::Empty() ;
-        for (size_t i = 0; i < (propagationSpanHours * 3600) / propagationIntervalSeconds; i += propagationIntervalSeconds)
+        for (size_t i = 0; i < (propagationSpanHours * 3600) ; i += propagationIntervalSeconds)
         {
             instantArray.add(startInstant + Duration::Seconds(i)) ;
         }
 
         // Create loop to run timing test multiple times in a row and average them
-        const size_t timingTestSampleSize = 10 ;
+        const size_t timingTestSampleSize = 5 ;
         Array<double> timeArray_default = Array<double>::Empty() ;
         Array<double> timeArray_tested = Array<double>::Empty() ;
 
@@ -3914,7 +3914,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
             // Two body default
             const Array<Shared<Object>> objects_default = { std::make_shared<Earth>(Earth::Spherical()) } ;
             // Environment being compared
-            const Array<Shared<Object>> objects_tested = { std::make_shared<Earth>(Earth::EGM2008(100,100)) } ;
+            const Array<Shared<Object>> objects_tested = { std::make_shared<Earth>(Earth::EGM2008(70,70)), std::make_shared<Moon>(Moon::Spherical()), std::make_shared<Sun>(Sun::Spherical()) } ;
 
             const Environment customEnvironment_default = Environment(instantJ2000, objects_default) ;
             const Environment customEnvironment_tested = Environment(instantJ2000, objects_tested) ;
