@@ -43,7 +43,6 @@ Kepler = astrodynamics.trajectory.orbit.models.Kepler
 COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
-NumericalSolver = astrodynamics.NumericalSolver
 
 ################################################################################################################################################################
 
