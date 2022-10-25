@@ -39,8 +39,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_access_8cpp.html",
-"classostk_1_1astro_1_1trajectory_1_1_model.html",
-"dir_bf72deb1ebca8aec77034d0a32a9e016.html"
+"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#af60a82bf97622e5b3a670c38ab4ddd32",
+"dir_a9475479c97067a34c1b41ad9be87160.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

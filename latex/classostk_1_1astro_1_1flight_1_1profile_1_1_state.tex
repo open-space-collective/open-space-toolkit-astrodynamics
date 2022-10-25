@@ -12,7 +12,7 @@ Spacecraft flight profile state.
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}{State} (const Instant \&an\+Instant, const Vector3d \&a\+Position, const Vector3d \&a\+Velocity, const Quaternion \&an\+Attitude, const Vector3d \&an\+Angular\+Velocity, const Shared$<$ const Frame $>$ \&a\+Reference\+Frame)
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aa68f2e3268146c8bcb581beb8dcd5412}{State} (const Instant \&an\+Instant, const Position \&a\+Position, const Velocity \&a\+Velocity, const Quaternion \&an\+Attitude, const Vector3d \&an\+Angular\+Velocity, const Shared$<$ const Frame $>$ \&a\+Reference\+Frame)
 \item 
 bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a4f6023c3c1d9590ec701bf10b0724ebf}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&a\+State) const
 \item 
@@ -22,9 +22,9 @@ bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab69f291582ca4
 \item 
 const Instant \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6537111ca0de878dc9ccba7fbc037d41}{access\+Instant} () const
 \item 
-const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}{access\+Position} () const
+const Position \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a92a98a15aac3aff680a619cc925f45c6}{access\+Position} () const
 \item 
-const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}{access\+Velocity} () const
+const Velocity \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af24c195994d32133d7ab9dbcc0124aed}{access\+Velocity} () const
 \item 
 const Quaternion \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ad2ce6847d15311d2d1cb7a3662a1d5e4}{access\+Attitude} () const
 \item 
@@ -32,9 +32,9 @@ const Vector3d \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a
 \item 
 Instant \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aef2c7d2c1f6831280e3933bb2d83a290}{get\+Instant} () const
 \item 
-Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}{get\+Position} () const
+Position \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afb70771069e2bc1357ca9e7c885b5dee}{get\+Position} () const
 \item 
-Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}{get\+Velocity} () const
+Velocity \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af6faff1154fb9aeb49685bdb6c5257e2}{get\+Velocity} () const
 \item 
 Quaternion \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8b765a7ebcfc0a7202bce31cafbc3a30}{get\+Attitude} () const
 \item 
@@ -43,6 +43,8 @@ Vector3d \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013
 Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6e06bfcca971466bf36c2c0a0837e429}{get\+Frame} () const
 \item 
 \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}{in\+Frame} (const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
+\item 
+void \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afc8060bca36e76f1b3b7f2ab8ad6df16}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -60,11 +62,11 @@ std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a
 Spacecraft flight profile state. 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ac6e83efb0a774d9cbdb94c02ee17d87b}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aa68f2e3268146c8bcb581beb8dcd5412}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_aa68f2e3268146c8bcb581beb8dcd5412}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!State@{State}}
 \index{State@{State}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{State()}{State()}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector3d \&}]{a\+Position,  }\item[{const Vector3d \&}]{a\+Velocity,  }\item[{const Quaternion \&}]{an\+Attitude,  }\item[{const Vector3d \&}]{an\+Angular\+Velocity,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Reference\+Frame }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Position \&}]{a\+Position,  }\item[{const Velocity \&}]{a\+Velocity,  }\item[{const Quaternion \&}]{an\+Attitude,  }\item[{const Vector3d \&}]{an\+Angular\+Velocity,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Reference\+Frame }\end{DoxyParamCaption})}
 
 
 
@@ -87,17 +89,17 @@ Spacecraft flight profile state.
 \subsubsection{\texorpdfstring{access\+Instant()}{accessInstant()}}
 {\footnotesize\ttfamily const Instant \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a690408a5ae6d20d7812f797d20310557}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a92a98a15aac3aff680a619cc925f45c6}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a92a98a15aac3aff680a619cc925f45c6}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Position@{access\+Position}}
 \index{access\+Position@{access\+Position}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{access\+Position()}{accessPosition()}}
-{\footnotesize\ttfamily const Vector3d \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const Position \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a8848af51a3b34d49f036e4a9a57231cf}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af24c195994d32133d7ab9dbcc0124aed}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af24c195994d32133d7ab9dbcc0124aed}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!access\+Velocity@{access\+Velocity}}
 \index{access\+Velocity@{access\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{access\+Velocity()}{accessVelocity()}}
-{\footnotesize\ttfamily const Vector3d \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily const Velocity \& ostk\+::astro\+::flight\+::profile\+::\+State\+::access\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013017327ab64023ff86d1c3c2}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_acd3702013017327ab64023ff86d1c3c2}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Angular\+Velocity@{get\+Angular\+Velocity}}
@@ -123,17 +125,17 @@ Spacecraft flight profile state.
 \subsubsection{\texorpdfstring{get\+Instant()}{getInstant()}}
 {\footnotesize\ttfamily Instant ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ae68367f0e69fed7fc30660fc2cf98c1c}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afb70771069e2bc1357ca9e7c885b5dee}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afb70771069e2bc1357ca9e7c885b5dee}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Position@{get\+Position}}
 \index{get\+Position@{get\+Position}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{get\+Position()}{getPosition()}}
-{\footnotesize\ttfamily Vector3d ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Position ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_a6a814a57938b83db9ad8a7e13ff3ea2e}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af6faff1154fb9aeb49685bdb6c5257e2}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af6faff1154fb9aeb49685bdb6c5257e2}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!get\+Velocity@{get\+Velocity}}
 \index{get\+Velocity@{get\+Velocity}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{get\+Velocity()}{getVelocity()}}
-{\footnotesize\ttfamily Vector3d ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Velocity ostk\+::astro\+::flight\+::profile\+::\+State\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_ab5f93d12e52218cc6d5684a5a9519b87}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!in\+Frame@{in\+Frame}}
@@ -158,6 +160,12 @@ Spacecraft flight profile state.
 \index{operator==@{operator==}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
 \subsubsection{\texorpdfstring{operator==()}{operator==()}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::\+State\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afc8060bca36e76f1b3b7f2ab8ad6df16}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_afc8060bca36e76f1b3b7f2ab8ad6df16}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::profile\+::\+State\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af18b40557aa14bfd0b46d14ad04d33fc}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_state_af18b40557aa14bfd0b46d14ad04d33fc}} 
 \index{ostk\+::astro\+::flight\+::profile\+::\+State@{ostk\+::astro\+::flight\+::profile\+::\+State}!Undefined@{Undefined}}

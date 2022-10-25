@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#af60a82bf97622e5b3a670c38ab4ddd32":[4,0,0,0,1,1,0,0,9],
 "classostk_1_1astro_1_1trajectory_1_1_model.html":[4,0,0,0,2,2],
 "classostk_1_1astro_1_1trajectory_1_1_model.html#a0d5cf6f754905f06c0ec1e39618c20a1":[4,0,0,0,2,2,7],
 "classostk_1_1astro_1_1trajectory_1_1_model.html#a23acd7acccf729d8343180b83fe2f9f9":[4,0,0,0,2,2,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "dir_7520c3ac75c8f5fdda4f2a54e1baf892.html":[5,0,1,0,0,2,1,0],
 "dir_78f738f89d4d9dd9b2bc0bce28b2a505.html":[5,0,0,0,0,2,1,0,0],
 "dir_7d590b7d63bda445bfb81b3161a88efa.html":[5,0,1,0,0,1,0],
-"dir_9afd2f0d038c14f4d594df7d6fe8dfe1.html":[5,0,1,0,0,2,1,0,0],
-"dir_a9475479c97067a34c1b41ad9be87160.html":[5,0,0,0,0,1]
+"dir_9afd2f0d038c14f4d594df7d6fe8dfe1.html":[5,0,1,0,0,2,1,0,0]
 };
