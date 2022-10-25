@@ -45,7 +45,7 @@ jobs:
     name: Build & Test
     needs:
       - prepare-environment
-    uses: open-space-collective/open-space-toolkit/.github/workflows/build-test.yml@master
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-test.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
@@ -56,7 +56,7 @@ jobs:
     needs:
       - prepare-environment
       - build-and-test
-    uses: open-space-collective/open-space-toolkit/.github/workflows/release.yml@master
+    uses: open-space-collective/open-space-toolkit/.github/workflows/release.yml@main
     with:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
