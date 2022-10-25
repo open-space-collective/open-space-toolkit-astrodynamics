@@ -9,6 +9,8 @@
 
 import pytest
 
+from datetime import datetime
+
 import numpy as np
 
 import ostk.mathematics as mathematics
@@ -20,14 +22,19 @@ import ostk.astrodynamics as astrodynamics
 ################################################################################################################################################################
 
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
+Environment = physics.Environment
 DateTime = physics.time.DateTime
+Time = physics.time.Time
 Scale = physics.time.Scale
 Instant = physics.time.Instant
+Length = physics.units.Length
 Transform = physics.coordinate.Transform
+Position = physics.coordinate.Position
 Frame = physics.coordinate.Frame
 Axes = physics.coordinate.Axes
 DynamicProvider = physics.coordinate.frame.providers.Dynamic
 Trajectory = astrodynamics.Trajectory
+Orbit = astrodynamics.trajectory.Orbit
 Profile = astrodynamics.flight.Profile
 State = astrodynamics.flight.profile.State
 
@@ -84,28 +91,33 @@ class TestProfile:
         assert isinstance(profile, Profile)
         assert profile.is_defined() is False
 
-    # def test_inertial_pointing (self):
+    def test_inertial_pointing (self):
 
-    #     quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+        quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
-    #     trajectory: Trajectory = Trajectory.
+        trajectory: Trajectory = Trajectory.position(Position.meters((0.0, 0.0, 0.0), Frame.GCRF()))
 
-    #     profile: Profile = Profile.inertial_pointing(quaternion, trajectory)
+        profile: Profile = Profile.inertial_pointing(trajectory, quaternion)
 
-    #     assert profile is not None
-    #     assert isinstance(profile, Profile)
-    #     assert profile.is_defined()
+        assert profile is not None
+        assert isinstance(profile, Profile)
+        assert profile.is_defined()
 
-    # def test_nadir_pointing (self):
+    def test_nadir_pointing (self):
 
-    #     quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+        environment = Environment.default()
 
-    #     trajectory: Trajectory = Trajectory.
+        orbit = Orbit.sun_synchronous(
+            epoch = Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+            altitude = Length.kilometers(500.0),
+            local_time_at_descending_node = Time(14, 0, 0),
+            celestial_object = environment.access_celestial_object_with_name('Earth'),
+        )
 
-    #     profile: Profile = Profile.inertial_pointing(quaternion, trajectory)
+        profile: Profile = Profile.nadir_pointing(orbit, Orbit.FrameType.VVLH)
 
-    #     assert profile is not None
-    #     assert isinstance(profile, Profile)
-    #     assert profile.is_defined()
+        assert profile is not None
+        assert isinstance(profile, Profile)
+        assert profile.is_defined()
 
 ################################################################################################################################################################

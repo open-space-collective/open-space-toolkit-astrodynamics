@@ -81,43 +81,29 @@ def state (instant: Instant,
 
 class TestState:
 
-    def test_constructors (self):
+    def test_constructors_list (self, instant: Instant, quaternion: Quaternion, frame: Frame):
 
-        # Construct Instant
-        instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
-
-        # Construct Quaternion
-        quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
-
-        # Construct Frame
-        frame: Frame = Frame.GCRF()
-
-        # Construct State using lists
-        position = Position.meters([0.0, 3.2, 3000.0], Frame.GCRF())
-        velocity = Velocity.meters_per_second([1.0, 3.0, 0.0], Frame.GCRF())
+        position = Position.meters([0.0, 3.2, 3000.0], frame)
+        velocity = Velocity.meters_per_second([1.0, 3.0, 0.0], frame)
         angular_velocity = [0.01, 0.01, 0.0]
 
-        state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+        assert isinstance(State(instant, position, velocity, quaternion, angular_velocity, frame), State)
 
-        assert isinstance(state, State)
+    def test_constructors_tuples (self, instant: Instant, quaternion: Quaternion, frame: Frame):
 
-        # Construct State using tuples
-        position = Position.meters((0.0, 3.2, 3000.0), Frame.GCRF())
-        velocity = Velocity.meters_per_second((1.0, 3.0, 0.0), Frame.GCRF())
+        position = Position.meters((0.0, 3.2, 3000.0), frame)
+        velocity = Velocity.meters_per_second((1.0, 3.0, 0.0), frame)
         angular_velocity = (0.01, 0.01, 0.0)
 
-        state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+        assert isinstance(State(instant, position, velocity, quaternion, angular_velocity, frame), State)
 
-        assert isinstance(state, State)
+    def test_constructors_array (self, instant: Instant, quaternion: Quaternion, frame: Frame):
 
-        # Construct State using ndarray
-        # position = Position.meters(np.array(position), Frame.GCRF())
-        # velocity = Velocity.meters_per_second(np.array(velocity), Frame.GCRF())
-        # angular_velocity = np.array(angular_velocity)
+        position = Position.meters(np.array((0.0, 3.2, 3000.0)), Frame.GCRF())
+        velocity = Velocity.meters_per_second(np.array((1.0, 3.0, 0.0)), Frame.GCRF())
+        angular_velocity = np.array((0.01, 0.01, 0.0))
 
-        # state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
-
-        # assert isinstance(state, State)
+        assert isinstance(State(instant, position, velocity, quaternion, angular_velocity, frame), State)
 
     def test_comparators (self, state: State):
 
