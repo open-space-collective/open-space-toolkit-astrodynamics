@@ -93,19 +93,19 @@ ELSE ()
     MESSAGE (SEND_ERROR "[Eigen 3] not found.")
 ENDIF ()
 
-### Open Space Toolkit ▸ Core [master]
+### Open Space Toolkit ▸ Core
 
 FIND_PACKAGE ("OpenSpaceToolkitCore" "0.1" REQUIRED)
 
-### Open Space Toolkit ▸ Mathematics [master]
+### Open Space Toolkit ▸ Mathematics
 
 FIND_PACKAGE ("OpenSpaceToolkitMathematics" "0.1" REQUIRED)
 
-### Open Space Toolkit ▸ Physics [master]
+### Open Space Toolkit ▸ Physics
 
 FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.1" REQUIRED)
 
-### Open Space Toolkit ▸ Astrodynamics [master]
+### Open Space Toolkit ▸ Astrodynamics
 
 FIND_PACKAGE ("OpenSpaceToolkitAstrodynamics" "0.1" REQUIRED)
 
