@@ -185,6 +185,7 @@ class NumericalSolver
         /// @code
         ///                     Array<StateVector> stateVectorArray = numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray, systemOfEquations) ;
         /// @endcode
+        ///
         /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
         /// @param              [in] aStartInstant An instant to begin integrating from
         /// @param              [in] anInstantArray An instant array to integrate to
@@ -256,7 +257,7 @@ class NumericalSolver
         std::vector<StateVector> states_ ;
         std::vector<double> instants_ ;
 
-        void             NumericalIntegrationObserver                (   const   StateVector&                x,
+        void                    observeNumericalIntegration                 (   const   StateVector&                x,
                                                                                 const   double                      t                                           ) ;
 
 } ;

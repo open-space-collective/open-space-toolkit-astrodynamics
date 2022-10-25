@@ -137,9 +137,12 @@ State                           Propagated::calculateStateAt                (   
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    std::cout << "[WARN]  :  Using getStateAt/calculateStateAt is not recommended since it is slower and less accurate than getStatesAt/calculateStatesAt." << std::endl ;
-
     const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant)) ;
+
+    if (propagatedStateArray.getSize() != 1)
+    {
+        throw ostk::core::error::runtime::Wrong("Propagated state array size") ;
+    }
 
     return propagatedStateArray[0] ;
 
@@ -167,15 +170,20 @@ Array<State>                    Propagated::calculateStatesAt               (   
     }
 
     // Sort instant array pairs chronologically
-    std::sort(instantArrayPairs.begin(), instantArrayPairs.end(), [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }) ;
+    std::sort
+    (
+        instantArrayPairs.begin(),
+        instantArrayPairs.end(),
+        [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }
+    ) ;
 
     // Create an unpaired sorted instant array
     Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
     sortedInstantArray.reserve(anInstantArray.getSize()) ;
 
-    for (Size j = 0; j < anInstantArray.getSize(); j++)
+    for (Size i = 0; i < anInstantArray.getSize(); i++)
     {
-        sortedInstantArray.push_back(instantArrayPairs[j].first) ;
+        sortedInstantArray.push_back(instantArrayPairs[i].first) ;
     }
 
     Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
@@ -193,10 +201,8 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
         for (Size j = 0; j < cachedStateArray_.getSize(); j++)
         {
-
             cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
             cachedStatesDistanceFromInstantArrayAbs.add(std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds())) ;
-
         }
 
         // Find min value of cachedStatesDistanceFromInstantArray
@@ -217,12 +223,11 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
         if (duplicateCounterPairs.empty() || duplicateCounterPairs.back().first != nearestcachedStatePair.first)
         {
-            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1));
+            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1)) ;
         }
-
         else
         {
-                duplicateCounterPairs.back().second++;
+            duplicateCounterPairs.back().second++ ;
         }
 
     }
@@ -263,7 +268,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
             {
                 desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
             }
-
             else
             {
                 desiredNegativeInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
@@ -281,13 +285,25 @@ Array<State>                    Propagated::calculateStatesAt               (   
             std::reverse(desiredNegativeInstantArray.begin(), desiredNegativeInstantArray.end()) ;
 
             // Call numerical solver to perform propagation
-            Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredNegativeInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
+            Array<SatelliteDynamics::StateVector> propagatedNegativeStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants
+            (
+                startStateVector,
+                startInstant,
+                desiredNegativeInstantArray,
+                satelliteDynamics_.getDynamicalEquations()
+            ) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray by looping backwards through
             for (int k = desiredNegativeInstantArray.getSize() - 1; k >= 0; k--)
             {
 
-                const State propagatedNegativeState = { desiredNegativeInstantArray[k], Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedNegativeState << std::endl ;
+                const State propagatedNegativeState =
+                {
+                    desiredNegativeInstantArray[k],
+                    Position::Meters({ propagatedNegativeStateVectorArray[k][0], propagatedNegativeStateVectorArray[k][1], propagatedNegativeStateVectorArray[k][2] }, gcrfSPtr),
+                    Velocity::MetersPerSecond({ propagatedNegativeStateVectorArray[k][3], propagatedNegativeStateVectorArray[k][4], propagatedNegativeStateVectorArray[k][5] }, gcrfSPtr)
+                } ;
+
                 satelliteDynamics_.setState(propagatedNegativeState) ;
 
                 // Add propagatedNegativeState to sorted StateArray for propagation
@@ -302,13 +318,24 @@ Array<State>                    Propagated::calculateStatesAt               (   
         {
 
             // Call numerical solver to perform propagation
-            Array<SatelliteDynamics::StateVector> propagatedPositiveStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(startStateVector, startInstant, desiredPositiveInstantArray, satelliteDynamics_.getDynamicalEquations()) ;
+            Array<SatelliteDynamics::StateVector> propagatedPositiveStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants
+            (
+                startStateVector,
+                startInstant,
+                desiredPositiveInstantArray,
+                satelliteDynamics_.getDynamicalEquations()
+            ) ;
 
             // Create orbital states from integration solution and add them to sortedStateArray
             for (Size k = 0; k < desiredPositiveInstantArray.getSize(); k++)
             {
 
-                const State propagatedPositiveState = { desiredPositiveInstantArray[k], Position::Meters({ propagatedPositiveStateVectorArray[k][0], propagatedPositiveStateVectorArray[k][1], propagatedPositiveStateVectorArray[k][2] }, gcrfSPtr), Velocity::MetersPerSecond({ propagatedPositiveStateVectorArray[k][3], propagatedPositiveStateVectorArray[k][4], propagatedPositiveStateVectorArray[k][5] }, gcrfSPtr) } ;                // std::cout << propagatedPositiveState << std::endl ;
+                const State propagatedPositiveState =
+                {
+                    desiredPositiveInstantArray[k],
+                    Position::Meters({ propagatedPositiveStateVectorArray[k][0], propagatedPositiveStateVectorArray[k][1], propagatedPositiveStateVectorArray[k][2] }, gcrfSPtr),
+                    Velocity::MetersPerSecond({ propagatedPositiveStateVectorArray[k][3], propagatedPositiveStateVectorArray[k][4], propagatedPositiveStateVectorArray[k][5] }, gcrfSPtr)
+                } ;
 
                 satelliteDynamics_.setState(propagatedPositiveState) ;
 
@@ -466,7 +493,7 @@ Propagated                      Propagated::MediumFidelity                  (   
     const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry = Composite { Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } ) } ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
@@ -507,7 +534,7 @@ Propagated                      Propagated::HighFidelity                    (   
     const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry = Composite { Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } ) } ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
@@ -546,11 +573,10 @@ void                            Propagated::sortAndSanitizeStateArray           
         throw ostk::core::error::runtime::Undefined("Propagated") ;
     }
 
-    else if (cachedStateArray_.getSize() == 1)
+    if (cachedStateArray_.getSize() == 1)
     {
         satelliteDynamics_.setState(cachedStateArray_[0]) ;
     }
-
     else
     {
 

@@ -119,8 +119,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        EXPECT_NO_THROW(Propagated( satelliteDynamics , numericalSolver )) ;
-        EXPECT_NO_THROW(Propagated( satelliteDynamics , numericalSolver, stateArray )) ;
+        EXPECT_NO_THROW(Propagated( satelliteDynamics, numericalSolver )) ;
+        EXPECT_NO_THROW(Propagated( satelliteDynamics, numericalSolver, stateArray )) ;
 
     }
 
@@ -151,12 +151,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
-        const Propagated propagatedModel_0 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
+        const Propagated propagatedModel_0 = {satelliteDynamics, numericalSolver, stateArray} ;
 
         // Setup Orbit model
-        EXPECT_NO_THROW(Orbit( propagatedModel , defaultEnvironment.accessCelestialObjectWithName("Earth") )) ;
-        EXPECT_NO_THROW(Orbit( propagatedModel_0 , defaultEnvironment.accessCelestialObjectWithName("Earth") )) ;
+        EXPECT_NO_THROW(Orbit( propagatedModel, defaultEnvironment.accessCelestialObjectWithName("Earth") )) ;
+        EXPECT_NO_THROW(Orbit( propagatedModel_0, defaultEnvironment.accessCelestialObjectWithName("Earth") )) ;
 
     }
 
@@ -225,30 +225,30 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_TRUE(propagatedModel == propagatedModel_x) ;
 
         const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-        const Propagated propagatedModel_1 = {satelliteDynamics , numericalSolver_1} ;
+        const Propagated propagatedModel_1 = {satelliteDynamics, numericalSolver_1} ;
         EXPECT_FALSE(propagatedModel == propagatedModel_1) ;
 
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(state) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_2 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_TRUE(propagatedModel == propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two, duplicate state inputs
         stateArray.add(state) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_3 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_TRUE(propagatedModel == propagatedModel_3) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_4 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_4 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_FALSE(propagatedModel == propagatedModel_4) ;
 
     }
@@ -318,30 +318,30 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqua
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_FALSE(propagatedModel != propagatedModel_x) ;
 
         const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-        const Propagated propagatedModel_1 = {satelliteDynamics , numericalSolver_1} ;
+        const Propagated propagatedModel_1 = {satelliteDynamics, numericalSolver_1} ;
         EXPECT_TRUE(propagatedModel != propagatedModel_1) ;
 
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(state) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_2 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_FALSE(propagatedModel != propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two, duplicate state inputs
         stateArray.add(state) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_3 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_FALSE(propagatedModel != propagatedModel_3) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_4 = {satelliteDynamics , numericalSolver, stateArray} ;
+        const Propagated propagatedModel_4 = {satelliteDynamics, numericalSolver, stateArray} ;
         EXPECT_TRUE(propagatedModel != propagatedModel_4) ;
 
     }
@@ -412,7 +412,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefin
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         EXPECT_TRUE(propagatedModel.isDefined()) ;
     }
@@ -483,7 +483,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StreamO
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         testing::internal::CaptureStdout() ;
 
@@ -558,7 +558,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         testing::internal::CaptureStdout() ;
 
@@ -634,7 +634,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpoc
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         EXPECT_EQ(propagatedModel.getEpoch(),startInstant) ;
 
@@ -706,7 +706,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRevo
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
 
         EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(),1) ;
 
@@ -800,7 +800,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         EXPECT_EQ(orbit.getStateAt(instant_after1), propagatedModel.calculateStateAt(instant_after1)) ;
         EXPECT_EQ(orbit.getStateAt(instant_after2), propagatedModel.calculateStateAt(instant_after2)) ;
 
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty()) ;
+        EXPECT_TRUE(testing::internal::GetCapturedStdout().empty()) ;
 
     }
 
@@ -1045,7 +1045,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1116,7 +1116,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1187,7 +1187,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1262,7 +1262,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1339,7 +1339,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1413,7 +1413,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
             NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
             // Setup Propagated model and perform propagation
-            const Propagated propagatedModel = {satelliteDynamics , numericalSolver, cachedStateArray} ;
+            const Propagated propagatedModel = {satelliteDynamics, numericalSolver, cachedStateArray} ;
             const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
             // Since none of the reference states used are duplicates, the cached state array after propagation should be the same length as all the reference states
@@ -1992,7 +1992,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2079,7 +2079,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2226,7 +2226,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2316,10 +2316,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_360 = {satelliteDynamics_360 , numericalSolver} ;
-        const Propagated propagatedModel_100 = {satelliteDynamics_100 , numericalSolver} ;
-        const Propagated propagatedModel_70 = {satelliteDynamics_70 , numericalSolver} ;
-        const Propagated propagatedModel_45 = {satelliteDynamics_45 , numericalSolver} ;
+        const Propagated propagatedModel_360 = {satelliteDynamics_360, numericalSolver} ;
+        const Propagated propagatedModel_100 = {satelliteDynamics_100, numericalSolver} ;
+        const Propagated propagatedModel_70 = {satelliteDynamics_70, numericalSolver} ;
+        const Propagated propagatedModel_45 = {satelliteDynamics_45, numericalSolver} ;
 
         const Orbit orbit_360 = { propagatedModel_360, customEnvironment_360.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_100 = { propagatedModel_100, customEnvironment_100.accessCelestialObjectWithName("Earth") } ;
@@ -2483,7 +2483,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2563,7 +2563,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2653,10 +2653,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_360 = {satelliteDynamics_360 , numericalSolver} ;
-        const Propagated propagatedModel_180 = {satelliteDynamics_180 , numericalSolver} ;
-        const Propagated propagatedModel_90 = {satelliteDynamics_90 , numericalSolver} ;
-        const Propagated propagatedModel_45 = {satelliteDynamics_45 , numericalSolver} ;
+        const Propagated propagatedModel_360 = {satelliteDynamics_360, numericalSolver} ;
+        const Propagated propagatedModel_180 = {satelliteDynamics_180, numericalSolver} ;
+        const Propagated propagatedModel_90 = {satelliteDynamics_90, numericalSolver} ;
+        const Propagated propagatedModel_45 = {satelliteDynamics_45, numericalSolver} ;
 
         const Orbit orbit_360 = { propagatedModel_360, customEnvironment_360.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_180 = { propagatedModel_180, customEnvironment_180.accessCelestialObjectWithName("Earth") } ;
@@ -2821,7 +2821,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -2908,9 +2908,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_180 = {satelliteDynamics_180 , numericalSolver} ;
-        const Propagated propagatedModel_70 = {satelliteDynamics_70 , numericalSolver} ;
-        const Propagated propagatedModel_45 = {satelliteDynamics_45 , numericalSolver} ;
+        const Propagated propagatedModel_180 = {satelliteDynamics_180, numericalSolver} ;
+        const Propagated propagatedModel_70 = {satelliteDynamics_70, numericalSolver} ;
+        const Propagated propagatedModel_45 = {satelliteDynamics_45, numericalSolver} ;
 
         const Orbit orbit_180 = { propagatedModel_180, customEnvironment_180.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_70 = { propagatedModel_70, customEnvironment_70.accessCelestialObjectWithName("Earth") } ;
@@ -3061,7 +3061,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -3192,7 +3192,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -3323,7 +3323,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -3450,7 +3450,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel = {satelliteDynamics, numericalSolver} ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -3572,8 +3572,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_short = {satelliteDynamics , numericalSolver} ;
-        const Propagated propagatedModel_long = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel_short = {satelliteDynamics, numericalSolver} ;
+        const Propagated propagatedModel_long = {satelliteDynamics, numericalSolver} ;
 
         const Orbit orbit_short = { propagatedModel_short, customEnvironment.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_long = { propagatedModel_long, customEnvironment.accessCelestialObjectWithName("Earth") } ;
@@ -3662,8 +3662,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_short = {satelliteDynamics , numericalSolver} ;
-        const Propagated propagatedModel_long = {satelliteDynamics , numericalSolver} ;
+        const Propagated propagatedModel_short = {satelliteDynamics, numericalSolver} ;
+        const Propagated propagatedModel_long = {satelliteDynamics, numericalSolver} ;
 
         const Orbit orbit_short = { propagatedModel_short, customEnvironment.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_long = { propagatedModel_long, customEnvironment.accessCelestialObjectWithName("Earth") } ;
@@ -3710,7 +3710,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
 
         }
 
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty()) ;
+        EXPECT_TRUE(testing::internal::GetCapturedStdout().empty()) ;
 
     }
 
@@ -3799,8 +3799,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel_54 = {satelliteDynamics , numericalSolver_54} ;
-        const Propagated propagatedModel_78 = {satelliteDynamics , numericalSolver_78} ;
+        const Propagated propagatedModel_54 = {satelliteDynamics, numericalSolver_54} ;
+        const Propagated propagatedModel_78 = {satelliteDynamics, numericalSolver_78} ;
 
         const Orbit orbit_54 = { propagatedModel_54, customEnvironment.accessCelestialObjectWithName("Earth") } ;
         const Orbit orbit_78 = { propagatedModel_78, customEnvironment.accessCelestialObjectWithName("Earth") } ;
@@ -3935,8 +3935,8 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
             SatelliteDynamics satelliteDynamics_tested = { customEnvironment_tested, satelliteSystem, state } ;
 
             // Setup Propagated model and orbit
-            const Propagated propagatedModel_default = {satelliteDynamics_default , numericalSolver} ;
-            const Propagated propagatedModel_tested = {satelliteDynamics_tested , numericalSolver} ;
+            const Propagated propagatedModel_default = {satelliteDynamics_default, numericalSolver} ;
+            const Propagated propagatedModel_tested = {satelliteDynamics_tested, numericalSolver} ;
 
             const Orbit orbit_default = { propagatedModel_default, customEnvironment_default.accessCelestialObjectWithName("Earth") } ;
             const Orbit orbit_tested = { propagatedModel_tested, customEnvironment_tested.accessCelestialObjectWithName("Earth") } ;
