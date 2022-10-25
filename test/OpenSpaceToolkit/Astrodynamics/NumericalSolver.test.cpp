@@ -285,16 +285,13 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 
     {
 
-        // Define numbers
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
+
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0) ;
-
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15) ;
-
         EXPECT_EQ(numericalSolver.getAbsoluteTolerance(), 1.0e-15) ;
 
     }
-
 
 }
 
@@ -333,9 +330,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
 {
 
     using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
     using ostk::core::types::String ;
     using ostk::core::types::Integer ;
+    using ostk::core::ctnr::Array ;
 
     using ostk::physics::time::Instant ;
     using ostk::physics::time::Duration ;
@@ -345,31 +342,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
     // Performance test with RungeKuttaCashKarp54 and integrateStatesAtSortedInstants in forward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
+
         const Instant startInstant = Instant::J2000() ;
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(startInstant + Duration::Seconds(100)) ;
-        instantArray.add(startInstant + Duration::Seconds(400)) ;
-        instantArray.add(startInstant + Duration::Seconds(700)) ;
-        instantArray.add(startInstant + Duration::Seconds(1000)) ;
+
+        const Array<Instant> instantArray =
+        {
+            startInstant + Duration::Seconds(100),
+            startInstant + Duration::Seconds(400),
+            startInstant + Duration::Seconds(700),
+            startInstant + Duration::Seconds(1000)
+        } ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants
+        (
+            currentStateVector,
+            startInstant,
+            instantArray,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
-            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
-            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
 
-            EXPECT_GT(2e-8, stateError[0]) ;
-            EXPECT_GT(2e-8, stateError[1]) ;
+            const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
+
+            EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))) ;
+            EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))) ;
+
         }
 
     }
@@ -377,32 +385,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
+
         const Instant startInstant = Instant::J2000() ;
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(startInstant + Duration::Seconds(-100)) ;
-        instantArray.add(startInstant + Duration::Seconds(-400)) ;
-        instantArray.add(startInstant + Duration::Seconds(-700)) ;
-        instantArray.add(startInstant + Duration::Seconds(-1000)) ;
+
+        const Array<Instant> instantArray =
+        {
+            startInstant + Duration::Seconds(-100),
+            startInstant + Duration::Seconds(-400),
+            startInstant + Duration::Seconds(-700),
+            startInstant + Duration::Seconds(-1000)
+        } ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants
+        (
+            currentStateVector,
+            startInstant,
+            instantArray,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
-            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+            const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            EXPECT_GT(2e-8, stateError[0]) ;
-            EXPECT_GT(2e-8, stateError[1]) ;
+            EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))) ;
+            EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))) ;
+
         }
 
     }
@@ -410,32 +428,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
     // Performance test with RungeKuttaFehlberg78 in forward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
+
         const Instant startInstant = Instant::J2000() ;
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(startInstant + Duration::Seconds(100)) ;
-        instantArray.add(startInstant + Duration::Seconds(400)) ;
-        instantArray.add(startInstant + Duration::Seconds(700)) ;
-        instantArray.add(startInstant + Duration::Seconds(1000)) ;
+
+        const Array<Instant> instantArray =
+        {
+            startInstant + Duration::Seconds(100),
+            startInstant + Duration::Seconds(400),
+            startInstant + Duration::Seconds(700),
+            startInstant + Duration::Seconds(1000)
+        } ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants
+        (
+            currentStateVector,
+            startInstant,
+            instantArray,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
-            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+            const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            EXPECT_GT(2e-10, stateError[0]) ;
-            EXPECT_GT(2e-10, stateError[1]) ;
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))) ;
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))) ;
+
         }
 
     }
@@ -443,32 +471,42 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedIns
     // Performance test with RungeKuttaFehlberg78 in backward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
+
         const Instant startInstant = Instant::J2000() ;
-        Array<Instant> instantArray = Array<Instant>::Empty() ;
-        instantArray.add(startInstant + Duration::Seconds(-100)) ;
-        instantArray.add(startInstant + Duration::Seconds(-400)) ;
-        instantArray.add(startInstant + Duration::Seconds(-700)) ;
-        instantArray.add(startInstant + Duration::Seconds(-1000)) ;
+
+        const Array<Instant> instantArray =
+        {
+            startInstant + Duration::Seconds(-100),
+            startInstant + Duration::Seconds(-400),
+            startInstant + Duration::Seconds(-700),
+            startInstant + Duration::Seconds(-1000)
+        } ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants(currentStateVector, startInstant, instantArray, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const Array<NumericalSolver::StateVector> propagatedStateVectorArray = numericalSolver.integrateStatesAtSortedInstants
+        (
+            currentStateVector,
+            startInstant,
+            instantArray,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
 
         for (size_t i = 0; i < instantArray.size(); i++)
         {
-            NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            stateError[0] = std::abs(propagatedStateVector[0] - std::sin((instantArray[i]-startInstant).inSeconds())) ;
-            stateError[1] = std::abs(propagatedStateVector[1] - std::cos((instantArray[i]-startInstant).inSeconds())) ;
+            const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i] ;
 
-            EXPECT_GT(2e-10, stateError[0]) ;
-            EXPECT_GT(2e-10, stateError[1]) ;
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))) ;
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))) ;
+
         }
 
     }
@@ -491,146 +529,153 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in forward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
+
         const Duration propDuration = Duration::Seconds(10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration
+        (
+            currentStateVector,
+            propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-8, stateError[0]) ;
-        EXPECT_GT(2e-8, stateError[1]) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration
+        (
+            currentStateVector,
+            propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-8, stateError[0]) ;
-        EXPECT_GT(2e-8, stateError[1]) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaFehlberg78 in forward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration
+        (
+            currentStateVector,
+            propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double  ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-10, stateError[0]) ;
-        EXPECT_GT(2e-10, stateError[1]) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaFehlberg78 in backward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration
+        (
+            currentStateVector,
+            propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double  ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-10,stateError[0]) ;
-        EXPECT_GT(2e-10,stateError[1]) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Duration propDuration = Duration::Seconds(1000) ;
 
         NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
         NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
-        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
         testing::internal::GetCapturedStdout().empty() ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
-        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
 
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-9, stateError[0]) ;
-        EXPECT_GT(1e-9, stateError[1]) ;
-        EXPECT_FALSE(stateError[0] == 0.0) ;
-        EXPECT_FALSE(stateError[1] == 0.0) ;
+        EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0])) ;
+        EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1])) ;
+
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0) ;
 
     }
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Duration propDuration = Duration::Seconds(1000) ;
 
         NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogAdaptive, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
-        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
         testing::internal::GetCapturedStdout().empty() ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
-        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
-
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-11, stateError[0]) ;
-        EXPECT_GT(1e-11, stateError[1]) ;
-        EXPECT_FALSE(stateError[0] == 0.0) ;
-        EXPECT_FALSE(stateError[1] == 0.0) ;
+        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0])) ;
+        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1])) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0) ;
 
     }
 }
@@ -651,101 +696,119 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
     // Performance test with RungeKuttaCashKarp54 in forward time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant
+        (
+            currentStateVector,
+            instant,
+            instant + propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-8, stateError[0]) ;
-        EXPECT_GT(2e-8, stateError[1]) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaCashKarp54 in backwards time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant
+        (
+            currentStateVector,
+            instant,
+            instant + propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-8, stateError[0]) ;
-        EXPECT_GT(2e-8, stateError[1]) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaFehlberg78 in forwards time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant
+        (
+            currentStateVector,
+            instant,
+            instant + propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double  ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-10, stateError[0]) ;
-        EXPECT_GT(2e-10, stateError[1]) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test with RungeKuttaFehlberg78 in backwards time
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(-10000) ;
 
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
-        NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double  ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant
+        (
+            currentStateVector,
+            instant,
+            instant + propDuration,
+            [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double  ) -> void
+            {
+                dxdt[0] = x[1] ;
+                dxdt[1] = -x[0] ;
+            }
+        ) ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds())) ;
-        stateError[1] = std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds())) ;
 
-        EXPECT_GT(2e-10, stateError[0]) ;
-        EXPECT_GT(2e-10, stateError[1]) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propDuration.inSeconds()))) ;
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propDuration.inSeconds()))) ;
 
     }
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(1000) ;
 
@@ -753,29 +816,23 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
         NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
-        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
         testing::internal::GetCapturedStdout().empty() ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
-        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
-
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-9, stateError[0]) ;
-        EXPECT_GT(1e-9, stateError[1]) ;
-        EXPECT_FALSE(stateError[0] == 0.0) ;
-        EXPECT_FALSE(stateError[1] == 0.0) ;
+        EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0])) ;
+        EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1])) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0) ;
 
     }
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
     {
 
-        // Setup initial state vector
-        NumericalSolver::StateVector currentStateVector(2) ;
-        currentStateVector[0] = 0 ; currentStateVector[1] = 1 ;
+        const NumericalSolver::StateVector currentStateVector = { 0, 1 } ;
         const Instant instant = Instant::J2000() ;
         const Duration propDuration = Duration::Seconds(1000) ;
 
@@ -783,20 +840,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
         NumericalSolver numericalSolver_2 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
 
         testing::internal::CaptureStdout() ;
-        NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=]( const NumericalSolver::StateVector &x , NumericalSolver::StateVector &dxdt , const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
+        const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
         testing::internal::GetCapturedStdout().empty() ;
 
         // Validate the output against an analytical function
-        NumericalSolver::StateVector stateError(2) ;
-        stateError[0] = std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) ;
-        stateError[1] = std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) ;
-
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-11, stateError[0]) ;
-        EXPECT_GT(1e-11, stateError[1]) ;
-        EXPECT_FALSE(stateError[0] == 0.0) ;
-        EXPECT_FALSE(stateError[1] == 0.0) ;
+        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0])) ;
+        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1])) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0) ;
+        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0) ;
 
     }
 }

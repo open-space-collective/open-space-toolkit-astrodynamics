@@ -175,10 +175,10 @@ Real                            NumericalSolver::getAbsoluteTolerance       ( ) 
 
 }
 
-Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInstants (  const   StateVector&        anInitialStateVector,
-                                                                                        const   Instant&            aStartInstant,
-                                                                                        const   Array<Instant>&     anInstantArray,
-                                                                                        const   NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations   )
+Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInstants ( const   StateVector&         anInitialStateVector,
+                                                                                const   Instant&                    aStartInstant,
+                                                                                const   Array<Instant>&             anInstantArray,
+                                                                                const   NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations           )
 {
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector ;
@@ -225,13 +225,13 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
 
         case NumericalSolver::StepperType::RungeKuttaCashKarp54:
         {
-            integrate_times(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+            integrate_times(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
             break ;
         }
 
         case NumericalSolver::StepperType::RungeKuttaFehlberg78:
         {
-            integrate_times(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+            integrate_times(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
             break ;
         }
 
@@ -251,6 +251,7 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
 {
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector ;
+
     states_.clear() ;
     instants_.clear() ;
 
@@ -276,13 +277,13 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
                 case NumericalSolver::LogType::NoLog:
                 case NumericalSolver::LogType::LogAdaptive:
                 {
-                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
                     return aStateVector ;
                 }
 
                 case NumericalSolver::LogType::LogConstant:
                 {
-                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
                     return aStateVector ;
                 }
                 default:
@@ -299,13 +300,13 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
                 case NumericalSolver::LogType::NoLog:
                 case NumericalSolver::LogType::LogAdaptive:
                 {
-                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+                    integrate_adaptive(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
                     return aStateVector ;
                 }
 
                 case NumericalSolver::LogType::LogConstant:
                 {
-                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x , double t) -> void {this->NumericalIntegrationObserver(x, t) ;} ) ;
+                    integrate_const(make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
                     return aStateVector ;
                 }
                 default:
@@ -326,10 +327,10 @@ NumericalSolver::StateVector    NumericalSolver::integrateStateForDuration  (   
 }
 
 
-NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInstant (   const   StateVector&        anInitialStateVector,
-                                                                                        const   Instant&            aStartInstant,
-                                                                                        const   Instant&            anEndInstant,
-                                                                                        const   NumericalSolver::SystemOfEquationsWrapper&  aSystemOfEquations  )
+NumericalSolver::StateVector    NumericalSolver::integrateStateFromInstantToInstant ( const   StateVector&          anInitialStateVector,
+                                                                                const   Instant&                    aStartInstant,
+                                                                                const   Instant&                    anEndInstant,
+                                                                                const   NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations           )
 {
     return this->integrateStateForDuration(anInitialStateVector, (anEndInstant - aStartInstant), aSystemOfEquations) ;
 }
@@ -377,8 +378,8 @@ String                          NumericalSolver::StringFromStepperType      (   
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void                            NumericalSolver::NumericalIntegrationObserver ( const   NumericalSolver::StateVector& x,
-                                                                                const   double                        t                                         )
+void                            NumericalSolver::observeNumericalIntegration (  const   NumericalSolver::StateVector& x,
+                                                                                const   double                      t                                           )
 {
 
     states_.push_back(x) ;
@@ -389,6 +390,8 @@ void                            NumericalSolver::NumericalIntegrationObserver ( 
 
         case NumericalSolver::LogType::LogAdaptive:
         case NumericalSolver::LogType::LogConstant:
+        {
+
             std::cout.precision(3) ;
             std::cout.setf(std::ios::fixed,std::ios::floatfield) ;
 
@@ -397,7 +400,7 @@ void                            NumericalSolver::NumericalIntegrationObserver ( 
             std::cout.precision(10) ;
             std::cout.setf(std::ios::scientific,std::ios::floatfield) ;
 
-            for (Size i = 0; i < x.size(); i++)
+            for (auto i = 0; i < x.size(); i++)
             {
                 std::cout << std::internal << std::setw(16) << x[i] << "     " ;
             }
@@ -405,11 +408,16 @@ void                            NumericalSolver::NumericalIntegrationObserver ( 
 
             std::cout.setf(std::ios::fixed,std::ios::floatfield) ;
 
+            break ;
+
+        }
+
         default:
-        {}
+        {
+            break ;
+        }
 
     }
-
 
 }
 
