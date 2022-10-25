@@ -171,8 +171,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
         const State state = profile.getStateAt(Instant::J2000()) ;
 
         EXPECT_EQ(Instant::J2000(), state.getInstant()) ;
-        EXPECT_EQ(Vector3d::Zero(), state.getPosition()) ;
-        EXPECT_EQ(Vector3d::Zero(), state.getVelocity()) ;
+        EXPECT_EQ(Vector3d::Zero(), state.getPosition().getCoordinates()) ;
+        EXPECT_EQ(Vector3d::Zero(), state.getVelocity().getCoordinates()) ;
         EXPECT_EQ(Quaternion::Unit(), state.getAttitude()) ;
         EXPECT_EQ(Vector3d::Zero(), state.getAngularVelocity()) ;
         EXPECT_EQ(Frame::GCRF(), state.getFrame()) ;
@@ -213,8 +213,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Transform ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
+    using ostk::physics::coord::Transform ;
     using ostk::physics::coord::frame::provider::Dynamic ;
 
     using ostk::astro::flight::Profile ;
@@ -245,9 +247,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 
             const Array<State> referenceStates =
             {
-                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
-                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
-                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Vector3d::Zero(), Vector3d::Zero(), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() }
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters(Vector3d::Zero(), Frame::GCRF()), Velocity::MetersPerSecond(Vector3d::Zero(), Frame::GCRF()), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC), Position::Meters(Vector3d::Zero(), Frame::GCRF()), Velocity::MetersPerSecond(Vector3d::Zero(), Frame::GCRF()), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() },
+                { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters(Vector3d::Zero(), Frame::GCRF()), Velocity::MetersPerSecond(Vector3d::Zero(), Frame::GCRF()), Quaternion::Unit(), Vector3d::Zero(), Frame::GCRF() }
             } ;
 
             EXPECT_EQ(referenceStates, profile.getStatesAt(referenceInstants)) ;
@@ -358,8 +360,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
             const State state = profile.getStateAt(instant_ref) ;
 
-            const Vector3d x_BODY_GCRF = state.getPosition() ;
-            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+            const Vector3d x_BODY_GCRF = state.getPosition().getCoordinates() ;
+            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity().getCoordinates() ;
             const Quaternion q_BODY_GCRF = state.getAttitude() ;
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
 
@@ -456,8 +458,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
 //             const State state = profile.getStateAt(instant_ref) ;
 
-//             const Vector3d x_BODY_GCRF = state.getPosition() ;
-//             const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+//             const Vector3d x_BODY_GCRF = state.getPosition().getCoordinates() ;
+//             const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity().getCoordinates() ;
 //             const Quaternion q_BODY_GCRF = state.getAttitude() ;
 //             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
 
@@ -554,8 +556,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
             const State state = profile.getStateAt(instant_ref) ;
 
-            const Vector3d x_BODY_GCRF = state.getPosition() ;
-            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+            const Vector3d x_BODY_GCRF = state.getPosition().getCoordinates() ;
+            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity().getCoordinates() ;
             const Quaternion q_BODY_GCRF = state.getAttitude() ;
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
 
@@ -618,8 +620,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
             const State state = profile.getStateAt(instant_ref) ;
 
-            const Vector3d x_BODY_GCRF = state.getPosition() ;
-            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+            const Vector3d x_BODY_GCRF = state.getPosition().getCoordinates() ;
+            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity().getCoordinates() ;
             const Quaternion q_BODY_GCRF = state.getAttitude() ;
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
 
@@ -682,8 +684,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
             const State state = profile.getStateAt(instant_ref) ;
 
-            const Vector3d x_BODY_GCRF = state.getPosition() ;
-            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity() ;
+            const Vector3d x_BODY_GCRF = state.getPosition().getCoordinates() ;
+            const Vector3d v_BODY_GCRF_in_GCRF = state.getVelocity().getCoordinates() ;
             const Quaternion q_BODY_GCRF = state.getAttitude() ;
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity() ;
 

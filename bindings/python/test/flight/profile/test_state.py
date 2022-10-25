@@ -12,6 +12,7 @@ import pytest
 import numpy as np
 
 import ostk.physics as physics
+
 import ostk.mathematics as mathematics
 
 import ostk.astrodynamics as astrodynamics
@@ -22,173 +23,146 @@ Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
 DateTime = physics.time.DateTime
 Instant = physics.time.Instant
 Scale = physics.time.Scale
+Position = physics.coordinate.Position
+Velocity = physics.coordinate.Velocity
 Frame = physics.coordinate.Frame
 State = astrodynamics.flight.profile.State
 
 ################################################################################################################################################################
 
-def test_flight_profile_state_constructors ():
+@pytest.fixture
+def instant () -> Instant:
 
-    # Construct Instant
-    instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
+    return Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
 
-    # Construct Quaternion
-    quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+@pytest.fixture
+def frame () -> Frame:
 
-    # Construct Frame
-    frame: Frame = Frame.GCRF()
+    return Frame.GCRF()
 
-    # Construct State using lists
-    position = [0.0, 3.2, 3000.0]
-    velocity = [1.0, 3.0, 0.0]
-    angular_velocity = [0.01, 0.01, 0.0]
+@pytest.fixture
+def position (frame: Frame) -> Position:
 
-    state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+    return Position.meters([0.0, 3.2, 3000.0], frame)
 
-    assert state is not None
-    assert isinstance(state, State)
+@pytest.fixture
+def velocity (frame: Frame) -> Velocity:
 
-    # Construct State using tuples
-    position = (0.0, 3.2, 3000.0)
-    velocity = (1.0, 3.0, 0.0)
-    angular_velocity = (0.01, 0.01, 0.0)
+    return Velocity.meters_per_second([1.0, 3.0, 0.0], frame)
 
-    state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+@pytest.fixture
+def quaternion () -> Quaternion:
 
-    assert state is not None
-    assert isinstance(state, State)
+    return Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
-    # Construct State using ndarray
-    position = np.array(position)
-    velocity = np.array(velocity)
-    angular_velocity = np.array(angular_velocity)
+@pytest.fixture
+def angular_velocity () -> np.array:
 
-    state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+    return np.array((0.01, 0.01, 0.0))
 
-    assert state is not None
-    assert isinstance(state, State)
+@pytest.fixture
+def state (instant: Instant,
+           position: Position,
+           velocity: Velocity,
+           quaternion: Quaternion,
+           angular_velocity: np.array,
+           frame: Frame) -> State:
 
-################################################################################################################################################################
-
-def test_flight_profile_state_comparators ():
-
-    # Construct Instant
-    instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
-
-    # Construct Quaternion
-    quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
-
-    # Construct Frame
-    frame: Frame = Frame.GCRF()
-
-    # Construct State using lists
-    position_1 = [0.0, 3.2, 3000.0]
-    position_2 = [3.0, 23.4, 3400.0]
-    velocity = [1.0, 3.0, 0.0]
-    angular_velocity = [0.01, 0.01, 0.0]
-
-    state_1: State = State(instant, position_1, velocity, quaternion, angular_velocity, frame)
-    state_2: State = State(instant, position_2, velocity, quaternion, angular_velocity, frame)
-
-    assert state_1 == state_1
-    assert state_2 == state_2
-    assert state_1 != state_2
+    return State(
+        instant,
+        position,
+        velocity,
+        quaternion,
+        angular_velocity,
+        frame,
+    )
 
 ################################################################################################################################################################
 
-def test_flight_profile_state_getters ():
+class TestState:
 
-    # Construct Instant
-    instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
+    def test_constructors (self):
 
-    # Construct Quaternion
-    quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+        # Construct Instant
+        instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
 
-    # Construct Frame
-    frame: Frame = Frame.GCRF()
+        # Construct Quaternion
+        quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
-    # Construct State using lists
-    position = [0.0, 3.2, 3000.0]
-    velocity = [1.0, 3.0, 0.0]
-    angular_velocity = [0.01, 0.01, 0.0]
+        # Construct Frame
+        frame: Frame = Frame.GCRF()
 
-    state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+        # Construct State using lists
+        position = Position.meters([0.0, 3.2, 3000.0], Frame.GCRF())
+        velocity = Velocity.meters_per_second([1.0, 3.0, 0.0], Frame.GCRF())
+        angular_velocity = [0.01, 0.01, 0.0]
 
-    # get_instant
-    ans_instant: Instant = state.get_instant()
+        state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
 
-    assert ans_instant is not None
-    assert isinstance(ans_instant, Instant)
-    assert ans_instant == instant
+        assert isinstance(state, State)
 
-    # get_position
-    ans_position = state.get_position()
+        # Construct State using tuples
+        position = Position.meters((0.0, 3.2, 3000.0), Frame.GCRF())
+        velocity = Velocity.meters_per_second((1.0, 3.0, 0.0), Frame.GCRF())
+        angular_velocity = (0.01, 0.01, 0.0)
 
-    assert ans_position is not None
-    assert isinstance(ans_position, np.ndarray)
-    assert np.array_equal(ans_position, position)
+        state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
 
-    # get_velocity
-    ans_velocity = state.get_velocity()
+        assert isinstance(state, State)
 
-    assert ans_velocity is not None
-    assert isinstance(ans_velocity, np.ndarray)
-    assert np.array_equal(ans_velocity, velocity)
+        # Construct State using ndarray
+        # position = Position.meters(np.array(position), Frame.GCRF())
+        # velocity = Velocity.meters_per_second(np.array(velocity), Frame.GCRF())
+        # angular_velocity = np.array(angular_velocity)
 
-    # get_angular_velocity
-    ans_angular_velocity = state.get_angular_velocity()
+        # state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
 
-    assert ans_angular_velocity is not None
-    assert isinstance(ans_angular_velocity, np.ndarray)
-    assert np.array_equal(ans_angular_velocity, angular_velocity)
+        # assert isinstance(state, State)
 
-    # get_attitude
-    ans_attitude: Instant = state.get_attitude()
+    def test_comparators (self, state: State):
 
-    assert ans_attitude is not None
-    assert isinstance(ans_attitude, Quaternion)
-    assert ans_attitude == quaternion
+        assert (state == state) is True
+        assert (state != state) is False
 
-    # get_frame
-    ans_frame: Frame = state.get_frame()
+    def test_get_instant (self, instant: Instant, state: State):
 
-    assert ans_frame is not None
-    assert isinstance(ans_frame, Frame)
-    assert ans_frame == frame
+        assert isinstance(state.get_instant(), Instant)
+        assert state.get_instant() == instant
 
-################################################################################################################################################################
+    def test_get_position (self, position: Position, state: State):
 
-def test_flight_profile_state_in_frame ():
+        assert isinstance(state.get_position(), Position)
+        assert state.get_position() == position
 
-    # Construct Instant
-    instant: Instant = Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
+    def test_get_velocity (self, velocity: Velocity, state: State):
 
-    # Construct Quaternion
-    quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+        assert isinstance(state.get_velocity(), Velocity)
+        assert state.get_velocity() == velocity
 
-    # Construct Frame
-    frame: Frame = Frame.GCRF()
+    def test_get_attitude (self, quaternion: Quaternion, state: State):
 
-    # Construct State using lists
-    position = [0.0, 3.2, 3000.0]
-    velocity = [1.0, 3.0, 0.0]
-    angular_velocity = [0.01, 0.01, 0.0]
+        assert isinstance(state.get_attitude(), Quaternion)
+        assert state.get_attitude() == quaternion
 
-    state: State = State(instant, position, velocity, quaternion, angular_velocity, frame)
+    def test_get_angular_velocity (self, angular_velocity: np.array, state: State):
 
-    ans_state = state.in_frame(Frame.GCRF())
+        assert isinstance(state.get_angular_velocity(), np.ndarray)
+        assert np.array_equal(state.get_angular_velocity(), angular_velocity)
 
-    assert ans_state is not None
-    assert isinstance(ans_state, State)
+    def test_get_frame (self, frame: Frame, state: State):
 
-################################################################################################################################################################
+        assert isinstance(state.get_frame(), Frame)
+        assert state.get_frame() == frame
 
-def test_flight_profile_state_undefined ():
+    def test_in_frame (self, frame: Frame, state: State):
 
-    state: State = State.undefined()
+        assert isinstance(state.in_frame(frame), State)
 
-    assert state is not None
-    assert isinstance(state, State)
-    assert state.is_defined() is False
+    def test_undefined (self):
+
+        state: State = State.undefined()
+
+        assert isinstance(state, State)
+        assert state.is_defined() is False
 
 ################################################################################################################################################################

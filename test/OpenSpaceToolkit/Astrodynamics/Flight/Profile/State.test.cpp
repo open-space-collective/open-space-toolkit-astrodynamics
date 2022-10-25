@@ -25,6 +25,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Constructor)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -32,8 +34,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Constructor)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -55,6 +57,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, EqualToOperator)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -62,8 +66,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, EqualToOperator)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -76,8 +80,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, EqualToOperator)
 
     {
 
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -97,8 +101,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, EqualToOperator)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -124,14 +128,16 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, NotEqualToOperator)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
 
     {
 
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -151,8 +157,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, NotEqualToOperator)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -166,8 +172,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, NotEqualToOperator)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -193,6 +199,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, StreamOperator)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -200,8 +208,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, StreamOperator)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -239,6 +247,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, IsDefined)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -246,8 +256,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, IsDefined)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -261,8 +271,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, IsDefined)
     {
 
         const Instant instant = Instant::Undefined() ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -292,6 +302,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Accessors)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -299,8 +311,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Accessors)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -338,6 +350,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Getters)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -345,8 +359,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, Getters)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -388,6 +402,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
     using ostk::physics::time::Scale ;
     using ostk::physics::time::Instant ;
     using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -395,8 +411,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -412,8 +428,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::RotationVector(RotationVector({ 1.0, 0.0, 0.0 }, Angle::Degrees(90.0))) ; // x_B = x_GCRF, y_B = z_GCRF, z_B = -y_GCRF
         const Vector3d angularVelocity = { 0.0, 0.0, 0.0 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;
@@ -424,8 +440,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
 
         EXPECT_EQ(state_GCRF_2.getInstant(), state_GCRF_1.getInstant()) ;
 
-        EXPECT_TRUE(state_GCRF_2.getPosition().isNear({ 3.130432245445, -1.782920894026, 5.601927082917 }, 1e-12)) ;
-        EXPECT_TRUE(state_GCRF_2.getVelocity().isNear({ 7.449331963058, -9.290756194490, 1.213098202596 }, 1e-12)) ;
+        EXPECT_TRUE(state_GCRF_2.getPosition().getCoordinates().isNear({ 3.130432245445, -1.782920894026, 5.601927082917 }, 1e-12)) ;
+        EXPECT_TRUE(state_GCRF_2.getVelocity().getCoordinates().isNear({ 7.449331963058, -9.290756194490, 1.213098202596 }, 1e-12)) ;
         EXPECT_TRUE(state_GCRF_2.getAttitude().isNear(Quaternion::XYZS(0.452292767431, -0.543517630607, -0.542758030465, 0.453247788869).normalize(), Angle::Arcseconds(1.0))) ;
         EXPECT_TRUE(state_GCRF_2.getAngularVelocity().isNear({ 0.0, -0.0000729, 0.0 }, 1e-5)) ;
 
@@ -436,8 +452,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_Profile_State, InFrame)
     {
 
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Vector3d position = { 1.2, 3.4, 5.6 } ;
-        const Vector3d velocity = { 7.8, 9.0, 1.2 } ;
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
         const Quaternion attitude = Quaternion::XYZS(0.0, 0.0, 0.0, 1.0) ;
         const Vector3d angularVelocity = { 3.4, 5.6, 7.8 } ;
         const Shared<const Frame> referenceFrame = Frame::GCRF() ;

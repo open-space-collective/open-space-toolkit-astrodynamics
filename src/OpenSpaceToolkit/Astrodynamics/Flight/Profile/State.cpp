@@ -26,8 +26,8 @@ namespace profile
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 State::State                                (   const   Instant&                    anInstant,
-                                                                                const   Vector3d&                   aPosition,
-                                                                                const   Vector3d&                   aVelocity,
+                                                                                const   Position&                   aPosition,
+                                                                                const   Velocity&                   aVelocity,
                                                                                 const   Quaternion&                 anAttitude,
                                                                                 const   Vector3d&                   anAngularVelocity,
                                                                                 const   Shared<const Frame>&        aReferenceFrame                             )
@@ -49,12 +49,12 @@ bool                            State::operator ==                          (   
         return false ;
     }
 
-    return (instant_ == aState.instant_)
-        && (position_ == aState.position_)
-        && (velocity_ == aState.velocity_)
-        && (attitude_ == aState.attitude_)
-        && (angularVelocity_ == aState.angularVelocity_)
-        && (frameSPtr_ == aState.frameSPtr_) ;
+    return (this->instant_ == aState.instant_)
+        && (this->position_ == aState.position_)
+        && (this->velocity_ == aState.velocity_)
+        && (this->attitude_ == aState.attitude_)
+        && (this->angularVelocity_ == aState.angularVelocity_)
+        && (this->frameSPtr_ == aState.frameSPtr_) ;
 
 }
 
@@ -67,16 +67,7 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   State&                      aState                                      )
 {
 
-    ostk::core::utils::Print::Header(anOutputStream, "Flight :: Profile :: State") ;
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Instant:"             << (aState.instant_.isDefined() ? aState.instant_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Position:"            << (aState.position_.isDefined() ? aState.position_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:"            << (aState.velocity_.isDefined() ? aState.velocity_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Attitude:"            << (aState.attitude_.isDefined() ? aState.attitude_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Angular velocity:"    << (aState.angularVelocity_.isDefined() ? aState.angularVelocity_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Frame:"               << (((aState.frameSPtr_ != nullptr) && aState.frameSPtr_->isDefined()) ? aState.frameSPtr_->getName() : "Undefined") ;
-
-    ostk::core::utils::Print::Footer(anOutputStream) ;
+    aState.print(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -85,13 +76,13 @@ std::ostream&                   operator <<                                 (   
 bool                            State::isDefined                            ( ) const
 {
 
-    return instant_.isDefined()
-        && position_.isDefined()
-        && velocity_.isDefined()
-        && attitude_.isDefined()
-        && angularVelocity_.isDefined()
-        && (frameSPtr_ != nullptr)
-        && frameSPtr_->isDefined() ;
+    return this->instant_.isDefined()
+        && this->position_.isDefined()
+        && this->velocity_.isDefined()
+        && this->attitude_.isDefined()
+        && this->angularVelocity_.isDefined()
+        && (this->frameSPtr_ != nullptr)
+        && this->frameSPtr_->isDefined() ;
 
 }
 
@@ -103,11 +94,11 @@ const Instant&                  State::accessInstant                        ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return instant_ ;
+    return this->instant_ ;
 
 }
 
-const Vector3d&                 State::accessPosition                       ( ) const
+const Position&                 State::accessPosition                       ( ) const
 {
 
     if (!this->isDefined())
@@ -115,11 +106,11 @@ const Vector3d&                 State::accessPosition                       ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return position_ ;
+    return this->position_ ;
 
 }
 
-const Vector3d&                 State::accessVelocity                       ( ) const
+const Velocity&                 State::accessVelocity                       ( ) const
 {
 
     if (!this->isDefined())
@@ -127,7 +118,7 @@ const Vector3d&                 State::accessVelocity                       ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return velocity_ ;
+    return this->velocity_ ;
 
 }
 
@@ -139,7 +130,7 @@ const Quaternion&               State::accessAttitude                       ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return attitude_ ;
+    return this->attitude_ ;
 
 }
 
@@ -151,7 +142,7 @@ const Vector3d&                 State::accessAngularVelocity                ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return angularVelocity_ ;
+    return this->angularVelocity_ ;
 
 }
 
@@ -160,12 +151,12 @@ Instant                         State::getInstant                           ( ) 
     return this->accessInstant() ;
 }
 
-Vector3d                        State::getPosition                          ( ) const
+Position                        State::getPosition                          ( ) const
 {
     return this->accessPosition() ;
 }
 
-Vector3d                        State::getVelocity                          ( ) const
+Velocity                        State::getVelocity                          ( ) const
 {
     return this->accessVelocity() ;
 }
@@ -188,7 +179,7 @@ Shared<const Frame>             State::getFrame                             ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return frameSPtr_ ;
+    return this->frameSPtr_ ;
 
 }
 
@@ -207,23 +198,16 @@ State                           State::inFrame                              (   
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    const Vector3d& x_OLD = position_ ;
-    const Vector3d& v_OLD_in_OLD = velocity_ ;
-    const Quaternion& q_B_OLD = attitude_ ;
-    const Vector3d& w_B_OLD_in_B = angularVelocity_ ;
+    const Position position = this->position_.inFrame(aFrameSPtr, this->instant_) ;
+    const Velocity velocity = this->velocity_.inFrame(this->position_, aFrameSPtr, this->instant_) ;
 
-    const Transform transform_NEW_OLD = frameSPtr_->getTransformTo(aFrameSPtr, instant_) ;
+    const Quaternion& q_B_OLD = this->attitude_ ;
+    const Vector3d& w_B_OLD_in_B = this->angularVelocity_ ;
+
+    const Transform transform_NEW_OLD = this->frameSPtr_->getTransformTo(aFrameSPtr, this->instant_) ;
 
     const Quaternion q_NEW_OLD = transform_NEW_OLD.getOrientation() ;
     const Vector3d w_NEW_OLD_in_NEW = transform_NEW_OLD.getAngularVelocity() ;
-
-    // x_NEW = T_NEW_OLD(x_OLD)
-
-    const Vector3d x_NEW = transform_NEW_OLD.applyToPosition(x_OLD) ;
-
-    // v_NEW = T_NEW_OLD(v_OLD)
-
-    const Vector3d v_NEW_in_NEW = transform_NEW_OLD.applyToVelocity(x_OLD, v_OLD_in_OLD) ;
 
     // q_B_NEW = q_B_OLD * q_OLD_NEW
 
@@ -234,13 +218,32 @@ State                           State::inFrame                              (   
 
     const Vector3d w_B_NEW_in_B = w_B_OLD_in_B - q_B_NEW * w_NEW_OLD_in_NEW ;
 
-    return { instant_, x_NEW, v_NEW_in_NEW, q_B_NEW, w_B_NEW_in_B, aFrameSPtr } ;
+    return { this->instant_, position, velocity, q_B_NEW, w_B_NEW_in_B, aFrameSPtr } ;
+
+}
+
+void                            State::print                                  (         std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
+{
+
+    using ostk::core::types::String ;
+
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Flight :: Profile :: State") : void () ;
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (this->position_.isDefined() ? this->position_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (this->velocity_.isDefined() ? this->velocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Attitude:" << (this->attitude_.isDefined() ? this->attitude_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Angular velocity:" << (this->angularVelocity_.isDefined() ? this->angularVelocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:" << (((this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined()) ? this->frameSPtr_->getName() : "Undefined") ;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
 State                           State::Undefined                            ( )
 {
-    return { Instant::Undefined(), Vector3d::Undefined(), Vector3d::Undefined(), Quaternion::Undefined(), Vector3d::Undefined(), Frame::Undefined() } ;
+    return { Instant::Undefined(), Position::Undefined(), Velocity::Undefined(), Quaternion::Undefined(), Vector3d::Undefined(), Frame::Undefined() } ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

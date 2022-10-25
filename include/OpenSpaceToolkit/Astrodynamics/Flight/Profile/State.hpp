@@ -37,6 +37,8 @@ using ostk::math::obj::Vector3d ;
 using ostk::math::geom::d3::trf::rot::Quaternion ;
 
 using ostk::physics::time::Instant ;
+using ostk::physics::coord::Position ;
+using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,8 +51,8 @@ class State
     public:
 
                                 State                                       (   const   Instant&                    anInstant,
-                                                                                const   Vector3d&                   aPosition,
-                                                                                const   Vector3d&                   aVelocity,
+                                                                                const   Position&                   aPosition,
+                                                                                const   Velocity&                   aVelocity,
                                                                                 const   Quaternion&                 anAttitude,
                                                                                 const   Vector3d&                   anAngularVelocity,
                                                                                 const   Shared<const Frame>&        aReferenceFrame                             ) ;
@@ -66,9 +68,9 @@ class State
 
         const Instant&          accessInstant                               ( ) const ;
 
-        const Vector3d&         accessPosition                              ( ) const ;
+        const Position&         accessPosition                              ( ) const ;
 
-        const Vector3d&         accessVelocity                              ( ) const ;
+        const Velocity&         accessVelocity                              ( ) const ;
 
         const Quaternion&       accessAttitude                              ( ) const ;
 
@@ -76,9 +78,9 @@ class State
 
         Instant                 getInstant                                  ( ) const ;
 
-        Vector3d                getPosition                                 ( ) const ;
+        Position                getPosition                                 ( ) const ;
 
-        Vector3d                getVelocity                                 ( ) const ;
+        Velocity                getVelocity                                 ( ) const ;
 
         Quaternion              getAttitude                                 ( ) const ;
 
@@ -88,13 +90,16 @@ class State
 
         State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
+        void                    print                                       (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            =   true ) const ;
+
         static State            Undefined                                   ( ) ;
 
     private:
 
         Instant                 instant_ ;
-        Vector3d                position_ ;
-        Vector3d                velocity_ ;
+        Position                position_ ;
+        Velocity                velocity_ ;
         Quaternion              attitude_ ;
         Vector3d                angularVelocity_ ;
         Shared<const Frame>     frameSPtr_ ;
