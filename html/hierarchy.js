@@ -13,6 +13,7 @@ var hierarchy =
       ] ],
       [ "ostk::astro::trajectory::orbit::Model", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html", [
         [ "ostk::astro::trajectory::orbit::models::Kepler", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html", null ],
+        [ "ostk::astro::trajectory::orbit::models::Propagated", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html", null ],
         [ "ostk::astro::trajectory::orbit::models::SGP4", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html", null ],
         [ "ostk::astro::trajectory::orbit::models::Tabulated", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", null ]
       ] ]
@@ -20,8 +21,8 @@ var hierarchy =
     [ "ostk::astro::NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", null ],
     [ "ostk::astro::trajectory::orbit::Pass", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html", null ],
     [ "ostk::astro::flight::Profile", "classostk_1_1astro_1_1flight_1_1_profile.html", null ],
-    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
+    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::System", "classostk_1_1astro_1_1flight_1_1_system.html", [
       [ "ostk::astro::flight::system::SatelliteSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html", null ]
     ] ],

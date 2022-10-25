@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['meananomalyfromeccentricanomaly',['MeanAnomalyFromEccentricAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#ac45f3543991d1c81a0341e141713126f',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
-  ['model',['Model',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html',1,'ostk::astro::trajectory::orbit::Model'],['../classostk_1_1astro_1_1trajectory_1_1_model.html',1,'ostk::astro::trajectory::Model'],['../classostk_1_1astro_1_1trajectory_1_1_model.html#aed4bcf4fbd44f69e97d8ff98112aa0f5',1,'ostk::astro::trajectory::Model::Model()'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html#a0604b5c1d0c0acb89cb42a10ea0fdb16',1,'ostk::astro::trajectory::orbit::Model::Model()']]],
-  ['model_2ecpp',['Model.cpp',['../_model_8cpp.html',1,'(Global Namespace)'],['../_orbit_2_model_8cpp.html',1,'(Global Namespace)']]],
-  ['model_2ehpp',['Model.hpp',['../_model_8hpp.html',1,'(Global Namespace)'],['../_orbit_2_model_8hpp.html',1,'(Global Namespace)']]]
+  ['load',['Load',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a81cf8ebea4354805ab69e732bfe73d77',1,'ostk::astro::trajectory::models::Tabulated::Load()'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a5e912145266460d05beaba326b5ace95',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE::Load()']]],
+  ['logadaptive',['LogAdaptive',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e',1,'ostk::astro::NumericalSolver']]],
+  ['logconstant',['LogConstant',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4ca40b79e6f53444b0a01aa353abfd9fe91',1,'ostk::astro::NumericalSolver']]],
+  ['logtype',['LogType',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4c',1,'ostk::astro::NumericalSolver']]],
+  ['lvlh',['LVLH',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7acdfe4a5ed313c123b78c17d455cfa94f',1,'ostk::astro::trajectory::Orbit']]],
+  ['lvlhgd',['LVLHGD',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7a9f24a174bf2de776f4f87caef847746f',1,'ostk::astro::trajectory::Orbit']]]
 ];
