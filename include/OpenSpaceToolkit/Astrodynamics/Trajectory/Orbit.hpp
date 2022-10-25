@@ -194,6 +194,8 @@ class Orbit : public Trajectory
         mutable std::mutex      mutex_ ;
         mutable Map<Integer, Pass> passMap_ ;
 
+        String                  generateFrameName                           (   const   Orbit::FrameType&           aFrameType                                  ) const ;
+
         static Map<Index, Pass> GeneratePassMap                             (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber                   ) ;
 

@@ -94,7 +94,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
     for (const auto& frameType : frameTypes)
     {
 
-        const String frameName = String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(frameType), fmt::ptr(this)) ;
+        const String frameName = this->generateFrameName(frameType) ;
 
         if (FrameManager::Get().hasFrameWithName(frameName))
         {
@@ -386,7 +386,7 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
         throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
-    const String frameName = String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this)) ;
+    const String frameName = this->generateFrameName(aFrameType) ;
 
     if (FrameManager::Get().hasFrameWithName(frameName))
     {
@@ -967,6 +967,13 @@ String                          Orbit::StringFromFrameType                  (   
     }
 
     return String::Empty() ;
+
+}
+
+String                          Orbit::generateFrameName                    (   const   Orbit::FrameType&           aFrameType                                  ) const
+{
+
+    return String::Format("{} @ Orbit [{}]", Orbit::StringFromFrameType(aFrameType), fmt::ptr(this)) ;
 
 }
 
