@@ -124,7 +124,7 @@ bool                            Orbit::operator !=                          (   
 
 bool                            Orbit::isDefined                            ( ) const
 {
-    return Trajectory::isDefined() && (celestialObjectSPtr_ != nullptr) && celestialObjectSPtr_->isDefined() ;
+    return Trajectory::isDefined() && (this->celestialObjectSPtr_ != nullptr) && this->celestialObjectSPtr_->isDefined() ;
 }
 
 Integer                         Orbit::getRevolutionNumberAt                (   const   Instant&                    anInstant                                   ) const
@@ -135,7 +135,7 @@ Integer                         Orbit::getRevolutionNumberAt                (   
         throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
-    return model_.calculateRevolutionNumberAt(anInstant) ;
+    return this->model_.calculateRevolutionNumberAt(anInstant) ;
 
 }
 
@@ -165,18 +165,18 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
     // [TBI] Dead with equatorial case
 
     // std::cout << "aRevolutionNumber = " << aRevolutionNumber.toString() << std::endl ;
-    // std::cout << "passMap_.size() = " << passMap_.size() << std::endl ;
+    // std::cout << "this->passMap_.size() = " << this->passMap_.size() << std::endl ;
 
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
-    const std::lock_guard<std::mutex> lock { mutex_ } ;
+    const std::lock_guard<std::mutex> lock { this->mutex_ } ;
 
-    const auto passMapIt = passMap_.find(aRevolutionNumber) ;
+    const auto passMapIt = this->passMap_.find(aRevolutionNumber) ;
 
-    if (passMapIt != passMap_.end())
+    if (passMapIt != this->passMap_.end())
     {
         return passMapIt->second ;
     }
@@ -187,13 +187,13 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
         Pass const* closestPassPtr = nullptr ;
 
-        const auto lowerBoundMapIt = passMap_.lower_bound(aRevolutionNumber) ;
+        const auto lowerBoundMapIt = this->passMap_.lower_bound(aRevolutionNumber) ;
 
-        if (lowerBoundMapIt != passMap_.end())
+        if (lowerBoundMapIt != this->passMap_.end())
         {
             // std::cout << "lowerBoundMap = " << lowerBoundMapIt->second << std::endl ;
 
-            if (lowerBoundMapIt == passMap_.begin())
+            if (lowerBoundMapIt == this->passMap_.begin())
             {
                 closestPassPtr = &(lowerBoundMapIt->second) ;
             }
@@ -214,10 +214,10 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             }
 
         }
-        else if (passMap_.size() > 0)
+        else if (this->passMap_.size() > 0)
         {
-            // std::cout << "passMap_ IS NOT EMPTY" << std::endl ;
-            closestPassPtr = &(passMap_.begin()->second) ;
+            // std::cout << "this->passMap_ IS NOT EMPTY" << std::endl ;
+            closestPassPtr = &(this->passMap_.begin()->second) ;
         }
 
         Pass currentPass = Pass::Undefined() ;
@@ -232,10 +232,10 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             // std::cout << "currentPass = " << currentPass << std::endl ;
             static const Real tolerance = 1e-3 ; // [TBM] Param
 
-            Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber() : model_.getRevolutionNumberAtEpoch() ;
+            Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->model_.getRevolutionNumberAtEpoch() ;
             // std::cout << "currentRevolutionNumber = " << currentRevolutionNumber.toString() << std::endl ;
 
-            Instant currentInstant = currentPass.isDefined() ? currentPass.getInterval().accessEnd() : model_.getEpoch() ;
+            Instant currentInstant = currentPass.isDefined() ? currentPass.getInterval().accessEnd() : this->model_.getEpoch() ;
             // std::cout << "currentInstant = " << currentInstant.toString() << std::endl ;
             Duration stepDuration = currentPass.isDefined() ? currentPass.getInterval().getDuration() / 5.0 : Duration::Minutes(10.0) ; // [TBM] param
             // std::cout << "stepDuration = " << stepDuration.toString() << std::endl ;
@@ -243,7 +243,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             if (currentRevolutionNumber <= aRevolutionNumber) // Forward propagation
             {
 
-                Real previousStateCoordinates_ECI_z = model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
+                Real previousStateCoordinates_ECI_z = this->model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
                 // std::cout << "previousStateCoordinates_ECI_z = " << previousStateCoordinates_ECI_z << std::endl ;
 
                 Real residual = Real::Undefined() ;
@@ -260,7 +260,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
                     currentInstant += stepDuration ;
 
-                    const Real currentStateCoordinates_ECI_z = model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
+                    const Real currentStateCoordinates_ECI_z = this->model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
                     // std::cout << "currentStateCoordinates_ECI_z = " << currentStateCoordinates_ECI_z << std::endl ;
 
                     if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
@@ -323,13 +323,13 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
                 else
                 {
 
-                    if (model_.calculateStateAt(model_.getEpoch()).accessPosition().accessCoordinates().z() == 0.0)
+                    if (this->model_.calculateStateAt(this->model_.getEpoch()).accessPosition().accessCoordinates().z() == 0.0)
                     {
-                        currentPass = { Pass::Type::Complete, currentRevolutionNumber, Interval::Closed(model_.getEpoch(), currentInstant) } ;
+                        currentPass = { Pass::Type::Complete, currentRevolutionNumber, Interval::Closed(this->model_.getEpoch(), currentInstant) } ;
                     }
                     else
                     {
-                        currentPass = { Pass::Type::Partial, currentRevolutionNumber, Interval::Closed(model_.getEpoch(), currentInstant) } ;
+                        currentPass = { Pass::Type::Partial, currentRevolutionNumber, Interval::Closed(this->model_.getEpoch(), currentInstant) } ;
                     }
 
                 }
@@ -347,7 +347,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
             if (currentPass.isDefined())
             {
-                passMap_.insert({ currentPass.getRevolutionNumber(), currentPass }) ;
+                this->passMap_.insert({ currentPass.getRevolutionNumber(), currentPass }) ;
             }
 
         }
@@ -398,7 +398,8 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
         const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>
         (
-            [this, anAttitudeGenerator, aReferenceFrame] (const Instant& anInstant) -> Transform // [TBI] Use shared_from_this instead
+            // TBM: Using `this` here will trigger a segfault if the Orbit is de-allocated while the Frame is used.
+            [this, anAttitudeGenerator, aReferenceFrame] (const Instant& anInstant) -> Transform
             {
 
                 const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame) ;
@@ -442,15 +443,15 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
                 // Get state in central body centered, central body fixed frame
 
-                const State state = this->getStateAt(aState.getInstant()).inFrame(celestialObjectSPtr_->accessFrame()) ;
+                const State state = this->getStateAt(aState.getInstant()).inFrame(this->celestialObjectSPtr_->accessFrame()) ;
 
                 // Express the state position in geodetic coordinates
 
-                const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(), celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ;
+                const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(), this->celestialObjectSPtr_->getEquatorialRadius(), this->celestialObjectSPtr_->getFlattening()) ;
 
                 // Compute the NED frame to central body centered, central body fixed frame transform at position
 
-                const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+                const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(lla, this->celestialObjectSPtr_->getEquatorialRadius(), celestialObjectSPtr_->getFlattening()) ; // [TBM] This should be optimized: LLA <> ECEF calculation done twice
 
                 const Quaternion q_NED_GCRF = transform.getOrientation().toNormalized() ;
 
@@ -458,7 +459,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, celestialObjectSPtr_->accessFrame(), generateDynamicProvider(calculateAttitude, celestialObjectSPtr_->accessFrame())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                this->celestialObjectSPtr_->accessFrame(),
+                generateDynamicProvider(calculateAttitude, this->celestialObjectSPtr_->accessFrame())
+            ) ;
 
             break ;
 
@@ -487,7 +494,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                Frame::GCRF(),
+                generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            ) ;
 
             break ;
 
@@ -516,7 +529,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                Frame::GCRF(),
+                generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            ) ;
 
             break ;
 
@@ -544,7 +563,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                Frame::GCRF(),
+                generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            ) ;
 
             break ;
 
@@ -572,7 +597,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                Frame::GCRF(),
+                generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            ) ;
 
             break ;
 
@@ -600,7 +631,13 @@ Shared<const Frame>             Orbit::getOrbitalFrame                      (   
 
             } ;
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())) ;
+            orbitalFrameSPtr = Frame::Construct
+            (
+                frameName,
+                false,
+                Frame::GCRF(),
+                generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            ) ;
 
             break ;
 
@@ -630,9 +667,9 @@ void                            Orbit::print                                (   
 
     Trajectory::print(anOutputStream, false) ;
 
-    const std::lock_guard<std::mutex> lock { mutex_ } ;
+    const std::lock_guard<std::mutex> lock { this->mutex_ } ;
 
-    for (const auto& passIt : passMap_)
+    for (const auto& passIt : this->passMap_)
     {
 
         const Pass& pass = passIt.second ;
