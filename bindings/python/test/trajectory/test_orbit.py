@@ -12,6 +12,7 @@ import pytest
 import numpy
 
 import ostk.physics as physics
+
 import ostk.astrodynamics as astrodynamics
 
 ################################################################################################################################################################

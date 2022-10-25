@@ -41,7 +41,7 @@ bool                            State::operator ==                          (   
         return false ;
     }
 
-    return (instant_ == aState.instant_) && (position_ == aState.position_) && (velocity_ == aState.velocity_) ;
+    return (this->instant_ == aState.instant_) && (this->position_ == aState.position_) && (this->velocity_ == aState.velocity_) ;
 
 }
 
@@ -54,7 +54,7 @@ std::ostream&                   operator <<                                 (   
                                                                                 const   State&                      aState                                      )
 {
 
-     aState.print(anOutputStream) ;
+    aState.print(anOutputStream) ;
 
     return anOutputStream ;
 
@@ -62,7 +62,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            State::isDefined                            ( ) const
 {
-    return instant_.isDefined() && position_.isDefined() && velocity_.isDefined() ;
+    return this->instant_.isDefined() && this->position_.isDefined() && this->velocity_.isDefined() ;
 }
 
 const Instant&                  State::accessInstant                        ( ) const
@@ -73,7 +73,7 @@ const Instant&                  State::accessInstant                        ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return instant_ ;
+    return this->instant_ ;
 
 }
 
@@ -85,7 +85,7 @@ const Position&                 State::accessPosition                       ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return position_ ;
+    return this->position_ ;
 
 }
 
@@ -97,7 +97,7 @@ const Velocity&                 State::accessVelocity                       ( ) 
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    return velocity_ ;
+    return this->velocity_ ;
 
 }
 
@@ -129,14 +129,14 @@ State                           State::inFrame                              (   
         throw ostk::core::error::runtime::Undefined("State") ;
     }
 
-    const Position position = position_.inFrame(aFrameSPtr, instant_) ;
-    const Velocity velocity = velocity_.inFrame(position_, aFrameSPtr, instant_) ;
+    const Position position = position_.inFrame(aFrameSPtr, this->instant_) ;
+    const Velocity velocity = velocity_.inFrame(this->position_, aFrameSPtr, this->instant_) ;
 
-    return { instant_, position, velocity } ;
+    return { this->instant_, position, velocity } ;
 
 }
 
-void                            State::print                                  (           std::ostream&               anOutputStream,
+void                            State::print                                  (         std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
 
@@ -144,9 +144,9 @@ void                            State::print                                  ( 
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") : void () ;
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (instant_.isDefined() ? instant_.toString() : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (position_.isDefined() ? position_.toString(12) : "Undefined") ;
-    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (velocity_.isDefined() ? velocity_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Position:" << (this->position_.isDefined() ? this->position_.toString(12) : "Undefined") ;
+    ostk::core::utils::Print::Line(anOutputStream) << "Velocity:" << (this->velocity_.isDefined() ? this->velocity_.toString(12) : "Undefined") ;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 

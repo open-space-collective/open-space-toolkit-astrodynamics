@@ -22,6 +22,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
     using ostk::math::geom::d3::trf::rot::Quaternion ;
 
     using ostk::physics::time::Instant ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Frame ;
 
     using ostk::astro::flight::profile::State ;
@@ -30,7 +32,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
 
         .def
         (
-            init<const Instant&, const Vector3d&, const Vector3d&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>(),
+            init<const Instant&, const Position&, const Velocity&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>(),
             arg("instant"),
             arg("position"),
             arg("velocity"),

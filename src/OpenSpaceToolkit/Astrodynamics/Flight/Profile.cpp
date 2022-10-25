@@ -78,6 +78,8 @@ bool                            Profile::isDefined                          ( ) 
 State                           Profile::getStateAt                         (   const   Instant&                    anInstant                                   ) const
 {
 
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
     using ostk::physics::coord::Transform ;
 
     if (!anInstant.isDefined())
@@ -90,7 +92,7 @@ State                           Profile::getStateAt                         (   
         throw ostk::core::error::runtime::Undefined("Profile") ;
     }
 
-    const Transform T_REF_B = transformProvider_.getTransformAt(anInstant) ;
+    const Transform T_REF_B = this->transformProvider_.getTransformAt(anInstant) ;
 
     const Quaternion q_REF_B = T_REF_B.getOrientation() ;
     const Vector3d w_REF_B_in_REF = T_REF_B.getAngularVelocity() ;
@@ -100,7 +102,15 @@ State                           Profile::getStateAt                         (   
     const Quaternion q_B_REF = q_REF_B.toConjugate() ;
     const Vector3d w_B_REF_in_B = q_B_REF * (w_REF_B_in_REF * -1.0) ;
 
-    return { anInstant, x_REF, v_REF_in_REF, q_B_REF, w_B_REF_in_B, frameSPtr_ } ;
+    return
+    {
+        anInstant,
+        Position::Meters(x_REF, this->frameSPtr_),
+        Velocity::MetersPerSecond(v_REF_in_REF, this->frameSPtr_),
+        q_B_REF,
+        w_B_REF_in_B,
+        this->frameSPtr_
+    } ;
 
 }
 
