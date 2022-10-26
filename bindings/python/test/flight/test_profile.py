@@ -30,6 +30,7 @@ Instant = physics.time.Instant
 Length = physics.units.Length
 Transform = physics.coordinate.Transform
 Position = physics.coordinate.Position
+Velocity = physics.coordinate.Velocity
 Frame = physics.coordinate.Frame
 Axes = physics.coordinate.Axes
 DynamicProvider = physics.coordinate.frame.providers.Dynamic
@@ -37,6 +38,8 @@ Trajectory = astrodynamics.Trajectory
 Orbit = astrodynamics.trajectory.Orbit
 Profile = astrodynamics.flight.Profile
 State = astrodynamics.flight.profile.State
+TransformModel = astrodynamics.flight.profile.models.Transform
+TabulatedModel = astrodynamics.flight.profile.models.Tabulated
 
 ################################################################################################################################################################
 
@@ -51,7 +54,7 @@ def profile () -> Profile:
     def dynamic_provider_generator (instant: Instant):
         return Transform.identity(instant)
 
-    return Profile(DynamicProvider(dynamic_provider_generator), Frame.GCRF())
+    return Profile(TransformModel(DynamicProvider(dynamic_provider_generator), Frame.GCRF()))
 
 ################################################################################################################################################################
 
@@ -82,6 +85,13 @@ class TestProfile:
 
         assert axes is not None
         assert isinstance(axes, Axes)
+
+    def test_get_body_frame (self, profile: Profile, instant: Instant):
+
+        frame = profile.get_body_frame("Name")
+
+        assert frame is not None
+        assert isinstance(frame, Frame)
 
     def test_undefined (self):
 
@@ -119,5 +129,37 @@ class TestProfile:
         assert profile is not None
         assert isinstance(profile, Profile)
         assert profile.is_defined()
+
+    def test_tabulated (self):
+
+        tabulated_model = TabulatedModel(
+            states = [
+                State(
+                    instant = Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+                    position = Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                    velocity = Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                    attitude = Quaternion.unit(),
+                    angular_velocity = (0.0, 0.0, 0.0),
+                    reference_frame = Frame.GCRF(),
+                ),
+                State(
+                    instant = Instant.date_time(datetime(2020, 1, 1, 0, 1, 0), Scale.UTC),
+                    position = Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                    velocity = Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                    attitude = Quaternion.unit(),
+                    angular_velocity = (0.0, 0.0, 0.0),
+                    reference_frame = Frame.GCRF(),
+                ),
+            ],
+        )
+
+        profile = Profile(
+            model = tabulated_model,
+        )
+
+        assert isinstance(profile, Profile)
+        assert profile.is_defined()
+
+        assert profile.get_state_at(Instant.date_time(datetime(2020, 1, 1, 0, 0, 30), Scale.UTC)) is not None
 
 ################################################################################################################################################################

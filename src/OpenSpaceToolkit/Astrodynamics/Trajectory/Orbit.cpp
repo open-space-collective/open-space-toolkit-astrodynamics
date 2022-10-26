@@ -51,7 +51,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                 Orbit::Orbit                                (   const   orbit::Model&               aModel,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
                                 :   Trajectory(aModel),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
                                     celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 
@@ -61,7 +61,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                                                                 const   Integer&                    anInitialRevolutionNumber,
                                                                                 const   Shared<const Celestial>&    aCelestialObjectSPtr                        )
                                 :   Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
                                     celestialObjectSPtr_(aCelestialObjectSPtr)
 {
 
@@ -69,7 +69,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 
                                 Orbit::Orbit                                (   const   Orbit&                      anOrbit                                     )
                                 :   Trajectory(anOrbit),
-                                    model_(dynamic_cast<const orbit::Model&>(this->accessModel())),
+                                    modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
                                     celestialObjectSPtr_(anOrbit.celestialObjectSPtr_)
 {
 
@@ -105,6 +105,25 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 
 }
 
+Orbit&                          Orbit::operator =                           (   const   Orbit&                      anOrbit                                     )
+{
+
+    if (this != &anOrbit)
+    {
+
+        Trajectory::operator =(anOrbit) ;
+
+        this->modelPtr_ = dynamic_cast<const orbit::Model*>(&this->accessModel()) ;
+        this->celestialObjectSPtr_ = anOrbit.celestialObjectSPtr_ ;
+
+        this->passMap_.clear() ;
+
+    }
+
+    return *this ;
+
+}
+
 bool                            Orbit::operator ==                          (   const   Orbit&                      anOrbit                                     ) const
 {
 
@@ -135,7 +154,7 @@ Integer                         Orbit::getRevolutionNumberAt                (   
         throw ostk::core::error::runtime::Undefined("Orbit") ;
     }
 
-    return this->model_.calculateRevolutionNumberAt(anInstant) ;
+    return this->modelPtr_->calculateRevolutionNumberAt(anInstant) ;
 
 }
 
@@ -232,10 +251,10 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             // std::cout << "currentPass = " << currentPass << std::endl ;
             static const Real tolerance = 1e-3 ; // [TBM] Param
 
-            Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->model_.getRevolutionNumberAtEpoch() ;
+            Integer currentRevolutionNumber = currentPass.isDefined() ? currentPass.getRevolutionNumber() : this->modelPtr_->getRevolutionNumberAtEpoch() ;
             // std::cout << "currentRevolutionNumber = " << currentRevolutionNumber.toString() << std::endl ;
 
-            Instant currentInstant = currentPass.isDefined() ? currentPass.getInterval().accessEnd() : this->model_.getEpoch() ;
+            Instant currentInstant = currentPass.isDefined() ? currentPass.getInterval().accessEnd() : this->modelPtr_->getEpoch() ;
             // std::cout << "currentInstant = " << currentInstant.toString() << std::endl ;
             Duration stepDuration = currentPass.isDefined() ? currentPass.getInterval().getDuration() / 5.0 : Duration::Minutes(10.0) ; // [TBM] param
             // std::cout << "stepDuration = " << stepDuration.toString() << std::endl ;
@@ -243,7 +262,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
             if (currentRevolutionNumber <= aRevolutionNumber) // Forward propagation
             {
 
-                Real previousStateCoordinates_ECI_z = this->model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
+                Real previousStateCoordinates_ECI_z = this->modelPtr_->calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
                 // std::cout << "previousStateCoordinates_ECI_z = " << previousStateCoordinates_ECI_z << std::endl ;
 
                 Real residual = Real::Undefined() ;
@@ -260,7 +279,7 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
 
                     currentInstant += stepDuration ;
 
-                    const Real currentStateCoordinates_ECI_z = this->model_.calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
+                    const Real currentStateCoordinates_ECI_z = this->modelPtr_->calculateStateAt(currentInstant).accessPosition().accessCoordinates().z() ;
                     // std::cout << "currentStateCoordinates_ECI_z = " << currentStateCoordinates_ECI_z << std::endl ;
 
                     if ((previousStateCoordinates_ECI_z == 0.0) && (currentStateCoordinates_ECI_z == 0.0))
@@ -323,13 +342,13 @@ Pass                            Orbit::getPassWithRevolutionNumber          (   
                 else
                 {
 
-                    if (this->model_.calculateStateAt(this->model_.getEpoch()).accessPosition().accessCoordinates().z() == 0.0)
+                    if (this->modelPtr_->calculateStateAt(this->modelPtr_->getEpoch()).accessPosition().accessCoordinates().z() == 0.0)
                     {
-                        currentPass = { Pass::Type::Complete, currentRevolutionNumber, Interval::Closed(this->model_.getEpoch(), currentInstant) } ;
+                        currentPass = { Pass::Type::Complete, currentRevolutionNumber, Interval::Closed(this->modelPtr_->getEpoch(), currentInstant) } ;
                     }
                     else
                     {
-                        currentPass = { Pass::Type::Partial, currentRevolutionNumber, Interval::Closed(this->model_.getEpoch(), currentInstant) } ;
+                        currentPass = { Pass::Type::Partial, currentRevolutionNumber, Interval::Closed(this->modelPtr_->getEpoch(), currentInstant) } ;
                     }
 
                 }
