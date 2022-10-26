@@ -28,7 +28,7 @@ namespace flight
 }
 
                                 Profile::Profile                            (   const   Profile&                    aProfile                                    )
-                                :   modelUPtr_(aProfile.modelUPtr_->clone())
+                                :   modelUPtr_(aProfile.modelUPtr_ ? Unique<Model>(aProfile.modelUPtr_->clone()) : nullptr)
 {
 
 }
@@ -38,7 +38,7 @@ Profile&                        Profile::operator =                         (   
 
     if (this != &aProfile)
     {
-        this->modelUPtr_ = Unique<Model>(aProfile.modelUPtr_->clone()) ;
+        this->modelUPtr_ = aProfile.modelUPtr_ ? Unique<Model>(aProfile.modelUPtr_->clone()) : nullptr ;
     }
 
     return *this ;
