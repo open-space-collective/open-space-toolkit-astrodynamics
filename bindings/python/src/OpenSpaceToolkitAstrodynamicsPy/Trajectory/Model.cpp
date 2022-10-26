@@ -20,8 +20,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model
 
     class_<BaseModel>(aModule, "Model")
 
-        .def("__eq__", [](const BaseModel &self, const BaseModel &other){ return self == other; })
-        .def("__ne__", [](const BaseModel &self, const BaseModel &other){ return self != other; })
+        .def("__eq__", [] (const BaseModel &self, const BaseModel &other){ return self == other; })
+        .def("__ne__", [] (const BaseModel &self, const BaseModel &other){ return self != other; })
 
         .def("__str__", &(shiftToString<BaseModel>))
         .def("__repr__", &(shiftToString<BaseModel>))

@@ -11,6 +11,7 @@
 
 project_directory=$(git rev-parse --show-toplevel)
 
+open_space_toolkit_core_directory="${project_directory}/../open-space-toolkit-core"
 open_space_toolkit_physics_directory="${project_directory}/../open-space-toolkit-physics"
 
 if [[ -z ${project_directory} ]]; then
@@ -30,26 +31,26 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
     # Open Space Toolkit ▸ Core
 
-    # if [[ -z ${open_space_toolkit_core_directory} ]]; then
-    #     echo "Variable [open_space_toolkit_core_directory] is undefined."
-    #     exit 1
-    # fi
+    if [[ -z ${open_space_toolkit_core_directory} ]]; then
+        echo "Variable [open_space_toolkit_core_directory] is undefined."
+        exit 1
+    fi
 
-    # if [[ ! -d ${open_space_toolkit_core_directory} ]]; then
-    #     echo "Open Space Toolkit ▸ Core directory [${open_space_toolkit_core_directory}] cannot be found."
-    #     exit 1
-    # fi
+    if [[ ! -d ${open_space_toolkit_core_directory} ]]; then
+        echo "Open Space Toolkit ▸ Core directory [${open_space_toolkit_core_directory}] cannot be found."
+        exit 1
+    fi
 
-    # options="${options} \
-    # --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
+    options="${options} \
+    --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
 
-    # command="${command} \
-    # rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
-    # rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
-    # cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
-    # cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
-    # ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
-    # ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
+    command="${command} \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
+    rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
+    cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+    cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
 
     # Open Space Toolkit ▸ I/O
 
@@ -90,15 +91,11 @@ fi
 
 # Run Docker container
 
-echo ">>> docker_development_image_repository: [${docker_development_image_repository}]"
-echo ">>> docker_image_version: [${docker_image_version}]"
-echo ">>> target: [${target}]"
-
 docker run \
     -it \
     --rm \
     --privileged \
-    --volume=/home/lucas/ostk/open-space-toolkit-astrodynamics/../open-space-toolkit-physics:/mnt/open-space-toolkit-physics:ro \
+    ${options} \
     --volume="${project_directory}:/app:delegated" \
     --volume="${project_directory}/tools/development/helpers:/app/build/helpers:ro,delegated" \
     --workdir="/app/build" \

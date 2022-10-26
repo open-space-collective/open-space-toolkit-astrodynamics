@@ -26,8 +26,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     class_<Model>(aModule, "OrbitModel")
 
-        .def("__eq__", [](const Model &self, const Model &other){ return self == other; })
-        .def("__ne__", [](const Model &self, const Model &other){ return self != other; })
+        .def("__eq__", [] (const Model &self, const Model &other){ return self == other; })
+        .def("__ne__", [] (const Model &self, const Model &other){ return self != other; })
 
         .def("__str__", &(shiftToString<Model>))
 

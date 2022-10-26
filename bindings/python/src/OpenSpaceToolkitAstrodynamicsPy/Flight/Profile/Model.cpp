@@ -20,8 +20,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_M
 
     class_<Model>(aModule, "Model")
 
-        .def("__eq__", [](const Model &self, const Model &other){ return self == other; })
-        .def("__ne__", [](const Model &self, const Model &other){ return self != other; })
+        .def("__eq__", [] (const Model &self, const Model &other){ return self == other; })
+        .def("__ne__", [] (const Model &self, const Model &other){ return self != other; })
 
         .def("__str__", &(shiftToString<Model>))
         .def("__repr__", &(shiftToString<Model>))
