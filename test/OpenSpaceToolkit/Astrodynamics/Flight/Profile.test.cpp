@@ -110,6 +110,32 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Flight_Profile, Constructor)
 
 }
 
+TEST_F (OpenSpaceToolkit_Astrodynamics_Flight_Profile, CopyConstructor)
+{
+
+    using ostk::astro::flight::profile::models::Transform ;
+
+    {
+
+        EXPECT_NO_THROW(Profile profile(profile_) ;) ;
+
+    }
+
+}
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Flight_Profile, CopyAssignmentOperator)
+{
+
+    using ostk::astro::flight::profile::models::Transform ;
+
+    {
+
+        EXPECT_NO_THROW(Profile profile = profile_ ;) ;
+
+    }
+
+}
+
 TEST_F (OpenSpaceToolkit_Astrodynamics_Flight_Profile, StreamOperator)
 {
 

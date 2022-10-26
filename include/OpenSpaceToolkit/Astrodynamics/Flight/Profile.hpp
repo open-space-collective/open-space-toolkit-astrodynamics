@@ -82,6 +82,19 @@ class Profile
 
                                 Profile                                     (   const   Model&                      aModel                                      ) ;
 
+                                /// @brief              Copy constructor
+        ///
+        /// @param              [in] aProfile A flight profile
+
+                                Profile                                     (   const   Profile&                    aProfile                                    ) ;
+
+        /// @brief              Copy assignment operator
+        ///
+        /// @param              [in] aProfile A flight profile
+        /// @return             Reference to flight profile
+
+        Profile&                operator =                                  (   const   Profile&                    aProfile                                    ) ;
+
         /// @brief              Output stream operator
         ///
         /// @code

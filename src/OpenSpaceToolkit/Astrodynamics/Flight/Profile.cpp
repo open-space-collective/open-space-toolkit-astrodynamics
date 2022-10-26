@@ -27,6 +27,24 @@ namespace flight
 
 }
 
+                                Profile::Profile                            (   const   Profile&                    aProfile                                    )
+                                :   modelUPtr_(aProfile.modelUPtr_->clone())
+{
+
+}
+
+Profile&                        Profile::operator =                         (   const   Profile&                    aProfile                                    )
+{
+
+    if (this != &aProfile)
+    {
+        this->modelUPtr_ = Unique<Model>(aProfile.modelUPtr_->clone()) ;
+    }
+
+    return *this ;
+
+}
+
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   Profile&                    aProfile                                    )
 {
