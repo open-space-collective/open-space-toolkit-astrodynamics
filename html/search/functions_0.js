@@ -10,5 +10,5 @@ var searchData=
   ['accessvelocity',['accessVelocity',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#af24c195994d32133d7ab9dbcc0124aed',1,'ostk::astro::flight::profile::State::accessVelocity()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#a7f6d626b9d5f045e026cd1ff2ea33200',1,'ostk::astro::trajectory::State::accessVelocity()']]],
   ['aermask',['AerMask',['../classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f',1,'ostk::astro::access::Generator']]],
   ['aerranges',['AerRanges',['../classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995',1,'ostk::astro::access::Generator']]],
-  ['as',['as',['../classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3',1,'ostk::astro::trajectory::Model']]]
+  ['as',['as',['../classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a7842761a8f6c0895c0b6048e9d3a5b7f',1,'ostk::astro::flight::profile::Model::as()'],['../classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3',1,'ostk::astro::trajectory::Model::as()']]]
 ];

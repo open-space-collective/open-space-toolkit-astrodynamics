@@ -24,18 +24,12 @@ enum \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a01d9e77f30ba7131c70e81
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} (const \hyperlink{namespaceostk_1_1astro_1_1flight_a30fb17f0f77e97e4d6bb5567218816bd}{Dynamic\+Provider} \&a\+Dynamic\+Transform\+Provider, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr)
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&a\+Model)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a3f4520bfcc4b3c1c89438aa487397eff}{Profile} (const Array$<$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} $>$ \&a\+State\+Array)
-\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_abe183d12e41b513da461cd8a7d5067e8}{Profile} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile)=default
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a67dc07f205bb3c49c5da9f2013f81f40}{Profile} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile)
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \& \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a34d5912842eafdfbd59d906cad969e00}{operator=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile)=default
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \& \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a81696f834f8d29cf107edad1963e5c00}{operator=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile)
 \begin{DoxyCompactList}\small\item\em Copy assignment operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a46b1c71a5a58ddf87f82b073ec651ea6}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile) const
-\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a44b46cd860753f200185d6f2083ce5ec}{operator!=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&a\+Profile) const
-\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 bool \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_ad29d08d46698fae962e74105f16985a4}{is\+Defined} () const
 \begin{DoxyCompactList}\small\item\em Check if profile is defined. \end{DoxyCompactList}\item 
 \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a086758b767464ee2dc06cfda71fa3d48}{get\+State\+At} (const Instant \&an\+Instant) const
@@ -44,7 +38,7 @@ Array$<$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} $>
 \begin{DoxyCompactList}\small\item\em Get states at a given instants. \end{DoxyCompactList}\item 
 Axes \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a04d4ef9a89d42586e8a782d1af9ee031}{get\+Axes\+At} (const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Get axes at a given instant. \end{DoxyCompactList}\item 
-Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a24c6cb3e5d8e567bf3d5030e79300266}{get\+Body\+Frame} (const String \&a\+Body\+Frame\+Name) const
+Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_abc2383de781cf911f4c275a5d02f3311}{get\+Body\+Frame} (const String \&a\+Frame\+Name) const
 \begin{DoxyCompactList}\small\item\em Get body frame. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a006797a25daa09426084c4df95e13b83}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print flight profile to output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -99,11 +93,11 @@ Custom&Custom pointing mode. \\
 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}\label{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}\label{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}} 
 \index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!Profile@{Profile}}
 \index{Profile@{Profile}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
-\subsubsection{\texorpdfstring{Profile()}{Profile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+Profile\+::\+Profile (\begin{DoxyParamCaption}\item[{const \hyperlink{namespaceostk_1_1astro_1_1flight_a30fb17f0f77e97e4d6bb5567218816bd}{Dynamic\+Provider} \&}]{a\+Dynamic\+Transform\+Provider,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption})}
+\subsubsection{\texorpdfstring{Profile()}{Profile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+Profile\+::\+Profile (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption})}
 
 
 
@@ -111,38 +105,14 @@ Constructor.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Dynamic\+Transform\+Provider} & A dynamic transform provider \\
-\hline
-\mbox{\tt in}  & {\em a\+Frame\+S\+Ptr} & A shared pointer to reference frame \\
+\mbox{\tt in}  & {\em a\+Model} & A model \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a3f4520bfcc4b3c1c89438aa487397eff}\label{classostk_1_1astro_1_1flight_1_1_profile_a3f4520bfcc4b3c1c89438aa487397eff}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a67dc07f205bb3c49c5da9f2013f81f40}\label{classostk_1_1astro_1_1flight_1_1_profile_a67dc07f205bb3c49c5da9f2013f81f40}} 
 \index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!Profile@{Profile}}
 \index{Profile@{Profile}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
-\subsubsection{\texorpdfstring{Profile()}{Profile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+Profile\+::\+Profile (\begin{DoxyParamCaption}\item[{const Array$<$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} $>$ \&}]{a\+State\+Array }\end{DoxyParamCaption})}
-
-
-
-Constructor. 
-
-
-\begin{DoxyCode}
-Array<State> stateArray = \{ ... \} ;
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \{ stateArray \} ;
-\end{DoxyCode}
-
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+State\+Array} & An array of states \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_abe183d12e41b513da461cd8a7d5067e8}\label{classostk_1_1astro_1_1flight_1_1_profile_abe183d12e41b513da461cd8a7d5067e8}} 
-\index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!Profile@{Profile}}
-\index{Profile@{Profile}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
-\subsubsection{\texorpdfstring{Profile()}{Profile()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+Profile\+::\+Profile (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+\subsubsection{\texorpdfstring{Profile()}{Profile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::\+Profile\+::\+Profile (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption})}
 
 
 
@@ -168,7 +138,7 @@ Get axes at a given instant.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \{ ... \} ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} profile = \{ ... \} ;
 Instant instant = \{ ... \} ;
 Axes axes = profile.getAxesAt(instant) ;
 \end{DoxyCode}
@@ -182,11 +152,11 @@ Axes axes = profile.getAxesAt(instant) ;
 \begin{DoxyReturn}{Returns}
 Axes 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a24c6cb3e5d8e567bf3d5030e79300266}\label{classostk_1_1astro_1_1flight_1_1_profile_a24c6cb3e5d8e567bf3d5030e79300266}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_abc2383de781cf911f4c275a5d02f3311}\label{classostk_1_1astro_1_1flight_1_1_profile_abc2383de781cf911f4c275a5d02f3311}} 
 \index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!get\+Body\+Frame@{get\+Body\+Frame}}
 \index{get\+Body\+Frame@{get\+Body\+Frame}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
 \subsubsection{\texorpdfstring{get\+Body\+Frame()}{getBodyFrame()}}
-{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::flight\+::\+Profile\+::get\+Body\+Frame (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Body\+Frame\+Name }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::flight\+::\+Profile\+::get\+Body\+Frame (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Frame\+Name }\end{DoxyParamCaption}) const}
 
 
 
@@ -194,7 +164,7 @@ Get body frame.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Body\+Frame\+Name} & A body frame name \\
+\mbox{\tt in}  & {\em a\+Frame\+Name} & A body frame name \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -212,7 +182,7 @@ Get state at a given instant.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \{ ... \} ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} profile = \{ ... \} ;
 Instant instant = \{ ... \} ;
 State state = profile.getStateAt(instant) ;
 \end{DoxyCode}
@@ -238,7 +208,7 @@ Get states at a given instants.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \{ ... \} ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} profile = \{ ... \} ;
 Array<Instant> instants = \{ ... \} ;
 Array<State> state = profile.getStatesAt(instants) ;
 \end{DoxyCode}
@@ -284,7 +254,7 @@ Check if profile is defined.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...).isDefined() ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile}(...).isDefined() ;
 \end{DoxyCode}
 
 
@@ -311,35 +281,11 @@ Constructs a flight profile with nadir pointing.
 \begin{DoxyReturn}{Returns}
 Flight profile 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a44b46cd860753f200185d6f2083ce5ec}\label{classostk_1_1astro_1_1flight_1_1_profile_a44b46cd860753f200185d6f2083ce5ec}} 
-\index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!operator"!=@{operator"!=}}
-\index{operator"!=@{operator"!=}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
-\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
-{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::\+Profile\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption}) const}
-
-
-
-Not equal to operator. 
-
-
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...) != \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...) ;
-\end{DoxyCode}
-
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Profile} & A flight profile \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-True if flight profiles are not equal 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a34d5912842eafdfbd59d906cad969e00}\label{classostk_1_1astro_1_1flight_1_1_profile_a34d5912842eafdfbd59d906cad969e00}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a81696f834f8d29cf107edad1963e5c00}\label{classostk_1_1astro_1_1flight_1_1_profile_a81696f834f8d29cf107edad1963e5c00}} 
 \index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!operator=@{operator=}}
 \index{operator=@{operator=}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
 \subsubsection{\texorpdfstring{operator=()}{operator=()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile}\& ostk\+::astro\+::flight\+::\+Profile\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \& ostk\+::astro\+::flight\+::\+Profile\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption})}
 
 
 
@@ -353,30 +299,6 @@ Copy assignment operator.
 \begin{DoxyReturn}{Returns}
 Reference to flight profile 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a46b1c71a5a58ddf87f82b073ec651ea6}\label{classostk_1_1astro_1_1flight_1_1_profile_a46b1c71a5a58ddf87f82b073ec651ea6}} 
-\index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!operator==@{operator==}}
-\index{operator==@{operator==}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
-\subsubsection{\texorpdfstring{operator==()}{operator==()}}
-{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::\+Profile\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} \&}]{a\+Profile }\end{DoxyParamCaption}) const}
-
-
-
-Equal to operator. 
-
-
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...) == \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...) ;
-\end{DoxyCode}
-
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Profile} & A flight profile \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-True if flight profiles are equal 
-\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1_profile_a006797a25daa09426084c4df95e13b83}\label{classostk_1_1astro_1_1flight_1_1_profile_a006797a25daa09426084c4df95e13b83}} 
 \index{ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}!print@{print}}
 \index{print@{print}!ostk\+::astro\+::flight\+::\+Profile@{ostk\+::astro\+::flight\+::\+Profile}}
@@ -389,7 +311,7 @@ Print flight profile to output stream.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \{ ... \} ;
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} profile = \{ ... \} ;
 profile.print(std::cout, \textcolor{keyword}{true}) ;
 \end{DoxyCode}
 
@@ -413,7 +335,7 @@ Constructs an undefined flight profile.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile} profile = \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_aa966c10872c2d193d43c358b25f64289}{Profile::Undefined}() ; \textcolor{comment}{// Undefined}
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile} profile = \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_aa966c10872c2d193d43c358b25f64289}{Profile::Undefined}() ; \textcolor{comment}{// Undefined}
 \end{DoxyCode}
 
 
@@ -435,7 +357,7 @@ Output stream operator.
 
 
 \begin{DoxyCode}
-std::cout << \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a80fbc6a3773a6f2790b84c4ddb306d07}{Profile}(...) ;
+std::cout << \hyperlink{classostk_1_1astro_1_1flight_1_1_profile_a09d523b4a58db0d8cc082b4a4d1418a7}{Profile}(...) ;
 \end{DoxyCode}
 
 

@@ -1,0 +1,199 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{}\section{ostk\+:\+:astro\+:\+:flight\+:\+:profile\+:\+:models\+:\+:Transform Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+
+
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} provided profile model.  
+
+
+
+
+{\ttfamily \#include $<$Transform.\+hpp$>$}
+
+Inheritance diagram for ostk\+:\+:astro\+:\+:flight\+:\+:profile\+:\+:models\+:\+:Transform\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a95d76db47af0764c1a05c32298799d72}{Transform} (const \hyperlink{namespaceostk_1_1astro_1_1flight_1_1profile_1_1models_a7e9732cb31adb5d5c1f85f7bad1f3424}{Dynamic\+Provider} \&a\+Dynamic\+Transform\+Provider, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr)
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} $\ast$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aafd4791dacf320ddedddefbc8d0f2e0e}{clone} () const override
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a2d0f1f3cc3f340c5617125bea08a9930}{is\+Defined} () const override
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a6288febae942c92508173db08b4554b0}{calculate\+State\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual Axes \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7eb8b58fd5f72e8ee9aa3b94cd0ffaaa}{get\+Axes\+At} (const Instant \&an\+Instant) const override
+\item 
+virtual Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7fa6ee57c59b5bff2c60001c11cac04c}{get\+Body\+Frame} (const String \&a\+Frame\+Name) const override
+\item 
+virtual void \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aef9a20156493d68570a989d87ac2f9f6}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a06ac043e7d6577f51578fc14331e1c6d}{Undefined} ()
+\item 
+static \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad09043542f34243cfa200d74db5c47bf}{Inertial\+Pointing} (const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory, const Quaternion \&a\+Quaternion)
+\begin{DoxyCompactList}\small\item\em Constructs a flight profile with inertial pointing. \end{DoxyCompactList}\item 
+static \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a45cbb8066c7a6c56774746c3ea025c8d}{Nadir\+Pointing} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{trajectory\+::\+Orbit} \&an\+Orbit, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{trajectory\+::\+Orbit\+::\+Frame\+Type} \&an\+Orbital\+Frame\+Type)
+\begin{DoxyCompactList}\small\item\em Constructs a flight profile with nadir pointing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad49694ca5cfb4fabf17ac063d9953fb0}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&a\+Model) const override
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a31ed56d1b0b19d8f7363743664717403}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} \&a\+Transform\+Model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} provided profile model. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a95d76db47af0764c1a05c32298799d72}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a95d76db47af0764c1a05c32298799d72}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!Transform@{Transform}}
+\index{Transform@{Transform}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{Transform()}{Transform()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::\+Transform (\begin{DoxyParamCaption}\item[{const \hyperlink{namespaceostk_1_1astro_1_1flight_1_1profile_1_1models_a7e9732cb31adb5d5c1f85f7bad1f3424}{Dynamic\+Provider} \&}]{a\+Dynamic\+Transform\+Provider,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a6288febae942c92508173db08b4554b0}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a6288febae942c92508173db08b4554b0}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a1b205fa29b50fcfc06c99234a8579eb8}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aafd4791dacf320ddedddefbc8d0f2e0e}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aafd4791dacf320ddedddefbc8d0f2e0e}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} $\ast$ ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_aabf68c114849fa16a570b694579da40f}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7eb8b58fd5f72e8ee9aa3b94cd0ffaaa}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7eb8b58fd5f72e8ee9aa3b94cd0ffaaa}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!get\+Axes\+At@{get\+Axes\+At}}
+\index{get\+Axes\+At@{get\+Axes\+At}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{get\+Axes\+At()}{getAxesAt()}}
+{\footnotesize\ttfamily Axes ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::get\+Axes\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab18bd79e421c36df4ab716649ce549cd}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7fa6ee57c59b5bff2c60001c11cac04c}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7fa6ee57c59b5bff2c60001c11cac04c}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!get\+Body\+Frame@{get\+Body\+Frame}}
+\index{get\+Body\+Frame@{get\+Body\+Frame}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{get\+Body\+Frame()}{getBodyFrame()}}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::get\+Body\+Frame (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Frame\+Name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a04ded49c09d9a44820251c48f47d0ffa}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad09043542f34243cfa200d74db5c47bf}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad09043542f34243cfa200d74db5c47bf}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!Inertial\+Pointing@{Inertial\+Pointing}}
+\index{Inertial\+Pointing@{Inertial\+Pointing}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{Inertial\+Pointing()}{InertialPointing()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::\+Inertial\+Pointing (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory,  }\item[{const Quaternion \&}]{a\+Quaternion }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a flight profile with inertial pointing. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Trajectory} & A trajectory \\
+\hline
+\mbox{\tt in}  & {\em a\+Quaternion} & A pointing in G\+C\+RF \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Flight profile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a2d0f1f3cc3f340c5617125bea08a9930}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a2d0f1f3cc3f340c5617125bea08a9930}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a0af64ad25ed8d8b2510a70bfe5bcb971}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a45cbb8066c7a6c56774746c3ea025c8d}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a45cbb8066c7a6c56774746c3ea025c8d}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!Nadir\+Pointing@{Nadir\+Pointing}}
+\index{Nadir\+Pointing@{Nadir\+Pointing}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{Nadir\+Pointing()}{NadirPointing()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::\+Nadir\+Pointing (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{trajectory\+::\+Orbit} \&}]{an\+Orbit,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{trajectory\+::\+Orbit\+::\+Frame\+Type} \&}]{an\+Orbital\+Frame\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a flight profile with nadir pointing. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Orbit} & An orbit \\
+\hline
+\mbox{\tt in}  & {\em an\+Orbital\+Frame\+Type} & An orbital frame type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Flight profile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad49694ca5cfb4fabf17ac063d9953fb0}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad49694ca5cfb4fabf17ac063d9953fb0}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a87f7ca747d79619e4b4bc04aa6a9252a}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aef9a20156493d68570a989d87ac2f9f6}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aef9a20156493d68570a989d87ac2f9f6}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ad9bb86b1869150e2bd970e9fa59ce36e}{ostk\+::astro\+::flight\+::profile\+::\+Model}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a06ac043e7d6577f51578fc14331e1c6d}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a06ac043e7d6577f51578fc14331e1c6d}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a31ed56d1b0b19d8f7363743664717403}\label{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a31ed56d1b0b19d8f7363743664717403}} 
+\index{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform@{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform}{Transform} \&}]{a\+Transform\+Model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\+Models/\hyperlink{_transform_8hpp}{Transform.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\+Models/\hyperlink{_transform_8cpp}{Transform.\+cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,201 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{}\section{ostk\+:\+:astro\+:\+:flight\+:\+:profile\+:\+:Model Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model}\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+
+
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} model (abstract)  
+
+
+
+
+{\ttfamily \#include $<$Model.\+hpp$>$}
+
+Inheritance diagram for ostk\+:\+:astro\+:\+:flight\+:\+:profile\+:\+:Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1profile_1_1_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a6301933ec5ccdd9dab16fa8ecbf73869}{Model} ()
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a4870ff5251fa9f4f27f961700ce49863}{$\sim$\+Model} ()=0
+\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} $\ast$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_aabf68c114849fa16a570b694579da40f}{clone} () const =0
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a87f7ca747d79619e4b4bc04aa6a9252a}{operator==} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&a\+Model) const =0
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a66eab26e18de60c179529ba5924b168f}{operator!=} (const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&a\+Model) const
+\item 
+virtual bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a0af64ad25ed8d8b2510a70bfe5bcb971}{is\+Defined} () const =0
+\item 
+{\footnotesize template$<$class Type $>$ }\\bool \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a73363668308f0293014d6a77063cc809}{is} () const
+\begin{DoxyCompactList}\small\item\em Returns true if model can be converted to type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Type $>$ }\\const Type \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a7842761a8f6c0895c0b6048e9d3a5b7f}{as} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{classostk_1_1astro_1_1_access}{Access} model as its underlying type. \end{DoxyCompactList}\item 
+virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a1b205fa29b50fcfc06c99234a8579eb8}{calculate\+State\+At} (const Instant \&an\+Instant) const =0
+\item 
+virtual Array$<$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab81349e148cc39ad5662f7181f146493}{calculate\+States\+At} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const
+\item 
+virtual Axes \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab18bd79e421c36df4ab716649ce549cd}{get\+Axes\+At} (const Instant \&an\+Instant) const =0
+\item 
+virtual Shared$<$ const Frame $>$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a04ded49c09d9a44820251c48f47d0ffa}{get\+Body\+Frame} (const String \&a\+Frame\+Name) const =0
+\item 
+virtual void \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ad9bb86b1869150e2bd970e9fa59ce36e}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const =0
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a68240493d08f91f6613186eb52823e85}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&a\+Model)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classostk_1_1astro_1_1flight_1_1_profile}{Profile} model (abstract) 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a6301933ec5ccdd9dab16fa8ecbf73869}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a6301933ec5ccdd9dab16fa8ecbf73869}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!Model@{Model}}
+\index{Model@{Model}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{Model()}{Model()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::\+Model\+::\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a4870ff5251fa9f4f27f961700ce49863}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a4870ff5251fa9f4f27f961700ce49863}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!````~Model@{$\sim$\+Model}}
+\index{````~Model@{$\sim$\+Model}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{$\sim$\+Model()}{~Model()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::profile\+::\+Model\+::$\sim$\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a7842761a8f6c0895c0b6048e9d3a5b7f}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a7842761a8f6c0895c0b6048e9d3a5b7f}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!as@{as}}
+\index{as@{as}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{as()}{as()}}
+{\footnotesize\ttfamily template$<$class Type $>$ \\
+const Type\& ostk\+::astro\+::flight\+::profile\+::\+Model\+::as (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\hyperlink{classostk_1_1astro_1_1_access}{Access} model as its underlying type. 
+
+\begin{DoxyReturn}{Returns}
+Reference to underlying type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a1b205fa29b50fcfc06c99234a8579eb8}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a1b205fa29b50fcfc06c99234a8579eb8}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} ostk\+::astro\+::flight\+::profile\+::\+Model\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_af27ea0e7006d0de18e897a9a5c7a0fb2}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a6288febae942c92508173db08b4554b0}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab81349e148cc39ad5662f7181f146493}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab81349e148cc39ad5662f7181f146493}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!calculate\+States\+At@{calculate\+States\+At}}
+\index{calculate\+States\+At@{calculate\+States\+At}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{calculate\+States\+At()}{calculateStatesAt()}}
+{\footnotesize\ttfamily Array$<$ \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_state}{State} $>$ ostk\+::astro\+::flight\+::profile\+::\+Model\+::calculate\+States\+At (\begin{DoxyParamCaption}\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_aabf68c114849fa16a570b694579da40f}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_aabf68c114849fa16a570b694579da40f}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily virtual \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model}$\ast$ ostk\+::astro\+::flight\+::profile\+::\+Model\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_a1c9f4f5711ac2ae0cc545d89b0ee4d53}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aafd4791dacf320ddedddefbc8d0f2e0e}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab18bd79e421c36df4ab716649ce549cd}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ab18bd79e421c36df4ab716649ce549cd}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!get\+Axes\+At@{get\+Axes\+At}}
+\index{get\+Axes\+At@{get\+Axes\+At}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{get\+Axes\+At()}{getAxesAt()}}
+{\footnotesize\ttfamily virtual Axes ostk\+::astro\+::flight\+::profile\+::\+Model\+::get\+Axes\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_ac85970f439c8db0684c9349601c226d2}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7eb8b58fd5f72e8ee9aa3b94cd0ffaaa}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a04ded49c09d9a44820251c48f47d0ffa}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a04ded49c09d9a44820251c48f47d0ffa}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!get\+Body\+Frame@{get\+Body\+Frame}}
+\index{get\+Body\+Frame@{get\+Body\+Frame}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{get\+Body\+Frame()}{getBodyFrame()}}
+{\footnotesize\ttfamily virtual Shared$<$const Frame$>$ ostk\+::astro\+::flight\+::profile\+::\+Model\+::get\+Body\+Frame (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Frame\+Name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_a1be1d71748e4e0b59bd3dd2334b759fe}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a7fa6ee57c59b5bff2c60001c11cac04c}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a73363668308f0293014d6a77063cc809}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a73363668308f0293014d6a77063cc809}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!is@{is}}
+\index{is@{is}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{is()}{is()}}
+{\footnotesize\ttfamily template$<$class Type $>$ \\
+bool ostk\+::astro\+::flight\+::profile\+::\+Model\+::is (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if model can be converted to type. 
+
+\begin{DoxyReturn}{Returns}
+True if model can be converted to type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a0af64ad25ed8d8b2510a70bfe5bcb971}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a0af64ad25ed8d8b2510a70bfe5bcb971}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily virtual bool ostk\+::astro\+::flight\+::profile\+::\+Model\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_ad830d557475ca2ba83d43659e348b1d6}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_a2d0f1f3cc3f340c5617125bea08a9930}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a66eab26e18de60c179529ba5924b168f}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a66eab26e18de60c179529ba5924b168f}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::profile\+::\+Model\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_a7d1f3f2024628e03eee408eaa1cd1a9b}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a87f7ca747d79619e4b4bc04aa6a9252a}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a87f7ca747d79619e4b4bc04aa6a9252a}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily virtual bool ostk\+::astro\+::flight\+::profile\+::\+Model\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_ad49694ca5cfb4fabf17ac063d9953fb0}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_a5fd04ff2470cfe517bcb94e70fdb80fd}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ad9bb86b1869150e2bd970e9fa59ce36e}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_ad9bb86b1869150e2bd970e9fa59ce36e}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily virtual void ostk\+::astro\+::flight\+::profile\+::\+Model\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated_a0e3d34c39a644279a9b958c3fd9bf730}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Tabulated}, and \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform_aef9a20156493d68570a989d87ac2f9f6}{ostk\+::astro\+::flight\+::profile\+::models\+::\+Transform}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a68240493d08f91f6613186eb52823e85}\label{classostk_1_1astro_1_1flight_1_1profile_1_1_model_a68240493d08f91f6613186eb52823e85}} 
+\index{ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::flight\+::profile\+::\+Model@{ostk\+::astro\+::flight\+::profile\+::\+Model}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1profile_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\hyperlink{_flight_2_profile_2_model_8hpp}{Model.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+Profile/\hyperlink{_flight_2_profile_2_model_8cpp}{Model.\+cpp}\end{DoxyCompactItemize}

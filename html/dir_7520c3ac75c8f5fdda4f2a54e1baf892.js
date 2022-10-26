@@ -5,5 +5,5 @@ var dir_7520c3ac75c8f5fdda4f2a54e1baf892 =
     [ "Kepler.cpp", "_kepler_8cpp.html", "_kepler_8cpp" ],
     [ "Propagated.cpp", "_propagated_8cpp.html", "_propagated_8cpp" ],
     [ "SGP4.cpp", "_s_g_p4_8cpp.html", "_s_g_p4_8cpp" ],
-    [ "Tabulated.cpp", "_orbit_2_models_2_tabulated_8cpp.html", null ]
+    [ "Tabulated.cpp", "_trajectory_2_orbit_2_models_2_tabulated_8cpp.html", null ]
 ];

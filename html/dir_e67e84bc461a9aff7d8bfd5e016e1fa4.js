@@ -9,7 +9,7 @@ var dir_e67e84bc461a9aff7d8bfd5e016e1fa4 =
     [ "SGP4.hpp", "_s_g_p4_8hpp.html", [
       [ "SGP4", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4" ]
     ] ],
-    [ "Tabulated.hpp", "_orbit_2_models_2_tabulated_8hpp.html", [
+    [ "Tabulated.hpp", "_trajectory_2_orbit_2_models_2_tabulated_8hpp.html", [
       [ "Tabulated", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated" ]
     ] ]
 ];

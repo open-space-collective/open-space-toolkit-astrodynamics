@@ -21,7 +21,7 @@ var classostk_1_1astro_1_1trajectory_1_1_orbit =
     [ "getRevolutionNumberAt", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#aa8ca190bd7b20f4654e0338660f57907", null ],
     [ "isDefined", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#abb1c3d611881104558aa93c9eb948455", null ],
     [ "operator!=", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#a9c376b2163bc4fcca62abccaf03014d2", null ],
-    [ "operator=", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1a6ea873bd7728fcd1fdf028c5b2c026", null ],
+    [ "operator=", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#a069e013323a8fa6c513ef07e1a26db73", null ],
     [ "operator==", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#aa3fdab43c081059d268984dca953cb7d", null ],
     [ "print", "classostk_1_1astro_1_1trajectory_1_1_orbit.html#ae890e832785f84c3f03c1e103f952826", null ]
 ];
