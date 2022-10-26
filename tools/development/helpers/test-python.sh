@@ -9,12 +9,16 @@
 
 ################################################################################################################################################################
 
+PYTHON_VERSION="3.8"
+
+################################################################################################################################################################
+
 project_directory="$(git rev-parse --show-toplevel)"
 test_directory="${project_directory}/bindings/python/test"
 
 pushd "${test_directory}" > /dev/null
 
-python3.8 -m pytest -svx ${@}
+python${PYTHON_VERSION} -m pytest -svx ${@}
 
 popd > /dev/null
 

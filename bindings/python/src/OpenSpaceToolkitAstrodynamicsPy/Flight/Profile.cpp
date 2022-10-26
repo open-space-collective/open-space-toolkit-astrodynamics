@@ -7,6 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
@@ -22,19 +24,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
     using ostk::core::ctnr::Array ;
 
     using ostk::physics::coord::Frame ;
-    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
 
     using ostk::astro::flight::Profile ;
     using ostk::astro::flight::profile::State ;
+    using ostk::astro::flight::profile::Model ;
 
     class_<Profile>(aModule, "Profile")
 
-        .def(init<const DynamicProvider&, const Shared<const Frame>&>())
-
-        // .def(init<const Array<State>&>())
-
-        // .def(self == self)
-        // .def(self != self)
+        .def(init<const Model&>(), arg("model"))
 
         .def("__str__", &(shiftToString<Profile>))
         .def("__repr__", &(shiftToString<Profile>))
@@ -44,6 +41,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         .def("get_state_at", &Profile::getStateAt, arg("instant"))
         .def("get_states_at", &Profile::getStatesAt, arg("instants"))
         .def("get_axes_at", &Profile::getAxesAt, arg("instant"))
+        .def("get_body_frame", &Profile::getBodyFrame, arg("frame_name"))
 
         .def_static("undefined", &Profile::Undefined)
         .def_static("inertial_pointing", &Profile::InertialPointing, arg("trajectory"), arg("quaternion"))
@@ -59,6 +57,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
 
     // Add objects to "profile" submodule
     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(profile) ;
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(profile) ;
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models(profile) ;
 
 }
 

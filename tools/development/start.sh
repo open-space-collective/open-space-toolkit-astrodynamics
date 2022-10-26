@@ -9,6 +9,11 @@
 
 ################################################################################################################################################################
 
+project_directory=$(git rev-parse --show-toplevel)
+
+open_space_toolkit_core_directory="${project_directory}/../open-space-toolkit-core"
+open_space_toolkit_physics_directory="${project_directory}/../open-space-toolkit-physics"
+
 if [[ -z ${project_directory} ]]; then
     echo "Variable [project_directory] is undefined."
     exit 1
@@ -39,7 +44,7 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
     options="${options} \
     --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
 
-    command=" \
+    command="${command} \
     rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
     rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
     cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
@@ -55,6 +60,28 @@ if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
     # TBI
 
+    # Open Space Toolkit ▸ Physics
+
+    if [[ -z ${open_space_toolkit_physics_directory} ]]; then
+        echo "Variable [open_space_toolkit_physics_directory] is undefined."
+        exit 1
+    fi
+
+    if [[ ! -d ${open_space_toolkit_physics_directory} ]]; then
+        echo "Open Space Toolkit ▸ Physics directory [${open_space_toolkit_physics_directory}] cannot be found."
+        exit 1
+    fi
+
+    # options="--volume=$(printf %q "${open_space_toolkit_physics_directory}"):/mnt/open-space-toolkit-physics:ro"
+
+    command="${command} \
+    rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
+    rm -f /usr/local/lib/libopen-space-toolkit-physics.so*; \
+    cp -as /mnt/open-space-toolkit-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
+    cp -as /mnt/open-space-toolkit-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
+    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so /usr/local/lib/; \
+    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so.0 /usr/local/lib/;"
+
     # Output
 
     command="${command} \
@@ -65,14 +92,14 @@ fi
 # Run Docker container
 
 docker run \
--it \
---rm \
---privileged \
-${options} \
---volume="${project_directory}:/app:delegated" \
---volume="${project_directory}/tools/development/helpers:/app/build/helpers:ro,delegated" \
---workdir="/app/build" \
-${docker_development_image_repository}:${docker_image_version}-${target} \
-/bin/bash -c "${command}"
+    -it \
+    --rm \
+    --privileged \
+    ${options} \
+    --volume="${project_directory}:/app:delegated" \
+    --volume="${project_directory}/tools/development/helpers:/app/build/helpers:ro,delegated" \
+    --workdir="/app/build" \
+    ${docker_development_image_repository}:${docker_image_version}-${target} \
+    /bin/bash -c "${command}"
 
 ################################################################################################################################################################

@@ -10,11 +10,11 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Axes.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
@@ -38,6 +38,7 @@ namespace flight
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using ostk::core::types::Unique ;
 using ostk::core::types::Shared ;
 using ostk::core::types::String ;
 using ostk::core::ctnr::Array ;
@@ -50,10 +51,10 @@ using ostk::physics::time::Duration ;
 using ostk::physics::time::Interval ;
 using ostk::physics::coord::Frame ;
 using ostk::physics::coord::Axes ;
-using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
 
 using ostk::astro::Trajectory ;
 using ostk::astro::flight::profile::State ;
+using ostk::astro::flight::profile::Model ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,57 +78,22 @@ class Profile
 
         /// @brief              Constructor
         ///
-        /// @param              [in] aDynamicTransformProvider A dynamic transform provider
-        /// @param              [in] aFrameSPtr A shared pointer to reference frame
+        /// @param              [in] aModel A model
 
-                                Profile                                     (   const   DynamicProvider&            aDynamicTransformProvider,
-                                                                                const   Shared<const Frame>&        aFrameSPtr                                  ) ;
+                                Profile                                     (   const   Model&                      aModel                                      ) ;
 
-        /// @brief              Constructor
-        ///
-        /// @code
-        ///                     Array<State> stateArray = { ... } ;
-        ///                     Profile profile = { stateArray } ;
-        /// @endcode
-        ///
-        /// @param              [in] aStateArray An array of states
-
-                                Profile                                     (   const   Array<State>&               aStateArray                                 ) ;
-
-        /// @brief              Copy constructor
+                                /// @brief              Copy constructor
         ///
         /// @param              [in] aProfile A flight profile
 
-                                Profile                                     (   const   Profile&                    aProfile                                    ) = default ;
+                                Profile                                     (   const   Profile&                    aProfile                                    ) ;
 
         /// @brief              Copy assignment operator
         ///
         /// @param              [in] aProfile A flight profile
         /// @return             Reference to flight profile
 
-        Profile&                operator =                                  (   const   Profile&                    aProfile                                    ) = default ;
-
-        /// @brief              Equal to operator
-        ///
-        /// @code
-        ///                     Profile(...) == Profile(...) ;
-        /// @endcode
-        ///
-        /// @param              [in] aProfile A flight profile
-        /// @return             True if flight profiles are equal
-
-        bool                    operator ==                                 (   const   Profile&                    aProfile                                    ) const ;
-
-        /// @brief              Not equal to operator
-        ///
-        /// @code
-        ///                     Profile(...) != Profile(...) ;
-        /// @endcode
-        ///
-        /// @param              [in] aProfile A flight profile
-        /// @return             True if flight profiles are not equal
-
-        bool                    operator !=                                 (   const   Profile&                    aProfile                                    ) const ;
+        Profile&                operator =                                  (   const   Profile&                    aProfile                                    ) ;
 
         /// @brief              Output stream operator
         ///
@@ -193,10 +159,10 @@ class Profile
 
         /// @brief              Get body frame
         ///
-        /// @param              [in] aBodyFrameName A body frame name
+        /// @param              [in] aFrameName A body frame name
         /// @return             Shared pointer to body frame
 
-        Shared<const Frame>     getBodyFrame                                (   const   String&                     aBodyFrameName                              ) const ;
+        Shared<const Frame>     getBodyFrame                                (   const   String&                     aFrameName                                  ) const ;
 
         /// @brief              Print flight profile to output stream
         ///
@@ -239,13 +205,11 @@ class Profile
         static Profile          NadirPointing                               (   const   trajectory::Orbit&          anOrbit,
                                                                                 const   trajectory::Orbit::FrameType& anOrbitalFrameType                        ) ;
 
-        // static Profile          TargetTracking                              (   const   trajectory::Orbit&          anOrbit,
-        //                                                                         const   Orbit::FrameType&           anOrbitalFrameType                          ) ;
-
     private:
 
-        DynamicProvider         transformProvider_ ;
-        Shared<const Frame>     frameSPtr_ ;
+        Unique<Model>           modelUPtr_ ;
+
+                                Profile                                     ( ) ;
 
 } ;
 

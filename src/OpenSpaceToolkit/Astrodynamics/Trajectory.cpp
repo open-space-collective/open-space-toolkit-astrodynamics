@@ -45,6 +45,18 @@ using ostk::astro::trajectory::models::Tabulated ;
 
 }
 
+Trajectory&                     Trajectory::operator =                      (   const   Trajectory&                 aTrajectory                                 )
+{
+
+    if (this != &aTrajectory)
+    {
+        modelUPtr_ = Unique<Model>(aTrajectory.modelUPtr_->clone()) ;
+    }
+
+    return *this ;
+
+}
+
 bool                            Trajectory::operator ==                     (   const   Trajectory&                 aTrajectory                                 ) const
 {
 
