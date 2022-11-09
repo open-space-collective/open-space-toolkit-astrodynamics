@@ -37,6 +37,26 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             arg("second_line")
         )
 
+        .def
+        (
+            init<Integer, String, String, Instant, Real, Real, Real, Integer, Angle, Real, Angle, Angle, Angle, Real, Integer>(),
+            arg("satellite_number"),
+            arg("classification"),
+            arg("international_designator"),
+            arg("epoch"),
+            arg("first_derivative_mean_motion"),
+            arg("second_deritvative_mean_motion"),
+            arg("b_star_drag_term"),
+            arg("element_set_number"),
+            arg("incliation"),
+            arg("eccentricity"),
+            arg("raan"),
+            arg("aop"),
+            arg("mean_anomaly"),
+            arg("mean_motion"),
+            arg("revolution_number")
+        )
+
         .def(self == self)
         .def(self != self)
 

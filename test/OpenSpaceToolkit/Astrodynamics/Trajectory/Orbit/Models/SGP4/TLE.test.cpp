@@ -1325,4 +1325,73 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, GenerateC
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, AlternateConstructor)
+{
+    using ostk::core::types::String ;
+
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::units::Angle ;
+
+    using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
+
+    {
+
+        const String firstLine = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927" ;
+        const String secondLine = "2 25544 051.6416 247.4627 0006703 130.5359 325.0288 15.72125391563535" ;
+
+        const TLE tle = TLE(
+            25544,
+            "U",
+            "98067A",
+            Instant::DateTime(DateTime::Parse("2008-09-20T12:25:40.104192"), Scale::UTC),
+            -0.000021822232,
+            0.0,
+            -1.1606e-05,
+            292,
+            Angle::Degrees(51.6416182),
+            0.0006703123,
+            Angle::Degrees(247.46269989),
+            Angle::Degrees(130.535938),
+            Angle::Degrees(325.02878830),
+            15.7212539102,
+            56353
+        ) ;
+
+        EXPECT_EQ(tle.getFirstLine(), firstLine) ;
+        EXPECT_EQ(tle.getSecondLine(), secondLine) ;
+
+    }
+
+    {
+
+        const String firstLine = "1 25544U          22152.00230946  .00032182  23230-3  52606-2 0  1505" ;
+        const String secondLine = "2 25544 097.3232 247.4627 0001053 130.5359 325.0288 15.72125391002988" ;
+
+        const TLE tle = TLE(
+            25544,
+            "U",
+            "",
+            Instant::DateTime(DateTime::Parse("2022-06-01T00:03:19.537"), Scale::UTC),
+            0.000321822232,
+            2.3230e-4,
+            5.2606e-3,
+            150,
+            Angle::Degrees(97.323231),
+            0.00010532,
+            Angle::Degrees(247.46269989),
+            Angle::Degrees(130.535938),
+            Angle::Degrees(325.02878830),
+            15.7212539102,
+            298
+        ) ;
+
+        EXPECT_EQ(tle.getFirstLine(), firstLine) ;
+        EXPECT_EQ(tle.getSecondLine(), secondLine) ;
+
+    }
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

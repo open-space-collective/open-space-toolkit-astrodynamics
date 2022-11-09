@@ -10,6 +10,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE.hpp>
 
 #include <OpenSpaceToolkit/Physics/Units/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Time.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Date.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -60,6 +63,28 @@ namespace sgp4
     {
         throw ostk::core::error::runtime::Wrong("TLE") ;
     }
+
+}
+
+                                TLE::TLE                                    (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aFirstDerivativeMeanMotion,
+                                                                                const   Real&                       aSecondDeritvativeMeanMotion,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anIncliation,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      aRAAN,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Real&                       aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumber                           )
+{
+
+    firstLine_ = TLE::GenerateFirstLine(aSatelliteNumber, aClassification, anInternationalDesignator, anEpoch, aFirstDerivativeMeanMotion, aSecondDeritvativeMeanMotion, aBStarDragTerm, anElementSetNumber) ;
+    secondLine_ = TLE::GenerateSecondLine(aSatelliteNumber, anIncliation, anEccentricity, aRAAN, anAop, aMeanAnomaly, aMeanMotion, aRevolutionNumber) ;
 
 }
 
@@ -682,6 +707,153 @@ Real                            TLE::ParseReal                              (   
     }
 
     return Real::Parse(string) ;
+
+}
+
+String               TLE::GenerateFirstLine                                 (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aFirstDerivativeMeanMotion,
+                                                                                const   Real&                       aSecondDeritvativeMeanMotion,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anElementSetNumber                          )
+{
+
+    using ostk::physics::time::Date ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::time::Time ;
+    using ostk::physics::time::Scale ;
+
+    if (std::to_string(aSatelliteNumber).length() > 5)
+    {
+        throw ostk::core::error::runtime::Wrong("Satellite Catalog Number greater than length 5.") ;
+    }
+
+    if ((aClassification != "U") && (aClassification != "C") && (aClassification != "S"))
+    {
+        throw ostk::core::error::runtime::Wrong("Classification must be 'C', 'U' or 'S'.") ;
+    }
+
+    if (anInternationalDesignator.length() > 8)
+    {
+        throw ostk::core::error::runtime::Wrong("International designator greater than length 8.") ;
+    }
+
+    auto getAssumedDecimalFormat = [] (const Real& aNumber) -> String
+    {
+
+        if (!aNumber.isDefined() || aNumber.isNear(0.0, 1e-12))
+        {
+            return " 00000-0" ;
+        }
+
+        String numberAsString = String::Format("{:.4e}", aNumber) ;
+
+        if (aNumber < 0.0)
+        {
+            numberAsString = String::Format("-{}{}-{}", numberAsString.getSubstring(1, 1), numberAsString.getSubstring(3, 4), std::stoi(numberAsString.getTail(1)) - 1) ;
+        } else
+        {
+            numberAsString = String::Format(" {}{}-{}", numberAsString.getSubstring(0, 1), numberAsString.getSubstring(2, 4), std::stoi(numberAsString.getTail(1)) - 1) ;
+        }
+
+        return numberAsString ;
+
+    } ;
+
+    // Epoch
+    Date date = anEpoch.getDateTime(Scale::UTC).getDate() ;
+
+    Time time = anEpoch.getDateTime(Scale::UTC).getTime();
+    time.setHour(0) ;
+    time.setMinute(0) ;
+    time.setSecond(0) ;
+    time.setMillisecond(0) ;
+    time.setMicrosecond(0) ;
+    time.setNanosecond(0) ;
+
+    const String dayFraction = String::Format("{:.8f}", Real((anEpoch - Instant::DateTime(DateTime(date, time), Scale::UTC)).inSeconds()) / 86400.0) ;
+
+    date.setDay(1) ;
+    date.setMonth(1) ;
+
+    const Integer days = (anEpoch - Instant::DateTime(DateTime(date, time), Scale::UTC)).getDays() + 1 ;
+
+    const String epoch = String::Format("{}{:03d}{}", std::to_string(date.getYear()).substr(2,2), days, dayFraction.getSubstring(1, 9)) ;
+
+    // First derivative mean motion
+
+    String firstDerivativeMeanMotion = String::Format("{:.8f}", aFirstDerivativeMeanMotion) ;
+    if (!aFirstDerivativeMeanMotion.isDefined() || aFirstDerivativeMeanMotion.isNear(0.0, 1e-12))
+    {
+        firstDerivativeMeanMotion = "0.00000000" ;
+    }
+    else if (aFirstDerivativeMeanMotion < 0.0)
+    {
+        firstDerivativeMeanMotion = String::Format("-{}", firstDerivativeMeanMotion.getSubstring(2, 9)) ;
+    } else {
+        firstDerivativeMeanMotion = String::Format(" {}", firstDerivativeMeanMotion.getSubstring(1, 9)) ;
+    }
+
+    // Second derivative mean motion
+
+    const String secondDeritvativeMeanMotion = getAssumedDecimalFormat(aSecondDeritvativeMeanMotion) ;
+
+    // BStar term
+
+    const String bStarDragTerm = getAssumedDecimalFormat(aBStarDragTerm) ;
+
+    const String firstLine = String::Format("1 {:05d}{} {:8} {} {} {} {} 0 {:4d}0", aSatelliteNumber, aClassification, anInternationalDesignator, epoch, firstDerivativeMeanMotion, secondDeritvativeMeanMotion, bStarDragTerm, anElementSetNumber) ;
+
+    return firstLine.substr(0, 68) + std::to_string(TLE::GenerateChecksum(firstLine)) ;
+
+}
+
+        String               TLE::GenerateSecondLine                        (   const   Integer&                    aSatelliteNumber,
+                                                                                const   Angle&                      anIncliation,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      aRAAN,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Real&                       aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumber                           )
+{
+
+    if (std::to_string(aSatelliteNumber).length() > 5)
+    {
+        throw ostk::core::error::runtime::Wrong("Satellite Catalog Number greater than length 5.") ;
+    }
+
+    if ((anEccentricity < 0.0) || (anEccentricity > 1.0))
+    {
+        throw ostk::core::error::runtime::Wrong("Eccentricity is invalid.") ;
+    }
+
+    auto fill = [] (const String& aString, const int& numberOfZeros) -> String
+    {
+
+        int stringLength = aString.getLength() ;
+
+        return String(numberOfZeros - std::min(numberOfZeros, stringLength), '0') + aString ;
+
+    } ;
+
+    const String inclination = fill(String::Format("{:.4f}", anIncliation.inDegrees(0.0, 360.0)), 8) ;
+
+    const String raan = fill(String::Format("{:.4f}", aRAAN.inDegrees(0.0, 360.0)), 8) ;
+
+    const String eccentricity = fill(String::Format("{:.7f}", anEccentricity).getSubstring(2, 7), 7) ;
+
+    const String aop = fill(String::Format("{:.4f}", anAop.inDegrees(0.0, 360.0)), 8) ;
+
+    const String meanAnomaly = fill(String::Format("{:.4f}", aMeanAnomaly.inDegrees(0.0, 360.0)), 8) ;
+
+    const String meanMotion = fill(String::Format("{:.8f}", aMeanMotion), 11) ;
+
+    const String secondLine = String::Format("2 {:05d} {} {} {} {} {} {}{:05d}0", aSatelliteNumber, inclination, raan, eccentricity, aop, meanAnomaly, meanMotion, aRevolutionNumber);
+
+    return secondLine.substr(0, 68) + std::to_string(TLE::GenerateChecksum(secondLine));
 
 }
 

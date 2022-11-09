@@ -315,3 +315,31 @@ def test_trajectory_orbit_models_sgp4_tle_generate_checksum (tle: TLE):
     assert TLE.generate_checksum(f'{str(tle.get_second_line())[:-1]}9') == tle.get_second_line_checksum()
 
 ################################################################################################################################################################
+
+def test_trajectory_orbit_models_sgp4_tle_alternate_constructor ():
+
+    first_line = '1 25544U          22152.00230946  .00032182  23230-3  52606-2 0  1505'
+    second_line = '2 25544 097.3232 247.4627 0001053 130.5359 325.0288 15.72125391002988'
+
+    tle: TLE = TLE(
+        25544, 
+        "U",
+        "",
+        Instant.date_time(DateTime.parse("2022-06-01T00:03:19.537"), Scale.UTC),
+        0.000321822232,
+        2.3230e-4,
+        5.2606e-3,
+        150,
+        Angle.Degrees(97.323231),
+        0.00010532,
+        Angle.Degrees(247.46269989),
+        Angle.Degrees(130.535938),
+        Angle.Degrees(325.02878830),
+        15.7212539102,
+        298
+    )
+
+    assert tle.get_first_line() == first_line
+    assert tle.get_second_line() == second_line
+
+################################################################################################################################################################

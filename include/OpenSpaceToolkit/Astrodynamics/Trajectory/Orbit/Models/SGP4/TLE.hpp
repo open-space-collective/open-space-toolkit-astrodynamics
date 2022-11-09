@@ -86,6 +86,46 @@ class TLE
                                                                                 const   String&                     aFirstLine,
                                                                                 const   String&                     aSecondLine                                 ) ;
 
+        /// @brief              Constructor
+        ///
+        /// @code
+        ///                     TLE tle("ISS (ZARYA)",
+        ///                             "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
+        ///                             "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537") ;
+        /// @endcode
+        ///
+        /// @param              [in] aSatelliteNumber A satellite catalog number
+        /// @param              [in] aClassification A classification (U, C, or S)
+        /// @param              [in] anInternationalDesignator An international Designator
+        /// @param              [in] anEpoch An Epoch
+        /// @param              [in] aFirstDerivativeMeanMotion A first derivative of mean motion
+        /// @param              [in] aSecondDeritvativeMeanMotion A second derivaitive of mean motion
+        /// @param              [in] aBStarDragTerm A B* drag term
+        /// @param              [in] anElementSetNumber An element set number
+        /// @param              [in] anIncliation An inclination
+        /// @param              [in] aRAAN A right angle of ascending node
+        /// @param              [in] anEccentricity An eccentricity 
+        /// @param              [in] anAop An argument of periapsis
+        /// @param              [in] aMeanAnomaly A mean anomaly
+        /// @param              [in] aMeanMotion A mean motion
+        /// @param              [in] aRevolutionNumber A revolution number
+
+                                TLE                                         (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aFirstDerivativeMeanMotion,
+                                                                                const   Real&                       aSecondDeritvativeMeanMotion,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anIncliation,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      aRAAN,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Real&                       aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumber                           ) ;   
+
         /// @brief              Equal to operator
         ///
         /// @code
@@ -368,6 +408,24 @@ class TLE
 
         static Real             ParseReal                                   (   const   String&                     aString,
                                                                                         bool                        isDecimalPointAssumed                       ) ;
+
+        static String           GenerateFirstLine                           (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aFirstDerivativeMeanMotion,
+                                                                                const   Real&                       aSecondDeritvativeMeanMotion,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anElementSetNumber                          ) ;
+
+        static String           GenerateSecondLine                          (   const   Integer&                    aSatelliteNumber,
+                                                                                const   Angle&                      anIncliation,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      aRAAN,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Real&                       aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumber                           ) ;
 
 } ;
 
