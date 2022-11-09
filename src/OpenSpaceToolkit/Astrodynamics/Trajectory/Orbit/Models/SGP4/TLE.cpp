@@ -15,6 +15,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <regex>
 #include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +37,7 @@ namespace sgp4
 
                                 TLE::TLE                                    (   const   String&                     aFirstLine,
                                                                                 const   String&                     aSecondLine                                 )
-                                :   satelliteName_(""),
+                                :   satelliteName_(String::Empty()),
                                     firstLine_(aFirstLine),
                                     secondLine_(aSecondLine)
 {
@@ -612,6 +613,222 @@ TLE                             TLE::Load                                   (   
 
     return TLE::Parse(tleString) ;
 
+}
+
+TLE                             TLE::Construct                              (   const   String&                     aSatelliteName,
+                                                                                const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aMeanMotionFirstTimeDerivativeDividedByTwo,
+                                                                                const   Real&                       aMeanMotionSecondTimeDerivativeDividedBySix,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anEphemerisType,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Angle&                      aRaan,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Derived&                    aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumberAtEpoch                    )
+{
+
+    // https://celestrak.org/columns/v04n03/#FAQ01
+    // In general, any number smaller than the maximum field size can be padded with either leading spaces or leading zeros.
+    // In other words, an epoch can be represented as either 98001.12345678 or 98 1.12345678 or an inclination can be represented as 28.1234 or 028.1234.
+    // Convention uses leading zeros for fields 1.5 and 1.8 and leading spaces elsewhere, but either is valid.
+
+    using ostk::physics::units::Time ;
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::DateTime ;
+
+    if (aSatelliteNumber > 99999)
+    {
+        throw ostk::core::error::runtime::Wrong("Satellite number", aSatelliteNumber) ;
+    }
+
+    if (aClassification.getLength() != 1)
+    {
+        throw ostk::core::error::runtime::Wrong("Classification", aClassification) ;
+    }
+
+    if (anInternationalDesignator.getLength() == 0)
+    {
+        throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator) ;
+    }
+
+    if (!std::regex_match(anInternationalDesignator, std::regex("^\\d{2}\\d{3}\\w{1,2}$")))
+    {
+        throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator) ;
+    }
+
+    if (aMeanMotionFirstTimeDerivativeDividedByTwo.abs() > 1.0)
+    {
+        throw ostk::core::error::runtime::Wrong("Mean motion first time derivative divided by two", aMeanMotionFirstTimeDerivativeDividedByTwo) ;
+    }
+
+    if ((anEphemerisType < 0) || (anEphemerisType > 5))
+    {
+        throw ostk::core::error::runtime::Wrong("Ephemeris type", anEphemerisType) ;
+    }
+
+    if (anElementSetNumber > 99999)
+    {
+        throw ostk::core::error::runtime::Wrong("Element set number", anElementSetNumber) ;
+    }
+
+    if ((anEccentricity < 0.0) || (anEccentricity >= 1.0))
+    {
+        throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity) ;
+    }
+
+    const Real meanMotion_revPerDay = aMeanMotion.in(Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)) ;
+    if ((meanMotion_revPerDay < 0.0) || (meanMotion_revPerDay > 99.99999999))
+    {
+        throw ostk::core::error::runtime::Wrong("Mean motion", meanMotion_revPerDay) ;
+    }
+
+    if ((aRevolutionNumberAtEpoch < 0) || (aRevolutionNumberAtEpoch > 99999))
+    {
+        throw ostk::core::error::runtime::Wrong("Revolution number at epoch", aRevolutionNumberAtEpoch) ;
+    }
+
+    const DateTime epochDateTime = anEpoch.getDateTime(Scale::UTC) ; // TBC: Scale
+
+    const Integer dayOfYear = (anEpoch - Instant::DateTime(DateTime(epochDateTime.getDate().getYear(), 1, 1, 0, 0, 0), Scale::UTC)).getDays() + 1 ;
+
+    const Integer epochYear = epochDateTime.getDate().getYear() - 2000 ;
+    const Real epochDay = Real(dayOfYear) + (epochDateTime.getTime().getHour() / 24.0) + (epochDateTime.getTime().getMinute() / 1440.0) + (epochDateTime.getTime().getFloatingSeconds() / 86400.0) ;
+
+    const auto formatFloatingPointNotation = [] (const Real& aValue) -> String
+    {
+        return ((aValue < 0.0) ? "-" : " ") + String::Format("{:.8f}", aValue.abs()).replace("0.", ".") ;
+    } ;
+
+    const auto formatScientificNotation = [] (const Real& aValue) -> String
+    {
+
+        if (aValue == 0.0)
+        {
+            return " 00000-0" ;
+        }
+
+        String value = String::Format("{:.5e}", aValue.abs()) ;
+        value = value.replace("0.", "") ;
+
+        {
+
+            const auto end = value.find("e+") ;
+            if (end != std::string::npos)
+            {
+                value = String::Format
+                (
+                    "{:0>5}+{:1}",
+                    Integer::Parse(value.getHead(end).replace(".", "").getHead(5)),
+                    Integer::Parse(value.getTail(value.getLength() - end - 2)) + 1
+                ) ;
+            }
+
+        }
+
+        {
+
+            const auto end = value.find("e-") ;
+            if (end != std::string::npos)
+            {
+                value = String::Format
+                (
+                    "{:0>5}-{:1}",
+                    Integer::Parse(value.getHead(end).replace(".", "").getHead(5)),
+                    Integer::Parse(value.getTail(value.getLength() - end - 2)) - 1
+                ) ;
+            }
+
+        }
+
+        value = ((aValue < 0.0) ? "-" : " ") + value ;
+
+        return value ;
+
+    } ;
+
+    const String firstLine = String::Format
+    (
+        "1 {: >5}{:1} {: <8} {:0>2}{:0>12.8f} {} {} {:8} {:1}{: >5}0",
+        aSatelliteNumber,
+        aClassification,
+        anInternationalDesignator,
+        epochYear,
+        epochDay,
+        formatFloatingPointNotation(aMeanMotionFirstTimeDerivativeDividedByTwo),
+        formatScientificNotation(aMeanMotionSecondTimeDerivativeDividedBySix),
+        formatScientificNotation(aBStarDragTerm),
+        anEphemerisType,
+        anElementSetNumber
+    ) ;
+
+    const String secondLine = String::Format
+    (
+        "2 {: >5} {:8.4f} {:8.4f} {} {:8.4f} {:8.4f} {:11.8f}{: >5}0",
+        aSatelliteNumber,
+        anInclination.inDegrees(0.0, 360.0),
+        aRaan.inDegrees(0.0, 360.0),
+        String::Format("{:9.7f}", anEccentricity).replace("0.", ""),
+        anAop.inDegrees(0.0, 360.0),
+        aMeanAnomaly.inDegrees(0.0, 360.0),
+        meanMotion_revPerDay,
+        aRevolutionNumberAtEpoch
+    ) ;
+
+    return
+    {
+        aSatelliteName,
+        firstLine.getHead(firstLine.getLength() - 1) + String::Format("{:1}", GenerateChecksum(firstLine)),
+        secondLine.getHead(secondLine.getLength() - 1) + String::Format("{:1}", GenerateChecksum(secondLine)),
+    } ;
+
+}
+
+TLE                             TLE::Construct                              (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aMeanMotionFirstTimeDerivativeDividedByTwo,
+                                                                                const   Real&                       aMeanMotionSecondTimeDerivativeDividedBySix,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anEphemerisType,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Angle&                      aRaan,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Derived&                    aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumberAtEpoch                    )
+{
+    return TLE::Construct
+    (
+        String::Empty(),
+        aSatelliteNumber,
+        aClassification,
+        anInternationalDesignator,
+        anEpoch,
+        aMeanMotionFirstTimeDerivativeDividedByTwo,
+        aMeanMotionSecondTimeDerivativeDividedBySix,
+        aBStarDragTerm,
+        anEphemerisType,
+        anElementSetNumber,
+        anInclination,
+        aRaan,
+        anEccentricity,
+        anAop,
+        aMeanAnomaly,
+        aMeanMotion,
+        aRevolutionNumberAtEpoch
+    ) ;
 }
 
 Integer                         TLE::GenerateChecksum                       (   const   String&                     aLine                                       )
