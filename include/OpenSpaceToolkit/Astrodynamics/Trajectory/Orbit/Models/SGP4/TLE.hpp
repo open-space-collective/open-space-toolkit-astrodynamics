@@ -358,6 +358,54 @@ class TLE
 
         static TLE              Load                                        (   const   File&                       aFile                                       ) ;
 
+        /// @brief              Construct a TLE from its components
+        ///
+        /// @return             TLE
+
+        static TLE              Construct                                   (   const   String&                     aSatelliteName,
+                                                                                const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aMeanMotionFirstTimeDerivativeDividedByTwo,
+                                                                                const   Real&                       aMeanMotionSecondTimeDerivativeDividedBySix,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anEphemerisType,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Angle&                      aRaan,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Derived&                    aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumberAtEpoch                    ) ;
+
+        static TLE              Construct                                   (   const   Integer&                    aSatelliteNumber,
+                                                                                const   String&                     aClassification,
+                                                                                const   String&                     anInternationalDesignator,
+                                                                                const   Instant&                    anEpoch,
+                                                                                const   Real&                       aMeanMotionFirstTimeDerivativeDividedByTwo,
+                                                                                const   Real&                       aMeanMotionSecondTimeDerivativeDividedBySix,
+                                                                                const   Real&                       aBStarDragTerm,
+                                                                                const   Integer&                    anEphemerisType,
+                                                                                const   Integer&                    anElementSetNumber,
+                                                                                const   Angle&                      anInclination,
+                                                                                const   Angle&                      aRaan,
+                                                                                const   Real&                       anEccentricity,
+                                                                                const   Angle&                      anAop,
+                                                                                const   Angle&                      aMeanAnomaly,
+                                                                                const   Derived&                    aMeanMotion,
+                                                                                const   Integer&                    aRevolutionNumberAtEpoch                    ) ;
+
+        /// @brief              Generate checksum for the given TLE line
+        ///
+        /// @code
+        ///                     TLE::GenerateChecksum("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927") ;
+        /// @endcode
+        ///
+        /// @param              [in] aLine A TLE line
+        /// @return             Checksum
+
         static Integer          GenerateChecksum                            (   const   String&                     aLine                                       ) ;
 
     private:

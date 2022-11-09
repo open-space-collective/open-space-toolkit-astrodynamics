@@ -11,12 +11,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE (        pybind11::module& aModule                             )
+inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE ( pybind11::module& aModule                                    )
 {
 
     using namespace pybind11 ;
 
+    using ostk::core::types::Integer ;
+    using ostk::core::types::Real ;
     using ostk::core::types::String ;
+
+    using ostk::physics::units::Angle ;
+    using ostk::physics::units::Derived ;
+    using ostk::physics::time::Instant ;
 
     using ostk::astro::trajectory::orbit::models::sgp4::TLE ;
 
@@ -110,6 +116,88 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             "load",
             &TLE::Load,
             arg("file")
+        )
+
+        .def_static
+        (
+            "construct",
+            overload_cast
+            <
+                const String&,
+                const Integer&,
+                const String&,
+                const String&,
+                const Instant&,
+                const Real&,
+                const Real&,
+                const Real&,
+                const Integer&,
+                const Integer&,
+                const Angle&,
+                const Angle&,
+                const Real&,
+                const Angle&,
+                const Angle&,
+                const Derived&,
+                const Integer&
+            >(&TLE::Construct),
+            arg("satellite_name"),
+            arg("satellite_number"),
+            arg("classification"),
+            arg("international_designator"),
+            arg("epoch"),
+            arg("mean_motion_first_time_derivative_divided_by_two"),
+            arg("mean_motion_second_time_derivative_divided_by_six"),
+            arg("b_star_drag_term"),
+            arg("ephemeris_type"),
+            arg("element_set_number"),
+            arg("inclination"),
+            arg("raan"),
+            arg("eccentricity"),
+            arg("aop"),
+            arg("mean_anomaly"),
+            arg("mean_motion"),
+            arg("revolution_number_at_epoch")
+        )
+
+        .def_static
+        (
+            "construct",
+            overload_cast
+            <
+                const Integer&,
+                const String&,
+                const String&,
+                const Instant&,
+                const Real&,
+                const Real&,
+                const Real&,
+                const Integer&,
+                const Integer&,
+                const Angle&,
+                const Angle&,
+                const Real&,
+                const Angle&,
+                const Angle&,
+                const Derived&,
+                const Integer&
+            >(&TLE::Construct),
+            arg("satellite_number"),
+            arg("classification"),
+            arg("international_designator"),
+            arg("epoch"),
+            arg("mean_motion_first_time_derivative_divided_by_two"),
+            arg("mean_motion_second_time_derivative_divided_by_six"),
+            arg("b_star_drag_term"),
+            arg("ephemeris_type"),
+            arg("element_set_number"),
+            arg("inclination"),
+            arg("raan"),
+            arg("eccentricity"),
+            arg("aop"),
+            arg("mean_anomaly"),
+            arg("mean_motion"),
+            arg("revolution_number_at_epoch")
         )
 
         .def_static
