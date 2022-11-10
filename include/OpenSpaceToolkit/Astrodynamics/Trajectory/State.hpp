@@ -32,12 +32,12 @@ namespace trajectory
 
 using ostk::core::types::Shared ;
 
+using ostk::math::obj::VectorXd ;
+
 using ostk::physics::time::Instant ;
 using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
-
-using ostk::math::obj::VectorXd ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,13 +52,13 @@ class State
                                                                                 const   Position&                   aPosition,
                                                                                 const   Velocity&                   aVelocity                                   ) ;
 
-        State                   operator -                                  (   const   State&                      aState                                      ) const ;
-
-        State                   operator +                                  (   const   State&                      aState                                      ) const ;
-
         bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
 
         bool                    operator !=                                 (   const   State&                      aState                                      ) const ;
+
+        State                   operator +                                  (   const   State&                      aState                                      ) const ;
+
+        State                   operator -                                  (   const   State&                      aState                                      ) const ;
 
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   State&                      aState                                      ) ;

@@ -151,6 +151,235 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
 
 }
 
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
+{
+
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
+
+    using ostk::astro::trajectory::State ;
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant_1, position, velocity } ;
+
+
+        EXPECT_ANY_THROW(state_1 + State::Undefined()) ;
+
+    }
+
+    {
+
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position_1, velocity } ;
+
+        const Position position_2 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position_2, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 + state_2) ;
+
+    }
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position, velocity_1 } ;
+
+        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position, velocity_2 } ;
+
+        EXPECT_ANY_THROW(state_1 + state_2) ;
+
+    }
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant_1, position, velocity } ;
+
+        const Instant instant_2 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC) ;
+
+        const State state_2 = { instant_2, position, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 + state_2) ;
+
+    }
+
+    {
+
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position_1, velocity } ;
+
+        const Position position_2 = Position({ 1.2, 3.4, 5.6 }, Position::Unit::Foot, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position_2, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 + state_2) ;
+
+    }
+
+    {
+
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const State state_1 = { instant, position_1, velocity_1 } ;
+
+        const Position position_2 = Position::Meters({ 0.2, 0.4, 0.6 }, Frame::GCRF()) ;
+        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.0, 8.0, 1.0 }, Frame::GCRF()) ;
+
+        const State state_2 = { instant, position_2, velocity_2 } ;
+
+        const Position position_expected = Position::Meters({ 1.4, 3.8, 6.2 }, Frame::GCRF()) ;
+        const Velocity velocity_expected = Velocity::MetersPerSecond({ 14.8, 17.0, 2.2 }, Frame::GCRF()) ;
+
+        const State state_expected = {instant, position_expected, velocity_expected} ;
+
+        EXPECT_EQ(state_1 + state_2, state_expected) ;
+
+    }
+
+}
+
+TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
+{
+
+    using ostk::physics::time::Scale ;
+    using ostk::physics::time::Instant ;
+    using ostk::physics::time::DateTime ;
+    using ostk::physics::coord::Position ;
+    using ostk::physics::coord::Velocity ;
+    using ostk::physics::coord::Frame ;
+
+    using ostk::astro::trajectory::State ;
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant_1, position, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 - State::Undefined()) ;
+
+    }
+
+    {
+
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position_1, velocity } ;
+
+        const Position position_2 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position_2, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 - state_2) ;
+
+    }
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position, velocity_1 } ;
+
+        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position, velocity_2 } ;
+
+        EXPECT_ANY_THROW(state_1 - state_2) ;
+
+    }
+
+    {
+
+        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant_1, position, velocity } ;
+
+        const Instant instant_2 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC) ;
+
+        const State state_2 = { instant_2, position, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 - state_2) ;
+
+    }
+
+    {
+
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+
+        const State state_1 = { instant, position_1, velocity } ;
+
+        const Position position_2 = Position({ 1.2, 3.4, 5.6 }, Position::Unit::Foot, Frame::ITRF()) ;
+
+        const State state_2 = { instant, position_2, velocity } ;
+
+        EXPECT_ANY_THROW(state_1 - state_2) ;
+
+    }
+
+    {
+
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
+        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
+        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
+
+        const State state_1 = { instant, position_1, velocity_1 } ;
+
+        const Position position_2 = Position::Meters({ 0.2, 0.4, 0.6 }, Frame::GCRF()) ;
+        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.0, 8.0, 1.0 }, Frame::GCRF()) ;
+
+        const State state_2 = { instant, position_2, velocity_2 } ;
+
+        const Position position_expected = Position::Meters({ 1.0, 3.0, 5.0 }, Frame::GCRF()) ;
+        const Velocity velocity_expected = Velocity::MetersPerSecond({ 0.8, 1.0, 0.2 }, Frame::GCRF()) ;
+
+        const State state_expected = {instant, position_expected, velocity_expected} ;
+
+        EXPECT_EQ(state_1 - state_2, state_expected) ;
+
+    }
+
+}
+
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
 {
 
@@ -387,235 +616,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, Undefined)
     {
 
         EXPECT_NO_THROW(State::Undefined()) ;
-
-    }
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
-{
-
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::coord::Frame ;
-
-    using ostk::astro::trajectory::State ;
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant_1, position, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 - State::Undefined()) ;
-
-    }
-
-    {
-
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position_1, velocity } ;
-
-        const Position position_2 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position_2, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 - state_2) ;
-
-    }
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position, velocity_1 } ;
-
-        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position, velocity_2 } ;
-
-        EXPECT_ANY_THROW(state_1 - state_2) ;
-
-    }
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant_1, position, velocity } ;
-
-        const Instant instant_2 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC) ;
-
-        const State state_2 = { instant_2, position, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 - state_2) ;
-
-    }
-
-    {
-
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position_1, velocity } ;
-
-        const Position position_2 = Position({ 1.2, 3.4, 5.6 }, Position::Unit::Foot, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position_2, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 - state_2) ;
-
-    }    
-
-    {
-
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const State state_1 = { instant, position_1, velocity_1 } ;
-
-        const Position position_2 = Position::Meters({ 0.2, 0.4, 0.6 }, Frame::GCRF()) ;
-        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.0, 8.0, 1.0 }, Frame::GCRF()) ;
-
-        const State state_2 = { instant, position_2, velocity_2 } ;
-
-        const Position position_expected = Position::Meters({ 1.0, 3.0, 5.0 }, Frame::GCRF()) ;
-        const Velocity velocity_expected = Velocity::MetersPerSecond({ 0.8, 1.0, 0.2 }, Frame::GCRF()) ;
-
-        const State state_expected = {instant, position_expected, velocity_expected} ;
-
-        EXPECT_EQ(state_1 - state_2, state_expected) ;
-
-    }
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
-{
-
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::coord::Frame ;
-
-    using ostk::astro::trajectory::State ;
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant_1, position, velocity } ;
-
-
-        EXPECT_ANY_THROW(state_1 + State::Undefined()) ;
-
-    }
-
-    {
-
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position_1, velocity } ;
-
-        const Position position_2 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position_2, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 + state_2) ;
-
-    }
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position, velocity_1 } ;
-
-        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position, velocity_2 } ;
-
-        EXPECT_ANY_THROW(state_1 + state_2) ;
-
-    }
-
-    {
-
-        const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const Instant instant_1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant_1, position, velocity } ;
-
-        const Instant instant_2 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC) ;
-
-        const State state_2 = { instant_2, position, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 + state_2) ;
-
-    }
-
-    {
-
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state_1 = { instant, position_1, velocity } ;
-
-        const Position position_2 = Position({ 1.2, 3.4, 5.6 }, Position::Unit::Foot, Frame::ITRF()) ;
-
-        const State state_2 = { instant, position_2, velocity } ;
-
-        EXPECT_ANY_THROW(state_1 + state_2) ;
-
-    }    
-
-    {
-
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-        const Position position_1 = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
-        const Velocity velocity_1 = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-
-        const State state_1 = { instant, position_1, velocity_1 } ;
-
-        const Position position_2 = Position::Meters({ 0.2, 0.4, 0.6 }, Frame::GCRF()) ;
-        const Velocity velocity_2 = Velocity::MetersPerSecond({ 7.0, 8.0, 1.0 }, Frame::GCRF()) ;
-
-        const State state_2 = { instant, position_2, velocity_2 } ;
-
-        const Position position_expected = Position::Meters({ 1.4, 3.8, 6.2 }, Frame::GCRF()) ;
-        const Velocity velocity_expected = Velocity::MetersPerSecond({ 14.8, 17.0, 2.2 }, Frame::GCRF()) ;
-
-        const State state_expected = {instant, position_expected, velocity_expected} ;
-
-        EXPECT_EQ(state_1 + state_2, state_expected) ;
 
     }
 

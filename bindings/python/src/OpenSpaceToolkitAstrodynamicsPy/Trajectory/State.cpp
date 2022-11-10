@@ -34,6 +34,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
 
         .def(self == self)
         .def(self != self)
+        .def(self + self)
+        .def(self - self)
 
         .def("__str__", &(shiftToString<State>))
         .def("__repr__", &(shiftToString<State>))
