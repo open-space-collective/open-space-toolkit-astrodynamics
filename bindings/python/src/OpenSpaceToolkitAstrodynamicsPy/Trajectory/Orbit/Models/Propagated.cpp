@@ -18,6 +18,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     using ostk::core::ctnr::Array ;
 
+    using ostk::physics::time::Instant ;
+
     using ostk::astro::NumericalSolver ;
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
@@ -58,7 +60,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def
             (
                 "calculate_state_at",
-                &Propagated::calculateStateAt,
+                overload_cast<const Instant&>(&Propagated::calculateStateAt, const_),
+                arg("instant")
+            )
+
+            .def
+            (
+                "calculate_state_at",
+                overload_cast<const State&, const Instant&>(&Propagated::calculateStateAt, const_),
+                arg("state"),
                 arg("instant")
             )
 

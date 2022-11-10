@@ -119,7 +119,7 @@ class TestPropagated:
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, state, _) = propagated_default_inputs
 
         assert propagated.get_epoch() == state.get_instant()
 
@@ -131,7 +131,7 @@ class TestPropagated:
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, _, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -153,13 +153,41 @@ class TestPropagated:
         assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
         assert propagated_state.get_instant() == instant
 
+    def test_calculate_state_at_with_initial_state (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
+
+        (_, _, state, environment) = propagated_default_inputs
+
+        orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
+
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
+
+        propagated_state = propagated.calculate_state_at(state, instant)
+        propagated_state_orbit = orbit.get_state_at(instant)
+
+        assert propagated_state == propagated_state_orbit
+
+
+        propagated_state_position_ref = np.array([6265892.25765909, 3024770.94961259, 3024359.72137468])
+        propagated_state_velocity_ref = np.array([-3974.49168221,  4468.16996776,  4466.19232746])
+
+        propagated_state_position = propagated_state.get_position().get_coordinates()
+        propagated_state_velocity = propagated_state.get_velocity().get_coordinates()
+
+        assert all([round(propagated_state_position[i], 8) == round(propagated_state_position_ref[i], 8) for i in range(0, len(propagated_state_position_ref))])
+        assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
+        assert propagated_state.get_instant() == instant
+
     def test_calculate_states_at (
         self,
         propagated: Propagated,
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, _, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -179,7 +207,7 @@ class TestPropagated:
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, _, environment) = propagated_default_inputs
 
         orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
 
@@ -194,7 +222,7 @@ class TestPropagated:
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, state, _) = propagated_default_inputs
 
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
@@ -204,7 +232,7 @@ class TestPropagated:
         propagated_default_inputs
     ):
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (_, _, state, _) = propagated_default_inputs
 
         propagated = Propagated.medium_fidelity(state)
 

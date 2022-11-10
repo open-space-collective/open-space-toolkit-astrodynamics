@@ -173,6 +173,17 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
+        /// @brief              Calculate a state at an instant, given initial state
+        /// @code
+        ///                     Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
+        /// @endcode
+        /// @param              [in] aState An initial state
+        /// @param              [in] anInstant An instant
+        /// @return             State
+
+        State                   calculateStateAt                            (   const   State&                      aState,
+                                                                                const   Instant&                    anInstant                                   ) const ;
+
         /// @brief              Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time
         /// @brief              Has macro-level sorting optimization, can be used with unsorted instant array
         /// @code
