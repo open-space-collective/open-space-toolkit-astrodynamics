@@ -151,6 +151,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
 
 }
 
+
 TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
 {
 

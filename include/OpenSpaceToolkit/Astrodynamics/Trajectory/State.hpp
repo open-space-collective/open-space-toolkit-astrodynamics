@@ -39,6 +39,8 @@ using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
 
+using ostk::math::obj::VectorXd ;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Trajectory state
@@ -51,6 +53,10 @@ class State
                                 State                                       (   const   Instant&                    anInstant,
                                                                                 const   Position&                   aPosition,
                                                                                 const   Velocity&                   aVelocity                                   ) ;
+
+        State                   operator -                                  (   const   State&                      aState                                      ) const ;
+
+        State                   operator +                                  (   const   State&                      aState                                      ) const ;
 
         bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
 
