@@ -660,7 +660,7 @@ TLE                             TLE::Construct                              (   
         throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator) ;
     }
 
-    if (!std::regex_match(anInternationalDesignator, std::regex("^\\d{2}\\d{3}\\w{1,2}$")))
+    if (!std::regex_match(anInternationalDesignator, std::regex("^\\d{2}\\d{3}\\w{1,3}$")))
     {
         throw ostk::core::error::runtime::Wrong("International designator", anInternationalDesignator) ;
     }
