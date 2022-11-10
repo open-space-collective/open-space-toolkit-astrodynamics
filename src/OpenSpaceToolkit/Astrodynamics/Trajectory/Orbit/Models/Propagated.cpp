@@ -148,6 +148,39 @@ State                           Propagated::calculateStateAt                (   
 
 }
 
+State                           Propagated::calculateStateAt                (   const   State&                      aState,
+                                                                                const   Instant&                    anInstant                                   ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    if (!aState.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State") ;
+    }
+
+    if (!anInstant.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant") ;
+    }
+
+    const Vector3d startPositionCoordinates = aState.getPosition().inUnit(Position::Unit::Meter).accessCoordinates() ;
+    const Vector3d startVelocityCoordinates = aState.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+
+    SatelliteDynamics::StateVector startStateVector(6) ;
+    startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
+    startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
+
+    SatelliteDynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations()) ;
+
+    return {anInstant, Position::Meters({ endStateVector[0], endStateVector[1], endStateVector[2] }, gcrfSPtr), Velocity::MetersPerSecond({ endStateVector[3], endStateVector[4], endStateVector[5] }, gcrfSPtr)} ;
+
+}
+
+
 Array<State>                    Propagated::calculateStatesAt               (   const   Array<Instant>&             anInstantArray                              ) const
 {
 
