@@ -2435,7 +2435,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct
                 99999
             ) ;
 
-            EXPECT_EQ("1 25544U 22001YAM 08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine()) ;
+            EXPECT_EQ("1 25544U 22001YAM 08264.51782528 -.00002182  00000-0 -11606-4 0  2922", tle.getFirstLine()) ;
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391999990", tle.getSecondLine()) ;
 
         }
