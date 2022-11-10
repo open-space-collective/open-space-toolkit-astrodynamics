@@ -200,6 +200,31 @@ class TestPropagated:
 
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
+    
+    def test_calculate_states_at_with_initial_state (
+        self,
+        propagated: Propagated,
+        propagated_default_inputs
+    ):
+
+        (_, _, state, environment) = propagated_default_inputs
+
+        orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
+
+        instant_array = [Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC), Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC)]
+
+        propagated_state_array = propagated.calculate_states_at(state, instant_array)
+        propagated_state_array_orbit = orbit.get_states_at(instant_array)
+
+        assert propagated_state_array_orbit == propagated_state_array
+
+        assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
+        assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
+        assert len(propagated.access_cached_state_array()) == 1
+
+        with pytest.raises(RuntimeError):
+            instant_array.reverse()
+            propagated.calculate_states_at(state, instant_array)
 
     def test_calculate_rev_number_at (
         self,

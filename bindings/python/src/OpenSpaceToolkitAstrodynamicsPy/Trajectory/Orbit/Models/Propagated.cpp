@@ -75,7 +75,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def
             (
                 "calculate_states_at",
-                &Propagated::calculateStatesAt,
+                overload_cast<const Array<Instant>&>(&Propagated::calculateStatesAt, const_),
+                arg("instant_array")
+            )
+
+            .def
+            (
+                "calculate_states_at",
+                overload_cast<const State&, const Array<Instant>&>(&Propagated::calculateStatesAt, const_),
+                arg("state"),
                 arg("instant_array")
             )
 

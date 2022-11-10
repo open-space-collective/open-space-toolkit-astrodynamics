@@ -398,6 +398,110 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
 }
 
+Array<State>                    Propagated::calculateStatesAt               (   const   State&                      aState,
+                                                                                const   Array<Instant>&             anInstantArray                              ) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    if (!aState.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State") ;
+    }
+
+    if (anInstantArray.isEmpty())
+    {
+        return Array<State>::Empty() ;
+    }
+
+    for (Size k = 0 ; k < anInstantArray.getSize() - 1; ++k)
+    {
+        if (anInstantArray[k] > anInstantArray[k + 1])
+        {
+            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array") ;
+        }
+    }
+
+    const Vector3d startPositionCoordinates = aState.getPosition().inUnit(Position::Unit::Meter).accessCoordinates();
+    const Vector3d startVelocityCoordinates = aState.getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+
+    SatelliteDynamics::StateVector startStateVector(6) ;
+    startStateVector[0] = startPositionCoordinates[0]; startStateVector[1] = startPositionCoordinates[1]; startStateVector[2] = startPositionCoordinates[2] ;
+    startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
+
+    Array<Instant> forwardInstants ;
+    Array<Instant> backwardInstants ;
+
+    for (const Instant& anInstant : anInstantArray)
+    {
+
+        if (anInstant <= aState.getInstant())
+        {
+            backwardInstants.add(anInstant) ;
+        }
+        else
+        {
+            forwardInstants.add(anInstant) ;
+        }
+
+    }
+
+    // forward propagation only
+    Array<SatelliteDynamics::StateVector> propagatedForwardStateVectorArray ;
+    if (!forwardInstants.isEmpty())
+    {
+
+        propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants
+        (
+            startStateVector,
+            aState.getInstant(),
+            forwardInstants,
+            satelliteDynamics_.getDynamicalEquations()
+        ) ;
+
+    }
+    
+    // backward propagation only
+    Array<SatelliteDynamics::StateVector> propagatedBackwardStateVectorArray ;
+    if (!backwardInstants.isEmpty())
+    {
+
+        std::reverse(backwardInstants.begin(), backwardInstants.end()) ;
+
+        propagatedBackwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants
+        (
+            startStateVector,
+            aState.getInstant(),
+            backwardInstants,
+            satelliteDynamics_.getDynamicalEquations()
+        ) ;
+
+        std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end()) ;
+
+    }
+    
+
+    Array<State> propagatedStates ;
+    propagatedStates.reserve(anInstantArray.getSize()) ;
+
+    Size k = 0 ;
+    for (const SatelliteDynamics::StateVector& stateVector : (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
+    {
+
+        State propagatedState = {anInstantArray[k], Position::Meters( {stateVector[0], stateVector[1], stateVector[2] }, gcrfSPtr), Velocity::MetersPerSecond({ stateVector[3], stateVector[4], stateVector[5] }, gcrfSPtr)} ;
+
+        propagatedStates.add(propagatedState) ;
+
+        ++k ;
+
+    }
+
+
+    return propagatedStates;
+}
+
 Integer                         Propagated::calculateRevolutionNumberAt     (   const   Instant&                    anInstant                                   ) const
 {
 
