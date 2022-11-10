@@ -130,6 +130,90 @@ bool                            State::operator !=                          (   
     return !((*this) == aState) ;
 }
 
+State                           State::operator +                           (   const   State&                      aState                                      ) const
+{
+
+    if ((!this->isDefined()) || (!aState.isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("State") ;
+    }
+
+    if (this->instant_ != aState.instant_)
+    {
+        throw ostk::core::error::runtime::Wrong("Instant") ;
+    }
+
+    if (this->accessPosition().accessFrame() != aState.accessPosition().accessFrame())
+    {
+        throw ostk::core::error::runtime::Wrong("Position Frame") ;
+    }
+
+    if (this->accessVelocity().accessFrame() != aState.accessVelocity().accessFrame())
+    {
+        throw ostk::core::error::runtime::Wrong("Velocity Frame") ;
+    }
+
+    if (this->accessPosition().getUnit() != aState.accessPosition().getUnit())
+    {
+        throw ostk::core::error::runtime::Wrong("Position Unit") ;
+    }
+
+    if (this->accessVelocity().getUnit() != aState.accessVelocity().getUnit())
+    {
+        throw ostk::core::error::runtime::Wrong("Velocity Unit") ;
+    }
+
+    return
+    {
+        this->instant_,
+        Position(this->getPosition().getCoordinates() + aState.getPosition().getCoordinates(), this->accessPosition().getUnit(), this->accessPosition().accessFrame()),
+        Velocity(this->getVelocity().getCoordinates() + aState.getVelocity().getCoordinates(), this->accessVelocity().getUnit(), this->accessVelocity().accessFrame())
+    } ;
+
+}
+
+State                           State::operator -                           (   const   State&                      aState                                      ) const
+{
+
+    if ((!this->isDefined()) || (!aState.isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("State") ;
+    }
+
+    if (this->instant_ != aState.instant_)
+    {
+        throw ostk::core::error::runtime::Wrong("Instant") ;
+    }
+
+    if (this->accessPosition().accessFrame() != aState.accessPosition().accessFrame())
+    {
+        throw ostk::core::error::runtime::Wrong("Position Frame") ;
+    }
+
+    if (this->accessVelocity().accessFrame() != aState.accessVelocity().accessFrame())
+    {
+        throw ostk::core::error::runtime::Wrong("Velocity Frame") ;
+    }
+
+    if (this->accessPosition().getUnit() != aState.accessPosition().getUnit())
+    {
+        throw ostk::core::error::runtime::Wrong("Position Unit") ;
+    }
+
+    if (this->accessVelocity().getUnit() != aState.accessVelocity().getUnit())
+    {
+        throw ostk::core::error::runtime::Wrong("Velocity Unit") ;
+    }
+
+    return
+    {
+        this->instant_,
+        Position(this->getPosition().getCoordinates() - aState.getPosition().getCoordinates(), this->accessPosition().getUnit(), this->accessPosition().accessFrame()),
+        Velocity(this->getVelocity().getCoordinates() - aState.getVelocity().getCoordinates(), this->accessVelocity().getUnit(), this->accessVelocity().accessFrame())
+    } ;
+
+}
+
 std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   State&                      aState                                      )
 {

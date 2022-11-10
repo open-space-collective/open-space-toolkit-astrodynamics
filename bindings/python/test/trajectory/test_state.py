@@ -9,21 +9,14 @@
 
 import pytest
 
-import ostk.physics as physics
+from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
 
-import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
-
-Instant = physics.time.Instant
-DateTime = physics.time.DateTime
-Time = physics.units.Time
-Scale = physics.time.Scale
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-
-State = astrodynamics.trajectory.State
+from ostk.astrodynamics.trajectory import State
 
 ################################################################################################################################################################
 
@@ -47,7 +40,7 @@ def state (state_default_inputs) -> State:
 
 class TestState:
 
-    def test_constructors(self, state: State):
+    def test_constructor (self, state: State):
 
         assert state is not None
         assert isinstance(state, State)
@@ -57,6 +50,11 @@ class TestState:
 
         assert (state == state) is True
         assert (state != state) is False
+
+    def test_operators (self, state: State):
+
+        assert isinstance(state + state, State)
+        assert isinstance(state - state, State)
 
     def test_getters (self, state: State, state_default_inputs):
 
