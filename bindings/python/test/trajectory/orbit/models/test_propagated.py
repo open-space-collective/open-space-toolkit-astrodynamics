@@ -11,34 +11,30 @@ import pytest
 
 import numpy as np
 
-import ostk.physics as physics
-import ostk.mathematics as mathematics
-import ostk.astrodynamics as astrodynamics
+from ostk.mathematics.geometry.d3.objects import Cuboid
+from ostk.mathematics.geometry.d3.objects import Composite
+from ostk.mathematics.geometry.d3.objects import Point
+
+from ostk.physics.units.Mass import Mass
+from ostk.physics.time.Instant import Instant
+from ostk.physics.time.DateTime import DateTime
+from ostk.physics.time.Scale import Scale
+from ostk.physics.coordinate.Position import Position
+from ostk.physics.coordinate.Velocity import Velocity
+from ostk.physics.coordinate.Frame import Frame
+from ostk.physics.Environment import Environment
+from ostk.physics.environment.objects.celestial_bodies.Earth import Earth
+
+from ostk.astrodynamics.NumericalSolver import NumericalSolver
+from ostk.astrodynamics.flight.system.SatelliteSystem import SatelliteSystem
+from ostk.astrodynamics.flight.system.dynamics.SatelliteDynamics import SatelliteDynamics
+from ostk.astrodynamics.trajectory.State import State
+from ostk.astrodynamics.trajectory.Orbit import Orbit
+from ostk.astrodynamics.trajectory.orbit.models.Propagated import Propagated
+
 
 ################################################################################################################################################################
 
-Cuboid = mathematics.geometry.d3.objects.Cuboid
-Composite = mathematics.geometry.d3.objects.Composite
-Point = mathematics.geometry.d3.objects.Point
-
-Mass = physics.units.Mass
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-DateTime = physics.time.DateTime
-Time = physics.units.Time
-Scale = physics.time.Scale
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-Environment = physics.Environment
-Earth = physics.environment.objects.celestial_bodies.Earth
-
-NumericalSolver = astrodynamics.NumericalSolver
-SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
-SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
-State = astrodynamics.trajectory.State
-Orbit = astrodynamics.trajectory.Orbit
-Propagated = astrodynamics.trajectory.orbit.models.Propagated
 
 ################################################################################################################################################################
 
