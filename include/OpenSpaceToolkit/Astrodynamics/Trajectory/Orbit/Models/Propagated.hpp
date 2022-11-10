@@ -175,7 +175,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         /// @brief              Calculate a state at an instant, given initial state
         /// @code
-        ///                     Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
+        ///                     State state = propagated.calculateStateAt(aState, anInstant) ;
         /// @endcode
         /// @param              [in] aState An initial state
         /// @param              [in] anInstant An instant
@@ -193,6 +193,17 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @return             Array<State>
 
         virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
+
+        /// @brief              Calculate a state at an array of instants, given an initial state
+        /// @brief              Can only be used with sorted instant array
+        /// @code
+        ///                     Array<State> states = propagated.calculateStatesAt(aState, anInstantArray) ;
+        /// @endcode
+        /// @param              [in] anInstantArray An instant array
+        /// @return             Array<State>
+
+        Array<State>            calculateStatesAt                           (   const   State&                      aState,
+                                                                                const   Array<Instant>&             anInstantArray                              ) const ;
 
         /// @brief              Calculate a revolution number at an instant
         ///
