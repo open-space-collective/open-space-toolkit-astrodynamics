@@ -15,6 +15,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +37,8 @@ using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
 
+using ostk::math::obj::VectorXd ;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Trajectory state
@@ -47,6 +51,10 @@ class State
                                 State                                       (   const   Instant&                    anInstant,
                                                                                 const   Position&                   aPosition,
                                                                                 const   Velocity&                   aVelocity                                   ) ;
+
+        State                   operator -                                  (   const   State&                      aState                                      ) const ;
+
+        State                   operator +                                  (   const   State&                      aState                                      ) const ;
 
         bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
 
@@ -63,11 +71,15 @@ class State
 
         const Velocity&         accessVelocity                              ( ) const ;
 
+        const VectorXd&         accessCoordinates                           ( ) const ;
+
         Instant                 getInstant                                  ( ) const ;
 
         Position                getPosition                                 ( ) const ;
 
         Velocity                getVelocity                                 ( ) const ;
+
+        VectorXd                getCoordinates                              ( ) const ;
 
         State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
