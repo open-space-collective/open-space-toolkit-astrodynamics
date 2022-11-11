@@ -15,22 +15,22 @@ from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Composite
 from ostk.mathematics.geometry.d3.objects import Point
 
-from ostk.physics.units.Mass import Mass
-from ostk.physics.time.Instant import Instant
-from ostk.physics.time.DateTime import DateTime
-from ostk.physics.time.Scale import Scale
-from ostk.physics.coordinate.Position import Position
-from ostk.physics.coordinate.Velocity import Velocity
-from ostk.physics.coordinate.Frame import Frame
-from ostk.physics.Environment import Environment
-from ostk.physics.environment.objects.celestial_bodies.Earth import Earth
+from ostk.physics.units import Mass
+from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
+from ostk.physics import Environment
+from ostk.physics.environment.objects.celestial_bodies import Earth
 
-from ostk.astrodynamics.NumericalSolver import NumericalSolver
-from ostk.astrodynamics.flight.system.SatelliteSystem import SatelliteSystem
-from ostk.astrodynamics.flight.system.dynamics.SatelliteDynamics import SatelliteDynamics
-from ostk.astrodynamics.trajectory.State import State
-from ostk.astrodynamics.trajectory.Orbit import Orbit
-from ostk.astrodynamics.trajectory.orbit.models.Propagated import Propagated
+from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import Propagated
 
 
 ################################################################################################################################################################
@@ -63,7 +63,7 @@ def propagated_default_inputs ():
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(instant, position, velocity)
 
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, state)
+    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, instant_J2000)
 
     return (satellitedynamics, numericalsolver, state, environment)
 
@@ -93,7 +93,7 @@ class TestPropagated:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-        (satellite_dynamics, numerical_solver, state, environment) = propagated_default_inputs
+        (satellite_dynamics, numerical_solver, state, _) = propagated_default_inputs
         state_array = [state, state]
         propagated_with_state_array = Propagated(satellite_dynamics, numerical_solver, state_array)
 
@@ -149,34 +149,6 @@ class TestPropagated:
         assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
         assert propagated_state.get_instant() == instant
 
-    def test_calculate_state_at_with_initial_state (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
-
-        (_, _, state, environment) = propagated_default_inputs
-
-        orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
-
-        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
-
-        propagated_state = propagated.calculate_state_at(state, instant)
-        propagated_state_orbit = orbit.get_state_at(instant)
-
-        assert propagated_state == propagated_state_orbit
-
-
-        propagated_state_position_ref = np.array([6265892.25765909, 3024770.94961259, 3024359.72137468])
-        propagated_state_velocity_ref = np.array([-3974.49168221,  4468.16996776,  4466.19232746])
-
-        propagated_state_position = propagated_state.get_position().get_coordinates()
-        propagated_state_velocity = propagated_state.get_velocity().get_coordinates()
-
-        assert all([round(propagated_state_position[i], 8) == round(propagated_state_position_ref[i], 8) for i in range(0, len(propagated_state_position_ref))])
-        assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
-        assert propagated_state.get_instant() == instant
-
     def test_calculate_states_at (
         self,
         propagated: Propagated,
@@ -196,31 +168,6 @@ class TestPropagated:
 
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
-    
-    def test_calculate_states_at_with_initial_state (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
-
-        (_, _, state, environment) = propagated_default_inputs
-
-        orbit = Orbit(propagated, environment.access_celestial_object_with_name('Earth'))
-
-        instant_array = [Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC), Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC)]
-
-        propagated_state_array = propagated.calculate_states_at(state, instant_array)
-        propagated_state_array_orbit = orbit.get_states_at(instant_array)
-
-        assert propagated_state_array_orbit == propagated_state_array
-
-        assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
-        assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
-        assert len(propagated.access_cached_state_array()) == 1
-
-        with pytest.raises(RuntimeError):
-            instant_array.reverse()
-            propagated.calculate_states_at(state, instant_array)
 
     def test_calculate_rev_number_at (
         self,
@@ -247,24 +194,5 @@ class TestPropagated:
 
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
-
-    def test_static_methods (
-        self,
-        propagated_default_inputs
-    ):
-
-        (_, _, state, _) = propagated_default_inputs
-
-        propagated = Propagated.medium_fidelity(state)
-
-        assert propagated is not None
-        assert isinstance(propagated, Propagated)
-        assert propagated.is_defined()
-
-        propagated = Propagated.high_fidelity(state)
-
-        assert propagated is not None
-        assert isinstance(propagated, Propagated)
-        assert propagated.is_defined()
 
 ################################################################################################################################################################

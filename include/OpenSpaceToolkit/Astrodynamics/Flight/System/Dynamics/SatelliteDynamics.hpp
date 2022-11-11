@@ -86,17 +86,17 @@ class SatelliteDynamics : public Dynamics
         /// @code
         ///                     Environment environment = { ... } ;
         ///                     SatelliteSystem satelliteSystem = { ... } ;
-        ///                     State state = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem, state } ;
+        ///                     Instant instant = { ... } ;
+        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem, anInstant } ;
         /// @endcode
         ///
         /// @param              [in] anEnvironment An environment
         /// @param              [in] aSatelliteSystem A satellite system
-        /// @param              [in] aState A 3 DOF state
+        /// @param              [in] anInstant An instant
 
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   State&                      aState                                      ) ;
+                                                                                const   Instant&                    anInstant                                   ) ;
 
         /// @brief              Copy Constructor
         ///
@@ -151,25 +151,23 @@ class SatelliteDynamics : public Dynamics
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Get satellite dynamics's 3 DOF State
+        /// @brief              Get satellite dynamics initial instant
         ///
         /// @code
-        ///                     State state = satelliteDynamics.getState() ;
+        ///                     satelliteDynamics.getInstant() ;
         /// @endcode
-        ///
-        /// @return             State
 
-        State                   getState                                    ( ) const ;
+        Instant                 getInstant                                    ( ) const ;
 
-        /// @brief              Set satellite dynamics's 3 DOF State
+        /// @brief              Set satellite dynamics initial epoch
         ///
         /// @code
-        ///                     State state = { ... } ;
-        ///                     satelliteDynamics.setState(state) ;
+        ///                     Instant instant = { ... } ;
+        ///                     satelliteDynamics.setInstant(instant) ;
         /// @endcode
-        /// @param              [in] aState A 3DOF state
+        /// @param              [in] anInstant An instant
 
-        void                    setState                                    (   const   State&                      aState                                      ) ;
+        void                    setInstant                                    (   const   Instant&                      anInstant                                      ) ;
 
         /// @brief              Obtain dynamical equations function wrapper
         ///
@@ -179,13 +177,14 @@ class SatelliteDynamics : public Dynamics
         /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
         virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations    ( ) override ;
+        
 
     private:
 
         Environment             environment_ ;
         Shared<const Frame>     gcrfSPtr_ ;
         SatelliteSystem         satelliteSystem_ ;
-        State                   state_ ;
+        Instant                 instant_ ;
 
         // Only currently used force model that incorporates only Earth's gravity
         void                    DynamicalEquations                          (   const   Dynamics::StateVector&      x,

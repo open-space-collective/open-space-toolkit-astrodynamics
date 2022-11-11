@@ -15,6 +15,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
@@ -69,6 +70,7 @@ using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 
 using ostk::astro::NumericalSolver ;
+using ostk::astro::trajectory::Propagator ;
 using ostk::astro::trajectory::State ;
 using ostk::astro::trajectory::orbit::Model ;
 using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
@@ -85,14 +87,16 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @brief              Constructor
         ///
         /// @code
-        ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver } ;
+        ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver, aState } ;
         /// @endcode
         ///
         /// @param              [in] aSatelliteDynamics A satellite dynamics object
         /// @param              [in] aNumericalSolver A numerical solver
+        /// @param              [in] aState A state
 
                                 Propagated                                  (   const   SatelliteDynamics&          aSatelliteDynamics,
-                                                                                const   NumericalSolver&            aNumericalSolver                            ) ;
+                                                                                const   NumericalSolver&            aNumericalSolver,
+                                                                                const   State&                      aState                                      ) ;
 
         /// @brief              Constructor with additional option of passing in an existing array of states
         ///
@@ -181,29 +185,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @param              [in] anInstant An instant
         /// @return             State
 
-        State                   calculateStateAt                            (   const   State&                      aState,
-                                                                                const   Instant&                    anInstant                                   ) const ;
-
-        /// @brief              Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time
-        /// @brief              Has macro-level sorting optimization, can be used with unsorted instant array
-        /// @code
-        ///                     Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
-        /// @endcode
-        /// @param              [in] anInstantArray An instant array
-        /// @return             Array<State>
-
         virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
-
-        /// @brief              Calculate a state at an array of instants, given an initial state
-        /// @brief              Can only be used with sorted instant array
-        /// @code
-        ///                     Array<State> states = propagated.calculateStatesAt(aState, anInstantArray) ;
-        /// @endcode
-        /// @param              [in] anInstantArray An instant array
-        /// @return             Array<State>
-
-        Array<State>            calculateStatesAt                           (   const   State&                      aState,
-                                                                                const   Array<Instant>&             anInstantArray                              ) const ;
 
         /// @brief              Calculate a revolution number at an instant
         ///
@@ -233,26 +215,6 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Create a medium fidelity Propagated object with recommended settings
-        ///
-        /// @code
-        ///                     Propagated propagated = Propagated::MediumFidelity(aState) ;
-        /// @endcode
-        /// @param              [in] aState A State
-        /// @return             Propagated
-
-        static Propagated       MediumFidelity                              (   const   State&                      aState                                      ) ;
-
-        /// @brief              Create a high fidelity Propagated object with recommended settings
-        ///
-        /// @code
-        ///                     Propagated propagated = Propagated::HighFidelity(aState) ;
-        /// @endcode
-        /// @param              [in] aState A State
-        /// @return             Propagated
-
-        static Propagated       HighFidelity                                (   const   State&                      aState                                      ) ;
-
     protected:
 
         /// @brief              Equal to operator
@@ -271,12 +233,10 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     private:
 
+        Propagator              propagator_ ;
         mutable Array<State>    cachedStateArray_ ;
-        mutable SatelliteDynamics satelliteDynamics_ ;
-        mutable NumericalSolver numericalSolver_ ;
 
-        void                    sortAndSanitizeStateArray                   ( ) const ;
-
+        void                    sanitizeCachedArray                         ( ) const ;
 } ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

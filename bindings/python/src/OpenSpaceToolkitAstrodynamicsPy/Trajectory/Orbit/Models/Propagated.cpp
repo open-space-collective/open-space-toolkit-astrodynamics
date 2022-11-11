@@ -33,9 +33,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
             .def
             (
-                init<const SatelliteDynamics&, const NumericalSolver&>(),
+                init<const SatelliteDynamics&, const NumericalSolver&, const State&>(),
                 arg("satellite_dynamics"),
-                arg("numerical_solver")
+                arg("numerical_solver"),
+                arg("state")
             )
 
             .def
@@ -60,30 +61,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def
             (
                 "calculate_state_at",
-                overload_cast<const Instant&>(&Propagated::calculateStateAt, const_),
-                arg("instant")
-            )
-
-            .def
-            (
-                "calculate_state_at",
-                overload_cast<const State&, const Instant&>(&Propagated::calculateStateAt, const_),
-                arg("state"),
+                &Propagated::calculateStateAt,
                 arg("instant")
             )
 
             .def
             (
                 "calculate_states_at",
-                overload_cast<const Array<Instant>&>(&Propagated::calculateStatesAt, const_),
-                arg("instant_array")
-            )
-
-            .def
-            (
-                "calculate_states_at",
-                overload_cast<const State&, const Array<Instant>&>(&Propagated::calculateStatesAt, const_),
-                arg("state"),
+                &Propagated::calculateStatesAt,
                 arg("instant_array")
             )
 
@@ -95,20 +80,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             )
 
             .def("access_cached_state_array", &Propagated::accessCachedStateArray)
-
-            .def_static
-            (
-                "medium_fidelity",
-                &Propagated::MediumFidelity,
-                arg("state")
-            )
-
-            .def_static
-            (
-                "high_fidelity",
-                &Propagated::HighFidelity,
-                arg("state")
-            )
 
         ;
 

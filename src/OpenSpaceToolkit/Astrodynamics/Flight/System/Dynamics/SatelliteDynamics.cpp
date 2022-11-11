@@ -37,15 +37,13 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 
                                 SatelliteDynamics::SatelliteDynamics        (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   State&                      aState                                      )
+                                                                                const   Instant&                    anInstant                                   )
                                 :   Dynamics(),
                                     environment_(anEnvironment),
                                     gcrfSPtr_(Frame::GCRF()),
                                     satelliteSystem_(aSatelliteSystem),
-                                    state_(aState)
+                                    instant_(anInstant)
 {
-
-    environment_.setInstant(aState.getInstant()) ;
 
 }
 
@@ -54,10 +52,8 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     environment_(aSatelliteDynamics.environment_),
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
-                                    state_(aSatelliteDynamics.state_)
+                                    instant_(aSatelliteDynamics.instant_)
 {
-
-    environment_.setInstant(aSatelliteDynamics.state_.getInstant()) ;
 
 }
 
@@ -81,8 +77,7 @@ bool                            SatelliteDynamics::operator ==              (   
 
     return (environment_.getInstant() == aSatelliteDynamics.environment_.getInstant())
         && (environment_.getObjectNames() == aSatelliteDynamics.environment_.getObjectNames())
-        && (satelliteSystem_ == aSatelliteDynamics.satelliteSystem_)
-        && (state_ == aSatelliteDynamics.state_) ;
+        && (satelliteSystem_ == aSatelliteDynamics.satelliteSystem_) ;
 
 }
 
@@ -103,7 +98,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            SatelliteDynamics::isDefined                ( ) const
 {
-    return environment_.isDefined() && satelliteSystem_.isDefined() && state_.isDefined() ;
+    return environment_.isDefined() && satelliteSystem_.isDefined() ;
 }
 
 void                            SatelliteDynamics::print                    (           std::ostream&               anOutputStream,
@@ -117,35 +112,18 @@ void                            SatelliteDynamics::print                    (   
     ostk::core::utils::Print::Separator(anOutputStream, "Satellite System") ;
     satelliteSystem_.print(anOutputStream, false) ;
 
-    ostk::core::utils::Print::Separator(anOutputStream, "State") ;
-    state_.print(anOutputStream, false) ;
-
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
 
 }
 
-State                           SatelliteDynamics::getState                 ( ) const
+Instant                            SatelliteDynamics::getInstant              ( ) const
 {
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite Dynamics") ;
-    }
-
-    return state_ ;
-
+    return instant_ ;
 }
 
-void                            SatelliteDynamics::setState                 (   const   State&                      aState                                      )
+void                               SatelliteDynamics::setInstant              (   const   Instant&                    anInstant                                   )
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite Dynamics") ;
-    }
-
-    state_ = aState ;
-    environment_.setInstant(aState.getInstant()) ;
-
+    this->instant_ = anInstant ;
 }
 
 Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations ( )
@@ -176,7 +154,7 @@ void                            SatelliteDynamics::DynamicalEquations       (   
     }
 
     // Update environment time
-    const Instant currentInstant = state_.getInstant() + Duration::Seconds(t) ;
+    const Instant currentInstant = instant_ + Duration::Seconds(t) ;
     environment_.setInstant(currentInstant) ;
 
     // Initialize gravitational acceleration vector
