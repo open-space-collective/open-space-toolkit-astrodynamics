@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
@@ -58,6 +59,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory  (   
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory) ;
 
 }
 

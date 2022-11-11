@@ -20,7 +20,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
     using ostk::physics::Environment ;
 
     using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::trajectory::State ;
 
     using ostk::astro::flight::system::Dynamics ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
@@ -31,10 +30,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
             .def
             (
-                init<const Environment&, const SatelliteSystem&, const State&>(),
+                init<const Environment&, const SatelliteSystem&, const Instant&>(),
                 arg("environment"),
                 arg("satellite_system"),
-                arg("state")
+                arg("instant")
             )
 
             .def(self == self)
@@ -45,8 +44,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
             .def("is_defined", &SatelliteDynamics::isDefined)
 
-            .def("get_state", &SatelliteDynamics::getState)
-            .def("set_state", &SatelliteDynamics::setState, arg("state"))
+            .def("get_instant", &SatelliteDynamics::getInstant)
+            .def("set_instant", &SatelliteDynamics::setInstant, arg("instant"))
             .def("get_dynamical_equations", &SatelliteDynamics::getDynamicalEquations)
 
         ;
