@@ -158,161 +158,111 @@ Array<State>                    Propagated::calculateStatesAt               (   
         return Array<State>::Empty() ;
     }
 
-    // for (Size k = 0 ; k < anInstantArray.getSize() - 1; ++k)
-    // {
-
-    //     if (anInstantArray[k] > anInstantArray[k + 1])
-    //     {
-    //         throw ostk::core::error::runtime::Wrong("Unsorted Instant Array") ;
-    //     }
-
-    // }
-
-    Array<Pair<Instant, Size>> instantArrayPairs = Array<Pair<Instant, Size>>::Empty() ;
-    instantArrayPairs.reserve(anInstantArray.getSize()) ;
-
-    for (Size i = 0 ; i < anInstantArray.getSize() ; i++)
-    {
-        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i)) ;
-    }
-
-    // Sort instant array pairs chronologically
-    std::sort
-    (
-        instantArrayPairs.begin(),
-        instantArrayPairs.end(),
-        [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }
-    ) ;
-
-    // Create an unpaired sorted instant array
-    Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
-    sortedInstantArray.reserve(anInstantArray.getSize()) ;
-
-    for (Size i = 0; i < anInstantArray.getSize(); i++)
-    {
-        sortedInstantArray.push_back(instantArrayPairs[i].first) ;
-    }
-
-    Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
-    nearestCachedStatePairs.reserve(sortedInstantArray.getSize()) ;
-
-    // Iterate through sortedInstantArray and cachedStateArray
-    for (Size i = 0; i < sortedInstantArray.getSize(); i++)
+    for (Size k = 0 ; k < anInstantArray.getSize() - 1; ++k)
     {
 
-        // For each desired instant, check where the closest cachedState is
-        Array<Duration> cachedStatesDistanceFromInstantArray = Array<Duration>::Empty() ;
-        cachedStatesDistanceFromInstantArray.reserve(cachedStateArray_.getSize()) ;
-        Array<double> cachedStatesDistanceFromInstantArrayAbs = Array<double>::Empty() ;
-        cachedStatesDistanceFromInstantArrayAbs.reserve(cachedStateArray_.getSize()) ;
-
-        for (Size j = 0; j < cachedStateArray_.getSize(); j++)
+        if (anInstantArray[k] > anInstantArray[k + 1])
         {
-            cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
-            cachedStatesDistanceFromInstantArrayAbs.add(std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds())) ;
-        }
-
-        // Find min value of cachedStatesDistanceFromInstantArray
-        const double nearestCachedStateIndex =  std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(), cachedStatesDistanceFromInstantArrayAbs.end()) - cachedStatesDistanceFromInstantArrayAbs.begin() ;
-        const Duration nearestCachedStatePropDuration = cachedStatesDistanceFromInstantArray[nearestCachedStateIndex] ;
-
-        // Add the cachedStateArray index of the nearest cachedState and the propagation duration from that cached state as a pair for each desired instant
-        nearestCachedStatePairs.add(std::make_pair(static_cast<int>(nearestCachedStateIndex), nearestCachedStatePropDuration)) ;
-
-    }
-
-    // Group desired instants into subarrays based on where they are located relative to existing cached states: Array<Pair<Index of cachedState, Number of time that cachedState is closed to a desired instant in the desiredInstantArray)
-    Array<Pair<Integer, Integer>> duplicateCounterPairs = Array<Pair<Integer, Integer>>::Empty() ;
-
-    // Loop through nearestCachedStatePairs to group instants with duplicate corresponding cached states together
-    for (const auto& nearestcachedStatePair : nearestCachedStatePairs)
-    {
-
-        if (duplicateCounterPairs.empty() || duplicateCounterPairs.back().first != nearestcachedStatePair.first)
-        {
-            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1)) ;
-        }
-        else
-        {
-            duplicateCounterPairs.back().second++ ;
+            throw ostk::core::error::runtime::Wrong("Unsorted Instant Array") ;
         }
 
     }
 
-    // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, we can execute that propagation
-    Array<State> sortedStateArray = Array<State>::Empty() ;
-    sortedStateArray.reserve(sortedInstantArray.getSize()) ;
-    Size anInstantArrayIndexCount = 0 ;
+    Array<State> allStates = Array<State>::Empty() ;
 
-    for (const auto& duplicateCounterPair : duplicateCounterPairs)
+    // Maintain counter separately so as to only iterate once through instant array
+    Size j = 0 ;
+
+    // Propagate states for instants < first cached State
+
+    Array<Instant> instants = Array<Instant>::Empty() ;
+    for (; j < anInstantArray.getSize() ; ++j)
     {
 
-        // Find starting state for each instant array of desired instants
-        const State startState = cachedStateArray_[duplicateCounterPair.first] ;
-        const Instant startInstant = startState.getInstant() ;
-
-        // Obtain array of desired instants around startState by looking through duplicateCounterPair, segregate by positive and negative propagation durations
-        Array<Instant> desiredPositiveInstantArray = Array<Instant>::Empty() ;
-        desiredPositiveInstantArray.reserve(duplicateCounterPair.second) ;
-        Array<Instant> desiredNegativeInstantArray = Array<Instant>::Empty() ;
-        desiredNegativeInstantArray.reserve(duplicateCounterPair.second) ;
-
-        for (int i = 0; i < duplicateCounterPair.second; i++)
+        if (anInstantArray[j] > this->cachedStateArray_[0].getInstant())
         {
+            break ;
+        }
 
-            Duration nearestCachedStatePropDuration = nearestCachedStatePairs[anInstantArrayIndexCount].second ;
+        instants.add(anInstantArray[j]) ;
 
-            // Duration is positive or zero put into desiredPositiveInstantArray and if negative put into desiredNegativeInstantArray
-            if (nearestCachedStatePropDuration.isPositive())
+    }
+
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.accessFirst(), instants)) ;
+
+    // Propagate all instants between states
+
+    for (Size i = 0 ; i < this->cachedStateArray_.getSize() - 1 ; ++i)
+    {
+
+        const Instant thisStateInstant = this->cachedStateArray_[i].getInstant() ;
+        const Instant nextStateInstant = this->cachedStateArray_[i + 1].getInstant() ;
+
+        instants = Array<Instant>::Empty() ;
+
+        for (; j < anInstantArray.getSize() ; ++j)
+        {
+            if (anInstantArray[j] > nextStateInstant)
             {
-                desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
-            }
-            else
-            {
-                desiredNegativeInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
+                break ;
             }
 
-            anInstantArrayIndexCount++ ;
+            if ((anInstantArray[j] >= thisStateInstant) && (anInstantArray[j] < nextStateInstant))
+            {
+                instants.add(anInstantArray[j]) ;
+            }
 
         }
 
-        // Execute propagation in reverse time
-        if (!desiredNegativeInstantArray.empty())
+        if (instants.isEmpty())
+        {
+            continue ;
+        }
+
+        // Forward propagation
+        Array<State> forwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i], instants) ;
+
+        // Backward propagation
+        Array<State> backwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i + 1], instants) ;
+
+        Real durationBetweenStates = (this->cachedStateArray_[i + 1].getInstant() - this->cachedStateArray_[i].getInstant()).inSeconds() ;
+
+        // Take weighted average
+        Array<State> averagedStates = Array<State>::Empty() ;
+        averagedStates.reserve(instants.getSize()) ;
+
+        for (Size k = 0 ; k < instants.getSize() ; ++k)
         {
 
-            // Call numerical solver to perform propagation
-            Array<State> propagatedNegativeStateVectorArray = propagator_.calculateStatesAt(startState, desiredNegativeInstantArray);
-            sortedStateArray.add(propagatedNegativeStateVectorArray) ;
+            Real forwardWeight = (forwardStates[k].getInstant() - instants[k]).inSeconds() / durationBetweenStates ;
+            Real backwardWeight = (instants[k] - backwardStates[k].getInstant()).inSeconds() / durationBetweenStates ;
+
+            VectorXd coordinates = (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight) / 2.0 ;
+
+            averagedStates.add({
+                instants[k],
+                Position::Meters({coordinates[0], coordinates[1], coordinates[2]}, gcrfSPtr),
+                Velocity::MetersPerSecond({coordinates[3], coordinates[4], coordinates[5]}, gcrfSPtr)
+            }) ;
 
         }
 
-        // Execute propagation in forwards time
-        if (!desiredPositiveInstantArray.empty())
-        {
-
-            // Call numerical solver to perform propagation
-            Array<State> propagatedPositiveStateVectorArray = propagator_.calculateStatesAt(startState, desiredPositiveInstantArray) ;
-            sortedStateArray.add(propagatedPositiveStateVectorArray) ;
-
-        }
+        allStates.add(averagedStates) ;
 
     }
 
-    // Desort the sorted state array to return it to user as was requested
-    Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
+    // Propagate any remaining instants forward in time
 
-    for (Size k = 0; k < anInstantArray.getSize(); k++)
+    instants = Array<Instant>::Empty() ;
+
+    for (; j < anInstantArray.getSize() ; ++j)
     {
-        unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k] ;
+        instants.add(anInstantArray[j]) ;
     }
 
-    // Add newly propagated states to the cachedStateArray and then resort
-    cachedStateArray_.add(sortedStateArray) ;
-
-    // Re-sort and sanitize cachedStateArray of duplicates and duplicate instants that have different positions/velocities
-    sanitizeCachedArray() ;
-
-    return unsortedStateArray ;
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.accessLast(), instants)) ;
+    
+    return allStates ;
 
 }
 
