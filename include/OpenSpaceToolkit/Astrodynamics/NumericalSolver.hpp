@@ -202,6 +202,7 @@ class NumericalSolver
         /// @code
         ///                     StateVector stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, systemOfEquations) ;
         /// @endcode
+        ///
         /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
         /// @param              [in] aStartInstant An instant to begin integrating from
         /// @param              [in] anEndInstant An instant to finish integrating at
@@ -218,6 +219,7 @@ class NumericalSolver
         /// @code
         ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, SystemofEquations) ;
         /// @endcode
+        ///
         /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
         /// @param              [in] anIntegrationDuration A duration over which to integration
         /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration
@@ -232,6 +234,7 @@ class NumericalSolver
         /// @code
         ///                     NumericalSolver::StringFromStepperType(aStepperType) ;
         /// @endcode
+        ///
         /// @param              [in] aStepperType An integration stepper type enum
         /// @return             StepperType
 
@@ -242,6 +245,7 @@ class NumericalSolver
         /// @code
         ///                     NumericalSolver::StringFromLogType(aLogType) ;
         /// @endcode
+        ///
         /// @param              [in] aLogType An integration log type enum
         /// @return             LogType
 

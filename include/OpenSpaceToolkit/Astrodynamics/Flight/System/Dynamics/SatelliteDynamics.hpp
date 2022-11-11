@@ -167,6 +167,7 @@ class SatelliteDynamics : public Dynamics
         ///                     State state = { ... } ;
         ///                     satelliteDynamics.setState(state) ;
         /// @endcode
+        ///
         /// @param              [in] aState A 3DOF state
 
         void                    setState                                    (   const   State&                      aState                                      ) ;
@@ -176,6 +177,7 @@ class SatelliteDynamics : public Dynamics
         /// @code
         ///                     Dynamics::DynamicalEquationWrapper dyneq = satelliteDynamics.getDynamicalEquations() ;
         /// @endcode
+        ///
         /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
         virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations    ( ) override ;
