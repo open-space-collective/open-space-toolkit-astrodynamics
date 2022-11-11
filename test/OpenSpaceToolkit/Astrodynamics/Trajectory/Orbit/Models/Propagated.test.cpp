@@ -113,7 +113,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_0.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -145,7 +145,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constru
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_0.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem} ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -219,7 +219,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualTo
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -312,7 +312,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqua
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -406,7 +406,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefin
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -477,7 +477,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, StreamO
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -552,7 +552,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -628,7 +628,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpoc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -700,7 +700,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRevo
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -774,7 +774,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
-    SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+    SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Construct default numerical solver
     NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -873,7 +873,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -933,7 +933,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 3, 0, 0), Scale::UTC)) ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -993,7 +993,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1064,7 +1064,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1135,7 +1135,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr) } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1210,7 +1210,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         cachedStateArray.add(state_2) ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1287,7 +1287,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         }
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0].getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1361,7 +1361,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         }
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, cachedStateArray[0].getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1464,7 +1464,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1516,8 +1516,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics_twobody = { customEnvironment_twobody, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_fullgrav = { customEnvironment_fullgrav, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics_twobody = { customEnvironment_twobody, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_fullgrav = { customEnvironment_fullgrav, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1622,7 +1622,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1662,7 +1662,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
 
         // Satellite dynamics setup
         const State state_4 = { Instant::DateTime(DateTime(2018, 1, 4, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) };
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_4.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1702,7 +1702,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1742,7 +1742,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1781,7 +1781,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state_1.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         // Construct default numerical solver
         NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -1885,7 +1885,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -1972,7 +1972,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -2119,7 +2119,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -2206,10 +2206,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics_360 = { customEnvironment_360, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_100 = { customEnvironment_100, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_70 = { customEnvironment_70, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics_360 = { customEnvironment_360, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_100 = { customEnvironment_100, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_70 = { customEnvironment_70, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_360 = {satelliteDynamics_360, numericalSolver, state} ;
@@ -2376,7 +2376,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -2456,7 +2456,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -2543,10 +2543,10 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics_360 = { customEnvironment_360, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_180 = { customEnvironment_180, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_90 = { customEnvironment_90, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics_360 = { customEnvironment_360, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_180 = { customEnvironment_180, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_90 = { customEnvironment_90, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_360 = {satelliteDynamics_360, numericalSolver, state} ;
@@ -2714,7 +2714,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -2799,9 +2799,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics_180 = { customEnvironment_180, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_70 = { customEnvironment_70, satelliteSystem, state.getInstant() } ;
-        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics_180 = { customEnvironment_180, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_70 = { customEnvironment_70, satelliteSystem } ;
+        SatelliteDynamics satelliteDynamics_45 = { customEnvironment_45, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_180 = {satelliteDynamics_180, numericalSolver, state} ;
@@ -2954,7 +2954,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -3085,7 +3085,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -3216,7 +3216,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -3343,7 +3343,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state} ;
@@ -3465,7 +3465,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_short = {satelliteDynamics, numericalSolver, state} ;
@@ -3555,7 +3555,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_short = {satelliteDynamics, numericalSolver, state} ;
@@ -3692,7 +3692,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, state.getInstant() } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_54 = {satelliteDynamics, numericalSolver_54, state} ;
@@ -3827,8 +3827,8 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
             const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
             // Satellite dynamics setup
-            SatelliteDynamics satelliteDynamics_default = { customEnvironment_default, satelliteSystem, state.getInstant() } ;
-            SatelliteDynamics satelliteDynamics_tested = { customEnvironment_tested, satelliteSystem, state.getInstant() } ;
+            SatelliteDynamics satelliteDynamics_default = { customEnvironment_default, satelliteSystem } ;
+            SatelliteDynamics satelliteDynamics_tested = { customEnvironment_tested, satelliteSystem } ;
 
             // Setup Propagated model and orbit
             const Propagated propagatedModel_default = {satelliteDynamics_default, numericalSolver, state} ;

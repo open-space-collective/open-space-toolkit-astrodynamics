@@ -30,10 +30,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dy
 
             .def
             (
-                init<const Environment&, const SatelliteSystem&, const Instant&>(),
+                init<const Environment&, const SatelliteSystem&>(),
                 arg("environment"),
-                arg("satellite_system"),
-                arg("instant")
+                arg("satellite_system")
             )
 
             .def(self == self)

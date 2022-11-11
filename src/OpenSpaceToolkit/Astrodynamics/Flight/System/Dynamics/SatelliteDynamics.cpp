@@ -36,13 +36,12 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 SatelliteDynamics::SatelliteDynamics        (   const   Environment&                anEnvironment,
-                                                                                const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   Instant&                    anInstant                                   )
+                                                                                const   SatelliteSystem&            aSatelliteSystem                            )
                                 :   Dynamics(),
                                     environment_(anEnvironment),
                                     gcrfSPtr_(Frame::GCRF()),
                                     satelliteSystem_(aSatelliteSystem),
-                                    instant_(anInstant)
+                                    instant_(Instant::Undefined())
 {
 
 }
@@ -52,7 +51,7 @@ static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::Gravita
                                     environment_(aSatelliteDynamics.environment_),
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
-                                    instant_(aSatelliteDynamics.instant_)
+                                    instant_(Instant::Undefined())
 {
 
 }
@@ -132,6 +131,11 @@ Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations ( )
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("SatelliteDynamics") ;
+    }
+
+    if (!this->instant_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Instant") ;
     }
 
     return std::bind(&SatelliteDynamics::DynamicalEquations, this, std::placeholders::_1,  std::placeholders::_2,  std::placeholders::_3) ;

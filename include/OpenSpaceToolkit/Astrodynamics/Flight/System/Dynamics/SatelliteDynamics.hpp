@@ -86,17 +86,14 @@ class SatelliteDynamics : public Dynamics
         /// @code
         ///                     Environment environment = { ... } ;
         ///                     SatelliteSystem satelliteSystem = { ... } ;
-        ///                     Instant instant = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem, anInstant } ;
+        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
         /// @endcode
         ///
         /// @param              [in] anEnvironment An environment
         /// @param              [in] aSatelliteSystem A satellite system
-        /// @param              [in] anInstant An instant
 
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
-                                                                                const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   Instant&                    anInstant                                   ) ;
+                                                                                const   SatelliteSystem&            aSatelliteSystem                            ) ;
 
         /// @brief              Copy Constructor
         ///

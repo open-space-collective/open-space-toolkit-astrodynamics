@@ -11,36 +11,26 @@ import pytest
 
 import numpy as np
 
-import ostk.mathematics as mathematics
+from ostk.mathematics.geometry.d3.objects import Cuboid
+from ostk.mathematics.geometry.d3.objects import Composite
+from ostk.mathematics.geometry.d3.objects import Point
 
-import ostk.physics as physics
+from ostk.physics.units import Mass
+from ostk.physics.time import Scale
+from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
+from ostk.physics import Environment
 
-import ostk.astrodynamics as astrodynamics
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 
 ################################################################################################################################################################
 
-Cuboid = mathematics.geometry.d3.objects.Cuboid
-Composite = mathematics.geometry.d3.objects.Composite
-Point = mathematics.geometry.d3.objects.Point
 
-Length = physics.units.Length
-Mass = physics.units.Mass
-Derived = physics.units.Derived
-Angle = physics.units.Angle
-Time = physics.units.Time
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-DateTime = physics.time.DateTime
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-Environment = physics.Environment
-Earth = physics.environment.objects.celestial_bodies.Earth
-
-State = astrodynamics.trajectory.State
-SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
-SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
 
 ################################################################################################################################################################
 
@@ -69,7 +59,7 @@ def satellite_dynamics_default_inputs () :
 @pytest.fixture
 def satellite_dynamics (satellite_dynamics_default_inputs) -> SatelliteDynamics:
 
-    return SatelliteDynamics(*satellite_dynamics_default_inputs)
+    return SatelliteDynamics(*satellite_dynamics_default_inputs[:-1])
 
 ################################################################################################################################################################
 
@@ -88,21 +78,21 @@ class TestSatelliteDynamics:
 
     def test_getters_setters_success (self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics):
 
-        (environment, satellitesystem, state) = satellite_dynamics_default_inputs
+        (_, _, state) = satellite_dynamics_default_inputs
 
-        # get_state
-        assert satellite_dynamics.get_state() == state
+        satellite_dynamics.set_instant(state.get_instant())
 
-        # set_state
-        state_1 = State(Instant.date_time(DateTime(2019, 1, 1, 0, 0, 0), Scale.UTC), Position.meters([6371000.0, 0.0, 0.0], Frame.GCRF()), Velocity.meters_per_second([7600.0, 0.0, 0.0], Frame.GCRF()))
-
-        satellite_dynamics.set_state(state_1)
+        assert satellite_dynamics.get_instant() == state.get_instant()
 
         assert satellite_dynamics.is_defined()
-        assert satellite_dynamics.get_state() == state_1
 
-    def test_calculate_state_at_epoch_success (self, satellite_dynamics: SatelliteDynamics):
+    def test_get_dynamical_equations (self, satellite_dynamics: SatelliteDynamics):
+        
+        with pytest.raises(RuntimeError):
+            satellite_dynamics.get_dynamical_equations()
+        
+        satellite_dynamics.set_instant(Instant.J2000())
 
-        assert satellite_dynamics.get_dynamical_equations() is not None  # [TBI] add typing to ensure that it return a function pointer?
+        assert satellite_dynamics.get_dynamical_equations() is not None
 
 ################################################################################################################################################################

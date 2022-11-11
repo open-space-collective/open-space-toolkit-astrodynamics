@@ -63,7 +63,7 @@ def propagator_default_inputs ():
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     state: State = State(instant, position, velocity)
 
-    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem, instant)
+    satellitedynamics: SatelliteDynamics = SatelliteDynamics(environment, satellitesystem)
 
     return (satellitedynamics, numericalsolver, state)
 

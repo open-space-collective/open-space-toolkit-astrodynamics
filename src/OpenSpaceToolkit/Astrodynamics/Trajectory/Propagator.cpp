@@ -248,7 +248,7 @@ Propagator                      Propagator::MediumFidelity                  (   
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
-    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, instant } ;
+    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Construct default numerical solver
     const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
@@ -291,7 +291,7 @@ Propagator                      Propagator::HighFidelity                    (   
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
-    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, instant} ;
+    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem} ;
 
     // Construct default numerical solver
     const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
