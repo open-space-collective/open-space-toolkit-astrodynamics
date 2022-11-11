@@ -54,10 +54,6 @@ class State
                                                                                 const   Position&                   aPosition,
                                                                                 const   Velocity&                   aVelocity                                   ) ;
 
-        State                   operator -                                  (   const   State&                      aState                                      ) const ;
-
-        State                   operator +                                  (   const   State&                      aState                                      ) const ;
-
         bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
 
         bool                    operator !=                                 (   const   State&                      aState                                      ) const ;
@@ -76,8 +72,6 @@ class State
         const Position&         accessPosition                              ( ) const ;
 
         const Velocity&         accessVelocity                              ( ) const ;
-
-        const VectorXd&         accessCoordinates                           ( ) const ;
 
         Instant                 getInstant                                  ( ) const ;
 

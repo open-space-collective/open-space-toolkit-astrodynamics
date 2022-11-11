@@ -256,12 +256,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
 
         const State state_2 = { instant, position_2, velocity_2 } ;
 
-        const Position position_expected = Position::Meters({ 1.4, 3.8, 6.2 }, Frame::GCRF()) ;
-        const Velocity velocity_expected = Velocity::MetersPerSecond({ 14.8, 17.0, 2.2 }, Frame::GCRF()) ;
+        const Position positionExpected = Position::Meters({ 1.4, 3.8, 6.2 }, Frame::GCRF()) ;
+        const Velocity velocityExpected = Velocity::MetersPerSecond({ 14.8, 17.0, 2.2 }, Frame::GCRF()) ;
 
-        const State state_expected = {instant, position_expected, velocity_expected} ;
+        const State stateExpected = {instant, positionExpected, velocityExpected} ;
 
-        EXPECT_EQ(state_1 + state_2, state_expected) ;
+        const State stateCalculated = state_1 + state_2 ;
+
+        EXPECT_TRUE(stateExpected.getCoordinates().isNear(stateCalculated.getCoordinates(), 1e-12)) ;
 
     }
 
@@ -370,12 +372,14 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
 
         const State state_2 = { instant, position_2, velocity_2 } ;
 
-        const Position position_expected = Position::Meters({ 1.0, 3.0, 5.0 }, Frame::GCRF()) ;
-        const Velocity velocity_expected = Velocity::MetersPerSecond({ 0.8, 1.0, 0.2 }, Frame::GCRF()) ;
+        const Position positionExpected = Position::Meters({ 1.0, 3.0, 5.0 }, Frame::GCRF()) ;
+        const Velocity velocityExpected = Velocity::MetersPerSecond({ 0.8, 1.0, 0.2 }, Frame::GCRF()) ;
 
-        const State state_expected = {instant, position_expected, velocity_expected} ;
+        const State stateExpected = {instant, positionExpected, velocityExpected} ;
 
-        EXPECT_EQ(state_1 - state_2, state_expected) ;
+        const State stateCalculated = state_1 - state_2 ;
+
+        EXPECT_TRUE(stateExpected.getCoordinates().isNear(stateCalculated.getCoordinates(), 1e-12)) ;
 
     }
 
@@ -483,15 +487,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
         const Position position = Position::Meters({ 1.2, 3.4, 5.6 }, Frame::GCRF()) ;
         const Velocity velocity = Velocity::MetersPerSecond({ 7.8, 9.0, 1.2 }, Frame::GCRF()) ;
-        VectorXd coordinates(6) ;
-        coordinates << 1.2, 3.4, 5.6, 7.8, 9.0, 1.2 ;
 
         const State state = { instant, position, velocity } ;
 
         EXPECT_EQ(instant, state.accessInstant()) ;
         EXPECT_EQ(position, state.accessPosition()) ;
         EXPECT_EQ(velocity, state.accessVelocity()) ;
-        EXPECT_EQ(coordinates, state.accessCoordinates()) ;
 
     }
 
@@ -500,7 +501,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         EXPECT_ANY_THROW(State::Undefined().accessInstant()) ;
         EXPECT_ANY_THROW(State::Undefined().accessPosition()) ;
         EXPECT_ANY_THROW(State::Undefined().accessVelocity()) ;
-        EXPECT_ANY_THROW(State::Undefined().accessCoordinates()) ;
 
     }
 

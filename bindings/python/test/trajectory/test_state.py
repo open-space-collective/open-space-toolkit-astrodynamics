@@ -9,6 +9,8 @@
 
 import pytest
 
+import numpy as np
+
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
@@ -63,10 +65,11 @@ class TestState:
         assert state.get_instant() == instant
         assert state.get_position() == position
         assert state.get_velocity() == velocity
+        assert state.get_coordinates() == np.append(position.get_coordinates(), velocity.get_coordinates())
 
     def test_in_frame (self, state: State, state_default_inputs):
 
-        (instant, position, velocity, frame) = state_default_inputs
+        (_, _, _, frame) = state_default_inputs
 
         assert state.in_frame(frame) == state
         assert state.in_frame(Frame.ITRF()) != state

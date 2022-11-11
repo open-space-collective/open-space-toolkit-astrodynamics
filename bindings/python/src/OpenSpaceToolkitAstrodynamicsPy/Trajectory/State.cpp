@@ -45,6 +45,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
         .def("get_instant", &State::getInstant)
         .def("get_position", &State::getPosition)
         .def("get_velocity", &State::getVelocity)
+        .def("get_coordinates", &State::getCoordinates)
         .def("in_frame", &State::inFrame, arg("frame"))
 
         .def_static("undefined", &State::Undefined)
