@@ -132,18 +132,15 @@ class TestPropagated:
 
     def test_static_methods (
         self,
-        propagator_default_inputs
     ):
 
-        (_, _, state) = propagator_default_inputs
-
-        propagator = Propagator.medium_fidelity(state)
+        propagator = Propagator.medium_fidelity()
 
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
 
-        propagator = Propagator.high_fidelity(state)
+        propagator = Propagator.high_fidelity()
 
         assert propagator is not None
         assert isinstance(propagator, Propagator)
