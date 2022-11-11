@@ -60,7 +60,7 @@ class TestState:
 
     def test_getters (self, state: State, state_default_inputs):
 
-        (instant, position, velocity, frame) = state_default_inputs
+        (instant, position, velocity, _) = state_default_inputs
 
         assert state.get_instant() == instant
         assert state.get_position() == position
