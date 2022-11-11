@@ -9,21 +9,16 @@
 
 import pytest
 
-import ostk.physics as physics
+import numpy as np
 
-import ostk.astrodynamics as astrodynamics
+from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
 
-################################################################################################################################################################
-
-Instant = physics.time.Instant
-DateTime = physics.time.DateTime
-Time = physics.units.Time
-Scale = physics.time.Scale
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-
-State = astrodynamics.trajectory.State
+from ostk.astrodynamics.trajectory import State
 
 ################################################################################################################################################################
 
@@ -47,7 +42,7 @@ def state (state_default_inputs) -> State:
 
 class TestState:
 
-    def test_constructors(self, state: State):
+    def test_constructor (self, state: State):
 
         assert state is not None
         assert isinstance(state, State)
@@ -58,6 +53,11 @@ class TestState:
         assert (state == state) is True
         assert (state != state) is False
 
+    def test_operators (self, state: State):
+
+        assert isinstance(state + state, State)
+        assert isinstance(state - state, State)
+
     def test_getters (self, state: State, state_default_inputs):
 
         (instant, position, velocity, frame) = state_default_inputs
@@ -65,10 +65,11 @@ class TestState:
         assert state.get_instant() == instant
         assert state.get_position() == position
         assert state.get_velocity() == velocity
+        assert state.get_coordinates() == np.append(position.get_coordinates(), velocity.get_coordinates())
 
     def test_in_frame (self, state: State, state_default_inputs):
 
-        (instant, position, velocity, frame) = state_default_inputs
+        (_, _, _, frame) = state_default_inputs
 
         assert state.in_frame(frame) == state
         assert state.in_frame(Frame.ITRF()) != state

@@ -15,6 +15,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +31,8 @@ namespace trajectory
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using ostk::core::types::Shared ;
+
+using ostk::math::obj::VectorXd ;
 
 using ostk::physics::time::Instant ;
 using ostk::physics::coord::Position ;
@@ -52,6 +56,10 @@ class State
 
         bool                    operator !=                                 (   const   State&                      aState                                      ) const ;
 
+        State                   operator +                                  (   const   State&                      aState                                      ) const ;
+
+        State                   operator -                                  (   const   State&                      aState                                      ) const ;
+
         friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
                                                                                 const   State&                      aState                                      ) ;
 
@@ -68,6 +76,8 @@ class State
         Position                getPosition                                 ( ) const ;
 
         Velocity                getVelocity                                 ( ) const ;
+
+        VectorXd                getCoordinates                              ( ) const ;
 
         State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
 
