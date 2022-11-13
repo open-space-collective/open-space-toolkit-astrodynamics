@@ -13,6 +13,7 @@ var searchData=
   ['getcartesianstate',['getCartesianState',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a3ebb7ead964fda0471f1342ef6701080',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
   ['getclassicalorbitalelements',['getClassicalOrbitalElements',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a1a5e2d4a27c4e20d91924a3a751cbba4',1,'ostk::astro::trajectory::orbit::models::Kepler']]],
   ['getclassification',['getClassification',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#aacb1592d95371a826ea41058f4ee6936',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],
+  ['getcoordinates',['getCoordinates',['../classostk_1_1astro_1_1trajectory_1_1_state.html#adece3f2dda107d9178b40648dfbc01d0',1,'ostk::astro::trajectory::State']]],
   ['getcrosssectionalsurfacearea',['getCrossSectionalSurfaceArea',['../classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#ac857e04d890280e233c89037a61044d9',1,'ostk::astro::flight::system::SatelliteSystem']]],
   ['getdragcoefficient',['getDragCoefficient',['../classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a4e6dcdae45be7ead5fe0924a540ae2cd',1,'ostk::astro::flight::system::SatelliteSystem']]],
   ['getduration',['getDuration',['../classostk_1_1astro_1_1_access.html#afb542654ea7603d54773e612be071bc2',1,'ostk::astro::Access']]],

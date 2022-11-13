@@ -100,6 +100,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd68798b63a7e3a89e61b4b668d8dbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53ac2b13092bc7777efa14362fec4c46"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a53ac2b13092bc7777efa14362fec4c46">operator!=</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState) const</td></tr>
 <tr class="separator:a53ac2b13092bc7777efa14362fec4c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d8ff34816c5e4895f9274fc06dbb799"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a8d8ff34816c5e4895f9274fc06dbb799">operator+</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState) const</td></tr>
+<tr class="separator:a8d8ff34816c5e4895f9274fc06dbb799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd0979467d66ca07b86d5405255d26ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#abd0979467d66ca07b86d5405255d26ed">operator-</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState) const</td></tr>
+<tr class="separator:abd0979467d66ca07b86d5405255d26ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09966efb00e3206cc2d20935c55658ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a09966efb00e3206cc2d20935c55658ad">isDefined</a> () const</td></tr>
 <tr class="separator:a09966efb00e3206cc2d20935c55658ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc21870411eef52ce1293e31eda16d3c"><td class="memItemLeft" align="right" valign="top">const Instant &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#afc21870411eef52ce1293e31eda16d3c">accessInstant</a> () const</td></tr>
@@ -114,6 +118,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad5ceac322a929f0f62214a663a21f4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a992dcad42fb3094766907a9472e7e0"><td class="memItemLeft" align="right" valign="top">Velocity&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a1a992dcad42fb3094766907a9472e7e0">getVelocity</a> () const</td></tr>
 <tr class="separator:a1a992dcad42fb3094766907a9472e7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adece3f2dda107d9178b40648dfbc01d0"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#adece3f2dda107d9178b40648dfbc01d0">getCoordinates</a> () const</td></tr>
+<tr class="separator:adece3f2dda107d9178b40648dfbc01d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9c95303df830f9dfed347231961dcf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#aa9c95303df830f9dfed347231961dcf6">inFrame</a> (const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const</td></tr>
 <tr class="separator:aa9c95303df830f9dfed347231961dcf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0072b543bbac1abe5e94609c74491b5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html#a0072b543bbac1abe5e94609c74491b5d">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const</td></tr>
@@ -218,6 +224,23 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="adece3f2dda107d9178b40648dfbc01d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adece3f2dda107d9178b40648dfbc01d0">&#9670;&nbsp;</a></span>getCoordinates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd ostk::astro::trajectory::State::getCoordinates </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af1ba3040b895b0963d5fb96a0756cc2b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1ba3040b895b0963d5fb96a0756cc2b">&#9670;&nbsp;</a></span>getInstant()</h2>
 
@@ -312,6 +335,42 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool ostk::astro::trajectory::State::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d8ff34816c5e4895f9274fc06dbb799"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d8ff34816c5e4895f9274fc06dbb799">&#9670;&nbsp;</a></span>operator+()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::trajectory::State::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd0979467d66ca07b86d5405255d26ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd0979467d66ca07b86d5405255d26ed">&#9670;&nbsp;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::trajectory::State::operator- </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
           <td class="paramname"><em>aState</em></td><td>)</td>
