@@ -7,6 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
@@ -145,6 +146,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(orbit) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models(orbit) ;
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(orbit) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages(orbit) ;
 
 }
 
