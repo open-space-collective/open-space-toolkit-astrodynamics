@@ -55,11 +55,6 @@ def opm () -> OPM:
         ],
     )
 
-@pytest.fixture
-def opm_file_path () -> str:
-
-    return '/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM/opm_1.yaml'
-
 ################################################################################################################################################################
 
 class TestOPM:
@@ -114,14 +109,14 @@ class TestOPM:
 
         assert OPM.dictionary(dictionary) is not None
 
-    def test_parse (self, opm_file_path: str):
+    def test_parse (self, opm_file: File):
 
-        with open(opm_file_path, 'r') as stream:
+        with open(str(opm_file.get_path().to_string()), 'r') as stream:
             assert OPM.parse(string = stream.read()) is not None
 
-    def test_load (self, opm_file_path: str):
+    def test_load (self, opm_file: File):
 
-        assert OPM.load(file = File.path(Path.parse(opm_file_path))) is not None
+        assert OPM.load(file = opm_file) is not None
 
 ################################################################################################################################################################
 

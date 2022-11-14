@@ -1,0 +1,44 @@
+# Dummy SpaceX OPM output
+
+# Notes:
+# - ECEF velocity is Earth relative
+# - Apogee/Perigee altitude assumes a spherical Earth, 6378.137 km radius
+# - Orbital elements are computed in an inertial frame realized by inertially
+#   freezing the WGS84 ECEF frame at time of current state
+# - State is post-deployment, so includes separation delta-velocity
+
+
+header:
+  generation_date: 2020-01-01T12:34:56.789Z
+  launch_date: 2020-01-02T12:34:56.789Z
+
+
+deployments:
+
+- name: satellite_a
+  sequence_number: 1
+  mission_time_s: 3600.0
+  date: 2020-01-02T13:34:56.789Z
+  r_ecef_m: [693289.644, 6876578.628, -133035.288]
+  v_ecef_m_per_s: [1305.783, 39.783, 7525.920]
+  mean_perigee_altitude_km: 526.768
+  mean_apogee_altitude_km: 568.430
+  mean_inclination_deg: 97.123
+  mean_argument_of_perigee_deg: -179.513
+  mean_longitude_ascending_node_deg: 85.057
+  mean_mean_anomaly_deg: 179.263
+  ballistic_coef_kg_per_m2: 47.55
+
+- name: satellite_b
+  sequence_number: 2
+  mission_time_s: 7200.0
+  date: 2020-01-02T14:34:56.789Z
+  r_ecef_m: [699863.059, 6875647.517, -123777.595]
+  v_ecef_m_per_s: [1504.658, 6.705, 7538.669]
+  mean_perigee_altitude_km: 536.779
+  mean_apogee_altitude_km: 529.851
+  mean_inclination_deg: 97.124
+  mean_argument_of_perigee_deg: 136.875
+  mean_longitude_ascending_node_deg: 85.032
+  mean_mean_anomaly_deg: -127.164
+  ballistic_coef_kg_per_m2: 44.26
