@@ -10,6 +10,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -55,6 +57,8 @@ using ostk::physics::units::Length ;
 using ostk::physics::units::Angle ;
 using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
+
+using ostk::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,6 +122,8 @@ class OPM
             Angle               meanLongitudeAscendingNode ;
             Angle               meanMeanAnomaly ;
             Real                ballisticCoefficient ; // [kg/m2]
+
+            State               toState                                     ( ) const ;
 
         } ;
 

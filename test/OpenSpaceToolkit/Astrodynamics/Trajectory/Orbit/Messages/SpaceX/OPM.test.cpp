@@ -380,3 +380,24 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Loa
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, DeploymentToState)
+{
+
+    using ostk::astro::trajectory::State ;
+
+    {
+
+        const OPM::Deployment deployment = this->opm_.getDeploymentWithName("B") ;
+
+        const State deploymentState = deployment.toState() ;
+
+        EXPECT_EQ(deployment.date, deploymentState.getInstant()) ;
+        EXPECT_EQ(deployment.position, deploymentState.getPosition()) ;
+        EXPECT_EQ(deployment.velocity, deploymentState.getVelocity()) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -124,3 +124,11 @@ class TestOPM:
         assert OPM.load(file = File.path(Path.parse(opm_file_path))) is not None
 
 ################################################################################################################################################################
+
+class TestOPMDeployment:
+
+    def test_to_state (self, opm: OPM):
+
+        assert opm.get_deployment_with_name(name = 'A').to_state() is not None
+
+################################################################################################################################################################

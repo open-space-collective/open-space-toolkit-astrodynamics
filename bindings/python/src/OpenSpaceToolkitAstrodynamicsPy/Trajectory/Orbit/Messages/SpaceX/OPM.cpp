@@ -113,6 +113,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def_readonly("mean_mean_anomaly", &OPM::Deployment::meanMeanAnomaly)
         .def_readonly("ballistic_coefficient", &OPM::Deployment::ballisticCoefficient)
 
+        .def("to_state", &OPM::Deployment::toState)
+
     ;
 
 }
