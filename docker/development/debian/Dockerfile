@@ -89,7 +89,7 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION="0.4.5"
+ARG OSTK_CORE_VERSION="0.4.6"
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
