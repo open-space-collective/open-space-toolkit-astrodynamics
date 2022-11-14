@@ -7,7 +7,7 @@
 
 ################################################################################################################################################################
 
-ARG BASE_IMAGE_VERSION=latest
+ARG BASE_IMAGE_VERSION="latest"
 
 FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}-fedora
 
@@ -15,9 +15,11 @@ LABEL maintainer="lucas@loftorbital.com"
 
 # Dependencies
 
-## {fmt} [5.2.0]
+## {fmt}
 
-RUN git clone --branch 5.2.0 --depth 1 https://github.com/fmtlib/fmt.git /tmp/fmt \
+ARG FMT_VERSION="5.2.0"
+
+RUN git clone --branch ${FMT_VERSION} --depth 1 https://github.com/fmtlib/fmt.git /tmp/fmt \
  && cd /tmp/fmt \
  && mkdir build \
  && cd build \
@@ -26,30 +28,37 @@ RUN git clone --branch 5.2.0 --depth 1 https://github.com/fmtlib/fmt.git /tmp/fm
  && make install \
  && rm -rf /tmp/fmt
 
-## ordered-map [0.6.0]
+## ordered-map
 
-RUN git clone --branch v0.6.0 --depth 1 https://github.com/Tessil/ordered-map.git /tmp/ordered-map \
+ARG ORDERED_MAP_VERSION="0.6.0"
+
+RUN git clone --branch v${ORDERED_MAP_VERSION} --depth 1 https://github.com/Tessil/ordered-map.git /tmp/ordered-map \
  && cd /tmp/ordered-map \
  && cp -r ./include/tsl /usr/local/include \
  && rm -rf /tmp/ordered-map
 
-## Eigen [3.3.7]
+## Eigen
+
+ARG EIGEN_VERSION="3.3.7"
 
 RUN mkdir /tmp/eigen \
  && cd /tmp/eigen \
- && wget --quiet https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz \
- && tar -xvf eigen-3.3.7.tar.gz \
- && cd eigen-3.3.7 \
+ && wget --quiet https://gitlab.com/libeigen/eigen/-/archive/${EIGEN_VERSION}/eigen-${EIGEN_VERSION}.tar.gz \
+ && tar -xvf eigen-${EIGEN_VERSION}.tar.gz \
+ && cd eigen-${EIGEN_VERSION} \
  && mkdir build \
  && cd build \
  && cmake .. \
  && make install \
  && rm -rf /tmp/eigen
 
-## SGP4 [master]
+## SGP4
+
+ARG SGP4_VERSION="6a448b4"
 
 RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
  && cd /tmp/sgp4 \
+ && git checkout ${SGP4_VERSION} \
  && mkdir build \
  && cd build \
  && cmake -DCMAKE_CXX_FLAGS="-fPIC" .. \
@@ -59,9 +68,11 @@ RUN git clone https://github.com/dnwrnr/sgp4.git /tmp/sgp4 \
  && cp libsgp4/*.a /usr/local/lib \
  && rm -rf /tmp/sgp4
 
-## NLopt [2.5.0]
+## NLopt
 
-RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
+ARG NLOPT_VERSION="2.5.0"
+
+RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/nlopt.git /tmp/nlopt \
  && cd /tmp/nlopt \
  && mkdir build \
  && cd build \
@@ -72,7 +83,7 @@ RUN git clone --branch v2.5.0 --depth 1 https://github.com/stevengj/nlopt.git /t
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION=0.4.5
+ARG OSTK_CORE_VERSION="0.4.5"
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
@@ -83,7 +94,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ## Open Space Toolkit ▸ IO
 
-ARG OSTK_IO_VERSION=0.4.5
+ARG OSTK_IO_VERSION="0.4.5"
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
@@ -94,7 +105,7 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_VERSION=0.5.1
+ARG OSTK_MATHEMATICS_VERSION="0.5.1"
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
@@ -105,7 +116,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION=0.5.23
+ARG OSTK_PHYSICS_VERSION="0.5.23"
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \

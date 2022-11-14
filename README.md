@@ -29,7 +29,7 @@ Want to get started? This is the simplest and quickest way:
 
 The following command will start an [iPython](https://ipython.org/) shell within a container where the OSTk components are already installed:
 
-```bash
+```shell
 docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
 ```
 
@@ -64,7 +64,7 @@ As a result, when running OSTk for the first time, it may take a minute to fetch
 
 The following command will start a [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) server within a container where the OSTk components are already installed:
 
-```bash
+```shell
 docker run --publish=8888:8888 openspacecollective/open-space-toolkit-astrodynamics-jupyter
 ```
 
@@ -84,7 +84,7 @@ The binary packages are hosted using [GitHub Releases](https://github.com/open-s
 
 After downloading the relevant `.deb` binary packages, install:
 
-```bash
+```shell
 apt install open-space-toolkit-astrodynamics-*.deb
 ```
 
@@ -92,7 +92,7 @@ apt install open-space-toolkit-astrodynamics-*.deb
 
 After downloading the relevant `.rpm` binary packages, install:
 
-```bash
+```shell
 dnf install open-space-toolkit-astrodynamics-*.rpm
 ```
 
@@ -100,7 +100,7 @@ dnf install open-space-toolkit-astrodynamics-*.rpm
 
 Install from [PyPI](https://pypi.org/project/open-space-toolkit-astrodynamics/):
 
-```bash
+```shell
 pip install open-space-toolkit-astrodynamics
 ```
 
@@ -157,7 +157,7 @@ Instructions on how to install Docker are available [here](https://docs.docker.c
 
 To start the development environment:
 
-```bash
+```shell
 make start-development
 ```
 
@@ -174,7 +174,7 @@ by following a procedure similar to the one described in the [Development Docker
 
 From the `./build` directory:
 
-```bash
+```shell
 cmake ..
 make
 ```
@@ -185,13 +185,13 @@ make
 
 To start a container to build and run the tests:
 
-```bash
+```shell
 make test
 ```
 
 Or to run them manually:
 
-```bash
+```shell
 ./bin/open-space-toolkit-astrodynamics.test
 ```
 
@@ -199,16 +199,17 @@ Or to run them manually:
 
 ## Dependencies
 
-| Name        | Version | License                | Link                                                                                                                                       |
-| ----------- | ------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Pybind11    | 2.6.1   | BSD-3-Clause           | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)       |
-| Eigen       | 3.3.7   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
-| SGP4        | master  | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
-| NLopt       | master  | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
-| Core        | main    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
-| I/O         | main    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
-| Mathematics | main    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
-| Physics     | main    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
+| Name        | Version   | License                | Link                                                                                                                                       |
+| ----------- | --------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pybind11    | `2.6.1`   | BSD-3-Clause           | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
+| ordered-map | `0.6.0`   | MIT                    | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
+| Eigen       | `3.3.7`   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| SGP4        | `6a448b4` | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
+| NLopt       | `2.5.0`   | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| Core        | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
+| I/O         | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
+| Mathematics | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
+| Physics     | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
 ## Contribution
 
