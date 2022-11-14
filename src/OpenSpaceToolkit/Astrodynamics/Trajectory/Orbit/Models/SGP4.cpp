@@ -53,7 +53,7 @@ class SGP4::Impl
     private:
 
         const TLE&              tle_ ;
-        ::SGP4                  sgp4_ ;
+        libsgp4::SGP4           sgp4_ ;
 
         Shared<const Frame>     temeFrameOfEpochSPtr_ ;
 
@@ -63,7 +63,7 @@ class SGP4::Impl
 
                                 SGP4::Impl::Impl                            (   const   TLE&                        aTle                                        )
                                 :   tle_(aTle),
-                                    sgp4_(::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
+                                    sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
                                     temeFrameOfEpochSPtr_(Frame::TEMEOfEpoch(tle_.getEpoch()))
 {
 
@@ -76,18 +76,18 @@ State                           SGP4::Impl::calculateStateAt                (   
 
     using ostk::physics::time::Duration ;
 
-    const Real durationFromEpoch_min = Duration::Between(tle_.getEpoch(), anInstant).inMinutes() ;
+    const Real durationFromEpoch_min = Duration::Between(this->tle_.getEpoch(), anInstant).inMinutes() ;
 
-    const ::Eci xv_TEME = sgp4_.FindPosition(durationFromEpoch_min) ;
+    const libsgp4::Eci xv_TEME = this->sgp4_.FindPosition(durationFromEpoch_min) ;
 
-    const ::Vector x_TEME_km = xv_TEME.Position() ;
-    const ::Vector v_TEME_kmps = xv_TEME.Velocity() ;
+    const libsgp4::Vector x_TEME_km = xv_TEME.Position() ;
+    const libsgp4::Vector v_TEME_kmps = xv_TEME.Velocity() ;
 
     const Vector3d x_TEME_m = Vector3d(x_TEME_km.x, x_TEME_km.y, x_TEME_km.z) * 1e3 ;
     const Vector3d v_TEME_mps = Vector3d(v_TEME_kmps.x, v_TEME_kmps.y, v_TEME_kmps.z) * 1e3 ;
 
-    const Position position_TEME = { x_TEME_m, Position::Unit::Meter, temeFrameOfEpochSPtr_ } ;
-    const Velocity velocity_TEME = { v_TEME_mps, Velocity::Unit::MeterPerSecond, temeFrameOfEpochSPtr_ } ;
+    const Position position_TEME = { x_TEME_m, Position::Unit::Meter, this->temeFrameOfEpochSPtr_ } ;
+    const Velocity velocity_TEME = { v_TEME_mps, Velocity::Unit::MeterPerSecond, this->temeFrameOfEpochSPtr_ } ;
 
     const State state_TEME = { anInstant, position_TEME, velocity_TEME } ;
 
@@ -130,9 +130,9 @@ SGP4&                           SGP4::operator =                            (   
 
         Model::operator = (aSGP4Model) ;
 
-        tle_ = aSGP4Model.tle_ ;
+        this->tle_ = aSGP4Model.tle_ ;
 
-        implUPtr_ = std::make_unique<SGP4::Impl>(tle_) ;
+        this->implUPtr_ = std::make_unique<SGP4::Impl>(tle_) ;
 
     }
 
@@ -153,7 +153,7 @@ bool                            SGP4::operator ==                           (   
         return false ;
     }
 
-    return tle_ == aSGP4Model.tle_ ;
+    return this->tle_ == aSGP4Model.tle_ ;
 
 }
 
@@ -174,7 +174,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            SGP4::isDefined                             ( ) const
 {
-    return tle_.isDefined() && (implUPtr_ != nullptr) ;
+    return this->tle_.isDefined() && (this->implUPtr_ != nullptr) ;
 }
 
 TLE                             SGP4::getTle                                ( ) const
@@ -185,7 +185,7 @@ TLE                             SGP4::getTle                                ( ) 
         throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
-    return tle_ ;
+    return this->tle_ ;
 
 }
 
@@ -197,7 +197,7 @@ Instant                         SGP4::getEpoch                              ( ) 
         throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
-    return tle_.getEpoch() ;
+    return this->tle_.getEpoch() ;
 
 }
 
@@ -209,7 +209,7 @@ Integer                         SGP4::getRevolutionNumberAtEpoch            ( ) 
         throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
-    return tle_.getRevolutionNumberAtEpoch() ;
+    return this->tle_.getRevolutionNumberAtEpoch() ;
 
 }
 
@@ -226,7 +226,7 @@ State                           SGP4::calculateStateAt                      (   
         throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
-    return implUPtr_->calculateStateAt(anInstant) ;
+    return this->implUPtr_->calculateStateAt(anInstant) ;
 
 }
 
@@ -243,12 +243,10 @@ Integer                         SGP4::calculateRevolutionNumberAt           (   
         throw ostk::core::error::runtime::Undefined("SGP4") ;
     }
 
-    if (anInstant == tle_.getEpoch())
+    if (anInstant == this->tle_.getEpoch())
     {
         return this->getRevolutionNumberAtEpoch() ;
     }
-
-    // aaaa
 
     return Integer::Undefined() ;
 
