@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['rungekuttacashkarp54',['RungeKuttaCashKarp54',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37',1,'ostk::astro::NumericalSolver']]],
-  ['rungekuttafehlberg78',['RungeKuttaFehlberg78',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7',1,'ostk::astro::NumericalSolver']]]
+  ['qsw',['QSW',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7a4f190ed692b3a94eb49da59c497c7f55',1,'ostk::astro::trajectory::Orbit']]],
+  ['quarter',['Quarter',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114',1,'ostk::astro::trajectory::orbit::Pass']]]
 ];

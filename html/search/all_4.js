@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['first',['First',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a7fb55ed0b7a30342ba6da306428cae04',1,'ostk::astro::trajectory::orbit::Pass']]],
-  ['flight_2ehpp',['Flight.hpp',['../_flight_8hpp.html',1,'']]],
-  ['fourth',['Fourth',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a6e599f7a2a9186d391be4537f105be98',1,'ostk::astro::trajectory::orbit::Pass']]],
-  ['frametype',['FrameType',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7',1,'ostk::astro::trajectory::Orbit']]]
+  ['eccentricanomalyfrommeananomaly',['EccentricAnomalyFromMeanAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a03697221660ff4c30f4eb19ecdc89159',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['eccentricanomalyfromtrueanomaly',['EccentricAnomalyFromTrueAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a862d6d129ee8b17faa4b786ffec9e1f4',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['equatorial',['Equatorial',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a88a5db265588461a9e756fd2aa4d3e4c',1,'ostk::astro::trajectory::Orbit']]],
+  ['error_5fstepper_5ftype_5f54',['error_stepper_type_54',['../namespaceostk_1_1astro.html#ae0e87d949c5bf8265860957bc3e551a4',1,'ostk::astro']]],
+  ['error_5fstepper_5ftype_5f78',['error_stepper_type_78',['../namespaceostk_1_1astro.html#ac65cff551d02047f499131307bd5f688',1,'ostk::astro']]]
 ];

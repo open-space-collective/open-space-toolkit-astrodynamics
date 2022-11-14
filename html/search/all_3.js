@@ -1,8 +1,15 @@
 var searchData=
 [
-  ['eccentricanomalyfrommeananomaly',['EccentricAnomalyFromMeanAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a03697221660ff4c30f4eb19ecdc89159',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
-  ['eccentricanomalyfromtrueanomaly',['EccentricAnomalyFromTrueAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a862d6d129ee8b17faa4b786ffec9e1f4',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
-  ['equatorial',['Equatorial',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a88a5db265588461a9e756fd2aa4d3e4c',1,'ostk::astro::trajectory::Orbit']]],
-  ['error_5fstepper_5ftype_5f54',['error_stepper_type_54',['../namespaceostk_1_1astro.html#ae0e87d949c5bf8265860957bc3e551a4',1,'ostk::astro']]],
-  ['error_5fstepper_5ftype_5f78',['error_stepper_type_78',['../namespaceostk_1_1astro.html#ac65cff551d02047f499131307bd5f688',1,'ostk::astro']]]
+  ['date',['date',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a540f905a4f403a56150c476dd31a65fb',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
+  ['default_5fin_5ffixed_5fframe',['DEFAULT_IN_FIXED_FRAME',['../_kepler_8hpp.html#a42fbab7c9532a311984a768a10f815aa',1,'Kepler.hpp']]],
+  ['default_5fstep',['DEFAULT_STEP',['../_generator_8hpp.html#a7ce1d4cc8c33e65c078f721b17b975ea',1,'Generator.hpp']]],
+  ['default_5ftolerance',['DEFAULT_TOLERANCE',['../_generator_8hpp.html#a0e355e0dcb761f1b89524e0e77fd14bd',1,'Generator.hpp']]],
+  ['deployment',['Deployment',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM']]],
+  ['descending',['Descending',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203ae3cf5ac19407b1a62c6fccaff675a53b',1,'ostk::astro::trajectory::orbit::Pass']]],
+  ['dictionary',['Dictionary',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m.html#a1cd4c53e5959572f27a3f77a0d8c0db3',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM']]],
+  ['dynamicalequationwrapper',['DynamicalEquationWrapper',['../classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e',1,'ostk::astro::flight::system::Dynamics']]],
+  ['dynamicprovider',['DynamicProvider',['../namespaceostk_1_1astro_1_1flight_1_1profile_1_1models.html#a7e9732cb31adb5d5c1f85f7bad1f3424',1,'ostk::astro::flight::profile::models']]],
+  ['dynamics',['Dynamics',['../classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html',1,'ostk::astro::flight::system::Dynamics'],['../classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ae095f36d21c5fb80059100b3f68a6034',1,'ostk::astro::flight::system::Dynamics::Dynamics()']]],
+  ['dynamics_2ecpp',['Dynamics.cpp',['../_dynamics_8cpp.html',1,'']]],
+  ['dynamics_2ehpp',['Dynamics.hpp',['../_dynamics_8hpp.html',1,'']]]
 ];

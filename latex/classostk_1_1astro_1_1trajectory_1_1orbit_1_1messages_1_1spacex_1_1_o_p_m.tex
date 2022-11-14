@@ -1,0 +1,162 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{}\section{ostk\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:messages\+:\+:spacex\+:\+:O\+PM Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+
+
+SpaceX Orbital Parameter Message (\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM})  
+
+
+
+
+{\ttfamily \#include $<$O\+P\+M.\+hpp$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{Deployment}
+\item 
+struct \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header}{Header}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a2c7d8dad60a7cabf0a3a24bae0972a89}{O\+PM} (const \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header}{O\+P\+M\+::\+Header} \&a\+Header, const Array$<$ \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} $>$ \&a\+Deployment\+Array)
+\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ac3351273b45e39ef7574a5cb9b7bf30d}{is\+Defined} () const
+\item 
+\hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header}{O\+P\+M\+::\+Header} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae0474132f01725d4b6e1276e52b9eb21}{get\+Header} () const
+\item 
+Array$<$ \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} $>$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a61911a7200fc4b6c6b82224b3f8f07b6}{get\+Deployments} () const
+\item 
+\hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_afd84bfdf32c53ace7815b20971beac92}{get\+Deployment\+At} (const Size \&an\+Index) const
+\item 
+\hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a9bad05972b0877708a32775690fe0f1e}{get\+Deployment\+With\+Name} (const String \&a\+Name) const
+\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae87eca86b432e8abd8137df02c1f9085}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a971c85e7253806f554ff79b6ac4e6b36}{Undefined} ()
+\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1cd4c53e5959572f27a3f77a0d8c0db3}{Dictionary} (const ctnr\+::\+Dictionary \&a\+Dictionary)
+\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1867729446aee4963bb4b22f6bba43e1}{Parse} (const String \&a\+String)
+\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a86bc7b60ac00536fa516d03282cb2c90}{Load} (const File \&a\+File)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a6eda3865ebfda6f309f8ac0f071ece85}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \&an\+O\+PM)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+SpaceX Orbital Parameter Message (\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM}) 
+
+\subsection*{SpaceX \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} output for X\+XX Mission}
+
+\subsection*{Notes\+:}
+
+\subsection*{-\/ E\+C\+EF velocity is Earth relative}
+
+\subsection*{-\/ Apogee/\+Perigee altitude assumes a spherical Earth, 6378.\+137 km radius}
+
+\subsection*{-\/ Orbital elements are computed in an inertial frame realized by inertially}
+
+\subsection*{freezing the W\+G\+S84 E\+C\+EF frame at time of current state}
+
+\subsection*{-\/ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} is post-\/deployment, so includes separation delta-\/velocity}
+
+header\+: generation\+\_\+date\+: Y\+Y\+Y\+Y-\/\+M\+M-\/\+D\+D-\/\+Day-\/\+H\+H-\/\+M\+M-\/\+SS launch\+\_\+date\+: Y\+Y\+Y\+Y-\/\+M\+M-\/\+D\+D-\/\+Day-\/\+H\+H-\/\+M\+M-\/\+SS deployments\+:
+\begin{DoxyItemize}
+\item name\+: payload-\/xxx sequence\+\_\+number\+: 1 mission\+\_\+time\+\_\+s\+: +\+XX.XX date\+: Y\+Y\+Y\+Y-\/\+M\+M-\/\+D\+D-\/\+Day-\/\+H\+H-\/\+M\+M-\/\+SS r\+\_\+ecef\+\_\+m\+: \mbox{[}+\+X\+X\+X\+X\+XX.X\+XX, +\+X\+X\+X\+X\+XX.X\+XX, +\+X\+X\+X\+X\+XX.X\+XX\mbox{]} v\+\_\+ecef\+\_\+m\+\_\+per\+\_\+s\+: \mbox{[}+\+X\+X\+XX.X\+XX, +\+X\+X\+XX.X\+XX, +\+X\+X\+XX.X\+XX\mbox{]} mean\+\_\+perigee\+\_\+altitude\+\_\+km\+: +\+X\+XX.X\+XX mean\+\_\+apogee\+\_\+altitude\+\_\+km\+: +\+X\+XX.X\+XX mean\+\_\+inclination\+\_\+deg\+: +\+XX.X\+XX mean\+\_\+argument\+\_\+of\+\_\+perigee\+\_\+deg\+: +\+X\+XX.X\+XX mean\+\_\+longitude\+\_\+ascending\+\_\+node\+\_\+deg\+: +\+X\+XX.X\+XX mean\+\_\+mean\+\_\+anomaly\+\_\+deg\+: +\+XX.X\+XX ballistic\+\_\+coef\+\_\+kg\+\_\+per\+\_\+m2\+: +\+XX.XX
+\end{DoxyItemize}
+
+Appendix E\+: Delivery Format Of Separation \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} Vector \href{https://storage.googleapis.com/rideshare-static/Rideshare_Payload_Users_Guide.pdf}{\tt https\+://storage.\+googleapis.\+com/rideshare-\/static/\+Rideshare\+\_\+\+Payload\+\_\+\+Users\+\_\+\+Guide.\+pdf} 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a2c7d8dad60a7cabf0a3a24bae0972a89}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a2c7d8dad60a7cabf0a3a24bae0972a89}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!O\+PM@{O\+PM}}
+\index{O\+PM@{O\+PM}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{O\+P\+M()}{OPM()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::\+O\+PM (\begin{DoxyParamCaption}\item[{const \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header}{O\+P\+M\+::\+Header} \&}]{a\+Header,  }\item[{const Array$<$ \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} $>$ \&}]{a\+Deployment\+Array }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1cd4c53e5959572f27a3f77a0d8c0db3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1cd4c53e5959572f27a3f77a0d8c0db3}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!Dictionary@{Dictionary}}
+\index{Dictionary@{Dictionary}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{Dictionary()}{Dictionary()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::\+Dictionary (\begin{DoxyParamCaption}\item[{const ctnr\+::\+Dictionary \&}]{a\+Dictionary }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_afd84bfdf32c53ace7815b20971beac92}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_afd84bfdf32c53ace7815b20971beac92}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!get\+Deployment\+At@{get\+Deployment\+At}}
+\index{get\+Deployment\+At@{get\+Deployment\+At}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{get\+Deployment\+At()}{getDeploymentAt()}}
+{\footnotesize\ttfamily \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::get\+Deployment\+At (\begin{DoxyParamCaption}\item[{const Size \&}]{an\+Index }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a61911a7200fc4b6c6b82224b3f8f07b6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a61911a7200fc4b6c6b82224b3f8f07b6}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!get\+Deployments@{get\+Deployments}}
+\index{get\+Deployments@{get\+Deployments}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{get\+Deployments()}{getDeployments()}}
+{\footnotesize\ttfamily Array$<$ \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} $>$ ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::get\+Deployments (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a9bad05972b0877708a32775690fe0f1e}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a9bad05972b0877708a32775690fe0f1e}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!get\+Deployment\+With\+Name@{get\+Deployment\+With\+Name}}
+\index{get\+Deployment\+With\+Name@{get\+Deployment\+With\+Name}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{get\+Deployment\+With\+Name()}{getDeploymentWithName()}}
+{\footnotesize\ttfamily \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment}{O\+P\+M\+::\+Deployment} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::get\+Deployment\+With\+Name (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae0474132f01725d4b6e1276e52b9eb21}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae0474132f01725d4b6e1276e52b9eb21}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!get\+Header@{get\+Header}}
+\index{get\+Header@{get\+Header}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{get\+Header()}{getHeader()}}
+{\footnotesize\ttfamily \hyperlink{structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header}{O\+P\+M\+::\+Header} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::get\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ac3351273b45e39ef7574a5cb9b7bf30d}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ac3351273b45e39ef7574a5cb9b7bf30d}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a86bc7b60ac00536fa516d03282cb2c90}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a86bc7b60ac00536fa516d03282cb2c90}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!Load@{Load}}
+\index{Load@{Load}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{Load()}{Load()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::\+Load (\begin{DoxyParamCaption}\item[{const File \&}]{a\+File }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1867729446aee4963bb4b22f6bba43e1}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a1867729446aee4963bb4b22f6bba43e1}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!Parse@{Parse}}
+\index{Parse@{Parse}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{Parse()}{Parse()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::\+Parse (\begin{DoxyParamCaption}\item[{const String \&}]{a\+String }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae87eca86b432e8abd8137df02c1f9085}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_ae87eca86b432e8abd8137df02c1f9085}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a971c85e7253806f554ff79b6ac4e6b36}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a971c85e7253806f554ff79b6ac4e6b36}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+P\+M\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a6eda3865ebfda6f309f8ac0f071ece85}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_a6eda3865ebfda6f309f8ac0f071ece85}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM@{ostk\+::astro\+::trajectory\+::orbit\+::messages\+::spacex\+::\+O\+PM}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m}{O\+PM} \&}]{an\+O\+PM }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Messages/\+Space\+X/\hyperlink{_o_p_m_8hpp}{O\+P\+M.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Orbit/\+Messages/\+Space\+X/\hyperlink{_o_p_m_8cpp}{O\+P\+M.\+cpp}\end{DoxyCompactItemize}

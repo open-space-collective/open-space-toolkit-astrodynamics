@@ -5,11 +5,13 @@ var searchData=
   ['dynamics',['dynamics',['../namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html',1,'ostk::astro::flight::system']]],
   ['flight',['flight',['../namespaceostk_1_1astro_1_1flight.html',1,'ostk::astro']]],
   ['kepler',['kepler',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler.html',1,'ostk::astro::trajectory::orbit::models']]],
+  ['messages',['messages',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1messages.html',1,'ostk::astro::trajectory::orbit']]],
   ['models',['models',['../namespaceostk_1_1astro_1_1flight_1_1profile_1_1models.html',1,'ostk::astro::flight::profile::models'],['../namespaceostk_1_1astro_1_1trajectory_1_1models.html',1,'ostk::astro::trajectory::models'],['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models.html',1,'ostk::astro::trajectory::orbit::models']]],
   ['orbit',['orbit',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit.html',1,'ostk::astro::trajectory']]],
   ['ostk',['ostk',['../namespaceostk.html',1,'']]],
   ['profile',['profile',['../namespaceostk_1_1astro_1_1flight_1_1profile.html',1,'ostk::astro::flight']]],
   ['sgp4',['sgp4',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4.html',1,'ostk::astro::trajectory::orbit::models']]],
+  ['spacex',['spacex',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex.html',1,'ostk::astro::trajectory::orbit::messages']]],
   ['system',['system',['../namespaceostk_1_1astro_1_1flight_1_1system.html',1,'ostk::astro::flight']]],
   ['trajectory',['trajectory',['../namespaceostk_1_1astro_1_1trajectory.html',1,'ostk::astro']]]
 ];
