@@ -171,6 +171,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     Array<State> allStates = Array<State>::Empty() ;
 
     // Maintain counter separately so as to only iterate once through instant array
+
     Size j = 0 ;
 
     // Propagate states for instants < first cached State
@@ -179,7 +180,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     for (; j < anInstantArray.getSize() ; ++j)
     {
 
-        if (anInstantArray[j] > this->cachedStateArray_[0].getInstant())
+        if (anInstantArray[j] > this->cachedStateArray_.accessFirst().getInstant())
         {
             break ;
         }
@@ -200,9 +201,10 @@ Array<State>                    Propagated::calculateStatesAt               (   
 
         instants = Array<Instant>::Empty() ;
 
-        for (; j < anInstantArray.getSize() ; ++j)
+        while (j < anInstantArray.getSize())
         {
-            if (anInstantArray[j] > nextStateInstant)
+
+            if (anInstantArray[j] >= nextStateInstant)
             {
                 break ;
             }
@@ -211,6 +213,8 @@ Array<State>                    Propagated::calculateStatesAt               (   
             {
                 instants.add(anInstantArray[j]) ;
             }
+
+            ++j ;
 
         }
 
@@ -225,7 +229,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
         // Backward propagation
         Array<State> backwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i + 1], instants) ;
 
-        Real durationBetweenStates = (this->cachedStateArray_[i + 1].getInstant() - this->cachedStateArray_[i].getInstant()).inSeconds() ;
+        Real durationBetweenStates = (nextStateInstant - thisStateInstant).inSeconds() ;
 
         // Take weighted average
         Array<State> averagedStates = Array<State>::Empty() ;
@@ -234,10 +238,10 @@ Array<State>                    Propagated::calculateStatesAt               (   
         for (Size k = 0 ; k < instants.getSize() ; ++k)
         {
 
-            Real forwardWeight = (forwardStates[k].getInstant() - instants[k]).inSeconds() / durationBetweenStates ;
-            Real backwardWeight = (instants[k] - backwardStates[k].getInstant()).inSeconds() / durationBetweenStates ;
+            Real forwardWeight = (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates ;
+            Real backwardWeight = (this->cachedStateArray_[i + 1].getInstant() - instants[k]).inSeconds() / durationBetweenStates ;
 
-            VectorXd coordinates = (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight) / 2.0 ;
+            VectorXd coordinates = (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight);
 
             averagedStates.add({
                 instants[k],
@@ -261,7 +265,7 @@ Array<State>                    Propagated::calculateStatesAt               (   
     }
 
     allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.accessLast(), instants)) ;
-    
+
     return allStates ;
 
 }
