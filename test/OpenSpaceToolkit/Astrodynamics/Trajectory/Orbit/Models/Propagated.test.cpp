@@ -3501,8 +3501,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
                 ASSERT_EQ(*Frame::GCRF(), *position_long.accessFrame()) ;
                 ASSERT_EQ(*Frame::GCRF(), *velocity_long.accessFrame()) ;
 
-                ASSERT_GT(1.0e-8, positionError_GCRF) ;
-                ASSERT_GT(1.0e-8, velocityError_GCRF) ;
+                ASSERT_GT(1.0e-7, positionError_GCRF) ;
+                ASSERT_GT(1.0e-7, velocityError_GCRF) ;
 
                 // Results console output
 
