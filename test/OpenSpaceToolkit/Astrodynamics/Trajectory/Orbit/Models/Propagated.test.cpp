@@ -858,6 +858,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcula
 
     // Test correct handling of state array sorting and unsorting in propagatedModel and in Orbit
     {
+
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Create environment
@@ -3484,7 +3485,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
         {
             instantArray_longInterval.add(instantArray[i]) ;
         }
-        const Array<State> propagatedStateArray_long = orbit_short.getStatesAt(instantArray_longInterval) ;
+        const Array<State> propagatedStateArray_long = orbit_long.getStatesAt(instantArray_longInterval) ;
 
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
@@ -3507,8 +3508,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAcc
                 ASSERT_EQ(*Frame::GCRF(), *position_long.accessFrame()) ;
                 ASSERT_EQ(*Frame::GCRF(), *velocity_long.accessFrame()) ;
 
-                ASSERT_GT(1.0e-30, positionError_GCRF) ;
-                ASSERT_GT(1.0e-30, velocityError_GCRF) ;
+                ASSERT_GT(1.0e-8, positionError_GCRF) ;
+                ASSERT_GT(1.0e-8, velocityError_GCRF) ;
 
                 // Results console output
 
