@@ -70,7 +70,7 @@ def propagator_default_inputs ():
 @pytest.fixture
 def propagator (propagator_default_inputs) -> Propagator:
 
-    return Propagator(*propagator_default_inputs[0:-2])
+    return Propagator(*propagator_default_inputs[:2])
 
 ################################################################################################################################################################
 
