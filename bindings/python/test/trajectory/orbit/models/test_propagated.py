@@ -15,6 +15,7 @@ from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Composite
 from ostk.mathematics.geometry.d3.objects import Point
 
+from ostk.physics import Environment
 from ostk.physics.units import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
@@ -22,7 +23,6 @@ from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics import Environment
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics import NumericalSolver
@@ -70,7 +70,7 @@ def propagated_default_inputs ():
 @pytest.fixture
 def propagated (propagated_default_inputs) -> Propagated:
 
-    return Propagated(*propagated_default_inputs[0:-2])
+    return Propagated(*propagated_default_inputs[0:-1])
 
 ################################################################################################################################################################
 
