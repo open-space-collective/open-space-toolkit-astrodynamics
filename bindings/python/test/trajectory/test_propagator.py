@@ -85,13 +85,6 @@ class TestPropagated:
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
 
-        env = Environment.default()
-        orbit = Orbit(propagator, env.access_celestial_object_with_name('Earth'))
-
-        assert orbit is not None
-        assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
-
     def test_calculate_state (
         self,
         propagator: Propagator,
