@@ -29,7 +29,6 @@ from ostk.astrodynamics import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
 
 
