@@ -127,10 +127,12 @@ The library exhibits the following detailed and descriptive structure:
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element set (TLE)
 │   │   │   └── Tabulated (input csv)
+│   │   │   └── Propagated
 │   │   └── Pass
-│   └── Models
-│       ├── Static
-│       └── Tabulated
+│   ├── Models
+│   |   ├── Static
+│   |   └── Tabulated
+│   └── Propagator
 ├── Flight
 │   └── Profile
 │       └── State
