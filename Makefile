@@ -473,7 +473,7 @@ _test-unit-python: _build-release-image-python
 
 	docker run \
 		--rm \
-		--workdir=/usr/local/lib/python3.8/site-packages/ostk/$(project_name) \
+		--workdir=/usr/local/lib/python3.11/site-packages/ostk/$(project_name) \
 		--entrypoint="" \
 		$(docker_release_image_python_repository):$(docker_image_version)-$(target) \
 		/bin/bash -c "pip install pytest && pytest -sv ."
