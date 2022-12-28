@@ -161,7 +161,7 @@ class CDM
             String              nBodyPerturbations = String::Empty() ;
             bool                solarRadiationPressure = false ;
             bool                earthTides = false ;
-            bool                intrackThrust = false ;
+            bool                inTrackThrust = false ;
 
         } ;
 
