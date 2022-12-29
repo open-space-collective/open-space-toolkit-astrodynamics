@@ -63,8 +63,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def("get_data_array", &CDM::getDataArray)
         .def("get_object_metadata_at", &CDM::getObjectMetadataAt, arg("index"))
         .def("get_object_data_at", &CDM::getObjectDataAt, arg("index"))
-
-        // TBI: Will be removed
         .def("get_ccsds_cdm_version", &CDM::getCCSDSCDMVersion)
         .def("get_creation_instant", &CDM::getCreationDate)
         .def("get_originator", &CDM::getOriginator)
@@ -81,6 +79,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_static("dictionary", &CDM::Dictionary, arg("dictionary"))
         .def_static("parse", &CDM::Parse, arg("string"))
         .def_static("load", &CDM::Load, arg("file"))
+        .def_static("object_type_from_string", &CDM::ObjectTypeFromString, arg("string"))
 
     ;
 
