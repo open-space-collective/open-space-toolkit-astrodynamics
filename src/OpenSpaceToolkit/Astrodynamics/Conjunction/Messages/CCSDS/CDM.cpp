@@ -101,7 +101,7 @@ Array<CDM::Data>                CDM::getDataArray                           ( ) 
 
 }
 
-CDM::Metadata                   CDM::getObjectMetadataAt                    (   const   Size&                       anIndex                                     ) const
+CDM::Metadata                   CDM::getObjectMetadataAt                    (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -113,7 +113,7 @@ CDM::Metadata                   CDM::getObjectMetadataAt                    (   
 
 }
 
-CDM::Data                       CDM::getObjectDataAt                        (   const   Size&                       anIndex                                     ) const
+CDM::Data                       CDM::getObjectDataAt                        (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -257,7 +257,7 @@ String                          CDM::getCollisionProbabilityMethod          ( ) 
 
 }
 
-Integer                         CDM::getObjectDesignator                    (   const   Size&                       anIndex                                     ) const
+Integer                         CDM::getObjectDesignator                    (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -265,13 +265,13 @@ Integer                         CDM::getObjectDesignator                    (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.objectDesignator ;
 
 }
 
-String                          CDM::getObjectName                          (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectName                          (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -279,13 +279,13 @@ String                          CDM::getObjectName                          (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.objectName ;
 
 }
 
-String                          CDM::getObjectInternationalDesignator       (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectInternationalDesignator       (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -293,13 +293,13 @@ String                          CDM::getObjectInternationalDesignator       (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.internationalDesignator ;
 
 }
 
-CDM::ObjectType                 CDM::getObjectType                          (   const   Size&                       anIndex                                     ) const
+CDM::ObjectType                 CDM::getObjectType                          (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -307,13 +307,13 @@ CDM::ObjectType                 CDM::getObjectType                          (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.objectType ;
 
 }
 
-String                          CDM::getObjectEphemerisName                 (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectEphemerisName                 (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -321,13 +321,13 @@ String                          CDM::getObjectEphemerisName                 (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.ephemerisName ;
 
 }
 
-String                          CDM::getObjectCovarianceMethod              (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectCovarianceMethod              (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -335,13 +335,13 @@ String                          CDM::getObjectCovarianceMethod              (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.covarianceMethod ;
 
 }
 
-String                          CDM::getObjectManeuverability               (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectManeuverability               (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -349,13 +349,13 @@ String                          CDM::getObjectManeuverability               (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.maneuverable ;
 
 }
 
-String                          CDM::getObjectReferenceFrame                (   const   Size&                       anIndex                                     ) const
+String                          CDM::getObjectReferenceFrame                (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
@@ -363,7 +363,7 @@ String                          CDM::getObjectReferenceFrame                (   
         throw ostk::core::error::runtime::Undefined("CDM") ;
     }
 
-    CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
+    const CDM::Metadata objectMetadata = this->getObjectMetadataAt(anIndex) ;
 
     return objectMetadata.refFrame ;
 
@@ -449,7 +449,7 @@ CDM                             CDM::Dictionary                             (   
     {
         String::Empty(),
         Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-        Length::Meters(std::stod(aDictionary["MISS_DISTANCE"].accessString())),
+        Length::Meters(Real::Parse(aDictionary["MISS_DISTANCE"].accessString())),
         Position::Undefined(),
         Velocity::Undefined(),
         Instant::Undefined(),
@@ -461,7 +461,7 @@ CDM                             CDM::Dictionary                             (   
         Real::Undefined(),
         Instant::Undefined(),
         Instant::Undefined(),
-        std::stod(aDictionary["COLLISION_PROBABILITY"].accessString()),
+        Real::Parse(aDictionary["COLLISION_PROBABILITY"].accessString()),
         aDictionary["COLLISION_PROBABILITY_METHOD"].accessString()
     } ;
 
@@ -532,27 +532,27 @@ CDM                             CDM::Dictionary                             (   
     // Construct Object 1 Covariance Matrix, TBI: Use symmetric construction
 
     MatrixXd object1CovarianceMatrix = MatrixXd::Zero(9, 9) ;
-    object1CovarianceMatrix(0, 0) = std::stod(aDictionary["SAT1_CR_R"].accessString()) ;
-    object1CovarianceMatrix(1, 0) = std::stod(aDictionary["SAT1_CT_R"].accessString()) ;
-    object1CovarianceMatrix(1, 1) = std::stod(aDictionary["SAT1_CT_T"].accessString()) ;
-    object1CovarianceMatrix(2, 0) = std::stod(aDictionary["SAT1_CN_R"].accessString()) ;
-    object1CovarianceMatrix(2, 1) = std::stod(aDictionary["SAT1_CN_T"].accessString()) ;
-    object1CovarianceMatrix(2, 2) = std::stod(aDictionary["SAT1_CN_N"].accessString()) ;
-    object1CovarianceMatrix(3, 0) = std::stod(aDictionary["SAT1_CRDOT_R"].accessString()) ;
-    object1CovarianceMatrix(3, 1) = std::stod(aDictionary["SAT1_CRDOT_T"].accessString()) ;
-    object1CovarianceMatrix(3, 2) = std::stod(aDictionary["SAT1_CRDOT_N"].accessString()) ;
-    object1CovarianceMatrix(3, 3) = std::stod(aDictionary["SAT1_CRDOT_RDOT"].accessString()) ;
-    object1CovarianceMatrix(4, 0) = std::stod(aDictionary["SAT1_CTDOT_R"].accessString()) ;
-    object1CovarianceMatrix(4, 1) = std::stod(aDictionary["SAT1_CTDOT_T"].accessString()) ;
-    object1CovarianceMatrix(4, 2) = std::stod(aDictionary["SAT1_CTDOT_N"].accessString()) ;
-    object1CovarianceMatrix(4, 3) = std::stod(aDictionary["SAT1_CTDOT_RDOT"].accessString()) ;
-    object1CovarianceMatrix(4, 4) = std::stod(aDictionary["SAT1_CTDOT_TDOT"].accessString()) ;
-    object1CovarianceMatrix(5, 0) = std::stod(aDictionary["SAT1_CNDOT_R"].accessString()) ;
-    object1CovarianceMatrix(5, 1) = std::stod(aDictionary["SAT1_CNDOT_T"].accessString()) ;
-    object1CovarianceMatrix(5, 2) = std::stod(aDictionary["SAT1_CNDOT_N"].accessString()) ;
-    object1CovarianceMatrix(5, 3) = std::stod(aDictionary["SAT1_CNDOT_RDOT"].accessString()) ;
-    object1CovarianceMatrix(5, 4) = std::stod(aDictionary["SAT1_CNDOT_TDOT"].accessString()) ;
-    object1CovarianceMatrix(5, 5) = std::stod(aDictionary["SAT1_CNDOT_NDOT"].accessString()) ;
+    object1CovarianceMatrix(0, 0) = Real::Parse(aDictionary["SAT1_CR_R"].accessString()) ;
+    object1CovarianceMatrix(1, 0) = Real::Parse(aDictionary["SAT1_CT_R"].accessString()) ;
+    object1CovarianceMatrix(1, 1) = Real::Parse(aDictionary["SAT1_CT_T"].accessString()) ;
+    object1CovarianceMatrix(2, 0) = Real::Parse(aDictionary["SAT1_CN_R"].accessString()) ;
+    object1CovarianceMatrix(2, 1) = Real::Parse(aDictionary["SAT1_CN_T"].accessString()) ;
+    object1CovarianceMatrix(2, 2) = Real::Parse(aDictionary["SAT1_CN_N"].accessString()) ;
+    object1CovarianceMatrix(3, 0) = Real::Parse(aDictionary["SAT1_CRDOT_R"].accessString()) ;
+    object1CovarianceMatrix(3, 1) = Real::Parse(aDictionary["SAT1_CRDOT_T"].accessString()) ;
+    object1CovarianceMatrix(3, 2) = Real::Parse(aDictionary["SAT1_CRDOT_N"].accessString()) ;
+    object1CovarianceMatrix(3, 3) = Real::Parse(aDictionary["SAT1_CRDOT_RDOT"].accessString()) ;
+    object1CovarianceMatrix(4, 0) = Real::Parse(aDictionary["SAT1_CTDOT_R"].accessString()) ;
+    object1CovarianceMatrix(4, 1) = Real::Parse(aDictionary["SAT1_CTDOT_T"].accessString()) ;
+    object1CovarianceMatrix(4, 2) = Real::Parse(aDictionary["SAT1_CTDOT_N"].accessString()) ;
+    object1CovarianceMatrix(4, 3) = Real::Parse(aDictionary["SAT1_CTDOT_RDOT"].accessString()) ;
+    object1CovarianceMatrix(4, 4) = Real::Parse(aDictionary["SAT1_CTDOT_TDOT"].accessString()) ;
+    object1CovarianceMatrix(5, 0) = Real::Parse(aDictionary["SAT1_CNDOT_R"].accessString()) ;
+    object1CovarianceMatrix(5, 1) = Real::Parse(aDictionary["SAT1_CNDOT_T"].accessString()) ;
+    object1CovarianceMatrix(5, 2) = Real::Parse(aDictionary["SAT1_CNDOT_N"].accessString()) ;
+    object1CovarianceMatrix(5, 3) = Real::Parse(aDictionary["SAT1_CNDOT_RDOT"].accessString()) ;
+    object1CovarianceMatrix(5, 4) = Real::Parse(aDictionary["SAT1_CNDOT_TDOT"].accessString()) ;
+    object1CovarianceMatrix(5, 5) = Real::Parse(aDictionary["SAT1_CNDOT_NDOT"].accessString()) ;
 
     for (int i = 0; i < 5; i++)
     {
@@ -582,9 +582,11 @@ CDM                             CDM::Dictionary                             (   
         Real::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
-        State(
+        State
+        (
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-            Position::Meters(  // TBI: Add Position::Kilometers
+            Position::Meters
+            (  // TBI: Add Position::Kilometers
                 {
                     Real::Parse(aDictionary["SAT1_X"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT1_Y"].accessString()) * 1000.0,
@@ -592,7 +594,8 @@ CDM                             CDM::Dictionary                             (   
                 },
                 Frame::ITRF()
             ),
-            Velocity::MetersPerSecond(  // TBI: Add Velocity::KilometersPerSecond
+            Velocity::MetersPerSecond
+            (  // TBI: Add Velocity::KilometersPerSecond
                 {
                     Real::Parse(aDictionary["SAT1_X_DOT"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT1_Y_DOT"].accessString()) * 1000.0,
@@ -609,27 +612,27 @@ CDM                             CDM::Dictionary                             (   
     // Construct Object 2 Covariance Matrix
 
     MatrixXd object2CovarianceMatrix = MatrixXd::Zero(9, 9) ;
-    object2CovarianceMatrix(0, 0) = std::stod(aDictionary["SAT2_CR_R"].accessString()) ;
-    object2CovarianceMatrix(1, 0) = std::stod(aDictionary["SAT2_CT_R"].accessString()) ;
-    object2CovarianceMatrix(1, 1) = std::stod(aDictionary["SAT2_CT_T"].accessString()) ;
-    object2CovarianceMatrix(2, 0) = std::stod(aDictionary["SAT2_CN_R"].accessString()) ;
-    object2CovarianceMatrix(2, 1) = std::stod(aDictionary["SAT2_CN_T"].accessString()) ;
-    object2CovarianceMatrix(2, 2) = std::stod(aDictionary["SAT2_CN_N"].accessString()) ;
-    object2CovarianceMatrix(3, 0) = std::stod(aDictionary["SAT2_CRDOT_R"].accessString()) ;
-    object2CovarianceMatrix(3, 1) = std::stod(aDictionary["SAT2_CRDOT_T"].accessString()) ;
-    object2CovarianceMatrix(3, 2) = std::stod(aDictionary["SAT2_CRDOT_N"].accessString()) ;
-    object2CovarianceMatrix(3, 3) = std::stod(aDictionary["SAT2_CRDOT_RDOT"].accessString()) ;
-    object2CovarianceMatrix(4, 0) = std::stod(aDictionary["SAT2_CTDOT_R"].accessString()) ;
-    object2CovarianceMatrix(4, 1) = std::stod(aDictionary["SAT2_CTDOT_T"].accessString()) ;
-    object2CovarianceMatrix(4, 2) = std::stod(aDictionary["SAT2_CTDOT_N"].accessString()) ;
-    object2CovarianceMatrix(4, 3) = std::stod(aDictionary["SAT2_CTDOT_RDOT"].accessString()) ;
-    object2CovarianceMatrix(4, 4) = std::stod(aDictionary["SAT2_CTDOT_TDOT"].accessString()) ;
-    object2CovarianceMatrix(5, 0) = std::stod(aDictionary["SAT2_CNDOT_R"].accessString()) ;
-    object2CovarianceMatrix(5, 1) = std::stod(aDictionary["SAT2_CNDOT_T"].accessString()) ;
-    object2CovarianceMatrix(5, 2) = std::stod(aDictionary["SAT2_CNDOT_N"].accessString()) ;
-    object2CovarianceMatrix(5, 3) = std::stod(aDictionary["SAT2_CNDOT_RDOT"].accessString()) ;
-    object2CovarianceMatrix(5, 4) = std::stod(aDictionary["SAT2_CNDOT_TDOT"].accessString()) ;
-    object2CovarianceMatrix(5, 5) = std::stod(aDictionary["SAT2_CNDOT_NDOT"].accessString()) ;
+    object2CovarianceMatrix(0, 0) = Real::Parse(aDictionary["SAT2_CR_R"].accessString()) ;
+    object2CovarianceMatrix(1, 0) = Real::Parse(aDictionary["SAT2_CT_R"].accessString()) ;
+    object2CovarianceMatrix(1, 1) = Real::Parse(aDictionary["SAT2_CT_T"].accessString()) ;
+    object2CovarianceMatrix(2, 0) = Real::Parse(aDictionary["SAT2_CN_R"].accessString()) ;
+    object2CovarianceMatrix(2, 1) = Real::Parse(aDictionary["SAT2_CN_T"].accessString()) ;
+    object2CovarianceMatrix(2, 2) = Real::Parse(aDictionary["SAT2_CN_N"].accessString()) ;
+    object2CovarianceMatrix(3, 0) = Real::Parse(aDictionary["SAT2_CRDOT_R"].accessString()) ;
+    object2CovarianceMatrix(3, 1) = Real::Parse(aDictionary["SAT2_CRDOT_T"].accessString()) ;
+    object2CovarianceMatrix(3, 2) = Real::Parse(aDictionary["SAT2_CRDOT_N"].accessString()) ;
+    object2CovarianceMatrix(3, 3) = Real::Parse(aDictionary["SAT2_CRDOT_RDOT"].accessString()) ;
+    object2CovarianceMatrix(4, 0) = Real::Parse(aDictionary["SAT2_CTDOT_R"].accessString()) ;
+    object2CovarianceMatrix(4, 1) = Real::Parse(aDictionary["SAT2_CTDOT_T"].accessString()) ;
+    object2CovarianceMatrix(4, 2) = Real::Parse(aDictionary["SAT2_CTDOT_N"].accessString()) ;
+    object2CovarianceMatrix(4, 3) = Real::Parse(aDictionary["SAT2_CTDOT_RDOT"].accessString()) ;
+    object2CovarianceMatrix(4, 4) = Real::Parse(aDictionary["SAT2_CTDOT_TDOT"].accessString()) ;
+    object2CovarianceMatrix(5, 0) = Real::Parse(aDictionary["SAT2_CNDOT_R"].accessString()) ;
+    object2CovarianceMatrix(5, 1) = Real::Parse(aDictionary["SAT2_CNDOT_T"].accessString()) ;
+    object2CovarianceMatrix(5, 2) = Real::Parse(aDictionary["SAT2_CNDOT_N"].accessString()) ;
+    object2CovarianceMatrix(5, 3) = Real::Parse(aDictionary["SAT2_CNDOT_RDOT"].accessString()) ;
+    object2CovarianceMatrix(5, 4) = Real::Parse(aDictionary["SAT2_CNDOT_TDOT"].accessString()) ;
+    object2CovarianceMatrix(5, 5) = Real::Parse(aDictionary["SAT2_CNDOT_NDOT"].accessString()) ;
 
     for (int i = 0; i < 5; i++)
     {
@@ -659,9 +662,11 @@ CDM                             CDM::Dictionary                             (   
         Real::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
-        State(
+        State
+        (
             Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-            Position::Meters(
+            Position::Meters
+            (
                 {
                     Real::Parse(aDictionary["SAT2_X"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT2_Y"].accessString()) * 1000.0,
@@ -669,7 +674,8 @@ CDM                             CDM::Dictionary                             (   
                 },
                 Frame::ITRF()
             ),
-            Velocity::MetersPerSecond(
+            Velocity::MetersPerSecond
+            (
                 {
                     Real::Parse(aDictionary["SAT2_X_DOT"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT2_Y_DOT"].accessString()) * 1000.0,

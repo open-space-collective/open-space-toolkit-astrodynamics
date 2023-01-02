@@ -183,54 +183,22 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Constructor)
-// {
+TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, IsDefined)
+{
 
-//     // const OPM opm =
-//     // {
-//     //     OPM::Header
-//     //     {
-//     //         Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC),
-//     //         Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-//     //     },
-//     //     {
-//     //         OPM::Deployment
-//     //         {
-//     //             "A",
-//     //             123,
-//     //             Duration::Seconds(123.456),
-//     //             Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-//     //             Position::Meters({ 0.0, 0.0, 0.0 }, Frame::ITRF()),
-//     //             Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, Frame::ITRF()),
-//     //             Length::Kilometers(100.0),
-//     //             Length::Kilometers(200.0),
-//     //             Angle::Degrees(1.0),
-//     //             Angle::Degrees(2.0),
-//     //             Angle::Degrees(3.0),
-//     //             Angle::Degrees(4.0),
-//     //             123.456
-//     //         }
-//     //     }
-//     // } ;
+    {
 
-// }
+        EXPECT_TRUE(this->cdm_.isDefined()) ;
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_CCSDS_CDM, IsDefined)
-// {
+    }
 
-//     {
+    {
 
-//         EXPECT_TRUE(this->opm_.isDefined()) ;
+        EXPECT_FALSE(CDM::Undefined().isDefined()) ;
 
-//     }
+    }
 
-//     {
-
-//         EXPECT_FALSE(OPM::Undefined().isDefined()) ;
-
-//     }
-
-// }
+}
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetHeader)
 {

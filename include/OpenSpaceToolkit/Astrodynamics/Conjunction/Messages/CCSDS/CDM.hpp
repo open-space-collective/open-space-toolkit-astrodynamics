@@ -28,6 +28,7 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +48,7 @@ namespace ccsds
 namespace ctnr = ostk::core::ctnr ;
 
 using ostk::core::types::Integer ;
-using ostk::core::types::Size ;
+using ostk::core::types::Index ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
 using ostk::core::ctnr::Array ;
@@ -230,9 +231,9 @@ class CDM
 
         Array<CDM::Data>        getDataArray                                ( ) const ;
 
-        CDM::Metadata           getObjectMetadataAt                         (   const   Size&                       anIndex                                     ) const ;
+        CDM::Metadata           getObjectMetadataAt                         (   const   Index&                      anIndex                                     ) const ;
 
-        CDM::Data               getObjectDataAt                             (   const   Size&                       anIndex                                     ) const ;
+        CDM::Data               getObjectDataAt                             (   const   Index&                      anIndex                                     ) const ;
 
         // Header getters
 
@@ -262,27 +263,27 @@ class CDM
 
         // Object Metadata getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 
-        Integer                 getObjectDesignator                         (   const   Size&                       anIndex                                     ) const ;
+        Integer                 getObjectDesignator                         (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectName                               (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectName                               (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectInternationalDesignator            (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectInternationalDesignator            (   const   Index&                      anIndex                                     ) const ;
 
-        ObjectType              getObjectType                               (   const   Size&                       anIndex                                     ) const ;
+        CDM::ObjectType         getObjectType                               (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectEphemerisName                      (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectEphemerisName                      (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectCovarianceMethod                   (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectCovarianceMethod                   (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectManeuverability                    (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectManeuverability                    (   const   Index&                      anIndex                                     ) const ;
 
-        String                  getObjectReferenceFrame                     (   const   Size&                       anIndex                                     ) const ;
+        String                  getObjectReferenceFrame                     (   const   Index&                      anIndex                                     ) const ;
 
         // Object Data getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 
-        State                   getObjectStateAtTCA                         (   const   Size&                       anIndex                                     ) const ;
+        State                   getObjectStateAtTCA                         (   const   Index&                      anIndex                                     ) const ;
 
-        MatrixXd                getObjectCovarianceMatrix                   (   const   Size&                       anIndex                                     ) const ;
+        MatrixXd                getObjectCovarianceMatrix                   (   const   Index&                      anIndex                                     ) const ;
 
         void                    print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const ;

@@ -85,11 +85,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
 
     enum_<CDM::ObjectType>(cdm, "ObjectType")
 
-    .value("PAYLOAD", CDM::ObjectType::Payload)
-    .value("ROCKETBODY", CDM::ObjectType::RocketBody)
-    .value("DEBRIS", CDM::ObjectType::Debris)
-    .value("UNKNOWN", CDM::ObjectType::Unknown)
-    .value("OTHER", CDM::ObjectType::Other)
+        .value("Payload", CDM::ObjectType::Payload)
+        .value("Rocket Body", CDM::ObjectType::RocketBody)
+        .value("Debris", CDM::ObjectType::Debris)
+        .value("Unknown", CDM::ObjectType::Unknown)
+        .value("Other", CDM::ObjectType::Other)
 
     ;
 
