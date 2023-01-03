@@ -905,9 +905,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, SetRevolu
 
         tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch) ;
 
-        EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch()) ;
+        EXPECT_EQ(6353, tle.getRevolutionNumberAtEpoch()) ;
 
-        const String newSecondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975 63537" ;
+        const String newSecondLine = "2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975 63532" ;
 
         EXPECT_EQ(firstLine, tle.getFirstLine()) ;
         EXPECT_EQ(newSecondLine, tle.getSecondLine()) ;
