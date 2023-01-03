@@ -150,6 +150,65 @@ class TestTLE:
 
         assert tle.get_second_line_checksum() == 6
 
+    def test_set_satellite_number (self, tle: TLE):
+
+        tle.set_satellite_number(99959)
+
+        assert tle.get_satellite_number() == 99959
+
+        tle.set_satellite_number(25544)
+
+        assert tle.get_satellite_number() == 25544
+
+    def test_set_epoch (self, tle: TLE):
+
+        tle.set_epoch(Instant.date_time(DateTime(2019, 9, 20, 5, 18, 28, 232, 361, 0), Scale.UTC))
+
+        assert tle.get_epoch() == Instant.date_time(DateTime(2019, 9, 20, 5, 18, 28, 231, 776, 0), Scale.UTC)
+
+        tle.set_epoch(Instant.date_time(DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC))
+
+        assert tle.get_epoch() == Instant.date_time(DateTime(2018, 8, 19, 4, 17, 27, 231, 360, 0), Scale.UTC)
+
+    def test_set_revolution_number_at_epoch (self, tle: TLE):
+
+        tle.set_revolution_number_at_epoch(2345)
+
+        assert tle.get_revolution_number_at_epoch() == 2345
+        assert tle.get_first_line() == '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'
+        assert tle.get_second_line() == '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234 23455'
+
+        tle.set_revolution_number_at_epoch(6)
+
+        assert tle.get_revolution_number_at_epoch() == 6
+        assert tle.get_first_line() == '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'
+        assert tle.get_second_line() == '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234    67'
+
+        other_tle = TLE(
+            '1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995',
+            '2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975009992'
+        )
+
+        assert other_tle.get_revolution_number_at_epoch() == 999
+
+        other_tle.set_revolution_number_at_epoch(999)
+
+        assert other_tle.get_revolution_number_at_epoch() == 999
+        assert other_tle.get_first_line() == '1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995'
+        assert other_tle.get_second_line() == '2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975  9992'
+
+        other_tle.set_revolution_number_at_epoch(9909)
+
+        assert other_tle.get_revolution_number_at_epoch() == 9909
+        assert other_tle.get_first_line() == '1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995'
+        assert other_tle.get_second_line() == '2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975 99092'
+
+        other_tle.set_revolution_number_at_epoch(99)
+
+        assert other_tle.get_revolution_number_at_epoch() == 99
+        assert other_tle.get_first_line() == '1 99993U 21990ZZZ 21182.62513889  .00000763  00000-0  42347-4 0 99995'
+        assert other_tle.get_second_line() == '2 99993 097.5132 311.4037 0016005 231.4378 006.3908 15.13696975   993'
+
     def test_can_parse (self, tle: TLE):
 
         assert TLE.can_parse(tle.get_first_line(), tle.get_second_line())
