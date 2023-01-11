@@ -93,7 +93,7 @@ Array<OPM::Deployment>          OPM::getDeployments                         ( ) 
 
 }
 
-OPM::Deployment                 OPM::getDeploymentAt                        (   const   Size&                       anIndex                                     ) const
+OPM::Deployment                 OPM::getDeploymentAt                        (   const   Index&                      anIndex                                     ) const
 {
 
     if (!this->isDefined())
