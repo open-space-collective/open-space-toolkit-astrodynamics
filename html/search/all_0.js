@@ -10,8 +10,13 @@ var searchData=
   ['accessmodel',['accessModel',['../classostk_1_1astro_1_1_trajectory.html#a7a5e15ddb0b4e1a1546615840610252c',1,'ostk::astro::Trajectory']]],
   ['accessposition',['accessPosition',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#a92a98a15aac3aff680a619cc925f45c6',1,'ostk::astro::flight::profile::State::accessPosition()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#a711322a78c02f981d11ebec2ca0a0cd4',1,'ostk::astro::trajectory::State::accessPosition()']]],
   ['accessvelocity',['accessVelocity',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html#af24c195994d32133d7ab9dbcc0124aed',1,'ostk::astro::flight::profile::State::accessVelocity()'],['../classostk_1_1astro_1_1trajectory_1_1_state.html#a7f6d626b9d5f045e026cd1ff2ea33200',1,'ostk::astro::trajectory::State::accessVelocity()']]],
+  ['actualodspan',['actualODSpan',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a4515fd382236aebbaf829770dca9820e',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
   ['aermask',['AerMask',['../classostk_1_1astro_1_1access_1_1_generator.html#a023edbe897ad6db339dce2107821442f',1,'ostk::astro::access::Generator']]],
   ['aerranges',['AerRanges',['../classostk_1_1astro_1_1access_1_1_generator.html#aececdcffcfea35feb07d9214752e6995',1,'ostk::astro::access::Generator']]],
+  ['areadrag',['areaDrag',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a177b42a7dcc3c591fac300b882ffd805',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['areapc',['areaPC',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a00e55a441c2166dd9a12d1b7c2a3226d',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['areasrp',['areaSRP',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a8a4b0ec1a6210d85e7c65bab4a1d454a',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
   ['as',['as',['../classostk_1_1astro_1_1flight_1_1profile_1_1_model.html#a7842761a8f6c0895c0b6048e9d3a5b7f',1,'ostk::astro::flight::profile::Model::as()'],['../classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3',1,'ostk::astro::trajectory::Model::as()']]],
-  ['ascending',['Ascending',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203acf3fb1ff52ea1eed3347ac5401ee7f0c',1,'ostk::astro::trajectory::orbit::Pass']]]
+  ['ascending',['Ascending',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203acf3fb1ff52ea1eed3347ac5401ee7f0c',1,'ostk::astro::trajectory::orbit::Pass']]],
+  ['atmosphericmodel',['atmosphericModel',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#a7c3419da001046c4d3b65072989dc563',1,'ostk::astro::conjunction::messages::ccsds::CDM::Metadata']]]
 ];

@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['tabulated',['Tabulated',['../classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated.html',1,'ostk::astro::flight::profile::models::Tabulated'],['../classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html',1,'ostk::astro::trajectory::models::Tabulated'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_tabulated.html',1,'ostk::astro::trajectory::orbit::models::Tabulated']]],
-  ['tle',['TLE',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html',1,'ostk::astro::trajectory::orbit::models::sgp4']]],
-  ['trajectory',['Trajectory',['../classostk_1_1astro_1_1_trajectory.html',1,'ostk::astro']]],
-  ['transform',['Transform',['../classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_transform.html',1,'ostk::astro::flight::profile::models']]]
+  ['satellitedynamics',['SatelliteDynamics',['../classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html',1,'ostk::astro::flight::system::dynamics']]],
+  ['satellitesystem',['SatelliteSystem',['../classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html',1,'ostk::astro::flight::system']]],
+  ['sgp4',['SGP4',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_s_g_p4.html',1,'ostk::astro::trajectory::orbit::models']]],
+  ['state',['State',['../classostk_1_1astro_1_1flight_1_1profile_1_1_state.html',1,'ostk::astro::flight::profile::State'],['../classostk_1_1astro_1_1trajectory_1_1_state.html',1,'ostk::astro::trajectory::State']]],
+  ['static',['Static',['../classostk_1_1astro_1_1trajectory_1_1models_1_1_static.html',1,'ostk::astro::trajectory::models']]],
+  ['system',['System',['../classostk_1_1astro_1_1flight_1_1_system.html',1,'ostk::astro::flight']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['steppertype',['StepperType',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947',1,'ostk::astro::NumericalSolver']]]
+  ['quarter',['Quarter',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114',1,'ostk::astro::trajectory::orbit::Pass']]]
 ];

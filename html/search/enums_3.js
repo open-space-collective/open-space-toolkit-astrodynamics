@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['quarter',['Quarter',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114',1,'ostk::astro::trajectory::orbit::Pass']]]
+  ['perturbationtype',['PerturbationType',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9',1,'ostk::astro::trajectory::orbit::models::Kepler']]],
+  ['phase',['Phase',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203',1,'ostk::astro::trajectory::orbit::Pass']]],
+  ['pointingmode',['PointingMode',['../classostk_1_1astro_1_1flight_1_1_profile.html#a01d9e77f30ba7131c70e81d12b237ea4',1,'ostk::astro::flight::Profile']]]
 ];
