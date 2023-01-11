@@ -7,11 +7,13 @@
 
 ################################################################################################################################################################
 
+from typing import Any
+
 import plotly.graph_objs as go
 
 ################################################################################################################################################################
 
-DEFAULT_LAYOUT_2D = go.Layout(
+DEFAULT_LAYOUT_2D: go.Layout = go.Layout(
     title = None,
     showlegend = False,
     height = 1000,
@@ -32,7 +34,7 @@ DEFAULT_LAYOUT_2D = go.Layout(
     ),
 )
 
-DEFAULT_LAYOUT_3D = go.Layout(
+DEFAULT_LAYOUT_3D: go.Layout = go.Layout(
     title = None,
     showlegend = False,
     height = 1000,
@@ -70,7 +72,7 @@ DEFAULT_LAYOUT_3D = go.Layout(
 
 def convert_to_ground_track_plotting_data (longitude: list,
                                            latitude: list,
-                                           color: str = 'rgba(255, 0, 0, 0.5)'):
+                                           color: str = 'rgba(255, 0, 0, 0.5)') -> go.Scattergeo:
 
     return go.Scattergeo(
         lon = longitude,
@@ -82,18 +84,18 @@ def convert_to_ground_track_plotting_data (longitude: list,
         ),
     )
 
-def create_plotly_figure (data, layout):
+def create_plotly_figure (data: Any, layout) -> go.Figure:
 
     return go.Figure(
         data = data,
         layout = layout,
     )
 
-def create_2d_map (data):
+def create_2d_map (data: Any) -> go.Figure:
 
     return create_plotly_figure(data, DEFAULT_LAYOUT_2D)
 
-def create_3d_globe (data):
+def create_3d_globe (data: Any) -> go.Figure:
 
     return create_plotly_figure(data, DEFAULT_LAYOUT_3D)
 
