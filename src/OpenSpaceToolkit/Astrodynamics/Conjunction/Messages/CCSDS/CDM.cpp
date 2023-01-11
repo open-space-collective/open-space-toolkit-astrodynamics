@@ -431,6 +431,32 @@ CDM                             CDM::Dictionary                             (   
     // TBI: Only use the mandatory fields from the CCSDS reference document
     // TBI: Set the other fields to Undefined() or String::Empty() (except `MESSAGE_FOR`) for now
 
+    // Utility Function (to be moved later)
+    const auto referenceFrameStringToFrame = [] (const String& referenceFrameString) -> Shared<const Frame>
+    {
+
+        if (referenceFrameString == "ITRF")
+        {
+            return Frame::ITRF() ;
+        }
+
+        else if (referenceFrameString == "GCRF")
+        {
+            return Frame::GCRF() ;
+        }
+
+        else if (referenceFrameString == "EME2000")
+        {
+            return Frame::J2000(Theory::IAU_2006) ;
+        }
+
+        else
+        {
+            throw ostk::core::error::runtime::Wrong("Frame type in not supported for CCSDS CDM") ;
+        }
+
+    } ;
+
     // Extract Conjunction Header
 
     CDM::Header header = CDM::Header
@@ -562,6 +588,9 @@ CDM                             CDM::Dictionary                             (   
         }
     }
 
+    String sat1RefFrameString = aDictionary["SAT1_REF_FRAME"].accessString() ;
+    Shared<const Frame> sat1RefFramePtr = referenceFrameStringToFrame(sat1RefFrameString) ;
+
     CDM::Data sat1ObjectData = CDM::Data
     {
         Instant::Undefined(),
@@ -592,7 +621,7 @@ CDM                             CDM::Dictionary                             (   
                     Real::Parse(aDictionary["SAT1_Y"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT1_Z"].accessString()) * 1000.0
                 },
-                Frame::ITRF()
+                sat1RefFramePtr
             ),
             Velocity::MetersPerSecond
             (  // TBI: Add Velocity::KilometersPerSecond
@@ -601,7 +630,7 @@ CDM                             CDM::Dictionary                             (   
                     Real::Parse(aDictionary["SAT1_Y_DOT"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT1_Z_DOT"].accessString()) * 1000.0
                 },
-                Frame::ITRF()
+                sat1RefFramePtr
             )
         ),
         object1CovarianceMatrix
@@ -642,6 +671,9 @@ CDM                             CDM::Dictionary                             (   
         }
     }
 
+    String sat2RefFrameString = aDictionary["SAT2_REF_FRAME"].accessString() ;
+    Shared<const Frame> sat2RefFramePtr = referenceFrameStringToFrame(sat2RefFrameString) ;
+
     CDM::Data sat2ObjectData = CDM::Data
     {
         Instant::Undefined(),
@@ -672,7 +704,7 @@ CDM                             CDM::Dictionary                             (   
                     Real::Parse(aDictionary["SAT2_Y"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT2_Z"].accessString()) * 1000.0
                 },
-                Frame::ITRF()
+                sat2RefFramePtr
             ),
             Velocity::MetersPerSecond
             (
@@ -681,7 +713,7 @@ CDM                             CDM::Dictionary                             (   
                     Real::Parse(aDictionary["SAT2_Y_DOT"].accessString()) * 1000.0,
                     Real::Parse(aDictionary["SAT2_Z_DOT"].accessString()) * 1000.0
                 },
-                Frame::ITRF()
+                sat2RefFramePtr
             )
         ),
         object2CovarianceMatrix

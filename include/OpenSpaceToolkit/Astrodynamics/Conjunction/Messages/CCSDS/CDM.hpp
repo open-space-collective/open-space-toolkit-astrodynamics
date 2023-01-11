@@ -15,6 +15,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
@@ -29,6 +30,7 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,6 +53,7 @@ using ostk::core::types::Integer ;
 using ostk::core::types::Index ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
+using ostk::core::types::Shared ;
 using ostk::core::ctnr::Array ;
 using ostk::core::ctnr::Map ;
 using ostk::core::fs::File ;
@@ -64,6 +67,7 @@ using ostk::physics::units::Mass ;
 using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 using ostk::physics::coord::Frame ;
+using ostk::physics::coord::frame::providers::iau::Theory ;
 
 using ostk::astro::trajectory::State ;
 
