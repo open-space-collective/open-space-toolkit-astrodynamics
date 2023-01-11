@@ -1681,7 +1681,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
         EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),3) ;
-        EXPECT_NO_THROW(propagatedModel) ;
 
     }
 
@@ -1724,8 +1723,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),4) ;
 
-        EXPECT_NO_THROW(propagatedModel) ;
-
     }
 
     {
@@ -1764,8 +1761,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),3) ;
 
-        EXPECT_NO_THROW(propagatedModel) ;
-
     }
 
     {
@@ -1802,8 +1797,6 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedS
         // Check array chronological order and that duplicate was removed
         EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),2) ;
-
-        EXPECT_NO_THROW(propagatedModel) ;
 
     }
 
