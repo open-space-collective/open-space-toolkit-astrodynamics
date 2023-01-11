@@ -22,14 +22,14 @@ DEFAULT_LAYOUT_2D = go.Layout(
         lonaxis = dict(
             showgrid = True,
             gridcolor = 'rgb(102, 102, 102)',
-            gridwidth = 0.1
+            gridwidth = 0.1,
         ),
         lataxis = dict(
             showgrid = True,
             gridcolor = 'rgb(102, 102, 102)',
-            gridwidth = 0.1
-        )
-    )
+            gridwidth = 0.1,
+        ),
+    ),
 )
 
 DEFAULT_LAYOUT_3D = go.Layout(
@@ -50,26 +50,26 @@ DEFAULT_LAYOUT_3D = go.Layout(
             rotation = dict(
                 lon = 0,
                 lat = 0,
-                roll = 0
+                roll = 0,
             )
         ),
         lonaxis = dict(
             showgrid = True,
             gridcolor = 'rgb(102, 102, 102)',
-            gridwidth = 0.5
+            gridwidth = 0.5,
         ),
         lataxis = dict(
             showgrid = True,
             gridcolor = 'rgb(102, 102, 102)',
-            gridwidth = 0.5
-        )
-    )
+            gridwidth = 0.5,
+        ),
+    ),
 )
 
 ################################################################################################################################################################
 
-def convert_to_ground_track_plotting_data (longitude,
-                                           latitude,
+def convert_to_ground_track_plotting_data (longitude: list,
+                                           latitude: list,
                                            color: str = 'rgba(255, 0, 0, 0.5)'):
 
     return go.Scattergeo(
@@ -79,16 +79,14 @@ def convert_to_ground_track_plotting_data (longitude,
         line = dict(
             width = 1,
             color = color,
-        )
+        ),
     )
-
-################################################################################################################################################################
 
 def create_plotly_figure (data, layout):
 
     return go.Figure(
         data = data,
-        layout = layout
+        layout = layout,
     )
 
 def create_2d_map (data):

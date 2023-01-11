@@ -10,24 +10,19 @@
 from .OpenSpaceToolkitAstrodynamicsPy import *
 
 from ostk.physics import Environment
-from ostk.physics.units import Length
-from ostk.physics.units import Angle
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
 from ostk.physics.time import Duration
 from ostk.physics.time import Interval
-from ostk.physics.time import DateTime
 from ostk.physics.coordinate.spherical import LLA
 from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.coordinate import Transform
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
 ################################################################################################################################################################
 
-def lla_from_state (state: trajectory.State):
+def lla_from_state (state: trajectory.State) -> list:
 
     '''
     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.
@@ -38,7 +33,7 @@ def lla_from_state (state: trajectory.State):
     return [
         float(lla.get_latitude().in_degrees()),
         float(lla.get_longitude().in_degrees()),
-        float(lla.get_altitude().in_meters())
+        float(lla.get_altitude().in_meters()),
     ]
 
 def lla_from_position (position: Position,
@@ -51,7 +46,7 @@ def lla_from_position (position: Position,
     return LLA.cartesian(
         position.in_frame(Frame.ITRF(), instant).get_coordinates(),
         Earth.equatorial_radius,
-        Earth.flattening
+        Earth.flattening,
     )
 
 def position_from_lla (lla: LLA) -> Position:
@@ -62,13 +57,13 @@ def position_from_lla (lla: LLA) -> Position:
 
     return Position.meters(
         lla.to_cartesian(Earth.equatorial_radius, Earth.flattening),
-        Frame.ITRF()
+        Frame.ITRF(),
     )
 
 def compute_aer (instant: Instant,
                  from_position: Position,
                  to_position: Position,
-                 environment: Environment):
+                 environment: Environment) -> list:
 
     '''
     Return [azimuth (degrees), elevation (degrees), range (meters)] from Instant and Positions (observer, target).
@@ -87,11 +82,12 @@ def compute_aer (instant: Instant,
     return [
         float(aer.get_azimuth().in_degrees()),
         float(aer.get_elevation().in_degrees()),
-        float(aer.get_range().in_meters())
+        float(aer.get_range().in_meters()),
     ]
 
 def compute_time_lla_aer_state (state: trajectory.State,
-                                from_position: Position):
+                                from_position: Position,
+                                environment: Environment) -> list:
 
     '''
     Return [instant, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
@@ -100,12 +96,12 @@ def compute_time_lla_aer_state (state: trajectory.State,
     instant = state.get_instant()
 
     lla = lla_from_state(state)
-    aer = compute_aer(instant, from_position, state.get_position().in_frame(Frame.ITRF(), state.get_instant()))
+    aer = compute_aer(instant, from_position, state.get_position().in_frame(Frame.ITRF(), state.get_instant()), environment)
 
     return [instant, lla[0], lla[1], lla[2], aer[0], aer[1], aer[2]]
 
 def compute_trajectory_geometry (trajectory: Trajectory,
-                                 interval: Interval):
+                                 interval: Interval) -> list:
 
     '''
     Return [latitude (degrees), longitude (degrees), altitude (meters)] values along a Trajectory during Interval.
@@ -117,7 +113,7 @@ def compute_trajectory_geometry (trajectory: Trajectory,
     ]
 
 def convert_state (instant: Instant,
-                   state: trajectory.State):
+                   state: trajectory.State) -> list:
 
     '''
     Convert an input (Instant, State) into dataframe-ready values.
@@ -132,7 +128,7 @@ def convert_state (instant: Instant,
         *state.get_velocity().get_coordinates().transpose().tolist(),
         float(lla.get_latitude().in_degrees()),
         float(lla.get_longitude().in_degrees()),
-        float(lla.get_altitude().in_meters())
+        float(lla.get_altitude().in_meters()),
     ]
 
 ################################################################################################################################################################
