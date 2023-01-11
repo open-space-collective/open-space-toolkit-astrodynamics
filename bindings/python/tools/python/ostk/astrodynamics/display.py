@@ -13,6 +13,8 @@ import plotly.graph_objs as go
 
 ################################################################################################################################################################
 
+DEFAULT_COLOR: str = 'rgba(255, 0, 0, 0.5)'
+
 DEFAULT_LAYOUT_2D: go.Layout = go.Layout(
     title = None,
     showlegend = False,
@@ -72,7 +74,7 @@ DEFAULT_LAYOUT_3D: go.Layout = go.Layout(
 
 def convert_to_ground_track_plotting_data (longitude: list,
                                            latitude: list,
-                                           color: str = 'rgba(255, 0, 0, 0.5)') -> go.Scattergeo:
+                                           color: str = DEFAULT_COLOR) -> go.Scattergeo:
 
     return go.Scattergeo(
         lon = longitude,
@@ -84,7 +86,7 @@ def convert_to_ground_track_plotting_data (longitude: list,
         ),
     )
 
-def create_plotly_figure (data: Any, layout) -> go.Figure:
+def create_plotly_figure (data: Any, layout: go.Layout) -> go.Figure:
 
     return go.Figure(
         data = data,
