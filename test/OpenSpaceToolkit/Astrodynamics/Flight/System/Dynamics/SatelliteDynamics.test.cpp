@@ -34,6 +34,8 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
+#include <boost/numeric/odeint.hpp>
+
 #include <Global.test.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +75,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     // Constructor
     {
@@ -127,6 +131,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     // Copy constructor
     {
@@ -183,6 +189,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, E
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -247,6 +255,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, N
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
+    using namespace boost::numeric::odeint ;
+
     {
 
         // Create environment
@@ -310,6 +320,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, I
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
+    using namespace boost::numeric::odeint ;
+
     {
 
         // Create environment
@@ -364,6 +376,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     {
 
@@ -424,6 +438,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
+    using namespace boost::numeric::odeint ;
+
     {
 
         // Create environment
@@ -483,6 +499,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, G
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
 
+    using namespace boost::numeric::odeint ;
+
     {
 
         // Create environment
@@ -540,6 +558,8 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
+
+    using namespace boost::numeric::odeint ;
 
     SatelliteDynamics::StateVector Earth_ReferencePull(6) ;
     SatelliteDynamics::StateVector Moon_ReferencePull(6) ;
