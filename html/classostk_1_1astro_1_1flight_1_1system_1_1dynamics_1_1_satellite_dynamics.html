@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1flight_1_1system
 </div><!--header-->
 <div class="contents">
 
-<p>Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class.  
+<p>Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class.  
  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_satellite_dynamics_8hpp_source.html">SatelliteDynamics.hpp</a>&gt;</code></p>
@@ -102,9 +102,9 @@ Inheritance diagram for ostk::astro::flight::system::dynamics::SatelliteDynamics
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a756ced12a03832285a4a0fa89b0b8085"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a756ced12a03832285a4a0fa89b0b8085">SatelliteDynamics</a> (const Environment &amp;anEnvironment, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;aSatelliteSystem, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
-<tr class="memdesc:a756ced12a03832285a4a0fa89b0b8085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a756ced12a03832285a4a0fa89b0b8085">More...</a><br /></td></tr>
-<tr class="separator:a756ced12a03832285a4a0fa89b0b8085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bbf0ca2df46b4d1f9c2363010a2bd22"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a7bbf0ca2df46b4d1f9c2363010a2bd22">SatelliteDynamics</a> (const Environment &amp;anEnvironment, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;aSatelliteSystem)</td></tr>
+<tr class="memdesc:a7bbf0ca2df46b4d1f9c2363010a2bd22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a7bbf0ca2df46b4d1f9c2363010a2bd22">More...</a><br /></td></tr>
+<tr class="separator:a7bbf0ca2df46b4d1f9c2363010a2bd22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ced1fec7e36003eb50b8e15202fa571"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a8ced1fec7e36003eb50b8e15202fa571">SatelliteDynamics</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics)</td></tr>
 <tr class="memdesc:a8ced1fec7e36003eb50b8e15202fa571"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy Constructor.  <a href="#a8ced1fec7e36003eb50b8e15202fa571">More...</a><br /></td></tr>
 <tr class="separator:a8ced1fec7e36003eb50b8e15202fa571"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,12 +126,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af60a82bf97622e5b3a670c38ab4ddd32"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#af60a82bf97622e5b3a670c38ab4ddd32">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="memdesc:af60a82bf97622e5b3a670c38ab4ddd32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print satellite dynamics.  <a href="#af60a82bf97622e5b3a670c38ab4ddd32">More...</a><br /></td></tr>
 <tr class="separator:af60a82bf97622e5b3a670c38ab4ddd32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addceb352f6da2de12c1e9fe506533740"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#addceb352f6da2de12c1e9fe506533740">getState</a> () const</td></tr>
-<tr class="memdesc:addceb352f6da2de12c1e9fe506533740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get satellite dynamics's 3 DOF State.  <a href="#addceb352f6da2de12c1e9fe506533740">More...</a><br /></td></tr>
-<tr class="separator:addceb352f6da2de12c1e9fe506533740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a464f46a92c559bf82bc466e7f77195e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a464f46a92c559bf82bc466e7f77195e2">setState</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
-<tr class="memdesc:a464f46a92c559bf82bc466e7f77195e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set satellite dynamics's 3 DOF State.  <a href="#a464f46a92c559bf82bc466e7f77195e2">More...</a><br /></td></tr>
-<tr class="separator:a464f46a92c559bf82bc466e7f77195e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8533e79bcab9b158940e49bd2723f95"><td class="memItemLeft" align="right" valign="top">Instant&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#ac8533e79bcab9b158940e49bd2723f95">getInstant</a> () const</td></tr>
+<tr class="memdesc:ac8533e79bcab9b158940e49bd2723f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get satellite dynamics initial instant.  <a href="#ac8533e79bcab9b158940e49bd2723f95">More...</a><br /></td></tr>
+<tr class="separator:ac8533e79bcab9b158940e49bd2723f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1fe1ebe85ac3d5024032e42b4083c95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#ad1fe1ebe85ac3d5024032e42b4083c95">setInstant</a> (const Instant &amp;anInstant)</td></tr>
+<tr class="memdesc:ad1fe1ebe85ac3d5024032e42b4083c95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set satellite dynamics initial epoch.  <a href="#ad1fe1ebe85ac3d5024032e42b4083c95">More...</a><br /></td></tr>
+<tr class="separator:ad1fe1ebe85ac3d5024032e42b4083c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed9ddda1a1d1c4636e2c0d6ccc9d5a16"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">Dynamics::DynamicalEquationWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#aed9ddda1a1d1c4636e2c0d6ccc9d5a16">getDynamicalEquations</a> () override</td></tr>
 <tr class="memdesc:aed9ddda1a1d1c4636e2c0d6ccc9d5a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain dynamical equations function wrapper.  <a href="#aed9ddda1a1d1c4636e2c0d6ccc9d5a16">More...</a><br /></td></tr>
 <tr class="separator:aed9ddda1a1d1c4636e2c0d6ccc9d5a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,10 +158,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a9b14f4fbea6fe1e96af9e71545d4c77e inherit pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class. </p>
+<div class="textblock"><p>Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a756ced12a03832285a4a0fa89b0b8085"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a756ced12a03832285a4a0fa89b0b8085">&#9670;&nbsp;</a></span>SatelliteDynamics() <span class="overload">[1/2]</span></h2>
+<a id="a7bbf0ca2df46b4d1f9c2363010a2bd22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bbf0ca2df46b4d1f9c2363010a2bd22">&#9670;&nbsp;</a></span>SatelliteDynamics() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,13 +176,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;&#160;</td>
-          <td class="paramname"><em>aSatelliteSystem</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
-          <td class="paramname"><em>aState</em>&#160;</td>
+          <td class="paramname"><em>aSatelliteSystem</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,11 +187,10 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line">Environment environment = { ... } ;</div><div class="line">SatelliteSystem satelliteSystem = { ... } ;</div><div class="line">State state = { ... } ;</div><div class="line"><a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a756ced12a03832285a4a0fa89b0b8085">SatelliteDynamics</a> satelliteDynamics = { environment, satelliteSystem, state } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+<div class="fragment"><div class="line">Environment environment = { ... } ;</div><div class="line">SatelliteSystem satelliteSystem = { ... } ;</div><div class="line"><a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a7bbf0ca2df46b4d1f9c2363010a2bd22">SatelliteDynamics</a> satelliteDynamics = { environment, satelliteSystem } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteSystem</td><td>A satellite system </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A 3 DOF state </td></tr>
   </table>
   </dd>
 </dl>
@@ -223,7 +216,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Copy Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html" title="Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differenti...">SatelliteDynamics</a></td><td>A satellite dynamics </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html" title="Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differentia...">SatelliteDynamics</a></td><td>A satellite dynamics </td></tr>
   </table>
   </dd>
 </dl>
@@ -318,14 +311,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="addceb352f6da2de12c1e9fe506533740"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addceb352f6da2de12c1e9fe506533740">&#9670;&nbsp;</a></span>getState()</h2>
+<a id="ac8533e79bcab9b158940e49bd2723f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8533e79bcab9b158940e49bd2723f95">&#9670;&nbsp;</a></span>getInstant()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::flight::system::dynamics::SatelliteDynamics::getState </td>
+          <td class="memname">Instant ostk::astro::flight::system::dynamics::SatelliteDynamics::getInstant </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -333,9 +326,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get satellite dynamics's 3 DOF State. </p>
-<div class="fragment"><div class="line">State state = satelliteDynamics.getState() ;</div></div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>State </dd></dl>
-
+<p>Get satellite dynamics initial instant. </p>
+<div class="fragment"><div class="line">satelliteDynamics.getInstant() ;</div></div><!-- fragment --> 
 </div>
 </div>
 <a id="aa58384471ec8825964af48a4a2235fab"></a>
@@ -469,26 +461,26 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a464f46a92c559bf82bc466e7f77195e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a464f46a92c559bf82bc466e7f77195e2">&#9670;&nbsp;</a></span>setState()</h2>
+<a id="ad1fe1ebe85ac3d5024032e42b4083c95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1fe1ebe85ac3d5024032e42b4083c95">&#9670;&nbsp;</a></span>setInstant()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ostk::astro::flight::system::dynamics::SatelliteDynamics::setState </td>
+          <td class="memname">void ostk::astro::flight::system::dynamics::SatelliteDynamics::setInstant </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
-          <td class="paramname"><em>aState</em></td><td>)</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Set satellite dynamics's 3 DOF State. </p>
-<div class="fragment"><div class="line">State state = { ... } ;</div><div class="line">satelliteDynamics.setState(state) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>Set satellite dynamics initial epoch. </p>
+<div class="fragment"><div class="line">Instant instant = { ... } ;</div><div class="line">satelliteDynamics.setInstant(instant) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A 3DOF state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>

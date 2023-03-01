@@ -79,7 +79,6 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1or
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated-members.html">List of all members</a>  </div>
@@ -105,9 +104,9 @@ Inheritance diagram for ostk::astro::trajectory::orbit::models::Propagated:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac45b9e7bee7892a67e6eea66561e6fe6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ac45b9e7bee7892a67e6eea66561e6fe6">Propagated</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver)</td></tr>
-<tr class="memdesc:ac45b9e7bee7892a67e6eea66561e6fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ac45b9e7bee7892a67e6eea66561e6fe6">More...</a><br /></td></tr>
-<tr class="separator:ac45b9e7bee7892a67e6eea66561e6fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2115209c1b1167f655ff648c38b1659f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2115209c1b1167f655ff648c38b1659f">Propagated</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
+<tr class="memdesc:a2115209c1b1167f655ff648c38b1659f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a2115209c1b1167f655ff648c38b1659f">More...</a><br /></td></tr>
+<tr class="separator:a2115209c1b1167f655ff648c38b1659f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c26549679d4e20c45e3092ad549d4a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a58c26549679d4e20c45e3092ad549d4a">Propagated</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver, const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aCachedStateArray)</td></tr>
 <tr class="memdesc:a58c26549679d4e20c45e3092ad549d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor with additional option of passing in an existing array of states.  <a href="#a58c26549679d4e20c45e3092ad549d4a">More...</a><br /></td></tr>
 <tr class="separator:a58c26549679d4e20c45e3092ad549d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,13 +129,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a789e4236d2b8b212b1d978055b76abf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get revolution number at epoch (it is equal to 1)  <a href="#a789e4236d2b8b212b1d978055b76abf1">More...</a><br /></td></tr>
 <tr class="separator:a789e4236d2b8b212b1d978055b76abf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2efc3c1af735dcf2ec622d056fa0a13f">calculateStateAt</a> (const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time.  <a href="#a2efc3c1af735dcf2ec622d056fa0a13f">More...</a><br /></td></tr>
+<tr class="memdesc:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time.  <a href="#a2efc3c1af735dcf2ec622d056fa0a13f">More...</a><br /></td></tr>
 <tr class="separator:a2efc3c1af735dcf2ec622d056fa0a13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a4097432d2c863aedead23d2d67a7a7"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a9a4097432d2c863aedead23d2d67a7a7">calculateStatesAt</a> (const Array&lt; Instant &gt; &amp;anInstantArray) const override</td></tr>
-<tr class="memdesc:a9a4097432d2c863aedead23d2d67a7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time.  <a href="#a9a4097432d2c863aedead23d2d67a7a7">More...</a><br /></td></tr>
+<tr class="memdesc:a9a4097432d2c863aedead23d2d67a7a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, given initial state.  <a href="#a9a4097432d2c863aedead23d2d67a7a7">More...</a><br /></td></tr>
 <tr class="separator:a9a4097432d2c863aedead23d2d67a7a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6360392c65494aa42aadff58ec58e49c"><td class="memItemLeft" align="right" valign="top">virtual Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a6360392c65494aa42aadff58ec58e49c">calculateRevolutionNumberAt</a> (const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:a6360392c65494aa42aadff58ec58e49c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate a revolution number at an instant.  <a href="#a6360392c65494aa42aadff58ec58e49c">More...</a><br /></td></tr>
+<tr class="memdesc:a6360392c65494aa42aadff58ec58e49c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the revolution number at an instant.  <a href="#a6360392c65494aa42aadff58ec58e49c">More...</a><br /></td></tr>
 <tr class="separator:a6360392c65494aa42aadff58ec58e49c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab13c196dcea01238b6e1997cb46ced2b"><td class="memItemLeft" align="right" valign="top">const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ab13c196dcea01238b6e1997cb46ced2b">accessCachedStateArray</a> () const</td></tr>
 <tr class="memdesc:ab13c196dcea01238b6e1997cb46ced2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch internal cached state array.  <a href="#ab13c196dcea01238b6e1997cb46ced2b">More...</a><br /></td></tr>
@@ -161,15 +160,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a53365ee40062f5571b664998a56701e3 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> model as its underlying type.  <a href="classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3">More...</a><br /></td></tr>
 <tr class="separator:a53365ee40062f5571b664998a56701e3 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ab6db8fa9347666164e78942ada36928a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html">Propagated</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ab6db8fa9347666164e78942ada36928a">MediumFidelity</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
-<tr class="memdesc:ab6db8fa9347666164e78942ada36928a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a medium fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> object with recommended settings.  <a href="#ab6db8fa9347666164e78942ada36928a">More...</a><br /></td></tr>
-<tr class="separator:ab6db8fa9347666164e78942ada36928a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cf68405428a87dabd0dd3327110cbc1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html">Propagated</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a0cf68405428a87dabd0dd3327110cbc1">HighFidelity</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState)</td></tr>
-<tr class="memdesc:a0cf68405428a87dabd0dd3327110cbc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a high fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> object with recommended settings.  <a href="#a0cf68405428a87dabd0dd3327110cbc1">More...</a><br /></td></tr>
-<tr class="separator:a0cf68405428a87dabd0dd3327110cbc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a29b52ccf653fbd84699edab0f198f590"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a29b52ccf653fbd84699edab0f198f590">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html">trajectory::Model</a> &amp;aModel) const override</td></tr>
@@ -188,8 +178,8 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines an orbit model that is propagated using numerical propagation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac45b9e7bee7892a67e6eea66561e6fe6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac45b9e7bee7892a67e6eea66561e6fe6">&#9670;&nbsp;</a></span>Propagated() <span class="overload">[1/2]</span></h2>
+<a id="a2115209c1b1167f655ff648c38b1659f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2115209c1b1167f655ff648c38b1659f">&#9670;&nbsp;</a></span>Propagated() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +194,13 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
-          <td class="paramname"><em>aNumericalSolver</em>&#160;</td>
+          <td class="paramname"><em>aNumericalSolver</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,10 +211,11 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ac45b9e7bee7892a67e6eea66561e6fe6">Propagated</a> propagated = { aSatelliteDynamics, aNumericalSolver } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2115209c1b1167f655ff648c38b1659f">Propagated</a> propagated = { aSatelliteDynamics, aNumericalSolver, aState } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteDynamics</td><td>A satellite dynamics object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A state </td></tr>
   </table>
   </dd>
 </dl>
@@ -258,7 +255,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor with additional option of passing in an existing array of states. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ac45b9e7bee7892a67e6eea66561e6fe6">Propagated</a> propagated = { aSatelliteDynamics, aNumericalSolver, aCachedStateArray } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2115209c1b1167f655ff648c38b1659f">Propagated</a> propagated = { aSatelliteDynamics, aNumericalSolver, aCachedStateArray } ;</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteDynamics</td><td>A satellite dynamics object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
@@ -314,7 +311,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate a revolution number at an instant. </p>
+<p>Calculate the revolution number at an instant. </p>
 <div class="fragment"><div class="line">Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
@@ -351,7 +348,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time. </p>
+<p>Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. </p>
 <p>Does not have macro-level sorting optimization, should not be used with disorded instant array </p><div class="fragment"><div class="line">State state = propagated.calculateStateAt(anInstant) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
@@ -388,14 +385,15 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time. </p>
-<p>Has macro-level sorting optimization, can be used with unsorted instant array </p><div class="fragment"><div class="line">Array&lt;State&gt; states = propagated.calculateStatesAt(anInstantArray) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<p>Calculate the state at an instant, given initial state. </p>
+<div class="fragment"><div class="line">State state = propagated.calculateStateAt(aState, anInstant) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstantArray</td><td>An instant array </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Array&lt;State&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state. ">State</a> </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a3c3e4913aed2272174c0e6cd0d1a6415">ostk::astro::trajectory::Model</a>.</p>
 
@@ -491,41 +489,6 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a0cf68405428a87dabd0dd3327110cbc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cf68405428a87dabd0dd3327110cbc1">&#9670;&nbsp;</a></span>HighFidelity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html">Propagated</a> ostk::astro::trajectory::orbit::models::Propagated::HighFidelity </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
-          <td class="paramname"><em>aState</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a high fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> object with recommended settings. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ac45b9e7bee7892a67e6eea66561e6fe6">Propagated</a> propagated = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a0cf68405428a87dabd0dd3327110cbc1">Propagated::HighFidelity</a>(aState) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state. ">State</a> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> </dd></dl>
-
-</div>
-</div>
 <a id="a530fd6bc017c74dedc43ced5fe843a03"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a530fd6bc017c74dedc43ced5fe843a03">&#9670;&nbsp;</a></span>isDefined()</h2>
 
@@ -553,41 +516,6 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True if propagated model is defined </dd></dl>
 
 <p>Implements <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html#a13c5b5693dd86a072da0bd0e319bacc2">ostk::astro::trajectory::orbit::Model</a>.</p>
-
-</div>
-</div>
-<a id="ab6db8fa9347666164e78942ada36928a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6db8fa9347666164e78942ada36928a">&#9670;&nbsp;</a></span>MediumFidelity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html">Propagated</a> ostk::astro::trajectory::orbit::models::Propagated::MediumFidelity </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
-          <td class="paramname"><em>aState</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a medium fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> object with recommended settings. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ac45b9e7bee7892a67e6eea66561e6fe6">Propagated</a> propagated = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ab6db8fa9347666164e78942ada36928a">Propagated::MediumFidelity</a>(aState) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state. ">State</a> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html" title="Defines an orbit model that is propagated using numerical propagation. ">Propagated</a> </dd></dl>
 
 </div>
 </div>

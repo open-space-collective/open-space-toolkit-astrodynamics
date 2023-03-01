@@ -1,0 +1,272 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator}{}\section{ostk\+:\+:astro\+:\+:trajectory\+:\+:Propagator Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1_propagator}\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+
+
+Defines a propagator to be used for numerical integration.  
+
+
+
+
+{\ttfamily \#include $<$Propagator.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} $\ast$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}{clone} () const
+\begin{DoxyCompactList}\small\item\em Clone propagator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa16a98d76cd120299dd62e2f1e1c9bb9}{operator==} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&a\+Propagator) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}{operator!=} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&a\+Propagator) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}{is\+Defined} () const
+\begin{DoxyCompactList}\small\item\em Check if propagator is defined. \end{DoxyCompactList}\item 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}{calculate\+State\+At} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State, const Instant \&an\+Instant) const
+\begin{DoxyCompactList}\small\item\em Calculate the state at an instant, given initial state. \end{DoxyCompactList}\item 
+Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_af61cfbdfeff89b32300f36c4346beee1}{calculate\+States\+At} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State, const Array$<$ Instant $>$ \&an\+Instant\+Array) const
+\begin{DoxyCompactList}\small\item\em Calculate the states at an array of instants, given an initial state. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_afcd15a80e95284363dc51270db0777d6}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print propagator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}{Medium\+Fidelity} ()
+\begin{DoxyCompactList}\small\item\em Create a medium fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} object with recommended settings. \end{DoxyCompactList}\item 
+static \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}{High\+Fidelity} ()
+\begin{DoxyCompactList}\small\item\em Create a high fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} object with recommended settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a660922ef2c1c93694163c91686755257}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&a\+Propagator)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines a propagator to be used for numerical integration. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!Propagator@{Propagator}}
+\index{Propagator@{Propagator}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{Propagator()}{Propagator()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Propagator (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator} propagator = \{ aSatelliteDynamics, aNumericalSolver \} ;
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics object \\
+\hline
+\mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!calculate\+State\+At@{calculate\+State\+At}}
+\index{calculate\+State\+At@{calculate\+State\+At}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{calculate\+State\+At()}{calculateStateAt()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} ostk\+::astro\+::trajectory\+::\+Propagator\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const}
+
+
+
+Calculate the state at an instant, given initial state. 
+
+
+\begin{DoxyCode}
+State state = propagator.calculateStateAt(aState, anInstant) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+State} & An initial state \\
+\hline
+\mbox{\tt in}  & {\em an\+Instant} & An instant \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_af61cfbdfeff89b32300f36c4346beee1}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_af61cfbdfeff89b32300f36c4346beee1}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!calculate\+States\+At@{calculate\+States\+At}}
+\index{calculate\+States\+At@{calculate\+States\+At}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{calculate\+States\+At()}{calculateStatesAt()}}
+{\footnotesize\ttfamily Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ ostk\+::astro\+::trajectory\+::\+Propagator\+::calculate\+States\+At (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State,  }\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array }\end{DoxyParamCaption}) const}
+
+
+
+Calculate the states at an array of instants, given an initial state. 
+
+Can only be used with sorted instant array 
+\begin{DoxyCode}
+Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Instant\+Array} & An instant array \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array$<$\+State$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!clone@{clone}}
+\index{clone@{clone}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} $\ast$ ostk\+::astro\+::trajectory\+::\+Propagator\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Clone propagator. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned propagator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!High\+Fidelity@{High\+Fidelity}}
+\index{High\+Fidelity@{High\+Fidelity}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{High\+Fidelity()}{HighFidelity()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+High\+Fidelity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Create a high fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} object with recommended settings. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator} propagator = \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}{Propagator::HighFidelity}(aState) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+State} & A \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!is\+Defined@{is\+Defined}}
+\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Propagator\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if propagator is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if propagator is defined 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!Medium\+Fidelity@{Medium\+Fidelity}}
+\index{Medium\+Fidelity@{Medium\+Fidelity}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{Medium\+Fidelity()}{MediumFidelity()}}
+{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Medium\+Fidelity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Create a medium fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} object with recommended settings. 
+
+
+\begin{DoxyCode}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator} propagator = \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}{Propagator::MediumFidelity}(aState) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+State} & A \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Propagator\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&}]{a\+Propagator }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Propagator} & A propagator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if propagators are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa16a98d76cd120299dd62e2f1e1c9bb9}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa16a98d76cd120299dd62e2f1e1c9bb9}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Propagator\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&}]{a\+Propagator }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+Propagator} & A propagator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if propagators are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_afcd15a80e95284363dc51270db0777d6}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_afcd15a80e95284363dc51270db0777d6}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!print@{print}}
+\index{print@{print}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print propagator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a660922ef2c1c93694163c91686755257}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a660922ef2c1c93694163c91686755257}} 
+\index{ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::trajectory\+::\+Propagator@{ostk\+::astro\+::trajectory\+::\+Propagator}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \&}]{a\+Propagator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\tt in}  & {\em a\+Propagator} & A propagator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\hyperlink{_propagator_8hpp}{Propagator.\+hpp}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\hyperlink{_propagator_8cpp}{Propagator.\+cpp}\end{DoxyCompactItemize}

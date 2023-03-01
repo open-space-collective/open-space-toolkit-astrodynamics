@@ -43,13 +43,13 @@ Once the shell is up and running, playing with it is easy\+:
 tle = TLE(
     \textcolor{stringliteral}{'1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'},
     \textcolor{stringliteral}{'2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'}
-) \textcolor{comment}{# Construct Two-Line Element set}
+)  \textcolor{comment}{# Construct Two-Line Element set}
 
-earth = Environment.default().access\_celestial\_object\_with\_name(\textcolor{stringliteral}{'Earth'}) \textcolor{comment}{# Access Earth model}
+earth = Environment.default().access\_celestial\_object\_with\_name(\textcolor{stringliteral}{'Earth'})  \textcolor{comment}{# Access Earth model}
 
-orbit = Orbit(SGP4(tle), earth) \textcolor{comment}{# Construct orbit using SGP4 model}
+orbit = Orbit(SGP4(tle), earth)  \textcolor{comment}{# Construct orbit using SGP4 model}
 
-orbit.get\_state\_at(Instant.now()) \textcolor{comment}{# Compute and display current satellite state (position, velocity)}
+orbit.get\_state\_at(Instant.now())  \textcolor{comment}{# Compute and display current satellite state (position, velocity)}
 \end{DoxyCode}
 
 
@@ -130,6 +130,7 @@ The library exhibits the following detailed and descriptive structure\+:
 
 
 \begin{DoxyCode}
+├── NumericalSolver
 ├── Trajectory
 │   ├── State
 │   ├── Orbit
@@ -138,16 +139,32 @@ The library exhibits the following detailed and descriptive structure\+:
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element \textcolor{keyword}{set} (TLE)
-│   │   │   └── Tabulated (input csv)
-│   │   └── Pass
-│   └── Models
-│       ├── Static
-│       └── Tabulated
+│   │   │   ├── Tabulated (input csv)
+│   │   │   └── Propagated (numerical integration)
+│   │   ├── Pass
+|   |   └── Messages
+|   |       └── SpaceX
+|   |           └── OPM
+│   ├── Models
+│   |   ├── Static
+│   |   └── Tabulated
+│   └── Propagator
 ├── Flight
-│   └── Profile
-│       └── State
+│   ├── Profile
+|   |    ├── Models
+│   |    |   ├── Transform
+│   |    |   └── Tabulated
+│   |    └── State
+│   └── System
+|        ├── SatelliteSystem
+|        └── Dynamics
+|            └── SatelliteDynamics
 ├── Access
-        └── Generator
+|   └── Generator
+└── Conjunction
+    └── Messages
+        └── CCSDS
+            └── CDM
 \end{DoxyCode}
 
 

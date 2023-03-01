@@ -8,6 +8,9 @@ var dir_487c49ff17ded48b6f4eeef50bd2df5e =
     [ "Orbit.hpp", "_orbit_8hpp.html", [
       [ "Orbit", "classostk_1_1astro_1_1trajectory_1_1_orbit.html", "classostk_1_1astro_1_1trajectory_1_1_orbit" ]
     ] ],
+    [ "Propagator.hpp", "_propagator_8hpp.html", [
+      [ "Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", "classostk_1_1astro_1_1trajectory_1_1_propagator" ]
+    ] ],
     [ "State.hpp", "_trajectory_2_state_8hpp.html", [
       [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ]
     ] ]

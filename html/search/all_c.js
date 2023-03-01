@@ -9,7 +9,7 @@ var searchData=
   ['meanlongitudeascendingnode',['meanLongitudeAscendingNode',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a7f582a7921b3b7252c824aa8f1cb5293',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
   ['meanmeananomaly',['meanMeanAnomaly',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#a7377201171643861385700cb907b7313',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
   ['meanperigeealtitude',['meanPerigeeAltitude',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#aef97410d61480b6831e8e2e109065f5d',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
-  ['mediumfidelity',['MediumFidelity',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ab6db8fa9347666164e78942ada36928a',1,'ostk::astro::trajectory::orbit::models::Propagated']]],
+  ['mediumfidelity',['MediumFidelity',['../classostk_1_1astro_1_1trajectory_1_1_propagator.html#a8d807b90b10f02edb732afe28dca0c04',1,'ostk::astro::trajectory::Propagator']]],
   ['messagefor',['messageFor',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header.html#aa82722c53756f396de0dafeeda1fc327',1,'ostk::astro::conjunction::messages::ccsds::CDM::Header']]],
   ['messageid',['messageId',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header.html#a9f8a18247622e0fa0b4394bfa51b501c',1,'ostk::astro::conjunction::messages::ccsds::CDM::Header']]],
   ['metadata',['Metadata',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],

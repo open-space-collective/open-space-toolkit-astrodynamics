@@ -59,7 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html','');});
+$(document).ready(function(){initNavTree('_propagator_8cpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -78,68 +78,40 @@ $(document).ready(function(){initNavTree('namespaceostk_1_1astro_1_1flight_1_1sy
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ostk::astro::flight::system::dynamics Namespace Reference</div>  </div>
+<div class="title">Propagator.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#details">More...</a><br /></td></tr>
+<div class="textblock"><code>#include &lt;<a class="el" href="_propagator_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</a>&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Core/Error.hpp&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceostk"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk.html">ostk</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html">ostk::astro</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1trajectory"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory.html">ostk::astro::trajectory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6f5490ccec4bf39bd4de23b8c86101f0"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#a6f5490ccec4bf39bd4de23b8c86101f0">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics)</td></tr>
-<tr class="separator:a6f5490ccec4bf39bd4de23b8c86101f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a461afe0bd4dc6af7cd2623a8c6101856"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory.html#a461afe0bd4dc6af7cd2623a8c6101856">ostk::astro::trajectory::operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const Propagator &amp;aPropagator)</td></tr>
+<tr class="separator:a461afe0bd4dc6af7cd2623a8c6101856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a6f5490ccec4bf39bd4de23b8c86101f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f5490ccec4bf39bd4de23b8c86101f0">&#9670;&nbsp;</a></span>operator<<()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; ostk::astro::flight::system::dynamics::operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>anOutputStream</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;&#160;</td>
-          <td class="paramname"><em>aSatelliteDynamics</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteDynamics</td><td>A satellite dynamics </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Open Space Toolkit ▸ Astrodynamics</p>
+<dl class="section author"><dt>Author</dt><dd>Vishwa Shah <a href="#" onclick="location.href='mai'+'lto:'+'vis'+'hw'+'a@l'+'of'+'tor'+'bi'+'tal'+'.c'+'om'; return false;">vishw<span style="display: none;">.nosp@m.</span>a@lo<span style="display: none;">.nosp@m.</span>ftorb<span style="display: none;">.nosp@m.</span>ital<span style="display: none;">.nosp@m.</span>.com</a>  Apache License 2.0 </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceostk.html">ostk</a></li><li class="navelem"><a class="el" href="namespaceostk_1_1astro.html">astro</a></li><li class="navelem"><a class="el" href="namespaceostk_1_1astro_1_1flight.html">flight</a></li><li class="navelem"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system.html">system</a></li><li class="navelem"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html">dynamics</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdc2ce6839bd9a3b87630c53f2ae038b.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_168f0d47388952730fc4bc2bc6e393cf.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_2297ca1089d47f29cc83c62b59047703.html">Trajectory</a></li><li class="navelem"><a class="el" href="_propagator_8cpp.html">Propagator.cpp</a></li>
   </ul>
 </div>
 </body>

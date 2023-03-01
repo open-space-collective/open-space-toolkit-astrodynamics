@@ -18,7 +18,7 @@ Inheritance diagram for ostk\+:\+:astro\+:\+:trajectory\+:\+:orbit\+:\+:models\+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}{Propagated} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver)
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver, const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}{Propagated} (const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&a\+Satellite\+Dynamics, const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&a\+Numerical\+Solver, const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \&a\+Cached\+State\+Array)
 \begin{DoxyCompactList}\small\item\em Constructor with additional option of passing in an existing array of states. \end{DoxyCompactList}\item 
@@ -35,22 +35,15 @@ virtual Instant \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1
 virtual Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a789e4236d2b8b212b1d978055b76abf1}{get\+Revolution\+Number\+At\+Epoch} () const override
 \begin{DoxyCompactList}\small\item\em Get revolution number at epoch (it is equal to 1) \end{DoxyCompactList}\item 
 virtual \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2efc3c1af735dcf2ec622d056fa0a13f}{calculate\+State\+At} (const Instant \&an\+Instant) const override
-\begin{DoxyCompactList}\small\item\em Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. \end{DoxyCompactList}\item 
 virtual Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a9a4097432d2c863aedead23d2d67a7a7}{calculate\+States\+At} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const override
-\begin{DoxyCompactList}\small\item\em Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Calculate the state at an instant, given initial state. \end{DoxyCompactList}\item 
 virtual Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a6360392c65494aa42aadff58ec58e49c}{calculate\+Revolution\+Number\+At} (const Instant \&an\+Instant) const override
-\begin{DoxyCompactList}\small\item\em Calculate a revolution number at an instant. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Calculate the revolution number at an instant. \end{DoxyCompactList}\item 
 const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab13c196dcea01238b6e1997cb46ced2b}{access\+Cached\+State\+Array} () const
 \begin{DoxyCompactList}\small\item\em Fetch internal cached state array. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2b8aa6ff5511dbe92e6a3e7f4dd6880b}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print propagated. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab6db8fa9347666164e78942ada36928a}{Medium\+Fidelity} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
-\begin{DoxyCompactList}\small\item\em Create a medium fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} object with recommended settings. \end{DoxyCompactList}\item 
-static \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a0cf68405428a87dabd0dd3327110cbc1}{High\+Fidelity} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&a\+State)
-\begin{DoxyCompactList}\small\item\em Create a high fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} object with recommended settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -69,11 +62,11 @@ std\+::ostream \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models
 Defines an orbit model that is propagated using numerical propagation. 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!Propagated@{Propagated}}
 \index{Propagated@{Propagated}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
 \subsubsection{\texorpdfstring{Propagated()}{Propagated()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics} \&}]{a\+Satellite\+Dynamics,  }\item[{const \hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver} \&}]{a\+Numerical\+Solver,  }\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})}
 
 
 
@@ -81,7 +74,7 @@ Constructor.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}{Propagated} propagated = \{ aSatelliteDynamics, aNumericalSolver \} ;
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated} propagated = \{ aSatelliteDynamics, aNumericalSolver, aState \} ;
 \end{DoxyCode}
 
 
@@ -90,6 +83,8 @@ Constructor.
 \mbox{\tt in}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics object \\
 \hline
 \mbox{\tt in}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\mbox{\tt in}  & {\em a\+State} & A state \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}} 
@@ -104,7 +99,7 @@ Constructor with additional option of passing in an existing array of states.
 
 
 \begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}{Propagated} propagated = \{ aSatelliteDynamics, aNumericalSolver, aCachedStateArray \} ;
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated} propagated = \{ aSatelliteDynamics, aNumericalSolver, aCachedStateArray \} ;
 \end{DoxyCode}
 
 
@@ -145,7 +140,7 @@ Array$<$\+State$>$\&
 
 
 
-Calculate a revolution number at an instant. 
+Calculate the revolution number at an instant. 
 
 
 \begin{DoxyCode}
@@ -171,7 +166,7 @@ Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_aeecf4
 
 
 
-Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time. 
+Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time. 
 
 Does not have macro-\/level sorting optimization, should not be used with disorded instant array 
 \begin{DoxyCode}
@@ -197,19 +192,21 @@ Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a34a0d
 
 
 
-Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time. 
+Calculate the state at an instant, given initial state. 
 
-Has macro-\/level sorting optimization, can be used with unsorted instant array 
+
 \begin{DoxyCode}
-Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
+State state = propagated.calculateStateAt(aState, anInstant) ;
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em an\+Instant\+Array} & An instant array \\
+\mbox{\tt in}  & {\em a\+State} & An initial state \\
+\hline
+\mbox{\tt in}  & {\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Array$<$\+State$>$ 
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} 
 \end{DoxyReturn}
 
 
@@ -278,28 +275,6 @@ Integer
 
 Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_af3f1866f86045da2c05efe4165735cf4}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a0cf68405428a87dabd0dd3327110cbc1}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a0cf68405428a87dabd0dd3327110cbc1}} 
-\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!High\+Fidelity@{High\+Fidelity}}
-\index{High\+Fidelity@{High\+Fidelity}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
-\subsubsection{\texorpdfstring{High\+Fidelity()}{HighFidelity()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+High\+Fidelity (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Create a high fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} object with recommended settings. 
-
-
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}{Propagated} propagated = \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a0cf68405428a87dabd0dd3327110cbc1}{Propagated::HighFidelity}(aState) ;
-\end{DoxyCode}
- 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+State} & A \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} 
-\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a530fd6bc017c74dedc43ced5fe843a03}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a530fd6bc017c74dedc43ced5fe843a03}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!is\+Defined@{is\+Defined}}
 \index{is\+Defined@{is\+Defined}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
@@ -317,28 +292,6 @@ True if propagated model is defined
 
 Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a13c5b5693dd86a072da0bd0e319bacc2}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab6db8fa9347666164e78942ada36928a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab6db8fa9347666164e78942ada36928a}} 
-\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!Medium\+Fidelity@{Medium\+Fidelity}}
-\index{Medium\+Fidelity@{Medium\+Fidelity}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
-\subsubsection{\texorpdfstring{Medium\+Fidelity()}{MediumFidelity()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Medium\+Fidelity (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \&}]{a\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Create a medium fidelity \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} object with recommended settings. 
-
-
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ac45b9e7bee7892a67e6eea66561e6fe6}{Propagated} propagated = \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab6db8fa9347666164e78942ada36928a}{Propagated::MediumFidelity}(aState) ;
-\end{DoxyCode}
- 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+State} & A \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated} 
-\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a71c17288a6039ddcc1a5d3e5e62e1f35}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a71c17288a6039ddcc1a5d3e5e62e1f35}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!operator"!=@{operator"!=}}
 \index{operator"!=@{operator"!=}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}

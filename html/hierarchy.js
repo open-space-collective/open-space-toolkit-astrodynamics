@@ -32,9 +32,10 @@ var hierarchy =
     [ "ostk::astro::trajectory::orbit::messages::spacex::OPM", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m.html", null ],
     [ "ostk::astro::trajectory::orbit::Pass", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html", null ],
     [ "ostk::astro::flight::Profile", "classostk_1_1astro_1_1flight_1_1_profile.html", null ],
+    [ "ostk::astro::trajectory::Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html", null ],
-    [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
     [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
+    [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
     [ "ostk::astro::flight::System", "classostk_1_1astro_1_1flight_1_1_system.html", [
       [ "ostk::astro::flight::system::SatelliteSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html", null ]
     ] ],
