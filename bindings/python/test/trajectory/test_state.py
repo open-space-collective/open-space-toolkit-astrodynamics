@@ -23,7 +23,7 @@ from ostk.astrodynamics.trajectory import State
 ################################################################################################################################################################
 
 @pytest.fixture
-def state_default_inputs ():
+def state_default_inputs () -> tuple[Instant, Position, Velocity, Frame]:
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -58,7 +58,9 @@ class TestState:
         assert isinstance(state + state, State)
         assert isinstance(state - state, State)
 
-    def test_getters (self, state: State, state_default_inputs):
+    def test_getters (self,
+                      state: State,
+                      state_default_inputs: tuple[Instant, Position, Velocity, Frame]):
 
         (instant, position, velocity, _) = state_default_inputs
 
@@ -67,7 +69,9 @@ class TestState:
         assert state.get_velocity() == velocity
         assert (state.get_coordinates() == np.append(position.get_coordinates(), velocity.get_coordinates())).all()
 
-    def test_in_frame (self, state: State, state_default_inputs):
+    def test_in_frame (self,
+                       state: State,
+                       state_default_inputs: tuple[Instant, Position, Velocity, Frame]):
 
         (_, _, _, frame) = state_default_inputs
 

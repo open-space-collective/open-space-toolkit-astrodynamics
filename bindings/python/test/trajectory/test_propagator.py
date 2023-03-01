@@ -31,25 +31,27 @@ from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
 
-
-################################################################################################################################################################
-
-
 ################################################################################################################################################################
 
 @pytest.fixture
 def propagator_default_inputs ():
 
     instant_J2000 = Instant.J2000()
-    objects = [Earth.WGS84(20, 0)]
+    objects = [Earth.WGS84(20, 0),]
 
     environment = Environment(instant_J2000, objects)
 
-    numericalsolver = NumericalSolver(NumericalSolver.LogType.NoLog, NumericalSolver.StepperType.RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15)
+    numericalsolver = NumericalSolver(
+        NumericalSolver.LogType.NoLog,
+        NumericalSolver.StepperType.RungeKuttaFehlberg78,
+        5.0,
+        1.0e-15,
+        1.0e-15,
+    )
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
-    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [ [1.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ], [ 0.0, 0.0, 1.0 ] ], [1.0, 0.0, 0.0 ] ))
-    inertia_tensor = np.ndarray(shape = (3, 3))
+    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [[1.0, 0.0, 0.0 ], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], [1.0, 0.0, 0.0]))
+    inertia_tensor = np.identity(3)
     surface_area = 0.8
     drag_coefficient = 2.2
 
@@ -75,20 +77,16 @@ def propagator (propagator_default_inputs) -> Propagator:
 
 class TestPropagated:
 
-    def test_constructors (
-        self,
-        propagator: Propagator,
-    ):
+    def test_constructors (self,
+                           propagator: Propagator):
 
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
 
-    def test_calculate_state (
-        self,
-        propagator: Propagator,
-        propagator_default_inputs
-    ):
+    def test_calculate_state (self,
+                              propagator: Propagator,
+                              propagator_default_inputs):
 
         (_, _, state) = propagator_default_inputs
 
@@ -106,11 +104,9 @@ class TestPropagated:
         assert all([round(propagator_state_velocity[i], 8) == round(propagator_state_velocity_ref[i], 8) for i in range(0, len(propagator_state_velocity_ref))])
         assert propagator_state.get_instant() == instant
 
-    def test_calculate_states (
-        self,
-        propagator: Propagator,
-        propagator_default_inputs
-    ):
+    def test_calculate_states (self,
+                               propagator: Propagator,
+                               propagator_default_inputs):
 
         (_, _, state) = propagator_default_inputs
 
@@ -122,9 +118,7 @@ class TestPropagated:
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
 
-    def test_static_methods (
-        self,
-    ):
+    def test_static_methods (self):
 
         propagator = Propagator.medium_fidelity()
 

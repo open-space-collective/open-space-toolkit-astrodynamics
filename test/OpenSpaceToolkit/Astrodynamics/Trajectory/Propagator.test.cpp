@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator.test.cpp
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.test.cpp
 /// @author         Vishwa Shah <vishwa@loftorbital.com>
 /// @license        Apache License 2.0
 
@@ -112,7 +112,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
@@ -126,23 +126,23 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Const
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualToOperator)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
     {
 
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
         const Propagator propagator_x = { propagator } ;
         EXPECT_TRUE(propagator == propagator_x) ;
 
         const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-        const Propagator propagator_1 = {satelliteDynamics, numericalSolver_1} ;
+        const Propagator propagator_1 = { satelliteDynamics, numericalSolver_1 } ;
         EXPECT_FALSE(propagator == propagator_1) ;
 
         const SatelliteSystem satelliteSystem_2 = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
         const SatelliteDynamics satelliteDynamics_2 = { environment_, satelliteSystem_2 } ;
-        const Propagator propagator_2 = {satelliteDynamics_2, numericalSolver_1} ;
+        const Propagator propagator_2 = { satelliteDynamics_2, numericalSolver_1 } ;
         EXPECT_FALSE(propagator == propagator_2) ;
 
     }
@@ -152,23 +152,23 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Equal
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEqualToOperator)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
     {
 
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
         const Propagator propagator_x = { propagator } ;
         EXPECT_FALSE(propagator != propagator_x) ;
 
         const NumericalSolver numericalSolver_1 = { NumericalSolver::LogType::LogConstant, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
-        const Propagator propagator_1 = {satelliteDynamics, numericalSolver_1} ;
+        const Propagator propagator_1 = { satelliteDynamics, numericalSolver_1 } ;
         EXPECT_TRUE(propagator != propagator_1) ;
 
         const SatelliteSystem satelliteSystem_2 = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
         const SatelliteDynamics satelliteDynamics_2 = { environment_, satelliteSystem } ;
-        const Propagator propagator_2 = {satelliteDynamics_2, numericalSolver_1} ;
+        const Propagator propagator_2 = { satelliteDynamics_2, numericalSolver_1 } ;
         EXPECT_TRUE(propagator != propagator_2) ;
 
     }
@@ -178,13 +178,13 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEq
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, IsDefined)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
     {
 
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         EXPECT_TRUE(propagator.isDefined()) ;
     }
@@ -194,13 +194,13 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, IsDef
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, StreamOperator)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
     {
 
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -214,13 +214,13 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Strea
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { environment_, satelliteSystem } ;
 
     {
 
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -234,7 +234,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAt)
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Create environment
@@ -249,10 +249,10 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcu
     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Setup Propagator model and orbit
-    const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+    const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
     // Setup instants
-    const Array<Instant> instantArray = 
+    const Array<Instant> instantArray =
     {
         Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC),
         Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
@@ -269,7 +269,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcu
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStatesAt)
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Test exception for unsorted instant array
@@ -286,7 +286,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcu
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Setup instants
         Array<Instant> instantArray = Array<Instant>::Empty() ;
@@ -324,7 +324,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcu
     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Setup Propagator model and perform propagation
-    const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+    const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
     // Test forward propagation
     {
@@ -447,7 +447,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcu
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Create environment
@@ -460,7 +460,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Setup Propagator model and orbit
-    const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+    const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
     // Two body vs GMAT
     {
@@ -612,7 +612,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_EGM2008 )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Create environment
@@ -625,7 +625,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Setup Propagator model and orbit
-    const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+    const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
     // EGM2008 100x100 perturbation only vs STK EGM2008
     {
@@ -804,7 +804,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_EGM96 )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // EGM96 360x360 perturbation only vs GMAT
@@ -839,7 +839,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
@@ -910,7 +910,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
@@ -1070,7 +1070,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_EGM84 )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // EGM84 70x70 perturbation only vs STK EGM84
@@ -1108,7 +1108,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray) ;
@@ -1243,7 +1243,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_Sun_Moon )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Sun+Moon perturbation only vs GMAT
@@ -1286,7 +1286,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray) ;
@@ -1326,7 +1326,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_Sun )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Sun perturbation only vs GMAT
@@ -1368,7 +1368,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray) ;
@@ -1408,7 +1408,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_Moon )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Moon perturbation only vs GMAT
@@ -1450,7 +1450,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray) ;
@@ -1493,7 +1493,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_IntervalSelfComparison )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Test that calculateStatesAt returns the same answer if states are requested at short or long intervals
@@ -1523,8 +1523,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator_short = {satelliteDynamics, numericalSolver_} ;
-        const Propagator propagator_long = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator_short = { satelliteDynamics, numericalSolver_ } ;
+        const Propagator propagator_long = { satelliteDynamics, numericalSolver_ } ;
 
         // Propagate all states at short interval
         const Array<State> propagatedStateArray_short = propagator_short.calculateStatesAt(state, instantArray) ;
@@ -1602,8 +1602,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagator model and orbit
-        const Propagator propagator_short = {satelliteDynamics, numericalSolver_} ;
-        const Propagator propagator_long = {satelliteDynamics, numericalSolver_} ;
+        const Propagator propagator_short = { satelliteDynamics, numericalSolver_ } ;
+        const Propagator propagator_long = { satelliteDynamics, numericalSolver_ } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -1654,7 +1654,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_StepperTypeSelfComparison )
 {
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     {

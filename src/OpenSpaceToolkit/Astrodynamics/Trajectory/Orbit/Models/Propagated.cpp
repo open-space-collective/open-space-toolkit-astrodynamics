@@ -158,16 +158,6 @@ Array<State>                    Propagated::calculateStatesAt               (   
         return Array<State>::Empty() ;
     }
 
-    // for (Size k = 0 ; k < anInstantArray.getSize() - 1; ++k)
-    // {
-
-    //     if (anInstantArray[k] > anInstantArray[k + 1])
-    //     {
-    //         throw ostk::core::error::runtime::Wrong("Unsorted Instant Array") ;
-    //     }
-
-    // }
-
     Array<Pair<Instant, Size>> instantArrayPairs = Array<Pair<Instant, Size>>::Empty() ;
     instantArrayPairs.reserve(anInstantArray.getSize()) ;
 
@@ -447,7 +437,6 @@ void                            Propagated::sanitizeCachedArray             ( ) 
     {
         throw ostk::core::error::runtime::Wrong("State array with States at same instant but different position/velocity were found in cachedStateArray") ;
     }
-
 
 }
 

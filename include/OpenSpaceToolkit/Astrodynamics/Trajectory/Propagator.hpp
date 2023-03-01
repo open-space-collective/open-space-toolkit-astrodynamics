@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagator.hpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
+/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp
+/// @author         Vishwa Shah <vishwa@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,8 +22,6 @@
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -122,7 +120,7 @@ class Propagator
 
         bool                    isDefined                                   ( ) const ;
 
-        /// @brief              Calculate a state at an instant, given initial state
+        /// @brief              Calculate the state at an instant, given initial state
         /// @code
         ///                     State state = propagator.calculateStateAt(aState, anInstant) ;
         /// @endcode
@@ -133,7 +131,7 @@ class Propagator
         State                   calculateStateAt                            (   const   State&                      aState,
                                                                                 const   Instant&                    anInstant                                   ) const ;
 
-        /// @brief              Calculate a state at an array of instants, given an initial state
+        /// @brief              Calculate the states at an array of instants, given an initial state
         /// @brief              Can only be used with sorted instant array
         /// @code
         ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;

@@ -2,12 +2,12 @@
 
 /// @project        Open Space Toolkit ▸ Astrodynamics
 /// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
+/// @author         Vishwa Shah <vishwa@loftorbital.com>
 /// @license        Apache License 2.0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory//Propagator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -46,7 +46,7 @@ Propagator*                     Propagator::clone                           ( ) 
 bool                            Propagator::operator ==                     (   const   Propagator&                 aPropagator                                 ) const
 {
 
-    if ((!this->isDefined()) || (!aPropagator     .isDefined()))
+    if ((!this->isDefined()) || (!aPropagator.isDefined()))
     {
         return false ;
     }
@@ -87,7 +87,7 @@ State                           Propagator::calculateStateAt                (   
     const VectorXd stateCoordinates = aState.getCoordinates() ;
 
     SatelliteDynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()) ;
-    
+
     satelliteDynamics_.setInstant(aState.getInstant()) ;
 
     SatelliteDynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations()) ;
@@ -160,7 +160,7 @@ Array<State>                    Propagator::calculateStatesAt               (   
         ) ;
 
     }
-    
+
     // backward propagation only
     Array<SatelliteDynamics::StateVector> propagatedBackwardStateVectorArray ;
     if (!backwardInstants.isEmpty())
@@ -179,7 +179,6 @@ Array<State>                    Propagator::calculateStatesAt               (   
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end()) ;
 
     }
-    
 
     Array<State> propagatedStates ;
     propagatedStates.reserve(anInstantArray.getSize()) ;
@@ -216,7 +215,7 @@ void                            Propagator::print                           (   
 
 }
 
-Propagator                      Propagator::MediumFidelity                  (   )
+Propagator                      Propagator::MediumFidelity                  ( )
 {
 
     using ostk::math::obj::Matrix3d ;
@@ -257,7 +256,7 @@ Propagator                      Propagator::MediumFidelity                  (   
 
 }
 
-Propagator                      Propagator::HighFidelity                    (   )
+Propagator                      Propagator::HighFidelity                    ( )
 {
 
     using ostk::math::obj::Matrix3d ;
@@ -291,7 +290,7 @@ Propagator                      Propagator::HighFidelity                    (   
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
-    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem} ;
+    const SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Construct default numerical solver
     const NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
