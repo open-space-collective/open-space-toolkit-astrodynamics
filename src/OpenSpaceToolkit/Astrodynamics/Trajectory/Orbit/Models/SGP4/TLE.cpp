@@ -468,7 +468,7 @@ void                            TLE::setRevolutionNumberAtEpoch             (   
     }
 
     const String revolutionNumberAtEpochString = aRevolutionNumberAtEpoch.toString() ;
-    const String sanitizedRevolutionNumberAtEpochString = String::Replicate("0", 5 - revolutionNumberAtEpochString.getLength()) + revolutionNumberAtEpochString ;
+    const String sanitizedRevolutionNumberAtEpochString = String::Replicate(" ", 5 - revolutionNumberAtEpochString.getLength()) + revolutionNumberAtEpochString ;
     const String newIntermediateSecondLine = secondLine_.getSubstring(0, 63) + sanitizedRevolutionNumberAtEpochString + secondLine_.getSubstring(68, 1) ;
 
     const Integer secondLineNewChecksum = TLE::GenerateChecksum(newIntermediateSecondLine) ;

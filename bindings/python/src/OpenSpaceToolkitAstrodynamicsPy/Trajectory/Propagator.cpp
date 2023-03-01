@@ -25,8 +25,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propa
     using ostk::astro::trajectory::Propagator ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
     
-
-
     class_<Propagator>(aModule, "Propagator")
 
         .def

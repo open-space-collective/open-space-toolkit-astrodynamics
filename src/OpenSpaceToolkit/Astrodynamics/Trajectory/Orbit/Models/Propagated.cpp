@@ -402,7 +402,6 @@ void                            Propagated::sanitizeCachedArray             ( ) 
         throw ostk::core::error::runtime::Wrong("State array with States at same instant but different position/velocity were found in cachedStateArray") ;
     }
 
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

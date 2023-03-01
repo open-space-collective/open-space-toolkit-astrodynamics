@@ -45,13 +45,13 @@ from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
 tle = TLE(
     '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
     '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
-) # Construct Two-Line Element set
+)  # Construct Two-Line Element set
 
-earth = Environment.default().access_celestial_object_with_name('Earth') # Access Earth model
+earth = Environment.default().access_celestial_object_with_name('Earth')  # Access Earth model
 
-orbit = Orbit(SGP4(tle), earth) # Construct orbit using SGP4 model
+orbit = Orbit(SGP4(tle), earth)  # Construct orbit using SGP4 model
 
-orbit.get_state_at(Instant.now()) # Compute and display current satellite state (position, velocity)
+orbit.get_state_at(Instant.now())  # Compute and display current satellite state (position, velocity)
 ```
 
 By default, OSTk fetches the ephemeris from JPL, Earth Orientation Parameters (EOP) and leap second count from IERS.
@@ -118,6 +118,7 @@ Documentation is available here:
 The library exhibits the following detailed and descriptive structure:
 
 ```txt
+├── NumericalSolver
 ├── Trajectory
 │   ├── State
 │   ├── Orbit
@@ -126,16 +127,32 @@ The library exhibits the following detailed and descriptive structure:
 │   │   │   │   └── Classical Orbital Elements (COE)
 │   │   │   ├── SGP4
 │   │   │   │   └── Two-Line Element set (TLE)
-│   │   │   └── Tabulated (input csv)
-│   │   └── Pass
-│   └── Models
-│       ├── Static
-│       └── Tabulated
+│   │   │   ├── Tabulated (input csv)
+│   │   │   └── Propagated (numerical integration)
+│   │   ├── Pass
+|   |   └── Messages
+|   |       └── SpaceX
+|   |           └── OPM
+│   ├── Models
+│   |   ├── Static
+│   |   └── Tabulated
+│   └── Propagator
 ├── Flight
-│   └── Profile
-│       └── State
+│   ├── Profile
+|   |    ├── Models
+│   |    |   ├── Transform
+│   |    |   └── Tabulated
+│   |    └── State
+│   └── System
+|        ├── SatelliteSystem
+|        └── Dynamics
+|            └── SatelliteDynamics
 ├── Access
-        └── Generator
+|   └── Generator
+└── Conjunction
+    └── Messages
+        └── CCSDS
+            └── CDM
 ```
 
 </p>
@@ -199,17 +216,17 @@ Or to run them manually:
 
 ## Dependencies
 
-| Name        | Version   | License                | Link                                                                                                                                       |
-| ----------- | --------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Pybind11    | `2.6.1`   | BSD-3-Clause           | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
-| ordered-map | `0.6.0`   | MIT                    | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
-| Eigen       | `3.3.7`   | MPL2                   | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
-| SGP4        | `6a448b4` | Apache License 2.0     | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
-| NLopt       | `2.5.0`   | LGPL                   | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
-| Core        | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
-| I/O         | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
-| Mathematics | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
-| Physics     | `main`    | Apache License 2.0     | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
+| Name        | Version   | License            | Link                                                                                                                                       |
+| ----------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pybind11    | `2.10.1`  | BSD-3-Clause       | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
+| ordered-map | `0.6.0`   | MIT                | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
+| Eigen       | `3.3.7`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
+| SGP4        | `6a448b4` | Apache License 2.0 | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
+| NLopt       | `2.5.0`   | LGPL               | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| Core        | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
+| I/O         | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
+| Mathematics | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
+| Physics     | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-physics](https://github.com/open-space-collective/open-space-toolkit-physics)         |
 
 ## Contribution
 

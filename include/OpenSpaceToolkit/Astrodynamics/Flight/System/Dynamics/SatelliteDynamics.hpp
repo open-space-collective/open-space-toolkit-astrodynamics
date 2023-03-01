@@ -74,7 +74,8 @@ using ostk::astro::flight::system::Dynamics ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the NumericalSolver class.
+/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity
+///                             Represents a system of differential equations that can be solved by calling the NumericalSolver class
 
 class SatelliteDynamics : public Dynamics
 {
@@ -183,7 +184,7 @@ class SatelliteDynamics : public Dynamics
         SatelliteSystem         satelliteSystem_ ;
         Instant                 instant_ ;
 
-        // Only currently used force model that incorporates only Earth's gravity
+        // Only force model currently used that incorporates solely Earth's gravity
         void                    DynamicalEquations                          (   const   Dynamics::StateVector&      x,
                                                                                         Dynamics::StateVector&      dxdt,
                                                                                 const   double                      t                                           ) ;

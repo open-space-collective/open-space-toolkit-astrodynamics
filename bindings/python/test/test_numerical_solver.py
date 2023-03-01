@@ -29,7 +29,7 @@ NumericalSolver = astrodynamics.NumericalSolver
 ################################################################################################################################################################
 
 @pytest.fixture
-def numerical_solver_default_inputs ():
+def numerical_solver_default_inputs () -> tuple[NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float]:
 
     log_type = NumericalSolver.LogType.NoLog
     stepper_type = NumericalSolver.StepperType.RungeKuttaCashKarp54
@@ -65,7 +65,9 @@ class TestNumericalSolver:
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False
 
-    def test_get_types (self, numerical_solver_default_inputs, numerical_solver: NumericalSolver):
+    def test_get_types (self,
+                        numerical_solver_default_inputs: tuple[NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float],
+                        numerical_solver: NumericalSolver):
 
         (log_type, stepper_type, initial_time_step, relative_tolerance, absolute_tolerance) = numerical_solver_default_inputs
 
@@ -87,7 +89,7 @@ class TestNumericalSolver:
 
         initial_state_vec = np.array([0., 1.])
 
-        integration_duration = Duration.seconds(100.0)
+        integration_duration: Duration = Duration.seconds(100.0)
 
         def oscillator (x, dxdt, t):
             dxdt[0] = x[1]
@@ -103,8 +105,8 @@ class TestNumericalSolver:
 
         initial_state_vec = np.array([0., 1.])
 
-        start_instant = Instant.J2000()
-        end_instant = start_instant + Duration.seconds(100.0)
+        start_instant: Instant = Instant.J2000()
+        end_instant: Instant = start_instant + Duration.seconds(100.0)
 
         def oscillator (x, dxdt, t):
             dxdt[0] = x[1]

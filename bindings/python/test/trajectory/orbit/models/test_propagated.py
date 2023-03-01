@@ -32,10 +32,6 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
 
-
-################################################################################################################################################################
-
-
 ################################################################################################################################################################
 
 @pytest.fixture
@@ -76,11 +72,9 @@ def propagated (propagated_default_inputs) -> Propagated:
 
 class TestPropagated:
 
-    def test_constructors (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_constructors (self,
+                           propagated: Propagated,
+                           propagated_default_inputs):
 
         assert propagated is not None
         assert isinstance(propagated, Propagated)
@@ -101,19 +95,15 @@ class TestPropagated:
         assert isinstance(propagated_with_state_array, Propagated)
         assert propagated_with_state_array.is_defined()
 
-    def test_comparators (
-        self,
-        propagated: Propagated
-    ):
+    def test_comparators (self,
+                          propagated: Propagated):
 
         assert (propagated == propagated) is True
         assert (propagated != propagated) is False
 
-    def test_getters (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_getters (self,
+                      propagated: Propagated,
+                      propagated_default_inputs):
 
         (_, _, state, _) = propagated_default_inputs
 
@@ -121,11 +111,9 @@ class TestPropagated:
 
         assert propagated.get_revolution_number_at_epoch() == 1
 
-    def test_calculate_state_at (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_calculate_state_at (self,
+                                 propagated: Propagated,
+                                 propagated_default_inputs):
 
         (_, _, _, environment) = propagated_default_inputs
 
@@ -149,11 +137,9 @@ class TestPropagated:
         assert all([round(propagated_state_velocity[i], 8) == round(propagated_state_velocity_ref[i], 8) for i in range(0, len(propagated_state_velocity_ref))])
         assert propagated_state.get_instant() == instant
 
-    def test_calculate_states_at (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_calculate_states_at (self,
+                                  propagated: Propagated,
+                                  propagated_default_inputs):
 
         (_, _, _, environment) = propagated_default_inputs
 
@@ -169,11 +155,9 @@ class TestPropagated:
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
 
-    def test_calculate_rev_number_at (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_calculate_rev_number_at (self,
+                                      propagated: Propagated,
+                                      propagated_default_inputs):
 
         (_, _, _, environment) = propagated_default_inputs
 
@@ -184,11 +168,9 @@ class TestPropagated:
         assert propagated.calculate_revolution_number_at(instant) == 1
         assert orbit.get_revolution_number_at(instant) == 1
 
-    def test_access_cached_state_array (
-        self,
-        propagated: Propagated,
-        propagated_default_inputs
-    ):
+    def test_access_cached_state_array (self,
+                                        propagated: Propagated,
+                                        propagated_default_inputs):
 
         (_, _, state, _) = propagated_default_inputs
 

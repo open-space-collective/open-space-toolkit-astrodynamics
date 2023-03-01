@@ -24,6 +24,7 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +46,7 @@ namespace spacex
 namespace ctnr = ostk::core::ctnr ;
 
 using ostk::core::types::Integer ;
-using ostk::core::types::Size ;
+using ostk::core::types::Index ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
 using ostk::core::ctnr::Array ;
@@ -139,7 +140,7 @@ class OPM
 
         Array<OPM::Deployment>  getDeployments                              ( ) const ;
 
-        OPM::Deployment         getDeploymentAt                             (   const   Size&                       anIndex                                     ) const ;
+        OPM::Deployment         getDeploymentAt                             (   const   Index&                      anIndex                                     ) const ;
 
         OPM::Deployment         getDeploymentWithName                       (   const   String&                     aName                                       ) const ;
 

@@ -15,6 +15,7 @@ from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Composite
 from ostk.mathematics.geometry.d3.objects import Point
 
+from ostk.physics import Environment
 from ostk.physics.units import Mass
 from ostk.physics.time import Scale
 from ostk.physics.time import Instant
@@ -22,15 +23,10 @@ from ostk.physics.time import DateTime
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
-
-################################################################################################################################################################
-
-
 
 ################################################################################################################################################################
 
@@ -87,12 +83,12 @@ class TestSatelliteDynamics:
         assert satellite_dynamics.is_defined()
 
     def test_get_dynamical_equations (self, satellite_dynamics: SatelliteDynamics):
-        
+
         with pytest.raises(RuntimeError):
             satellite_dynamics.get_dynamical_equations()
-        
+
         satellite_dynamics.set_instant(Instant.J2000())
 
-        assert satellite_dynamics.get_dynamical_equations() is not None
+        assert satellite_dynamics.get_dynamical_equations() is not None  # Returns "<function PyCapsule.>" builtin_function_or_method
 
 ################################################################################################################################################################

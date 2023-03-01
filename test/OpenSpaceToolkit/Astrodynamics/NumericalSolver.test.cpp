@@ -643,7 +643,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         testing::internal::CaptureStdout() ;
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
-        testing::internal::GetCapturedStdout().empty() ;
+        String output = testing::internal::GetCapturedStdout() ;
+
+        EXPECT_FALSE(output.empty()) ;
 
         // Validate the output against an analytical function
 
@@ -668,7 +670,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         testing::internal::CaptureStdout() ;
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(currentStateVector, propDuration, [] (const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1] ; dxdt[1] = -x[0] ; } ) ;
-        testing::internal::GetCapturedStdout().empty() ;
+        String output = testing::internal::GetCapturedStdout() ;
+
+        EXPECT_FALSE(output.empty()) ;
 
         // Validate the output against an analytical function
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
@@ -818,7 +822,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
         testing::internal::CaptureStdout() ;
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        testing::internal::GetCapturedStdout().empty() ;
+        String output = testing::internal::GetCapturedStdout() ;
+
+        EXPECT_FALSE(output.empty()) ;
 
         // Validate the output against an analytical function
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match
@@ -842,7 +848,9 @@ TEST (OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantT
         testing::internal::CaptureStdout() ;
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateFromInstantToInstant(currentStateVector, instant, instant + propDuration, [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double ) -> void { dxdt[0] = x[1]; dxdt[1] = -x[0]; } ) ;
-        testing::internal::GetCapturedStdout().empty() ;
+        String output = testing::internal::GetCapturedStdout() ;
+
+        EXPECT_FALSE(output.empty()) ;
 
         // Validate the output against an analytical function
         // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable tolerance but that it is also not exactly zero since both integration methods do not exactly match

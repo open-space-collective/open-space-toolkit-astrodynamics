@@ -195,7 +195,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEq
     {
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -252,7 +252,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Strea
     {
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -276,7 +276,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print
     {
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -303,7 +303,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEp
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC) ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -324,7 +324,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRe
     {
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -367,7 +367,6 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC),
         Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)
     } ;
-
 
     // Test CalculateStateAt in propagatedModel and in orbit
     {
@@ -781,7 +780,6 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Cache
         EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
         EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),3) ;
-        EXPECT_NO_THROW(propagatedModel) ;
 
     }
 
@@ -806,8 +804,6 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Cache
         EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
         EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(),3) ;
-
-        EXPECT_NO_THROW(propagatedModel) ;
 
     }
 
@@ -1670,7 +1666,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -1755,7 +1751,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -1840,7 +1836,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -1923,7 +1919,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -2150,7 +2146,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) } ;
 
         // Satellite system setup
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
@@ -2243,7 +2239,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
             const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr) } ;
 
             // Satellite system setup
-            const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+            const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
             const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
             // Satellite dynamics setup
