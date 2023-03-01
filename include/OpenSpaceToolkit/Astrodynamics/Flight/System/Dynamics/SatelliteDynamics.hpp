@@ -74,7 +74,8 @@ using ostk::astro::flight::system::Dynamics ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity. Represents a system of differential equations that can be solved by calling the NumericalSolver class.
+/// @brief                      Defines a satellite in orbit subject to forces of varying fidelity
+///                             Represents a system of differential equations that can be solved by calling the NumericalSolver class
 
 class SatelliteDynamics : public Dynamics
 {
@@ -86,17 +87,14 @@ class SatelliteDynamics : public Dynamics
         /// @code
         ///                     Environment environment = { ... } ;
         ///                     SatelliteSystem satelliteSystem = { ... } ;
-        ///                     State state = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem, state } ;
+        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
         /// @endcode
         ///
         /// @param              [in] anEnvironment An environment
         /// @param              [in] aSatelliteSystem A satellite system
-        /// @param              [in] aState A 3 DOF state
 
                                 SatelliteDynamics                           (   const   Environment&                anEnvironment,
-                                                                                const   SatelliteSystem&            aSatelliteSystem,
-                                                                                const   State&                      aState                                      ) ;
+                                                                                const   SatelliteSystem&            aSatelliteSystem                            ) ;
 
         /// @brief              Copy Constructor
         ///
@@ -151,25 +149,23 @@ class SatelliteDynamics : public Dynamics
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Get satellite dynamics's 3 DOF State
+        /// @brief              Get satellite dynamics initial instant
         ///
         /// @code
-        ///                     State state = satelliteDynamics.getState() ;
+        ///                     satelliteDynamics.getInstant() ;
         /// @endcode
-        ///
-        /// @return             State
 
-        State                   getState                                    ( ) const ;
+        Instant                 getInstant                                    ( ) const ;
 
-        /// @brief              Set satellite dynamics's 3 DOF State
+        /// @brief              Set satellite dynamics initial epoch
         ///
         /// @code
-        ///                     State state = { ... } ;
-        ///                     satelliteDynamics.setState(state) ;
+        ///                     Instant instant = { ... } ;
+        ///                     satelliteDynamics.setInstant(instant) ;
         /// @endcode
-        /// @param              [in] aState A 3DOF state
+        /// @param              [in] anInstant An instant
 
-        void                    setState                                    (   const   State&                      aState                                      ) ;
+        void                    setInstant                                    (   const   Instant&                      anInstant                                      ) ;
 
         /// @brief              Obtain dynamical equations function wrapper
         ///
@@ -185,9 +181,9 @@ class SatelliteDynamics : public Dynamics
         Environment             environment_ ;
         Shared<const Frame>     gcrfSPtr_ ;
         SatelliteSystem         satelliteSystem_ ;
-        State                   state_ ;
+        Instant                 instant_ ;
 
-        // Only currently used force model that incorporates only Earth's gravity
+        // Only force model currently used that incorporates solely Earth's gravity
         void                    DynamicalEquations                          (   const   Dynamics::StateVector&      x,
                                                                                         Dynamics::StateVector&      dxdt,
                                                                                 const   double                      t                                           ) ;

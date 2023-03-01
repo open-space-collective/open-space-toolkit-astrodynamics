@@ -18,6 +18,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     using ostk::core::ctnr::Array ;
 
+    using ostk::physics::time::Instant ;
+
     using ostk::astro::NumericalSolver ;
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
@@ -31,9 +33,10 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
             .def
             (
-                init<const SatelliteDynamics&, const NumericalSolver&>(),
+                init<const SatelliteDynamics&, const NumericalSolver&, const State&>(),
                 arg("satellite_dynamics"),
-                arg("numerical_solver")
+                arg("numerical_solver"),
+                arg("state")
             )
 
             .def
@@ -77,20 +80,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             )
 
             .def("access_cached_state_array", &Propagated::accessCachedStateArray)
-
-            .def_static
-            (
-                "medium_fidelity",
-                &Propagated::MediumFidelity,
-                arg("state")
-            )
-
-            .def_static
-            (
-                "high_fidelity",
-                &Propagated::HighFidelity,
-                arg("state")
-            )
 
         ;
 

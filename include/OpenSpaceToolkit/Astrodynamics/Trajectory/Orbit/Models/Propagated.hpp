@@ -15,6 +15,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
@@ -69,6 +70,7 @@ using ostk::physics::coord::Position ;
 using ostk::physics::coord::Velocity ;
 
 using ostk::astro::NumericalSolver ;
+using ostk::astro::trajectory::Propagator ;
 using ostk::astro::trajectory::State ;
 using ostk::astro::trajectory::orbit::Model ;
 using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
@@ -85,14 +87,16 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         /// @brief              Constructor
         ///
         /// @code
-        ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver } ;
+        ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver, aState } ;
         /// @endcode
         ///
         /// @param              [in] aSatelliteDynamics A satellite dynamics object
         /// @param              [in] aNumericalSolver A numerical solver
+        /// @param              [in] aState A state
 
                                 Propagated                                  (   const   SatelliteDynamics&          aSatelliteDynamics,
-                                                                                const   NumericalSolver&            aNumericalSolver                            ) ;
+                                                                                const   NumericalSolver&            aNumericalSolver,
+                                                                                const   State&                      aState                                      ) ;
 
         /// @brief              Constructor with additional option of passing in an existing array of states
         ///
@@ -163,7 +167,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual Integer         getRevolutionNumberAtEpoch                  ( ) const override ;
 
-        /// @brief              Calculate a state at an instant, utilizing internal cached state array to propagated shortest amount of time
+        /// @brief              Calculate the state at an instant, utilizing internal cached state array to propagated shortest amount of time
         /// @brief              Does not have macro-level sorting optimization, should not be used with disorded instant array
         /// @code
         ///                     State state = propagated.calculateStateAt(anInstant) ;
@@ -173,17 +177,17 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
-        /// @brief              Calculate a state at an array of instants, utilizing internal cached state array to propagated shortest amount of time
-        /// @brief              Has macro-level sorting optimization, can be used with unsorted instant array
+        /// @brief              Calculate the state at an instant, given initial state
         /// @code
-        ///                     Array<State> states = propagated.calculateStatesAt(anInstantArray) ;
+        ///                     State state = propagated.calculateStateAt(aState, anInstant) ;
         /// @endcode
-        /// @param              [in] anInstantArray An instant array
-        /// @return             Array<State>
+        /// @param              [in] aState An initial state
+        /// @param              [in] anInstant An instant
+        /// @return             State
 
         virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
 
-        /// @brief              Calculate a revolution number at an instant
+        /// @brief              Calculate the revolution number at an instant
         ///
         /// @code
         ///                     Integer integer = propagated.calculateRevolutionNumberAt(anInstant) ;
@@ -211,26 +215,6 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 
-        /// @brief              Create a medium fidelity Propagated object with recommended settings
-        ///
-        /// @code
-        ///                     Propagated propagated = Propagated::MediumFidelity(aState) ;
-        /// @endcode
-        /// @param              [in] aState A State
-        /// @return             Propagated
-
-        static Propagated       MediumFidelity                              (   const   State&                      aState                                      ) ;
-
-        /// @brief              Create a high fidelity Propagated object with recommended settings
-        ///
-        /// @code
-        ///                     Propagated propagated = Propagated::HighFidelity(aState) ;
-        /// @endcode
-        /// @param              [in] aState A State
-        /// @return             Propagated
-
-        static Propagated       HighFidelity                                (   const   State&                      aState                                      ) ;
-
     protected:
 
         /// @brief              Equal to operator
@@ -249,12 +233,10 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     private:
 
+        Propagator              propagator_ ;
         mutable Array<State>    cachedStateArray_ ;
-        mutable SatelliteDynamics satelliteDynamics_ ;
-        mutable NumericalSolver numericalSolver_ ;
 
-        void                    sortAndSanitizeStateArray                   ( ) const ;
-
+        void                    sanitizeCachedArray                         ( ) const ;
 } ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

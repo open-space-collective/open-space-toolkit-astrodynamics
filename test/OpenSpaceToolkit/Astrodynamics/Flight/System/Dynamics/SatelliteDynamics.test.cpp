@@ -85,17 +85,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
-
         // Default satellite system being used
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        EXPECT_NO_THROW(SatelliteDynamics satellitedynamics( defaultEnvironment, satelliteSystem, state )) ;
+        EXPECT_NO_THROW(SatelliteDynamics satellitedynamics(defaultEnvironment, satelliteSystem)) ;
 
     }
 
@@ -146,17 +141,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, C
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
-
         // Default satellite system being used
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
-        const SatelliteDynamics satellitedynamics = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satellitedynamics = { defaultEnvironment, satelliteSystem } ;
 
         EXPECT_NO_THROW(SatelliteDynamics satellitedynamicsCopy(satellitedynamics)) ;
 
@@ -208,39 +198,22 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, E
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
+        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem } ;
 
         EXPECT_TRUE(satelliteDynamics == satelliteDynamics_0) ;
 
         // Test for different satellite system
-        const Composite satelliteGeometry_1(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry_1(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem_1 = { Mass(90.0, Mass::Unit::Kilogram), satelliteGeometry_1, Matrix3d::Identity(), 0.8, 2.2 } ;
-        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state } ;
+        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1 } ;
 
         EXPECT_FALSE(satelliteDynamics == satelliteDynamics_1) ;
-
-        // Test for different state
-        const State state_2 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2 } ;
-
-        EXPECT_FALSE(satelliteDynamics == satelliteDynamics_2) ;
-
-        // Test for different start instant
-        const Instant startInstant_3 = Instant::DateTime(DateTime(2018, 2, 1, 0, 0, 0), Scale::UTC) ;
-        const State state_3 = { startInstant_3, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3 } ;
-        EXPECT_FALSE(satelliteDynamics == satelliteDynamics_3) ;
 
     }
 
@@ -290,39 +263,22 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, N
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-
         // Default satellite system being used
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
+        const SatelliteDynamics satelliteDynamics_0 = { defaultEnvironment, satelliteSystem } ;
 
         EXPECT_FALSE(satelliteDynamics != satelliteDynamics_0) ;
 
         // Test for different satellite system
-        const Composite satelliteGeometry_1( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry_1(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem_1 = { Mass(90.0, Mass::Unit::Kilogram), satelliteGeometry_1, Matrix3d::Identity(), 0.8, 2.2 } ;
-        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1, state } ;
+        const SatelliteDynamics satelliteDynamics_1 = { defaultEnvironment, satelliteSystem_1 } ;
 
         EXPECT_TRUE(satelliteDynamics != satelliteDynamics_1) ;
-
-        // Test for different state
-        const State state_2 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_2 = { defaultEnvironment, satelliteSystem, state_2 } ;
-
-        EXPECT_TRUE(satelliteDynamics != satelliteDynamics_2) ;
-
-        // Test for different start instant
-        const Instant startInstant_3 = Instant::DateTime(DateTime(2018, 2, 1, 0, 0, 0), Scale::UTC) ;
-        const State state_3 = { startInstant_3, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-        const SatelliteDynamics satelliteDynamics_3 = { defaultEnvironment, satelliteSystem, state_3 } ;
-        EXPECT_TRUE(satelliteDynamics != satelliteDynamics_3) ;
 
     }
 
@@ -372,17 +328,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, I
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
-
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         EXPECT_TRUE(satelliteDynamics.isDefined()) ;
 
@@ -434,17 +385,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, S
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
-
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -500,17 +446,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
-
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -522,7 +463,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, P
 
 }
 
-TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, GetState)
+TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, GetSetInstant)
 {
 
     using ostk::core::types::Shared ;
@@ -566,83 +507,17 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, G
         const Environment defaultEnvironment = Environment::Default() ;
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) };
+        // Current instant
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Orbital model setup with Celestial object
-        const SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-        EXPECT_EQ(satelliteDynamics.getState(), state) ;
-
-    }
-
-}
-
-TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, SetState)
-{
-
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Array ;
-    using ostk::core::types::String ;
-    using ostk::core::types::Integer ;
-
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::geom::d3::objects::Cuboid ;
-    using ostk::math::geom::d3::objects::Composite ;
-    using ostk::math::geom::d3::objects::Point ;
-
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Interval ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::coord::Frame ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::Environment ;
-    using ostk::physics::env::Object ;
-    using ostk::physics::env::obj::celest::Earth ;
-    using ostk::physics::env::obj::celest::Sun ;
-    using ostk::physics::env::obj::celest::Moon ;
-
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::flight::system::SatelliteSystem ;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics ;
-
-    using namespace boost::numeric::odeint ;
-
-    {
-
-        // Create environment
-        const Environment defaultEnvironment = Environment::Default() ;
-        const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
-
-        // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-
-        const State state = { startInstant, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-
-        // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
-        const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
-
-        // Orbital model setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem, state } ;
-
-        const State state_0 = { startInstant, Position::Meters({ 1.0, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr) } ;
-
-        satelliteDynamics.setState(state_0) ;
-        EXPECT_EQ(satelliteDynamics.getState(), state_0) ;
+        SatelliteDynamics satelliteDynamics = { defaultEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(instant) ;
+        EXPECT_EQ(satelliteDynamics.getInstant(), instant) ;
 
     }
 
@@ -708,11 +583,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         const State startState = { startInstant, Position::Meters({ 7000000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(startInstant) ;
 
         // Set up initial state vector
         SatelliteDynamics::StateVector startStateVector(6) ;
@@ -755,12 +631,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         const State startState = { startInstant, Position::Meters({ 7000000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(90.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
-
         // Satellite dynamics setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(startInstant) ;
 
         // Set up initial state vector
         SatelliteDynamics::StateVector startStateVector(6) ;
@@ -803,11 +679,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         const State startState = { startInstant, Position::Meters({ 7000000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(startInstant) ;
 
         // Set up initial state vector
         SatelliteDynamics::StateVector startStateVector(6) ;
@@ -850,11 +727,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         const State startState = { startInstant, Position::Meters({ 7000000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(startInstant) ;
 
         // Set up initial state vector
         SatelliteDynamics::StateVector startStateVector(6) ;
@@ -903,11 +781,12 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         const State startState = { startInstant, Position::Meters({ 700000, 0.0, 0.0 }, gcrfSPtr), Velocity::MetersPerSecond({ 0.0, 0.0, 0.0 }, gcrfSPtr) } ;
 
         // Default satellite system being used
-        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup with Celestial object
-        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem, startState } ;
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+        satelliteDynamics.setInstant(startInstant) ;
 
         // Set up initial state vector
         SatelliteDynamics::StateVector startStateVector(6) ;
@@ -919,7 +798,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, g
         // Perform 1.0s integration step
         runge_kutta4<SatelliteDynamics::StateVector> stepper ;
 
-        EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0) ) ;
+        EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0)) ;
 
     }
 
