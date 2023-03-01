@@ -87,6 +87,7 @@ State                           Propagator::calculateStateAt                (   
     const VectorXd stateCoordinates = aState.getCoordinates() ;
 
     SatelliteDynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()) ;
+
     satelliteDynamics_.setInstant(aState.getInstant()) ;
 
     SatelliteDynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations()) ;

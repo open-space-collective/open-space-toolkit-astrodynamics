@@ -175,7 +175,6 @@ class SatelliteDynamics : public Dynamics
         /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
         virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations    ( ) override ;
-        
 
     private:
 
