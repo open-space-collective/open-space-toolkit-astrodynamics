@@ -10,14 +10,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -30,14 +28,14 @@ namespace trajectory
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::Shared ;
+using ostk::core::types::Shared;
 
-using ostk::math::obj::VectorXd ;
+using ostk::math::obj::VectorXd;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::coord::Position ;
-using ostk::physics::coord::Velocity ;
-using ostk::physics::coord::Frame ;
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::time::Instant;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,60 +43,52 @@ using ostk::physics::coord::Frame ;
 
 class State
 {
+   public:
+    State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
-    public:
+    bool operator==(const State& aState) const;
 
-                                State                                       (   const   Instant&                    anInstant,
-                                                                                const   Position&                   aPosition,
-                                                                                const   Velocity&                   aVelocity                                   ) ;
+    bool operator!=(const State& aState) const;
 
-        bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
+    State operator+(const State& aState) const;
 
-        bool                    operator !=                                 (   const   State&                      aState                                      ) const ;
+    State operator-(const State& aState) const;
 
-        State                   operator +                                  (   const   State&                      aState                                      ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const State& aState);
 
-        State                   operator -                                  (   const   State&                      aState                                      ) const ;
+    bool isDefined() const;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   State&                      aState                                      ) ;
+    const Instant& accessInstant() const;
 
-        bool                    isDefined                                   ( ) const ;
+    const Position& accessPosition() const;
 
-        const Instant&          accessInstant                               ( ) const ;
+    const Velocity& accessVelocity() const;
 
-        const Position&         accessPosition                              ( ) const ;
+    Instant getInstant() const;
 
-        const Velocity&         accessVelocity                              ( ) const ;
+    Position getPosition() const;
 
-        Instant                 getInstant                                  ( ) const ;
+    Velocity getVelocity() const;
 
-        Position                getPosition                                 ( ) const ;
+    VectorXd getCoordinates() const;
 
-        Velocity                getVelocity                                 ( ) const ;
+    State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
-        VectorXd                getCoordinates                              ( ) const ;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
+    static State Undefined();
 
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
-
-        static State            Undefined                                   ( ) ;
-
-    private:
-
-        Instant                 instant_ ;
-        Position                position_ ;
-        Velocity                velocity_ ;
-
-} ;
+   private:
+    Instant instant_;
+    Position position_;
+    Velocity velocity_;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -12,27 +12,24 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Vector.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Vector.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
-
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,159 +46,153 @@ namespace dynamics
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::Integer ;
-using ostk::core::types::Real ;
-using ostk::core::types::String ;
-using ostk::core::types::Shared ;
-using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Array;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+using ostk::core::types::String;
 
-using ostk::math::obj::Vector3d ;
+using ostk::math::obj::Vector3d;
 
-using ostk::physics::Environment ;
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Duration ;
-using ostk::physics::coord::Position ;
-using ostk::physics::coord::Velocity ;
-using ostk::physics::coord::Frame ;
-using ostk::physics::data::Vector ;
-using ostk::physics::env::obj::celest::Earth ;
-using ostk::physics::env::obj::celest::Moon ;
-using ostk::physics::env::obj::celest::Sun ;
+using ostk::physics::Environment;
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::data::Vector;
+using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::env::obj::celest::Moon;
+using ostk::physics::env::obj::celest::Sun;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State ;
-using ostk::astro::flight::system::SatelliteSystem ;
-using ostk::astro::flight::system::Dynamics ;
+using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::trajectory::State;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Defines a satellite in orbit subject to forces of varying fidelity
-///                             Represents a system of differential equations that can be solved by calling the NumericalSolver class
+///                             Represents a system of differential equations that can be solved by calling the
+///                             NumericalSolver class
 
 class SatelliteDynamics : public Dynamics
 {
+   public:
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     Environment environment = { ... } ;
+    ///                     SatelliteSystem satelliteSystem = { ... } ;
+    ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
+    /// @endcode
+    ///
+    /// @param              [in] anEnvironment An environment
+    /// @param              [in] aSatelliteSystem A satellite system
 
-    public:
+    SatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem);
 
-        /// @brief              Constructor
-        ///
-        /// @code
-        ///                     Environment environment = { ... } ;
-        ///                     SatelliteSystem satelliteSystem = { ... } ;
-        ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
-        /// @endcode
-        ///
-        /// @param              [in] anEnvironment An environment
-        /// @param              [in] aSatelliteSystem A satellite system
+    /// @brief              Copy Constructor
+    ///
+    /// @param              [in] SatelliteDynamics A satellite dynamics
 
-                                SatelliteDynamics                           (   const   Environment&                anEnvironment,
-                                                                                const   SatelliteSystem&            aSatelliteSystem                            ) ;
+    SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics);
 
-        /// @brief              Copy Constructor
-        ///
-        /// @param              [in] SatelliteDynamics A satellite dynamics
+    /// @brief              Destructor
 
-                                SatelliteDynamics                           (   const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
+    virtual ~SatelliteDynamics() override;
 
-        /// @brief              Destructor
+    /// @brief              Clone satellite dynamics
+    ///
+    /// @return             Pointer to cloned satellite dynamics
 
-        virtual                 ~SatelliteDynamics                          ( ) override ;
+    virtual SatelliteDynamics* clone() const override;
 
-        /// @brief              Clone satellite dynamics
-        ///
-        /// @return             Pointer to cloned satellite dynamics
+    /// @brief              Equal to operator
+    ///
+    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @return             True if satellite dynamics are equal
 
-        virtual SatelliteDynamics* clone                                    ( ) const override ;
+    bool operator==(const SatelliteDynamics& aSatelliteDynamics) const;
 
-        /// @brief              Equal to operator
-        ///
-        /// @param              [in] aSatelliteDynamics A satellite dynamics
-        /// @return             True if satellite dynamics are equal
+    /// @brief              Not equal to operator
+    ///
+    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @return             True if satellite dynamics are not equal
 
-        bool                    operator ==                                 (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const ;
+    bool operator!=(const SatelliteDynamics& aSatelliteDynamics) const;
 
-        /// @brief              Not equal to operator
-        ///
-        /// @param              [in] aSatelliteDynamics A satellite dynamics
-        /// @return             True if satellite dynamics are not equal
+    /// @brief              Output stream operator
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @return             A reference to output stream
 
-        bool                    operator !=                                 (   const   SatelliteDynamics&          aSatelliteDynamics                          ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteDynamics& aSatelliteDynamics);
 
-        /// @brief              Output stream operator
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSatelliteDynamics A satellite dynamics
-        /// @return             A reference to output stream
+    /// @brief              Check if satellite dynamics is defined
+    ///
+    /// @return             True if satellite dynamics is defined
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   SatelliteDynamics&          aSatelliteDynamics                          ) ;
+    virtual bool isDefined() const override;
 
-        /// @brief              Check if satellite dynamics is defined
-        ///
-        /// @return             True if satellite dynamics is defined
+    /// @brief              Print satellite dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
 
-        virtual bool            isDefined                                   ( ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        /// @brief              Print satellite dynamics
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @brief              Get satellite dynamics initial instant
+    ///
+    /// @code
+    ///                     satelliteDynamics.getInstant() ;
+    /// @endcode
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+    Instant getInstant() const;
 
-        /// @brief              Get satellite dynamics initial instant
-        ///
-        /// @code
-        ///                     satelliteDynamics.getInstant() ;
-        /// @endcode
+    /// @brief              Set satellite dynamics initial epoch
+    ///
+    /// @code
+    ///                     Instant instant = { ... } ;
+    ///                     satelliteDynamics.setInstant(instant) ;
+    /// @endcode
+    /// @param              [in] anInstant An instant
 
-        Instant                 getInstant                                    ( ) const ;
+    void setInstant(const Instant& anInstant);
 
-        /// @brief              Set satellite dynamics initial epoch
-        ///
-        /// @code
-        ///                     Instant instant = { ... } ;
-        ///                     satelliteDynamics.setInstant(instant) ;
-        /// @endcode
-        /// @param              [in] anInstant An instant
+    /// @brief              Obtain dynamical equations function wrapper
+    ///
+    /// @code
+    ///                     Dynamics::DynamicalEquationWrapper dyneq = satelliteDynamics.getDynamicalEquations() ;
+    /// @endcode
+    /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-        void                    setInstant                                    (   const   Instant&                      anInstant                                      ) ;
+    virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations() override;
 
-        /// @brief              Obtain dynamical equations function wrapper
-        ///
-        /// @code
-        ///                     Dynamics::DynamicalEquationWrapper dyneq = satelliteDynamics.getDynamicalEquations() ;
-        /// @endcode
-        /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
+   private:
+    Environment environment_;
+    Shared<const Frame> gcrfSPtr_;
+    SatelliteSystem satelliteSystem_;
+    Instant instant_;
 
-        virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations    ( ) override ;
+    // Only force model currently used that incorporates solely Earth's gravity
+    void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
 
-    private:
-
-        Environment             environment_ ;
-        Shared<const Frame>     gcrfSPtr_ ;
-        SatelliteSystem         satelliteSystem_ ;
-        Instant                 instant_ ;
-
-        // Only force model currently used that incorporates solely Earth's gravity
-        void                    DynamicalEquations                          (   const   Dynamics::StateVector&      x,
-                                                                                        Dynamics::StateVector&      dxdt,
-                                                                                const   double                      t                                           ) ;
-
-        // // Atmospheric perturbations only
-        // void                    Exponential_Dynamics                        (   const   SatelliteDynamics::StateVector&     x,
-        //                                                                                 SatelliteDynamics::StateVector&     dxdt,
-        //                                                                         const   double                                                                  ) const ;
-
-} ;
+    // // Atmospheric perturbations only
+    // void                    Exponential_Dynamics                        (   const   SatelliteDynamics::StateVector&
+    // x,
+    //                                                                                 SatelliteDynamics::StateVector&
+    //                                                                                 dxdt,
+    //                                                                         const   double ) const ;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
-}
-}
+}  // namespace dynamics
+}  // namespace system
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

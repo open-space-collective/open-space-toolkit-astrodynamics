@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -27,425 +26,414 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::Size ;
+using ostk::core::types::Size;
 
-using ostk::physics::units::Length ;
-using ostk::physics::units::Time ;
-using ostk::physics::units::Derived ;
+using ostk::physics::units::Derived;
+using ostk::physics::units::Length;
+using ostk::physics::units::Time;
 
-static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
-static const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
+static const Derived::Unit GravitationalParameterSIUnit =
+    Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
+static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Propagated::Propagated                      (   const   SatelliteDynamics&          aSatelliteDynamics,
-                                                                                const   NumericalSolver&            aNumericalSolver,
-                                                                                const   State&                      aState                                      )
-                                :   Model(),
-                                    propagator_(aSatelliteDynamics, aNumericalSolver),
-                                    cachedStateArray_(1, aState)
+Propagated::Propagated(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver,
+                       const State& aState)
+    : Model(), propagator_(aSatelliteDynamics, aNumericalSolver), cachedStateArray_(1, aState)
+
+{}
+
+Propagated::Propagated(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver,
+                       const Array<State>& aCachedStateArray)
+    : Model(), propagator_(aSatelliteDynamics, aNumericalSolver), cachedStateArray_(aCachedStateArray)
 
 {
-
+    sanitizeCachedArray();
 }
 
-                                Propagated::Propagated                      (   const   SatelliteDynamics&          aSatelliteDynamics,
-                                                                                const   NumericalSolver&            aNumericalSolver,
-                                                                                const   Array<State>&               aCachedStateArray                           )
-                                :   Model(),
-                                    propagator_(aSatelliteDynamics, aNumericalSolver),
-                                    cachedStateArray_(aCachedStateArray)
-
+Propagated* Propagated::clone() const
 {
-    sanitizeCachedArray() ;
+    return new Propagated(*this);
 }
 
-Propagated*                     Propagated::clone                           ( ) const
+bool Propagated::operator==(const Propagated& aPropagatedModel) const
 {
-    return new Propagated(*this) ;
-}
-
-bool                            Propagated::operator ==                     (   const   Propagated&                 aPropagatedModel                            ) const
-{
-
     if ((!this->isDefined()) || (!aPropagatedModel.isDefined()))
     {
-        return false ;
+        return false;
     }
 
-    return (cachedStateArray_ == aPropagatedModel.cachedStateArray_) && (propagator_ == aPropagatedModel.propagator_) ;
-
+    return (cachedStateArray_ == aPropagatedModel.cachedStateArray_) && (propagator_ == aPropagatedModel.propagator_);
 }
 
-bool                            Propagated::operator !=                     (   const   Propagated&                 aPropagatedModel                            ) const
+bool Propagated::operator!=(const Propagated& aPropagatedModel) const
 {
-    return !((*this) == aPropagatedModel) ;
+    return !((*this) == aPropagatedModel);
 }
 
-std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Propagated&                 aPropagatedModel                            )
+std::ostream& operator<<(std::ostream& anOutputStream, const Propagated& aPropagatedModel)
 {
+    aPropagatedModel.print(anOutputStream);
 
-    aPropagatedModel.print(anOutputStream) ;
-
-    return anOutputStream ;
-
+    return anOutputStream;
 }
 
-bool                            Propagated::isDefined                       ( ) const
+bool Propagated::isDefined() const
 {
-    return !cachedStateArray_.isEmpty() && propagator_.isDefined() ;
+    return !cachedStateArray_.isEmpty() && propagator_.isDefined();
 }
 
-Instant                         Propagated::getEpoch                        ( ) const
+Instant Propagated::getEpoch() const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    return cachedStateArray_[0].getInstant() ;
-
+    return cachedStateArray_[0].getInstant();
 }
 
-Integer                         Propagated::getRevolutionNumberAtEpoch      ( ) const
+Integer Propagated::getRevolutionNumberAtEpoch() const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    return 1 ; // [TBI] With param
-
+    return 1;  // [TBI] With param
 }
 
-State                           Propagated::calculateStateAt                (   const   Instant&                    anInstant                                   ) const
+State Propagated::calculateStateAt(const Instant& anInstant) const
 {
-
     if (!anInstant.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant");
     }
 
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant)) ;
+    const Array<State> propagatedStateArray = this->calculateStatesAt(Array(1, anInstant));
 
     if (propagatedStateArray.getSize() != 1)
     {
-        throw ostk::core::error::runtime::Wrong("Propagated state array size") ;
+        throw ostk::core::error::runtime::Wrong("Propagated state array size");
     }
 
-    return propagatedStateArray[0] ;
-
+    return propagatedStateArray[0];
 }
 
-Array<State>                    Propagated::calculateStatesAt               (   const   Array<Instant>&             anInstantArray                              ) const
+Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
     if (anInstantArray.isEmpty())
     {
-        return Array<State>::Empty() ;
+        return Array<State>::Empty();
     }
 
-    Array<Pair<Instant, Size>> instantArrayPairs = Array<Pair<Instant, Size>>::Empty() ;
-    instantArrayPairs.reserve(anInstantArray.getSize()) ;
-
-    for (Size i = 0 ; i < anInstantArray.getSize() ; i++)
-    {
-        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i)) ;
-    }
-
-    // Sort instant array pairs chronologically
-    std::sort
-    (
-        instantArrayPairs.begin(),
-        instantArrayPairs.end(),
-        [] (const auto& instantPairLeft, const auto& instantPairRight) { return instantPairLeft.first < instantPairRight.first ; }
-    ) ;
-
-    // Create an unpaired sorted instant array
-    Array<Instant> sortedInstantArray = Array<Instant>::Empty() ;
-    sortedInstantArray.reserve(anInstantArray.getSize()) ;
+    Array<Pair<Instant, Size>> instantArrayPairs = Array<Pair<Instant, Size>>::Empty();
+    instantArrayPairs.reserve(anInstantArray.getSize());
 
     for (Size i = 0; i < anInstantArray.getSize(); i++)
     {
-        sortedInstantArray.push_back(instantArrayPairs[i].first) ;
+        instantArrayPairs.push_back(std::make_pair(anInstantArray[i], i));
     }
 
-    Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty() ;
-    nearestCachedStatePairs.reserve(sortedInstantArray.getSize()) ;
+    // Sort instant array pairs chronologically
+    std::sort(instantArrayPairs.begin(), instantArrayPairs.end(),
+              [](const auto& instantPairLeft, const auto& instantPairRight) {
+                  return instantPairLeft.first < instantPairRight.first;
+              });
+
+    // Create an unpaired sorted instant array
+    Array<Instant> sortedInstantArray = Array<Instant>::Empty();
+    sortedInstantArray.reserve(anInstantArray.getSize());
+
+    for (Size i = 0; i < anInstantArray.getSize(); i++)
+    {
+        sortedInstantArray.push_back(instantArrayPairs[i].first);
+    }
+
+    Array<Pair<Integer, Duration>> nearestCachedStatePairs = Array<Pair<Integer, Duration>>::Empty();
+    nearestCachedStatePairs.reserve(sortedInstantArray.getSize());
 
     // Iterate through sortedInstantArray and cachedStateArray
     for (Size i = 0; i < sortedInstantArray.getSize(); i++)
     {
-
         // For each desired instant, check where the closest cachedState is
-        Array<Duration> cachedStatesDistanceFromInstantArray = Array<Duration>::Empty() ;
-        cachedStatesDistanceFromInstantArray.reserve(cachedStateArray_.getSize()) ;
-        Array<double> cachedStatesDistanceFromInstantArrayAbs = Array<double>::Empty() ;
-        cachedStatesDistanceFromInstantArrayAbs.reserve(cachedStateArray_.getSize()) ;
+        Array<Duration> cachedStatesDistanceFromInstantArray = Array<Duration>::Empty();
+        cachedStatesDistanceFromInstantArray.reserve(cachedStateArray_.getSize());
+        Array<double> cachedStatesDistanceFromInstantArrayAbs = Array<double>::Empty();
+        cachedStatesDistanceFromInstantArrayAbs.reserve(cachedStateArray_.getSize());
 
         for (Size j = 0; j < cachedStateArray_.getSize(); j++)
         {
-            cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant())) ;
-            cachedStatesDistanceFromInstantArrayAbs.add(std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds())) ;
+            cachedStatesDistanceFromInstantArray.add((sortedInstantArray[i] - cachedStateArray_[j].getInstant()));
+            cachedStatesDistanceFromInstantArrayAbs.add(
+                std::abs((sortedInstantArray[i] - cachedStateArray_[j].getInstant()).inSeconds()));
         }
 
         // Find min value of cachedStatesDistanceFromInstantArray
-        const double nearestCachedStateIndex =  std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(), cachedStatesDistanceFromInstantArrayAbs.end()) - cachedStatesDistanceFromInstantArrayAbs.begin() ;
-        const Duration nearestCachedStatePropDuration = cachedStatesDistanceFromInstantArray[nearestCachedStateIndex] ;
+        const double nearestCachedStateIndex = std::min_element(cachedStatesDistanceFromInstantArrayAbs.begin(),
+                                                                cachedStatesDistanceFromInstantArrayAbs.end()) -
+                                               cachedStatesDistanceFromInstantArrayAbs.begin();
+        const Duration nearestCachedStatePropDuration = cachedStatesDistanceFromInstantArray[nearestCachedStateIndex];
 
-        // Add the cachedStateArray index of the nearest cachedState and the propagation duration from that cached state as a pair for each desired instant
-        nearestCachedStatePairs.add(std::make_pair(static_cast<int>(nearestCachedStateIndex), nearestCachedStatePropDuration)) ;
-
+        // Add the cachedStateArray index of the nearest cachedState and the propagation duration from that cached state
+        // as a pair for each desired instant
+        nearestCachedStatePairs.add(
+            std::make_pair(static_cast<int>(nearestCachedStateIndex), nearestCachedStatePropDuration));
     }
 
-    // Group desired instants into subarrays based on where they are located relative to existing cached states: Array<Pair<Index of cachedState, Number of time that cachedState is closed to a desired instant in the desiredInstantArray)
-    Array<Pair<Integer, Integer>> duplicateCounterPairs = Array<Pair<Integer, Integer>>::Empty() ;
+    // Group desired instants into subarrays based on where they are located relative to existing cached states:
+    // Array<Pair<Index of cachedState, Number of time that cachedState is closed to a desired instant in the
+    // desiredInstantArray)
+    Array<Pair<Integer, Integer>> duplicateCounterPairs = Array<Pair<Integer, Integer>>::Empty();
 
     // Loop through nearestCachedStatePairs to group instants with duplicate corresponding cached states together
     for (const auto& nearestcachedStatePair : nearestCachedStatePairs)
     {
-
         if (duplicateCounterPairs.empty() || duplicateCounterPairs.back().first != nearestcachedStatePair.first)
         {
-            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1)) ;
+            duplicateCounterPairs.add(std::make_pair(nearestcachedStatePair.first, 1));
         }
         else
         {
-            duplicateCounterPairs.back().second++ ;
+            duplicateCounterPairs.back().second++;
         }
-
     }
 
-    // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, we can execute that propagation
-    Array<State> sortedStateArray = Array<State>::Empty() ;
-    sortedStateArray.reserve(sortedInstantArray.getSize()) ;
-    Size anInstantArrayIndexCount = 0 ;
+    // Now that we have grouped instants into arrays to be propagated from the nearest cachedState, we can execute that
+    // propagation
+    Array<State> sortedStateArray = Array<State>::Empty();
+    sortedStateArray.reserve(sortedInstantArray.getSize());
+    Size anInstantArrayIndexCount = 0;
 
     for (const auto& duplicateCounterPair : duplicateCounterPairs)
     {
-
         // Find starting state for each instant array of desired instants
-        const State startState = cachedStateArray_[duplicateCounterPair.first] ;
-        const Instant startInstant = startState.getInstant() ;
+        const State startState = cachedStateArray_[duplicateCounterPair.first];
+        const Instant startInstant = startState.getInstant();
 
-        // Obtain array of desired instants around startState by looking through duplicateCounterPair, segregate by positive and negative propagation durations
-        Array<Instant> desiredPositiveInstantArray = Array<Instant>::Empty() ;
-        desiredPositiveInstantArray.reserve(duplicateCounterPair.second) ;
-        Array<Instant> desiredNegativeInstantArray = Array<Instant>::Empty() ;
-        desiredNegativeInstantArray.reserve(duplicateCounterPair.second) ;
+        // Obtain array of desired instants around startState by looking through duplicateCounterPair, segregate by
+        // positive and negative propagation durations
+        Array<Instant> desiredPositiveInstantArray = Array<Instant>::Empty();
+        desiredPositiveInstantArray.reserve(duplicateCounterPair.second);
+        Array<Instant> desiredNegativeInstantArray = Array<Instant>::Empty();
+        desiredNegativeInstantArray.reserve(duplicateCounterPair.second);
 
         for (int i = 0; i < duplicateCounterPair.second; i++)
         {
+            Duration nearestCachedStatePropDuration = nearestCachedStatePairs[anInstantArrayIndexCount].second;
 
-            Duration nearestCachedStatePropDuration = nearestCachedStatePairs[anInstantArrayIndexCount].second ;
-
-            // Duration is positive or zero put into desiredPositiveInstantArray and if negative put into desiredNegativeInstantArray
+            // Duration is positive or zero put into desiredPositiveInstantArray and if negative put into
+            // desiredNegativeInstantArray
             if (nearestCachedStatePropDuration.isPositive())
             {
-                desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
+                desiredPositiveInstantArray.add(startInstant + nearestCachedStatePropDuration);
             }
             else
             {
-                desiredNegativeInstantArray.add(startInstant + nearestCachedStatePropDuration) ;
+                desiredNegativeInstantArray.add(startInstant + nearestCachedStatePropDuration);
             }
 
-            anInstantArrayIndexCount++ ;
-
+            anInstantArrayIndexCount++;
         }
 
         // Execute propagation in reverse time
         if (!desiredNegativeInstantArray.empty())
         {
-
             // Call numerical solver to perform propagation
-            Array<State> propagatedNegativeStateVectorArray = propagator_.calculateStatesAt(startState, desiredNegativeInstantArray);
-            sortedStateArray.add(propagatedNegativeStateVectorArray) ;
-
+            Array<State> propagatedNegativeStateVectorArray =
+                propagator_.calculateStatesAt(startState, desiredNegativeInstantArray);
+            sortedStateArray.add(propagatedNegativeStateVectorArray);
         }
 
         // Execute propagation in forwards time
         if (!desiredPositiveInstantArray.empty())
         {
-
             // Call numerical solver to perform propagation
-            Array<State> propagatedPositiveStateVectorArray = propagator_.calculateStatesAt(startState, desiredPositiveInstantArray) ;
-            sortedStateArray.add(propagatedPositiveStateVectorArray) ;
-
+            Array<State> propagatedPositiveStateVectorArray =
+                propagator_.calculateStatesAt(startState, desiredPositiveInstantArray);
+            sortedStateArray.add(propagatedPositiveStateVectorArray);
         }
-
     }
 
     // Desort the sorted state array to return it to user as was requested
-    Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
+    Array<State> unsortedStateArray = Array<State>(anInstantArray.getSize(), State::Undefined());
 
     for (Size k = 0; k < anInstantArray.getSize(); k++)
     {
-        unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k] ;
+        unsortedStateArray[instantArrayPairs[k].second] = sortedStateArray[k];
     }
 
     // Add newly propagated states to the cachedStateArray and then resort
-    cachedStateArray_.add(sortedStateArray) ;
+    cachedStateArray_.add(sortedStateArray);
 
-    // Re-sort and sanitize cachedStateArray of duplicates and duplicate instants that have different positions/velocities
-    sanitizeCachedArray() ;
+    // Re-sort and sanitize cachedStateArray of duplicates and duplicate instants that have different
+    // positions/velocities
+    sanitizeCachedArray();
 
-    return unsortedStateArray ;
-
+    return unsortedStateArray;
 }
 
-Integer                         Propagated::calculateRevolutionNumberAt     (   const   Instant&                    anInstant                                   ) const
+Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
-
     if (!anInstant.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Instant") ;
+        throw ostk::core::error::runtime::Undefined("Instant");
     }
 
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
     if (anInstant == cachedStateArray_[0].getInstant())
     {
-        return this->getRevolutionNumberAtEpoch() ;
+        return this->getRevolutionNumberAtEpoch();
     }
 
     // Calculate gravitational parameter (Spherical earth has the most modern value which is the correct one)
-    using ostk::physics::env::obj::celest::Earth ;
+    using ostk::physics::env::obj::celest::Earth;
 
-    const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter ;
-    const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit) ;
+    const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter;
+    const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
 
-    Position currentPosition = cachedStateArray_[0].getPosition() ;
-    Velocity currentVelocity = cachedStateArray_[0].getVelocity() ;
+    Position currentPosition = cachedStateArray_[0].getPosition();
+    Velocity currentVelocity = cachedStateArray_[0].getVelocity();
 
-    Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates() ;
-    Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates() ;
+    Vector3d currentPositionCoordinates = currentPosition.inUnit(Position::Unit::Meter).accessCoordinates();
+    Vector3d currentVelocityCoordinates = currentVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
     // Determine whether to count revolution numbers in forwards or backwards time and return function if duration is 0
-    Instant currentInstant = cachedStateArray_[0].getInstant() ;
-    const double durationInSecs = (anInstant - currentInstant).inSeconds() ;
-    if (durationInSecs == 0.0) { return 1 ; }
-    Integer durationSign = (durationInSecs > 0) - (durationInSecs < 0) ;
+    Instant currentInstant = cachedStateArray_[0].getInstant();
+    const double durationInSecs = (anInstant - currentInstant).inSeconds();
+    if (durationInSecs == 0.0)
+    {
+        return 1;
+    }
+    Integer durationSign = (durationInSecs > 0) - (durationInSecs < 0);
 
-    // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired instant
-    Integer revolutionNumber = 0 ;
+    // Propagate towards desired instant a fraction of an orbit at a time in while loop, exit when arrived at desired
+    // instant
+    Integer revolutionNumber = 0;
     while (true)
     {
-
         // Calculate orbital period
-        const double semiMajorAxis = - gravitationalParameter_SI * currentPositionCoordinates.norm() / (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) - 2.0 * gravitationalParameter_SI);
-        const Duration orbitalPeriod = Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI)) ;
+        const double semiMajorAxis =
+            -gravitationalParameter_SI * currentPositionCoordinates.norm() /
+            (currentPositionCoordinates.norm() * std::pow(currentVelocityCoordinates.norm(), 2) -
+             2.0 * gravitationalParameter_SI);
+        const Duration orbitalPeriod =
+            Duration::Seconds(Real::TwoPi() * std::sqrt(std::pow(semiMajorAxis, 3) / gravitationalParameter_SI));
 
         // If we have passed the desired instant during our progration, break from the loop
-        if (durationSign.isPositive() && currentInstant > anInstant) break ;
-        if (durationSign.isNegative() && currentInstant < anInstant) break ;
+        if (durationSign.isPositive() && currentInstant > anInstant)
+            break;
+        if (durationSign.isNegative() && currentInstant < anInstant)
+            break;
 
         // Increase or decrease revolution number by 1
-        revolutionNumber += durationSign ;
+        revolutionNumber += durationSign;
 
         // Propagate for duration of this orbital period
-        const State currentState = propagator_.calculateStateAt(cachedStateArray_[0], cachedStateArray_[0].getInstant() + (durationSign * orbitalPeriod)) ;
+        const State currentState = propagator_.calculateStateAt(
+            cachedStateArray_[0], cachedStateArray_[0].getInstant() + (durationSign * orbitalPeriod));
 
         // Update the current instant position and velocity coordinates
-        currentPositionCoordinates = currentState.getPosition().getCoordinates() ;
-        currentVelocityCoordinates = currentState.getVelocity().getCoordinates() ;
-        currentInstant += durationSign * orbitalPeriod ;
-
+        currentPositionCoordinates = currentState.getPosition().getCoordinates();
+        currentVelocityCoordinates = currentState.getVelocity().getCoordinates();
+        currentInstant += durationSign * orbitalPeriod;
     }
 
-    return revolutionNumber ;
-
+    return revolutionNumber;
 }
 
-const Array<State>&             Propagated::accessCachedStateArray          ( ) const
+const Array<State>& Propagated::accessCachedStateArray() const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
-    return cachedStateArray_ ;
-
+    return cachedStateArray_;
 }
 
-void                            Propagated::print                           (       std::ostream&                   anOutputStream,
-                                                                                    bool                            displayDecorator                            ) const
+void Propagated::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void();
 
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void () ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array");
+    [&](const Array<State>&) -> void {
+        for (State iterState : cachedStateArray_)
+        {
+            iterState.print(anOutputStream, false);
+        };
+    };
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array") ;
-    [&] (const Array<State>&) -> void { for(State iterState:cachedStateArray_) {iterState.print(anOutputStream, false) ;} ; } ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Propagator");
+    propagator_.print(anOutputStream, false);
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Propagator") ;
-    propagator_.print(anOutputStream, false) ;
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
-
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool                            Propagated::operator ==                     (   const   trajectory::Model&          aModel                                      ) const
+bool Propagated::operator==(const trajectory::Model& aModel) const
 {
+    const Propagated* propagatedModelPtr = dynamic_cast<const Propagated*>(&aModel);
 
-    const Propagated* propagatedModelPtr = dynamic_cast<const Propagated*>(&aModel) ;
-
-    return (propagatedModelPtr != nullptr) && this->operator == (*propagatedModelPtr) ;
-
+    return (propagatedModelPtr != nullptr) && this->operator==(*propagatedModelPtr);
 }
 
-bool                            Propagated::operator !=                     (   const   trajectory::Model&          aModel                                      ) const
+bool Propagated::operator!=(const trajectory::Model& aModel) const
 {
-    return !((*this) == aModel) ;
+    return !((*this) == aModel);
 }
 
-void                            Propagated::sanitizeCachedArray             ( ) const
+void Propagated::sanitizeCachedArray() const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Propagated") ;
+        throw ostk::core::error::runtime::Undefined("Propagated");
     }
 
     // Sort cashed state array and remove duplicate states
-    std::sort(cachedStateArray_.begin(), cachedStateArray_.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
+    std::sort(cachedStateArray_.begin(), cachedStateArray_.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs.getInstant() < rhs.getInstant();
+    });
 
-    cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end()) ;
+    cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end());
 
     // Check to see if there are any duplicated instants with different positions and velocities
-    Array<State> cachedStateArrayUnique(cachedStateArray_) ;
-    cachedStateArrayUnique.erase(std::unique(cachedStateArrayUnique.begin(), cachedStateArrayUnique.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() == rhs.getInstant() ; }), cachedStateArrayUnique.end() ) ;
+    Array<State> cachedStateArrayUnique(cachedStateArray_);
+    cachedStateArrayUnique.erase(std::unique(cachedStateArrayUnique.begin(), cachedStateArrayUnique.end(),
+                                             [](const auto& lhs, const auto& rhs) {
+                                                 return lhs.getInstant() == rhs.getInstant();
+                                             }),
+                                 cachedStateArrayUnique.end());
 
     if (cachedStateArray_.getSize() != cachedStateArrayUnique.getSize())
     {
-        throw ostk::core::error::runtime::Wrong("State array with States at same instant but different position/velocity were found in cachedStateArray") ;
+        throw ostk::core::error::runtime::Wrong(
+            "State array with States at same instant but different position/velocity were found in cachedStateArray");
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
-}
-}
+}  // namespace models
+}  // namespace orbit
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

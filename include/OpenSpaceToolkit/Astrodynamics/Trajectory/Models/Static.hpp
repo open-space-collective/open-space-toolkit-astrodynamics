@@ -10,11 +10,10 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Static__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
-
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,12 +28,12 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Interval ;
-using ostk::physics::coord::Position ;
+using ostk::physics::coord::Position;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
-using ostk::astro::trajectory::Model ;
-using ostk::astro::trajectory::State ;
+using ostk::astro::trajectory::Model;
+using ostk::astro::trajectory::State;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,45 +41,38 @@ using ostk::astro::trajectory::State ;
 
 class Static : public virtual Model
 {
+   public:
+    Static(const Position& aPosition);
 
-    public:
+    virtual Static* clone() const override;
 
-                                Static                                      (   const   Position&                   aPosition                                   ) ;
+    bool operator==(const Static& aStaticModel) const;
 
-        virtual Static*         clone                                       ( ) const override ;
+    bool operator!=(const Static& aStaticModel) const;
 
-        bool                    operator ==                                 (   const   Static&                     aStaticModel                                ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Static& aStaticModel);
 
-        bool                    operator !=                                 (   const   Static&                     aStaticModel                                ) const ;
+    virtual bool isDefined() const override;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Static&                     aStaticModel                                ) ;
+    virtual State calculateStateAt(const Instant& anInstant) const override;
 
-        virtual bool            isDefined                                   ( ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+   protected:
+    virtual bool operator==(const Model& aModel) const override;
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+    virtual bool operator!=(const Model& aModel) const override;
 
-    protected:
-
-        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const override ;
-
-        virtual bool            operator !=                                 (   const   Model&                      aModel                                      ) const override ;
-
-    private:
-
-        Position                position_ ;
-
-} ;
+   private:
+    Position position_;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
-}
+}  // namespace models
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

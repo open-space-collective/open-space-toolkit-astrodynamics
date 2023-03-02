@@ -10,16 +10,14 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-
-#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,19 +34,19 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::Index ;
-using ostk::core::types::String ;
-using ostk::core::ctnr::Pair ;
-using ostk::core::ctnr::Array ;
-using ostk::core::fs::File ;
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::fs::File;
+using ostk::core::types::Index;
+using ostk::core::types::String;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Interval ;
-using ostk::physics::coord::Frame ;
-using ostk::physics::coord::Axes ;
+using ostk::physics::coord::Axes;
+using ostk::physics::coord::Frame;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
-using ostk::astro::flight::profile::Model ;
-using ostk::astro::flight::profile::State ;
+using ostk::astro::flight::profile::Model;
+using ostk::astro::flight::profile::State;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,57 +54,50 @@ using ostk::astro::flight::profile::State ;
 
 class Tabulated : public virtual Model
 {
+   public:
+    Tabulated(const Array<State>& aStateArray);
 
-    public:
+    virtual Tabulated* clone() const override;
 
-                                Tabulated                                   (   const   Array<State>&               aStateArray                                 ) ;
+    bool operator==(const Tabulated& aTabulatedModel) const;
 
-        virtual Tabulated*      clone                                       ( ) const override ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel);
 
-        bool                    operator ==                                 (   const   Tabulated&                  aTabulatedModel                             ) const ;
+    virtual bool isDefined() const override;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Tabulated&                  aTabulatedModel                             ) ;
+    Interval getInterval() const;
 
-        virtual bool            isDefined                                   ( ) const override ;
+    virtual State calculateStateAt(const Instant& anInstant) const override;
 
-        Interval                getInterval                                 ( ) const ;
+    virtual Axes getAxesAt(const Instant& anInstant) const override;
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const override;
 
-        virtual Axes            getAxesAt                                   (   const   Instant&                    anInstant                                   ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        virtual Shared<const Frame> getBodyFrame                            (   const   String&                     aFrameName                                  ) const override ;
+    static Tabulated Load(const File& aFile);
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+   protected:
+    virtual bool operator==(const Model& aModel) const override;
 
-        static Tabulated        Load                                        (   const   File&                       aFile                                       ) ;
+    virtual bool operator!=(const Model& aModel) const override;
 
-    protected:
+   private:
+    Array<State> states_;
+    mutable Index stateIndex_;
 
-        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const override ;
+    Pair<const State*, const State*> accessStateRangeAt(const Instant& anInstant) const;
 
-        virtual bool            operator !=                                 (   const   Model&                      aModel                                      ) const override ;
-
-    private:
-
-        Array<State>            states_ ;
-        mutable Index           stateIndex_ ;
-
-        Pair<const State*, const State*> accessStateRangeAt                 (   const   Instant&                    anInstant                                   ) const ;
-
-        Pair<const State*, const State*> accessStateRangeAtIndex            (   const   Index&                      anIndex                                     ) const ;
-
-} ;
+    Pair<const State*, const State*> accessStateRangeAtIndex(const Index& anIndex) const;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
-}
-}
+}  // namespace models
+}  // namespace profile
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

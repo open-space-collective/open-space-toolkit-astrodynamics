@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -25,57 +24,46 @@ namespace profile
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Model::Model                                ( )
-{
+Model::Model() {}
 
+Model::~Model() {}
+
+bool Model::operator!=(const Model& aModel) const
+{
+    return !((*this) == aModel);
 }
 
-                                Model::~Model                               ( )
+std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel)
 {
+    aModel.print(anOutputStream);
 
+    return anOutputStream;
 }
 
-bool                            Model::operator !=                          (   const   Model&                      aModel                                      ) const
+Array<State> Model::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-    return !((*this) == aModel) ;
-}
-
-std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Model&                      aModel                                      )
-{
-
-    aModel.print(anOutputStream) ;
-
-    return anOutputStream ;
-
-}
-
-Array<State>                    Model::calculateStatesAt                    (   const   Array<Instant>&             anInstantArray                              ) const
-{
-
     if (anInstantArray.isEmpty())
     {
-        return Array<State>::Empty() ;
+        return Array<State>::Empty();
     }
 
-    Array<State> stateArray = Array<State>::Empty() ;
+    Array<State> stateArray = Array<State>::Empty();
 
-    stateArray.reserve(anInstantArray.getSize()) ;
+    stateArray.reserve(anInstantArray.getSize());
 
     for (const auto& instant : anInstantArray)
     {
-        stateArray.add(this->calculateStateAt(instant)) ;
+        stateArray.add(this->calculateStateAt(instant));
     }
 
-    return stateArray ;
-
+    return stateArray;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
-}
-}
+}  // namespace profile
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

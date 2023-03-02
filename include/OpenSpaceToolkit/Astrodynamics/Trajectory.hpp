@@ -10,17 +10,15 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
-
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Unique.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,16 +29,16 @@ namespace astro
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::Unique ;
-using ostk::core::types::Index ;
-using ostk::core::types::String ;
-using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Array;
+using ostk::core::types::Index;
+using ostk::core::types::String;
+using ostk::core::types::Unique;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Interval ;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
-using ostk::astro::trajectory::Model ;
-using ostk::astro::trajectory::State ;
+using ostk::astro::trajectory::Model;
+using ostk::astro::trajectory::State;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,165 +48,159 @@ using ostk::astro::trajectory::State ;
 
 class Trajectory
 {
+   public:
+    /// @brief              Constructor (model)
+    ///
+    /// @code
+    ///                     Tabulated model = Tabulated::Load(File::Path(Path::Parse("/path/to/trajectory.csv"))) ;
+    ///                     Trajectory trajectory = { model } ;
+    /// @endcode
+    ///
+    /// @param              [in] aModel A trajectory model
 
-    public:
+    Trajectory(const Model& aModel);
 
-        /// @brief              Constructor (model)
-        ///
-        /// @code
-        ///                     Tabulated model = Tabulated::Load(File::Path(Path::Parse("/path/to/trajectory.csv"))) ;
-        ///                     Trajectory trajectory = { model } ;
-        /// @endcode
-        ///
-        /// @param              [in] aModel A trajectory model
+    /// @brief              Constructor (state array)
+    ///
+    /// @code
+    ///                     Array<State> stateArray = { ... } ;
+    ///                     Trajectory trajectory = { stateArray } ;
+    /// @endcode
+    ///
+    /// @param              [in] aStateArray An array of states
 
-                                Trajectory                                  (   const   Model&                      aModel                                      ) ;
+    Trajectory(const Array<State>& aStateArray);
 
-        /// @brief              Constructor (state array)
-        ///
-        /// @code
-        ///                     Array<State> stateArray = { ... } ;
-        ///                     Trajectory trajectory = { stateArray } ;
-        /// @endcode
-        ///
-        /// @param              [in] aStateArray An array of states
+    /// @brief              Copy constructor
+    ///
+    /// @param              [in] aTrajectory A trajectory
 
-                                Trajectory                                  (   const   Array<State>&               aStateArray                                 ) ;
+    Trajectory(const Trajectory& aTrajectory);
 
-        /// @brief              Copy constructor
-        ///
-        /// @param              [in] aTrajectory A trajectory
+    /// @brief              Copy assignment operator
 
-                                Trajectory                                  (   const   Trajectory&                 aTrajectory                                 ) ;
+    Trajectory& operator=(const Trajectory& aTrajectory);
 
-        /// @brief              Copy assignment operator
+    /// @brief              Equal to operator
+    ///
+    /// @code
+    ///                     Trajectory(...) == Trajectory(...) ;
+    /// @endcode
+    ///
+    /// @param              [in] aTrajectory A trajectory
+    /// @return             True if trajectories are equal
 
-        Trajectory&             operator =                                  (   const   Trajectory&                 aTrajectory                                 ) ;
+    bool operator==(const Trajectory& aTrajectory) const;
 
-        /// @brief              Equal to operator
-        ///
-        /// @code
-        ///                     Trajectory(...) == Trajectory(...) ;
-        /// @endcode
-        ///
-        /// @param              [in] aTrajectory A trajectory
-        /// @return             True if trajectories are equal
+    /// @brief              Not equal to operator
+    ///
+    /// @code
+    ///                     Trajectory(...) != Trajectory(...) ;
+    /// @endcode
+    ///
+    /// @param              [in] aTrajectory A trajectory
+    /// @return             True if trajectories are not equal
 
-        bool                    operator ==                                 (   const   Trajectory&                 aTrajectory                                 ) const ;
+    bool operator!=(const Trajectory& aTrajectory) const;
 
-        /// @brief              Not equal to operator
-        ///
-        /// @code
-        ///                     Trajectory(...) != Trajectory(...) ;
-        /// @endcode
-        ///
-        /// @param              [in] aTrajectory A trajectory
-        /// @return             True if trajectories are not equal
+    /// @brief              Output stream operator
+    ///
+    /// @code
+    ///                     std::cout << Trajectory(...) ;
+    /// @endcode
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aTrajectory A trajectory
+    /// @return             A reference to output stream
 
-        bool                    operator !=                                 (   const   Trajectory&                 aTrajectory                                 ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Trajectory& aTrajectory);
 
-        /// @brief              Output stream operator
-        ///
-        /// @code
-        ///                     std::cout << Trajectory(...) ;
-        /// @endcode
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aTrajectory A trajectory
-        /// @return             A reference to output stream
+    /// @brief              Check if trajectory is defined
+    ///
+    /// @code
+    ///                     Trajectory(...).isDefined() ;
+    /// @endcode
+    ///
+    /// @return             True if trajectory is defined
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Trajectory&                 aTrajectory                                 ) ;
+    bool isDefined() const;
 
-        /// @brief              Check if trajectory is defined
-        ///
-        /// @code
-        ///                     Trajectory(...).isDefined() ;
-        /// @endcode
-        ///
-        /// @return             True if trajectory is defined
+    /// @brief              Access trajectory model
+    ///
+    /// @return             Reference to trajectory model
 
-        bool                    isDefined                                   ( ) const ;
+    const Model& accessModel() const;
 
-        /// @brief              Access trajectory model
-        ///
-        /// @return             Reference to trajectory model
+    /// @brief              Get state at a given instant
+    ///
+    /// @code
+    ///                     Trajectory trajectory = { ... } ;
+    ///                     Instant instant = { ... } ;
+    ///                     State state = trajectory.getStateAt(instant) ;
+    /// @endcode
+    ///
+    /// @param              [in] anInstant An instant
+    /// @return             State
 
-        const Model&            accessModel                                 ( ) const ;
+    State getStateAt(const Instant& anInstant) const;
 
-        /// @brief              Get state at a given instant
-        ///
-        /// @code
-        ///                     Trajectory trajectory = { ... } ;
-        ///                     Instant instant = { ... } ;
-        ///                     State state = trajectory.getStateAt(instant) ;
-        /// @endcode
-        ///
-        /// @param              [in] anInstant An instant
-        /// @return             State
+    /// @brief              Get states at a given instants
+    ///
+    /// @code
+    ///                     Trajectory trajectory = { ... } ;
+    ///                     Array<Instant> instants = { ... } ;
+    ///                     Array<State> state = trajectory.getStatesAt(instants) ;
+    /// @endcode
+    ///
+    /// @param              [in] anInstantArray An array of instants
+    /// @return             Array of states
 
-        State                   getStateAt                                  (   const   Instant&                    anInstant                                   ) const ;
+    Array<State> getStatesAt(const Array<Instant>& anInstantArray) const;
 
-        /// @brief              Get states at a given instants
-        ///
-        /// @code
-        ///                     Trajectory trajectory = { ... } ;
-        ///                     Array<Instant> instants = { ... } ;
-        ///                     Array<State> state = trajectory.getStatesAt(instants) ;
-        /// @endcode
-        ///
-        /// @param              [in] anInstantArray An array of instants
-        /// @return             Array of states
+    /// @brief              Print trajectory to output stream
+    ///
+    /// @code
+    ///                     Trajectory trajectory = { ... } ;
+    ///                     trajectory.print(std::cout, true) ;
+    /// @endcode
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] displayDecorator If true, display decorator
 
-        Array<State>            getStatesAt                                 (   const   Array<Instant>&             anInstantArray                              ) const ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief              Print trajectory to output stream
-        ///
-        /// @code
-        ///                     Trajectory trajectory = { ... } ;
-        ///                     trajectory.print(std::cout, true) ;
-        /// @endcode
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] displayDecorator If true, display decorator
+    /// @brief              Constructs an undefined trajectory
+    ///
+    /// @code
+    ///                     Trajectory trajectory = Trajectory::Undefined() ; // Undefined
+    /// @endcode
+    ///
+    /// @return             Undefined trajectory
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
+    static Trajectory Undefined();
 
-        /// @brief              Constructs an undefined trajectory
-        ///
-        /// @code
-        ///                     Trajectory trajectory = Trajectory::Undefined() ; // Undefined
-        /// @endcode
-        ///
-        /// @return             Undefined trajectory
+    /// @brief              Constructs a trajectory from a given position
+    ///
+    /// @code
+    ///                     Position position = Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()) ;
+    ///                     Trajectory trajectory = Trajectory::Position(position) ;
+    /// @endcode
+    ///
+    /// @param              [in] aPosition A position
+    /// @return             Static trajectory
 
-        static Trajectory       Undefined                                   ( ) ;
+    static Trajectory Position(const physics::coord::Position& aPosition);
 
-        /// @brief              Constructs a trajectory from a given position
-        ///
-        /// @code
-        ///                     Position position = Position::Meters({ 0.0, 0.0, 0.0 }, Frame::GCRF()) ;
-        ///                     Trajectory trajectory = Trajectory::Position(position) ;
-        /// @endcode
-        ///
-        /// @param              [in] aPosition A position
-        /// @return             Static trajectory
+   private:
+    Unique<Model> modelUPtr_;
 
-        static Trajectory       Position                                    (   const   physics::coord::Position&   aPosition                                   ) ;
-
-    private:
-
-        Unique<Model>           modelUPtr_ ;
-
-                                Trajectory                                  ( ) ;
-
-} ;
+    Trajectory();
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
