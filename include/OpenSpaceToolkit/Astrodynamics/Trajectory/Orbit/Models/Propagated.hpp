@@ -207,6 +207,16 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         const Array<State>&     accessCachedStateArray                      ( ) const ;
 
+        /// @brief              Access propagator
+        ///
+        /// @code
+        ///                     Propagator propagator = propagated.accessPropagator() ;
+        /// @endcode
+        ///
+        /// @return             Propagator
+
+        const Propagator&       accessPropagator                            ( ) const ;
+
         /// @brief              Print propagated
         ///
         /// @param              [in] anOutputStream An output stream

@@ -348,8 +348,20 @@ const Array<State>&             Propagated::accessCachedStateArray          ( ) 
 
 }
 
-void                            Propagated::print                           (       std::ostream&                   anOutputStream,
-                                                                                    bool                            displayDecorator                            ) const
+const Propagator&               Propagated::accessPropagator                ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagated") ;
+    }
+
+    return propagator_ ;
+
+}
+
+void                            Propagated::print                           (           std::ostream&               anOutputStream,
+                                                                                        bool                        displayDecorator                            ) const
 {
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void () ;
