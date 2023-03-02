@@ -184,4 +184,20 @@ class TestPropagated:
         assert propagated.access_propagator() is not None
         assert isinstance(propagated.access_propagator(), Propagator)
 
+    def test_set_cached_state_array (self,
+                                     propagated: Propagated,
+                                     propagated_default_inputs):
+
+        (_, _, state, _) = propagated_default_inputs
+
+        assert len(propagated.access_cached_state_array()) == 1
+
+        propagated.set_cached_state_array([state, state, state])
+
+        assert len(propagated.access_cached_state_array()) == 1
+        assert propagated.access_cached_state_array()[0] == state
+
+        with pytest.raises(Exception) as e:
+            propagated.set_cached_state_array([])
+
 ################################################################################################################################################################
