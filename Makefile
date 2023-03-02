@@ -24,6 +24,9 @@ jupyter_notebook_port := 9005
 jupyter_python_version := 3.8
 jupyter_project_name_python_shared_object := OpenSpaceToolkitAstrodynamicsPy.cpython-38-x86_64-linux-gnu
 
+clang_format_sources_path ?= $(shell find src/ include/ test/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp')
+clang_format_arguments ?= -i
+
 ################################################################################################################################################################
 
 pull: ## Pull all images
@@ -413,6 +416,15 @@ _debug-python-release: _build-release-image-python
 		--rm \
 		--entrypoint=/bin/bash \
 		$(docker_release_image_python_repository):$(docker_image_version)-$(target)
+
+################################################################################################################################################################
+
+clang-format-source: ## Format all of the source code with the rules in .clang-format
+	@ echo Running Clang Format. See .clang-format for Rules
+	$(shell clang-format ${clang_format_arguments} -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path})
+
+# clang-format-check: ## Runs the clang-format tool to check the code against rules and formatting
+# 	clang-tidy --config-file=buildsys/linter/.clang-tidy ${SRC} -p build/
 
 ################################################################################################################################################################
 
