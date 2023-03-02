@@ -144,7 +144,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Const
 
         // Setup Propagated model
         const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
-        const Propagated propagatedModel_0 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_0 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         // Setup Orbit model
         EXPECT_NO_THROW(Orbit(propagatedModel, defaultEnvironment_.accessCelestialObjectWithName("Earth"))) ;
@@ -196,14 +196,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Equal
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(defaultState_) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_2 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_TRUE(propagatedModel == propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr_) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_3 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_FALSE(propagatedModel == propagatedModel_3) ;
 
     }
@@ -234,14 +234,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEq
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(defaultState_) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_2 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_FALSE(propagatedModel != propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr_) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_3 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_TRUE(propagatedModel != propagatedModel_3) ;
 
     }
@@ -882,7 +882,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Acces
         stateArray.add(state_3) ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
 
@@ -906,7 +906,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Acces
         stateArray.add(state_2) ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
 
@@ -914,6 +914,104 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Acces
         EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
         EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
         EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+}
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCachedStateArray)
+{
+
+    // Satellite system setup
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;  // TBI: Add fixtures later
+    const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+    // Satellite dynamics setup
+    SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
+
+    // Current state and instant setup
+    const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC) ;
+    const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) } ;
+
+    // Propagated model setup
+    Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
+
+    // Test cachedStateArray sorting during construction and accessing
+    {
+        // Test valid and chronological state array input
+
+        // Current state and instant setup
+        Array<State> stateArray = Array<State>::Empty() ;
+        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_1) ;
+        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_2) ;
+        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_3) ;
+
+        // Manually set cachedStateArray
+        propagatedModel.setCachedStateArray(stateArray) ;
+
+        // Check propagatedModel is properly defined
+        EXPECT_TRUE(propagatedModel.isDefined()) ;
+
+        // Access cachedStateArray and verify
+        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
+
+        // Check array chronological order
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+    {
+        // Test sorting of non chronological + duplicate but valid state array
+
+        // Current state and instant setup
+        Array<State> stateArray = Array<State>::Empty() ;
+        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_3) ;
+        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_1) ;
+        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_2) ;
+        stateArray.add(state_2) ;
+
+        // Manually set cachedStateArray
+        propagatedModel.setCachedStateArray(stateArray) ;
+
+        // Check propagatedModel is properly defined
+        EXPECT_TRUE(propagatedModel.isDefined()) ;
+
+        // Access cachedStateArray and verify
+        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
+
+        // Check array chronological order
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+    {
+        // Test setting empty cachedStateArray
+
+        EXPECT_THROW
+        (
+            {
+                try
+                {
+                    propagatedModel.setCachedStateArray(Array<State>::Empty()) ;
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(e.what(), String("{Propagated} is undefined.")) ;
+                    throw ;
+                }
+            },
+            ostk::core::error::RuntimeError
+        ) ;
 
     }
 

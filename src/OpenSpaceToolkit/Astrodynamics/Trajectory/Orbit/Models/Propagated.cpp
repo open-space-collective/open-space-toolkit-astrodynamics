@@ -360,8 +360,17 @@ const Propagator&               Propagated::accessPropagator                ( ) 
 
 }
 
-void                            Propagated::print                           (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            ) const
+void                            Propagated::setCachedStateArray             (   const   Array<State>&               aStateArray                                 )
+{
+
+    this->cachedStateArray_ = aStateArray ;
+
+    sanitizeCachedArray() ;
+
+}
+
+void                            Propagated::print                           (       std::ostream&                   anOutputStream,
+                                                                                    bool                            displayDecorator                            ) const
 {
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void () ;
