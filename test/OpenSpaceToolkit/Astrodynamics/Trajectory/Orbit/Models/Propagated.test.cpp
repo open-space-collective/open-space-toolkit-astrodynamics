@@ -110,7 +110,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
         }
 
         State defaultState_ = State::Undefined() ;
-        Environment defaultEnvironment_ = Environment::Undefined();
+        Environment defaultEnvironment_ = Environment::Undefined() ;
         NumericalSolver defaultnumericalSolver_ = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15 } ;
         const Shared<const Frame> gcrfSPtr_ = Frame::GCRF() ;
 
@@ -119,7 +119,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constructor)
 {
 
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
     const SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
@@ -134,8 +134,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Const
     {
 
         // Setup Propagated model
-        EXPECT_NO_THROW(Propagated( satelliteDynamics, defaultnumericalSolver_, defaultState_ )) ;
-        EXPECT_NO_THROW(Propagated( satelliteDynamics, defaultnumericalSolver_, stateArray )) ;
+        EXPECT_NO_THROW(Propagated(satelliteDynamics, defaultnumericalSolver_, defaultState_)) ;
+        EXPECT_NO_THROW(Propagated(satelliteDynamics, defaultnumericalSolver_, stateArray)) ;
 
     }
 
@@ -143,12 +143,33 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Const
     {
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
-        const Propagated propagatedModel_0 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
+        const Propagated propagatedModel_0 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         // Setup Orbit model
-        EXPECT_NO_THROW(Orbit( propagatedModel, defaultEnvironment_.accessCelestialObjectWithName("Earth") )) ;
-        EXPECT_NO_THROW(Orbit( propagatedModel_0, defaultEnvironment_.accessCelestialObjectWithName("Earth") )) ;
+        EXPECT_NO_THROW(Orbit(propagatedModel, defaultEnvironment_.accessCelestialObjectWithName("Earth"))) ;
+        EXPECT_NO_THROW(Orbit(propagatedModel_0, defaultEnvironment_.accessCelestialObjectWithName("Earth"))) ;
+
+    }
+
+    // Constructor with empty cachedStateArray
+    {
+
+        EXPECT_THROW
+        (
+            {
+                try
+                {
+                    const Propagated propagatedModel = Propagated(satelliteDynamics, defaultnumericalSolver_, Array<State>::Empty()) ;
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(e.what(), String("{Propagated} is undefined.")) ;
+                    throw ;
+                }
+            },
+            ostk::core::error::RuntimeError
+        ) ;
 
     }
 
@@ -158,13 +179,13 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Equal
 {
 
     {
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_TRUE(propagatedModel == propagatedModel_x) ;
 
@@ -175,14 +196,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Equal
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(defaultState_) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_2 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_TRUE(propagatedModel == propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr_) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_3 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_FALSE(propagatedModel == propagatedModel_3) ;
 
     }
@@ -202,7 +223,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEq
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
         const Propagated propagatedModel_x = { propagatedModel } ;
         EXPECT_FALSE(propagatedModel != propagatedModel_x) ;
 
@@ -213,14 +234,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEq
         // State array setup, state Array construction with array of length one and same start
         Array<State> stateArray = Array<State>::Empty() ;
         stateArray.add(defaultState_) ;
-        const Propagated propagatedModel_2 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_2 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_FALSE(propagatedModel != propagatedModel_2) ;
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC) ;
         const State state_0 = { instant_0, Position::Meters({ 0.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 1.0, 0.0, 0.0 }, gcrfSPtr_) };
         stateArray.add(state_0) ;
-        const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel_3 = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
         EXPECT_TRUE(propagatedModel != propagatedModel_3) ;
 
     }
@@ -232,14 +253,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDef
 
     {
 
-        const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
         const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         EXPECT_TRUE(propagatedModel.isDefined()) ;
     }
@@ -259,7 +280,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Strea
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -283,7 +304,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         testing::internal::CaptureStdout() ;
 
@@ -310,7 +331,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEp
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         EXPECT_EQ(propagatedModel.getEpoch(), startInstant) ;
 
@@ -331,7 +352,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRe
         SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         EXPECT_EQ(propagatedModel.getRevolutionNumberAtEpoch(), 1) ;
 
@@ -348,19 +369,19 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
     const Environment customEnvironment = Environment(Instant::J2000(), objects) ;
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
     SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
     // Setup Propagated model and orbit
-    const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+    const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
     const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
     // Setup instants
-    const Array<Instant> instantArray = 
+    const Array<Instant> instantArray =
     {
         Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC),
         Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
@@ -386,7 +407,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateStatesAt)
 {
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Reference data setup
@@ -400,8 +421,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
     {
         instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
 
-        referencePositionArray.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
-        referenceVelocityArray.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+        referencePositionArray.add({ referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() }) ;
+        referenceVelocityArray.add({ referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() }) ;
     }
 
     // Create environment
@@ -422,7 +443,9 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr_) } ;
 
         // Setup Propagated model and perform propagation
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
+
         const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
         // Validation loop
@@ -459,7 +482,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr_) } ;
 
         // Setup Propagated model and perform propagation
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
         // Validation loop
@@ -496,7 +519,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         const State state = { startInstant, Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr_) } ;
 
         // Setup Propagated model and perform propagation
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
 
         // Validation loop
@@ -648,13 +671,100 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         }
     }
 
+    // Test cachedStateArray with two duplicate States
+    {
+
+        // Choose state to put into cachedStateArray
+        Array<State> cachedStateArray = Array<State>::Empty() ;
+        size_t cachedStateReferenceIndex = 0 ;
+        const State state = { instantArray[cachedStateReferenceIndex], Position::Meters({ referencePositionArray[cachedStateReferenceIndex] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex] }, gcrfSPtr_) } ;
+        cachedStateArray.add({ state, state }) ;
+
+        // Setup Propagated model and perform propagation
+        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, cachedStateArray} ;
+
+        ASSERT_EQ(propagatedModel.accessCachedStateArray().getSize(), 1) ;
+        ASSERT_EQ(propagatedModel.accessCachedStateArray()[0], state) ;
+
+        const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+        // Validation loop
+        for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+        {
+
+            const Position position = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+            ASSERT_GT(2e-7, positionError) ;
+            ASSERT_GT(2e-10, velocityError) ;
+            ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+            // // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionError << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+
+        }
+    }
+
+    // Test cachedStateArray with two cachedStates, unsorted
+    {
+
+        // Choose states to put into cachedStateArray
+        Array<State> cachedStateArray = Array<State>::Empty() ;
+        size_t cachedStateReferenceIndex_1 = 0 ;
+        const State state_1 = { instantArray[cachedStateReferenceIndex_1], Position::Meters({ referencePositionArray[cachedStateReferenceIndex_1] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex_1] }, gcrfSPtr_) } ;
+        size_t cachedStateReferenceIndex_2 = 60 ;
+        const State state_2 = { instantArray[cachedStateReferenceIndex_2], Position::Meters({ referencePositionArray[cachedStateReferenceIndex_2] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray[cachedStateReferenceIndex_2] }, gcrfSPtr_) } ;
+        cachedStateArray.add(state_2) ;
+        cachedStateArray.add(state_1) ;
+
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[0].getInstant()) ;
+
+        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, cachedStateArray} ;
+
+        EXPECT_LT(propagatedModel.accessCachedStateArray()[0].getInstant(), propagatedModel.accessCachedStateArray()[1].getInstant()) ;
+
+        const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray) ;
+
+        // Validation loop
+        for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+        {
+
+            const Position position = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm() ;
+            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm() ;
+
+            ASSERT_GT(2e-7, positionError) ;
+            ASSERT_GT(2e-10, velocityError) ;
+            ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]) ;
+
+            // // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionError << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+
+        }
+    }
+
 }
 
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Test basic positive and negative revolution numbers
@@ -669,7 +779,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, defaultState_} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, defaultState_ } ;
 
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
@@ -748,11 +858,11 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcu
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CachedStateArray)
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, AccessCachedStateArray)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
@@ -772,14 +882,14 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Cache
         stateArray.add(state_3) ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
 
         // Check array chronological order
-        EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
-        EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
-        EXPECT_EQ(cachedStateArray.getSize(),3) ;
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
 
     }
 
@@ -796,14 +906,112 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Cache
         stateArray.add(state_2) ;
 
         // Setup Propagated model
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, stateArray} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, stateArray } ;
 
         const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
 
         // Check array chronological order
-        EXPECT_LT(cachedStateArray[0].getInstant(),cachedStateArray[1].getInstant()) ;
-        EXPECT_LT(cachedStateArray[1].getInstant(),cachedStateArray[2].getInstant()) ;
-        EXPECT_EQ(cachedStateArray.getSize(),3) ;
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+}
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCachedStateArray)
+{
+
+    // Satellite system setup
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;  // TBI: Add fixtures later
+    const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+
+    // Satellite dynamics setup
+    SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
+
+    // Current state and instant setup
+    const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC) ;
+    const State state = { startInstant, Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) } ;
+
+    // Propagated model setup
+    Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
+
+    // Test cachedStateArray sorting during construction and accessing
+    {
+        // Test valid and chronological state array input
+
+        // Current state and instant setup
+        Array<State> stateArray = Array<State>::Empty() ;
+        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_1) ;
+        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_2) ;
+        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_3) ;
+
+        // Manually set cachedStateArray
+        propagatedModel.setCachedStateArray(stateArray) ;
+
+        // Check propagatedModel is properly defined
+        EXPECT_TRUE(propagatedModel.isDefined()) ;
+
+        // Access cachedStateArray and verify
+        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
+
+        // Check array chronological order
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+    {
+        // Test sorting of non chronological + duplicate but valid state array
+
+        // Current state and instant setup
+        Array<State> stateArray = Array<State>::Empty() ;
+        const State state_3 = { Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_3) ;
+        const State state_1 = { Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_1) ;
+        const State state_2 = { Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC), Position::Meters({ 7000000.0, 0.0, 0.0 }, gcrfSPtr_), Velocity::MetersPerSecond({ 0.0, 5335.865450622126, 5335.865450622126 }, gcrfSPtr_) };
+        stateArray.add(state_2) ;
+        stateArray.add(state_2) ;
+
+        // Manually set cachedStateArray
+        propagatedModel.setCachedStateArray(stateArray) ;
+
+        // Check propagatedModel is properly defined
+        EXPECT_TRUE(propagatedModel.isDefined()) ;
+
+        // Access cachedStateArray and verify
+        const Array<State> cachedStateArray = propagatedModel.accessCachedStateArray() ;
+
+        // Check array chronological order
+        EXPECT_LT(cachedStateArray[0].getInstant(), cachedStateArray[1].getInstant()) ;
+        EXPECT_LT(cachedStateArray[1].getInstant(), cachedStateArray[2].getInstant()) ;
+        EXPECT_EQ(cachedStateArray.getSize(), 3) ;
+
+    }
+
+    {
+        // Test setting empty cachedStateArray
+
+        EXPECT_THROW
+        (
+            {
+                try
+                {
+                    propagatedModel.setCachedStateArray(Array<State>::Empty()) ;
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(e.what(), String("{Propagated} is undefined.")) ;
+                    throw ;
+                }
+            },
+            ostk::core::error::RuntimeError
+        ) ;
 
     }
 
@@ -816,7 +1024,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Cache
 /* Force model validation tests */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody)
 {
 
     // Create environment
@@ -826,7 +1034,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
     const Environment customEnvironment = Environment(instantJ2000, objects) ;
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Satellite dynamics setup
@@ -837,7 +1045,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
     // Two body vs GMAT
     {
         // Current state and instant setup
-        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;        
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC) ;
 
         // Reference data setup
         const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/GMAT_TwoBody_2hr_run.csv")), Table::Format::CSV, true) ;
@@ -860,7 +1068,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -914,8 +1122,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
                 instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC)) ;
 
-                referencePositionArray_GCRF.add( {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()} ) ;
-                referenceVelocityArray_GCRF.add( {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()} ) ;
+                referencePositionArray_GCRF.add({ referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal() }) ;
+                referenceVelocityArray_GCRF.add({ referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal() }) ;
 
                 referencePositionArray_ITRF.add( {referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()} ) ;
                 referenceVelocityArray_ITRF.add( {referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()} ) ;
@@ -929,7 +1137,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -975,7 +1183,8 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         // std::cout.setf(std::ios::fixed,std::ios::floatfield);
         // std::cout << "**************************************" << std::endl;
 
-        // // Results console output
+        // Results console output
+
         // std::cout << "**************************************" << std::endl;
         // std::cout.setf(std::ios::scientific,std::ios::floatfield);
         // std::cout << "ITRF Position error is: " << positionError_ITRF << "m" << std::endl;
@@ -988,11 +1197,11 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM2008 )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM2008)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Current state and instant setup
@@ -1023,7 +1232,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM2008(100, 100)) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        
+
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
@@ -1031,7 +1240,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1171,11 +1380,11 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96 )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // EGM96 360x360 perturbation only vs GMAT
@@ -1213,7 +1422,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1277,7 +1486,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96(70, 70)) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        
+
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
@@ -1285,7 +1494,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1446,11 +1655,11 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM84 )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM84)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // EGM84 70x70 perturbation only vs STK EGM84
@@ -1480,7 +1689,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM84(70, 70)) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        
+
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
@@ -1488,7 +1697,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1626,7 +1835,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun_Moon )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun_Moon)
 {
 
     // Sun+Moon perturbation only vs GMAT
@@ -1673,7 +1882,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1712,7 +1921,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Sun)
 {
 
     // Sun perturbation only vs GMAT
@@ -1758,7 +1967,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1797,7 +2006,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
 }
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Moon )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_Moon)
 {
 
     // Moon perturbation only vs GMAT
@@ -1843,7 +2052,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
         SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
         // Propagate all states
@@ -1914,7 +2123,7 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         const Array<Shared<Object>> objects = { std::make_shared<Earth>(Earth::EGM96()) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
-        
+
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr) } ;
 
@@ -1970,11 +2179,11 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 /* Propagation Interval validation test */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison)
 {
 
     // Satellite system setup
-    const Composite satelliteGeometry( Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 } )) ;
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
     const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
 
     // Create environment
@@ -2004,7 +2213,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
     {
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
 
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
@@ -2057,11 +2266,11 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 
     }
 
-    // Test that calculateStateAt returns the almost the same answer if states are requested at short or long intervals
+    // Test that calculateStateAt returns almost the same answer if states are requested at short or long intervals
     {
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state} ;
+        const Propagated propagatedModel = { satelliteDynamics, defaultnumericalSolver_, state } ;
 
         const Orbit orbit = { propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth") } ;
 
@@ -2116,7 +2325,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropA
 /* Stepper validation test */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_StepperTypeSelfComparison )
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_StepperTypeSelfComparison)
 {
 
     {
@@ -2278,12 +2487,12 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
         timeArray_tested.erase(timeArray_tested.begin(), timeArray_tested.begin() + 2) ;
         timeArray_tested.erase(timeArray_tested.end() - 2, timeArray_tested.end()) ;
 
-        const double timeAverage_default = std::accumulate(timeArray_default.begin(), timeArray_default.end(), 0.0) / timeArray_default.getSize() ;
-        std::cout << "timeAverage_default: " << timeAverage_default << std::endl ;
-        const double timeAverage_tested = std::accumulate(timeArray_tested.begin(), timeArray_tested.end(), 0.0) / timeArray_tested.getSize() ;
-        std::cout << "timeAverage_tested: " << timeAverage_tested << std::endl ;
+        // const double timeAverage_default = std::accumulate(timeArray_default.begin(), timeArray_default.end(), 0.0) / timeArray_default.getSize() ;
+        // std::cout << "timeAverage_default: " << timeAverage_default << std::endl ;
+        // const double timeAverage_tested = std::accumulate(timeArray_tested.begin(), timeArray_tested.end(), 0.0) / timeArray_tested.getSize() ;
+        // std::cout << "timeAverage_tested: " << timeAverage_tested << std::endl ;
 
-        std::cout << "Ratio of tested to default is: " << timeAverage_tested / timeAverage_default << std::endl ;
+        // std::cout << "Ratio of tested to default is: " << timeAverage_tested / timeAverage_default << std::endl ;
 
     }
 

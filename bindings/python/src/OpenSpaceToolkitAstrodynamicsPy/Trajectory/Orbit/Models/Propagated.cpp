@@ -82,6 +82,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .def("access_cached_state_array", &Propagated::accessCachedStateArray)
             .def("access_propagator", &Propagated::accessPropagator)
 
+            .def(
+                "set_cached_state_array",
+                &Propagated::setCachedStateArray,
+                arg("state_array")
+            )
+
         ;
 
     }

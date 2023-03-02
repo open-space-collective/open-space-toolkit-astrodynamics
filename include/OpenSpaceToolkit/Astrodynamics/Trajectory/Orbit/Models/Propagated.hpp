@@ -217,6 +217,16 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
         const Propagator&       accessPropagator                            ( ) const ;
 
+        /// @brief              Set internal cached state array manually
+        ///
+        /// @code
+        ///                     Array<State> stateArray = { ... } ;
+        ///                     propagated.setCachedStateArray(stateArray) ;
+        /// @endcode
+        /// @param              [in] aStateArray A state array
+
+        void                    setCachedStateArray                         (   const   Array<State>&               aStateArray                                 ) ;
+
         /// @brief              Print propagated
         ///
         /// @param              [in] anOutputStream An output stream
