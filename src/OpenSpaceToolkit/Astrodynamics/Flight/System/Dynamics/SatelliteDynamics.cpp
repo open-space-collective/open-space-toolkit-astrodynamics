@@ -115,12 +115,12 @@ void                            SatelliteDynamics::print                    (   
 
 }
 
-Instant                            SatelliteDynamics::getInstant              ( ) const
+Instant                         SatelliteDynamics::getInstant               ( ) const
 {
     return instant_ ;
 }
 
-void                               SatelliteDynamics::setInstant              (   const   Instant&                    anInstant                                   )
+void                            SatelliteDynamics::setInstant               (   const   Instant&                    anInstant                                   )
 {
     this->instant_ = anInstant ;
 }

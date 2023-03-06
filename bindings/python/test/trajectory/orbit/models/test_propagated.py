@@ -30,6 +30,7 @@ from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import Propagator
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
 
 ################################################################################################################################################################
@@ -176,5 +177,27 @@ class TestPropagated:
 
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
+
+    def test_access_propagator (self,
+                                propagated: Propagated):
+
+        assert propagated.access_propagator() is not None
+        assert isinstance(propagated.access_propagator(), Propagator)
+
+    def test_set_cached_state_array (self,
+                                     propagated: Propagated,
+                                     propagated_default_inputs):
+
+        (_, _, state, _) = propagated_default_inputs
+
+        assert len(propagated.access_cached_state_array()) == 1
+
+        propagated.set_cached_state_array([state, state, state])
+
+        assert len(propagated.access_cached_state_array()) == 1
+        assert propagated.access_cached_state_array()[0] == state
+
+        with pytest.raises(Exception) as e:
+            propagated.set_cached_state_array([])
 
 ################################################################################################################################################################
