@@ -18,6 +18,7 @@ var searchData=
   ['sequencenumber',['sequenceNumber',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#ae514bdf0229784c78152dd6efcbe9cd6',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
   ['setaccessfilter',['setAccessFilter',['../classostk_1_1astro_1_1access_1_1_generator.html#ade3c6b8b5afe0f850e3531d715eac826',1,'ostk::astro::access::Generator']]],
   ['setaerfilter',['setAerFilter',['../classostk_1_1astro_1_1access_1_1_generator.html#a4d82f15eb2da1fbf7c74b3136eed3301',1,'ostk::astro::access::Generator']]],
+  ['setcachedstatearray',['setCachedStateArray',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a42c39258f14a74520c99bb5477a521df',1,'ostk::astro::trajectory::orbit::models::Propagated']]],
   ['setepoch',['setEpoch',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a1b31551503d41d052b3270782824e489',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],
   ['setinstant',['setInstant',['../classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#ad1fe1ebe85ac3d5024032e42b4083c95',1,'ostk::astro::flight::system::dynamics::SatelliteDynamics']]],
   ['setrevolutionnumberatepoch',['setRevolutionNumberAtEpoch',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a71f0c58af0aac913f7025f7f7e9500d3',1,'ostk::astro::trajectory::orbit::models::sgp4::TLE']]],

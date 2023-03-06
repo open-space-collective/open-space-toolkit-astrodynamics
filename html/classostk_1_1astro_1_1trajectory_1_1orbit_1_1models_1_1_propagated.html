@@ -140,6 +140,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab13c196dcea01238b6e1997cb46ced2b"><td class="memItemLeft" align="right" valign="top">const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#ab13c196dcea01238b6e1997cb46ced2b">accessCachedStateArray</a> () const</td></tr>
 <tr class="memdesc:ab13c196dcea01238b6e1997cb46ced2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch internal cached state array.  <a href="#ab13c196dcea01238b6e1997cb46ced2b">More...</a><br /></td></tr>
 <tr class="separator:ab13c196dcea01238b6e1997cb46ced2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabd25012cfd543722032f5bab8c0a3a3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#aabd25012cfd543722032f5bab8c0a3a3">accessPropagator</a> () const</td></tr>
+<tr class="memdesc:aabd25012cfd543722032f5bab8c0a3a3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> propagator.  <a href="#aabd25012cfd543722032f5bab8c0a3a3">More...</a><br /></td></tr>
+<tr class="separator:aabd25012cfd543722032f5bab8c0a3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42c39258f14a74520c99bb5477a521df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a42c39258f14a74520c99bb5477a521df">setCachedStateArray</a> (const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aStateArray)</td></tr>
+<tr class="memdesc:a42c39258f14a74520c99bb5477a521df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set internal cached state array manually.  <a href="#a42c39258f14a74520c99bb5477a521df">More...</a><br /></td></tr>
+<tr class="separator:a42c39258f14a74520c99bb5477a521df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b8aa6ff5511dbe92e6a3e7f4dd6880b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html#a2b8aa6ff5511dbe92e6a3e7f4dd6880b">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="memdesc:a2b8aa6ff5511dbe92e6a3e7f4dd6880b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print propagated.  <a href="#a2b8aa6ff5511dbe92e6a3e7f4dd6880b">More...</a><br /></td></tr>
 <tr class="separator:a2b8aa6ff5511dbe92e6a3e7f4dd6880b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -284,6 +290,26 @@ Friends</h2></td></tr>
 
 <p>Fetch internal cached state array. </p>
 <div class="fragment"><div class="line">Array&lt;State&gt; stateArray = propagated.accessCachedStateArray() ;</div></div><!-- fragment --> <dl class="section return"><dt>Returns</dt><dd>Array&lt;State&gt;&amp; </dd></dl>
+
+</div>
+</div>
+<a id="aabd25012cfd543722032f5bab8c0a3a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabd25012cfd543722032f5bab8c0a3a3">&#9670;&nbsp;</a></span>accessPropagator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> &amp; ostk::astro::trajectory::orbit::models::Propagated::accessPropagator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility. ">Access</a> propagator. </p>
+<div class="fragment"><div class="line">Propagator propagator = propagated.accessPropagator() ;</div></div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration. ">Propagator</a> </dd></dl>
 
 </div>
 </div>
@@ -691,6 +717,32 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html#a8ea45c1a6e51a6153ce3f72f5294f0c6">ostk::astro::trajectory::orbit::Model</a>.</p>
+
+</div>
+</div>
+<a id="a42c39258f14a74520c99bb5477a521df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42c39258f14a74520c99bb5477a521df">&#9670;&nbsp;</a></span>setCachedStateArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::orbit::models::Propagated::setCachedStateArray </td>
+          <td>(</td>
+          <td class="paramtype">const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aStateArray</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set internal cached state array manually. </p>
+<div class="fragment"><div class="line">Array&lt;State&gt; stateArray = { ... } ;</div><div class="line">propagated.setCachedStateArray(stateArray) ;</div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aStateArray</td><td>A state array </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

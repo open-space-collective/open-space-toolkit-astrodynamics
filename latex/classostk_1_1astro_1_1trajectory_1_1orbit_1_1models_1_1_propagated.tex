@@ -42,6 +42,10 @@ virtual Integer \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1
 \begin{DoxyCompactList}\small\item\em Calculate the revolution number at an instant. \end{DoxyCompactList}\item 
 const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_ab13c196dcea01238b6e1997cb46ced2b}{access\+Cached\+State\+Array} () const
 \begin{DoxyCompactList}\small\item\em Fetch internal cached state array. \end{DoxyCompactList}\item 
+const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \& \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aabd25012cfd543722032f5bab8c0a3a3}{access\+Propagator} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{classostk_1_1astro_1_1_access}{Access} propagator. \end{DoxyCompactList}\item 
+void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a42c39258f14a74520c99bb5477a521df}{set\+Cached\+State\+Array} (const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \&a\+State\+Array)
+\begin{DoxyCompactList}\small\item\em Set internal cached state array manually. \end{DoxyCompactList}\item 
 virtual void \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2b8aa6ff5511dbe92e6a3e7f4dd6880b}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print propagated. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
@@ -131,6 +135,25 @@ Array<State> stateArray = propagated.accessCachedStateArray() ;
 \end{DoxyCode}
  \begin{DoxyReturn}{Returns}
 Array$<$\+State$>$\& 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aabd25012cfd543722032f5bab8c0a3a3}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aabd25012cfd543722032f5bab8c0a3a3}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!access\+Propagator@{access\+Propagator}}
+\index{access\+Propagator@{access\+Propagator}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
+\subsubsection{\texorpdfstring{access\+Propagator()}{accessPropagator()}}
+{\footnotesize\ttfamily const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} \& ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::access\+Propagator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{classostk_1_1astro_1_1_access}{Access} propagator. 
+
+
+\begin{DoxyCode}
+Propagator propagator = propagated.accessPropagator() ;
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator} 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a6360392c65494aa42aadff58ec58e49c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a6360392c65494aa42aadff58ec58e49c}} 
 \index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!calculate\+Revolution\+Number\+At@{calculate\+Revolution\+Number\+At}}
@@ -393,6 +416,26 @@ Print propagated.
 
 Implements \hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model_a8ea45c1a6e51a6153ce3f72f5294f0c6}{ostk\+::astro\+::trajectory\+::orbit\+::\+Model}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a42c39258f14a74520c99bb5477a521df}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a42c39258f14a74520c99bb5477a521df}} 
+\index{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}!set\+Cached\+State\+Array@{set\+Cached\+State\+Array}}
+\index{set\+Cached\+State\+Array@{set\+Cached\+State\+Array}!ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated@{ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated}}
+\subsubsection{\texorpdfstring{set\+Cached\+State\+Array()}{setCachedStateArray()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::set\+Cached\+State\+Array (\begin{DoxyParamCaption}\item[{const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \&}]{a\+State\+Array }\end{DoxyParamCaption})}
+
+
+
+Set internal cached state array manually. 
+
+
+\begin{DoxyCode}
+Array<State> stateArray = \{ ... \} ;
+propagated.setCachedStateArray(stateArray) ;
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em a\+State\+Array} & A state array \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Friends And Related Function Documentation}
