@@ -33,7 +33,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
 
         numericalSolver
 
-            .def(init<const NumericalSolver::LogType&, const NumericalSolver::StepperType&, const Real&, const Real&, const Real&>())
+            .def
+            (
+                init<const NumericalSolver::LogType&, const NumericalSolver::StepperType&, const Real&, const Real&, const Real&>(),
+                arg("log_type"),
+                arg("stepper_type"),
+                arg("time_step"),
+                arg("relative_tolerance"),
+                arg("absolute_tolerance")
+            )
             .def(init<const NumericalSolver&>())
 
             .def(self == self)
@@ -88,8 +96,8 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_NumericalSolver 
                 }
             )
 
-            .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType)
-            .def_static("string_from_log_type", &NumericalSolver::StringFromLogType)
+            .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
+            .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))
 
         ;
 
