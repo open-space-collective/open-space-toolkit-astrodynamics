@@ -2499,3 +2499,30 @@ TEST (DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropagationAtExactInstants)
+{
+
+    {
+
+        Array<State> states = {
+            { Instant::DateTime(DateTime::Parse("2023-01-30T18:30:00.184", DateTime::Format::ISO8601), Scale::UTC), Position::Meters({ -5981016.371280898340, 2114677.607544674072, 2683244.080375305377 }, gcrfSPtr_), Velocity::MetersPerSecond({ 3142.190382984703, 50.122115740761, 6934.877387038766 }, gcrfSPtr_) },
+            { Instant::DateTime(DateTime::Parse("2023-01-30T18:35:00.184", DateTime::Format::ISO8601), Scale::UTC), Position::Meters({ -4730169.446157290600, 2014399.438757266616, 4579373.510992174037 }, gcrfSPtr_), Velocity::MetersPerSecond({ 5120.144014790862, -712.422950530929, 5589.998515385998 }, gcrfSPtr_) },
+            { Instant::DateTime(DateTime::Parse("2023-01-30T18:40:00.184", DateTime::Format::ISO8601), Scale::UTC), Position::Meters({ -2965004.866673604585, 1695085.379882899811, 5976267.045515080914 }, gcrfSPtr_), Velocity::MetersPerSecond({ 6539.557709872774, -1396.675776577052, 3637.641862957897 }, gcrfSPtr_) }
+        } ;
+
+        const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
+        const SatelliteSystem satelliteSystem = { Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2 } ;
+        const SatelliteDynamics satelliteDynamics = { defaultEnvironment_, satelliteSystem } ;
+
+        Propagated propagated(satelliteDynamics, defaultnumericalSolver_, states) ;
+
+        State estimatedState = propagated.calculateStateAt(states[1].getInstant()) ;
+
+        ASSERT_EQ(estimatedState, states[1]) ;
+
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
