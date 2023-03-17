@@ -238,8 +238,8 @@ Array<State>                    Propagated::calculateStatesAt               (   
         for (Size k = 0 ; k < instants.getSize() ; ++k)
         {
 
-            Real forwardWeight = (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates ;
-            Real backwardWeight = (this->cachedStateArray_[i + 1].getInstant() - instants[k]).inSeconds() / durationBetweenStates ;
+            Real forwardWeight = (this->cachedStateArray_[i + 1].getInstant() - instants[k]).inSeconds() / durationBetweenStates ;
+            Real backwardWeight = (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates ;
 
             VectorXd coordinates = (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight);
 
