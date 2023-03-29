@@ -10,13 +10,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access__
 #define __OpenSpaceToolkit_Astrodynamics_Access__
 
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,14 +27,14 @@ namespace astro
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using ostk::core::types::String ;
-using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Array;
+using ostk::core::types::String;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Duration ;
-using ostk::physics::time::Interval ;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
 
-using ostk::physics::units::Angle ;
+using ostk::physics::units::Angle;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -42,68 +42,63 @@ using ostk::physics::units::Angle ;
 
 class Access
 {
+   public:
+    enum class Type
+    {
 
-    public:
+        Undefined,
+        Complete,
+        Partial
 
-        enum class Type
-        {
+    };
 
-            Undefined,
-            Complete,
-            Partial
+    Access(const Access::Type& aType,
+           const Instant& anAcquisitionOfSignal,
+           const Instant& aTimeOfClosestApproach,
+           const Instant& aLossOfSignal,
+           const Angle& aMaxElevation);
 
-        } ;
+    bool operator==(const Access& anAccess) const;
 
-                                Access                                      (   const   Access::Type&               aType,
-                                                                                const   Instant&                    anAcquisitionOfSignal,
-                                                                                const   Instant&                    aTimeOfClosestApproach,
-                                                                                const   Instant&                    aLossOfSignal,
-                                                                                const   Angle&                      aMaxElevation                               ) ;
+    bool operator!=(const Access& anAccess) const;
 
-        bool                    operator ==                                 (   const   Access&                     anAccess                                    ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Access& anAccess);
 
-        bool                    operator !=                                 (   const   Access&                     anAccess                                    ) const ;
+    bool isDefined() const;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Access&                     anAccess                                    ) ;
+    bool isComplete() const;
 
-        bool                    isDefined                                   ( ) const ;
+    Access::Type getType() const;
 
-        bool                    isComplete                                  ( ) const ;
+    Instant getAcquisitionOfSignal() const;
 
-        Access::Type            getType                                     ( ) const ;
+    Instant getTimeOfClosestApproach() const;
 
-        Instant                 getAcquisitionOfSignal                      ( ) const ;
+    Instant getLossOfSignal() const;
 
-        Instant                 getTimeOfClosestApproach                    ( ) const ;
+    Interval getInterval() const;
 
-        Instant                 getLossOfSignal                             ( ) const ;
+    Duration getDuration() const;
 
-        Interval                getInterval                                 ( ) const ;
+    Angle getMaxElevation() const;
 
-        Duration                getDuration                                 ( ) const ;
+    static Access Undefined();
 
-        Angle                   getMaxElevation                             ( ) const ;
+    static String StringFromType(const Access::Type& aType);
 
-        static Access           Undefined                                   ( ) ;
+   private:
+    Access::Type type_;
 
-        static String           StringFromType                              (   const   Access::Type&               aType                                       ) ;
-
-    private:
-
-        Access::Type            type_ ;
-
-        Instant                 acquisitionOfSignal_ ;
-        Instant                 timeOfClosestApproach_ ;
-        Instant                 lossOfSignal_ ;
-        Angle                   maxElevation_ ;
-
-} ;
+    Instant acquisitionOfSignal_;
+    Instant timeOfClosestApproach_;
+    Instant lossOfSignal_;
+    Angle maxElevation_;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-}
-}
+}  // namespace astro
+}  // namespace ostk
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

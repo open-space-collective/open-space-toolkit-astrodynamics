@@ -21,6 +21,10 @@ RUN apt-get update \
  && apt-get install -y unzip \
  && rm -rf /var/lib/apt/lists/*
 
+## clang
+RUN apt-get update \
+    && apt-get install -y clang-format
+
 ## {fmt}
 
 ARG FMT_VERSION="5.2.0"
