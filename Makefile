@@ -296,13 +296,12 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 
 ################################################################################################################################################################
 
-
 clang-format-source: start-development-debian ## Format all of the source code with the rules in .clang-format
-	@ echo Running Clang Format. See .clang-format for Rules
+	@ echo Applying Clang format (see `.clang-format` file for rules)...
 	$(shell clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path})
 
 clang-format-check: start-development-debian ## Runs the clang-format tool to check the code against rules and formatting
-	@ echo Dry run for clang-format to see if files are formatted.
+	@ echo Dry-running Clang format...
 	$(shell clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path})
 
 ################################################################################################################################################################

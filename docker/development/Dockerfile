@@ -23,7 +23,7 @@ RUN apt-get update \
 
 ## clang
 RUN apt-get update \
-    && apt-get install -y clang-format
+ && apt-get install -y clang-format
 
 ## {fmt}
 
