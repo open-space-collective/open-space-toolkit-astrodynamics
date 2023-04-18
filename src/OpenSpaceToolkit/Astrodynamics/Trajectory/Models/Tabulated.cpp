@@ -64,7 +64,7 @@ namespace models
         throw ostk::core::error::runtime::Wrong("Interpolation type") ;
     }
 
-    for (Size i = 0 ; i < coordinates_.cols() ; ++i)
+    for (Size i = 0 ; i < Size(coordinates_.cols()) ; ++i)
     {
 
         if (interpolationType_ == Tabulated::InterpolationType::CubicSpline)

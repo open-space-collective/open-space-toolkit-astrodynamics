@@ -108,7 +108,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, calcul
 
         State state = tabulated.calculateStateAt(referenceInstant) ;
 
-        EXPECT_TRUE(state.getCoordinates().isNear(referenceStates_[i].getCoordinates(), 1e-2)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
+        EXPECT_TRUE(state.getCoordinates().isApprox(referenceStates_[i].getCoordinates(), 1e-2)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
 
     }
 
@@ -131,7 +131,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, calcul
 
         State state = tabulated.calculateStateAt(referenceInstant) ;
 
-        EXPECT_TRUE(state.getCoordinates().isNear(referenceStates_[i].getCoordinates(), 1e-1)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
+        EXPECT_TRUE(state.getCoordinates().isApprox(referenceStates_[i].getCoordinates(), 5e-3)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
 
     }
 
@@ -154,7 +154,7 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, calcul
 
         State state = tabulated.calculateStateAt(referenceInstant) ;
 
-        EXPECT_TRUE(state.getCoordinates().isNear(referenceStates_[i].getCoordinates(), 1e-2)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
+        EXPECT_TRUE(state.getCoordinates().isApprox(referenceStates_[i].getCoordinates(), 5e-3)) << String::Format("Residual: {}", (state - referenceStates_[i]).getCoordinates().toString()) ;
 
     }
 
