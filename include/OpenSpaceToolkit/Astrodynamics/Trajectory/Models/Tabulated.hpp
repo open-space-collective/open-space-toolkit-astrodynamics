@@ -10,16 +10,19 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
-
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/BarycentricRational.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/CubicSpline.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -35,15 +38,26 @@ namespace models
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using ostk::core::types::Index ;
+using ostk::core::types::Size ;
 using ostk::core::ctnr::Pair ;
 using ostk::core::ctnr::Array ;
 using ostk::core::fs::File ;
 
+using ostk::math::obj::VectorXd ;
+using ostk::math::obj::MatrixXd ;
+using ostk::math::curvefitting::interp::CubicSpline ;
+using ostk::math::curvefitting::interp::BarycentricRational ;
+
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Interval ;
+using ostk::physics::time::Scale ;
 
 using ostk::astro::trajectory::Model ;
 using ostk::astro::trajectory::State ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define                         DEFAULT_ITERPOLATION_TYPE                       Tabulated::InterpolationType::Linear
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,7 +71,17 @@ class Tabulated : public virtual Model
 
     public:
 
-                                Tabulated                                   (   const   Array<State>&               aStateArray                                 ) ;
+        enum class InterpolationType
+        {
+
+            Linear,
+            BarycentricRational,
+            CubicSpline
+
+        } ;
+
+                                Tabulated                                   (   const   Array<State>&               aStateArray,
+                                                                                const   InterpolationType&          anInterpolationType                         = DEFAULT_ITERPOLATION_TYPE ) ;
 
         virtual Tabulated*      clone                                       ( ) const override ;
 
@@ -71,6 +95,8 @@ class Tabulated : public virtual Model
         virtual bool            isDefined                                   ( ) const override ;
 
         Interval                getInterval                                 ( ) const ;
+
+        Tabulated::InterpolationType getInterpolationType                   ( ) const ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
@@ -89,6 +115,18 @@ class Tabulated : public virtual Model
 
         Array<State>            states_ ;
         mutable Index           stateIndex_ ;
+    
+        InterpolationType       interpolationType_ ;
+        VectorXd                timestamps_ ;
+        MatrixXd                coordinates_ ;
+        std::function<State (const Instant&)> interpolation_ ;
+    
+        Array<CubicSpline>      cubicSpline_ = Array<CubicSpline>::Empty() ;
+        Array<BarycentricRational> barycentricRational_ = Array<BarycentricRational>::Empty() ;
+
+        State                   linearInterpolation                         (   const   Instant&                    anInstant                                   ) const ;
+        State                   barycentricRationalInterpolation            (   const   Instant&                    anInstant                                   ) const ;
+        State                   cubicSplineInterpolation                    (   const   Instant&                    anInstant                                   ) const ;
 
         Pair<const State*, const State*> accessStateRangeAt                 (   const   Instant&                    anInstant                                   ) const ;
 
