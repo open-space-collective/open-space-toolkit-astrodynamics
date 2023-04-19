@@ -28,45 +28,49 @@ namespace models
                                 Tabulated::Tabulated                        (   const   Array<State>&               aStateArray,
                                                                                 const   InterpolationType&          anInterpolationType                                 )
                                 :   Model(),
-                                    states_(aStateArray),
-                                    stateIndex_(0),
-                                    interpolationType_(anInterpolationType),
-                                    timestamps_(aStateArray.getSize()),
-                                    coordinates_(aStateArray.getSize(), 6)
+                                    interpolationType_(anInterpolationType)
 {
 
     using ostk::math::curvefitting::interp::CubicSpline ;
     using ostk::math::curvefitting::interp::BarycentricRational ;
     using ostk::math::curvefitting::interp::LinearInterpolator ;
 
-    std::sort(states_.begin(), states_.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
+    Array<State> stateArray = aStateArray ;
 
-    for (Size i = 0 ; i < states_.getSize() ; ++i)
+    std::sort(stateArray.begin(), stateArray.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
+
+    firstState_ = aStateArray.accessFirst() ;
+    lastState_ = aStateArray.accessLast() ;
+
+    VectorXd timestamps(stateArray.getSize()) ;
+    MatrixXd coordinates(stateArray.getSize(), 6) ;
+
+    for (Size i = 0 ; i < stateArray.getSize() ; ++i)
     {
 
-        timestamps_(i) = (states_[i].accessInstant() - states_[0].accessInstant()).inSeconds() ;
+        timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds() ;
 
-        coordinates_.row(i).segment<3>(0) = states_[i].accessPosition().accessCoordinates() ;
-        coordinates_.row(i).segment<3>(3) = states_[i].accessVelocity().accessCoordinates() ;
+        coordinates.row(i).segment<3>(0) = stateArray[i].accessPosition().accessCoordinates() ;
+        coordinates.row(i).segment<3>(3) = stateArray[i].accessVelocity().accessCoordinates() ;
 
     }
 
-    interpolators_.reserve(coordinates_.cols()) ;
+    interpolators_.reserve(coordinates.cols()) ;
 
-    for (Size i = 0 ; i < Size(coordinates_.cols()) ; ++i)
+    for (Size i = 0 ; i < Size(coordinates.cols()) ; ++i)
     {
 
         if (interpolationType_ == Tabulated::InterpolationType::CubicSpline)
         {
-            interpolators_.add(std::make_shared<CubicSpline>(CubicSpline(timestamps_, coordinates_.col(i)))) ;
+            interpolators_.add(std::make_shared<CubicSpline>(CubicSpline(timestamps, coordinates.col(i)))) ;
         }
         else if (interpolationType_ == Tabulated::InterpolationType::BarycentricRational)
         {
-            interpolators_.add(std::make_shared<BarycentricRational>(BarycentricRational(timestamps_, coordinates_.col(i)))) ;
+            interpolators_.add(std::make_shared<BarycentricRational>(BarycentricRational(timestamps, coordinates.col(i)))) ;
         }
         else if (interpolationType_ == Tabulated::InterpolationType::Linear)
         {
-            interpolators_.add(std::make_shared<LinearInterpolator>(LinearInterpolator(timestamps_, coordinates_.col(i)))) ;
+            interpolators_.add(std::make_shared<LinearInterpolator>(LinearInterpolator(timestamps, coordinates.col(i)))) ;
         }
 
     }
@@ -86,7 +90,7 @@ bool                            Tabulated::operator ==                      (   
         return false ;
     }
 
-    return states_ == aTabulatedModel.states_ ;
+    return interpolationType_ == aTabulatedModel.interpolationType_ ;
 
 }
 
@@ -107,7 +111,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            Tabulated::isDefined                        ( ) const
 {
-    return !states_.isEmpty() ;
+    return !interpolators_.isEmpty() ;
 }
 
 Interval                        Tabulated::getInterval                     ( ) const
@@ -118,7 +122,7 @@ Interval                        Tabulated::getInterval                     ( ) c
         throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
-    return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant()) ;
+    return Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant()) ;
 
 }
 
@@ -153,12 +157,10 @@ State                           Tabulated::calculateStateAt                 (   
 
     for (Size i = 0 ; i < interpolators_.getSize() ; ++i)
     {
-        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - states_[0].accessInstant()).inSeconds()) ;
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds()) ;
     }
 
-    return State(anInstant, Position::Meters(interpolatedCoordinates.segment<3>(0), states_[0].accessPosition().accessFrame()), Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3),  states_[0].accessPosition().accessFrame())) ;
-
-    return interpolation_(anInstant) ;
+    return State(anInstant, Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()), Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3),  firstState_.accessPosition().accessFrame())) ;
 
 }
 

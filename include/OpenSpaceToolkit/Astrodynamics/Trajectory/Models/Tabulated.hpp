@@ -115,22 +115,12 @@ class Tabulated : public virtual Model
 
     private:
 
-        Array<State>            states_ ;
-        mutable Index           stateIndex_ ;
+        State                   firstState_ = State::Undefined() ;
+        State                   lastState_ = State::Undefined() ;
 
         InterpolationType       interpolationType_ ;
-        std::function<State (const Instant&)> interpolation_ ;
+
         Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty() ;
-
-        VectorXd                timestamps_ ;
-        MatrixXd                coordinates_ ;
-
-        State                   linearInterpolation                         (   const   Instant&                    anInstant                                   ) const ;
-        State                   nonlinearInterpolation                      (   const   Instant&                    anInstant                                   ) const ;
-
-        Pair<const State*, const State*> accessStateRangeAt                 (   const   Instant&                    anInstant                                   ) const ;
-
-        Pair<const State*, const State*> accessStateRangeAtIndex            (   const   Index&                      anIndex                                     ) const ;
 
 } ;
 
