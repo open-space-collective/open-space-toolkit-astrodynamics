@@ -15,8 +15,10 @@
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/BarycentricRational.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/CubicSpline.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/Linear.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -39,14 +41,14 @@ namespace models
 
 using ostk::core::types::Index ;
 using ostk::core::types::Size ;
+using ostk::core::types::Shared ;
 using ostk::core::ctnr::Pair ;
 using ostk::core::ctnr::Array ;
 using ostk::core::fs::File ;
 
 using ostk::math::obj::VectorXd ;
 using ostk::math::obj::MatrixXd ;
-using ostk::math::curvefitting::interp::CubicSpline ;
-using ostk::math::curvefitting::interp::BarycentricRational ;
+using ostk::math::curvefitting::interp::Interpolator ;
 
 using ostk::physics::time::Instant ;
 using ostk::physics::time::Interval ;
@@ -115,18 +117,16 @@ class Tabulated : public virtual Model
 
         Array<State>            states_ ;
         mutable Index           stateIndex_ ;
-    
+
         InterpolationType       interpolationType_ ;
+        std::function<State (const Instant&)> interpolation_ ;
+        Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty() ;
+
         VectorXd                timestamps_ ;
         MatrixXd                coordinates_ ;
-        std::function<State (const Instant&)> interpolation_ ;
-    
-        Array<CubicSpline>      cubicSpline_ = Array<CubicSpline>::Empty() ;
-        Array<BarycentricRational> barycentricRational_ = Array<BarycentricRational>::Empty() ;
 
         State                   linearInterpolation                         (   const   Instant&                    anInstant                                   ) const ;
-        State                   barycentricRationalInterpolation            (   const   Instant&                    anInstant                                   ) const ;
-        State                   cubicSplineInterpolation                    (   const   Instant&                    anInstant                                   ) const ;
+        State                   nonlinearInterpolation                      (   const   Instant&                    anInstant                                   ) const ;
 
         Pair<const State*, const State*> accessStateRangeAt                 (   const   Instant&                    anInstant                                   ) const ;
 
