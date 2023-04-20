@@ -131,20 +131,6 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-physics
 
-## Boost
-
-ARG BOOST_MAJOR_VERSION="1"
-ARG BOOST_MINOR_VERSION="82"
-ARG BOOST_VERSION="${BOOST_MAJOR_VERSION}.${BOOST_MINOR_VERSION}.0"
-
-RUN mkdir -p /tmp/boost \
- && cd /tmp/boost \
- && wget --quiet -O boost_${BOOST_VERSION}.tar.gz https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_MAJOR_VERSION}_${BOOST_MINOR_VERSION}_0.tar.gz/download \
- && tar xzvf boost_${BOOST_VERSION}.tar.gz \
- && cd boost_${BOOST_MAJOR_VERSION}_${BOOST_MINOR_VERSION}_0 \
- && ./bootstrap.sh --prefix=/usr/local \
- && ./b2 install
-
 # Install data
 
 COPY --from=us.gcr.io/loft-orbital-public/software/open-space-toolkit/data:0.3.0 /open-space-toolkit/physics /usr/local/share/OpenSpaceToolkit/Physics
