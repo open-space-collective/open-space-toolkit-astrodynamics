@@ -35,6 +35,11 @@ namespace models
     using ostk::math::curvefitting::interp::BarycentricRational ;
     using ostk::math::curvefitting::interp::LinearInterpolator ;
 
+    if (aStateArray.isEmpty())
+    {
+        return ;
+    }
+
     Array<State> stateArray = aStateArray ;
 
     std::sort(stateArray.begin(), stateArray.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;

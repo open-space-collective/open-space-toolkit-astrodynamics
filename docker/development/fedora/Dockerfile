@@ -39,7 +39,7 @@ RUN git clone --branch v${ORDERED_MAP_VERSION} --depth 1 https://github.com/Tess
 
 ## Eigen
 
-ARG EIGEN_VERSION="3.3.7"
+ARG EIGEN_VERSION="3.4.0"
 
 RUN mkdir /tmp/eigen \
  && cd /tmp/eigen \
@@ -105,7 +105,7 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_VERSION="0.6.0"
+ARG OSTK_MATHEMATICS_VERSION="0.6.1"
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
