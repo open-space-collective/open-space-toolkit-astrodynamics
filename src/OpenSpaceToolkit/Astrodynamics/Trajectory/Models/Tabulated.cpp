@@ -147,6 +147,7 @@ State                           Tabulated::calculateStateAt                 (   
 {
 
     using ostk::core::types::Size ;
+    using ostk::core::types::String ;
 
     if (!anInstant.isDefined())
     {
@@ -156,6 +157,11 @@ State                           Tabulated::calculateStateAt                 (   
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Tabulated") ;
+    }
+
+    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
+    {
+        throw ostk::core::error::RuntimeError(String::Format("Provided instant [{}] is outside of interpolation range [{}, {}].", anInstant.toString(), firstState_.accessInstant().toString(), lastState_.accessInstant().toString())) ;
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize()) ;
