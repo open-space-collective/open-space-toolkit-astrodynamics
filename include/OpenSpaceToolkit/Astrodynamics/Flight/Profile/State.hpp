@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
@@ -25,10 +25,16 @@ using ostk::core::types::Shared;
 using ostk::math::geom::d3::trf::rot::Quaternion;
 using ostk::math::obj::Vector3d;
 
-using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::time::Instant;
+using ostk::math::obj::Vector3d ;
+using ostk::math::obj::VectorXd ;
+using ostk::math::geom::d3::trf::rot::Quaternion ;
+
+using ostk::physics::time::Instant ;
+using ostk::physics::coord::Position ;
+using ostk::physics::coord::Velocity ;
+using ostk::physics::coord::Frame ;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Spacecraft flight profile state
 
@@ -70,7 +76,9 @@ class State
 
     Quaternion getAttitude() const;
 
-    Vector3d getAngularVelocity() const;
+        VectorXd                getCoordinates                              ( ) const ;
+
+        Shared<const Frame>     getFrame                                    ( ) const ;
 
     Shared<const Frame> getFrame() const;
 

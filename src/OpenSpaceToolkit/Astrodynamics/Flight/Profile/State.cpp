@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -137,7 +137,25 @@ Vector3d State::getAngularVelocity() const
     return this->accessAngularVelocity();
 }
 
-Shared<const Frame> State::getFrame() const
+VectorXd                        State::getCoordinates                       ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State") ;
+    }
+
+    VectorXd coordinates(12) ;
+    coordinates.segment(0, 3) = this->accessPosition().accessCoordinates() ;
+    coordinates.segment(3, 3) = this->accessVelocity().accessCoordinates() ;
+    coordinates.segment(6, 4) = this->accessAttitude().toVector() ;
+    coordinates.segment(10, 3) = this->accessAngularVelocity() ;
+
+    return coordinates ;
+
+}
+
+Shared<const Frame>             State::getFrame                             ( ) const
 {
     if (!this->isDefined())
     {

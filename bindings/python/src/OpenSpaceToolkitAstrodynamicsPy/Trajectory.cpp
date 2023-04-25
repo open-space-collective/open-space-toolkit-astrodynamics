@@ -1,11 +1,11 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Full/FullPropagator.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {
@@ -46,8 +46,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     trajectory.attr("__path__") = "ostk.astrodynamics.trajectory";
 
     // Add objects to python submodule
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory) ;
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Full_Propagator(trajectory) ;
+
 }
