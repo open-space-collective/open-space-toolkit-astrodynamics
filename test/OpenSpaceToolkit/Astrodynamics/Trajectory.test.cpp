@@ -128,7 +128,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
 
         const Trajectory trajectory_B = { model_B } ;
 
-        EXPECT_TRUE(trajectory_A == trajectory_B) ;
+        EXPECT_FALSE(trajectory_A == trajectory_B) ;
 
         EXPECT_FALSE(trajectory_A == Trajectory::Undefined()) ;
         EXPECT_FALSE(Trajectory::Undefined() == trajectory_B) ;
@@ -202,7 +202,7 @@ TEST (OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
 
         const Trajectory trajectory_B = { model_B } ;
 
-        EXPECT_FALSE(trajectory_A != trajectory_B) ;
+        EXPECT_TRUE(trajectory_A != trajectory_B) ;
 
         EXPECT_TRUE(trajectory_A != Trajectory::Undefined()) ;
         EXPECT_TRUE(Trajectory::Undefined() != trajectory_B) ;
