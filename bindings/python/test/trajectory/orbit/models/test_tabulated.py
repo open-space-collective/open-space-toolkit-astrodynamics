@@ -14,6 +14,7 @@ import numpy as np
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
+from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
@@ -90,11 +91,11 @@ class TestTabulated:
             (Tabulated.InterpolationType.barycentric_rational, 5e-2),
         )
     )
-    def test_interpolation (self,
-                            test_states: list[State],
-                            reference_states: list[State],
-                            interpolation_type: Tabulated.InterpolationType,
-                            error_tolerance: float):
+    def test_get_state_at_success (self,
+                                   test_states: list[State],
+                                   reference_states: list[State],
+                                   interpolation_type: Tabulated.InterpolationType,
+                                   error_tolerance: float):
 
         tabulated = Tabulated(
             states = test_states,
@@ -110,5 +111,30 @@ class TestTabulated:
 
         for (calculated_state, reference_state) in zip(calculated_states, reference_states):
             assert np.all(np.abs(calculated_state.get_coordinates() - reference_state.get_coordinates()) < error_tolerance)
+
+    @pytest.mark.parametrize(
+        'interpolation_type',
+        (
+            (Tabulated.InterpolationType.linear),
+            (Tabulated.InterpolationType.cubic_spline),
+            (Tabulated.InterpolationType.barycentric_rational),
+        )
+    )
+    def test_get_state_at_failure (self,
+                                   test_states: list[State],
+                                   interpolation_type: Tabulated.InterpolationType):
+
+        tabulated = Tabulated(
+            states = test_states,
+            initial_revolution_number = 1,
+            interpolation_type = interpolation_type,
+        )
+
+        with pytest.raises(Exception):
+            tabulated.calculate_state_at(test_states[0].get_instant() - Duration.seconds(1))
+
+        with pytest.raises(Exception):
+            tabulated.calculate_state_at(test_states[-1].get_instant() + Duration.seconds(1))
+    
 
 ################################################################################################################################################################
