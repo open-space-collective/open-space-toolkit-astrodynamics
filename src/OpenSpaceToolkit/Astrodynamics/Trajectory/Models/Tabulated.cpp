@@ -95,7 +95,7 @@ bool                            Tabulated::operator ==                      (   
         return false ;
     }
 
-    return interpolationType_ == aTabulatedModel.interpolationType_ ;
+    return interpolationType_ == aTabulatedModel.getInterpolationType() && firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState() ;
 
 }
 
@@ -131,7 +131,7 @@ Interval                        Tabulated::getInterval                     ( ) c
 
 }
 
-Tabulated::InterpolationType               Tabulated::getInterpolationType             ( ) const
+Tabulated::InterpolationType    Tabulated::getInterpolationType             ( ) const
 {
 
     if (!this->isDefined())
@@ -141,6 +141,16 @@ Tabulated::InterpolationType               Tabulated::getInterpolationType      
 
     return interpolationType_ ;
 
+}
+
+State                           Tabulated::getFirstState                    ( ) const
+{
+    return firstState_ ;
+}
+
+State                           Tabulated::getLastState                     ( ) const
+{
+    return lastState_ ;
 }
 
 State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const

@@ -35,7 +35,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     tabulated_class.def(init<Array<State>, Integer, Tabulated::InterpolationType>(),
         arg("states"),
         arg("initial_revolution_number"),
-        arg("interpolation_type") = DEFAULT_ITERPOLATION_TYPE)
+        arg("interpolation_type") = DEFAULT_TABULATED_INTERPOLATION_TYPE)
 
         .def(self == self)
         .def(self != self)

@@ -51,7 +51,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
 
                                 Tabulated                                   (   const   Array<State>&               aStateArray,
                                                                                 const   Integer&                    anInitialRevolutionNumber,
-                                                                                const   InterpolationType&          aType                                       =   DEFAULT_ITERPOLATION_TYPE ) ;
+                                                                                const   InterpolationType&          aType                                       =   DEFAULT_TABULATED_INTERPOLATION_TYPE ) ;
 
         virtual Tabulated*      clone                                       ( ) const override ;
 

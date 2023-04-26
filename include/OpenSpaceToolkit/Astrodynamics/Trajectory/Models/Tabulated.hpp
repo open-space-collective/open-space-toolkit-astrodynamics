@@ -59,7 +59,7 @@ using ostk::astro::trajectory::State ;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define                         DEFAULT_ITERPOLATION_TYPE                       Tabulated::InterpolationType::Linear
+#define                         DEFAULT_TABULATED_INTERPOLATION_TYPE                       Tabulated::InterpolationType::Linear
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -83,7 +83,7 @@ class Tabulated : public virtual Model
         } ;
 
                                 Tabulated                                   (   const   Array<State>&               aStateArray,
-                                                                                const   InterpolationType&          anInterpolationType                         = DEFAULT_ITERPOLATION_TYPE ) ;
+                                                                                const   InterpolationType&          anInterpolationType                         = DEFAULT_TABULATED_INTERPOLATION_TYPE ) ;
 
         virtual Tabulated*      clone                                       ( ) const override ;
 
@@ -99,6 +99,10 @@ class Tabulated : public virtual Model
         Interval                getInterval                                 ( ) const ;
 
         Tabulated::InterpolationType getInterpolationType                   ( ) const ;
+
+        State                   getFirstState                               ( ) const ;
+
+        State                   getLastState                                ( ) const ;
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
