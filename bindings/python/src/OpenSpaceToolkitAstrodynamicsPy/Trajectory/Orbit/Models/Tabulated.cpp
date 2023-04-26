@@ -22,9 +22,20 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
     using ostk::astro::trajectory::State ;
     using ostk::astro::trajectory::orbit::models::Tabulated ;
 
-    class_<Tabulated>(aModule, "Tabulated")
+    class_<Tabulated> tabulated_class(aModule, "Tabulated");
 
-        .def(init<Array<State>, Integer>(), arg("states"), arg("initial_revolution_number"))
+    enum_<Tabulated::InterpolationType>(tabulated_class, "InterpolationType")
+
+        .value("linear", Tabulated::InterpolationType::Linear)
+        .value("cubic_spline", Tabulated::InterpolationType::CubicSpline)
+        .value("barycentric_rational", Tabulated::InterpolationType::BarycentricRational)
+
+    ;
+
+    tabulated_class.def(init<Array<State>, Integer, Tabulated::InterpolationType>(),
+        arg("states"),
+        arg("initial_revolution_number"),
+        arg("interpolation_type") = DEFAULT_ITERPOLATION_TYPE)
 
         .def(self == self)
         .def(self != self)
@@ -36,6 +47,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         .def("get_epoch", &Tabulated::getEpoch)
         .def("get_revolution_number_at_epoch", &Tabulated::getRevolutionNumberAtEpoch)
+        .def("get_interval", &Tabulated::getInterval)
         .def("calculate_state_at", &Tabulated::calculateStateAt, arg("instant"))
         .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))
 
