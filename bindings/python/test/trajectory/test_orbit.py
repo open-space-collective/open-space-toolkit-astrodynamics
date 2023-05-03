@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/test_orbit.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -14,8 +7,6 @@ import numpy
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 Length = physics.units.Length
 Angle = physics.units.Angle
@@ -41,8 +32,6 @@ Access = astrodynamics.Access
 
 earth = Environment.default().access_celestial_object_with_name('Earth')
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_constructors ():
 
     # Construct Two-Line Element set
@@ -61,8 +50,6 @@ def test_trajectory_orbit_constructors ():
     assert state is not None
     assert isinstance(state, State)
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_circular ():
 
     epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -70,8 +57,6 @@ def test_trajectory_orbit_circular ():
     inclination = Angle.degrees(45.0)
 
     orbit: Orbit = Orbit.circular(epoch, altitude, inclination, earth)
-
-################################################################################################################################################################
 
 @pytest.mark.skip
 def test_trajectory_orbit_equatorial ():
@@ -86,8 +71,6 @@ def test_trajectory_orbit_equatorial ():
     assert isinstance(orbit, Orbit)
     assert orbit.is_defined()
 
-################################################################################################################################################################
-
 @pytest.mark.skip
 def test_trajectory_orbit_circular_equatorial ():
 
@@ -100,8 +83,6 @@ def test_trajectory_orbit_circular_equatorial ():
     assert isinstance(orbit, Orbit)
     assert orbit.is_defined()
 
-################################################################################################################################################################
-
 @pytest.mark.skip
 def test_trajectory_orbit_sun_synchronous ():
 
@@ -113,5 +94,3 @@ def test_trajectory_orbit_sun_synchronous ():
     assert orbit is not None
     assert isinstance(orbit, Orbit)
     assert orbit.is_defined()
-
-################################################################################################################################################################

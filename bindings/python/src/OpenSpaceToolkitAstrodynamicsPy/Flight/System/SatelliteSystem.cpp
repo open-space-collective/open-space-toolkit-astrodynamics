@@ -1,44 +1,27 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem ( pybind11::module&   aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::types::Real;
 
-    using ostk::core::types::Real ;
+    using ostk::math::geom::d3::objects::Composite;
+    using ostk::math::obj::Matrix3d;
 
-    using ostk::math::obj::Matrix3d ;
-    using ostk::math::geom::d3::objects::Composite ;
+    using ostk::physics::units::Mass;
 
-    using ostk::physics::units::Mass ;
-
-    using ostk::astro::flight::System ;
-    using ostk::astro::flight::system::SatelliteSystem ;
+    using ostk::astro::flight::System;
+    using ostk::astro::flight::system::SatelliteSystem;
 
     {
-
         class_<SatelliteSystem, System>(aModule, "SatelliteSystem")
 
-            .def
-            (
-                init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&>(),
-                arg("mass"),
-                arg("satellite_geometry"),
-                arg("inertia_tensor"),
-                arg("cross_sectional_surface_area"),
-                arg("drag_coefficient")
-            )
+            .def(init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&>(), arg("mass"),
+                 arg("satellite_geometry"), arg("inertia_tensor"), arg("cross_sectional_surface_area"),
+                 arg("drag_coefficient"))
 
             .def(self == self)
             .def(self != self)
@@ -52,10 +35,6 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Sa
             .def("get_cross_sectional_surface_area", &SatelliteSystem::getCrossSectionalSurfaceArea)
             .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
 
-        ;
-
+            ;
     }
-
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,19 +1,10 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_utilities.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
 import ostk.physics as physics
 import ostk.astrodynamics as astrodynamics
 from ostk.astrodynamics import utilities
-
-################################################################################################################################################################
 
 Length = physics.units.Length
 Angle = physics.units.Angle
@@ -29,8 +20,6 @@ AER = physics.coordinate.spherical.AER
 Environment = physics.Environment
 Trajectory = astrodynamics.Trajectory
 State = astrodynamics.flight.profile.State
-
-################################################################################################################################################################
 
 class TestUtilities:
 
@@ -117,5 +106,3 @@ class TestUtilities:
         assert isinstance(output[0], str)
         for i in range(1, 11):
             assert isinstance(output[i], float)
-
-################################################################################################################################################################

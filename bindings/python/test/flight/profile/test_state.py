@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/profile/test_state.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -17,8 +10,6 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-################################################################################################################################################################
-
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
 DateTime = physics.time.DateTime
 Instant = physics.time.Instant
@@ -27,8 +18,6 @@ Position = physics.coordinate.Position
 Velocity = physics.coordinate.Velocity
 Frame = physics.coordinate.Frame
 State = astrodynamics.flight.profile.State
-
-################################################################################################################################################################
 
 @pytest.fixture
 def instant () -> Instant:
@@ -76,8 +65,6 @@ def state (instant: Instant,
         angular_velocity,
         frame,
     )
-
-################################################################################################################################################################
 
 class TestState:
 
@@ -150,5 +137,3 @@ class TestState:
 
         assert isinstance(state, State)
         assert state.is_defined() is False
-
-################################################################################################################################################################

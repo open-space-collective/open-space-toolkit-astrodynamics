@@ -1,274 +1,259 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::ctnr::Array;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::Size;
+using ostk::core::types::String;
 
-using ostk::core::types::Integer ;
-using ostk::core::types::Real ;
-using ostk::core::types::String ;
-using ostk::core::types::Size ;
-using ostk::core::ctnr::Array ;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Duration ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @brief                      Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OSTk-math in the future.
+/// @brief                      Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be
+/// moved into OSTk-math in the future.
 
 class NumericalSolver
 {
+   public:
+    enum class StepperType
+    {
+        RungeKuttaCashKarp54,
+        RungeKuttaFehlberg78
+    };
 
-    public:
+    enum class LogType
+    {
+        NoLog,
+        LogConstant,
+        LogAdaptive
+    };
 
-        enum class StepperType
-        {
-            RungeKuttaCashKarp54,
-            RungeKuttaFehlberg78
-        } ;
+    typedef std::vector<double> StateVector;  // Container used to hold the state vector
+    typedef std::function<void(const StateVector&, StateVector&, const double)>
+        SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
 
-        enum class LogType
-        {
-            NoLog,
-            LogConstant,
-            LogAdaptive
-        } ;
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance,
+    ///                     anAbsoluteTolerance } ;
+    /// @endcode
+    ///
+    /// @param              [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
+    /// numerical integration
+    /// @param              [in] aStepperType An enum indicating the type of numerical stepper used to perform
+    /// integration
+    /// @param              [in] aTimeStep A number indicating the initial guess time step the numerical solver will
+    /// take
+    /// @param              [in] aRelativeTolerance A number indicating the relative integration tolerance
+    /// @param              [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
 
-        typedef std::vector<double> StateVector ; // Container used to hold the state vector
-        typedef std::function<void(const StateVector&, StateVector&, const double)> SystemOfEquationsWrapper ; // Function pointer type for returning dynamical equation's pointers
+    NumericalSolver(const NumericalSolver::LogType& aLogType,
+                    const NumericalSolver::StepperType& aStepperType,
+                    const Real& aTimeStep,
+                    const Real& aRelativeTolerance,
+                    const Real& anAbsoluteTolerance);
 
-        /// @brief              Constructor
-        ///
-        /// @code
-        ///                     NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance } ;
-        /// @endcode
-        ///
-        /// @param              [in] aLogType An enum indicating the amount of verbosity wanted to be logged during numerical integration
-        /// @param              [in] aStepperType An enum indicating the type of numerical stepper used to perform integration
-        /// @param              [in] aTimeStep A number indicating the initial guess time step the numerical solver will take
-        /// @param              [in] aRelativeTolerance A number indicating the relative integration tolerance
-        /// @param              [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
+    /// @brief              Copy Constructor
+    ///
+    /// @param              [in] NumericalSolver A numerical solver
 
-                                NumericalSolver                             (   const   NumericalSolver::LogType&   aLogType,
-                                                                                const   NumericalSolver::StepperType& aStepperType,
-                                                                                const   Real&                       aTimeStep,
-                                                                                const   Real&                       aRelativeTolerance,
-                                                                                const   Real&                       anAbsoluteTolerance                         ) ;
+    NumericalSolver(const NumericalSolver& aNumericalSolver);
 
-        /// @brief              Copy Constructor
-        ///
-        /// @param              [in] NumericalSolver A numerical solver
+    /// @brief              Clone numerical solver
+    ///
+    /// @return             Pointer to cloned numerical solver
 
-                                NumericalSolver                             (   const   NumericalSolver&            aNumericalSolver                            ) ;
+    NumericalSolver* clone() const;
 
-        /// @brief              Clone numerical solver
-        ///
-        /// @return             Pointer to cloned numerical solver
+    /// @brief              Equal to operator
+    ///
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @return             True if numerical solver are equal
 
-        NumericalSolver*        clone                                       ( ) const ;
+    bool operator==(const NumericalSolver& aNumericalSolver) const;
 
-        /// @brief              Equal to operator
-        ///
-        /// @param              [in] aNumericalSolver A numerical solver
-        /// @return             True if numerical solver are equal
+    /// @brief              Not equal to operator
+    ///
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @return             True if numerical solver are not equal
 
-        bool                    operator ==                                 (   const   NumericalSolver&            aNumericalSolver                            ) const ;
+    bool operator!=(const NumericalSolver& aNumericalSolver) const;
 
-        /// @brief              Not equal to operator
-        ///
-        /// @param              [in] aNumericalSolver A numerical solver
-        /// @return             True if numerical solver are not equal
+    /// @brief              Output stream operator
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @return             A reference to output stream
 
-        bool                    operator !=                                 (   const   NumericalSolver&            aNumericalSolver                            ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const NumericalSolver& aNumericalSolver);
 
-        /// @brief              Output stream operator
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aNumericalSolver A numerical solver
-        /// @return             A reference to output stream
+    /// @brief              Check if numerical solver is defined
+    ///
+    /// @return             True if numerical solver is defined
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   NumericalSolver&            aNumericalSolver                            ) ;
+    bool isDefined() const;
 
-        /// @brief              Check if numerical solver is defined
-        ///
-        /// @return             True if numerical solver is defined
+    /// @brief              Print numerical solver
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
 
-        bool                    isDefined                                   ( ) const ;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief              Print numerical solver
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @brief              Get integration logging enum
+    ///
+    /// @code
+    ///                     numericalSolver.getLogType() ;
+    /// @endcode
+    ///
+    /// @return             LogType
 
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
+    NumericalSolver::LogType getLogType() const;
 
-        /// @brief              Get integration logging enum
-        ///
-        /// @code
-        ///                     numericalSolver.getLogType() ;
-        /// @endcode
-        ///
-        /// @return             LogType
+    /// @brief              Get integration stepper enum
+    ///
+    /// @code
+    ///                     numericalSolver.getStepperType() ;
+    /// @endcode
+    ///
+    /// @return             StepperType
 
-        NumericalSolver::LogType getLogType                                 ( ) const ;
+    NumericalSolver::StepperType getStepperType() const;
 
-        /// @brief              Get integration stepper enum
-        ///
-        /// @code
-        ///                     numericalSolver.getStepperType() ;
-        /// @endcode
-        ///
-        /// @return             StepperType
+    /// @brief              Get initial time step guess
+    ///
+    /// @code
+    ///                     numericalSolver.getTimeStep() ;
+    /// @endcode
+    ///
+    /// @return             Real
 
-        NumericalSolver::StepperType getStepperType                         ( ) const ;
+    Real getTimeStep() const;
 
-        /// @brief              Get initial time step guess
-        ///
-        /// @code
-        ///                     numericalSolver.getTimeStep() ;
-        /// @endcode
-        ///
-        /// @return             Real
+    /// @brief              Get relative integration tolerance
+    ///
+    /// @code
+    ///                     numericalSolver.getRelativeTolerance() ;
+    /// @endcode
+    ///
+    /// @return             Real
 
-        Real                    getTimeStep                                 ( ) const ;
+    Real getRelativeTolerance() const;
 
-        /// @brief              Get relative integration tolerance
-        ///
-        /// @code
-        ///                     numericalSolver.getRelativeTolerance() ;
-        /// @endcode
-        ///
-        /// @return             Real
+    /// @brief              Get absolute integration tolerance
+    ///
+    /// @code
+    ///                     numericalSolver.getAbsoluteTolerance() ;
+    /// @endcode
+    ///
+    /// @return             Real
 
-        Real                    getRelativeTolerance                        ( ) const ;
+    Real getAbsoluteTolerance() const;
 
-        /// @brief              Get absolute integration tolerance
-        ///
-        /// @code
-        ///                     numericalSolver.getAbsoluteTolerance() ;
-        /// @endcode
-        ///
-        /// @return             Real
+    /// @brief              Perform numerical integration from a starting instant to an array of states
+    ///
+    /// @code
+    ///                     Array<StateVector> stateVectorArray =
+    ///                     numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray,
+    ///                     systemOfEquations) ;
+    /// @endcode
+    ///
+    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param              [in] aStartInstant An instant to begin integrating from
+    /// @param              [in] anInstantArray An instant array to integrate to
+    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// boost::odeint accepts to perform numerical integration
+    /// @return             std::vector<std::vector<double>>
 
-        Real                    getAbsoluteTolerance                        ( ) const ;
+    Array<StateVector> integrateStatesAtSortedInstants(const StateVector& anInitialStateVector,
+                                                       const Instant& aStartInstant,
+                                                       const Array<Instant>& anInstantArray,
+                                                       const SystemOfEquationsWrapper& aSystemOfEquations);
 
-        /// @brief              Perform numerical integration from a starting instant to an array of states
-        ///
-        /// @code
-        ///                     Array<StateVector> stateVectorArray = numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray, systemOfEquations) ;
-        /// @endcode
-        ///
-        /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-        /// @param              [in] aStartInstant An instant to begin integrating from
-        /// @param              [in] anInstantArray An instant array to integrate to
-        /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration
-        /// @return             std::vector<std::vector<double>>
+    /// @brief              Perform numerical integration from an instant to another instant
+    ///
+    /// @code
+    ///                     StateVector stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector,
+    ///                     instant, otherInstant, systemOfEquations) ;
+    /// @endcode
+    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param              [in] aStartInstant An instant to begin integrating from
+    /// @param              [in] anEndInstant An instant to finish integrating at
+    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// boost::odeint accepts to perform numerical integration
+    /// @return             std::vector<double>
 
-        Array<StateVector>      integrateStatesAtSortedInstants             (   const   StateVector&                anInitialStateVector,
-                                                                                const   Instant&                    aStartInstant,
-                                                                                const   Array<Instant>&             anInstantArray,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
+    StateVector integrateStateFromInstantToInstant(const StateVector& anInitialStateVector,
+                                                   const Instant& aStartInstant,
+                                                   const Instant& anEndInstant,
+                                                   const SystemOfEquationsWrapper& aSystemOfEquations);
 
-        /// @brief              Perform numerical integration from an instant to another instant
-        ///
-        /// @code
-        ///                     StateVector stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, systemOfEquations) ;
-        /// @endcode
-        /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-        /// @param              [in] aStartInstant An instant to begin integrating from
-        /// @param              [in] anEndInstant An instant to finish integrating at
-        /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration
-        /// @return             std::vector<double>
+    /// @brief              Perform numerical integration for a certain duration
+    ///
+    /// @code
+    ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector,
+    ///                     instant, otherInstant, SystemofEquations) ;
+    /// @endcode
+    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param              [in] anIntegrationDuration A duration over which to integration
+    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// boost::odeint accepts to perform numerical integration
+    /// @return             std::vector<double>
 
-        StateVector             integrateStateFromInstantToInstant          (   const   StateVector&                anInitialStateVector,
-                                                                                const   Instant&                    aStartInstant,
-                                                                                const   Instant&                    anEndInstant,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
+    StateVector integrateStateForDuration(const StateVector& anInitialStateVector,
+                                          const Duration& anIntegrationDuration,
+                                          const SystemOfEquationsWrapper& aSystemOfEquations);
 
-        /// @brief              Perform numerical integration for a certain duration
-        ///
-        /// @code
-        ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, SystemofEquations) ;
-        /// @endcode
-        /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-        /// @param              [in] anIntegrationDuration A duration over which to integration
-        /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration
-        /// @return             std::vector<double>
+    /// @brief              Get string from the integration stepper type
+    ///
+    /// @code
+    ///                     NumericalSolver::StringFromStepperType(aStepperType) ;
+    /// @endcode
+    /// @param              [in] aStepperType An integration stepper type enum
+    /// @return             StepperType
 
-        StateVector             integrateStateForDuration                   (   const   StateVector&                anInitialStateVector,
-                                                                                const   Duration&                   anIntegrationDuration,
-                                                                                const   SystemOfEquationsWrapper&   aSystemOfEquations                          ) ;
+    static String StringFromStepperType(const NumericalSolver::StepperType& aStepperType);
 
-        /// @brief              Get string from the integration stepper type
-        ///
-        /// @code
-        ///                     NumericalSolver::StringFromStepperType(aStepperType) ;
-        /// @endcode
-        /// @param              [in] aStepperType An integration stepper type enum
-        /// @return             StepperType
+    /// @brief              Get string from the integration log type
+    ///
+    /// @code
+    ///                     NumericalSolver::StringFromLogType(aLogType) ;
+    /// @endcode
+    /// @param              [in] aLogType An integration log type enum
+    /// @return             LogType
 
-        static String           StringFromStepperType                       (   const   NumericalSolver::StepperType& aStepperType                              ) ;
+    static String StringFromLogType(const NumericalSolver::LogType& aLogType);
 
-        /// @brief              Get string from the integration log type
-        ///
-        /// @code
-        ///                     NumericalSolver::StringFromLogType(aLogType) ;
-        /// @endcode
-        /// @param              [in] aLogType An integration log type enum
-        /// @return             LogType
+   private:
+    NumericalSolver::LogType logType_;
+    NumericalSolver::StepperType stepperType_;
+    Real timeStep_;
+    Real relativeTolerance_;
+    Real absoluteTolerance_;
+    std::vector<StateVector> states_;
+    std::vector<double> instants_;
 
-        static String           StringFromLogType                           (   const   NumericalSolver::LogType&   aLogType                                    ) ;
+    void observeNumericalIntegration(const StateVector& x, const double t);
+};
 
-    private:
-
-        NumericalSolver::LogType logType_ ;
-        NumericalSolver::StepperType stepperType_ ;
-        Real timeStep_ ;
-        Real relativeTolerance_ ;
-        Real absoluteTolerance_ ;
-        std::vector<StateVector> states_ ;
-        std::vector<double> instants_ ;
-
-        void                    observeNumericalIntegration                 (   const   StateVector&                x,
-                                                                                const   double                      t                                           ) ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,97 +1,66 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Static.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::astro::trajectory::models::Tabulated;
 
-using ostk::astro::trajectory::models::Tabulated ;
+Trajectory::Trajectory(const Model& aModel) : modelUPtr_(aModel.clone()) { }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Trajectory::Trajectory(const Array<State>& aStateArray) : modelUPtr_(std::make_unique<Tabulated>(aStateArray)) { }
 
-                                Trajectory::Trajectory                      (   const   Model&                      aModel                                      )
-                                :   modelUPtr_(aModel.clone())
+Trajectory::Trajectory(const Trajectory& aTrajectory)
+    : modelUPtr_((aTrajectory.modelUPtr_) != nullptr ? aTrajectory.modelUPtr_->clone() : nullptr)
+{ }
+
+Trajectory& Trajectory::operator=(const Trajectory& aTrajectory)
 {
-
-}
-
-                                Trajectory::Trajectory                      (   const   Array<State>&               aStateArray                                 )
-                                :   modelUPtr_(std::make_unique<Tabulated>(aStateArray))
-{
-
-}
-
-                                Trajectory::Trajectory                      (   const   Trajectory&                 aTrajectory                                 )
-                                :   modelUPtr_((aTrajectory.modelUPtr_) != nullptr ? aTrajectory.modelUPtr_->clone() : nullptr)
-{
-
-}
-
-Trajectory&                     Trajectory::operator =                      (   const   Trajectory&                 aTrajectory                                 )
-{
-
     if (this != &aTrajectory)
     {
-        modelUPtr_ = Unique<Model>(aTrajectory.modelUPtr_->clone()) ;
+        modelUPtr_ = Unique<Model>(aTrajectory.modelUPtr_->clone());
     }
 
-    return *this ;
-
+    return *this;
 }
 
-bool                            Trajectory::operator ==                     (   const   Trajectory&                 aTrajectory                                 ) const
+bool Trajectory::operator==(const Trajectory& aTrajectory) const
 {
-
     if ((!this->isDefined()) || (!aTrajectory.isDefined()))
     {
-        return false ;
+        return false;
     }
 
-    return (*modelUPtr_) == (*aTrajectory.modelUPtr_) ;
-
+    return (*modelUPtr_) == (*aTrajectory.modelUPtr_);
 }
 
-bool                            Trajectory::operator !=                     (   const   Trajectory&                 aTrajectory                                 ) const
+bool Trajectory::operator!=(const Trajectory& aTrajectory) const
 {
-    return !((*this) == aTrajectory) ;
+    return !((*this) == aTrajectory);
 }
 
-std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Trajectory&                 aTrajectory                                 )
+std::ostream& operator<<(std::ostream& anOutputStream, const Trajectory& aTrajectory)
 {
+    aTrajectory.print(anOutputStream);
 
-    aTrajectory.print(anOutputStream) ;
-
-    return anOutputStream ;
-
+    return anOutputStream;
 }
 
-bool                            Trajectory::isDefined                       ( ) const
+bool Trajectory::isDefined() const
 {
-    return (modelUPtr_ != nullptr) && modelUPtr_->isDefined() ;
+    return (modelUPtr_ != nullptr) && modelUPtr_->isDefined();
 }
 
-const Model&                    Trajectory::accessModel                     ( ) const
+const Model& Trajectory::accessModel() const
 {
-
     // if (!this->isDefined())
     // {
     //     throw ostk::core::error::runtime::Undefined("Trajectory") ;
@@ -99,81 +68,61 @@ const Model&                    Trajectory::accessModel                     ( ) 
 
     if (modelUPtr_ == nullptr)
     {
-        throw ostk::core::error::runtime::Undefined("Model") ;
+        throw ostk::core::error::runtime::Undefined("Model");
     }
 
-    return *modelUPtr_ ;
-
+    return *modelUPtr_;
 }
 
-State                           Trajectory::getStateAt                      (   const   Instant&                    anInstant                                   ) const
+State Trajectory::getStateAt(const Instant& anInstant) const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("Trajectory");
     }
 
-    return modelUPtr_->calculateStateAt(anInstant) ;
-
+    return modelUPtr_->calculateStateAt(anInstant);
 }
 
-Array<State>                    Trajectory::getStatesAt                     (   const   Array<Instant>&             anInstantArray                              ) const
+Array<State> Trajectory::getStatesAt(const Array<Instant>& anInstantArray) const
 {
-
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Trajectory") ;
+        throw ostk::core::error::runtime::Undefined("Trajectory");
     }
 
-    return modelUPtr_->calculateStatesAt(anInstantArray) ;
-
+    return modelUPtr_->calculateStatesAt(anInstantArray);
 }
 
-void                            Trajectory::print                           (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            ) const
+void Trajectory::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory") : void();
 
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory") : void () ;
+    ostk::core::utils::Print::Separator(anOutputStream, "Model");
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Model") ;
+    modelUPtr_->print(anOutputStream, false);
 
-    modelUPtr_->print(anOutputStream, false) ;
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void () ;
-
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Trajectory                      Trajectory::Undefined                       ( )
+Trajectory Trajectory::Undefined()
 {
-    return Trajectory() ;
+    return Trajectory();
 }
 
-Trajectory                      Trajectory::Position                        (   const   physics::coord::Position&   aPosition                                   )
+Trajectory Trajectory::Position(const physics::coord::Position& aPosition)
 {
-
-    using ostk::astro::trajectory::models::Static ;
+    using ostk::astro::trajectory::models::Static;
 
     if (!aPosition.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Position") ;
+        throw ostk::core::error::runtime::Undefined("Position");
     }
 
-    return Trajectory(Static(aPosition)) ;
-
+    return Trajectory(Static(aPosition));
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Trajectory::Trajectory() : modelUPtr_(nullptr) { }
 
-                                Trajectory::Trajectory                      ( )
-                                :   modelUPtr_(nullptr)
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace astro
+}  // namespace ostk

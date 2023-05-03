@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/test_state.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -19,8 +12,6 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
-
-################################################################################################################################################################
 
 @pytest.fixture
 def state_default_inputs () -> tuple[Instant, Position, Velocity, Frame]:
@@ -37,8 +28,6 @@ def state_default_inputs () -> tuple[Instant, Position, Velocity, Frame]:
 def state (state_default_inputs) -> State:
 
     return State(*state_default_inputs[0:-1])
-
-################################################################################################################################################################
 
 class TestState:
 
@@ -77,5 +66,3 @@ class TestState:
 
         assert state.in_frame(frame) == state
         assert state.in_frame(Frame.ITRF()) != state
-
-################################################################################################################################################################

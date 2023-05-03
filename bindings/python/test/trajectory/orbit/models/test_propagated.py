@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/test_propagated.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -32,8 +25,6 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
-
-################################################################################################################################################################
 
 @pytest.fixture
 def propagated_default_inputs ():
@@ -68,8 +59,6 @@ def propagated_default_inputs ():
 def propagated (propagated_default_inputs) -> Propagated:
 
     return Propagated(*propagated_default_inputs[0:-1])
-
-################################################################################################################################################################
 
 class TestPropagated:
 
@@ -199,5 +188,3 @@ class TestPropagated:
 
         with pytest.raises(Exception) as e:
             propagated.set_cached_state_array([])
-
-################################################################################################################################################################

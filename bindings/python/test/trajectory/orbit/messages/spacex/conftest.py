@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Physics
-# @file           bindings/python/test/trajectory/orbit/messages/spacex/conftest.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -13,8 +6,6 @@ import pathlib
 
 from ostk.core.filesystem import Path
 from ostk.core.filesystem import File
-
-################################################################################################################################################################
 
 @pytest.fixture
 def data_directory_path () -> str:
@@ -25,5 +16,3 @@ def data_directory_path () -> str:
 def opm_file (data_directory_path: str) -> File:
 
     return File.path(Path.parse(f'{data_directory_path}/opm_1.yaml'))
-
-################################################################################################################################################################

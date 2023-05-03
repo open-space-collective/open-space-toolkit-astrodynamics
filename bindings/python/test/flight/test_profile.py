@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/test_profile.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -18,8 +11,6 @@ import ostk.mathematics as mathematics
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
 Environment = physics.Environment
@@ -41,8 +32,6 @@ State = astrodynamics.flight.profile.State
 TransformModel = astrodynamics.flight.profile.models.Transform
 TabulatedModel = astrodynamics.flight.profile.models.Tabulated
 
-################################################################################################################################################################
-
 @pytest.fixture
 def instant () -> Instant:
 
@@ -55,8 +44,6 @@ def profile () -> Profile:
         return Transform.identity(instant)
 
     return Profile(TransformModel(DynamicProvider(dynamic_provider_generator), Frame.GCRF()))
-
-################################################################################################################################################################
 
 class TestProfile:
 
@@ -161,5 +148,3 @@ class TestProfile:
         assert profile.is_defined()
 
         assert profile.get_state_at(Instant.date_time(datetime(2020, 1, 1, 0, 0, 30), Scale.UTC)) is not None
-
-################################################################################################################################################################

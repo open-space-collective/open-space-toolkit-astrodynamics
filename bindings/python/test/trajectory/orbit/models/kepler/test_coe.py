@@ -1,17 +1,8 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/test_coe.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 Length = physics.units.Length
 Angle = physics.units.Angle
@@ -38,8 +29,6 @@ Access = astrodynamics.Access
 environment = Environment.default()
 earth = environment.access_celestial_object_with_name("Earth")
 
-################################################################################################################################################################
-
 def construct_coe ():
 
     a = Length.kilometers(7000.0)
@@ -52,8 +41,6 @@ def construct_coe ():
     coe = COE(a, e, i, raan, aop, nu)
 
     return coe
-
-################################################################################################################################################################
 
 def test_trajectory_orbit_models_kepler_coe_constructors ():
 
@@ -76,16 +63,12 @@ def test_trajectory_orbit_models_kepler_coe_constructors ():
     assert isinstance(coe, COE)
     assert coe.is_defined() is False
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_coe_comparators ():
 
     coe: COE = construct_coe()
 
     assert coe == coe
     assert (coe != coe) is False
-
-################################################################################################################################################################
 
 def test_trajectory_orbit_models_kepler_coe_getters ():
 
@@ -123,23 +106,17 @@ def test_trajectory_orbit_models_kepler_coe_getters ():
 
     assert coe.get_eccentric_anomaly() is not None
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_coe_get_mean_motion ():
 
     coe: COE = construct_coe()
 
     assert coe.get_mean_motion(earth.gravitational_parameter) is not None
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_coe_get_orbital_period ():
 
     coe: COE = construct_coe()
 
     assert coe.get_orbital_period(earth.gravitational_parameter) is not None
-
-################################################################################################################################################################
 
 def test_trajectory_orbit_models_kepler_coe_static_methods ():
 
@@ -149,5 +126,3 @@ def test_trajectory_orbit_models_kepler_coe_static_methods ():
     assert COE.true_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert COE.mean_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
-
-################################################################################################################################################################

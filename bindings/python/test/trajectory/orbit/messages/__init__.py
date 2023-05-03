@@ -1,8 +1,2 @@
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/messages/__init__.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################

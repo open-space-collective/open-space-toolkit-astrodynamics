@@ -1,22 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Access.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace ostk
 {
 namespace astro
 {
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Access::Access(const Access::Type& aType,
                const Instant& anAcquisitionOfSignal,
@@ -33,14 +22,14 @@ Access::Access(const Access::Type& aType,
     {
         if (timeOfClosestApproach_ < acquisitionOfSignal_)
         {
-            throw ostk::core::error::RuntimeError(
-                "TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString());
+            throw ostk::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(),
+                                                  acquisitionOfSignal_.toString());
         }
 
         if (lossOfSignal_ < timeOfClosestApproach_)
         {
-            throw ostk::core::error::RuntimeError(
-                "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString());
+            throw ostk::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(),
+                                                  timeOfClosestApproach_.toString());
         }
     }
 }
@@ -182,8 +171,8 @@ Angle Access::getMaxElevation() const
 
 Access Access::Undefined()
 {
-    return Access(
-        Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined());
+    return Access(Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(),
+                  Angle::Undefined());
 }
 
 String Access::StringFromType(const Access::Type& aType)
@@ -208,9 +197,5 @@ String Access::StringFromType(const Access::Type& aType)
     return String::Empty();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }  // namespace astro
 }  // namespace ostk
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/test_system.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -17,8 +10,6 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-################################################################################################################################################################
-
 Cuboid = mathematics.geometry.d3.objects.Cuboid
 Composite = mathematics.geometry.d3.objects.Composite
 Point = mathematics.geometry.d3.objects.Point
@@ -26,8 +17,6 @@ Point = mathematics.geometry.d3.objects.Point
 Mass = physics.units.Mass
 
 System = astrodynamics.flight.System
-
-################################################################################################################################################################
 
 @pytest.fixture
 def system_default_inputs ():
@@ -41,8 +30,6 @@ def system_default_inputs ():
 def system (system_default_inputs) -> System:
 
     return System(*system_default_inputs)
-
-################################################################################################################################################################
 
 class TestSatelliteSystem:
 
@@ -63,5 +50,3 @@ class TestSatelliteSystem:
 
         assert system.get_mass() == mass
         assert system.get_geometry() == geometry
-
-################################################################################################################################################################

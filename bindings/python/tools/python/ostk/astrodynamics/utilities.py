@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/tools/python/ostk/astrodynamics/utilities.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 from .OpenSpaceToolkitAstrodynamicsPy import *
 
@@ -19,8 +12,6 @@ from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
-
-################################################################################################################################################################
 
 def lla_from_state (state: trajectory.State) -> list:
 
@@ -130,5 +121,3 @@ def convert_state (instant: Instant,
         float(lla.get_longitude().in_degrees()),
         float(lla.get_altitude().in_meters()),
     ]
-
-################################################################################################################################################################

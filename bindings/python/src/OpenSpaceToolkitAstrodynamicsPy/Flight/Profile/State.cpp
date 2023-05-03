@@ -1,45 +1,29 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State (        pybind11::module&     aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::types::Shared;
 
-    using ostk::core::types::Shared ;
+    using ostk::math::geom::d3::trf::rot::Quaternion;
+    using ostk::math::obj::Vector3d;
 
-    using ostk::math::obj::Vector3d ;
-    using ostk::math::geom::d3::trf::rot::Quaternion ;
+    using ostk::physics::coord::Frame;
+    using ostk::physics::coord::Position;
+    using ostk::physics::coord::Velocity;
+    using ostk::physics::time::Instant;
 
-    using ostk::physics::time::Instant ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::coord::Frame ;
-
-    using ostk::astro::flight::profile::State ;
+    using ostk::astro::flight::profile::State;
 
     class_<State>(aModule, "State")
 
-        .def
-        (
-            init<const Instant&, const Position&, const Velocity&, const Quaternion&, const Vector3d&, const Shared<const Frame>&>(),
-            arg("instant"),
-            arg("position"),
-            arg("velocity"),
-            arg("attitude"),
-            arg("angular_velocity"),
-            arg("reference_frame")
-        )
+        .def(init<const Instant&, const Position&, const Velocity&, const Quaternion&, const Vector3d&,
+                  const Shared<const Frame>&>(),
+             arg("instant"), arg("position"), arg("velocity"), arg("attitude"), arg("angular_velocity"),
+             arg("reference_frame"))
 
         .def(self == self)
         .def(self != self)
@@ -59,8 +43,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_S
 
         .def_static("undefined", &State::Undefined)
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

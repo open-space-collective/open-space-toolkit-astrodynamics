@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_numerical_solver.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -16,8 +9,6 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-################################################################################################################################################################
-
 Length = physics.units.Length
 DateTime = physics.time.DateTime
 Scale = physics.time.Scale
@@ -25,8 +16,6 @@ Duration = physics.time.Duration
 Instant = physics.time.Instant
 
 NumericalSolver = astrodynamics.NumericalSolver
-
-################################################################################################################################################################
 
 @pytest.fixture
 def numerical_solver_default_inputs () -> tuple[NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float]:
@@ -43,8 +32,6 @@ def numerical_solver_default_inputs () -> tuple[NumericalSolver.LogType, Numeric
 def numerical_solver (numerical_solver_default_inputs) -> NumericalSolver:
 
     return NumericalSolver(*numerical_solver_default_inputs)
-
-################################################################################################################################################################
 
 class TestNumericalSolver:
 
@@ -117,5 +104,3 @@ class TestNumericalSolver:
 
         assert 5e-9 >= abs(prop_state_vector[0] - math.sin((end_instant - start_instant).in_seconds()))
         assert 5e-9 >= abs(prop_state_vector[1] - math.cos((end_instant - start_instant).in_seconds()))
-
-################################################################################################################################################################

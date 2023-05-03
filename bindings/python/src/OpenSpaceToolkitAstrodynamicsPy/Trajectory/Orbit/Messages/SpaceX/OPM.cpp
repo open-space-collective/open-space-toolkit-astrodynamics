@@ -1,36 +1,26 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages/SpaceX/OPM.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM ( pybind11::module& aModule                                )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
+    using ostk::core::types::Integer;
+    using ostk::core::types::Real;
+    using ostk::core::types::String;
 
-    using ostk::core::types::Integer ;
-    using ostk::core::types::Real ;
-    using ostk::core::types::String ;
-    using ostk::core::ctnr::Array ;
+    using ostk::physics::coord::Position;
+    using ostk::physics::coord::Velocity;
+    using ostk::physics::time::Duration;
+    using ostk::physics::time::Instant;
+    using ostk::physics::units::Angle;
+    using ostk::physics::units::Length;
 
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Angle ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
+    using ostk::astro::trajectory::orbit::messages::spacex::OPM;
 
-    using ostk::astro::trajectory::orbit::messages::spacex::OPM ;
-
-    class_<OPM> opm(aModule, "OPM") ;
+    class_<OPM> opm(aModule, "OPM");
 
     opm
 
@@ -48,56 +38,25 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def_static("parse", &OPM::Parse, arg("string"))
         .def_static("load", &OPM::Load, arg("file"))
 
-    ;
+        ;
 
     class_<OPM::Header>(opm, "Header")
 
-        .def
-        (
-            init<const Instant&, const Instant&>(),
-            arg("generation_date"),
-            arg("launch_date")
-        )
+        .def(init<const Instant&, const Instant&>(), arg("generation_date"), arg("launch_date"))
 
         .def_readonly("generation_date", &OPM::Header::generationDate)
         .def_readonly("launch_date", &OPM::Header::launchDate)
 
-    ;
+        ;
 
     class_<OPM::Deployment>(opm, "Deployment")
 
-        .def
-        (
-            init
-            <
-                const String&,
-                const Integer&,
-                const Duration&,
-                const Instant&,
-                const Position&,
-                const Velocity&,
-                const Length&,
-                const Length&,
-                const Angle&,
-                const Angle&,
-                const Angle&,
-                const Angle&,
-                const Real&
-            >(),
-            arg("name"),
-            arg("sequence_number"),
-            arg("mission_time"),
-            arg("date"),
-            arg("position"),
-            arg("velocity"),
-            arg("mean_perigee_altitude"),
-            arg("mean_apogee_altitude"),
-            arg("mean_inclination"),
-            arg("mean_argument_of_perigee"),
-            arg("mean_longitude_ascending_node"),
-            arg("mean_mean_anomaly"),
-            arg("ballistic_coefficient")
-        )
+        .def(init<const String&, const Integer&, const Duration&, const Instant&, const Position&, const Velocity&,
+                  const Length&, const Length&, const Angle&, const Angle&, const Angle&, const Angle&, const Real&>(),
+             arg("name"), arg("sequence_number"), arg("mission_time"), arg("date"), arg("position"), arg("velocity"),
+             arg("mean_perigee_altitude"), arg("mean_apogee_altitude"), arg("mean_inclination"),
+             arg("mean_argument_of_perigee"), arg("mean_longitude_ascending_node"), arg("mean_mean_anomaly"),
+             arg("ballistic_coefficient"))
 
         .def_readonly("name", &OPM::Deployment::name)
         .def_readonly("sequence_number", &OPM::Deployment::sequenceNumber)
@@ -115,8 +74,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
         .def("to_state", &OPM::Deployment::toState)
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

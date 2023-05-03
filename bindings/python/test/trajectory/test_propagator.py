@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/test_propagator.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -30,8 +23,6 @@ from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
-
-################################################################################################################################################################
 
 @pytest.fixture
 def propagator_default_inputs ():
@@ -72,8 +63,6 @@ def propagator_default_inputs ():
 def propagator (propagator_default_inputs) -> Propagator:
 
     return Propagator(*propagator_default_inputs[:2])
-
-################################################################################################################################################################
 
 class TestPropagated:
 
@@ -131,5 +120,3 @@ class TestPropagated:
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
-
-################################################################################################################################################################

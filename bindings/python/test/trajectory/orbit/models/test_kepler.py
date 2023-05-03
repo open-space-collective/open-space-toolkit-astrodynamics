@@ -1,17 +1,8 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/test_kepler.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 Length = physics.units.Length
 Angle = physics.units.Angle
@@ -37,8 +28,6 @@ Access = astrodynamics.Access
 
 earth = Environment.default().access_celestial_object_with_name("Earth")
 
-################################################################################################################################################################
-
 def construct_kepler ():
 
     a = Length.kilometers(7000.0)
@@ -58,8 +47,6 @@ def construct_kepler ():
     kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
 
     return kepler
-
-################################################################################################################################################################
 
 def test_trajectory_orbit_models_kepler_constructors ():
 
@@ -83,16 +70,12 @@ def test_trajectory_orbit_models_kepler_constructors ():
     assert isinstance(kepler, Kepler)
     assert kepler.is_defined()
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_comparators ():
 
     kepler: Kepler = construct_kepler()
 
     assert kepler == kepler
     assert (kepler != kepler) is False
-
-################################################################################################################################################################
 
 def test_trajectory_orbit_models_kepler_getters ():
 
@@ -130,8 +113,6 @@ def test_trajectory_orbit_models_kepler_getters ():
 
     assert kepler.get_perturbation_type() is not None
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_calculate_state_at_epoch ():
 
     kepler: Kepler = construct_kepler()
@@ -140,8 +121,6 @@ def test_trajectory_orbit_models_kepler_calculate_state_at_epoch ():
 
     assert kepler.calculate_state_at(epoch) is not None
 
-################################################################################################################################################################
-
 def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch ():
 
     kepler: Kepler = construct_kepler()
@@ -149,5 +128,3 @@ def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch ():
     epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
     assert kepler.calculate_revolution_number_at(epoch) is not None
-
-################################################################################################################################################################

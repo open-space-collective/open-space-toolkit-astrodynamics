@@ -1,28 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages.cpp
-/// @author         Remy Derollez <remy@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages/CCSDS.cpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages (  pybind11::module&           aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages(pybind11::module& aModule)
 {
-
     // Create "messages" python submodule
-    auto messages = aModule.def_submodule("messages") ;
+    auto messages = aModule.def_submodule("messages");
 
     // Add __path__ attribute for "messages" submodule
-    messages.attr("__path__") = "ostk.astrodynamics.conjunction.messages" ;
+    messages.attr("__path__") = "ostk.astrodynamics.conjunction.messages";
 
     // Add objects to "messages" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS(messages) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS(messages);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

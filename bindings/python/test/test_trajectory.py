@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_trajectory.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -16,8 +9,6 @@ import ostk.mathematics as mathematics
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 RealInterval = mathematics.objects.RealInterval
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
@@ -45,8 +36,6 @@ COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
 
-################################################################################################################################################################
-
 def test_trajectory_undefined ():
 
     trajectory: Trajectory = Trajectory.undefined()
@@ -54,5 +43,3 @@ def test_trajectory_undefined ():
     assert trajectory is not None
     assert isinstance(trajectory, Trajectory)
     assert trajectory.is_defined() is False
-
-################################################################################################################################################################

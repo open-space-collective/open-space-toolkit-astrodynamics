@@ -1,15 +1,6 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_import.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
-
-################################################################################################################################################################
 
 class TestImport:
 
@@ -32,5 +23,3 @@ class TestImport:
         from ostk.astrodynamics import Access
         from ostk.astrodynamics.access import Generator
         from ostk.astrodynamics import NumericalSolver
-
-################################################################################################################################################################

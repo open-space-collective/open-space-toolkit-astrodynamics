@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/models/sgp4/test_tle.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -23,8 +16,6 @@ from ostk.physics.time import DateTime
 
 from ostk.astrodynamics.trajectory.orbit.models.sgp4 import TLE
 
-################################################################################################################################################################
-
 @pytest.fixture
 def tle () -> TLE:
 
@@ -33,8 +24,6 @@ def tle () -> TLE:
         first_line = '1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994',
         second_line = '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316',
     )
-
-################################################################################################################################################################
 
 class TestTLE:
 
@@ -296,5 +285,3 @@ class TestTLE:
 
         assert TLE.generate_checksum(f'{str(tle.get_first_line())[:-1]}0') == tle.get_first_line_checksum()
         assert TLE.generate_checksum(f'{str(tle.get_second_line())[:-1]}9') == tle.get_second_line_checksum()
-
-################################################################################################################################################################

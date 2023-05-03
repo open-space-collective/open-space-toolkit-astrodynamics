@@ -1,30 +1,17 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System.cpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight      (           pybind11::module&           aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight(pybind11::module& aModule)
 {
-
     // Create "flight" python submodule
-    auto flight = aModule.def_submodule("flight") ;
+    auto flight = aModule.def_submodule("flight");
 
     // Add __path__ attribute for "flight" submodule
-    flight.attr("__path__") = "ostk.astrodynamics.flight" ;
+    flight.attr("__path__") = "ostk.astrodynamics.flight";
 
     // Add objects to "flight" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(flight) ;
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System(flight) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(flight);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System(flight);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

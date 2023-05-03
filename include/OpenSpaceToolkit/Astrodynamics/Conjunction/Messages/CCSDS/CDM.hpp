@@ -1,38 +1,29 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp
-/// @author         Remy Derollez <remy@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Matrix.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/IAU/Theory.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Matrix.hpp>
-
-#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -45,33 +36,29 @@ namespace messages
 namespace ccsds
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace ctnr = ostk::core::ctnr;
 
-namespace ctnr = ostk::core::ctnr ;
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
+using ostk::core::fs::File;
+using ostk::core::types::Index;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+using ostk::core::types::String;
 
-using ostk::core::types::Integer ;
-using ostk::core::types::Index ;
-using ostk::core::types::Real ;
-using ostk::core::types::String ;
-using ostk::core::types::Shared ;
-using ostk::core::ctnr::Array ;
-using ostk::core::ctnr::Map ;
-using ostk::core::fs::File ;
+using ostk::math::obj::MatrixXd;
 
-using ostk::math::obj::MatrixXd ;
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::coord::frame::providers::iau::Theory;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::units::Length;
+using ostk::physics::units::Mass;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Duration ;
-using ostk::physics::units::Length ;
-using ostk::physics::units::Mass ;
-using ostk::physics::coord::Position ;
-using ostk::physics::coord::Velocity ;
-using ostk::physics::coord::Frame ;
-using ostk::physics::coord::frame::providers::iau::Theory ;
-
-using ostk::astro::trajectory::State ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::astro::trajectory::State;
 
 /// @brief                      CCSDS Conjunction Data Message (CDM)
 ///
@@ -91,236 +78,216 @@ using ostk::astro::trajectory::State ;
 
 class CDM
 {
+   public:
+    enum class ObjectType
+    {
+        Payload,
+        RocketBody,
+        Debris,
+        Unknown,
+        Other
+    };
+
+    struct Header
+    {
+        String ccsdsCdmVersion;
+        String comment = String::Empty();
+        Instant creationDate;
+        String originator;
+        String messageFor = String::Empty();
+        String messageId;
+    };
+
+    struct RelativeMetadata
+    {
+        String comment = String::Empty();
+
+        Instant TCA;
+        Length missDistance;
+        Position relativePosition = Position::Undefined();  // expressed in RTN frame at TCA
+        Velocity relativeVelocity = Velocity::Undefined();  // expressed in RTN frame at TCA
+
+        Instant startScreenPeriod = Instant::Undefined();  // UTC
+        Instant endScreenPeriod = Instant::Undefined();    // UTC
+        String screenVolumeFrame = String::Empty();
+        String screenVolumeShape = String::Empty();
+        Real screenVolumeX = Real::Undefined();  // TBI: Make it a vector?
+        Real screenVolumeY = Real::Undefined();
+        Real screenVolumeZ = Real::Undefined();
+        Instant screenEntryTime = Instant::Undefined();  // UTC
+        Instant screenExitTime = Instant::Undefined();   // UTC
+
+        Real collisionProbability = Real::Undefined();
+        String collisionProbabilityMethod = String::Empty();
+    };
+
+    struct Metadata
+    {
+        String comment = String::Empty();
+        String object;
+        Integer objectDesignator;
+        String catalogName;
+        String objectName;
+        String internationalDesignator;
+        ObjectType objectType = ObjectType::Unknown;
+
+        String operatorContactPosition = String::Empty();
+        String operatorOrgnization = String::Empty();
+        String operatorPhone = String::Empty();
+        String operatorEmail = String::Empty();
+
+        String ephemerisName;
+        String covarianceMethod;
+        String maneuverable;
+        String orbitCenter = String::Empty();
+        String refFrame;                        // TBI: Use Frame later
+        String gravityModel = String::Empty();  // TBI: Check String or actual pointer to GravityModel
+        String atmosphericModel = String::Empty();
+        String nBodyPerturbations = String::Empty();
+        bool solarRadiationPressure = false;
+        bool earthTides = false;
+        bool inTrackThrust = false;
+    };
 
-    public:
-
-        enum class ObjectType
-        {
-            Payload,
-            RocketBody,
-            Debris,
-            Unknown,
-            Other
-        } ;
-
-        struct Header
-        {
-
-            String              ccsdsCdmVersion ;
-            String              comment = String::Empty() ;
-            Instant             creationDate ;
-            String              originator ;
-            String              messageFor = String::Empty() ;
-            String              messageId ;
-
-        } ;
-
-        struct RelativeMetadata
-        {
-
-            String              comment = String::Empty() ;
-
-            Instant             TCA ;
-            Length              missDistance ;
-            Position            relativePosition = Position::Undefined() ;  // expressed in RTN frame at TCA
-            Velocity            relativeVelocity = Velocity::Undefined() ;  // expressed in RTN frame at TCA
-
-            Instant             startScreenPeriod = Instant::Undefined() ;  // UTC
-            Instant             endScreenPeriod = Instant::Undefined() ;    // UTC
-            String              screenVolumeFrame = String::Empty();
-            String              screenVolumeShape = String::Empty();
-            Real                screenVolumeX = Real::Undefined() ;         // TBI: Make it a vector?
-            Real                screenVolumeY = Real::Undefined() ;
-            Real                screenVolumeZ = Real::Undefined() ;
-            Instant             screenEntryTime = Instant::Undefined() ;  // UTC
-            Instant             screenExitTime = Instant::Undefined() ;   // UTC
-
-            Real                collisionProbability = Real::Undefined() ;
-            String              collisionProbabilityMethod = String::Empty() ;
-
-        } ;
+    // The CDM Data section shall be formed as logical blocks:
+    //    – OD Parameters
+    //    – Additional Parameters
+    //    – State Vector
+    //    – Covariance Matrix
 
-        struct Metadata
-        {
+    struct Data
+    {
+        // OD Parameters
 
-            String              comment = String::Empty() ;
-            String              object ;
-            Integer             objectDesignator ;
-            String              catalogName ;
-            String              objectName ;
-            String              internationalDesignator ;
-            ObjectType          objectType = ObjectType::Unknown ;
+        // String              ODComment = String::Empty() ;
+        Instant timeLastObStart = Instant::Undefined();
+        Instant timeLastObEnd = Instant::Undefined();
+        Duration recommendedODSpan = Duration::Undefined();
+        Duration actualODSpan = Duration::Undefined();
+        Integer obsAvailable = Integer::Undefined();
+        Integer obsUsed = Integer::Undefined();
+        Integer tracksAvailable = Integer::Undefined();
+        Integer tracksUsed = Integer::Undefined();
+        Real residualsAccepted = Real::Undefined();
+        Real weightedRMS = Real::Undefined();
 
-            String              operatorContactPosition = String::Empty() ;
-            String              operatorOrgnization = String::Empty() ;
-            String              operatorPhone = String::Empty() ;
-            String              operatorEmail = String::Empty() ;
+        // Additional Parameters
 
-            String              ephemerisName ;
-            String              covarianceMethod ;
-            String              maneuverable ;
-            String              orbitCenter = String::Empty() ;
-            String              refFrame ;                        // TBI: Use Frame later
-            String              gravityModel = String::Empty() ;  // TBI: Check String or actual pointer to GravityModel
-            String              atmosphericModel = String::Empty() ;
-            String              nBodyPerturbations = String::Empty() ;
-            bool                solarRadiationPressure = false ;
-            bool                earthTides = false ;
-            bool                inTrackThrust = false ;
+        // String              additionParametersComment ;
+        Real areaPC = Real::Undefined();  // Area, add Unit
+        Real areaDrag = Real::Undefined();
+        Real areaSRP = Real::Undefined();
+        Mass mass = Mass::Undefined();
+        Real cdAreaOverMass = Real::Undefined();
+        Real crAreaOverMass = Real::Undefined();
+        Real thrustAcceleration = Real::Undefined();  // Acceleration, add Unit
+        Real SEDR = Real::Undefined();
 
-        } ;
+        // State Vector
 
-        // The CDM Data section shall be formed as logical blocks:
-        //    – OD Parameters
-        //    – Additional Parameters
-        //    – State Vector
-        //    – Covariance Matrix
+        // String              stateVectorComment ;
+        State state;
 
-        struct Data
-        {
+        // Covariance Matrix
 
-            // OD Parameters
+        // String              covarianceComment ;
+        MatrixXd covarianceMatrix;  // Usually defined in RTN Frame
+    };
 
-            // String              ODComment = String::Empty() ;
-            Instant             timeLastObStart = Instant::Undefined() ;
-            Instant             timeLastObEnd = Instant::Undefined() ;
-            Duration            recommendedODSpan = Duration::Undefined() ;
-            Duration            actualODSpan = Duration::Undefined() ;
-            Integer             obsAvailable = Integer::Undefined() ;
-            Integer             obsUsed = Integer::Undefined() ;
-            Integer             tracksAvailable = Integer::Undefined() ;
-            Integer             tracksUsed = Integer::Undefined() ;
-            Real                residualsAccepted = Real::Undefined() ;
-            Real                weightedRMS = Real::Undefined() ;
+    CDM(const CDM::Header& aHeader,
+        const CDM::RelativeMetadata& aRelativeMetadata,
+        const Array<CDM::Metadata>& aMetadataArray,
+        const Array<CDM::Data> aDataArray);
 
-            // Additional Parameters
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM);
 
-            // String              additionParametersComment ;
-            Real                areaPC = Real::Undefined() ;  // Area, add Unit
-            Real                areaDrag = Real::Undefined() ;
-            Real                areaSRP = Real::Undefined() ;
-            Mass                mass = Mass::Undefined() ;
-            Real                cdAreaOverMass = Real::Undefined() ;
-            Real                crAreaOverMass = Real::Undefined() ;
-            Real                thrustAcceleration = Real::Undefined() ;  // Acceleration, add Unit
-            Real                SEDR = Real::Undefined() ;
+    bool isDefined() const;
 
-            // State Vector
+    CDM::Header getHeader() const;
 
-            // String              stateVectorComment ;
-            State               state ;
+    CDM::RelativeMetadata getRelativeMetadata() const;
 
-            // Covariance Matrix
+    Array<CDM::Metadata> getMetadataArray() const;
 
-            // String              covarianceComment ;
-            MatrixXd            covarianceMatrix ;  // Usually defined in RTN Frame
+    Array<CDM::Data> getDataArray() const;
 
-        } ;
+    CDM::Metadata getObjectMetadataAt(const Index& anIndex) const;
 
-                                CDM                                         (   const   CDM::Header&                aHeader,
-                                                                                const   CDM::RelativeMetadata&      aRelativeMetadata,
-                                                                                const   Array<CDM::Metadata>&       aMetadataArray,
-                                                                                const   Array<CDM::Data>            aDataArray                                  ) ;
+    CDM::Data getObjectDataAt(const Index& anIndex) const;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   CDM&                        anCDM                                       ) ;
+    // Header getters
 
-        bool                    isDefined                                   ( ) const ;
+    String getCCSDSCDMVersion() const;
 
-        CDM::Header             getHeader                                   ( ) const ;
+    Instant getCreationDate() const;
 
-        CDM::RelativeMetadata   getRelativeMetadata                         ( ) const ;
+    String getOriginator() const;
 
-        Array<CDM::Metadata>    getMetadataArray                            ( ) const ;
+    String getMessageFor() const;
 
-        Array<CDM::Data>        getDataArray                                ( ) const ;
+    String getMessageId() const;
 
-        CDM::Metadata           getObjectMetadataAt                         (   const   Index&                      anIndex                                     ) const ;
+    // Relative Metadata getters
 
-        CDM::Data               getObjectDataAt                             (   const   Index&                      anIndex                                     ) const ;
+    Instant getTCA() const;
 
-        // Header getters
+    Length getMissDistance() const;
 
-        String                  getCCSDSCDMVersion                          ( ) const ;
+    Position getRelativePosition() const;
 
-        Instant                 getCreationDate                             ( ) const ;
+    Velocity getRelativeVelocity() const;
 
-        String                  getOriginator                               ( ) const ;
+    Real getCollisionProbability() const;
 
-        String                  getMessageFor                               ( ) const ;
+    String getCollisionProbabilityMethod() const;
 
-        String                  getMessageId                                ( ) const ;
+    // Object Metadata getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 
-        // Relative Metadata getters
+    Integer getObjectDesignator(const Index& anIndex) const;
 
-        Instant                 getTCA                                      ( ) const ;
+    String getObjectName(const Index& anIndex) const;
 
-        Length                  getMissDistance                             ( ) const ;
+    String getObjectInternationalDesignator(const Index& anIndex) const;
 
-        Position                getRelativePosition                         ( ) const ;
+    CDM::ObjectType getObjectType(const Index& anIndex) const;
 
-        Velocity                getRelativeVelocity                         ( ) const ;
+    String getObjectEphemerisName(const Index& anIndex) const;
 
-        Real                    getCollisionProbability                     ( ) const ;
+    String getObjectCovarianceMethod(const Index& anIndex) const;
 
-        String                  getCollisionProbabilityMethod               ( ) const ;
+    String getObjectManeuverability(const Index& anIndex) const;
 
-        // Object Metadata getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
+    String getObjectReferenceFrame(const Index& anIndex) const;
 
-        Integer                 getObjectDesignator                         (   const   Index&                      anIndex                                     ) const ;
+    // Object Data getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 
-        String                  getObjectName                               (   const   Index&                      anIndex                                     ) const ;
+    State getObjectStateAtTCA(const Index& anIndex) const;
 
-        String                  getObjectInternationalDesignator            (   const   Index&                      anIndex                                     ) const ;
+    MatrixXd getObjectCovarianceMatrix(const Index& anIndex) const;
 
-        CDM::ObjectType         getObjectType                               (   const   Index&                      anIndex                                     ) const ;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        String                  getObjectEphemerisName                      (   const   Index&                      anIndex                                     ) const ;
+    static CDM Undefined();
 
-        String                  getObjectCovarianceMethod                   (   const   Index&                      anIndex                                     ) const ;
+    static CDM Dictionary(const ctnr::Dictionary& aDictionary);
 
-        String                  getObjectManeuverability                    (   const   Index&                      anIndex                                     ) const ;
+    static CDM Parse(const String& aString);
 
-        String                  getObjectReferenceFrame                     (   const   Index&                      anIndex                                     ) const ;
+    static CDM Load(const File& aFile);
 
-        // Object Data getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
+    static CDM::ObjectType ObjectTypeFromString(const String& aString);
 
-        State                   getObjectStateAtTCA                         (   const   Index&                      anIndex                                     ) const ;
+   private:
+    CDM::Header header_;
+    CDM::RelativeMetadata relativeMetadata_;
+    Array<CDM::Metadata> objectsMetadata_;
+    Array<CDM::Data> objectsData_;
+};
 
-        MatrixXd                getObjectCovarianceMatrix                   (   const   Index&                      anIndex                                     ) const ;
-
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
-
-        static CDM              Undefined                                   ( ) ;
-
-        static CDM              Dictionary                                  (   const   ctnr::Dictionary&           aDictionary                                 ) ;
-
-        static CDM              Parse                                       (   const   String&                     aString                                     ) ;
-
-        static CDM              Load                                        (   const   File&                       aFile                                       ) ;
-
-        static CDM::ObjectType  ObjectTypeFromString                        (   const   String&                     aString                                     ) ;
-
-    private:
-
-        CDM::Header             header_ ;
-        CDM::RelativeMetadata   relativeMetadata_ ;
-        Array<CDM::Metadata>    objectsMetadata_ ;
-        Array<CDM::Data>        objectsData_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace ccsds
+}  // namespace messages
+}  // namespace conjunction
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,23 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/System.hpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System__
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 namespace ostk
 {
@@ -26,124 +15,108 @@ namespace astro
 namespace flight
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::math::geom::d3::objects::Composite;
+using ostk::math::obj::Vector3d;
 
-using ostk::math::obj::Vector3d ;
-using ostk::math::geom::d3::objects::Composite ;
+using ostk::physics::units::Mass;
 
-using ostk::physics::units::Mass ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @brief                      Defines the generic physical system that has a mass and a certain geometry that can be composed of multiple subgeometries
+/// @brief                      Defines the generic physical system that has a mass and a certain geometry that can be
+/// composed of multiple subgeometries
 
 class System
 {
+   public:
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     Mass mass = { ... } ;
+    ///                     Composite composite ( ... ) ;
+    ///                     System system = { mass, composite } ;
+    /// @endcode
+    ///
+    /// @param              [in] aMass A mass
+    /// @param              [in] aGeometry A geometry
 
-    public:
+    System(const Mass& aMass, const Composite& aGeometry);
 
-        /// @brief              Constructor
-        ///
-        /// @code
-        ///                     Mass mass = { ... } ;
-        ///                     Composite composite ( ... ) ;
-        ///                     System system = { mass, composite } ;
-        /// @endcode
-        ///
-        /// @param              [in] aMass A mass
-        /// @param              [in] aGeometry A geometry
+    /// @brief              Copy Constructor
+    ///
+    /// @param              [in] aSystem A system
 
-                                System                                      (   const   Mass&                       aMass,
-                                                                                const   Composite&                  aGeometry                                   ) ;
+    System(const System& aSystem);
 
-        /// @brief              Copy Constructor
-        ///
-        /// @param              [in] aSystem A system
+    /// @brief              Destructor
 
-                                System                                      (   const   System&                     aSystem                                     ) ;
+    virtual ~System();
 
-        /// @brief              Destructor
+    /// @brief              Clone system
+    ///
+    /// @return             Pointer to cloned system
 
-        virtual                 ~System                                     ( ) ;
+    System* clone() const;
 
-        /// @brief              Clone system
-        ///
-        /// @return             Pointer to cloned system
+    /// @brief              Equal to operator
+    ///
+    /// @param              [in] aSystem A system
+    /// @return             True if systems are equal
 
-        System*                 clone                                       ( ) const ;
+    bool operator==(const System& aSystem) const;
 
-        /// @brief              Equal to operator
-        ///
-        /// @param              [in] aSystem A system
-        /// @return             True if systems are equal
+    /// @brief              Not equal to operator
+    ///
+    /// @param              [in] aSystem A system
+    /// @return             True if systems are not equal
 
-        bool                    operator ==                                 (   const   System&                     aSystem                                     ) const ;
+    bool operator!=(const System& aSystem) const;
 
-        /// @brief              Not equal to operator
-        ///
-        /// @param              [in] aSystem A system
-        /// @return             True if systems are not equal
+    /// @brief              Output stream operator
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aSystem A system
+    /// @return             A reference to output stream
 
-        bool                    operator !=                                 (   const   System&                     aSystem                                     ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const System& aSystem);
 
-        /// @brief              Output stream operator
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSystem A system
-        /// @return             A reference to output stream
+    /// @brief              Check if system is defined
+    ///
+    /// @return             True if system is defined
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   System&                     aSystem                                     ) ;
+    virtual bool isDefined() const;
 
-        /// @brief              Check if system is defined
-        ///
-        /// @return             True if system is defined
+    /// @brief              Print system
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
 
-        virtual bool            isDefined                                   ( ) const ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        /// @brief              Print system
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @brief              Get system's mass
+    ///
+    /// @code
+    ///                     Mass mass = system.getMass() ;
+    /// @endcode
+    ///
+    /// @return             Mass
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
+    Mass getMass() const;
 
-        /// @brief              Get system's mass
-        ///
-        /// @code
-        ///                     Mass mass = system.getMass() ;
-        /// @endcode
-        ///
-        /// @return             Mass
+    /// @brief              Get system's geometry
+    ///
+    /// @code
+    ///                     Mass mass = system.getGeometry() ;
+    /// @endcode
+    ///
+    /// @return             Composite
 
-        Mass                    getMass                                     ( ) const ;
+    Composite getGeometry() const;
 
-        /// @brief              Get system's geometry
-        ///
-        /// @code
-        ///                     Mass mass = system.getGeometry() ;
-        /// @endcode
-        ///
-        /// @return             Composite
+   private:
+    Mass mass_;
+    Composite geometry_;
+};
 
-        Composite               getGeometry                                 ( ) const ;
-
-    private:
-
-        Mass                    mass_ ;
-        Composite               geometry_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

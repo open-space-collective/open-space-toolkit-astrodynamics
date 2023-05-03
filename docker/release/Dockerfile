@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           docker/release/Dockerfile
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 ARG VERSION
 
@@ -32,8 +25,6 @@ RUN cmake .. \
  && make -j $(nproc) \
  && make install
 
-################################################################################################################################################################
-
 FROM debian:buster as cpp-release
 
 ENV LD_LIBRARY_PATH="/usr/local/lib"
@@ -50,15 +41,11 @@ COPY --from=cpp-builder /usr/local/test/OpenSpaceToolkit /usr/local/test/OpenSpa
 
 ENTRYPOINT ["/usr/local/test/OpenSpaceToolkit/Astrodynamics/open-space-toolkit-astrodynamics.test"]
 
-################################################################################################################################################################
-
 FROM python:3.11-slim as python-builder
 
 COPY --from=cpp-builder /app/build/bindings/python/dist /dist
 
 RUN pip install /dist/*311*.whl
-
-################################################################################################################################################################
 
 FROM python:3.11-slim as python-release
 
@@ -80,5 +67,3 @@ ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local
 COPY --from=python-builder /usr/local/lib/python3.11/site-packages/ostk /usr/local/lib/python3.11/site-packages/ostk
 
 ENTRYPOINT ["ipython"]
-
-################################################################################################################################################################

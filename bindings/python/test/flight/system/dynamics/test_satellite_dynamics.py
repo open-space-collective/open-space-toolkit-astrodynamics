@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/system/dynamics/test_satellite_dynamics.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -27,8 +20,6 @@ from ostk.physics.coordinate import Frame
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
-
-################################################################################################################################################################
 
 @pytest.fixture
 def satellite_dynamics_default_inputs () :
@@ -56,8 +47,6 @@ def satellite_dynamics_default_inputs () :
 def satellite_dynamics (satellite_dynamics_default_inputs) -> SatelliteDynamics:
 
     return SatelliteDynamics(*satellite_dynamics_default_inputs[:-1])
-
-################################################################################################################################################################
 
 class TestSatelliteDynamics:
 
@@ -90,5 +79,3 @@ class TestSatelliteDynamics:
         satellite_dynamics.set_instant(Instant.J2000())
 
         assert satellite_dynamics.get_dynamical_equations() is not None  # Returns "<function PyCapsule.>" builtin_function_or_method
-
-################################################################################################################################################################

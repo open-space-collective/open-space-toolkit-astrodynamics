@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/conjunction/messages/ccsds/conftest.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -13,8 +6,6 @@ import pathlib
 
 from ostk.core.filesystem import Path
 from ostk.core.filesystem import File
-
-################################################################################################################################################################
 
 @pytest.fixture
 def data_directory_path () -> str:
@@ -332,5 +323,3 @@ def cdm_spacetrack_dictionary () -> dict:
         'SAT2_CSRP_SRP_UNIT': 'm**4/kg**2',
         'GID': '682'
     }
-
-################################################################################################################################################################

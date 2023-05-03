@@ -1,17 +1,8 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/tools/python/ostk/astrodynamics/display.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 from typing import Any
 
 import plotly.graph_objs as go
-
-################################################################################################################################################################
 
 DEFAULT_COLOR: str = 'rgba(255, 0, 0, 0.5)'
 
@@ -70,8 +61,6 @@ DEFAULT_LAYOUT_3D: go.Layout = go.Layout(
     ),
 )
 
-################################################################################################################################################################
-
 def convert_to_ground_track_plotting_data (longitude: list,
                                            latitude: list,
                                            color: str = DEFAULT_COLOR) -> go.Scattergeo:
@@ -100,5 +89,3 @@ def create_2d_map (data: Any) -> go.Figure:
 def create_3d_globe (data: Any) -> go.Figure:
 
     return create_plotly_figure(data, DEFAULT_LAYOUT_3D)
-
-################################################################################################################################################################

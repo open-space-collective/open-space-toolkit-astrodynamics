@@ -1,26 +1,16 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Tabulated.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated (        pybind11::module& aModule                            )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
+    using ostk::core::types::Integer;
 
-    using ostk::core::types::Integer ;
-    using ostk::core::ctnr::Array ;
-
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::trajectory::orbit::models::Tabulated ;
+    using ostk::astro::trajectory::State;
+    using ostk::astro::trajectory::orbit::models::Tabulated;
 
     class_<Tabulated> tabulated_class(aModule, "Tabulated");
 
@@ -55,8 +45,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("calculate_states_at", &Tabulated::calculateStatesAt, arg("instants"))
         .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

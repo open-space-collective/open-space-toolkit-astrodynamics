@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           tools/cmake/OpenSpaceToolkitAstrodynamicsConfig.cmake.in
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 SET (OpenSpaceToolkitAstrodynamics_ROOT_DIR ${OpenSpaceToolkitAstrodynamics_ROOT_DIR} @CMAKE_INSTALL_PREFIX@)
 
@@ -25,5 +18,3 @@ IF (OpenSpaceToolkitAstrodynamics_INCLUDE_DIR)
     SET (OpenSpaceToolkitAstrodynamics_FOUND TRUE)
 
 ENDIF ()
-
-################################################################################################################################################################

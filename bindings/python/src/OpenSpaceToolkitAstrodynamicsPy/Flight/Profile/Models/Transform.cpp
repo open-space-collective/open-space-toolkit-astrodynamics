@@ -1,30 +1,20 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models/Transform.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Transform ( pybind11::module& aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Transform(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
+    using ostk::core::types::Shared;
 
-    using ostk::core::types::Shared ;
-    using ostk::core::ctnr::Array ;
+    using ostk::physics::coord::Frame;
+    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 
-    using ostk::physics::coord::Frame ;
-    using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
-
-    using ostk::astro::flight::profile::State ;
-    using ostk::astro::flight::profile::Model ;
-    using ostk::astro::flight::profile::models::Transform ;
+    using ostk::astro::flight::profile::Model;
+    using ostk::astro::flight::profile::State;
+    using ostk::astro::flight::profile::models::Transform;
 
     class_<Transform, Model>(aModule, "Transform")
 
@@ -43,8 +33,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_M
         .def_static("inertial_pointing", &Transform::InertialPointing, arg("trajectory"), arg("quaternion"))
         .def_static("nadir_pointing", &Transform::NadirPointing, arg("orbit"), arg("orbital_frame_type"))
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

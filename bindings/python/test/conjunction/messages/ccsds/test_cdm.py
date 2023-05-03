@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/conjunction/messages/ccsds/test_cdm.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -25,8 +18,6 @@ from ostk.physics.coordinate import Velocity
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.conjunction.messages.ccsds import CDM
-
-################################################################################################################################################################
 
 @pytest.fixture
 def cdm () -> CDM:
@@ -136,8 +127,6 @@ def cdm () -> CDM:
             )
         ],
     )
-
-################################################################################################################################################################
 
 class TestCDM:
 
@@ -402,5 +391,3 @@ class TestCDM:
 
         with pytest.raises(Exception) as e:
             CDM.object_type_from_string("ANOTHERSUPPORTEDTYPE")
-
-################################################################################################################################################################

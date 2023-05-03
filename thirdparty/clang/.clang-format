@@ -1,6 +1,6 @@
 ---
 Language:        Cpp
-# BasedOnStyle:  Google + Loft Preference
+BasedOnStyle:  Google
 AccessModifierOffset: -1
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: false
@@ -22,7 +22,7 @@ AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: Yes
-BinPackArguments: false
+BinPackArguments: True
 BinPackParameters: false
 BraceWrapping:
   AfterCaseLabel:  true
@@ -79,23 +79,18 @@ IncludeCategories:
   - Regex:           '^<.*OpenSpaceToolKit\/Core.*\.hpp>'
     Priority:        3
     SortPriority:    3
-    CaseSensitive:   false
   - Regex:           '^<.*OpenSpaceToolKit\/IO.*\.hpp>'
     Priority:        4
     SortPriority:    4
-    CaseSensitive:   false
   - Regex:           '^<.*OpenSpaceToolKit\/Mathematics.*\.hpp>'
     Priority:        5
     SortPriority:    5
-    CaseSensitive:   false
   - Regex:           '^<.*OpenSpaceToolKit\/Physics.*\.hpp>'
     Priority:        6
     SortPriority:    6
-    CaseSensitive:   false
   - Regex:           '^<.*OpenSpaceToolKit\/Astrodynamics.*\.hpp>'
     Priority:        7
     SortPriority:    7
-    CaseSensitive:   false
   # third party headers, e.g. <boost/algorithm/string.hpp> or <opencv2/imgproc.hpp>
   - Regex: '^<([a-zA-Z0-9_-]+\/)+[a-zA-Z0-9_-]+\.h(pp)?>'
     Priority: 1
@@ -140,22 +135,8 @@ RawStringFormats:
       - CPP
       - 'c++'
       - 'C++'
-    CanonicalDelimiter: ''
-    BasedOnStyle:    google
-  - Language:        TextProto
-    Delimiters:
-      - pb
-      - PB
-      - proto
-      - PROTO
     EnclosingFunctions:
-      - EqualsProto
-      - EquivToProto
-      - PARSE_PARTIAL_TEXT_PROTO
-      - PARSE_TEST_PROTO
-      - PARSE_TEXT_PROTO
       - ParseTextOrDie
-      - ParseTextProtoOrDie
     CanonicalDelimiter: ''
     BasedOnStyle:    google
 ReflowComments:  true
@@ -182,7 +163,7 @@ SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
-SpacesInAngles:  Never
+SpacesInAngles:  false
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
@@ -194,9 +175,6 @@ SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
 BitFieldColonSpacing: Both
 Standard:        Auto
-StatementMacros:
-  - Q_UNUSED
-  - QT_REQUIRE_VERSION
 TabWidth:        8
 UseCRLF:         false
 UseTab:          Never

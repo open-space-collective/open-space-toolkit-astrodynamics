@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/access/test_generator.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 import ostk.mathematics as mathematics
@@ -13,8 +6,6 @@ import ostk.mathematics as mathematics
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 RealInterval = mathematics.objects.RealInterval
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
@@ -44,14 +35,10 @@ Generator = astrodynamics.access.Generator
 
 environment: Environment = Environment.default()
 
-################################################################################################################################################################
-
 @pytest.fixture
 def generator () -> Generator:
 
     return Generator(environment)
-
-################################################################################################################################################################
 
 class TestGenerator:
 
@@ -235,5 +222,3 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
         assert generator.is_defined()
-
-################################################################################################################################################################

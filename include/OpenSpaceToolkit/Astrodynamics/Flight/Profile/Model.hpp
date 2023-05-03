@@ -1,22 +1,13 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/Model.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Model__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Model__
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
 
 namespace ostk
 {
@@ -27,93 +18,76 @@ namespace flight
 namespace profile
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::ctnr::Array;
+using ostk::core::types::Shared;
+using ostk::core::types::String;
 
-using ostk::core::types::Shared ;
-using ostk::core::types::String ;
-using ostk::core::ctnr::Array ;
+using ostk::physics::coord::Axes;
+using ostk::physics::coord::Frame;
+using ostk::physics::time::Instant;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::coord::Frame ;
-using ostk::physics::coord::Axes ;
-
-using ostk::astro::flight::profile::State ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::astro::flight::profile::State;
 
 /// @brief                      Profile model (abstract)
 
 class Model
 {
+   public:
+    Model();
 
-    public:
+    virtual ~Model() = 0;
 
-                                Model                                       ( ) ;
+    virtual Model* clone() const = 0;
 
-        virtual                 ~Model                                      ( ) = 0 ;
+    virtual bool operator==(const Model& aModel) const = 0;
 
-        virtual Model*          clone                                       ( ) const = 0 ;
+    virtual bool operator!=(const Model& aModel) const;
 
-        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const = 0 ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel);
 
-        virtual bool            operator !=                                 (   const   Model&                      aModel                                      ) const ;
+    virtual bool isDefined() const = 0;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Model&                      aModel                                      ) ;
+    /// @brief              Returns true if model can be converted to type
+    ///
+    /// @return             True if model can be converted to type
 
-        virtual bool            isDefined                                   ( ) const = 0 ;
+    template <class Type>
+    bool is() const
+    {
+        return dynamic_cast<const Type*>(this) != nullptr;
+    }
 
-        /// @brief              Returns true if model can be converted to type
-        ///
-        /// @return             True if model can be converted to type
+    /// @brief              Access model as its underlying type
+    ///
+    /// @return             Reference to underlying type
 
-        template <class Type>
-        bool                    is                                          ( ) const
+    template <class Type>
+    const Type& as() const
+    {
+        const Type* modelPtr = dynamic_cast<const Type*>(this);
+
+        if (modelPtr == nullptr)
         {
-            return dynamic_cast<const Type*>(this) != nullptr ;
+            throw ostk::core::error::RuntimeError("Cannot convert model to underlying type.");
         }
 
-        /// @brief              Access model as its underlying type
-        ///
-        /// @return             Reference to underlying type
+        return *modelPtr;
+    }
 
-        template <class Type>
-        const Type&             as                                          ( ) const
-        {
+    virtual State calculateStateAt(const Instant& anInstant) const = 0;
 
-            const Type* modelPtr = dynamic_cast<const Type*>(this) ;
+    virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const;
 
-            if (modelPtr == nullptr)
-            {
-                throw ostk::core::error::RuntimeError("Cannot convert model to underlying type.") ;
-            }
+    virtual Axes getAxesAt(const Instant& anInstant) const = 0;
 
-            return *modelPtr ;
+    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const = 0;
 
-        }
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
+};
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const = 0 ;
-
-        virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const ;
-
-        virtual Axes            getAxesAt                                   (   const   Instant&                    anInstant                                   ) const = 0 ;
-
-        virtual Shared<const Frame> getBodyFrame                            (   const   String&                     aFrameName                                  ) const = 0 ;
-
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const = 0 ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace profile
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

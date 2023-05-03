@@ -1,60 +1,36 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler (        pybind11::module& aModule                               )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::types::Real;
 
-    using ostk::core::types::Real ;
+    using ostk::physics::env::obj::Celestial;
+    using ostk::physics::time::Instant;
+    using ostk::physics::units::Derived;
+    using ostk::physics::units::Length;
 
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Derived ;
-    using ostk::physics::time::Instant ;
-    using ostk::physics::env::obj::Celestial ;
-
-    using ostk::astro::trajectory::orbit::models::Kepler ;
-    using ostk::astro::trajectory::orbit::models::kepler::COE ;
+    using ostk::astro::trajectory::orbit::models::Kepler;
+    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
-
-        class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(aModule, "Kepler") ;
+        class_<Kepler, ostk::astro::trajectory::orbit::Model> kepler_class(aModule, "Kepler");
 
         kepler_class
 
-            .def
-            (
-                init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&, const Kepler::PerturbationType&>(),
-                arg("coe"),
-                arg("epoch"),
-                arg("gravitational_parameter"),
-                arg("equatorial_radius"),
-                arg("j2"),
-                arg("j4"),
-                arg("perturbation_type")
-            )
+            .def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&,
+                      const Kepler::PerturbationType&>(),
+                 arg("coe"), arg("epoch"), arg("gravitational_parameter"), arg("equatorial_radius"), arg("j2"),
+                 arg("j4"), arg("perturbation_type"))
 
-            .def
-            (
-                init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
-                arg("coe"),
-                arg("epoch"),
-                arg("celestial_object"),
-                arg("perturbation_type"),
-                arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME
-            )
+            .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
+                 arg("coe"), arg("epoch"), arg("celestial_object"), arg("perturbation_type"),
+                 arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME)
 
             .def(self == self)
             .def(self != self)
@@ -77,7 +53,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
             .def_static("string_from_perturbation_type", &Kepler::StringFromPerturbationType, arg("perturbation_type"))
 
-        ;
+            ;
 
         enum_<Kepler::PerturbationType>(kepler_class, "PerturbationType")
 
@@ -85,18 +61,14 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
             .value("J2", Kepler::PerturbationType::J2)
             .value("J4", Kepler::PerturbationType::J4)
 
-        ;
-
+            ;
     }
 
     // Create "kepler" python submodule
-    auto kepler = aModule.def_submodule("kepler") ;
+    auto kepler = aModule.def_submodule("kepler");
 
     // Add __path__ attribute for "kepler" submodule
-    kepler.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.kepler" ;
+    kepler.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.kepler";
 
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(kepler) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(kepler);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

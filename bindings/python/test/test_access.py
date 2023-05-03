@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_access.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -16,8 +9,6 @@ import ostk.mathematics as mathematics
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 RealInterval = mathematics.objects.RealInterval
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
@@ -44,8 +35,6 @@ COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
 
-################################################################################################################################################################
-
 def test_access_constructors ():
 
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -58,8 +47,6 @@ def test_access_constructors ():
     assert access is not None
     assert isinstance(access, Access)
 
-################################################################################################################################################################
-
 def test_access_undefined ():
 
     access: Access = Access.undefined()
@@ -67,8 +54,6 @@ def test_access_undefined ():
     assert access is not None
     assert isinstance(access, Access)
     assert access.is_defined() is False
-
-################################################################################################################################################################
 
 def test_access_getters ():
 
@@ -124,12 +109,8 @@ def test_access_getters ():
     assert max_el is not None
     assert isinstance(max_el, Angle)
 
-################################################################################################################################################################
-
 def test_access_string_from_type ():
 
     assert Access.string_from_type(Access.Type.Undefined) == 'Undefined'
     assert Access.string_from_type(Access.Type.Complete) == 'Complete'
     assert Access.string_from_type(Access.Type.Partial) == 'Partial'
-
-################################################################################################################################################################

@@ -1,28 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages/SpaceX.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages/SpaceX/OPM.cpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX ( pybind11::module& aModule                                    )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX(pybind11::module& aModule)
 {
-
     // Create "spacex" python submodule
-    auto spacex = aModule.def_submodule("spacex") ;
+    auto spacex = aModule.def_submodule("spacex");
 
     // Add __path__ attribute for "spacex" submodule
-    spacex.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.messages.spacex" ;
+    spacex.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.messages.spacex";
 
     // add objects to "spacex" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM(spacex) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM(spacex);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

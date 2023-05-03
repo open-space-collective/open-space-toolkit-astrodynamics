@@ -1,26 +1,16 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models/Tabulated.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Tabulated.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Tabulated ( pybind11::module& aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models_Tabulated(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
 
-    using ostk::core::ctnr::Array ;
-
-    using ostk::astro::flight::profile::State ;
-    using ostk::astro::flight::profile::Model ;
-    using ostk::astro::flight::profile::models::Tabulated ;
+    using ostk::astro::flight::profile::Model;
+    using ostk::astro::flight::profile::State;
+    using ostk::astro::flight::profile::models::Tabulated;
 
     class_<Tabulated, Model>(aModule, "Tabulated")
 
@@ -38,8 +28,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_M
 
         // .def_static("load", &Tabulated::Load, arg("file"))
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

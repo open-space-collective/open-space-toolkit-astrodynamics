@@ -1,13 +1,6 @@
 #!/bin/bash
 
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           tools/development/start.sh
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 # Check input arguments
 
@@ -135,5 +128,3 @@ docker run \
     --workdir="/app/build" \
     ${docker_development_image_repository}:${docker_image_version}-${target} \
     /bin/bash -c "${command}"
-
-################################################################################################################################################################

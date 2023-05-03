@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/conftest.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -24,8 +17,6 @@ from ostk.physics.coordinate.spherical import AER
 
 from ostk.astrodynamics import Trajectory
 from ostk.astrodynamics.trajectory import State
-
-################################################################################################################################################################
 
 @pytest.fixture
 def environment () -> Environment:
@@ -133,5 +124,3 @@ def aer (azimuth: Angle,
 def trajectory(position: Position) -> Trajectory:
 
     return Trajectory.position(position)
-
-################################################################################################################################################################

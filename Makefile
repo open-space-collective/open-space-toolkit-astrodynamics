@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           Makefile
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
@@ -24,9 +17,7 @@ jupyter_notebook_port := 9005
 jupyter_python_version := 3.8
 jupyter_project_name_python_shared_object := OpenSpaceToolkitAstrodynamicsPy.cpython-38-x86_64-linux-gnu
 
-clang_format_sources_path ?= $(shell find src/ include/ test/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp')
-
-################################################################################################################################################################
+clang_format_sources_path ?= $(shell find ~+ src/ include/ test/ bindings/python/src/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp')
 
 pull: ## Pull all images
 
@@ -72,8 +63,6 @@ pull-release-image-jupyter:
 
 	docker pull $(docker_release_image_jupyter_repository):$(docker_image_version) || true
 	docker pull $(docker_release_image_jupyter_repository):latest || true
-
-################################################################################################################################################################
 
 build: build-images ## Build all images
 
@@ -194,8 +183,6 @@ build-packages-python: build-development-image ## Build Python packages
 		&& mkdir -p /app/packages/python \
 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
 
-################################################################################################################################################################
-
 start-development-no-link: build-development-image ## Start development environment
 
 	@ echo "Starting development environment..."
@@ -262,8 +249,6 @@ debug-jupyter-notebook: build-release-image-jupyter
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
 		bash -c "start-notebook.sh --ServerApp.token=''"
 
-################################################################################################################################################################
-
 debug-development: build-development-image ## Debug development environment
 
 	@ echo "Debugging development environment..."
@@ -294,17 +279,29 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 		--entrypoint=/bin/bash \
 		$(docker_release_image_python_repository):$(docker_image_version)
 
-################################################################################################################################################################
+format: build-development-image-debian ## Format all of the source code with the rules in .clang-format
 
-clang-format-source: start-development-debian ## Format all of the source code with the rules in .clang-format
-	@ echo Applying Clang format (see `.clang-format` file for rules)...
-	$(shell clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path})
+	docker run \
+		-it \
+		--rm \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR)/tools/development/helpers:/app/build/helpers:ro,delegated" \
+		--workdir=/app \
+		"$(docker_development_image_repository):$(docker_image_version)-debian" \
+		clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
-clang-format-check: start-development-debian ## Runs the clang-format tool to check the code against rules and formatting
-	@ echo Dry-running Clang format...
-	$(shell clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path})
+format-check: build-development-image-debian ## Runs the clang-format tool to check the code against rules and formatting
 
-################################################################################################################################################################
+	docker run \
+		-it \
+		--rm \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR)/tools/development/helpers:/app/build/helpers:ro,delegated" \
+		--workdir=/app \
+		"$(docker_development_image_repository):$(docker_image_version)-debian" \
+		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
 test: ## Run tests
 
@@ -371,8 +368,6 @@ test-coverage-cpp: build-development-image
 		&& mkdir /app/coverage \
 		&& mv /app/build/coverage* /app/coverage"
 
-################################################################################################################################################################
-
 clean: ## Clean
 
 	@ echo "Cleaning up..."
@@ -386,19 +381,16 @@ clean: ## Clean
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
 
-################################################################################################################################################################
-
 .PHONY: pull pull-development-image \
 		build build-images build-development-image \
 		pull-release-images pull-release-image-cpp pull-release-image-python pull-release-image-jupyter \
 		build-release-image-cpp build-release-image-python build-release-image-jupyter \
 		build-documentation build-packages-cpp \
 		start-development start-python start-jupyter-notebook debug-jupyter-notebook \
+		format format-check \
 		debug-development debug-cpp-release debug-python-release \
 		test test-unit test-unit-cpp test-unit-python test-coverage test-coverage-cpp \
 		clean
-
-################################################################################################################################################################
 
 help:
 
@@ -407,5 +399,3 @@ help:
 export DOCKER_BUILDKIT = 1
 
 .DEFAULT_GOAL := help
-
-################################################################################################################################################################

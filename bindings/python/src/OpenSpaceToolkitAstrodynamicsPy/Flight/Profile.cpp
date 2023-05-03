@@ -1,33 +1,23 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp>
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/State.cpp>
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (        pybind11::module&           aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
+    using ostk::core::types::Shared;
 
-    using ostk::core::types::Shared ;
-    using ostk::core::ctnr::Array ;
+    using ostk::physics::coord::Frame;
 
-    using ostk::physics::coord::Frame ;
-
-    using ostk::astro::flight::Profile ;
-    using ostk::astro::flight::profile::State ;
-    using ostk::astro::flight::profile::Model ;
+    using ostk::astro::flight::Profile;
+    using ostk::astro::flight::profile::Model;
+    using ostk::astro::flight::profile::State;
 
     class_<Profile>(aModule, "Profile")
 
@@ -47,19 +37,16 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Flight_Profile (
         .def_static("inertial_pointing", &Profile::InertialPointing, arg("trajectory"), arg("quaternion"))
         .def_static("nadir_pointing", &Profile::NadirPointing, arg("orbit"), arg("orbital_frame_type"))
 
-    ;
+        ;
 
     // Create "profile" python submodule
-    auto profile = aModule.def_submodule("profile") ;
+    auto profile = aModule.def_submodule("profile");
 
     // Add __path__ attribute for "profile" submodule
-    profile.attr("__path__") = "ostk.astrodynamics.flight.profile" ;
+    profile.attr("__path__") = "ostk.astrodynamics.flight.profile";
 
     // Add objects to "profile" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(profile) ;
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(profile) ;
-    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models(profile) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(profile);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(profile);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Models(profile);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

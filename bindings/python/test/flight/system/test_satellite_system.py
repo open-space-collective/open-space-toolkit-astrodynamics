@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/flight/system/test_satellite_system.py
-# @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -17,8 +10,6 @@ import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
 
-################################################################################################################################################################
-
 Cuboid = mathematics.geometry.d3.objects.Cuboid
 Composite = mathematics.geometry.d3.objects.Composite
 Point = mathematics.geometry.d3.objects.Point
@@ -26,8 +17,6 @@ Point = mathematics.geometry.d3.objects.Point
 Mass = physics.units.Mass
 
 SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
-
-################################################################################################################################################################
 
 @pytest.fixture
 def satellite_system_default_inputs ():
@@ -44,8 +33,6 @@ def satellite_system_default_inputs ():
 def satellite_system (satellite_system_default_inputs) -> SatelliteSystem:
 
     return SatelliteSystem(*satellite_system_default_inputs)
-
-################################################################################################################################################################
 
 class TestSatelliteSystem:
 
@@ -69,5 +56,3 @@ class TestSatelliteSystem:
         assert np.array_equal(satellite_system.get_inertia_tensor(), inertia_tensor)
         assert satellite_system.get_cross_sectional_surface_area() == surface_area
         assert satellite_system.get_drag_coefficient() == drag_coefficient
-
-################################################################################################################################################################

@@ -1,16 +1,7 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Utilities/MapConverter.hpp
-/// @author         Robin Petitdemange <robin@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright © Loft Orbital Solutions Inc.
 
 #ifndef __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__
 #define __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // https://stackoverflow.com/questions/42952781/how-to-wrap-a-c-class-with-a-constructor-that-takes-a-stdmap-or-stdvector
 // https://stackoverflow.com/questions/6116345/boostpython-possible-to-automatically-convert-from-dict-stdmap
@@ -21,70 +12,55 @@
 template <typename Container>
 struct ToDictConverter
 {
-
-	static PyObject*            convert                                     (   const   Container&                  aContainer                                  )
+    static PyObject* convert(const Container& aContainer)
     {
-
-        boost::python::dict dict ;
+        boost::python::dict dict;
 
         for (const auto& element : aContainer)
         {
-            dict[element.first] = element.second ;
+            dict[element.first] = element.second;
         }
 
-        return boost::python::incref(dict.ptr()) ;
-
-	}
-
-} ;
+        return boost::python::incref(dict.ptr());
+    }
+};
 
 struct MapConverter
 {
-
     /// @brief                  Registers converter from a python iterable type to the provided type
 
-                                template <typename Container>
-    MapConverter&               from_python                                 ( )
+    template <typename Container>
+    MapConverter& from_python()
     {
+        boost::python::converter::registry::push_back(&MapConverter::convertible, &MapConverter::construct<Container>,
+                                                      boost::python::type_id<Container>());
 
-        boost::python::converter::registry::push_back
-        (
-            &MapConverter::convertible,
-            &MapConverter::construct<Container>,
-            boost::python::type_id<Container>()
-        ) ;
-
-        return *this ;
-
+        return *this;
     }
 
     /// @brief                  Registers converter from the provided type to a python iterable type
 
-                                template <typename Container>
-    MapConverter&               to_python                                   ( )
+    template <typename Container>
+    MapConverter& to_python()
     {
+        boost::python::to_python_converter<Container, ToDictConverter<Container>>();
 
-        boost::python::to_python_converter<Container, ToDictConverter<Container>>() ;
-
-        return *this ;
-
+        return *this;
     }
 
     /// @brief                  Check if PyObject is iterable
 
-    static void*                convertible                                 (           PyObject*                   anObject                                    )
+    static void* convertible(PyObject* anObject)
     {
-
-        auto *iterator = PyObject_GetIter(anObject) ;
+        auto* iterator = PyObject_GetIter(anObject);
 
         if (iterator != nullptr)
         {
-            boost::python::decref(iterator) ;
-            return anObject ;
+            boost::python::decref(iterator);
+            return anObject;
         }
 
-        return nullptr ;
-
+        return nullptr;
     }
 
     /// @brief Convert iterable PyObject to C++ container type.
@@ -93,73 +69,63 @@ struct MapConverter
     ///
     ///   * Container to be constructed is a map.
 
-                                template <typename Container>
-    static void                 construct                                   (           PyObject*                   object,
-                                                                                        boost::python::converter::rvalue_from_python_stage1_data* data          )
+    template <typename Container>
+    static void construct(PyObject* object, boost::python::converter::rvalue_from_python_stage1_data* data)
     {
-
-        namespace python = boost::python ;
+        namespace python = boost::python;
 
         // Object is a borrowed reference, so create a handle indicting it is borrowed for proper reference counting
 
-        python::handle<> handle(python::borrowed(object)) ;
+        python::handle<> handle(python::borrowed(object));
 
         // Obtain a handle to the memory block that the converter has allocated for the C++ type
 
-        typedef python::converter::rvalue_from_python_storage<Container> storage_type ;
+        typedef python::converter::rvalue_from_python_storage<Container> storage_type;
 
-        void* storage = reinterpret_cast<storage_type*>(data)->storage.bytes ;
+        void* storage = reinterpret_cast<storage_type*>(data)->storage.bytes;
 
         // Allocate the C++ type into the converter's memory block
 
-        new (storage) Container() ;
+        new (storage) Container();
 
         // Iterate over the dictionary and populate the map
 
-        python::dict dict(handle) ;
+        python::dict dict(handle);
 
-        Container& map(*(static_cast<Container*>(storage))) ;
+        Container& map(*(static_cast<Container*>(storage)));
 
-        python::list keys(dict.keys()) ;
-        int keyCount(static_cast<int>(python::len(keys))) ;
+        python::list keys(dict.keys());
+        int keyCount(static_cast<int>(python::len(keys)));
 
-        for (int i = 0 ; i < keyCount ; ++i)
+        for (int i = 0; i < keyCount; ++i)
         {
-
-            python::object keyObj(keys[i]) ;
-            python::extract<typename Container::key_type> keyProxy(keyObj) ;
+            python::object keyObj(keys[i]);
+            python::extract<typename Container::key_type> keyProxy(keyObj);
 
             if (!keyProxy.check())
             {
-                PyErr_SetString(PyExc_KeyError, "Bad key type.") ;
-                python::throw_error_already_set() ;
+                PyErr_SetString(PyExc_KeyError, "Bad key type.");
+                python::throw_error_already_set();
             }
 
-            typename Container::key_type key = keyProxy() ;
+            typename Container::key_type key = keyProxy();
 
-            python::object valObj(dict[keyObj]) ;
-            python::extract<typename Container::mapped_type> valProxy(valObj) ;
+            python::object valObj(dict[keyObj]);
+            python::extract<typename Container::mapped_type> valProxy(valObj);
 
             if (!valProxy.check())
             {
-                PyErr_SetString(PyExc_ValueError, "Bad value type.") ;
-                python::throw_error_already_set() ;
+                PyErr_SetString(PyExc_ValueError, "Bad value type.");
+                python::throw_error_already_set();
             }
 
-            typename Container::mapped_type val = valProxy() ;
+            typename Container::mapped_type val = valProxy();
 
-            map.insert({ key, val }) ;
+            map.insert({key, val});
+        }
 
-         }
-
-        data->convertible = storage ;
-
+        data->convertible = storage;
     }
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+};
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

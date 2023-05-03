@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/messages/spacex/test_opm.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 import pytest
 
@@ -25,8 +18,6 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory.orbit.messages.spacex import OPM
-
-################################################################################################################################################################
 
 @pytest.fixture
 def opm () -> OPM:
@@ -54,8 +45,6 @@ def opm () -> OPM:
             ),
         ],
     )
-
-################################################################################################################################################################
 
 class TestOPM:
 
@@ -118,12 +107,8 @@ class TestOPM:
 
         assert OPM.load(file = opm_file) is not None
 
-################################################################################################################################################################
-
 class TestOPMDeployment:
 
     def test_to_state (self, opm: OPM):
 
         assert opm.get_deployment_with_name(name = 'A').to_state() is not None
-
-################################################################################################################################################################

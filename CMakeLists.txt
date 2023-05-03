@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           CMakeLists.txt
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Copyright © Loft Orbital Solutions Inc.
 
 ## Project Properties
 
@@ -19,8 +12,6 @@ SET (PROJECT_VENDOR_NAME "Open Space Collective")
 SET (PROJECT_VENDOR_CONTACT "contact@open-space-collective.org")
 SET (PROJECT_VENDOR_URL "open-space-collective.org")
 
-################################################################################################################################################################
-
 ## Project Options
 
 OPTION (BUILD_SHARED_LIBRARY "Build shared library." ON)
@@ -29,8 +20,6 @@ OPTION (BUILD_UNIT_TESTS "Build tests" ON)
 OPTION (BUILD_PYTHON_BINDINGS "Build Python bindings." ON)
 OPTION (BUILD_CODE_COVERAGE "Build code coverage" OFF)
 OPTION (BUILD_DOCUMENTATION "Build documentation" OFF)
-
-################################################################################################################################################################
 
 ## Setup
 
@@ -45,8 +34,6 @@ SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
 ### Policies
 
 CMAKE_POLICY (SET "CMP0048" NEW)
-
-################################################################################################################################################################
 
 ## Version
 
@@ -110,8 +97,6 @@ ENDIF ()
 
 MESSAGE (STATUS "Version: ${PROJECT_VERSION_STRING}")
 
-################################################################################################################################################################
-
 ## Project Configuration
 
 PROJECT (${PROJECT_NAME} VERSION ${PROJECT_VERSION_STRING} LANGUAGES "C" "CXX")
@@ -123,8 +108,6 @@ IF (BUILD_CODE_COVERAGE)
 ELSEIF (NOT CMAKE_BUILD_TYPE)
     SET (CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type [None|Debug|Release|RelWithDebInfo|MinSizeRel]." FORCE)
 ENDIF ()
-
-################################################################################################################################################################
 
 ## Flags
 
@@ -148,13 +131,9 @@ SET (CMAKE_CXX_STANDARD 17)
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_CXX_EXTENSIONS OFF)
 
-################################################################################################################################################################
-
 ## Debugging Options
 
 SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
-
-################################################################################################################################################################
 
 ## Paths
 
@@ -196,8 +175,6 @@ ELSE ()
 
 ENDIF ()
 
-################################################################################################################################################################
-
 ## Configure Files
 
 FILE (GLOB_RECURSE CONFIGINPUTS1 "include/*.in.hpp.cmake")
@@ -222,8 +199,6 @@ FOREACH (CONFIGINPUT ${CONFIGINPUTS})
     CONFIGURE_FILE ("${CONFIGINPUT}" "${CONFIGOUTPUT2}")
 
 ENDFOREACH ()
-
-################################################################################################################################################################
 
 ## Dependencies
 
@@ -319,8 +294,6 @@ IF (DEFINED PROJECT_VERSION_STRING AND EXISTS "${PROJECT_SOURCE_DIR}/src/${PROJE
     CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/src/${PROJECT_PATH}/Utilities/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/${PROJECT_PATH}/Utilities/Version.cpp" @ONLY)
 
 ENDIF ()
-
-################################################################################################################################################################
 
 ## Targets
 
@@ -504,8 +477,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/share")
 
 ENDIF ()
 
-################################################################################################################################################################
-
 ## Packaging
 
 SET (CPACK_PACKAGE_NAME ${PROJECT_PACKAGE_NAME})
@@ -580,5 +551,3 @@ SET (CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST
 )
 
 INCLUDE (CPack)
-
-################################################################################################################################################################
