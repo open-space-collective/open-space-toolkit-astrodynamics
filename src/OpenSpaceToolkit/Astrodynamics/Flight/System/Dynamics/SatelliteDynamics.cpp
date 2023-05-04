@@ -160,13 +160,29 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
     }
 
+    // ##### Temp
+    const Real dragCoefficient = 2.2 ;
+    const Real surfaceArea = 1.0 ;
+    const Real rho = 1.0e-13 ;
+    // #####
+
+    const Real mass = satelliteSystem_.getMass().inKilograms() ;
+    const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+
+    // Add drag acceleration
+    const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
+
+    // Calculate drag acceleration
+    const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
+
     // Integrate position and velocity states
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-    dxdt[3] = totalGravitationalAcceleration_SI[0];
-    dxdt[4] = totalGravitationalAcceleration_SI[1];
-    dxdt[5] = totalGravitationalAcceleration_SI[2];
+    dxdt[0] = x[3] ;
+    dxdt[1] = x[4] ;
+    dxdt[2] = x[5] ;
+    dxdt[3] = totalGravitationalAcceleration_SI[0] + dragAcceleration[0] ;
+    dxdt[4] = totalGravitationalAcceleration_SI[1] + dragAcceleration[1] ;
+    dxdt[5] = totalGravitationalAcceleration_SI[2] + dragAcceleration[2] ;
+
 }
 
 // void                            SatelliteDynamics::Exponential_Dynamics
