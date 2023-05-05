@@ -600,15 +600,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
         const Real positionTolerance = 1e-8;
         const Real velocityTolerance = 1e-12;
 
-        EXPECT_TRUE(position.getCoordinates().isNear(referencePosition, positionTolerance))
-            << String::Format("{} - {} = {} [m]", position.getCoordinates().toString(), referencePosition.toString(),
-                              (position.getCoordinates() - referencePosition).norm());
+        EXPECT_TRUE(position.getCoordinates().isNear(referencePosition, positionTolerance)) << String::Format(
+            "{} - {} = {} [m]",
+            position.getCoordinates().toString(),
+            referencePosition.toString(),
+            (position.getCoordinates() - referencePosition).norm()
+        );
         EXPECT_EQ(Position::Unit::Meter, position.getUnit());
         EXPECT_EQ(Frame::GCRF(), position.accessFrame());
 
-        EXPECT_TRUE(velocity.getCoordinates().isNear(referenceVelocity, velocityTolerance))
-            << String::Format("{} - {} = {} [m/s]", velocity.getCoordinates().toString(), referenceVelocity.toString(),
-                              (velocity.getCoordinates() - referenceVelocity).norm());
+        EXPECT_TRUE(velocity.getCoordinates().isNear(referenceVelocity, velocityTolerance)) << String::Format(
+            "{} - {} = {} [m/s]",
+            velocity.getCoordinates().toString(),
+            referenceVelocity.toString(),
+            (velocity.getCoordinates() - referenceVelocity).norm()
+        );
         EXPECT_EQ(Velocity::Unit::MeterPerSecond, velocity.getUnit());
         EXPECT_EQ(Frame::GCRF(), velocity.accessFrame());
     }
@@ -667,12 +673,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
 
         EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
         EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
-        EXPECT_TRUE(
-            coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon()));
+        EXPECT_TRUE(coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon())
+        );
         EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), Real::Epsilon()));
         EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), Real::Epsilon()));
-        EXPECT_TRUE(
-            coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon()));
+        EXPECT_TRUE(coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon())
+        );
     }
 
     {
@@ -684,8 +690,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
     }
 
     {
-        EXPECT_ANY_THROW(COE::Cartesian(COE::CartesianState({Position::Undefined(), Velocity::Undefined()}),
-                                        Earth::GravitationalParameter));
+        EXPECT_ANY_THROW(COE::Cartesian(
+            COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::GravitationalParameter
+        ));
     }
 }
 

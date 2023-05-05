@@ -14,13 +14,17 @@ namespace astro
 
 using ostk::astro::trajectory::models::Tabulated;
 
-Trajectory::Trajectory(const Model& aModel) : modelUPtr_(aModel.clone()) { }
+Trajectory::Trajectory(const Model& aModel)
+    : modelUPtr_(aModel.clone())
+{}
 
-Trajectory::Trajectory(const Array<State>& aStateArray) : modelUPtr_(std::make_unique<Tabulated>(aStateArray)) { }
+Trajectory::Trajectory(const Array<State>& aStateArray)
+    : modelUPtr_(std::make_unique<Tabulated>(aStateArray))
+{}
 
 Trajectory::Trajectory(const Trajectory& aTrajectory)
     : modelUPtr_((aTrajectory.modelUPtr_) != nullptr ? aTrajectory.modelUPtr_->clone() : nullptr)
-{ }
+{}
 
 Trajectory& Trajectory::operator=(const Trajectory& aTrajectory)
 {
@@ -122,7 +126,9 @@ Trajectory Trajectory::Position(const physics::coord::Position& aPosition)
     return Trajectory(Static(aPosition));
 }
 
-Trajectory::Trajectory() : modelUPtr_(nullptr) { }
+Trajectory::Trajectory()
+    : modelUPtr_(nullptr)
+{}
 
 }  // namespace astro
 }  // namespace ostk

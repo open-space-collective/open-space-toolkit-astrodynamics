@@ -26,13 +26,15 @@ static const Real Tolerance = 1e-8;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-Kepler::Kepler(const COE& aClassicalOrbitalElementSet,
-               const Instant& anEpoch,
-               const Derived& aGravitationalParameter,
-               const Length& anEquatorialRadius,
-               const Real& aJ2,
-               const Real& aJ4,
-               const Kepler::PerturbationType& aPerturbationType)
+Kepler::Kepler(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Length& anEquatorialRadius,
+    const Real& aJ2,
+    const Real& aJ4,
+    const Kepler::PerturbationType& aPerturbationType
+)
     : Model(),
       coe_(aClassicalOrbitalElementSet),
       epoch_(anEpoch),
@@ -41,23 +43,27 @@ Kepler::Kepler(const COE& aClassicalOrbitalElementSet,
       j2_(aJ2),
       j4_(aJ4),
       perturbationType_(aPerturbationType)
-{ }
+{}
 
-Kepler::Kepler(const COE& aClassicalOrbitalElementSet,
-               const Instant& anEpoch,
-               const Celestial& aCelestialObject,
-               const Kepler::PerturbationType& aPerturbationType,
-               const bool inFixedFrame)
+Kepler::Kepler(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Celestial& aCelestialObject,
+    const Kepler::PerturbationType& aPerturbationType,
+    const bool inFixedFrame
+)
     : Model(),
-      coe_(inFixedFrame ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject)
-                        : aClassicalOrbitalElementSet),
+      coe_(
+          inFixedFrame ? Kepler::InertialCoeFromFixedCoe(aClassicalOrbitalElementSet, anEpoch, aCelestialObject)
+                       : aClassicalOrbitalElementSet
+      ),
       epoch_(anEpoch),
       gravitationalParameter_(aCelestialObject.getGravitationalParameter()),
       equatorialRadius_(aCelestialObject.getEquatorialRadius()),
       j2_(aCelestialObject.getJ2()),
       j4_(aCelestialObject.getJ4()),
       perturbationType_(aPerturbationType)
-{ }
+{}
 
 Kepler* Kepler::clone() const
 {
@@ -194,8 +200,9 @@ State Kepler::calculateStateAt(const Instant& anInstant) const
             return Kepler::CalculateJ2StateAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_);
 
         case Kepler::PerturbationType::J4:
-            return Kepler::CalculateJ4StateAt(coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_,
-                                              j4_);
+            return Kepler::CalculateJ4StateAt(
+                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_
+            );
 
         default:
             throw ostk::core::error::runtime::Wrong("Perturbation type");
@@ -227,12 +234,14 @@ Integer Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
             return Kepler::CalculateNoneRevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant);
 
         case Kepler::PerturbationType::J2:
-            return Kepler::CalculateJ2RevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant,
-                                                         equatorialRadius_, j2_);
+            return Kepler::CalculateJ2RevolutionNumberAt(
+                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_
+            );
 
         case Kepler::PerturbationType::J4:
-            return Kepler::CalculateJ4RevolutionNumberAt(coe_, epoch_, gravitationalParameter_, anInstant,
-                                                         equatorialRadius_, j2_, j4_);
+            return Kepler::CalculateJ4RevolutionNumberAt(
+                coe_, epoch_, gravitationalParameter_, anInstant, equatorialRadius_, j2_, j4_
+            );
 
         default:
             throw ostk::core::error::runtime::Wrong("Perturbation type");
@@ -291,9 +300,9 @@ bool Kepler::operator!=(const trajectory::Model& aModel) const
     return !((*this) == aModel);
 }
 
-COE Kepler::InertialCoeFromFixedCoe(const COE& aClassicalOrbitalElementSet,
-                                    const Instant& anEpoch,
-                                    const Celestial& aCelestialObject)
+COE Kepler::InertialCoeFromFixedCoe(
+    const COE& aClassicalOrbitalElementSet, const Instant& anEpoch, const Celestial& aCelestialObject
+)
 {
     using ostk::physics::coord::Transform;
 
@@ -310,20 +319,24 @@ COE Kepler::InertialCoeFromFixedCoe(const COE& aClassicalOrbitalElementSet,
     const Velocity& velocityInFixedFrame = cartesianStateInFixedFrame.second;
 
     const Position positionInInertialFrame = Position::Meters(
-        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), gcrfSPtr);
+        fixedFrameToInertialFrameTransform.applyToPosition(positionInFixedFrame.accessCoordinates()), gcrfSPtr
+    );
     const Velocity velocityInInertialFrame = Velocity::MetersPerSecond(
         fixedFrameToInertialFrameTransform.applyToVelocity({0.0, 0.0, 0.0}, velocityInFixedFrame.accessCoordinates()),
-        gcrfSPtr);
+        gcrfSPtr
+    );
 
     const COE::CartesianState cartesianStateInInertialFrame = {positionInInertialFrame, velocityInInertialFrame};
 
     return COE::Cartesian(cartesianStateInInertialFrame, aCelestialObject.getGravitationalParameter());
 }
 
-State Kepler::CalculateNoneStateAt(const COE& aClassicalOrbitalElementSet,
-                                   const Instant& anEpoch,
-                                   const Derived& aGravitationalParameter,
-                                   const Instant& anInstant)
+State Kepler::CalculateNoneStateAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant
+)
 {
     using ostk::physics::time::Duration;
     using ostk::physics::units::Angle;
@@ -372,9 +385,13 @@ State Kepler::CalculateNoneStateAt(const COE& aClassicalOrbitalElementSet,
         trueAnomaly_rad = COE::TrueAnomalyFromEccentricAnomaly(eccentricAnomaly, eccentricity).inRadians();
     }
 
-    const COE coe = {Length::Meters(semiMajorAxis_m), eccentricity,
-                     Angle::Radians(inclination_rad), Angle::Radians(raan_rad),
-                     Angle::Radians(aop_rad),         Angle::Radians(trueAnomaly_rad)};
+    const COE coe = {
+        Length::Meters(semiMajorAxis_m),
+        eccentricity,
+        Angle::Radians(inclination_rad),
+        Angle::Radians(raan_rad),
+        Angle::Radians(aop_rad),
+        Angle::Radians(trueAnomaly_rad)};
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -388,10 +405,12 @@ State Kepler::CalculateNoneStateAt(const COE& aClassicalOrbitalElementSet,
     return state;
 }
 
-Integer Kepler::CalculateNoneRevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                                const Instant& anEpoch,
-                                                const Derived& aGravitationalParameter,
-                                                const Instant& anInstant)
+Integer Kepler::CalculateNoneRevolutionNumberAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant
+)
 {
     using ostk::physics::time::Duration;
 
@@ -402,12 +421,14 @@ Integer Kepler::CalculateNoneRevolutionNumberAt(const COE& aClassicalOrbitalElem
     return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1;
 }
 
-State Kepler::CalculateJ2StateAt(const COE& aClassicalOrbitalElementSet,
-                                 const Instant& anEpoch,
-                                 const Derived& aGravitationalParameter,
-                                 const Instant& anInstant,
-                                 const Length& anEquatorialRadius,
-                                 const Real& aJ2)
+State Kepler::CalculateJ2StateAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant,
+    const Length& anEquatorialRadius,
+    const Real& aJ2
+)
 {
     using ostk::physics::time::Duration;
     using ostk::physics::units::Angle;
@@ -437,8 +458,9 @@ State Kepler::CalculateJ2StateAt(const COE& aClassicalOrbitalElementSet,
     // Calculation
     // Ref: http://www.s3l.be/usr/files/di/fi/2/Lecture06_AnalyticNumeric_2018-2019_201811142121.pdf
 
-    const Real n = std::sqrt(gravitationalParameter_SI /
-                             (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m));
+    const Real n = std::sqrt(
+        gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)
+    );
     const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
 
     const Real cosInclination = std::cos(inclinationAtEpoch_rad);
@@ -464,13 +486,17 @@ State Kepler::CalculateJ2StateAt(const COE& aClassicalOrbitalElementSet,
     const Real aop_rad = aop_bar_rad;
     const Real trueAnomaly_rad =
         COE::TrueAnomalyFromEccentricAnomaly(
-            COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance),
-            eccentricity)
+            COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity
+        )
             .inRadians();
 
-    const COE coe = {Length::Meters(semiMajorAxis_m), eccentricity,
-                     Angle::Radians(inclination_rad), Angle::Radians(raan_rad),
-                     Angle::Radians(aop_rad),         Angle::Radians(trueAnomaly_rad)};
+    const COE coe = {
+        Length::Meters(semiMajorAxis_m),
+        eccentricity,
+        Angle::Radians(inclination_rad),
+        Angle::Radians(raan_rad),
+        Angle::Radians(aop_rad),
+        Angle::Radians(trueAnomaly_rad)};
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -484,12 +510,14 @@ State Kepler::CalculateJ2StateAt(const COE& aClassicalOrbitalElementSet,
     return state;
 }
 
-Integer Kepler::CalculateJ2RevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                              const Instant& anEpoch,
-                                              const Derived& aGravitationalParameter,
-                                              const Instant& anInstant,
-                                              const Length& anEquatorialRadius,
-                                              const Real& aJ2)
+Integer Kepler::CalculateJ2RevolutionNumberAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant,
+    const Length& anEquatorialRadius,
+    const Real& aJ2
+)
 {
     using ostk::physics::time::Duration;
 
@@ -634,13 +662,15 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(const COE& aClassicalOrbitalElemen
     return (durationFromEpoch.inSeconds() / orbitalPeriod.inSeconds()).floor() + 1;
 }
 
-State Kepler::CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
-                                 const Instant& anEpoch,
-                                 const Derived& aGravitationalParameter,
-                                 const Instant& anInstant,
-                                 const Length& anEquatorialRadius,
-                                 const Real& aJ2,
-                                 const Real& aJ4)
+State Kepler::CalculateJ4StateAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant,
+    const Length& anEquatorialRadius,
+    const Real& aJ2,
+    const Real& aJ4
+)
 {
     using ostk::physics::time::Duration;
     using ostk::physics::units::Angle;
@@ -671,8 +701,9 @@ State Kepler::CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
     // Ref: Vallado, D. A (2013). Fundamentals of Astrodynamics and Applications.
     // Ref: Escobal, P. R (1965). Methods of Orbit Determination.
 
-    const Real n = std::sqrt(gravitationalParameter_SI /
-                             (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m));
+    const Real n = std::sqrt(
+        gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)
+    );
     const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
 
     const Real cosInclination = std::cos(inclinationAtEpoch_rad);
@@ -705,9 +736,9 @@ State Kepler::CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
 
     const Real aop_dot =
         n_bar * expr * (2.0 - (5.0 / 2.0) * sinInclinationSquared) *
-            (1.0 +
-             expr * (2.0 + eccentricityAtEpochSquared / 2.0 - 2.0 * sqrtBeta -
-                     (43.0 / 24.0 - eccentricityAtEpochSquared / 48.0 - 3.0 * sqrtBeta) * sinInclinationSquared)) -
+            (1.0 + expr * (2.0 + eccentricityAtEpochSquared / 2.0 - 2.0 * sqrtBeta -
+                           (43.0 / 24.0 - eccentricityAtEpochSquared / 48.0 - 3.0 * sqrtBeta) * sinInclinationSquared)
+            ) -
         45.0 / 36.0 * aJ2 * aJ2 * n * std::pow(equatorialRadius_m / p, 4) * eccentricityAtEpochSquared *
             std::pow(cosInclination, 4) -
         35.0 / 8.0 * n * aJ4 * std::pow(equatorialRadius_m / p, 4) *
@@ -728,13 +759,17 @@ State Kepler::CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
     const Real aop_rad = aop_bar_rad;
     const Real trueAnomaly_rad =
         COE::TrueAnomalyFromEccentricAnomaly(
-            COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance),
-            eccentricity)
+            COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity
+        )
             .inRadians();
 
-    const COE coe = {Length::Meters(semiMajorAxis_m), eccentricity,
-                     Angle::Radians(inclination_rad), Angle::Radians(raan_rad),
-                     Angle::Radians(aop_rad),         Angle::Radians(trueAnomaly_rad)};
+    const COE coe = {
+        Length::Meters(semiMajorAxis_m),
+        eccentricity,
+        Angle::Radians(inclination_rad),
+        Angle::Radians(raan_rad),
+        Angle::Radians(aop_rad),
+        Angle::Radians(trueAnomaly_rad)};
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -748,13 +783,15 @@ State Kepler::CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
     return state;
 }
 
-Integer Kepler::CalculateJ4RevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                              const Instant& anEpoch,
-                                              const Derived& aGravitationalParameter,
-                                              const Instant& anInstant,
-                                              const Length& anEquatorialRadius,
-                                              const Real& aJ2,
-                                              const Real& aJ4)
+Integer Kepler::CalculateJ4RevolutionNumberAt(
+    const COE& aClassicalOrbitalElementSet,
+    const Instant& anEpoch,
+    const Derived& aGravitationalParameter,
+    const Instant& anInstant,
+    const Length& anEquatorialRadius,
+    const Real& aJ2,
+    const Real& aJ4
+)
 {
     using ostk::physics::time::Duration;
 

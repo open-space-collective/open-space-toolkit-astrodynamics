@@ -17,9 +17,10 @@ using ostk::core::types::Size;
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagator::Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver)
-    : satelliteDynamics_(aSatelliteDynamics), numericalSolver_(aNumericalSolver)
+    : satelliteDynamics_(aSatelliteDynamics),
+      numericalSolver_(aNumericalSolver)
 
-{ }
+{}
 
 Propagator* Propagator::clone() const
 {
@@ -62,16 +63,20 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const VectorXd stateCoordinates = aState.getCoordinates();
 
-    SatelliteDynamics::StateVector startStateVector(stateCoordinates.data(),
-                                                    stateCoordinates.data() + stateCoordinates.size());
+    SatelliteDynamics::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
     satelliteDynamics_.setInstant(aState.getInstant());
 
     SatelliteDynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
-        startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations());
+        startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations()
+    );
 
-    return {anInstant, Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr)};
+    return {
+        anInstant,
+        Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
+        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr)};
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -100,8 +105,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     const VectorXd stateCoordinates = aState.getCoordinates();
-    SatelliteDynamics::StateVector startStateVector(stateCoordinates.data(),
-                                                    stateCoordinates.data() + stateCoordinates.size());
+    SatelliteDynamics::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
     satelliteDynamics_.setInstant(aState.getInstant());
 
@@ -125,7 +131,8 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     if (!forwardInstants.isEmpty())
     {
         propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector, aState.getInstant(), forwardInstants, satelliteDynamics_.getDynamicalEquations());
+            startStateVector, aState.getInstant(), forwardInstants, satelliteDynamics_.getDynamicalEquations()
+        );
     }
 
     // backward propagation only
@@ -135,7 +142,8 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardInstants.begin(), backwardInstants.end());
 
         propagatedBackwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector, aState.getInstant(), backwardInstants, satelliteDynamics_.getDynamicalEquations());
+            startStateVector, aState.getInstant(), backwardInstants, satelliteDynamics_.getDynamicalEquations()
+        );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
     }
@@ -147,9 +155,10 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     for (const SatelliteDynamics::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
-        State propagatedState = {anInstantArray[k],
-                                 Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-                                 Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
+        State propagatedState = {
+            anInstantArray[k],
+            Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
+            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
 
         propagatedStates.add(propagatedState);
 
@@ -197,18 +206,18 @@ Propagator Propagator::MediumFidelity()
     const Environment customEnvironment = Environment(instant, objects);
 
     // Satellite system setup
-    const Composite satelliteGeometry = Composite {
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0})};
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry = Composite {Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    )};
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     const SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
 
     // Construct default numerical solver
-    const NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
     return {satelliteDynamics, numericalSolver};
 }
@@ -231,7 +240,8 @@ Propagator Propagator::HighFidelity()
 
     // Create environment
     const Array<Shared<Object>> objects =  // [TBI] Add drag to environment once it is added in ostk-physics
-        {std::make_shared<Earth>(Earth::EGM2008(100, 100)), std::make_shared<Sun>(Sun::Spherical()),
+        {std::make_shared<Earth>(Earth::EGM2008(100, 100)),
+         std::make_shared<Sun>(Sun::Spherical()),
          std::make_shared<Moon>(Moon::Spherical())};
 
     const Instant instant = Instant::J2000();
@@ -239,18 +249,18 @@ Propagator Propagator::HighFidelity()
     const Environment customEnvironment = Environment(instant, objects);
 
     // Satellite system setup
-    const Composite satelliteGeometry = Composite {
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0})};
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry = Composite {Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    )};
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     const SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
 
     // Construct default numerical solver
-    const NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+    const NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
     return {satelliteDynamics, numericalSolver};
 }

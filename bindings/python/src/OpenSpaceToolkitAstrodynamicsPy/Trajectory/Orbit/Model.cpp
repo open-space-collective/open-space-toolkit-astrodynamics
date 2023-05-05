@@ -16,14 +16,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
 
     class_<Model>(aModule, "OrbitModel")
 
-        .def("__eq__",
-             [](const Model& self, const Model& other) {
-                 return self == other;
-             })
-        .def("__ne__",
-             [](const Model& self, const Model& other) {
-                 return self != other;
-             })
+        .def(
+            "__eq__",
+            [](const Model& self, const Model& other) {
+                return self == other;
+            }
+        )
+        .def(
+            "__ne__",
+            [](const Model& self, const Model& other) {
+                return self != other;
+            }
+        )
 
         .def("__str__", &(shiftToString<Model>))
 
@@ -33,36 +37,42 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model(pybind11::mod
             "is_kepler",
             +[](const Model& aModel) -> bool {
                 return aModel.is<Kepler>();
-            })
+            }
+        )
         .def(
             "is_sgp4",
             +[](const Model& aModel) -> bool {
                 return aModel.is<SGP4>();
-            })
+            }
+        )
         .def(
             "is_propagated",
             +[](const Model& aModel) -> bool {
                 return aModel.is<Propagated>();
-            })
+            }
+        )
 
         .def(
             "as_kepler",
             +[](const Model& aModel) -> const Kepler& {
                 return aModel.as<Kepler>();
             },
-            return_value_policy::reference)
+            return_value_policy::reference
+        )
         .def(
             "as_sgp4",
             +[](const Model& aModel) -> const SGP4& {
                 return aModel.as<SGP4>();
             },
-            return_value_policy::reference)
+            return_value_policy::reference
+        )
         .def(
             "as_propagated",
             +[](const Model& aModel) -> const Propagated& {
                 return aModel.as<Propagated>();
             },
-            return_value_policy::reference)
+            return_value_policy::reference
+        )
 
         .def("get_epoch", &Model::getEpoch)
         .def("get_revolution_number_at_epoch", &Model::getRevolutionNumberAtEpoch)

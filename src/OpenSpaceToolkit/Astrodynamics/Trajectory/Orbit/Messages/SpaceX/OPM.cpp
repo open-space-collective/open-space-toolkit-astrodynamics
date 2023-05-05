@@ -31,8 +31,9 @@ Vector3d vector3dFromObject(const ctnr::Object& anObject)
 }
 
 OPM::OPM(const OPM::Header& aHeader, const Array<OPM::Deployment>& aDeploymentArray)
-    : header_(aHeader), deployments_(aDeploymentArray)
-{ }
+    : header_(aHeader),
+      deployments_(aDeploymentArray)
+{}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM)
 {
@@ -130,7 +131,8 @@ OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
             Duration::Seconds(deploymentObject["mission_time_s"].accessReal()),
             Instant::DateTime(
                 DateTime::Parse(deploymentObject["date"].getString().replace("Z", ""), DateTime::Format::ISO8601),
-                Scale::UTC),
+                Scale::UTC
+            ),
             Position::Meters(vector3dFromObject(deploymentObject["r_ecef_m"]), Frame::ITRF()),
             Velocity::MetersPerSecond(vector3dFromObject(deploymentObject["v_ecef_m_per_s"]), Frame::ITRF()),
             Length::Kilometers(deploymentObject["mean_perigee_altitude_km"].accessReal()),
@@ -146,12 +148,18 @@ OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
 
     return OPM {
         OPM::Header {
-            Instant::DateTime(DateTime::Parse(aDictionary["header"]["generation_date"].getString().replace("Z", ""),
-                                              DateTime::Format::ISO8601),
-                              Scale::UTC),
-            Instant::DateTime(DateTime::Parse(aDictionary["header"]["launch_date"].getString().replace("Z", ""),
-                                              DateTime::Format::ISO8601),
-                              Scale::UTC),
+            Instant::DateTime(
+                DateTime::Parse(
+                    aDictionary["header"]["generation_date"].getString().replace("Z", ""), DateTime::Format::ISO8601
+                ),
+                Scale::UTC
+            ),
+            Instant::DateTime(
+                DateTime::Parse(
+                    aDictionary["header"]["launch_date"].getString().replace("Z", ""), DateTime::Format::ISO8601
+                ),
+                Scale::UTC
+            ),
         },
         deployments};
 }

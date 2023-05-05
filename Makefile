@@ -279,28 +279,26 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 		--entrypoint=/bin/bash \
 		$(docker_release_image_python_repository):$(docker_image_version)
 
-format: build-development-image-debian ## Format all of the source code with the rules in .clang-format
+format: build-development-image ## Format all of the source code with the rules in .clang-format
 
 	docker run \
 		-it \
 		--rm \
-		--privileged \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/tools/development/helpers:/app/build/helpers:ro,delegated" \
+		--volume="$(CURDIR):/app" \
 		--workdir=/app \
-		"$(docker_development_image_repository):$(docker_image_version)-debian" \
+		--user="$(shell id -u):$(shell id -g)" \
+		$(docker_development_image_repository):$(docker_image_version) \
 		clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
-format-check: build-development-image-debian ## Runs the clang-format tool to check the code against rules and formatting
+format-check: build-development-image ## Runs the clang-format tool to check the code against rules and formatting
 
 	docker run \
 		-it \
 		--rm \
-		--privileged \
-		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/tools/development/helpers:/app/build/helpers:ro,delegated" \
+		--volume="$(CURDIR):/app" \
 		--workdir=/app \
-		"$(docker_development_image_repository):$(docker_image_version)-debian" \
+		--user="$(shell id -u):$(shell id -g)" \
+		"$(docker_development_image_repository):$(docker_image_version)" \
 		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
 test: ## Run tests

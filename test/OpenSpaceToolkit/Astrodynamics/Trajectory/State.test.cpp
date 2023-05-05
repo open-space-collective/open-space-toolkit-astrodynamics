@@ -498,10 +498,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 
         EXPECT_EQ(state_GCRF_2.getInstant(), state_GCRF_1.getInstant());
 
-        EXPECT_TRUE(state_GCRF_2.getPosition().getCoordinates().isNear(
-            {3.130432245445, -1.782920894026, 5.601927082917}, 1e-12));
-        EXPECT_TRUE(state_GCRF_2.getVelocity().getCoordinates().isNear(
-            {7.449331963058, -9.290756194490, 1.213098202596}, 1e-12));
+        EXPECT_TRUE(
+            state_GCRF_2.getPosition().getCoordinates().isNear({3.130432245445, -1.782920894026, 5.601927082917}, 1e-12)
+        );
+        EXPECT_TRUE(
+            state_GCRF_2.getVelocity().getCoordinates().isNear({7.449331963058, -9.290756194490, 1.213098202596}, 1e-12)
+        );
 
         EXPECT_EQ(state_GCRF_2.getPosition().accessFrame(), Frame::ITRF());
         EXPECT_EQ(state_GCRF_2.getVelocity().accessFrame(), Frame::ITRF());

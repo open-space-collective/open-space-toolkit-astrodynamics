@@ -204,8 +204,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Real J2 = Earth::J2;
             const Real J4 = Earth::J4;
 
-            const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                           J2,  J4,    Kepler::PerturbationType::None};
+            const Kepler keplerianModel = {
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -228,8 +228,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Real J2 = Earth::J2;
             const Real J4 = Earth::J4;
 
-            const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                           J2,  J4,    Kepler::PerturbationType::None};
+            const Kepler keplerianModel = {
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -244,7 +244,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 1.csv")
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -268,11 +269,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
-                << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(),
-                                  access.getAcquisitionOfSignal().toString());
+                << String::Format(
+                       "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
+                   );
             EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
-                << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
-                                  access.getTimeOfClosestApproach().toString());
+                << String::Format(
+                       "{} ~ {}",
+                       reference_timeOfClosestApproach.toString(),
+                       access.getTimeOfClosestApproach().toString()
+                   );
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
                 << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
@@ -294,7 +299,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF());
+                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+            );
 
             return Trajectory::Position(groundStationPosition);
         };
@@ -315,8 +321,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Real J2 = Earth::J2;
             const Real J4 = Earth::J4;
 
-            const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                           J2,  J4,    Kepler::PerturbationType::None};
+            const Kepler keplerianModel = {
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -331,7 +337,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 2.csv")
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -355,11 +362,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
-                << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(),
-                                  access.getAcquisitionOfSignal().toString());
+                << String::Format(
+                       "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
+                   );
             EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
-                << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
-                                  access.getTimeOfClosestApproach().toString());
+                << String::Format(
+                       "{} ~ {}",
+                       reference_timeOfClosestApproach.toString(),
+                       access.getTimeOfClosestApproach().toString()
+                   );
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
                 << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
@@ -381,14 +392,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF());
+                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+            );
 
             return Trajectory::Position(groundStationPosition);
         };
 
         const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit {
-            const TLE tle = {"1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
-                             "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"};
+            const TLE tle = {
+                "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
+                "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"};
 
             const SGP4 orbitalModel = {tle};
 
@@ -405,7 +418,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/ComputeAccesses/Scenario 3.csv")
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -429,11 +443,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
-                << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(),
-                                  access.getAcquisitionOfSignal().toString());
+                << String::Format(
+                       "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
+                   );
             EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
-                << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
-                                  access.getTimeOfClosestApproach().toString());
+                << String::Format(
+                       "{} ~ {}",
+                       reference_timeOfClosestApproach.toString(),
+                       access.getTimeOfClosestApproach().toString()
+                   );
             EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
                 << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
             EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
@@ -448,17 +466,19 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const Interval interval = Interval::Closed(startInstant, endInstant);
         const Duration step = Duration::Minutes(1.0);
 
-        const auto generateTrajectory = [&interval, &step](const Position& aStartPosition,
-                                                           const Velocity& aVelocity) -> Trajectory {
+        const auto generateTrajectory =
+            [&interval, &step](const Position& aStartPosition, const Velocity& aVelocity) -> Trajectory {
             Array<State> states = Array<State>::Empty();
 
             for (const auto& instant : interval.generateGrid(step))
             {
                 const State state = {
                     instant,
-                    Position::Meters(aStartPosition.getCoordinates() +
-                                         (aVelocity.getCoordinates() * (instant - interval.getStart()).inSeconds()),
-                                     Frame::GCRF()),
+                    Position::Meters(
+                        aStartPosition.getCoordinates() +
+                            (aVelocity.getCoordinates() * (instant - interval.getStart()).inSeconds()),
+                        Frame::GCRF()
+                    ),
                     aVelocity};
 
                 states.add(state);
@@ -467,13 +487,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             return Trajectory(states);
         };
 
-        const Trajectory firstTrajectory =
-            generateTrajectory(Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
-                               Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF()));
+        const Trajectory firstTrajectory = generateTrajectory(
+            Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, Frame::GCRF())
+        );
 
-        const Trajectory secondTrajectory =
-            generateTrajectory(Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()),
-                               Velocity::MetersPerSecond({0.0, 0.0, 1.0}, Frame::GCRF()));
+        const Trajectory secondTrajectory = generateTrajectory(
+            Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF()), Velocity::MetersPerSecond({0.0, 0.0, 1.0}, Frame::GCRF())
+        );
 
         {
             const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool {
@@ -511,10 +531,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
             EXPECT_TRUE(accesses.at(0).getAcquisitionOfSignal().isNear(startInstant, toleranceDuration));
             EXPECT_TRUE(accesses.at(0).getLossOfSignal().isNear(
-                Instant::DateTime(DateTime(2020, 1, 1, 0, 3, 0), Scale::UTC), toleranceDuration));
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 3, 0), Scale::UTC), toleranceDuration
+            ));
 
             EXPECT_TRUE(accesses.at(1).getAcquisitionOfSignal().isNear(
-                Instant::DateTime(DateTime(2020, 1, 1, 0, 7, 0), Scale::UTC), toleranceDuration));
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 7, 0), Scale::UTC), toleranceDuration
+            ));
             EXPECT_TRUE(accesses.at(1).getLossOfSignal().isNear(endInstant, toleranceDuration));
         }
     }
@@ -690,7 +712,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF());
+                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+            );
 
             return Trajectory::Position(groundStationPosition);
         };
@@ -711,8 +734,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const Real J2 = Earth::J2;
             const Real J4 = Earth::J4;
 
-            const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                           J2,  J4,    Kepler::PerturbationType::J2};
+            const Kepler keplerianModel = {
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -727,8 +750,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 
         // Reference data setup
 
-        const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv"));
+        const File referenceDataFile =
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Access/Generator/AerRanges/Scenario 1.csv")
+            );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -752,8 +776,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
-                << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(),
-                                  access.getAcquisitionOfSignal().toString());
+                << String::Format(
+                       "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
+                   );
             // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
             // access.getTimeOfClosestApproach().toString()) ;
@@ -815,7 +840,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF());
+                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+            );
 
             return Trajectory::Position(groundStationPosition);
         };
@@ -836,8 +862,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const Real J2 = Earth::J2;
             const Real J4 = Earth::J4;
 
-            const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                           J2,  J4,    Kepler::PerturbationType::J2};
+            const Kepler keplerianModel = {
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -877,8 +903,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
-                << String::Format("{} ~ {}", reference_acquisitionOfSignal.toString(),
-                                  access.getAcquisitionOfSignal().toString());
+                << String::Format(
+                       "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
+                   );
             // EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
             // << String::Format("{} ~ {}", reference_timeOfClosestApproach.toString(),
             // access.getTimeOfClosestApproach().toString()) ;

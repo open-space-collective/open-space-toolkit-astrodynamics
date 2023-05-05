@@ -13,8 +13,10 @@ namespace trajectory
 {
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
-    : instant_(anInstant), position_(aPosition), velocity_(aVelocity)
-{ }
+    : instant_(anInstant),
+      position_(aPosition),
+      velocity_(aVelocity)
+{}
 
 bool State::operator==(const State& aState) const
 {
@@ -64,11 +66,18 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Velocity Unit");
     }
 
-    return {this->instant_,
-            Position(this->getPosition().getCoordinates() + aState.getPosition().getCoordinates(),
-                     this->accessPosition().getUnit(), this->accessPosition().accessFrame()),
-            Velocity(this->getVelocity().getCoordinates() + aState.getVelocity().getCoordinates(),
-                     this->accessVelocity().getUnit(), this->accessVelocity().accessFrame())};
+    return {
+        this->instant_,
+        Position(
+            this->getPosition().getCoordinates() + aState.getPosition().getCoordinates(),
+            this->accessPosition().getUnit(),
+            this->accessPosition().accessFrame()
+        ),
+        Velocity(
+            this->getVelocity().getCoordinates() + aState.getVelocity().getCoordinates(),
+            this->accessVelocity().getUnit(),
+            this->accessVelocity().accessFrame()
+        )};
 }
 
 State State::operator-(const State& aState) const
@@ -103,11 +112,18 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Velocity Unit");
     }
 
-    return {this->instant_,
-            Position(this->getPosition().getCoordinates() - aState.getPosition().getCoordinates(),
-                     this->accessPosition().getUnit(), this->accessPosition().accessFrame()),
-            Velocity(this->getVelocity().getCoordinates() - aState.getVelocity().getCoordinates(),
-                     this->accessVelocity().getUnit(), this->accessVelocity().accessFrame())};
+    return {
+        this->instant_,
+        Position(
+            this->getPosition().getCoordinates() - aState.getPosition().getCoordinates(),
+            this->accessPosition().getUnit(),
+            this->accessPosition().accessFrame()
+        ),
+        Velocity(
+            this->getVelocity().getCoordinates() - aState.getVelocity().getCoordinates(),
+            this->accessVelocity().getUnit(),
+            this->accessVelocity().accessFrame()
+        )};
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)

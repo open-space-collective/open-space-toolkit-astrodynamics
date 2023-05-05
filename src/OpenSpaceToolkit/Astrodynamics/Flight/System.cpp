@@ -14,12 +14,16 @@ namespace flight
 
 System::System(const Mass& aMass, const Composite& aGeometry)
 
-    : mass_(aMass), geometry_(aGeometry)
-{ }
+    : mass_(aMass),
+      geometry_(aGeometry)
+{}
 
-System::System(const System& aSystem) : mass_(aSystem.mass_), geometry_(aSystem.geometry_) { }
+System::System(const System& aSystem)
+    : mass_(aSystem.mass_),
+      geometry_(aSystem.geometry_)
+{}
 
-System::~System() { }
+System::~System() {}
 
 System* System::clone() const
 {

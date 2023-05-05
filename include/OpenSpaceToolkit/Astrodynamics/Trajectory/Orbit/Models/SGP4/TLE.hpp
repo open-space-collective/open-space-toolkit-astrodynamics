@@ -351,40 +351,44 @@ class TLE
     ///
     /// @return             TLE
 
-    static TLE Construct(const String& aSatelliteName,
-                         const Integer& aSatelliteNumber,
-                         const String& aClassification,
-                         const String& anInternationalDesignator,
-                         const Instant& anEpoch,
-                         const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-                         const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-                         const Real& aBStarDragTerm,
-                         const Integer& anEphemerisType,
-                         const Integer& anElementSetNumber,
-                         const Angle& anInclination,
-                         const Angle& aRaan,
-                         const Real& anEccentricity,
-                         const Angle& anAop,
-                         const Angle& aMeanAnomaly,
-                         const Derived& aMeanMotion,
-                         const Integer& aRevolutionNumberAtEpoch);
+    static TLE Construct(
+        const String& aSatelliteName,
+        const Integer& aSatelliteNumber,
+        const String& aClassification,
+        const String& anInternationalDesignator,
+        const Instant& anEpoch,
+        const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
+        const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
+        const Real& aBStarDragTerm,
+        const Integer& anEphemerisType,
+        const Integer& anElementSetNumber,
+        const Angle& anInclination,
+        const Angle& aRaan,
+        const Real& anEccentricity,
+        const Angle& anAop,
+        const Angle& aMeanAnomaly,
+        const Derived& aMeanMotion,
+        const Integer& aRevolutionNumberAtEpoch
+    );
 
-    static TLE Construct(const Integer& aSatelliteNumber,
-                         const String& aClassification,
-                         const String& anInternationalDesignator,
-                         const Instant& anEpoch,
-                         const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-                         const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-                         const Real& aBStarDragTerm,
-                         const Integer& anEphemerisType,
-                         const Integer& anElementSetNumber,
-                         const Angle& anInclination,
-                         const Angle& aRaan,
-                         const Real& anEccentricity,
-                         const Angle& anAop,
-                         const Angle& aMeanAnomaly,
-                         const Derived& aMeanMotion,
-                         const Integer& aRevolutionNumberAtEpoch);
+    static TLE Construct(
+        const Integer& aSatelliteNumber,
+        const String& aClassification,
+        const String& anInternationalDesignator,
+        const Instant& anEpoch,
+        const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
+        const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
+        const Real& aBStarDragTerm,
+        const Integer& anEphemerisType,
+        const Integer& anElementSetNumber,
+        const Angle& anInclination,
+        const Angle& aRaan,
+        const Real& anEccentricity,
+        const Angle& anAop,
+        const Angle& aMeanAnomaly,
+        const Derived& aMeanMotion,
+        const Integer& aRevolutionNumberAtEpoch
+    );
 
     /// @brief              Generate checksum for the given TLE line
     ///

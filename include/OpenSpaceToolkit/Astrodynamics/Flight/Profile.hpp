@@ -184,8 +184,9 @@ class Profile
     /// @param              [in] anOrbitalFrameType An orbital frame type
     /// @return             Flight profile
 
-    static Profile NadirPointing(const trajectory::Orbit& anOrbit,
-                                 const trajectory::Orbit::FrameType& anOrbitalFrameType);
+    static Profile NadirPointing(
+        const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
+    );
 
    private:
     Unique<Model> modelUPtr_;

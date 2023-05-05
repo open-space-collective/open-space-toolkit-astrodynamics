@@ -445,8 +445,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, getMeanMot
 
         const TLE tle(firstLine, secondLine);
 
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
     }
 
     {
@@ -771,22 +773,28 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
     {
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n")
+        );
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n\n"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\n\n")
+        );
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n")
+        );
         EXPECT_TRUE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n\r\n"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537\r\n\r\n")
+        );
     }
 
     {
@@ -794,25 +802,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
         EXPECT_FALSE(TLE::CanParse("abc"));
         EXPECT_FALSE(
             TLE::CanParse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+                          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\r2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2928\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563536"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563536")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                          "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.7212539156353"));
+                          "247.4627 0006703 130.5360 325.0288 15.7212539156353")
+        );
         EXPECT_FALSE(
             TLE::CanParse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  292a\n2 25544  51.6416 "
-                          "247.4627 0006703 130.5360 325.0288 15.7212539156353b"));
+                          "247.4627 0006703 130.5360 325.0288 15.7212539156353b")
+        );
     }
 
     {
@@ -845,7 +860,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, CanParse)
 
     {
         const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")
+        );
 
         const String allTles = activeTlesFile.getContents();
 
@@ -903,7 +919,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     {
         const TLE tle = TLE::Parse(
             "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 247.4627 0006703 "
-            "130.5360 325.0288 15.72125391563537");
+            "130.5360 325.0288 15.72125391563537"
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -921,8 +938,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
         EXPECT_EQ(7, tle.getSecondLineChecksum());
     }
@@ -930,7 +949,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     {
         const TLE tle = TLE::Parse(
             "ISS (ZARYA)\n1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-            "247.4627 0006703 130.5360 325.0288 15.72125391563537");
+            "247.4627 0006703 130.5360 325.0288 15.72125391563537"
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -948,8 +968,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
         EXPECT_EQ(7, tle.getSecondLineChecksum());
     }
@@ -957,7 +979,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
     {
         const TLE tle = TLE::Parse(
             "ISS (ZARYA)\n1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-            "247.4627 0006703 130.5360 325.0288 15.72125391563537\n");
+            "247.4627 0006703 130.5360 325.0288 15.72125391563537\n"
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -975,8 +998,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
     }
 
@@ -985,15 +1010,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Parse)
         EXPECT_ANY_THROW(TLE::Parse("Hello World!"));
         EXPECT_ANY_THROW(
             TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2926\n2 25544  51.6416 "
-                       "247.4627 0006703 130.5360 325.0288 15.72125391563537"));
+                       "247.4627 0006703 130.5360 325.0288 15.72125391563537")
+        );
         EXPECT_ANY_THROW(
             TLE::Parse("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
-                       "247.4627 0006703 130.5360 325.0288 15.72125391563538"));
+                       "247.4627 0006703 130.5360 325.0288 15.72125391563538")
+        );
     }
 
     {
         const File activeTlesFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/active.txt")
+        );
 
         const String allTles = activeTlesFile.getContents();
 
@@ -1055,7 +1083,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle")));
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/A.tle"))
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -1073,14 +1102,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
     }
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle")));
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/B.tle"))
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -1098,15 +1130,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
         EXPECT_EQ(7, tle.getSecondLineChecksum());
     }
 
     {
         const TLE tle = TLE::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle")));
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/TLE/C.tle"))
+        );
 
         EXPECT_TRUE(tle.isDefined());
 
@@ -1124,8 +1159,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Load)
         EXPECT_EQ(0.0006703, tle.getEccentricity());
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-        EXPECT_EQ(Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                  tle.getMeanMotion());
+        EXPECT_EQ(
+            Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
+            tle.getMeanMotion()
+        );
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
         EXPECT_EQ(7, tle.getSecondLineChecksum());
     }
@@ -1172,11 +1209,25 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
         const Integer revolutionNumberAtEpoch = 56353;
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteName, satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteName,
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("Satellite", tle.getSatelliteName());
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
@@ -1184,11 +1235,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
@@ -1196,9 +1260,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                0, classification, internationalDesignator, epoch, meanMotionFirstTimeDerivativeDividedByTwo,
-                meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType, elementSetNumber, inclination,
-                raan, eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+                0,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1     0U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2     0  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
@@ -1206,9 +1284,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, "A", internationalDesignator, epoch, meanMotionFirstTimeDerivativeDividedByTwo,
-                meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType, elementSetNumber, inclination,
-                raan, eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+                satelliteNumber,
+                "A",
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544A 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
@@ -1216,342 +1308,767 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, "03067BT", epoch, meanMotionFirstTimeDerivativeDividedByTwo,
-                meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType, elementSetNumber, inclination,
-                raan, eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+                satelliteNumber,
+                classification,
+                "03067BT",
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 03067BT  08264.51782528 -.00002182  00000-0 -11606-4 0  2923", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator,
-                               Instant::DateTime(DateTime::Parse("2022-01-01 00:00:00"), Scale::UTC),
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                Instant::DateTime(DateTime::Parse("2022-01-01 00:00:00"), Scale::UTC),
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   22001.00000000 -.00002182  00000-0 -11606-4 0  2924", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch, 0.0,
-                                           meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                                           meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                0.0,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528  .00000000  00000-0 -11606-4 0  2923", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch, 0.1,
-                                           meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                                           meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                0.1,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528  .10000000  00000-0 -11606-4 0  2924", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch, -0.1,
-                                           meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                                           meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                -0.1,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.10000000  00000-0 -11606-4 0  2925", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch, 0.123456789,
-                                           meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                                           meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                0.123456789,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528  .12345679  00000-0 -11606-4 0  2920", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo, 0.1, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                                           meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                0.1,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  10000-0 -11606-4 0  2928", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo, -0.1, bStarDragTerm,
-                                           ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                                           meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                -0.1,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182 -10000-0 -11606-4 0  2929", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo, 0.57410e-4, bStarDragTerm,
-                                           ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                                           meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                0.57410e-4,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  57410-4 -11606-4 0  2928", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo, -0.57410e-4, bStarDragTerm,
-                                           ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                                           meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                -0.57410e-4,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182 -57410-4 -11606-4 0  2929", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo, -0.57410e+4, bStarDragTerm,
-                                           ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                                           meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                -0.57410e+4,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182 -57410+4 -11606-4 0  2928", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               0.0, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                0.0,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0  00000-0 0  2928", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               0.1, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                0.1,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0  10000-0 0  2929", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               -0.1, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                -0.1,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -10000-0 0  2920", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, 0, inclination, raan, eccentricity, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                0,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0    04", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, 99999, inclination, raan, eccentricity, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                99999,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0999999", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, Angle::Degrees(0.0), raan, eccentricity,
-                               aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                Angle::Degrees(0.0),
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544   0.0000 247.4627 0006703 130.5360 325.0288 15.72125391563534", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, Angle::Degrees(359.999911111), raan,
-                               eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                Angle::Degrees(359.999911111),
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544 359.9999 247.4627 0006703 130.5360 325.0288 15.72125391563537", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, Angle::Degrees(-45.0), raan,
-                               eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                Angle::Degrees(-45.0),
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544 315.0000 247.4627 0006703 130.5360 325.0288 15.72125391563533", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, Angle::Degrees(0.0),
-                               eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                Angle::Degrees(0.0),
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416   0.0000 0006703 130.5360 325.0288 15.72125391563535", tle.getSecondLine());
         }
 
         {
-            const TLE tle = TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                                           meanMotionFirstTimeDerivativeDividedByTwo,
-                                           meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType,
-                                           elementSetNumber, inclination, Angle::Degrees(359.999911111), eccentricity,
-                                           aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                Angle::Degrees(359.999911111),
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 359.9999 0006703 130.5360 325.0288 15.72125391563538", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, Angle::Degrees(-45.0),
-                               eccentricity, aop, meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                Angle::Degrees(-45.0),
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 315.0000 0006703 130.5360 325.0288 15.72125391563534", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, 0.0, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                0.0,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0000000 130.5360 325.0288 15.72125391563531", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, 0.1, aop, meanAnomaly,
-                               meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                0.1,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 1000000 130.5360 325.0288 15.72125391563532", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, 0.123456789, aop,
-                               meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                0.123456789,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 1234568 130.5360 325.0288 15.72125391563530", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, 0.9999999, aop,
-                               meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                0.9999999,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 9999999 130.5360 325.0288 15.72125391563534", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity,
-                               Angle::Degrees(0.0), meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                Angle::Degrees(0.0),
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703   0.0000 325.0288 15.72125391563539", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity,
-                               Angle::Degrees(359.999911111), meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                Angle::Degrees(359.999911111),
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 359.9999 325.0288 15.72125391563532", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity,
-                               Angle::Degrees(-45.0), meanAnomaly, meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                Angle::Degrees(-45.0),
+                meanAnomaly,
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 315.0000 325.0288 15.72125391563538", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               Angle::Degrees(0.0), meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                Angle::Degrees(0.0),
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360   0.0000 15.72125391563539", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               Angle::Degrees(359.999911111), meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                Angle::Degrees(359.999911111),
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 359.9999 15.72125391563532", tle.getSecondLine());
         }
 
         {
-            const TLE tle =
-                TLE::Construct(satelliteNumber, classification, internationalDesignator, epoch,
-                               meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix,
-                               bStarDragTerm, ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop,
-                               Angle::Degrees(-45.0), meanMotion, revolutionNumberAtEpoch);
+            const TLE tle = TLE::Construct(
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                Angle::Degrees(-45.0),
+                meanMotion,
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 315.0000 15.72125391563538", tle.getSecondLine());
@@ -1559,11 +2076,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, internationalDesignator, epoch,
-                meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm,
-                ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
                 Derived(0.0, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                revolutionNumberAtEpoch);
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288  0.00000000563531", tle.getSecondLine());
@@ -1571,11 +2100,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, internationalDesignator, epoch,
-                meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm,
-                ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly,
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
                 Derived(99.99999999, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-                revolutionNumberAtEpoch);
+                revolutionNumberAtEpoch
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 99.99999999563531", tle.getSecondLine());
@@ -1583,9 +2124,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, internationalDesignator, epoch,
-                meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm,
-                ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly, meanMotion, 0);
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                0
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391    05", tle.getSecondLine());
@@ -1593,9 +2148,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, internationalDesignator, epoch,
-                meanMotionFirstTimeDerivativeDividedByTwo, meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm,
-                ephemerisType, elementSetNumber, inclination, raan, eccentricity, aop, meanAnomaly, meanMotion, 99999);
+                satelliteNumber,
+                classification,
+                internationalDesignator,
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                99999
+            );
 
             EXPECT_EQ("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391999990", tle.getSecondLine());
@@ -1603,9 +2172,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4_TLE, Construct)
 
         {
             const TLE tle = TLE::Construct(
-                satelliteNumber, classification, "22001YAM", epoch, meanMotionFirstTimeDerivativeDividedByTwo,
-                meanMotionSecondTimeDerivativeDividedBySix, bStarDragTerm, ephemerisType, elementSetNumber, inclination,
-                raan, eccentricity, aop, meanAnomaly, meanMotion, 99999);
+                satelliteNumber,
+                classification,
+                "22001YAM",
+                epoch,
+                meanMotionFirstTimeDerivativeDividedByTwo,
+                meanMotionSecondTimeDerivativeDividedBySix,
+                bStarDragTerm,
+                ephemerisType,
+                elementSetNumber,
+                inclination,
+                raan,
+                eccentricity,
+                aop,
+                meanAnomaly,
+                meanMotion,
+                99999
+            );
 
             EXPECT_EQ("1 25544U 22001YAM 08264.51782528 -.00002182  00000-0 -11606-4 0  2922", tle.getFirstLine());
             EXPECT_EQ("2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391999990", tle.getSecondLine());

@@ -20,10 +20,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_State(pybind11::modul
 
     class_<State>(aModule, "State")
 
-        .def(init<const Instant&, const Position&, const Velocity&, const Quaternion&, const Vector3d&,
-                  const Shared<const Frame>&>(),
-             arg("instant"), arg("position"), arg("velocity"), arg("attitude"), arg("angular_velocity"),
-             arg("reference_frame"))
+        .def(
+            init<
+                const Instant&,
+                const Position&,
+                const Velocity&,
+                const Quaternion&,
+                const Vector3d&,
+                const Shared<const Frame>&>(),
+            arg("instant"),
+            arg("position"),
+            arg("velocity"),
+            arg("attitude"),
+            arg("angular_velocity"),
+            arg("reference_frame")
+        )
 
         .def(self == self)
         .def(self != self)

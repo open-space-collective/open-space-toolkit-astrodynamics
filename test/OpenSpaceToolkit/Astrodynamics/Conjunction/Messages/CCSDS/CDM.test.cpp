@@ -31,111 +31,120 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
 
     void SetUp() override
     {
-        this->cdm_ =
-            CDM {CDM::Header {"1.0", String::Empty(), Instant::DateTime(DateTime(2010, 3, 12, 22, 31, 12), Scale::UTC),
-                              "JSPOC", "SATELLITE A", "201113719185"},
-                 CDM::RelativeMetadata {
-                     String::Empty(),
-                     Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
-                     Length::Meters(715.0),
-                     Position::Undefined(),  // Position::Meters({ 27.4, -70.2, 711.8 }, Frame::RTN()),
-                     Velocity::Undefined(),  // Velocity::MetersPerSecond({ -7.2, 14692.0, -1437.2 }, Frame::RTN()),
-                     Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC),
-                     Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC),
-                     "RTN",
-                     "ELLIPSOID",
-                     200.0,
-                     1000.0,
-                     1000.0,
-                     Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC),
-                     Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC),
-                     0.0000435,
-                     "FOSTER-1992",
-                 },
-                 {CDM::Metadata {String::Empty(),
-                                 "OBJECT1",
-                                 12345,
-                                 "SATCAT",
-                                 "SATELLITE A",
-                                 "1997−030E",
-                                 CDM::ObjectType::Payload,
-                                 "OSA",
-                                 "EUTMETSAT",
-                                 "+49615130312",
-                                 "JOHN.DOE@SOMEWHERE.NET",
-                                 "EPHEMERIS SATELLITE A",
-                                 "CALCULATED",
-                                 "YES",
-                                 String::Empty(),
-                                 "EME2000",
-                                 "EGM-96: 36D 36O",
-                                 "JACCHIA 70 DCA",
-                                 "MOON, SUN",
-                                 false,
-                                 false,
-                                 false},
-                  CDM::Metadata {String::Empty(),
-                                 "OBJECT2",
-                                 30337,
-                                 "SATCAT",
-                                 "FENGYUN 1C DEB",
-                                 "1999-025AA",
-                                 CDM::ObjectType::Debris,
-                                 String::Empty(),
-                                 String::Empty(),
-                                 String::Empty(),
-                                 String::Empty(),
-                                 "NONE",
-                                 "CALCULATED",
-                                 "NO",
-                                 String::Empty(),
-                                 "EME2000",
-                                 "EGM-96: 36D 36O",
-                                 "JACCHIA 70 DCA",
-                                 "MOON, SUN",
-                                 true,
-                                 false,
-                                 false}},
-                 {CDM::Data {Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
-                             Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
-                             Duration::Days(7.88),
-                             Duration::Days(5.50),
-                             592,
-                             579,
-                             123,
-                             119,
-                             97.8,
-                             0.864,
-                             5.2,
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             Mass::Kilograms(251.6),
-                             0.045663,
-                             0.0,
-                             0.0,
-                             0.000045457,
-                             State::Undefined(),
-                             MatrixXd(9, 9)},
-                  CDM::Data {Instant::DateTime(DateTime(2010, 3, 12, 1, 14, 12, 746), Scale::UTC),
-                             Instant::DateTime(DateTime(2010, 3, 12, 3, 14, 12, 746), Scale::UTC),
-                             Duration::Days(2.63),
-                             Duration::Days(2.63),
-                             59,
-                             58,
-                             15,
-                             15,
-                             97.8,
-                             0.864,
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             Mass::Kilograms(20.0),
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             Real::Undefined(),
-                             State::Undefined(),
-                             MatrixXd(9, 9)}}};
+        this->cdm_ = CDM {
+            CDM::Header {
+                "1.0",
+                String::Empty(),
+                Instant::DateTime(DateTime(2010, 3, 12, 22, 31, 12), Scale::UTC),
+                "JSPOC",
+                "SATELLITE A",
+                "201113719185"},
+            CDM::RelativeMetadata {
+                String::Empty(),
+                Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
+                Length::Meters(715.0),
+                Position::Undefined(),  // Position::Meters({ 27.4, -70.2, 711.8 }, Frame::RTN()),
+                Velocity::Undefined(),  // Velocity::MetersPerSecond({ -7.2, 14692.0, -1437.2 }, Frame::RTN()),
+                Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC),
+                Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC),
+                "RTN",
+                "ELLIPSOID",
+                200.0,
+                1000.0,
+                1000.0,
+                Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC),
+                Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC),
+                0.0000435,
+                "FOSTER-1992",
+            },
+            {CDM::Metadata {
+                 String::Empty(),
+                 "OBJECT1",
+                 12345,
+                 "SATCAT",
+                 "SATELLITE A",
+                 "1997−030E",
+                 CDM::ObjectType::Payload,
+                 "OSA",
+                 "EUTMETSAT",
+                 "+49615130312",
+                 "JOHN.DOE@SOMEWHERE.NET",
+                 "EPHEMERIS SATELLITE A",
+                 "CALCULATED",
+                 "YES",
+                 String::Empty(),
+                 "EME2000",
+                 "EGM-96: 36D 36O",
+                 "JACCHIA 70 DCA",
+                 "MOON, SUN",
+                 false,
+                 false,
+                 false},
+             CDM::Metadata {
+                 String::Empty(),
+                 "OBJECT2",
+                 30337,
+                 "SATCAT",
+                 "FENGYUN 1C DEB",
+                 "1999-025AA",
+                 CDM::ObjectType::Debris,
+                 String::Empty(),
+                 String::Empty(),
+                 String::Empty(),
+                 String::Empty(),
+                 "NONE",
+                 "CALCULATED",
+                 "NO",
+                 String::Empty(),
+                 "EME2000",
+                 "EGM-96: 36D 36O",
+                 "JACCHIA 70 DCA",
+                 "MOON, SUN",
+                 true,
+                 false,
+                 false}},
+            {CDM::Data {
+                 Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
+                 Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
+                 Duration::Days(7.88),
+                 Duration::Days(5.50),
+                 592,
+                 579,
+                 123,
+                 119,
+                 97.8,
+                 0.864,
+                 5.2,
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 Mass::Kilograms(251.6),
+                 0.045663,
+                 0.0,
+                 0.0,
+                 0.000045457,
+                 State::Undefined(),
+                 MatrixXd(9, 9)},
+             CDM::Data {
+                 Instant::DateTime(DateTime(2010, 3, 12, 1, 14, 12, 746), Scale::UTC),
+                 Instant::DateTime(DateTime(2010, 3, 12, 3, 14, 12, 746), Scale::UTC),
+                 Duration::Days(2.63),
+                 Duration::Days(2.63),
+                 59,
+                 58,
+                 15,
+                 15,
+                 97.8,
+                 0.864,
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 Mass::Kilograms(20.0),
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 Real::Undefined(),
+                 State::Undefined(),
+                 MatrixXd(9, 9)}}};
     }
 
     CDM cdm_ = CDM::Undefined();
@@ -180,19 +189,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetRelativ
         EXPECT_EQ(Length::Meters(715.0), relativeMetadata.missDistance);
         // EXPECT_EQ(Position::Undefined(), relativeMetadata.relativePosition) ;
         // EXPECT_EQ(Velocity::Undefined(), relativeMetadata.relativeVelocity) ;
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC),
-                  relativeMetadata.startScreenPeriod);
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC),
-                  relativeMetadata.endScreenPeriod);
+        EXPECT_EQ(
+            Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC), relativeMetadata.startScreenPeriod
+        );
+        EXPECT_EQ(
+            Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC), relativeMetadata.endScreenPeriod
+        );
         EXPECT_EQ("RTN", relativeMetadata.screenVolumeFrame);
         EXPECT_EQ("ELLIPSOID", relativeMetadata.screenVolumeShape);
         EXPECT_EQ(200.0, relativeMetadata.screenVolumeX);
         EXPECT_EQ(1000.0, relativeMetadata.screenVolumeY);
         EXPECT_EQ(1000.0, relativeMetadata.screenVolumeZ);
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC),
-                  relativeMetadata.screenEntryTime);
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC),
-                  relativeMetadata.screenExitTime);
+        EXPECT_EQ(
+            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC), relativeMetadata.screenEntryTime
+        );
+        EXPECT_EQ(
+            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC), relativeMetadata.screenExitTime
+        );
         EXPECT_EQ(0.0000435, relativeMetadata.collisionProbability);
         EXPECT_EQ("FOSTER-1992", relativeMetadata.collisionProbabilityMethod);
     }
@@ -591,8 +604,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, Load)
     using ostk::core::fs::Path;
 
     {
-        const CDM cdm = CDM::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM/cdm.json")));
+        const CDM cdm = CDM::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM/cdm.json"))
+        );
     }
 
     {

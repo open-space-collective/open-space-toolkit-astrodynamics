@@ -29,7 +29,7 @@ SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const Sat
       gcrfSPtr_(Frame::GCRF()),
       satelliteSystem_(aSatelliteSystem),
       instant_(Instant::Undefined())
-{ }
+{}
 
 SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics)
     : Dynamics(aSatelliteDynamics),
@@ -37,9 +37,9 @@ SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics
       gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
       satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
       instant_(Instant::Undefined())
-{ }
+{}
 
-SatelliteDynamics::~SatelliteDynamics() { }
+SatelliteDynamics::~SatelliteDynamics() {}
 
 SatelliteDynamics* SatelliteDynamics::clone() const
 {
@@ -109,8 +109,13 @@ Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations()
         throw ostk::core::error::runtime::Undefined("Instant");
     }
 
-    return std::bind(&SatelliteDynamics::DynamicalEquations, this, std::placeholders::_1, std::placeholders::_2,
-                     std::placeholders::_3);
+    return std::bind(
+        &SatelliteDynamics::DynamicalEquations,
+        this,
+        std::placeholders::_1,
+        std::placeholders::_2,
+        std::placeholders::_3
+    );
 }
 
 void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t)

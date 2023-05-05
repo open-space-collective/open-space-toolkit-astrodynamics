@@ -40,29 +40,36 @@ Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelesti
     : Trajectory(aModel),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
-{ }
+{}
 
-Orbit::Orbit(const Array<State>& aStateArray,
-             const Integer& anInitialRevolutionNumber,
-             const Shared<const Celestial>& aCelestialObjectSPtr)
+Orbit::Orbit(
+    const Array<State>& aStateArray,
+    const Integer& anInitialRevolutionNumber,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
     : Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
-{ }
+{}
 
 Orbit::Orbit(const Orbit& anOrbit)
     : Trajectory(anOrbit),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(anOrbit.celestialObjectSPtr_)
-{ }
+{}
 
 Orbit::~Orbit()
 {
     using FrameManager = ostk::physics::coord::frame::Manager;
 
     static const Array<Orbit::FrameType> frameTypes = {
-        Orbit::FrameType::NED, Orbit::FrameType::LVLH, Orbit::FrameType::VVLH, Orbit::FrameType::LVLHGD,
-        Orbit::FrameType::QSW, Orbit::FrameType::TNW,  Orbit::FrameType::VNC};
+        Orbit::FrameType::NED,
+        Orbit::FrameType::LVLH,
+        Orbit::FrameType::VVLH,
+        Orbit::FrameType::LVLHGD,
+        Orbit::FrameType::QSW,
+        Orbit::FrameType::TNW,
+        Orbit::FrameType::VNC};
 
     for (const auto& frameType : frameTypes)
     {
@@ -268,9 +275,10 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
                         if ((currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z) != 0.0)
                         {
-                            stepDuration =
-                                Duration::Seconds(-currentStateCoordinates_ECI_z * stepDuration.inSeconds() /
-                                                  (currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z));
+                            stepDuration = Duration::Seconds(
+                                -currentStateCoordinates_ECI_z * stepDuration.inSeconds() /
+                                (currentStateCoordinates_ECI_z - previousStateCoordinates_ECI_z)
+                            );
                         }
 
                         if (stepDuration.isZero())
@@ -297,8 +305,10 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
 
                 if (currentPass.isDefined())
                 {
-                    currentPass = {Pass::Type::Complete, currentRevolutionNumber + 1,
-                                   Interval::Closed(currentPass.getInterval().accessEnd(), currentInstant)};
+                    currentPass = {
+                        Pass::Type::Complete,
+                        currentRevolutionNumber + 1,
+                        Interval::Closed(currentPass.getInterval().accessEnd(), currentInstant)};
                 }
                 else
                 {
@@ -307,13 +317,17 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                             .accessCoordinates()
                             .z() == 0.0)
                     {
-                        currentPass = {Pass::Type::Complete, currentRevolutionNumber,
-                                       Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
+                        currentPass = {
+                            Pass::Type::Complete,
+                            currentRevolutionNumber,
+                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
                     }
                     else
                     {
-                        currentPass = {Pass::Type::Partial, currentRevolutionNumber,
-                                       Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
+                        currentPass = {
+                            Pass::Type::Partial,
+                            currentRevolutionNumber,
+                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
                     }
                 }
 
@@ -325,7 +339,8 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
             else  // Reverse propagation
             {
                 throw ostk::core::error::runtime::ToBeImplemented(
-                    "Orbit::getPassWithRevolutionNumber > Reverse propagation");
+                    "Orbit::getPassWithRevolutionNumber > Reverse propagation"
+                );
             }
 
             if (currentPass.isDefined())
@@ -372,8 +387,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
         return FrameManager::Get().accessFrameWithName(frameName);
     }
 
-    const auto generateDynamicProvider = [this](const auto& anAttitudeGenerator,
-                                                const Shared<const Frame>& aReferenceFrame) -> auto {
+    const auto generateDynamicProvider =
+        [this](const auto& anAttitudeGenerator, const Shared<const Frame>& aReferenceFrame) -> auto {
         const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>(
             // TBM: Using `this` here will trigger a segfault if the Orbit is de-allocated while the Frame is used.
             [this, anAttitudeGenerator, aReferenceFrame](const Instant& anInstant) -> Transform {
@@ -399,9 +414,15 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                     rv_VVLH_next_VVLH.getAxis() *
                     (rv_VVLH_next_VVLH.getAngle().inRadians() / delta.inSeconds());  // [rad/s]
 
-                return {anInstant,   x_VVLH_GCRF_in_GCRF, v_VVLH_GCRF_in_GCRF,
-                        q_VVLH_GCRF, w_VVLH_GCRF_in_VVLH, Transform::Type::Passive};
-            });
+                return {
+                    anInstant,
+                    x_VVLH_GCRF_in_GCRF,
+                    v_VVLH_GCRF_in_GCRF,
+                    q_VVLH_GCRF,
+                    w_VVLH_GCRF_in_VVLH,
+                    Transform::Type::Passive};
+            }
+        );
 
         return dynamicProviderSPtr;
     };
@@ -420,25 +441,31 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
 
                 // Express the state position in geodetic coordinates
 
-                const LLA lla = LLA::Cartesian(state.accessPosition().accessCoordinates(),
-                                               this->celestialObjectSPtr_->getEquatorialRadius(),
-                                               this->celestialObjectSPtr_->getFlattening());
+                const LLA lla = LLA::Cartesian(
+                    state.accessPosition().accessCoordinates(),
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    this->celestialObjectSPtr_->getFlattening()
+                );
 
                 // Compute the NED frame to central body centered, central body fixed frame transform at position
 
                 const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(
-                    lla, this->celestialObjectSPtr_->getEquatorialRadius(),
-                    celestialObjectSPtr_
-                        ->getFlattening());  // [TBM] This should be optimized: LLA <> ECEF calculation done twice
+                    lla,
+                    this->celestialObjectSPtr_->getEquatorialRadius(),
+                    celestialObjectSPtr_->getFlattening()
+                );  // [TBM] This should be optimized: LLA <> ECEF calculation done twice
 
                 const Quaternion q_NED_GCRF = transform.getOrientation().toNormalized();
 
                 return q_NED_GCRF;
             };
 
-            orbitalFrameSPtr =
-                Frame::Construct(frameName, false, this->celestialObjectSPtr_->accessFrame(),
-                                 generateDynamicProvider(calculateAttitude, this->celestialObjectSPtr_->accessFrame()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName,
+                false,
+                this->celestialObjectSPtr_->accessFrame(),
+                generateDynamicProvider(calculateAttitude, this->celestialObjectSPtr_->accessFrame())
+            );
 
             break;
         }
@@ -463,8 +490,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 return q_LVLH_GCRF;
             };
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(),
-                                                generateDynamicProvider(calculateAttitude, Frame::GCRF()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
 
             break;
         }
@@ -489,8 +517,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 return q_VVLH_GCRF;
             };
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(),
-                                                generateDynamicProvider(calculateAttitude, Frame::GCRF()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
 
             break;
         }
@@ -514,8 +543,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 return q_QSW_GCRF;
             };
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(),
-                                                generateDynamicProvider(calculateAttitude, Frame::GCRF()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
 
             break;
         }
@@ -539,8 +569,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 return q_TNW_GCRF;
             };
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(),
-                                                generateDynamicProvider(calculateAttitude, Frame::GCRF()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
 
             break;
         }
@@ -564,8 +595,9 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 return q_VNC_GCRF;
             };
 
-            orbitalFrameSPtr = Frame::Construct(frameName, false, Frame::GCRF(),
-                                                generateDynamicProvider(calculateAttitude, Frame::GCRF()));
+            orbitalFrameSPtr = Frame::Construct(
+                frameName, false, Frame::GCRF(), generateDynamicProvider(calculateAttitude, Frame::GCRF())
+            );
 
             break;
         }
@@ -613,10 +645,12 @@ Orbit Orbit::Undefined()
     return {Array<State>::Empty(), Integer::Undefined(), nullptr};
 }
 
-Orbit Orbit::Circular(const Instant& anEpoch,
-                      const Length& anAltitude,
-                      const Angle& anInclination,
-                      const Shared<const Celestial>& aCelestialObjectSPtr)
+Orbit Orbit::Circular(
+    const Instant& anEpoch,
+    const Length& anAltitude,
+    const Angle& anInclination,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
 {
     using orbit::models::Kepler;
     using orbit::models::kepler::COE;
@@ -655,10 +689,12 @@ Orbit Orbit::Circular(const Instant& anEpoch,
     return {orbitalModel, aCelestialObjectSPtr};
 }
 
-Orbit Orbit::Equatorial(const Instant& anEpoch,
-                        const Length& anApoapsisAltitude,
-                        const Length& aPeriapsisAltitude,
-                        const Shared<const Celestial>& aCelestialObjectSPtr)
+Orbit Orbit::Equatorial(
+    const Instant& anEpoch,
+    const Length& anApoapsisAltitude,
+    const Length& aPeriapsisAltitude,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
 {
     using orbit::models::Kepler;
     using orbit::models::kepler::COE;
@@ -685,8 +721,11 @@ Orbit Orbit::Equatorial(const Instant& anEpoch,
 
     if (anApoapsisAltitude < aPeriapsisAltitude)
     {
-        throw ostk::core::error::RuntimeError("Apoapsis altitude [{}] lower than periapsis altitude [{}].",
-                                              anApoapsisAltitude.toString(), aPeriapsisAltitude.toString());
+        throw ostk::core::error::RuntimeError(
+            "Apoapsis altitude [{}] lower than periapsis altitude [{}].",
+            anApoapsisAltitude.toString(),
+            aPeriapsisAltitude.toString()
+        );
     }
 
     const Real r_a = aCelestialObjectSPtr->getEquatorialRadius().inMeters() + anApoapsisAltitude.inMeters();
@@ -706,17 +745,19 @@ Orbit Orbit::Equatorial(const Instant& anEpoch,
     return {orbitalModel, aCelestialObjectSPtr};
 }
 
-Orbit Orbit::CircularEquatorial(const Instant& anEpoch,
-                                const Length& anAltitude,
-                                const Shared<const Celestial>& aCelestialObjectSPtr)
+Orbit Orbit::CircularEquatorial(
+    const Instant& anEpoch, const Length& anAltitude, const Shared<const Celestial>& aCelestialObjectSPtr
+)
 {
     return Orbit::Circular(anEpoch, anAltitude, Angle::Zero(), aCelestialObjectSPtr);
 }
 
-Orbit Orbit::SunSynchronous(const Instant& anEpoch,
-                            const Length& anAltitude,
-                            const Time& aLocalTimeAtDescendingNode,
-                            const Shared<const Celestial>& aCelestialObjectSPtr)
+Orbit Orbit::SunSynchronous(
+    const Instant& anEpoch,
+    const Length& anAltitude,
+    const Time& aLocalTimeAtDescendingNode,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
 {
     using ostk::core::types::Uint8;
 
@@ -786,9 +827,11 @@ Orbit Orbit::SunSynchronous(const Instant& anEpoch,
         // Ecliptic latitude of the Sun
 
         const Real sunEclipticLatitude_rad =
-            Angle::Degrees(std::fmod(sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
-                                         0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
-                                     360.0))
+            Angle::Degrees(std::fmod(
+                               sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
+                                   0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
+                               360.0
+                           ))
                 .inRadians();
 
         // Compute the equation of time
@@ -848,12 +891,13 @@ Orbit Orbit::SunSynchronous(const Instant& anEpoch,
     };
 
     const auto calculateLocalTimeAtAscendingNode = [&aLocalTimeAtDescendingNode]() -> Time {
-        return {Uint8((aLocalTimeAtDescendingNode.getHour() + 12) % 24),
-                aLocalTimeAtDescendingNode.getMinute(),
-                aLocalTimeAtDescendingNode.getSecond(),
-                aLocalTimeAtDescendingNode.getMillisecond(),
-                aLocalTimeAtDescendingNode.getMicrosecond(),
-                aLocalTimeAtDescendingNode.getNanosecond()};
+        return {
+            Uint8((aLocalTimeAtDescendingNode.getHour() + 12) % 24),
+            aLocalTimeAtDescendingNode.getMinute(),
+            aLocalTimeAtDescendingNode.getSecond(),
+            aLocalTimeAtDescendingNode.getMillisecond(),
+            aLocalTimeAtDescendingNode.getMicrosecond(),
+            aLocalTimeAtDescendingNode.getNanosecond()};
     };
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;

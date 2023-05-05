@@ -11,9 +11,9 @@ namespace flight
 namespace system
 {
 
-Dynamics::Dynamics() { }
+Dynamics::Dynamics() {}
 
-Dynamics::~Dynamics() { }
+Dynamics::~Dynamics() {}
 
 }  // namespace system
 }  // namespace flight

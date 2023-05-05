@@ -59,11 +59,13 @@ class SatelliteSystem : public System
     /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
     /// @param              [in] aDragCoefficient A drag coefficient
 
-    SatelliteSystem(const Mass& aMass,
-                    const Composite& aSatelliteGeometry,
-                    const Matrix3d& anInertiaTensor,
-                    const Real& aCrossSectionalSurfaceArea,
-                    const Real& aDragCoefficient);
+    SatelliteSystem(
+        const Mass& aMass,
+        const Composite& aSatelliteGeometry,
+        const Matrix3d& anInertiaTensor,
+        const Real& aCrossSectionalSurfaceArea,
+        const Real& aDragCoefficient
+    );
 
     /// @brief              Copy Constructor
     ///

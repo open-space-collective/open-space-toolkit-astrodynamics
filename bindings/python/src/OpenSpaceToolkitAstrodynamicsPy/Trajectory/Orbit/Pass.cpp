@@ -16,8 +16,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::modu
 
     pass_class
 
-        .def(init<const Pass::Type&, const Integer&, const Interval&>(), arg("type"), arg("revolution_number"),
-             arg("interval"))
+        .def(
+            init<const Pass::Type&, const Integer&, const Interval&>(),
+            arg("type"),
+            arg("revolution_number"),
+            arg("interval")
+        )
 
         .def(self == self)
         .def(self != self)

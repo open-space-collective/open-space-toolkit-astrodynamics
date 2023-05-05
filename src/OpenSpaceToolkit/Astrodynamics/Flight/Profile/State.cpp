@@ -14,19 +14,21 @@ namespace flight
 namespace profile
 {
 
-State::State(const Instant& anInstant,
-             const Position& aPosition,
-             const Velocity& aVelocity,
-             const Quaternion& anAttitude,
-             const Vector3d& anAngularVelocity,
-             const Shared<const Frame>& aReferenceFrame)
+State::State(
+    const Instant& anInstant,
+    const Position& aPosition,
+    const Velocity& aVelocity,
+    const Quaternion& anAttitude,
+    const Vector3d& anAngularVelocity,
+    const Shared<const Frame>& aReferenceFrame
+)
     : instant_(anInstant),
       position_(aPosition),
       velocity_(aVelocity),
       attitude_(anAttitude),
       angularVelocity_(anAngularVelocity),
       frameSPtr_(aReferenceFrame)
-{ }
+{}
 
 bool State::operator==(const State& aState) const
 {
@@ -198,18 +200,22 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Angular velocity:"
         << (this->angularVelocity_.isDefined() ? this->angularVelocity_.toString(12) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Frame:"
-        << (((this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined()) ? this->frameSPtr_->getName()
-                                                                             : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream
+    ) << "Frame:"
+      << (((this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined()) ? this->frameSPtr_->getName() : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 State State::Undefined()
 {
-    return {Instant::Undefined(),    Position::Undefined(), Velocity::Undefined(),
-            Quaternion::Undefined(), Vector3d::Undefined(), Frame::Undefined()};
+    return {
+        Instant::Undefined(),
+        Position::Undefined(),
+        Velocity::Undefined(),
+        Quaternion::Undefined(),
+        Vector3d::Undefined(),
+        Frame::Undefined()};
 }
 
 }  // namespace profile

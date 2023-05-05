@@ -20,11 +20,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 
         propagated_class
 
-            .def(init<const SatelliteDynamics&, const NumericalSolver&, const State&>(), arg("satellite_dynamics"),
-                 arg("numerical_solver"), arg("state"))
+            .def(
+                init<const SatelliteDynamics&, const NumericalSolver&, const State&>(),
+                arg("satellite_dynamics"),
+                arg("numerical_solver"),
+                arg("state")
+            )
 
-            .def(init<const SatelliteDynamics&, const NumericalSolver&, const Array<State>&>(),
-                 arg("satellite_dynamics"), arg("numerical_solver"), arg("state_array"))
+            .def(
+                init<const SatelliteDynamics&, const NumericalSolver&, const Array<State>&>(),
+                arg("satellite_dynamics"),
+                arg("numerical_solver"),
+                arg("state_array")
+            )
 
             .def(self == self)
             .def(self != self)

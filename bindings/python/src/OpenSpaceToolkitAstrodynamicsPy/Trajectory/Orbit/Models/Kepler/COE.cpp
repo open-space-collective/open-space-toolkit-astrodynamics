@@ -15,9 +15,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
     class_<COE>(aModule, "COE")
 
-        .def(init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
-             arg("semi_major_axis"), arg("eccentricity"), arg("inclination"), arg("raan"), arg("aop"),
-             arg("true_anomaly"))
+        .def(
+            init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
+            arg("semi_major_axis"),
+            arg("eccentricity"),
+            arg("inclination"),
+            arg("raan"),
+            arg("aop"),
+            arg("true_anomaly")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -46,17 +52,34 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
         .def_static("cartesian", &COE::Cartesian, arg("cartesian_state"), arg("gravitational_parameter"))
 
-        .def_static("eccentric_anomaly_from_true_anomaly", &COE::EccentricAnomalyFromTrueAnomaly, arg("true_anomaly"),
-                    arg("eccentricity"))
+        .def_static(
+            "eccentric_anomaly_from_true_anomaly",
+            &COE::EccentricAnomalyFromTrueAnomaly,
+            arg("true_anomaly"),
+            arg("eccentricity")
+        )
 
-        .def_static("true_anomaly_from_eccentric_anomaly", &COE::TrueAnomalyFromEccentricAnomaly,
-                    arg("eccentric_anomaly"), arg("eccentricity"))
+        .def_static(
+            "true_anomaly_from_eccentric_anomaly",
+            &COE::TrueAnomalyFromEccentricAnomaly,
+            arg("eccentric_anomaly"),
+            arg("eccentricity")
+        )
 
-        .def_static("mean_anomaly_from_eccentric_anomaly", &COE::MeanAnomalyFromEccentricAnomaly,
-                    arg("eccentric_anomaly"), arg("eccentricity"))
+        .def_static(
+            "mean_anomaly_from_eccentric_anomaly",
+            &COE::MeanAnomalyFromEccentricAnomaly,
+            arg("eccentric_anomaly"),
+            arg("eccentricity")
+        )
 
-        .def_static("eccentric_anomaly_from_mean_anomaly", &COE::EccentricAnomalyFromMeanAnomaly, arg("mean_anomaly"),
-                    arg("eccentricity"), arg("tolerance"))
+        .def_static(
+            "eccentric_anomaly_from_mean_anomaly",
+            &COE::EccentricAnomalyFromMeanAnomaly,
+            arg("mean_anomaly"),
+            arg("eccentricity"),
+            arg("tolerance")
+        )
 
         ;
 }

@@ -26,21 +26,23 @@ Generator::Generator(const Environment& anEnvironment, const Duration& aStep, co
       aerFilter_({}),
       accessFilter_({}),
       stateFilter_({})
-{ }
+{}
 
-Generator::Generator(const Environment& anEnvironment,
-                     const std::function<bool(const AER&)>& anAerFilter,
-                     const std::function<bool(const Access&)>& anAccessFilter,
-                     const std::function<bool(const State&, const State&)>& aStateFilter,
-                     const Duration& aStep,
-                     const Duration& aTolerance)
+Generator::Generator(
+    const Environment& anEnvironment,
+    const std::function<bool(const AER&)>& anAerFilter,
+    const std::function<bool(const Access&)>& anAccessFilter,
+    const std::function<bool(const State&, const State&)>& aStateFilter,
+    const Duration& aStep,
+    const Duration& aTolerance
+)
     : environment_(anEnvironment),
       step_(aStep),
       tolerance_(aTolerance),
       aerFilter_(anAerFilter),
       accessFilter_(anAccessFilter),
       stateFilter_(aStateFilter)
-{ }
+{}
 
 bool Generator::isDefined() const
 {
@@ -67,9 +69,9 @@ Duration Generator::getTolerance() const
     return tolerance_;
 }
 
-Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterval,
-                                         const Trajectory& aFromTrajectory,
-                                         const Trajectory& aToTrajectory) const
+Array<Access> Generator::computeAccesses(
+    const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+) const
 {
     // The following code is a first attempt at calculating precise accesses.
     // It should be further optimized for speed.
@@ -146,13 +148,15 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
         return {fromPosition, toPosition};
     };
 
-    const auto calculateAer = [&earthSPtr](const Instant& anInstant, const Position& aFromPosition,
-                                           const Position& aToPosition) -> AER {
-        const Point referencePoint_ITRF = Point::Vector(
-            aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates());  // [TBR] This is Earth specific
+    const auto calculateAer =
+        [&earthSPtr](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER {
+        const Point referencePoint_ITRF =
+            Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()
+            );  // [TBR] This is Earth specific
 
-        const LLA referencePoint_LLA = LLA::Cartesian(referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(),
-                                                      earthSPtr->getFlattening());
+        const LLA referencePoint_LLA = LLA::Cartesian(
+            referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()
+        );
 
         const Shared<const Frame> nedFrameSPtr =
             earthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);  // [TBR] This is Earth specific
@@ -166,7 +170,8 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
     };
 
     const auto isAccessActive = [this, &environment, &earthSPtr, getPositionsFromStates, calculateAer](
-                                    const Instant& anInstant, const State& aFromState, const State& aToState) -> bool {
+                                    const Instant& anInstant, const State& aFromState, const State& aToState
+                                ) -> bool {
         environment.setInstant(anInstant);
 
         if (stateFilter_ && (!stateFilter_(aFromState, aToState)))
@@ -259,12 +264,15 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
         return elevationAngle;
     };
 
-    const std::function<Instant(const Instant&, const Instant&, const Duration&, const bool,
-                                const std::function<bool(const Instant&)>&)>
-        findSwitchingInstant =
-            [&findSwitchingInstant](const Instant& aPreviousInstant, const Instant& aNextInstant,
-                                    const Duration& aTolerance, const bool isConditionActiveAtPreviousInstant,
-                                    const std::function<bool(const Instant&)>& aCondition) -> Instant {
+    const std::function<
+        Instant(const Instant&, const Instant&, const Duration&, const bool, const std::function<bool(const Instant&)>&)>
+        findSwitchingInstant = [&findSwitchingInstant](
+                                   const Instant& aPreviousInstant,
+                                   const Instant& aNextInstant,
+                                   const Duration& aTolerance,
+                                   const bool isConditionActiveAtPreviousInstant,
+                                   const std::function<bool(const Instant&)>& aCondition
+                               ) -> Instant {
         const Duration step = Duration::Between(aPreviousInstant, aNextInstant);
 
         if (step <= aTolerance)
@@ -278,19 +286,25 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
 
         if (isConditionActiveAtPreviousInstant != conditionIsActiveInMidInstant)
         {
-            return findSwitchingInstant(aPreviousInstant, midInstant, aTolerance, isConditionActiveAtPreviousInstant,
-                                        aCondition);
+            return findSwitchingInstant(
+                aPreviousInstant, midInstant, aTolerance, isConditionActiveAtPreviousInstant, aCondition
+            );
         }
 
-        return findSwitchingInstant(midInstant, aNextInstant, aTolerance, isConditionActiveAtPreviousInstant,
-                                    aCondition);
+        return findSwitchingInstant(
+            midInstant, aNextInstant, aTolerance, isConditionActiveAtPreviousInstant, aCondition
+        );
     };
 
     Array<Access> accesses = Array<Access>::Empty();
 
-    const auto addAccess = [this, &accesses](const Access::Type& aType, const Instant& anAcquisitionOfSignal,
-                                             const Instant& aTimeOfClosestApproach, const Instant& aLossOfSignal,
-                                             const Angle& aMaxElevation) {
+    const auto addAccess = [this, &accesses](
+                               const Access::Type& aType,
+                               const Instant& anAcquisitionOfSignal,
+                               const Instant& aTimeOfClosestApproach,
+                               const Instant& aLossOfSignal,
+                               const Angle& aMaxElevation
+                           ) {
         const Access access = {aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal, aMaxElevation};
 
         if (accessFilter_ ? accessFilter_(access) : true)
@@ -383,8 +397,8 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
                             getPositionsFromStates;
                     };
 
-                    const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient,
-                                                   void* aDataContext) -> double {
+                    const auto calculateRange =
+                        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double {
                         (void)aGradient;
 
                         if (aDataContext == nullptr)
@@ -454,8 +468,9 @@ Array<Access> Generator::computeAccesses(const physics::time::Interval& anInterv
                     }
                     catch (const std::exception& anException)
                     {
-                        throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].",
-                                                              anException.what());
+                        throw ostk::core::error::RuntimeError(
+                            "Cannot find TCA (algorithm failed): [{}].", anException.what()
+                        );
                     }
 
                     if (timeOfClosestApproachCache < acquisitionOfSignalCache)
@@ -525,10 +540,12 @@ Generator Generator::Undefined()
     return {Environment::Undefined()};
 }
 
-Generator Generator::AerRanges(const Interval<Real>& anAzimuthRange,
-                               const Interval<Real>& anElevationRange,
-                               const Interval<Real>& aRangeRange,
-                               const Environment& anEnvironment)
+Generator Generator::AerRanges(
+    const Interval<Real>& anAzimuthRange,
+    const Interval<Real>& anElevationRange,
+    const Interval<Real>& aRangeRange,
+    const Environment& anEnvironment
+)
 {
     using ostk::core::types::Real;
 
@@ -546,10 +563,10 @@ Generator Generator::AerRanges(const Interval<Real>& anAzimuthRange,
     // Interval<Real>(aRangeRange.accessLowerBound().inMeters(), aRangeRange.accessUpperBound().inMeters(),
     // aRangeRange.getType()) : Interval<Real>::Undefined() ;
 
-    const std::function<bool(const AER&)> aerFilter = [azimuthRange_deg, elevationRange_deg,
-                                                       rangeRange_m](const AER& anAER) -> bool {
-        return ((!azimuthRange_deg.isDefined()) ||
-                azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0))) &&
+    const std::function<bool(const AER&)> aerFilter =
+        [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool {
+        return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0))
+               ) &&
                ((!elevationRange_deg.isDefined()) ||
                 elevationRange_deg.contains(anAER.getElevation().inDegrees(-180.0, +180.0))) &&
                ((!rangeRange_m.isDefined()) || rangeRange_m.contains(anAER.getRange().inMeters()));
@@ -558,9 +575,9 @@ Generator Generator::AerRanges(const Interval<Real>& anAzimuthRange,
     return {anEnvironment, aerFilter};
 }
 
-Generator Generator::AerMask(const Map<Real, Real>& anAzimuthElevationMask,
-                             const Interval<Real>& aRangeRange,
-                             const Environment& anEnvironment)
+Generator Generator::AerMask(
+    const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeRange, const Environment& anEnvironment
+)
 {
     using ostk::core::ctnr::Map;
     using ostk::core::types::Real;

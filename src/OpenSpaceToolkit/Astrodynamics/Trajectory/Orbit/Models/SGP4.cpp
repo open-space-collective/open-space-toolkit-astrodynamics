@@ -46,7 +46,7 @@ SGP4::Impl::Impl(const TLE& aTle)
     : tle_(aTle),
       sgp4_(libsgp4::Tle(tle_.getSatelliteName(), tle_.getFirstLine(), tle_.getSecondLine())),
       temeFrameOfEpochSPtr_(Frame::TEMEOfEpoch(tle_.getEpoch()))
-{ }
+{}
 
 State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
 {
@@ -76,13 +76,19 @@ State SGP4::Impl::calculateStateAt(const Instant& anInstant) const
     return state_GCRF;
 }
 
-SGP4::SGP4(const TLE& aTle) : Model(), tle_(aTle), implUPtr_(std::make_unique<SGP4::Impl>(tle_)) { }
+SGP4::SGP4(const TLE& aTle)
+    : Model(),
+      tle_(aTle),
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_))
+{}
 
 SGP4::SGP4(const SGP4& aSGP4Model)
-    : Model(aSGP4Model), tle_(aSGP4Model.tle_), implUPtr_(std::make_unique<SGP4::Impl>(tle_))
-{ }
+    : Model(aSGP4Model),
+      tle_(aSGP4Model.tle_),
+      implUPtr_(std::make_unique<SGP4::Impl>(tle_))
+{}
 
-SGP4::~SGP4() { }
+SGP4::~SGP4() {}
 
 SGP4& SGP4::operator=(const SGP4& aSGP4Model)
 {

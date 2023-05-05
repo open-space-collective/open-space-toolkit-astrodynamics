@@ -85,8 +85,8 @@ class COE
 
     Duration getOrbitalPeriod(const Derived& aGravitationalParameter) const;
 
-    COE::CartesianState getCartesianState(const Derived& aGravitationalParameter,
-                                          const Shared<const Frame>& aFrameSPtr) const;
+    COE::CartesianState getCartesianState(const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr)
+        const;
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
@@ -100,9 +100,9 @@ class COE
 
     static Angle MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, const Real& anEccentricity);
 
-    static Angle EccentricAnomalyFromMeanAnomaly(const Angle& aMeanAnomaly,
-                                                 const Real& anEccentricity,
-                                                 const Real& aTolerance);
+    static Angle EccentricAnomalyFromMeanAnomaly(
+        const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
+    );
 
    private:
     Length semiMajorAxis_;

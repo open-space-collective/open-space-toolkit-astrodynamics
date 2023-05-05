@@ -25,9 +25,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
     using ostk::astro::NumericalSolver;
 
     {
-        EXPECT_NO_THROW(NumericalSolver numericalsolver(NumericalSolver::LogType::NoLog,
-                                                        NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0,
-                                                        1.0e-15, 1.0e-15));
+        EXPECT_NO_THROW(NumericalSolver numericalsolver(
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15
+        ));
     }
 }
 
@@ -64,15 +64,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, EqualToOperator)
 
     {
         // Test equality of identical objects
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_TRUE(numericalSolver == numericalSolver);
 
         // Test LogType
-        const NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogConstant,
-                                                   NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15,
-                                                   1.0e-15};
+        const NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
         EXPECT_FALSE(numericalSolver == numericalSolver_1);
 
         // Test StepperType
@@ -114,15 +117,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, NotEqualToOperator)
 
     {
         // Test ineequality of identical objects
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_FALSE(numericalSolver != numericalSolver);
 
         // Test LogType
-        const NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogConstant,
-                                                   NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15,
-                                                   1.0e-15};
+        const NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
 
         EXPECT_TRUE(numericalSolver != numericalSolver_1);
 
@@ -164,8 +170,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IsDefined)
     using ostk::astro::NumericalSolver;
 
     {
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_TRUE(numericalSolver.isDefined());
     }
@@ -184,8 +190,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StreamOperator)
     using ostk::astro::NumericalSolver;
 
     {
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         testing::internal::CaptureStdout();
 
@@ -208,8 +214,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
     using ostk::astro::NumericalSolver;
 
     {
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         testing::internal::CaptureStdout();
 
@@ -236,27 +242,35 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
             NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
         EXPECT_EQ(numericalSolver_NoLog.getLogType(), NumericalSolver::LogType::NoLog);
 
-        const NumericalSolver numericalSolver_LogConstant = {NumericalSolver::LogType::LogConstant,
-                                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0,
-                                                             1.0e-15, 1.0e-15};
+        const NumericalSolver numericalSolver_LogConstant = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
         EXPECT_EQ(numericalSolver_LogConstant.getLogType(), NumericalSolver::LogType::LogConstant);
 
-        const NumericalSolver numericalSolver_LogAdaptive = {NumericalSolver::LogType::LogAdaptive,
-                                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0,
-                                                             1.0e-15, 1.0e-15};
+        const NumericalSolver numericalSolver_LogAdaptive = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
         EXPECT_EQ(numericalSolver_LogAdaptive.getLogType(), NumericalSolver::LogType::LogAdaptive);
     }
 
     {
         const NumericalSolver numericalSolver_RungeKuttaKashCarp54 = {
             NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
-        EXPECT_EQ(numericalSolver_RungeKuttaKashCarp54.getStepperType(),
-                  NumericalSolver::StepperType::RungeKuttaCashKarp54);
+        EXPECT_EQ(
+            numericalSolver_RungeKuttaKashCarp54.getStepperType(), NumericalSolver::StepperType::RungeKuttaCashKarp54
+        );
 
         const NumericalSolver numericalSolver_RungeKuttaFehlberg78 = {
             NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
-        EXPECT_EQ(numericalSolver_RungeKuttaFehlberg78.getStepperType(),
-                  NumericalSolver::StepperType::RungeKuttaFehlberg78);
+        EXPECT_EQ(
+            numericalSolver_RungeKuttaFehlberg78.getStepperType(), NumericalSolver::StepperType::RungeKuttaFehlberg78
+        );
     }
 }
 
@@ -273,8 +287,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
     using ostk::astro::NumericalSolver;
 
     {
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0);
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15);
@@ -295,10 +309,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     using ostk::astro::NumericalSolver;
 
     {
-        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) ==
-                    "RungeKuttaCashKarp54");
-        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) ==
-                    "RungeKuttaFehlberg78");
+        EXPECT_TRUE(
+            NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) ==
+            "RungeKuttaCashKarp54"
+        );
+        EXPECT_TRUE(
+            NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) ==
+            "RungeKuttaFehlberg78"
+        );
     }
 
     {
@@ -327,19 +345,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         const Instant startInstant = Instant::J2000();
 
         const Array<Instant> instantArray = {
-            startInstant + Duration::Seconds(100), startInstant + Duration::Seconds(400),
-            startInstant + Duration::Seconds(700), startInstant + Duration::Seconds(1000)};
+            startInstant + Duration::Seconds(100),
+            startInstant + Duration::Seconds(400),
+            startInstant + Duration::Seconds(700),
+            startInstant + Duration::Seconds(1000)};
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const Array<NumericalSolver::StateVector> propagatedStateVectorArray =
             numericalSolver.integrateStatesAtSortedInstants(
-                currentStateVector, startInstant, instantArray,
+                currentStateVector,
+                startInstant,
+                instantArray,
                 [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
 
         // Validate the output against an analytical function
 
@@ -347,10 +370,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         {
             const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i];
 
-            EXPECT_GT(2e-8,
-                      std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds())));
-            EXPECT_GT(2e-8,
-                      std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds())));
+            EXPECT_GT(
+                2e-8, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))
+            );
+            EXPECT_GT(
+                2e-8, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))
+            );
         }
     }
 
@@ -361,19 +386,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         const Instant startInstant = Instant::J2000();
 
         const Array<Instant> instantArray = {
-            startInstant + Duration::Seconds(-100), startInstant + Duration::Seconds(-400),
-            startInstant + Duration::Seconds(-700), startInstant + Duration::Seconds(-1000)};
+            startInstant + Duration::Seconds(-100),
+            startInstant + Duration::Seconds(-400),
+            startInstant + Duration::Seconds(-700),
+            startInstant + Duration::Seconds(-1000)};
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const Array<NumericalSolver::StateVector> propagatedStateVectorArray =
             numericalSolver.integrateStatesAtSortedInstants(
-                currentStateVector, startInstant, instantArray,
+                currentStateVector,
+                startInstant,
+                instantArray,
                 [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
 
         // Validate the output against an analytical function
 
@@ -381,10 +411,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         {
             const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i];
 
-            EXPECT_GT(2e-8,
-                      std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds())));
-            EXPECT_GT(2e-8,
-                      std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds())));
+            EXPECT_GT(
+                2e-8, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))
+            );
+            EXPECT_GT(
+                2e-8, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))
+            );
         }
     }
 
@@ -395,19 +427,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         const Instant startInstant = Instant::J2000();
 
         const Array<Instant> instantArray = {
-            startInstant + Duration::Seconds(100), startInstant + Duration::Seconds(400),
-            startInstant + Duration::Seconds(700), startInstant + Duration::Seconds(1000)};
+            startInstant + Duration::Seconds(100),
+            startInstant + Duration::Seconds(400),
+            startInstant + Duration::Seconds(700),
+            startInstant + Duration::Seconds(1000)};
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const Array<NumericalSolver::StateVector> propagatedStateVectorArray =
             numericalSolver.integrateStatesAtSortedInstants(
-                currentStateVector, startInstant, instantArray,
+                currentStateVector,
+                startInstant,
+                instantArray,
                 [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
 
         // Validate the output against an analytical function
 
@@ -415,10 +452,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         {
             const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i];
 
-            EXPECT_GT(2e-10,
-                      std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds())));
-            EXPECT_GT(2e-10,
-                      std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds())));
+            EXPECT_GT(
+                2e-10, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))
+            );
+            EXPECT_GT(
+                2e-10, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))
+            );
         }
     }
 
@@ -429,19 +468,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         const Instant startInstant = Instant::J2000();
 
         const Array<Instant> instantArray = {
-            startInstant + Duration::Seconds(-100), startInstant + Duration::Seconds(-400),
-            startInstant + Duration::Seconds(-700), startInstant + Duration::Seconds(-1000)};
+            startInstant + Duration::Seconds(-100),
+            startInstant + Duration::Seconds(-400),
+            startInstant + Duration::Seconds(-700),
+            startInstant + Duration::Seconds(-1000)};
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const Array<NumericalSolver::StateVector> propagatedStateVectorArray =
             numericalSolver.integrateStatesAtSortedInstants(
-                currentStateVector, startInstant, instantArray,
+                currentStateVector,
+                startInstant,
+                instantArray,
                 [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
 
         // Validate the output against an analytical function
 
@@ -449,10 +493,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
         {
             const NumericalSolver::StateVector propagatedStateVector = propagatedStateVectorArray[i];
 
-            EXPECT_GT(2e-10,
-                      std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds())));
-            EXPECT_GT(2e-10,
-                      std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds())));
+            EXPECT_GT(
+                2e-10, std::abs(propagatedStateVector[0] - std::sin((instantArray[i] - startInstant).inSeconds()))
+            );
+            EXPECT_GT(
+                2e-10, std::abs(propagatedStateVector[1] - std::cos((instantArray[i] - startInstant).inSeconds()))
+            );
         }
     }
 }
@@ -475,15 +521,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
         const Duration propDuration = Duration::Seconds(10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -496,15 +544,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector currentStateVector = {0, 1};
         const Duration propDuration = Duration::Seconds(-10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -517,15 +567,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector currentStateVector = {0, 1};
         const Duration propDuration = Duration::Seconds(10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -538,15 +590,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector currentStateVector = {0, 1};
         const Duration propDuration = Duration::Seconds(-10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -559,24 +613,36 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector currentStateVector = {0, 1};
         const Duration propDuration = Duration::Seconds(1000);
 
-        NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogAdaptive,
-                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
-        NumericalSolver numericalSolver_2 = {NumericalSolver::LogType::LogConstant,
-                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
+        NumericalSolver numericalSolver_2 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
@@ -597,24 +663,36 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector currentStateVector = {0, 1};
         const Duration propDuration = Duration::Seconds(1000);
 
-        NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogAdaptive,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
-        NumericalSolver numericalSolver_2 = {NumericalSolver::LogType::LogConstant,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
+        NumericalSolver numericalSolver_2 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(
-            currentStateVector, propDuration,
+            currentStateVector,
+            propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
@@ -647,15 +725,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(
-            currentStateVector, instant, instant + propDuration,
+            currentStateVector,
+            instant,
+            instant + propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -669,15 +750,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(
-            currentStateVector, instant, instant + propDuration,
+            currentStateVector,
+            instant,
+            instant + propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -691,15 +775,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(
-            currentStateVector, instant, instant + propDuration,
+            currentStateVector,
+            instant,
+            instant + propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -713,15 +800,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateFromInstantToInstant(
-            currentStateVector, instant, instant + propDuration,
+            currentStateVector,
+            instant,
+            instant + propDuration,
             [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
-            });
+            }
+        );
 
         // Validate the output against an analytical function
 
@@ -735,26 +825,40 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
-        NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogAdaptive,
-                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
-        NumericalSolver numericalSolver_2 = {NumericalSolver::LogType::LogConstant,
-                                             NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
+        NumericalSolver numericalSolver_2 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaCashKarp54,
+            5.0,
+            1.0e-15,
+            1.0e-15};
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
             numericalSolver_1.integrateStateFromInstantToInstant(
-                currentStateVector, instant, instant + propDuration,
+                currentStateVector,
+                instant,
+                instant + propDuration,
                 [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
         const NumericalSolver::StateVector propagatedStateVector_2 =
             numericalSolver_2.integrateStateFromInstantToInstant(
-                currentStateVector, instant, instant + propDuration,
+                currentStateVector,
+                instant,
+                instant + propDuration,
                 [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
@@ -774,26 +878,40 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
-        NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogAdaptive,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
-        NumericalSolver numericalSolver_2 = {NumericalSolver::LogType::LogConstant,
-                                             NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogAdaptive,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
+        NumericalSolver numericalSolver_2 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
             numericalSolver_1.integrateStateFromInstantToInstant(
-                currentStateVector, instant, instant + propDuration,
+                currentStateVector,
+                instant,
+                instant + propDuration,
                 [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
         const NumericalSolver::StateVector propagatedStateVector_2 =
             numericalSolver_2.integrateStateFromInstantToInstant(
-                currentStateVector, instant, instant + propDuration,
+                currentStateVector,
+                instant,
+                instant + propDuration,
                 [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
-                });
+                }
+            );
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());

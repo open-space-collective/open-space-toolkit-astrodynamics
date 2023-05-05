@@ -170,8 +170,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
         const Real J2 = Earth::Models::EGM2008::J2;
         const Real J4 = Earth::Models::EGM2008::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         // Orbit setup
 
@@ -181,8 +181,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -190,15 +193,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const Real referenceRevolutionNumber = referenceRow[13].accessReal();
 
@@ -301,8 +304,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
         const Real J2 = Earth::Models::EGM96::J2;
         const Real J4 = Earth::Models::EGM96::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J2};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
 
         // Orbit setup
 
@@ -312,8 +315,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -321,15 +327,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const Real referenceRevolutionNumber = referenceRow[13].accessReal();
 
@@ -439,8 +445,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
         const Real J2 = Earth::Models::EGM96::J2;
         const Real J4 = Earth::Models::EGM96::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J2};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
 
         // Orbit setup
 
@@ -450,8 +456,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_3/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_3/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -459,15 +468,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -566,8 +575,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
         const Real J2 = Earth::Models::EGM96::J2;
         const Real J4 = Earth::Models::EGM96::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J4};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
 
         // Orbit setup
 
@@ -577,8 +586,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -586,15 +598,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -693,8 +705,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
         const Real J2 = Earth::Models::EGM96::J2;
         const Real J4 = Earth::Models::EGM96::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J4};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
 
         // Orbit setup
 
@@ -704,8 +716,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_5/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_5/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -713,15 +728,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const State state_GCRF = orbit.getStateAt(instant);
 
@@ -820,8 +835,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
         const Real J2 = Earth::Models::EGM96::J2;
         const Real J4 = Earth::Models::EGM96::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J4};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
 
         // Orbit setup
 
@@ -831,8 +846,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_6/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_6/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -840,15 +858,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_GCRF = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
             const State state_GCRF = orbit.getStateAt(instant);
 

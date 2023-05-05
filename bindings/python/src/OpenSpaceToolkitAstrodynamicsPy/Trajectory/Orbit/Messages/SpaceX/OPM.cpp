@@ -51,12 +51,35 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Messages_SpaceX_OPM
 
     class_<OPM::Deployment>(opm, "Deployment")
 
-        .def(init<const String&, const Integer&, const Duration&, const Instant&, const Position&, const Velocity&,
-                  const Length&, const Length&, const Angle&, const Angle&, const Angle&, const Angle&, const Real&>(),
-             arg("name"), arg("sequence_number"), arg("mission_time"), arg("date"), arg("position"), arg("velocity"),
-             arg("mean_perigee_altitude"), arg("mean_apogee_altitude"), arg("mean_inclination"),
-             arg("mean_argument_of_perigee"), arg("mean_longitude_ascending_node"), arg("mean_mean_anomaly"),
-             arg("ballistic_coefficient"))
+        .def(
+            init<
+                const String&,
+                const Integer&,
+                const Duration&,
+                const Instant&,
+                const Position&,
+                const Velocity&,
+                const Length&,
+                const Length&,
+                const Angle&,
+                const Angle&,
+                const Angle&,
+                const Angle&,
+                const Real&>(),
+            arg("name"),
+            arg("sequence_number"),
+            arg("mission_time"),
+            arg("date"),
+            arg("position"),
+            arg("velocity"),
+            arg("mean_perigee_altitude"),
+            arg("mean_apogee_altitude"),
+            arg("mean_inclination"),
+            arg("mean_argument_of_perigee"),
+            arg("mean_longitude_ascending_node"),
+            arg("mean_mean_anomaly"),
+            arg("ballistic_coefficient")
+        )
 
         .def_readonly("name", &OPM::Deployment::name)
         .def_readonly("sequence_number", &OPM::Deployment::sequenceNumber)

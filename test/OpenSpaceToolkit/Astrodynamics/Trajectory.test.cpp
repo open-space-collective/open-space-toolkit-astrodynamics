@@ -27,9 +27,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -43,9 +45,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Trajectory trajectory = {states};
@@ -74,9 +78,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -90,9 +96,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states_A = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model_A = {states_A};
@@ -100,9 +108,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
         const Trajectory trajectory_A = {model_A};
 
         const Array<State> states_B = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({0.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model_B = {states_B};
@@ -140,9 +150,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -156,9 +168,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states_A = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model_A = {states_A};
@@ -166,9 +180,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
         const Trajectory trajectory_A = {model_A};
 
         const Array<State> states_B = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({0.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model_B = {states_B};
@@ -206,9 +222,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, StreamOperator)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -243,9 +261,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -280,9 +300,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, AccessModel)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -317,9 +339,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -330,9 +354,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
         EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).accessInstant()));
 
         EXPECT_EQ(
-            State(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                  Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)),
-            trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC)));
+            State(
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
+                Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr),
+                Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)
+            ),
+            trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC))
+        );
 
         EXPECT_ANY_THROW(trajectory.getStateAt(Instant::DateTime(DateTime(2017, 12, 31, 23, 59, 59), Scale::UTC)));
         EXPECT_ANY_THROW(trajectory.getStateAt(Instant::DateTime(DateTime(2017, 12, 31, 23, 59, 58), Scale::UTC)));
@@ -345,14 +373,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
         EXPECT_EQ(states.at(1), trajectory.getStateAt(states.at(1).accessInstant()));
 
         EXPECT_EQ(
-            State(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                  Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)),
-            trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC)));
+            State(
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
+                Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr),
+                Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)
+            ),
+            trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC))
+        );
     }
 
     {
-        EXPECT_ANY_THROW(
-            Trajectory::Undefined().getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC)));
+        EXPECT_ANY_THROW(Trajectory::Undefined().getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC)
+        ));
     }
 }
 
@@ -377,9 +409,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};
@@ -387,25 +421,31 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
         const Trajectory trajectory = {model};
 
         {
-            const Array<Instant> referenceInstants = {states.at(0).accessInstant(),
-                                                      Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                                                      states.at(1).accessInstant()};
+            const Array<Instant> referenceInstants = {
+                states.at(0).accessInstant(),
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
+                states.at(1).accessInstant()};
 
             const Array<State> referenceStates = {
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                 Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+                 Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                 Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+                 Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
-                 Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
+                 Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
             EXPECT_EQ(referenceStates, trajectory.getStatesAt(referenceInstants));
         }
 
         {
-            const Array<Instant> referenceInstants = {Instant::DateTime(DateTime(2017, 12, 31, 23, 59, 59), Scale::UTC),
-                                                      states.at(0).accessInstant(), states.at(1).accessInstant(),
-                                                      Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC)};
+            const Array<Instant> referenceInstants = {
+                Instant::DateTime(DateTime(2017, 12, 31, 23, 59, 59), Scale::UTC),
+                states.at(0).accessInstant(),
+                states.at(1).accessInstant(),
+                Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC)};
 
             EXPECT_ANY_THROW(trajectory.getStatesAt(referenceInstants));
         }
@@ -416,9 +456,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC), Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC),
+             Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
 
         };
@@ -437,22 +479,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
 
             const Array<State> referenceStates = {
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-                 Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+                 Position::Meters({0.5, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 2), Scale::UTC),
-                 Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+                 Position::Meters({2.0, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                 Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
+                 Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
                 {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1, 500), Scale::UTC),
-                 Position::Meters({1.5, 0.0, 0.0}, gcrfSPtr), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
+                 Position::Meters({1.5, 0.0, 0.0}, gcrfSPtr),
+                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
             EXPECT_EQ(referenceStates, trajectory.getStatesAt(desiredInstants));
         }
     }
 
     {
-        EXPECT_ANY_THROW(
-            Trajectory::Undefined().getStatesAt({Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                                                 Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}));
+        EXPECT_ANY_THROW(Trajectory::Undefined().getStatesAt(
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+        ));
     }
 }
 
@@ -476,9 +523,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Tabulated model = {states};

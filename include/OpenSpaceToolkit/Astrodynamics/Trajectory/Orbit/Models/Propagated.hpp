@@ -79,9 +79,9 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @param              [in] aNumericalSolver A numerical solver
     /// @param              [in] aState A state
 
-    Propagated(const SatelliteDynamics& aSatelliteDynamics,
-               const NumericalSolver& aNumericalSolver,
-               const State& aState);
+    Propagated(
+        const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
+    );
 
     /// @brief              Constructor with additional option of passing in an existing array of states
     ///
@@ -93,9 +93,11 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @param              [in] aNumericalSolver A numerical solver
     /// @param              [in] aCachedStateArray A state array
 
-    Propagated(const SatelliteDynamics& aSatelliteDynamics,
-               const NumericalSolver& aNumericalSolver,
-               const Array<State>& aCachedStateArray);
+    Propagated(
+        const SatelliteDynamics& aSatelliteDynamics,
+        const NumericalSolver& aNumericalSolver,
+        const Array<State>& aCachedStateArray
+    );
 
     /// @brief              Clone propagated
     ///

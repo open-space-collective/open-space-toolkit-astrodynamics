@@ -12,9 +12,9 @@ namespace astro
 namespace trajectory
 {
 
-Model::Model() { }
+Model::Model() {}
 
-Model::~Model() { }
+Model::~Model() {}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel)
 {

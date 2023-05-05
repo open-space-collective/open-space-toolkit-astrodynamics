@@ -66,7 +66,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
         // Orbital model setup
 
         const TLE tle = TLE::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite.tle")));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite.tle")
+        ));
 
         const SGP4 sgp4Model = {tle};
 
@@ -78,8 +79,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite Orbit.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/SGP4/Test_1/Satellite Orbit.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Orbit test
 
@@ -87,20 +91,20 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d referencePosition_TEME = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                                     referenceRow[3].accessReal()};
-            const Vector3d referenceVelocity_TEME = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d referencePosition_TEME = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d referenceVelocity_TEME = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Vector3d referencePosition_GCRF = {referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                                     referenceRow[9].accessReal()};
-            const Vector3d referenceVelocity_GCRF = {referenceRow[10].accessReal(), referenceRow[11].accessReal(),
-                                                     referenceRow[12].accessReal()};
+            const Vector3d referencePosition_GCRF = {
+                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()};
+            const Vector3d referenceVelocity_GCRF = {
+                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()};
 
-            const Vector3d referencePosition_ITRF = {referenceRow[13].accessReal(), referenceRow[14].accessReal(),
-                                                     referenceRow[15].accessReal()};
-            const Vector3d referenceVelocity_ITRF = {referenceRow[16].accessReal(), referenceRow[17].accessReal(),
-                                                     referenceRow[18].accessReal()};
+            const Vector3d referencePosition_ITRF = {
+                referenceRow[13].accessReal(), referenceRow[14].accessReal(), referenceRow[15].accessReal()};
+            const Vector3d referenceVelocity_ITRF = {
+                referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()};
 
             // const Real referenceRevolutionNumber = referenceRow[19].accessReal() ;
 

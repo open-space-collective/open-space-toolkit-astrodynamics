@@ -15,8 +15,10 @@ namespace orbit
 {
 
 Pass::Pass(const Pass::Type& aType, const Integer& aRevolutionNumber, const Interval& anInterval)
-    : type_(aType), revolutionNumber_(aRevolutionNumber), interval_(anInterval)
-{ }
+    : type_(aType),
+      revolutionNumber_(aRevolutionNumber),
+      interval_(anInterval)
+{}
 
 bool Pass::operator==(const Pass& aPass) const
 {

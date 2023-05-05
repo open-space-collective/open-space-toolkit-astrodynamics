@@ -49,16 +49,20 @@ using ostk::astro::trajectory::State;
 class Generator
 {
    public:
-    Generator(const Environment& anEnvironment,
-              const Duration& aStep = DEFAULT_STEP,
-              const Duration& aTolerance = DEFAULT_TOLERANCE);
+    Generator(
+        const Environment& anEnvironment,
+        const Duration& aStep = DEFAULT_STEP,
+        const Duration& aTolerance = DEFAULT_TOLERANCE
+    );
 
-    Generator(const Environment& anEnvironment,
-              const std::function<bool(const AER&)>& anAerFilter,
-              const std::function<bool(const Access&)>& anAccessFilter = {},
-              const std::function<bool(const State&, const State&)>& aStateFilter = {},
-              const Duration& aStep = DEFAULT_STEP,
-              const Duration& aTolerance = DEFAULT_TOLERANCE);
+    Generator(
+        const Environment& anEnvironment,
+        const std::function<bool(const AER&)>& anAerFilter,
+        const std::function<bool(const Access&)>& anAccessFilter = {},
+        const std::function<bool(const State&, const State&)>& aStateFilter = {},
+        const Duration& aStep = DEFAULT_STEP,
+        const Duration& aTolerance = DEFAULT_TOLERANCE
+    );
 
     bool isDefined() const;
 
@@ -66,9 +70,9 @@ class Generator
 
     Duration getTolerance() const;
 
-    Array<Access> computeAccesses(const physics::time::Interval& anInterval,
-                                  const Trajectory& aFromTrajectory,
-                                  const Trajectory& aToTrajectory) const;
+    Array<Access> computeAccesses(
+        const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    ) const;
 
     void setStep(const Duration& aStep);
 
@@ -90,10 +94,12 @@ class Generator
     /// @param              [in] anEnvironment An environment
     /// @return             An access generator
 
-    static Generator AerRanges(const Interval<Real>& anAzimuthRange,
-                               const Interval<Real>& anElevationRange,
-                               const Interval<Real>& aRangeRange,
-                               const Environment& anEnvironment);
+    static Generator AerRanges(
+        const Interval<Real>& anAzimuthRange,
+        const Interval<Real>& anElevationRange,
+        const Interval<Real>& aRangeRange,
+        const Environment& anEnvironment
+    );
 
     /// @brief              Constructs an access generator with a defined AER mask
     ///
@@ -102,9 +108,11 @@ class Generator
     /// @param              [in] anEnvironment An environment
     /// @return             An access generator
 
-    static Generator AerMask(const Map<Real, Real>& anAzimuthElevationMask,
-                             const Interval<Real>& aRangeRange,
-                             const Environment& anEnvironment);
+    static Generator AerMask(
+        const Map<Real, Real>& anAzimuthElevationMask,
+        const Interval<Real>& aRangeRange,
+        const Environment& anEnvironment
+    );
 
    private:
     Environment environment_;

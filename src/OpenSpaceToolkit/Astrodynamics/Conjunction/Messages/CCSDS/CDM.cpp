@@ -15,12 +15,17 @@ namespace messages
 namespace ccsds
 {
 
-CDM::CDM(const CDM::Header& aHeader,
-         const CDM::RelativeMetadata& aRelativeMetadata,
-         const Array<CDM::Metadata>& aMetadataArray,
-         const Array<CDM::Data> aDataArray)
-    : header_(aHeader), relativeMetadata_(aRelativeMetadata), objectsMetadata_(aMetadataArray), objectsData_(aDataArray)
-{ }
+CDM::CDM(
+    const CDM::Header& aHeader,
+    const CDM::RelativeMetadata& aRelativeMetadata,
+    const Array<CDM::Metadata>& aMetadataArray,
+    const Array<CDM::Data> aDataArray
+)
+    : header_(aHeader),
+      relativeMetadata_(aRelativeMetadata),
+      objectsMetadata_(aMetadataArray),
+      objectsData_(aDataArray)
+{}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM)
 {
@@ -31,8 +36,10 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM)
 
 bool CDM::isDefined() const
 {
-    return (!this->header_.ccsdsCdmVersion.isEmpty() && !this->header_.messageId.isEmpty() &&
-            this->header_.creationDate.isDefined() && !this->header_.originator.isEmpty());
+    return (
+        !this->header_.ccsdsCdmVersion.isEmpty() && !this->header_.messageId.isEmpty() &&
+        this->header_.creationDate.isDefined() && !this->header_.originator.isEmpty()
+    );
 }
 
 CDM::Header CDM::getHeader() const
@@ -317,13 +324,26 @@ void CDM::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 CDM CDM::Undefined()
 {
-    return {{String::Empty(), String::Empty(), Instant::Undefined(), String::Empty(), String::Empty(), String::Empty()},
-            {String::Empty(), Instant::Undefined(), Length::Undefined(), Position::Undefined(), Velocity::Undefined(),
-             Instant::Undefined(), Instant::Undefined(), String::Empty(), String::Empty(), Real::Undefined(),
-             Real::Undefined(), Real::Undefined(), Instant::Undefined(), Instant::Undefined(), Real::Undefined(),
-             String::Empty()},
-            Array<CDM::Metadata>::Empty(),
-            Array<CDM::Data>::Empty()};
+    return {
+        {String::Empty(), String::Empty(), Instant::Undefined(), String::Empty(), String::Empty(), String::Empty()},
+        {String::Empty(),
+         Instant::Undefined(),
+         Length::Undefined(),
+         Position::Undefined(),
+         Velocity::Undefined(),
+         Instant::Undefined(),
+         Instant::Undefined(),
+         String::Empty(),
+         String::Empty(),
+         Real::Undefined(),
+         Real::Undefined(),
+         Real::Undefined(),
+         Instant::Undefined(),
+         Instant::Undefined(),
+         Real::Undefined(),
+         String::Empty()},
+        Array<CDM::Metadata>::Empty(),
+        Array<CDM::Data>::Empty()};
 }
 
 CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
@@ -364,8 +384,9 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
     CDM::Header header = CDM::Header {
         aDictionary["CCSDS_CDM_VERS"].getString(),
         String::Empty(),
-        Instant::DateTime(DateTime::Parse(aDictionary["CREATION_DATE"].getString(), DateTime::Format::ISO8601),
-                          Scale::UTC),
+        Instant::DateTime(
+            DateTime::Parse(aDictionary["CREATION_DATE"].getString(), DateTime::Format::ISO8601), Scale::UTC
+        ),
         aDictionary["ORIGINATOR"].getString(),
         aDictionary["MESSAGE_FOR"].getString(),
         aDictionary["CDM_ID"].getString()};
@@ -394,55 +415,55 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
 
     // Extract Object 1 Metadata
 
-    CDM::Metadata sat1ObjectMetadata =
-        CDM::Metadata {String::Empty(),
-                       aDictionary["SAT1_OBJECT"].accessString(),
-                       Integer::Parse(aDictionary["SAT1_OBJECT_DESIGNATOR"].accessString()),
-                       aDictionary["SAT1_CATALOG_NAME"].accessString(),
-                       aDictionary["SAT1_OBJECT_NAME"].accessString(),
-                       aDictionary["SAT1_INTERNATIONAL_DESIGNATOR"].accessString(),
-                       CDM::ObjectType::Payload,
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       aDictionary["SAT1_EPHEMERIS_NAME"].accessString(),
-                       aDictionary["SAT1_COVARIANCE_METHOD"].accessString(),
-                       aDictionary["SAT1_MANEUVERABLE"].accessString(),
-                       String::Empty(),
-                       aDictionary["SAT1_REF_FRAME"].accessString(),
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       false,
-                       false,
-                       false};
+    CDM::Metadata sat1ObjectMetadata = CDM::Metadata {
+        String::Empty(),
+        aDictionary["SAT1_OBJECT"].accessString(),
+        Integer::Parse(aDictionary["SAT1_OBJECT_DESIGNATOR"].accessString()),
+        aDictionary["SAT1_CATALOG_NAME"].accessString(),
+        aDictionary["SAT1_OBJECT_NAME"].accessString(),
+        aDictionary["SAT1_INTERNATIONAL_DESIGNATOR"].accessString(),
+        CDM::ObjectType::Payload,
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        aDictionary["SAT1_EPHEMERIS_NAME"].accessString(),
+        aDictionary["SAT1_COVARIANCE_METHOD"].accessString(),
+        aDictionary["SAT1_MANEUVERABLE"].accessString(),
+        String::Empty(),
+        aDictionary["SAT1_REF_FRAME"].accessString(),
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        false,
+        false,
+        false};
 
     // Extract Object 2 Metadata
 
-    CDM::Metadata sat2ObjectMetadata =
-        CDM::Metadata {String::Empty(),
-                       aDictionary["SAT2_OBJECT"].accessString(),
-                       Integer::Parse(aDictionary["SAT2_OBJECT_DESIGNATOR"].accessString()),
-                       aDictionary["SAT2_CATALOG_NAME"].accessString(),
-                       aDictionary["SAT2_OBJECT_NAME"].accessString(),
-                       aDictionary["SAT2_INTERNATIONAL_DESIGNATOR"].accessString(),
-                       CDM::ObjectType::Payload,
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       aDictionary["SAT2_EPHEMERIS_NAME"].accessString(),
-                       aDictionary["SAT2_COVARIANCE_METHOD"].accessString(),
-                       aDictionary["SAT2_MANEUVERABLE"].accessString(),
-                       String::Empty(),
-                       aDictionary["SAT2_REF_FRAME"].accessString(),
-                       String::Empty(),
-                       String::Empty(),
-                       String::Empty(),
-                       false,
-                       false,
-                       false};
+    CDM::Metadata sat2ObjectMetadata = CDM::Metadata {
+        String::Empty(),
+        aDictionary["SAT2_OBJECT"].accessString(),
+        Integer::Parse(aDictionary["SAT2_OBJECT_DESIGNATOR"].accessString()),
+        aDictionary["SAT2_CATALOG_NAME"].accessString(),
+        aDictionary["SAT2_OBJECT_NAME"].accessString(),
+        aDictionary["SAT2_INTERNATIONAL_DESIGNATOR"].accessString(),
+        CDM::ObjectType::Payload,
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        aDictionary["SAT2_EPHEMERIS_NAME"].accessString(),
+        aDictionary["SAT2_COVARIANCE_METHOD"].accessString(),
+        aDictionary["SAT2_MANEUVERABLE"].accessString(),
+        String::Empty(),
+        aDictionary["SAT2_REF_FRAME"].accessString(),
+        String::Empty(),
+        String::Empty(),
+        String::Empty(),
+        false,
+        false,
+        false};
 
     Array<CDM::Metadata> metadataArray = {sat1ObjectMetadata, sat2ObjectMetadata};
 
@@ -505,17 +526,21 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         Real::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
-        State(Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-              Position::Meters(  // TBI: Add Position::Kilometers
-                  {Real::Parse(aDictionary["SAT1_X"].accessString()) * 1000.0,
-                   Real::Parse(aDictionary["SAT1_Y"].accessString()) * 1000.0,
-                   Real::Parse(aDictionary["SAT1_Z"].accessString()) * 1000.0},
-                  sat1RefFramePtr),
-              Velocity::MetersPerSecond(  // TBI: Add Velocity::KilometersPerSecond
-                  {Real::Parse(aDictionary["SAT1_X_DOT"].accessString()) * 1000.0,
-                   Real::Parse(aDictionary["SAT1_Y_DOT"].accessString()) * 1000.0,
-                   Real::Parse(aDictionary["SAT1_Z_DOT"].accessString()) * 1000.0},
-                  sat1RefFramePtr)),
+        State(
+            Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
+            Position::Meters(  // TBI: Add Position::Kilometers
+                {Real::Parse(aDictionary["SAT1_X"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT1_Y"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT1_Z"].accessString()) * 1000.0},
+                sat1RefFramePtr
+            ),
+            Velocity::MetersPerSecond(  // TBI: Add Velocity::KilometersPerSecond
+                {Real::Parse(aDictionary["SAT1_X_DOT"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT1_Y_DOT"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT1_Z_DOT"].accessString()) * 1000.0},
+                sat1RefFramePtr
+            )
+        ),
         object1CovarianceMatrix};
 
     // Extract Object 2 Data
@@ -575,15 +600,21 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         Real::Undefined(),
         Real::Undefined(),
         Real::Undefined(),
-        State(Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
-              Position::Meters({Real::Parse(aDictionary["SAT2_X"].accessString()) * 1000.0,
-                                Real::Parse(aDictionary["SAT2_Y"].accessString()) * 1000.0,
-                                Real::Parse(aDictionary["SAT2_Z"].accessString()) * 1000.0},
-                               sat2RefFramePtr),
-              Velocity::MetersPerSecond({Real::Parse(aDictionary["SAT2_X_DOT"].accessString()) * 1000.0,
-                                         Real::Parse(aDictionary["SAT2_Y_DOT"].accessString()) * 1000.0,
-                                         Real::Parse(aDictionary["SAT2_Z_DOT"].accessString()) * 1000.0},
-                                        sat2RefFramePtr)),
+        State(
+            Instant::DateTime(DateTime::Parse(aDictionary["TCA"].getString(), DateTime::Format::ISO8601), Scale::UTC),
+            Position::Meters(
+                {Real::Parse(aDictionary["SAT2_X"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT2_Y"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT2_Z"].accessString()) * 1000.0},
+                sat2RefFramePtr
+            ),
+            Velocity::MetersPerSecond(
+                {Real::Parse(aDictionary["SAT2_X_DOT"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT2_Y_DOT"].accessString()) * 1000.0,
+                 Real::Parse(aDictionary["SAT2_Z_DOT"].accessString()) * 1000.0},
+                sat2RefFramePtr
+            )
+        ),
         object2CovarianceMatrix};
 
     Array<CDM::Data> dataArray = {sat1ObjectData, sat2ObjectData};
@@ -607,11 +638,12 @@ CDM CDM::Load(const File& aFile)
 
 CDM::ObjectType CDM::ObjectTypeFromString(const String& aString)
 {
-    static const Map<String, CDM::ObjectType> stringModeMap = {{"PAYLOAD", CDM::ObjectType::Payload},
-                                                               {"ROCKET BODY", CDM::ObjectType::RocketBody},
-                                                               {"DEBRIS", CDM::ObjectType::Debris},
-                                                               {"UNKNOWN", CDM::ObjectType::Unknown},
-                                                               {"OTHER", CDM::ObjectType::Other}};
+    static const Map<String, CDM::ObjectType> stringModeMap = {
+        {"PAYLOAD", CDM::ObjectType::Payload},
+        {"ROCKET BODY", CDM::ObjectType::RocketBody},
+        {"DEBRIS", CDM::ObjectType::Debris},
+        {"UNKNOWN", CDM::ObjectType::Unknown},
+        {"OTHER", CDM::ObjectType::Other}};
 
     try
     {

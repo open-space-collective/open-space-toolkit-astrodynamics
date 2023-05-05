@@ -39,11 +39,13 @@ class Access
 
     };
 
-    Access(const Access::Type& aType,
-           const Instant& anAcquisitionOfSignal,
-           const Instant& aTimeOfClosestApproach,
-           const Instant& aLossOfSignal,
-           const Angle& aMaxElevation);
+    Access(
+        const Access::Type& aType,
+        const Instant& anAcquisitionOfSignal,
+        const Instant& aTimeOfClosestApproach,
+        const Instant& aLossOfSignal,
+        const Angle& aMaxElevation
+    );
 
     bool operator==(const Access& anAccess) const;
 

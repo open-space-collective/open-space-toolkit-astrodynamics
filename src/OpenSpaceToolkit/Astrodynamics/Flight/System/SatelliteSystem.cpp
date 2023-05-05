@@ -14,25 +14,27 @@ namespace flight
 namespace system
 {
 
-SatelliteSystem::SatelliteSystem(const Mass& aMass,
-                                 const Composite& aSatelliteGeometry,
-                                 const Matrix3d& anInertiaTensor,
-                                 const Real& aCrossSectionalSurfaceArea,
-                                 const Real& aDragCoefficient)
+SatelliteSystem::SatelliteSystem(
+    const Mass& aMass,
+    const Composite& aSatelliteGeometry,
+    const Matrix3d& anInertiaTensor,
+    const Real& aCrossSectionalSurfaceArea,
+    const Real& aDragCoefficient
+)
     : System(aMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient)
-{ }
+{}
 
 SatelliteSystem::SatelliteSystem(const SatelliteSystem& aSatelliteSystem)
     : System(aSatelliteSystem),
       inertiaTensor_(aSatelliteSystem.inertiaTensor_),
       crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
       dragCoefficient_(aSatelliteSystem.dragCoefficient_)
-{ }
+{}
 
-SatelliteSystem::~SatelliteSystem() { }
+SatelliteSystem::~SatelliteSystem() {}
 
 SatelliteSystem* SatelliteSystem::clone() const
 {

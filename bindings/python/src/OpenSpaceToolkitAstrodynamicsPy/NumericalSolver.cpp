@@ -15,8 +15,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
     using ostk::astro::NumericalSolver;
 
-    typedef std::function<NumericalSolver::StateVector(const NumericalSolver::StateVector& x,
-                                                       NumericalSolver::StateVector& dxdt, const double t)>
+    typedef std::function<NumericalSolver::StateVector(
+        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+    )>
         pythonSystemOfEquationsSignature;
 
     {
@@ -24,10 +25,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
         numericalSolver
 
-            .def(init<const NumericalSolver::LogType&, const NumericalSolver::StepperType&, const Real&, const Real&,
-                      const Real&>(),
-                 arg("log_type"), arg("stepper_type"), arg("time_step"), arg("relative_tolerance"),
-                 arg("absolute_tolerance"))
+            .def(
+                init<
+                    const NumericalSolver::LogType&,
+                    const NumericalSolver::StepperType&,
+                    const Real&,
+                    const Real&,
+                    const Real&>(),
+                arg("log_type"),
+                arg("stepper_type"),
+                arg("time_step"),
+                arg("relative_tolerance"),
+                arg("absolute_tolerance")
+            )
             .def(init<const NumericalSolver&>())
 
             .def(self == self)
@@ -46,36 +56,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
             .def(
                 "integrate_state_for_duration",
-                +[](NumericalSolver& aNumericalSolver, const NumericalSolver::StateVector& aStateVector,
-                    const Duration& aDuration, const object& aSystemOfEquationsObject) {
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Duration& aDuration,
+                    const object& aSystemOfEquationsObject) {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
-                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt,
-                            const double t) -> void {
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void {
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
                     return aNumericalSolver.integrateStateForDuration(aStateVector, aDuration, systemOfEquations);
-                })
+                }
+            )
 
             .def(
                 "integrate_state_from_instant_to_instant",
-                +[](NumericalSolver& aNumericalSolver, const NumericalSolver::StateVector& aStateVector,
-                    const Instant& aStartInstant, const Instant& anEndInstant, const object& aSystemOfEquationsObject) {
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Instant& aStartInstant,
+                    const Instant& anEndInstant,
+                    const object& aSystemOfEquationsObject) {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
-                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt,
-                            const double t) -> void {
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void {
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateStateFromInstantToInstant(aStateVector, aStartInstant,
-                                                                               anEndInstant, systemOfEquations);
-                })
+                    return aNumericalSolver.integrateStateFromInstantToInstant(
+                        aStateVector, aStartInstant, anEndInstant, systemOfEquations
+                    );
+                }
+            )
 
             .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
             .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))

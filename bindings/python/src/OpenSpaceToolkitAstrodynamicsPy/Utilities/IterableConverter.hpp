@@ -28,9 +28,11 @@ struct IterableConverter
     template <typename Container>
     IterableConverter& from_python()
     {
-        boost::python::converter::registry::push_back(&IterableConverter::convertible,
-                                                      &IterableConverter::construct<Container>,
-                                                      boost::python::type_id<Container>());
+        boost::python::converter::registry::push_back(
+            &IterableConverter::convertible,
+            &IterableConverter::construct<Container>,
+            boost::python::type_id<Container>()
+        );
 
         return *this;
     }
@@ -90,8 +92,9 @@ struct IterableConverter
         // container is populated by passing the begin and end iterators of
         // the python object to the container's constructor.
 
-        new (storage) Container(iterator(python::object(handle)),  // begin
-                                iterator()                         // end
+        new (storage) Container(
+            iterator(python::object(handle)),  // begin
+            iterator()                         // end
         );
 
         data->convertible = storage;

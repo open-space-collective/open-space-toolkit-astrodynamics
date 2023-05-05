@@ -80,6 +80,7 @@ using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
 
 using ostk::astro::trajectory::orbit::models::Propagated;
+
 /* UNIT TESTS */
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public ::testing::Test
 {
@@ -88,9 +89,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
     {
         this->defaultEnvironment_ = Environment::Default();
 
-        this->defaultState_ = {Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        this->defaultState_ = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
     }
 
     State defaultState_ = State::Undefined();
@@ -102,19 +104,19 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constructor)
 {
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
     const SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
 
     // State array setup
     Array<State> stateArray = Array<State>::Empty();
     stateArray.add(defaultState_);
     const Instant instant_1 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC);
-    const State state_1 = {instant_1, Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
-                           Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+    const State state_1 = {
+        instant_1, Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
     stateArray.add(state_1);
 
     // Constructor without putting into orbit object
@@ -150,18 +152,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constr
                     throw;
                 }
             },
-            ostk::core::error::RuntimeError);
+            ostk::core::error::RuntimeError
+        );
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualToOperator)
 {
     {
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
 
@@ -170,9 +175,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualT
         const Propagated propagatedModel_x = {propagatedModel};
         EXPECT_TRUE(propagatedModel == propagatedModel_x);
 
-        const NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogConstant,
-                                                   NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15,
-                                                   1.0e-15};
+        const NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
         const Propagated propagatedModel_1 = {satelliteDynamics, numericalSolver_1, defaultState_};
         EXPECT_FALSE(propagatedModel == propagatedModel_1);
 
@@ -184,8 +192,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualT
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC);
-        const State state_0 = {instant_0, Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+        const State state_0 = {
+            instant_0,
+            Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
         stateArray.add(state_0);
         const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray};
         EXPECT_FALSE(propagatedModel == propagatedModel_3);
@@ -196,11 +206,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
 {
     {
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -210,9 +222,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
         const Propagated propagatedModel_x = {propagatedModel};
         EXPECT_FALSE(propagatedModel != propagatedModel_x);
 
-        const NumericalSolver numericalSolver_1 = {NumericalSolver::LogType::LogConstant,
-                                                   NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15,
-                                                   1.0e-15};
+        const NumericalSolver numericalSolver_1 = {
+            NumericalSolver::LogType::LogConstant,
+            NumericalSolver::StepperType::RungeKuttaFehlberg78,
+            5.0,
+            1.0e-15,
+            1.0e-15};
         const Propagated propagatedModel_1 = {satelliteDynamics, numericalSolver_1, defaultState_};
         EXPECT_TRUE(propagatedModel != propagatedModel_1);
 
@@ -224,8 +239,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
 
         // State array setup, state Array construction with array of length two and a different second state
         const Instant instant_0 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC);
-        const State state_0 = {instant_0, Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+        const State state_0 = {
+            instant_0,
+            Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
         stateArray.add(state_0);
         const Propagated propagatedModel_3 = {satelliteDynamics, defaultnumericalSolver_, stateArray};
         EXPECT_TRUE(propagatedModel != propagatedModel_3);
@@ -235,11 +252,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, IsDefined)
 {
     {
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -255,11 +274,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Stream
 {
     {
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -279,11 +300,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Print)
 {
     {
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -305,11 +328,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getEpo
         const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -325,11 +350,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, getRev
 {
     {
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -349,11 +376,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
     const Environment customEnvironment = Environment(Instant::J2000(), objects);
 
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -364,10 +391,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
     const Orbit orbit = {propagatedModel, customEnvironment.accessCelestialObjectWithName("Earth")};
 
     // Setup instants
-    const Array<Instant> instantArray = {Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC),
-                                         Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                                         Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC),
-                                         Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)};
+    const Array<Instant> instantArray = {
+        Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC),
+        Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)};
 
     // Test CalculateStateAt in propagatedModel and in orbit
     {
@@ -385,17 +413,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateStatesAt)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Reference data setup
-    const Table referenceData =
-        Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                           "Propagated/CalculateStatesAt_StateValidation.csv")),
-                    Table::Format::CSV, true);
+    const Table referenceData = Table::Load(
+        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                               "Propagated/CalculateStatesAt_StateValidation.csv")),
+        Table::Format::CSV,
+        true
+    );
 
     Array<Instant> instantArray = Array<Instant>::Empty();
     Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty();
@@ -406,9 +436,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
         referencePositionArray.add(
-            {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()});
+            {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
+        );
         referenceVelocityArray.add(
-            {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()});
+            {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
+        );
     }
 
     // Create environment
@@ -425,9 +457,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         // Choose state to put into cachedStateArray
         size_t cachedStateReferenceIndex = 0;
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-        const State state = {startInstant,
-                             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
         // Setup Propagated model and perform propagation
 
@@ -463,9 +496,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         // Choose state to put into cachedStateArray
         size_t cachedStateReferenceIndex = 30;
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-        const State state = {startInstant,
-                             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
         // Setup Propagated model and perform propagation
         const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state};
@@ -499,9 +533,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         // Choose state to put into cachedStateArray
         size_t cachedStateReferenceIndex = 60;
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-        const State state = {startInstant,
-                             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
         // Setup Propagated model and perform propagation
         const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state};
@@ -582,8 +617,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         {
             if (i % 2 == 0)
             {
-                const State state = {instantArray[i], Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
-                                     Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
+                const State state = {
+                    instantArray[i],
+                    Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
+                    Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
                 cachedStateArray.add(state);
             }
         }
@@ -621,8 +658,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         Array<State> cachedStateArray = Array<State>::Empty();
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
-            const State state = {instantArray[i], Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
-                                 Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
+            const State state = {
+                instantArray[i],
+                Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
+                Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
             cachedStateArray.add(state);
         }
 
@@ -658,9 +697,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         // Choose state to put into cachedStateArray
         Array<State> cachedStateArray = Array<State>::Empty();
         size_t cachedStateReferenceIndex = 0;
-        const State state = {instantArray[cachedStateReferenceIndex],
-                             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const State state = {
+            instantArray[cachedStateReferenceIndex],
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
         cachedStateArray.add({state, state});
 
         // Setup Propagated model and perform propagation
@@ -715,8 +755,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 
         const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, cachedStateArray};
 
-        EXPECT_LT(propagatedModel.accessCachedStateArray()[0].getInstant(),
-                  propagatedModel.accessCachedStateArray()[1].getInstant());
+        EXPECT_LT(
+            propagatedModel.accessCachedStateArray()[0].getInstant(),
+            propagatedModel.accessCachedStateArray()[1].getInstant()
+        );
 
         const Array<State> propagatedStateArray = propagatedModel.calculateStatesAt(instantArray);
 
@@ -747,11 +789,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, CalculateRevolutionNumberAt)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Test basic positive and negative revolution numbers
     {
@@ -800,8 +842,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC);
 
-        const State state = {startInstant, Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics_twobody = {customEnvironment_twobody, satelliteSystem};
@@ -851,11 +895,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, AccessCachedStateArray)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
@@ -866,17 +910,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Access
 
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
-        const State state_1 = {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_1 = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_1);
-        const State state_2 = {Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_2 = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_2);
-        const State state_3 = {Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_3 = {
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_3);
 
         // Setup Propagated model
@@ -895,17 +942,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Access
 
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
-        const State state_3 = {Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_3 = {
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_3);
-        const State state_1 = {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_1 = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_1);
-        const State state_2 = {Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_2 = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_2);
 
         // Setup Propagated model
@@ -923,19 +973,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Access
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCachedStateArray)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));  // TBI: Add fixtures later
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));  // TBI: Add fixtures later
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
 
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC);
-    const State state = {startInstant, Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                         Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+    const State state = {
+        startInstant,
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
 
     // Propagated model setup
     Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state};
@@ -946,17 +998,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
 
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
-        const State state_1 = {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_1 = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_1);
-        const State state_2 = {Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_2 = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_2);
-        const State state_3 = {Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_3 = {
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_3);
 
         // Manually set cachedStateArray
@@ -979,17 +1034,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
 
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
-        const State state_3 = {Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_3 = {
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_3);
-        const State state_1 = {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_1 = {
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_1);
-        const State state_2 = {Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-                               Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                               Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state_2 = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
         stateArray.add(state_2);
         stateArray.add(state_2);
 
@@ -1023,9 +1081,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
                     throw;
                 }
             },
-            ostk::core::error::RuntimeError);
+            ostk::core::error::RuntimeError
+        );
     }
 }
+
 /* VALIDATION TESTS */
 /* Force model validation tests */
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody)
@@ -1037,11 +1097,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     const Environment customEnvironment = Environment(instantJ2000, objects);
 
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Satellite dynamics setup
     SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1054,10 +1114,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_TwoBody_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_TwoBody_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1067,15 +1129,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state};
@@ -1118,8 +1184,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Reference data setup
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/STK_TwoBody_2hr_run.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/STK_TwoBody_2hr_run.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1132,22 +1201,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
             instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
             referencePositionArray_GCRF.add(
-                {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()});
+                {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
+            );
             referenceVelocityArray_GCRF.add(
-                {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()});
+                {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
+            );
 
             referencePositionArray_ITRF.add(
-                {referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()});
+                {referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()}
+            );
             referenceVelocityArray_ITRF.add(
-                {referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()});
+                {referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()}
+            );
         }
 
         // Current state and instant setup
         const Instant startInstant = instantArray[0];
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, defaultnumericalSolver_, state};
@@ -1212,20 +1287,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM2008)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Current state and instant setup
     const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
     // Reference data setup
-    const Table referenceData =
-        Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                           "Propagated/STK_EGM2008_100x100_2hr_run.csv")),
-                    Table::Format::CSV, true);
+    const Table referenceData = Table::Load(
+        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                               "Propagated/STK_EGM2008_100x100_2hr_run.csv")),
+        Table::Format::CSV,
+        true
+    );
 
     Array<Instant> instantArray = Array<Instant>::Empty();
     Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1236,9 +1313,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
         referencePositionArray_GCRF.add(
-            1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal()));
+            1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+        );
         referenceVelocityArray_GCRF.add(
-            1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal()));
+            1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+        );
     }
 
     // EGM2008 100x100 perturbation only vs STK EGM2008
@@ -1250,8 +1329,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1307,8 +1388,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment_45 = Environment(instantJ2000, objects_45);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics_360 = {customEnvironment_360, satelliteSystem};
@@ -1400,11 +1483,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM96)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // EGM96 360x360 perturbation only vs GMAT
     {
@@ -1412,10 +1495,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_EGM96_360x360_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_EGM96_360x360_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1425,10 +1510,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -1438,8 +1525,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1486,10 +1575,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/STK_WGS84EGM96_70x70_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1499,10 +1590,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -1512,8 +1605,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1560,10 +1655,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_EGM96_360x360_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_EGM96_360x360_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1573,10 +1670,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -1592,8 +1691,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment_45 = Environment(instantJ2000, objects_45);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics_360 = {customEnvironment_360, satelliteSystem};
@@ -1685,11 +1786,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_EGM84)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // EGM84 70x70 perturbation only vs STK EGM84
     {
@@ -1697,10 +1798,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/STK_WGS84_70x70_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/STK_WGS84_70x70_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1710,10 +1813,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -1723,8 +1828,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1771,10 +1878,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/STK_WGS84_70x70_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/STK_WGS84_70x70_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1784,10 +1893,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -1801,8 +1912,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Environment customEnvironment_45 = Environment(instantJ2000, objects_45);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics_180 = {customEnvironment_180, satelliteSystem};
@@ -1877,10 +1990,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_TwoBody_Sun_Moon_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_TwoBody_Sun_Moon_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1890,30 +2005,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical()),
-                                               std::make_shared<Moon>(Moon::Spherical()),
-                                               std::make_shared<Sun>(Sun::Spherical())};
+        const Array<Shared<Object>> objects = {
+            std::make_shared<Earth>(Earth::Spherical()),
+            std::make_shared<Moon>(Moon::Spherical()),
+            std::make_shared<Sun>(Sun::Spherical())};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -1963,10 +2085,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_TwoBody_Sun_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_TwoBody_Sun_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -1976,29 +2100,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical()),
-                                               std::make_shared<Sun>(Sun::Spherical())};
+        const Array<Shared<Object>> objects = {
+            std::make_shared<Earth>(Earth::Spherical()), std::make_shared<Sun>(Sun::Spherical())};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -2048,10 +2178,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_TwoBody_Moon_2hr_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_TwoBody_Moon_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -2061,29 +2193,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical()),
-                                               std::make_shared<Moon>(Moon::Spherical())};
+        const Array<Shared<Object>> objects = {
+            std::make_shared<Earth>(Earth::Spherical()), std::make_shared<Moon>(Moon::Spherical())};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -2125,9 +2263,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     }
 }
 
-TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
-     PropAccuracy_ExtendedDuration)  // These tests take a long time and are for local testing only (not to be run on
-                                     // every push to git)
+TEST(
+    DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
+    PropAccuracy_ExtendedDuration
+)  // These tests take a long time and are for local testing only (not to be run on
+   // every push to git)
 {
     // EGM96 perturbation
     {
@@ -2137,10 +2277,12 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
 
         // Reference data setup
-        const Table referenceData =
-            Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-                                               "Propagated/GMAT_EGM96_2month_run.csv")),
-                        Table::Format::CSV, true);
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                                   "Propagated/GMAT_EGM96_2month_run.csv")),
+            Table::Format::CSV,
+            true
+        );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
         Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
@@ -2150,10 +2292,12 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(),
-                                                           referenceRow[4].accessReal()));
-            referenceVelocityArray_GCRF.add(1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(),
-                                                           referenceRow[7].accessReal()));
+            referencePositionArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
+            );
+            referenceVelocityArray_GCRF.add(
+                1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
+            );
         }
 
         // Create environment
@@ -2163,21 +2307,25 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr),
-                             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr)};
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr)};
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
 
-        NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                           NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver numericalSolver = {
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {satelliteDynamics, numericalSolver, state};
@@ -2220,11 +2368,11 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_IntervalSelfComparison)
 {
     // Satellite system setup
-    const Composite satelliteGeometry(
-        Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-               {1.0, 2.0, 3.0}));
-    const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(),
-                                             0.8, 2.2};
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
     // Create environment
     const Instant instantJ2000 = Instant::J2000();
@@ -2247,8 +2395,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         instantArray.add(startInstant + Duration::Seconds(i));
     }
 
-    const State state = {startInstant, Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                         Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+    const State state = {
+        startInstant,
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
 
     // Test that calculateStatesAt returns the same answer if states are requested at short or long intervals
     {
@@ -2360,8 +2510,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 }
 
 /* Stepper validation test */
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
-       PropAccuracy_TwoBody_StepperTypeSelfComparison)
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAccuracy_TwoBody_StepperTypeSelfComparison
+)
 {
     {
         // Current state and instant setup
@@ -2390,15 +2541,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
             NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
         // Setup initial conditions
-        const State state = {startInstant, Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-                             Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        const State state = {
+            startInstant,
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
 
         // Satellite system setup
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
         // Satellite dynamics setup
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -2472,29 +2627,37 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
             // Two body default
             const Array<Shared<Object>> objects_default = {std::make_shared<Earth>(Earth::Spherical())};
             // Environment being compared
-            const Array<Shared<Object>> objects_tested = {std::make_shared<Earth>(Earth::EGM2008(70, 70)),
-                                                          std::make_shared<Moon>(Moon::Spherical()),
-                                                          std::make_shared<Sun>(Sun::Spherical())};
+            const Array<Shared<Object>> objects_tested = {
+                std::make_shared<Earth>(Earth::EGM2008(70, 70)),
+                std::make_shared<Moon>(Moon::Spherical()),
+                std::make_shared<Sun>(Sun::Spherical())};
 
             const Environment customEnvironment_default = Environment(instantJ2000, objects_default);
             const Environment customEnvironment_tested = Environment(instantJ2000, objects_tested);
             const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
             // Construct default numerical solver
-            NumericalSolver numericalSolver = {NumericalSolver::LogType::NoLog,
-                                               NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15,
-                                               1.0e-15};
+            NumericalSolver numericalSolver = {
+                NumericalSolver::LogType::NoLog,
+                NumericalSolver::StepperType::RungeKuttaFehlberg78,
+                5.0,
+                1.0e-15,
+                1.0e-15};
 
             // Setup initial conditions
-            const State state = {startInstant, Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
-                                 Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
+            const State state = {
+                startInstant,
+                Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+                Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
             // Satellite system setup
-            const Composite satelliteGeometry(
-                Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                       {1.0, 2.0, 3.0}));
-            const SatelliteSystem satelliteSystem = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                     Matrix3d::Identity(), 0.8, 2.2};
+            const Composite satelliteGeometry(Cuboid(
+                {0.0, 0.0, 0.0},
+                {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+                {1.0, 2.0, 3.0}
+            ));
+            const SatelliteSystem satelliteSystem = {
+                Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
 
             // Satellite dynamics setup
             SatelliteDynamics satelliteDynamics_default = {customEnvironment_default, satelliteSystem};
@@ -2504,10 +2667,10 @@ TEST(DISABLED_OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated,
             const Propagated propagatedModel_default = {satelliteDynamics_default, numericalSolver, state};
             const Propagated propagatedModel_tested = {satelliteDynamics_tested, numericalSolver, state};
 
-            const Orbit orbit_default = {propagatedModel_default,
-                                         customEnvironment_default.accessCelestialObjectWithName("Earth")};
-            const Orbit orbit_tested = {propagatedModel_tested,
-                                        customEnvironment_tested.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit_default = {
+                propagatedModel_default, customEnvironment_default.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit_tested = {
+                propagatedModel_tested, customEnvironment_tested.accessCelestialObjectWithName("Earth")};
 
             // Propagate all default states
             auto startTimer_default = std::chrono::steady_clock::now();
@@ -2555,11 +2718,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propag
              Position::Meters({-2965004.866673604585, 1695085.379882899811, 5976267.045515080914}, gcrfSPtr_),
              Velocity::MetersPerSecond({6539.557709872774, -1396.675776577052, 3637.641862957897}, gcrfSPtr_)}};
 
-        const Composite satelliteGeometry(
-            Cuboid({0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-                   {1.0, 2.0, 3.0}));
-        const SatelliteSystem satelliteSystem = {Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry,
-                                                 Matrix3d::Identity(), 0.8, 2.2};
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+        const SatelliteSystem satelliteSystem = {
+            Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
         const SatelliteDynamics satelliteDynamics = {defaultEnvironment_, satelliteSystem};
 
         Propagated propagated(satelliteDynamics, defaultnumericalSolver_, states);

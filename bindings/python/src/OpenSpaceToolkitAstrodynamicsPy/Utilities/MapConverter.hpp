@@ -32,8 +32,9 @@ struct MapConverter
     template <typename Container>
     MapConverter& from_python()
     {
-        boost::python::converter::registry::push_back(&MapConverter::convertible, &MapConverter::construct<Container>,
-                                                      boost::python::type_id<Container>());
+        boost::python::converter::registry::push_back(
+            &MapConverter::convertible, &MapConverter::construct<Container>, boost::python::type_id<Container>()
+        );
 
         return *this;
     }

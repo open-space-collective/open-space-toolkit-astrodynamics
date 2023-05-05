@@ -23,14 +23,32 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
 
         kepler_class
 
-            .def(init<const COE&, const Instant&, const Derived&, const Length&, const Real&, const Real&,
-                      const Kepler::PerturbationType&>(),
-                 arg("coe"), arg("epoch"), arg("gravitational_parameter"), arg("equatorial_radius"), arg("j2"),
-                 arg("j4"), arg("perturbation_type"))
+            .def(
+                init<
+                    const COE&,
+                    const Instant&,
+                    const Derived&,
+                    const Length&,
+                    const Real&,
+                    const Real&,
+                    const Kepler::PerturbationType&>(),
+                arg("coe"),
+                arg("epoch"),
+                arg("gravitational_parameter"),
+                arg("equatorial_radius"),
+                arg("j2"),
+                arg("j4"),
+                arg("perturbation_type")
+            )
 
-            .def(init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
-                 arg("coe"), arg("epoch"), arg("celestial_object"), arg("perturbation_type"),
-                 arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME)
+            .def(
+                init<const COE&, const Instant&, const Celestial&, const Kepler::PerturbationType&, const bool>(),
+                arg("coe"),
+                arg("epoch"),
+                arg("celestial_object"),
+                arg("perturbation_type"),
+                arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME
+            )
 
             .def(self == self)
             .def(self != self)

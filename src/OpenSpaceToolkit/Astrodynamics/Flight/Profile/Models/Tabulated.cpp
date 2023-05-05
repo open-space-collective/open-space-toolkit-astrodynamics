@@ -16,7 +16,11 @@ namespace profile
 namespace models
 {
 
-Tabulated::Tabulated(const Array<State>& aStateArray) : Model(), states_(aStateArray), stateIndex_(0) { }
+Tabulated::Tabulated(const Array<State>& aStateArray)
+    : Model(),
+      states_(aStateArray),
+      stateIndex_(0)
+{}
 
 Tabulated* Tabulated::clone() const
 {
@@ -85,19 +89,24 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() /
                            Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds();
 
-        return {anInstant,
-                Position {previousState.accessPosition().accessCoordinates() +
-                              ratio * (nextState.accessPosition().accessCoordinates() -
-                                       previousState.accessPosition().accessCoordinates()),
-                          previousState.accessPosition().getUnit(), previousState.accessPosition().accessFrame()},
-                Velocity {previousState.accessVelocity().accessCoordinates() +
-                              ratio * (nextState.accessVelocity().accessCoordinates() -
-                                       previousState.accessVelocity().accessCoordinates()),
-                          previousState.accessVelocity().getUnit(), previousState.accessVelocity().accessFrame()},
-                Quaternion::SLERP(previousState.accessAttitude(), nextState.accessAttitude(), ratio),
-                previousState.accessAngularVelocity() +
-                    ratio * (nextState.accessAngularVelocity() - previousState.accessAngularVelocity()),
-                previousState.getFrame()};
+        return {
+            anInstant,
+            Position {
+                previousState.accessPosition().accessCoordinates() +
+                    ratio * (nextState.accessPosition().accessCoordinates() -
+                             previousState.accessPosition().accessCoordinates()),
+                previousState.accessPosition().getUnit(),
+                previousState.accessPosition().accessFrame()},
+            Velocity {
+                previousState.accessVelocity().accessCoordinates() +
+                    ratio * (nextState.accessVelocity().accessCoordinates() -
+                             previousState.accessVelocity().accessCoordinates()),
+                previousState.accessVelocity().getUnit(),
+                previousState.accessVelocity().accessFrame()},
+            Quaternion::SLERP(previousState.accessAttitude(), nextState.accessAttitude(), ratio),
+            previousState.accessAngularVelocity() +
+                ratio * (nextState.accessAngularVelocity() - previousState.accessAngularVelocity()),
+            previousState.getFrame()};
     }
     else if (stateRange.first != nullptr)
     {
@@ -161,10 +170,13 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "First state:"
-            << (firstState.isDefined()
-                    ? String::Format("{} - {} - {}", firstState.accessInstant().toString(),
-                                     firstState.accessPosition().toString(), firstState.accessVelocity().toString())
-                    : "Undefined");
+            << (firstState.isDefined() ? String::Format(
+                                             "{} - {} - {}",
+                                             firstState.accessInstant().toString(),
+                                             firstState.accessPosition().toString(),
+                                             firstState.accessVelocity().toString()
+                                         )
+                                       : "Undefined");
     }
 
     {
@@ -173,10 +185,13 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "Last state:"
-            << (lastState.isDefined()
-                    ? String::Format("{} - {} - {}", lastState.accessInstant().toString(),
-                                     lastState.accessPosition().toString(), lastState.accessVelocity().toString())
-                    : "Undefined");
+            << (lastState.isDefined() ? String::Format(
+                                            "{} - {} - {}",
+                                            lastState.accessInstant().toString(),
+                                            lastState.accessPosition().toString(),
+                                            lastState.accessVelocity().toString()
+                                        )
+                                      : "Undefined");
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();

@@ -22,7 +22,7 @@ Tabulated::Tabulated(const Array<State>& aStateArray,
     : trajectory::orbit::Model(),
       trajectory::models::Tabulated(aStateArray, anInterpolationType),
       initialRevolutionNumber_(anInitialRevolutionNumber)
-{ }
+{}
 
 Tabulated* Tabulated::clone() const
 {

@@ -75,8 +75,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -89,9 +89,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         const Array<State> states = {
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC), Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
+            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
+             Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
 
         const Integer initialRevolutionNumber = 123;
@@ -151,8 +153,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -216,8 +218,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -280,8 +282,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -347,8 +349,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -356,8 +358,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Pass test
 
@@ -431,8 +436,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -440,8 +445,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Pass test
 
@@ -459,10 +467,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
             EXPECT_TRUE(pass.isDefined());
 
-            EXPECT_GT(Duration::Microseconds(1.0),
-                      Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute());
-            EXPECT_GT(Duration::Microseconds(1.0),
-                      Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute());
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+            );
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+            );
         }
     }
 }
@@ -521,8 +533,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -530,8 +542,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_1/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Pass test
 
@@ -549,10 +564,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_EQ(Pass::Type::Complete, pass.getType());
 
-            EXPECT_GT(Duration::Microseconds(1.0),
-                      Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute());
-            EXPECT_GT(Duration::Microseconds(1.0),
-                      Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute());
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+            );
+            EXPECT_GT(
+                Duration::Microseconds(1.0),
+                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+            );
         }
     }
 
@@ -578,8 +597,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J2};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -587,8 +606,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Passes.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_2/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Pass test
 
@@ -606,10 +628,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_EQ(Pass::Type::Complete, pass.getType());
 
-            EXPECT_GT(Duration::Milliseconds(1.0),
-                      Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute());
-            EXPECT_GT(Duration::Milliseconds(1.0),
-                      Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute());
+            EXPECT_GT(
+                Duration::Milliseconds(1.0),
+                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+            );
+            EXPECT_GT(
+                Duration::Milliseconds(1.0),
+                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+            );
         }
     }
 
@@ -635,8 +661,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,      equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::J4};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -644,8 +670,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
-                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Passes.csv")),
-            Table::Format::CSV, true);
+                "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/Test_4/Satellite Passes.csv"
+            )),
+            Table::Format::CSV,
+            true
+        );
 
         // Pass test
 
@@ -663,10 +692,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
             EXPECT_EQ(Pass::Type::Complete, pass.getType());
 
-            EXPECT_GT(Duration::Milliseconds(2.0),
-                      Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute());
-            EXPECT_GT(Duration::Milliseconds(2.0),
-                      Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute());
+            EXPECT_GT(
+                Duration::Milliseconds(2.0),
+                Duration::Between(referencePassStartInstant, pass.getInterval().getStart()).getAbsolute()
+            );
+            EXPECT_GT(
+                Duration::Milliseconds(2.0),
+                Duration::Between(referencePassEndInstant, pass.getInterval().getEnd()).getAbsolute()
+            );
         }
     }
 }
@@ -716,7 +749,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         // Reference data setup
 
         const File referenceDataFile = File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv"));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/GetOrbitalFrame/NED_ITRF 1.csv")
+        );
 
         const Table referenceData = Table::Load(referenceDataFile, Table::Format::CSV, true);
 
@@ -737,8 +771,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Shared<const Earth> earthSPtr =
             std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
@@ -751,17 +785,20 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         {
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
-            const Vector3d x_NED_ITRF_ref = {referenceRow[1].accessReal(), referenceRow[2].accessReal(),
-                                             referenceRow[3].accessReal()};
-            const Vector3d v_NED_ITRF_in_ITRF_ref = {referenceRow[4].accessReal(), referenceRow[5].accessReal(),
-                                                     referenceRow[6].accessReal()};
+            const Vector3d x_NED_ITRF_ref = {
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+            const Vector3d v_NED_ITRF_in_ITRF_ref = {
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
 
-            const Quaternion q_NED_ITRF_ref =
-                Quaternion::XYZS(referenceRow[7].accessReal(), referenceRow[8].accessReal(),
-                                 referenceRow[9].accessReal(), referenceRow[10].accessReal())
-                    .normalize();
-            const Vector3d w_NED_ITRF_in_NED_ref = {referenceRow[11].accessReal(), referenceRow[12].accessReal(),
-                                                    referenceRow[13].accessReal()};
+            const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(
+                                                  referenceRow[7].accessReal(),
+                                                  referenceRow[8].accessReal(),
+                                                  referenceRow[9].accessReal(),
+                                                  referenceRow[10].accessReal()
+            )
+                                                  .normalize();
+            const Vector3d w_NED_ITRF_in_NED_ref = {
+                referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal()};
 
             const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate();
             const Vector3d w_ITRF_NED_in_ITRF_ref = -(q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref);
@@ -774,19 +811,35 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             const Vector3d w_ITRF_NED_in_ITRF =
                 nedOrbitalFrameSPtr->getTransformTo(Frame::ITRF(), instant).getAngularVelocity();
 
-            ASSERT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1))
-                << String::Format("@ {}: {} - {} = {} [m]", instant.toString(), x_NED_ITRF_ref.toString(),
-                                  x_NED_ITRF.toString(), (x_NED_ITRF - x_NED_ITRF_ref).norm());
-            ASSERT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4))
-                << String::Format("@ {}: {} - {} = {} [m/s]", instant.toString(), v_NED_ITRF_in_ITRF_ref.toString(),
-                                  v_NED_ITRF_in_ITRF.toString(), (v_NED_ITRF_in_ITRF - v_NED_ITRF_in_ITRF_ref).norm());
+            ASSERT_TRUE(x_NED_ITRF.isNear(x_NED_ITRF_ref, 1e-1)) << String::Format(
+                "@ {}: {} - {} = {} [m]",
+                instant.toString(),
+                x_NED_ITRF_ref.toString(),
+                x_NED_ITRF.toString(),
+                (x_NED_ITRF - x_NED_ITRF_ref).norm()
+            );
+            ASSERT_TRUE(v_NED_ITRF_in_ITRF.isNear(v_NED_ITRF_in_ITRF_ref, 1e-4)) << String::Format(
+                "@ {}: {} - {} = {} [m/s]",
+                instant.toString(),
+                v_NED_ITRF_in_ITRF_ref.toString(),
+                v_NED_ITRF_in_ITRF.toString(),
+                (v_NED_ITRF_in_ITRF - v_NED_ITRF_in_ITRF_ref).norm()
+            );
 
             ASSERT_TRUE(q_ITRF_NED.isNear(q_ITRF_NED_ref, Angle::Arcseconds(1.0))) << String::Format(
-                "@ {}: {} / {} = {} [asec]", instant.toString(), q_ITRF_NED_ref.toString(), q_ITRF_NED.toString(),
-                q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString());
-            ASSERT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-8))
-                << String::Format("@ {}: {} - {} = {} [rad/s]", instant.toString(), w_ITRF_NED_in_ITRF_ref.toString(),
-                                  w_ITRF_NED_in_ITRF.toString(), (w_ITRF_NED_in_ITRF - w_ITRF_NED_in_ITRF_ref).norm());
+                "@ {}: {} / {} = {} [asec]",
+                instant.toString(),
+                q_ITRF_NED_ref.toString(),
+                q_ITRF_NED.toString(),
+                q_ITRF_NED.angularDifferenceWith(q_ITRF_NED_ref).inArcseconds().toString()
+            );
+            ASSERT_TRUE(w_ITRF_NED_in_ITRF.isNear(w_ITRF_NED_in_ITRF_ref, 1e-8)) << String::Format(
+                "@ {}: {} - {} = {} [rad/s]",
+                instant.toString(),
+                w_ITRF_NED_in_ITRF_ref.toString(),
+                w_ITRF_NED_in_ITRF.toString(),
+                (w_ITRF_NED_in_ITRF - w_ITRF_NED_in_ITRF_ref).norm()
+            );
         }
     }
 
@@ -944,8 +997,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -998,56 +1051,106 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
         };
 
         const Array<Scenario> scenarios = {
-            {"Scenario 1", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Angle::Degrees(0.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 2", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Angle::Degrees(45.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 3", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Angle::Degrees(90.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 4", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Angle::Degrees(135.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 5", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Angle::Degrees(180.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 6", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Angle::Degrees(0.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 7", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Angle::Degrees(45.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 8", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Angle::Degrees(90.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 9", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Angle::Degrees(135.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 10", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Angle::Degrees(180.0),
-             File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4}};
+            {"Scenario 1",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Angle::Degrees(0.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 1.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 2",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Angle::Degrees(45.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 2.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 3",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Angle::Degrees(90.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 3.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 4",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Angle::Degrees(135.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 4.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 5",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Angle::Degrees(180.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 5.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 6",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Angle::Degrees(0.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 6.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 7",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Angle::Degrees(45.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 7.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 8",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Angle::Degrees(90.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 8.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 9",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Angle::Degrees(135.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 9.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 10",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Angle::Degrees(180.0),
+             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Circular/Scenario 10.csv"
+             )),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4}};
 
         for (const auto& scenario : scenarios)
         {
@@ -1057,14 +1160,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 
             // Orbit setup
 
-            const Orbit orbit = Orbit::Circular(scenario.epoch, scenario.altitude, scenario.inclination,
-                                                environment.accessCelestialObjectWithName("Earth"));
+            const Orbit orbit = Orbit::Circular(
+                scenario.epoch,
+                scenario.altitude,
+                scenario.inclination,
+                environment.accessCelestialObjectWithName("Earth")
+            );
 
             // Test
 
-            testOrbit(scenario.identifier, scenario.referenceDataFile, orbit, scenario.positionTolerance_GCRF_m,
-                      scenario.velocityTolerance_GCRF_mps, scenario.positionTolerance_ITRF_m,
-                      scenario.velocityTolerance_ITRF_mps);
+            testOrbit(
+                scenario.identifier,
+                scenario.referenceDataFile,
+                orbit,
+                scenario.positionTolerance_GCRF_m,
+                scenario.velocityTolerance_GCRF_mps,
+                scenario.positionTolerance_ITRF_m,
+                scenario.velocityTolerance_ITRF_mps
+            );
         }
     }
 }
@@ -1098,46 +1211,94 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
         };
 
         const Array<Scenario> scenarios = {
-            {"Scenario 1", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Length::Kilometers(400.0),
+            {"Scenario 1",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Length::Kilometers(400.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 1.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 2", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(500.0), Length::Kilometers(500.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 1.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 2",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(500.0),
+             Length::Kilometers(500.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 2.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 3", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(600.0), Length::Kilometers(500.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 2.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 3",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(600.0),
+             Length::Kilometers(500.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 3.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 4", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Length::Kilometers(4000.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 3.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 4",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Length::Kilometers(4000.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 4.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 5", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Length::Kilometers(5000.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 4.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 5",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Length::Kilometers(5000.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 5.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 6", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(6000.0), Length::Kilometers(5000.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 5.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 6",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(6000.0),
+             Length::Kilometers(5000.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 6.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 7", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(5000.0), Length::Kilometers(500.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 6.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 7",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(5000.0),
+             Length::Kilometers(500.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 7.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4},
-            {"Scenario 8", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
-             Length::Kilometers(50000.0), Length::Kilometers(500.0),
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 7.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4},
+            {"Scenario 8",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+             Length::Kilometers(50000.0),
+             Length::Kilometers(500.0),
              File::Path(
-                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 8.csv")),
-             1e-3, 1e-6, 1e-0, 1e-3}};
+                 Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Equatorial/Scenario 8.csv")
+             ),
+             1e-3,
+             1e-6,
+             1e-0,
+             1e-3}};
 
         for (const auto& scenario : scenarios)
         {
@@ -1147,14 +1308,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 
             // Orbit setup
 
-            const Orbit orbit = Orbit::Equatorial(scenario.epoch, scenario.apoapsisAltitude, scenario.periapsisAltitude,
-                                                  environment.accessCelestialObjectWithName("Earth"));
+            const Orbit orbit = Orbit::Equatorial(
+                scenario.epoch,
+                scenario.apoapsisAltitude,
+                scenario.periapsisAltitude,
+                environment.accessCelestialObjectWithName("Earth")
+            );
 
             // Test
 
-            testOrbit(scenario.identifier, scenario.referenceDataFile, orbit, scenario.positionTolerance_GCRF_m,
-                      scenario.velocityTolerance_GCRF_mps, scenario.positionTolerance_ITRF_m,
-                      scenario.velocityTolerance_ITRF_mps);
+            testOrbit(
+                scenario.identifier,
+                scenario.referenceDataFile,
+                orbit,
+                scenario.positionTolerance_GCRF_m,
+                scenario.velocityTolerance_GCRF_mps,
+                scenario.positionTolerance_ITRF_m,
+                scenario.velocityTolerance_ITRF_mps
+            );
         }
     }
 }
@@ -1187,11 +1358,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
         };
 
         const Array<Scenario> scenarios = {
-            {"Scenario 1", Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
+            {"Scenario 1",
+             Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC),
              Length::Kilometers(500.0),
              File::Path(Path::Parse(
-                 "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv")),
-             1e-3, 1e-6, 1e-1, 1e-4}};
+                 "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/CircularEquatorial/Scenario 1.csv"
+             )),
+             1e-3,
+             1e-6,
+             1e-1,
+             1e-4}};
 
         for (const auto& scenario : scenarios)
         {
@@ -1201,14 +1377,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 
             // Orbit setup
 
-            const Orbit orbit = Orbit::CircularEquatorial(scenario.epoch, scenario.altitude,
-                                                          environment.accessCelestialObjectWithName("Earth"));
+            const Orbit orbit = Orbit::CircularEquatorial(
+                scenario.epoch, scenario.altitude, environment.accessCelestialObjectWithName("Earth")
+            );
 
             // Test
 
-            testOrbit(scenario.identifier, scenario.referenceDataFile, orbit, scenario.positionTolerance_GCRF_m,
-                      scenario.velocityTolerance_GCRF_mps, scenario.positionTolerance_ITRF_m,
-                      scenario.velocityTolerance_ITRF_mps);
+            testOrbit(
+                scenario.identifier,
+                scenario.referenceDataFile,
+                orbit,
+                scenario.positionTolerance_GCRF_m,
+                scenario.velocityTolerance_GCRF_mps,
+                scenario.positionTolerance_ITRF_m,
+                scenario.velocityTolerance_ITRF_mps
+            );
         }
     }
 }

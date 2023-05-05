@@ -53,19 +53,23 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
 
     };
 
-    Kepler(const COE& aClassicalOrbitalElementSet,
-           const Instant& anEpoch,
-           const Derived& aGravitationalParameter,
-           const Length& anEquatorialRadius,
-           const Real& aJ2,
-           const Real& aJ4,
-           const Kepler::PerturbationType& aPerturbationType);
+    Kepler(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Length& anEquatorialRadius,
+        const Real& aJ2,
+        const Real& aJ4,
+        const Kepler::PerturbationType& aPerturbationType
+    );
 
-    Kepler(const COE& aClassicalOrbitalElementSet,
-           const Instant& anEpoch,
-           const Celestial& aCelestialObject,
-           const Kepler::PerturbationType& aPerturbationType,
-           const bool inFixedFrame = DEFAULT_IN_FIXED_FRAME);
+    Kepler(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Celestial& aCelestialObject,
+        const Kepler::PerturbationType& aPerturbationType,
+        const bool inFixedFrame = DEFAULT_IN_FIXED_FRAME
+    );
 
     virtual Kepler* clone() const override;
 
@@ -115,49 +119,61 @@ class Kepler : public ostk::astro::trajectory::orbit::Model
     Real j4_;
     Kepler::PerturbationType perturbationType_;
 
-    static COE InertialCoeFromFixedCoe(const COE& aClassicalOrbitalElementSet,
-                                       const Instant& anEpoch,
-                                       const Celestial& aCelestialObject);
+    static COE InertialCoeFromFixedCoe(
+        const COE& aClassicalOrbitalElementSet, const Instant& anEpoch, const Celestial& aCelestialObject
+    );
 
-    static State CalculateNoneStateAt(const COE& aClassicalOrbitalElementSet,
-                                      const Instant& anEpoch,
-                                      const Derived& aGravitationalParameter,
-                                      const Instant& anInstant);
+    static State CalculateNoneStateAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant
+    );
 
-    static Integer CalculateNoneRevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                                   const Instant& anEpoch,
-                                                   const Derived& aGravitationalParameter,
-                                                   const Instant& anInstant);
+    static Integer CalculateNoneRevolutionNumberAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant
+    );
 
-    static State CalculateJ2StateAt(const COE& aClassicalOrbitalElementSet,
-                                    const Instant& anEpoch,
-                                    const Derived& aGravitationalParameter,
-                                    const Instant& anInstant,
-                                    const Length& anEquatorialRadius,
-                                    const Real& aJ2);
+    static State CalculateJ2StateAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant,
+        const Length& anEquatorialRadius,
+        const Real& aJ2
+    );
 
-    static Integer CalculateJ2RevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                                 const Instant& anEpoch,
-                                                 const Derived& aGravitationalParameter,
-                                                 const Instant& anInstant,
-                                                 const Length& anEquatorialRadius,
-                                                 const Real& aJ2);
+    static Integer CalculateJ2RevolutionNumberAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant,
+        const Length& anEquatorialRadius,
+        const Real& aJ2
+    );
 
-    static State CalculateJ4StateAt(const COE& aClassicalOrbitalElementSet,
-                                    const Instant& anEpoch,
-                                    const Derived& aGravitationalParameter,
-                                    const Instant& anInstant,
-                                    const Length& anEquatorialRadius,
-                                    const Real& aJ2,
-                                    const Real& aJ4);
+    static State CalculateJ4StateAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant,
+        const Length& anEquatorialRadius,
+        const Real& aJ2,
+        const Real& aJ4
+    );
 
-    static Integer CalculateJ4RevolutionNumberAt(const COE& aClassicalOrbitalElementSet,
-                                                 const Instant& anEpoch,
-                                                 const Derived& aGravitationalParameter,
-                                                 const Instant& anInstant,
-                                                 const Length& anEquatorialRadius,
-                                                 const Real& aJ2,
-                                                 const Real& aJ4);
+    static Integer CalculateJ4RevolutionNumberAt(
+        const COE& aClassicalOrbitalElementSet,
+        const Instant& anEpoch,
+        const Derived& aGravitationalParameter,
+        const Instant& anInstant,
+        const Length& anEquatorialRadius,
+        const Real& aJ2,
+        const Real& aJ4
+    );
 };
 
 }  // namespace models

@@ -74,8 +74,9 @@ class Transform : public virtual Model
     /// @param              [in] anOrbitalFrameType An orbital frame type
     /// @return             Flight profile
 
-    static Transform NadirPointing(const trajectory::Orbit& anOrbit,
-                                   const trajectory::Orbit::FrameType& anOrbitalFrameType);
+    static Transform NadirPointing(
+        const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
+    );
 
    protected:
     virtual bool operator==(const Model& aModel) const override;

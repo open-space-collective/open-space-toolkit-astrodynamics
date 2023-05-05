@@ -69,8 +69,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -151,7 +151,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStateAt)
         EXPECT_TRUE(state.getPosition().getCoordinates().isNear(Vector3d {1220971.34506, -6892693.88371, 0.0}, 1e-5));
         EXPECT_TRUE(state.getVelocity().getCoordinates().isNear(Vector3d {7430.37647704, 1316.21640458, 0.0}, 1e-5));
         EXPECT_TRUE(state.getAttitude().isNear(
-            Quaternion::XYZS(-0.704392, -0.061906, 0.061906, 0.704392).toNormalized(), Angle::Degrees(1e-3)));
+            Quaternion::XYZS(-0.704392, -0.061906, 0.061906, 0.704392).toNormalized(), Angle::Degrees(1e-3)
+        ));
         EXPECT_TRUE(state.getAngularVelocity().isNear(Vector3d {0.0, -0.00107800762584, 0.0}, 1e-5));
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
@@ -231,8 +232,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 }
 
 {
-    EXPECT_ANY_THROW(Profile::Undefined().getStatesAt({Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-                                                       Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}));
+    EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
+        {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
+         Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+    ));
 }
 }
 
@@ -295,8 +298,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -320,18 +323,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
             const Instant instant_ref =
                 Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
 
-            const Vector3d x_BODY_GCRF_ref = {referenceRow["x (m)"].accessReal(), referenceRow["y (m)"].accessReal(),
-                                              referenceRow["z (m)"].accessReal()};
-            const Vector3d v_BODY_GCRF_in_GCRF_ref = {referenceRow["vx (m/sec)"].accessReal(),
-                                                      referenceRow["vy (m/sec)"].accessReal(),
-                                                      referenceRow["vz (m/sec)"].accessReal()};
-            const Quaternion q_BODY_GCRF_ref =
-                Quaternion::XYZS(referenceRow["q1"].accessReal(), referenceRow["q2"].accessReal(),
-                                 referenceRow["q3"].accessReal(), referenceRow["q4"].accessReal())
-                    .normalize();
-            const Vector3d w_BODY_GCRF_in_BODY_ref = {referenceRow["wx (rad/sec)"].accessReal(),
-                                                      referenceRow["wy (rad/sec)"].accessReal(),
-                                                      referenceRow["wz (rad/sec)"].accessReal()};
+            const Vector3d x_BODY_GCRF_ref = {
+                referenceRow["x (m)"].accessReal(),
+                referenceRow["y (m)"].accessReal(),
+                referenceRow["z (m)"].accessReal()};
+            const Vector3d v_BODY_GCRF_in_GCRF_ref = {
+                referenceRow["vx (m/sec)"].accessReal(),
+                referenceRow["vy (m/sec)"].accessReal(),
+                referenceRow["vz (m/sec)"].accessReal()};
+            const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
+                                                   referenceRow["q1"].accessReal(),
+                                                   referenceRow["q2"].accessReal(),
+                                                   referenceRow["q3"].accessReal(),
+                                                   referenceRow["q4"].accessReal()
+            )
+                                                   .normalize();
+            const Vector3d w_BODY_GCRF_in_BODY_ref = {
+                referenceRow["wx (rad/sec)"].accessReal(),
+                referenceRow["wy (rad/sec)"].accessReal(),
+                referenceRow["wz (rad/sec)"].accessReal()};
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -340,21 +350,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
             const Quaternion q_BODY_GCRF = state.getAttitude();
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity();
 
-            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m))
-                << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(),
-                                  x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm());
+            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format(
+                "@ {}: {} - {} = {} [m]",
+                instant_ref.toString(),
+                x_BODY_GCRF.toString(),
+                x_BODY_GCRF_ref.toString(),
+                (x_BODY_GCRF - x_BODY_GCRF_ref).norm()
+            );
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec))
-                << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(),
-                                  v_BODY_GCRF_in_GCRF_ref.toString(),
-                                  (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [m/s]",
+                       instant_ref.toString(),
+                       v_BODY_GCRF_in_GCRF.toString(),
+                       v_BODY_GCRF_in_GCRF_ref.toString(),
+                       (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()
+                   );
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec)))
-                << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(),
-                                  q_BODY_GCRF.toString(),
-                                  q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString());
+                << String::Format(
+                       "@ {}: {} / {} = {} [asec]",
+                       instant_ref.toString(),
+                       q_BODY_GCRF_ref.toString(),
+                       q_BODY_GCRF.toString(),
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                   );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
-                << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(),
-                                  w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(),
-                                  (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [rad/s]",
+                       instant_ref.toString(),
+                       w_BODY_GCRF_in_BODY_ref.toString(),
+                       w_BODY_GCRF_in_BODY.toString(),
+                       (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()
+                   );
         }
     }
 }
@@ -410,8 +436,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -435,18 +461,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Instant instant_ref =
                 Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
 
-            const Vector3d x_BODY_GCRF_ref = {referenceRow["x (m)"].accessReal(), referenceRow["y (m)"].accessReal(),
-                                              referenceRow["z (m)"].accessReal()};
-            const Vector3d v_BODY_GCRF_in_GCRF_ref = {referenceRow["vx (m/sec)"].accessReal(),
-                                                      referenceRow["vy (m/sec)"].accessReal(),
-                                                      referenceRow["vz (m/sec)"].accessReal()};
-            const Quaternion q_BODY_GCRF_ref =
-                Quaternion::XYZS(referenceRow["q1"].accessReal(), referenceRow["q2"].accessReal(),
-                                 referenceRow["q3"].accessReal(), referenceRow["q4"].accessReal())
-                    .normalize();
-            const Vector3d w_BODY_GCRF_in_BODY_ref = {referenceRow["wx (rad/sec)"].accessReal(),
-                                                      referenceRow["wy (rad/sec)"].accessReal(),
-                                                      referenceRow["wz (rad/sec)"].accessReal()};
+            const Vector3d x_BODY_GCRF_ref = {
+                referenceRow["x (m)"].accessReal(),
+                referenceRow["y (m)"].accessReal(),
+                referenceRow["z (m)"].accessReal()};
+            const Vector3d v_BODY_GCRF_in_GCRF_ref = {
+                referenceRow["vx (m/sec)"].accessReal(),
+                referenceRow["vy (m/sec)"].accessReal(),
+                referenceRow["vz (m/sec)"].accessReal()};
+            const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
+                                                   referenceRow["q1"].accessReal(),
+                                                   referenceRow["q2"].accessReal(),
+                                                   referenceRow["q3"].accessReal(),
+                                                   referenceRow["q4"].accessReal()
+            )
+                                                   .normalize();
+            const Vector3d w_BODY_GCRF_in_BODY_ref = {
+                referenceRow["wx (rad/sec)"].accessReal(),
+                referenceRow["wy (rad/sec)"].accessReal(),
+                referenceRow["wz (rad/sec)"].accessReal()};
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -455,21 +488,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Quaternion q_BODY_GCRF = state.getAttitude();
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity();
 
-            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m))
-                << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(),
-                                  x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm());
+            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format(
+                "@ {}: {} - {} = {} [m]",
+                instant_ref.toString(),
+                x_BODY_GCRF.toString(),
+                x_BODY_GCRF_ref.toString(),
+                (x_BODY_GCRF - x_BODY_GCRF_ref).norm()
+            );
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec))
-                << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(),
-                                  v_BODY_GCRF_in_GCRF_ref.toString(),
-                                  (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [m/s]",
+                       instant_ref.toString(),
+                       v_BODY_GCRF_in_GCRF.toString(),
+                       v_BODY_GCRF_in_GCRF_ref.toString(),
+                       (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()
+                   );
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec)))
-                << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(),
-                                  q_BODY_GCRF.toString(),
-                                  q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString());
+                << String::Format(
+                       "@ {}: {} / {} = {} [asec]",
+                       instant_ref.toString(),
+                       q_BODY_GCRF_ref.toString(),
+                       q_BODY_GCRF.toString(),
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                   );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
-                << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(),
-                                  w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(),
-                                  (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [rad/s]",
+                       instant_ref.toString(),
+                       w_BODY_GCRF_in_BODY_ref.toString(),
+                       w_BODY_GCRF_in_BODY.toString(),
+                       (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()
+                   );
         }
     }
 
@@ -493,8 +542,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -518,18 +567,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Instant instant_ref =
                 Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
 
-            const Vector3d x_BODY_GCRF_ref = {referenceRow["x (m)"].accessReal(), referenceRow["y (m)"].accessReal(),
-                                              referenceRow["z (m)"].accessReal()};
-            const Vector3d v_BODY_GCRF_in_GCRF_ref = {referenceRow["vx (m/sec)"].accessReal(),
-                                                      referenceRow["vy (m/sec)"].accessReal(),
-                                                      referenceRow["vz (m/sec)"].accessReal()};
-            const Quaternion q_BODY_GCRF_ref =
-                Quaternion::XYZS(referenceRow["q1"].accessReal(), referenceRow["q2"].accessReal(),
-                                 referenceRow["q3"].accessReal(), referenceRow["q4"].accessReal())
-                    .normalize();
-            const Vector3d w_BODY_GCRF_in_BODY_ref = {referenceRow["wx (rad/sec)"].accessReal(),
-                                                      referenceRow["wy (rad/sec)"].accessReal(),
-                                                      referenceRow["wz (rad/sec)"].accessReal()};
+            const Vector3d x_BODY_GCRF_ref = {
+                referenceRow["x (m)"].accessReal(),
+                referenceRow["y (m)"].accessReal(),
+                referenceRow["z (m)"].accessReal()};
+            const Vector3d v_BODY_GCRF_in_GCRF_ref = {
+                referenceRow["vx (m/sec)"].accessReal(),
+                referenceRow["vy (m/sec)"].accessReal(),
+                referenceRow["vz (m/sec)"].accessReal()};
+            const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
+                                                   referenceRow["q1"].accessReal(),
+                                                   referenceRow["q2"].accessReal(),
+                                                   referenceRow["q3"].accessReal(),
+                                                   referenceRow["q4"].accessReal()
+            )
+                                                   .normalize();
+            const Vector3d w_BODY_GCRF_in_BODY_ref = {
+                referenceRow["wx (rad/sec)"].accessReal(),
+                referenceRow["wy (rad/sec)"].accessReal(),
+                referenceRow["wz (rad/sec)"].accessReal()};
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -538,21 +594,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Quaternion q_BODY_GCRF = state.getAttitude();
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity();
 
-            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m))
-                << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(),
-                                  x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm());
+            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format(
+                "@ {}: {} - {} = {} [m]",
+                instant_ref.toString(),
+                x_BODY_GCRF.toString(),
+                x_BODY_GCRF_ref.toString(),
+                (x_BODY_GCRF - x_BODY_GCRF_ref).norm()
+            );
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec))
-                << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(),
-                                  v_BODY_GCRF_in_GCRF_ref.toString(),
-                                  (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [m/s]",
+                       instant_ref.toString(),
+                       v_BODY_GCRF_in_GCRF.toString(),
+                       v_BODY_GCRF_in_GCRF_ref.toString(),
+                       (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()
+                   );
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec)))
-                << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(),
-                                  q_BODY_GCRF.toString(),
-                                  q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString());
+                << String::Format(
+                       "@ {}: {} / {} = {} [asec]",
+                       instant_ref.toString(),
+                       q_BODY_GCRF_ref.toString(),
+                       q_BODY_GCRF.toString(),
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                   );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
-                << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(),
-                                  w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(),
-                                  (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [rad/s]",
+                       instant_ref.toString(),
+                       w_BODY_GCRF_in_BODY_ref.toString(),
+                       w_BODY_GCRF_in_BODY.toString(),
+                       (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()
+                   );
         }
     }
 
@@ -576,8 +648,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J2 = Earth::J2;
         const Real J4 = Earth::J4;
 
-        const Kepler keplerianModel = {coe, epoch, gravitationalParameter,        equatorialRadius,
-                                       J2,  J4,    Kepler::PerturbationType::None};
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -601,18 +673,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Instant instant_ref =
                 Instant::DateTime(DateTime::Parse(referenceRow["Time (UTCG)"].accessString()), Scale::UTC);
 
-            const Vector3d x_BODY_GCRF_ref = {referenceRow["x (m)"].accessReal(), referenceRow["y (m)"].accessReal(),
-                                              referenceRow["z (m)"].accessReal()};
-            const Vector3d v_BODY_GCRF_in_GCRF_ref = {referenceRow["vx (m/sec)"].accessReal(),
-                                                      referenceRow["vy (m/sec)"].accessReal(),
-                                                      referenceRow["vz (m/sec)"].accessReal()};
-            const Quaternion q_BODY_GCRF_ref =
-                Quaternion::XYZS(referenceRow["q1"].accessReal(), referenceRow["q2"].accessReal(),
-                                 referenceRow["q3"].accessReal(), referenceRow["q4"].accessReal())
-                    .normalize();
-            const Vector3d w_BODY_GCRF_in_BODY_ref = {referenceRow["wx (rad/sec)"].accessReal(),
-                                                      referenceRow["wy (rad/sec)"].accessReal(),
-                                                      referenceRow["wz (rad/sec)"].accessReal()};
+            const Vector3d x_BODY_GCRF_ref = {
+                referenceRow["x (m)"].accessReal(),
+                referenceRow["y (m)"].accessReal(),
+                referenceRow["z (m)"].accessReal()};
+            const Vector3d v_BODY_GCRF_in_GCRF_ref = {
+                referenceRow["vx (m/sec)"].accessReal(),
+                referenceRow["vy (m/sec)"].accessReal(),
+                referenceRow["vz (m/sec)"].accessReal()};
+            const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
+                                                   referenceRow["q1"].accessReal(),
+                                                   referenceRow["q2"].accessReal(),
+                                                   referenceRow["q3"].accessReal(),
+                                                   referenceRow["q4"].accessReal()
+            )
+                                                   .normalize();
+            const Vector3d w_BODY_GCRF_in_BODY_ref = {
+                referenceRow["wx (rad/sec)"].accessReal(),
+                referenceRow["wy (rad/sec)"].accessReal(),
+                referenceRow["wz (rad/sec)"].accessReal()};
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -621,21 +700,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Quaternion q_BODY_GCRF = state.getAttitude();
             const Vector3d w_BODY_GCRF_in_BODY = state.getAngularVelocity();
 
-            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m))
-                << String::Format("@ {}: {} - {} = {} [m]", instant_ref.toString(), x_BODY_GCRF.toString(),
-                                  x_BODY_GCRF_ref.toString(), (x_BODY_GCRF - x_BODY_GCRF_ref).norm());
+            ASSERT_TRUE(x_BODY_GCRF.isNear(x_BODY_GCRF_ref, positionTolerance_m)) << String::Format(
+                "@ {}: {} - {} = {} [m]",
+                instant_ref.toString(),
+                x_BODY_GCRF.toString(),
+                x_BODY_GCRF_ref.toString(),
+                (x_BODY_GCRF - x_BODY_GCRF_ref).norm()
+            );
             ASSERT_TRUE(v_BODY_GCRF_in_GCRF.isNear(v_BODY_GCRF_in_GCRF_ref, velocityTolerance_meterPerSec))
-                << String::Format("@ {}: {} - {} = {} [m/s]", instant_ref.toString(), v_BODY_GCRF_in_GCRF.toString(),
-                                  v_BODY_GCRF_in_GCRF_ref.toString(),
-                                  (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [m/s]",
+                       instant_ref.toString(),
+                       v_BODY_GCRF_in_GCRF.toString(),
+                       v_BODY_GCRF_in_GCRF_ref.toString(),
+                       (v_BODY_GCRF_in_GCRF - v_BODY_GCRF_in_GCRF_ref).norm()
+                   );
             ASSERT_TRUE(q_BODY_GCRF.isNear(q_BODY_GCRF_ref, Angle::Arcseconds(angularTolerance_asec)))
-                << String::Format("@ {}: {} / {} = {} [asec]", instant_ref.toString(), q_BODY_GCRF_ref.toString(),
-                                  q_BODY_GCRF.toString(),
-                                  q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString());
+                << String::Format(
+                       "@ {}: {} / {} = {} [asec]",
+                       instant_ref.toString(),
+                       q_BODY_GCRF_ref.toString(),
+                       q_BODY_GCRF.toString(),
+                       q_BODY_GCRF.angularDifferenceWith(q_BODY_GCRF_ref).inArcseconds().toString()
+                   );
             ASSERT_TRUE(w_BODY_GCRF_in_BODY.isNear(w_BODY_GCRF_in_BODY_ref, angularVelocityTolerance_radPerSec))
-                << String::Format("@ {}: {} - {} = {} [rad/s]", instant_ref.toString(),
-                                  w_BODY_GCRF_in_BODY_ref.toString(), w_BODY_GCRF_in_BODY.toString(),
-                                  (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm());
+                << String::Format(
+                       "@ {}: {} - {} = {} [rad/s]",
+                       instant_ref.toString(),
+                       w_BODY_GCRF_in_BODY_ref.toString(),
+                       w_BODY_GCRF_in_BODY.toString(),
+                       (w_BODY_GCRF_in_BODY - w_BODY_GCRF_in_BODY_ref).norm()
+                   );
         }
     }
 }
@@ -661,67 +756,70 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
     using ostk::astro::flight::profile::models::Tabulated;
 
     {
-        const Array<State> tabulatedStates = {{Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
-                                               Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
-                                               {0.0, 0.0, 1.0},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
-                                               Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
-                                               {0.0, 0.0, 2.0},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
-                                               Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
-                                               {0.0, 0.0, 4.0},
-                                               Frame::GCRF()}};
+        const Array<State> tabulatedStates = {
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
+             {0.0, 0.0, 1.0},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
+             Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
+             {0.0, 0.0, 2.0},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
+             Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
+             {0.0, 0.0, 4.0},
+             Frame::GCRF()}};
 
         const Tabulated tabulated = {tabulatedStates};
 
         const Profile profile = {tabulated};
 
-        const Array<Instant> referenceInstants = {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
-                                                  Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
-                                                  Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
-                                                  Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
-                                                  Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC)};
+        const Array<Instant> referenceInstants = {
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC)};
 
         const Array<State> states = profile.getStatesAt(referenceInstants);
 
-        const Array<State> referenceStates = {{Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
-                                               Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
-                                               {0.0, 0.0, 1.0},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
-                                               Position::Meters({1.5, 2.5, 3.5}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({3.5, 4.5, 5.5}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(5.0))),
-                                               {0.0, 0.0, 1.5},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
-                                               Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
-                                               {0.0, 0.0, 2.0},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
-                                               Position::Meters({3.0, 4.0, 5.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({2.0, 3.0, 4.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(20.0))),
-                                               {0.0, 0.0, 3.0},
-                                               Frame::GCRF()},
-                                              {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
-                                               Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
-                                               Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
-                                               Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
-                                               {0.0, 0.0, 4.0},
-                                               Frame::GCRF()}};
+        const Array<State> referenceStates = {
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+             Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
+             {0.0, 0.0, 1.0},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
+             Position::Meters({1.5, 2.5, 3.5}, Frame::GCRF()),
+             Velocity::MetersPerSecond({3.5, 4.5, 5.5}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(5.0))),
+             {0.0, 0.0, 1.5},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
+             Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
+             {0.0, 0.0, 2.0},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
+             Position::Meters({3.0, 4.0, 5.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({2.0, 3.0, 4.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(20.0))),
+             {0.0, 0.0, 3.0},
+             Frame::GCRF()},
+            {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
+             Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
+             Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
+             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
+             {0.0, 0.0, 4.0},
+             Frame::GCRF()}};
 
         EXPECT_EQ(referenceStates.getSize(), states.getSize());
 
@@ -731,11 +829,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
             const State& state = std::get<1>(stateTuple);
 
             EXPECT_EQ(state.getInstant(), referenceState.getInstant());
-            EXPECT_TRUE(
-                state.getPosition().getCoordinates().isNear(referenceState.getPosition().getCoordinates(), 1e-5))
-                << state << referenceState;
-            EXPECT_TRUE(
-                state.getVelocity().getCoordinates().isNear(referenceState.getVelocity().getCoordinates(), 1e-5));
+            EXPECT_TRUE(state.getPosition().getCoordinates().isNear(referenceState.getPosition().getCoordinates(), 1e-5)
+            ) << state
+              << referenceState;
+            EXPECT_TRUE(state.getVelocity().getCoordinates().isNear(referenceState.getVelocity().getCoordinates(), 1e-5)
+            );
             EXPECT_TRUE(state.getAttitude().isNear(referenceState.getAttitude().toNormalized(), Angle::Degrees(1e-3)));
             EXPECT_TRUE(state.getAngularVelocity().isNear(referenceState.getAngularVelocity(), 1e-5));
             EXPECT_EQ(state.getFrame(), referenceState.getFrame());

@@ -15,7 +15,8 @@ namespace models
 {
 
 Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& anInterpolationType)
-    : Model(), interpolationType_(anInterpolationType)
+    : Model(),
+      interpolationType_(anInterpolationType)
 {
     using ostk::math::curvefitting::interp::BarycentricRational;
     using ostk::math::curvefitting::interp::CubicSpline;
@@ -56,8 +57,8 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
         }
         else if (interpolationType_ == Tabulated::InterpolationType::BarycentricRational)
         {
-            interpolators_.add(
-                std::make_shared<BarycentricRational>(BarycentricRational(timestamps, coordinates.col(i))));
+            interpolators_.add(std::make_shared<BarycentricRational>(BarycentricRational(timestamps, coordinates.col(i))
+            ));
         }
         else if (interpolationType_ == Tabulated::InterpolationType::Linear)
         {
@@ -150,9 +151,12 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
     {
-        throw ostk::core::error::RuntimeError(
-            String::Format("Provided instant [{}] is outside of interpolation range [{}, {}].", anInstant.toString(),
-                           firstState_.accessInstant().toString(), lastState_.accessInstant().toString()));
+        throw ostk::core::error::RuntimeError(String::Format(
+            "Provided instant [{}] is outside of interpolation range [{}, {}].",
+            anInstant.toString(),
+            firstState_.accessInstant().toString(),
+            lastState_.accessInstant().toString()
+        ));
     }
 
     VectorXd interpolatedCoordinates(interpolators_.getSize());
@@ -163,8 +167,10 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     }
 
     return State(
-        anInstant, Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()),
-        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.accessPosition().accessFrame()));
+        anInstant,
+        Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()),
+        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.accessPosition().accessFrame())
+    );
 }
 
 Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) const
@@ -210,10 +216,13 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "First state:"
-            << (firstState.isDefined()
-                    ? String::Format("{} - {} - {}", firstState.accessInstant().toString(),
-                                     firstState.accessPosition().toString(), firstState.accessVelocity().toString())
-                    : "Undefined");
+            << (firstState.isDefined() ? String::Format(
+                                             "{} - {} - {}",
+                                             firstState.accessInstant().toString(),
+                                             firstState.accessPosition().toString(),
+                                             firstState.accessVelocity().toString()
+                                         )
+                                       : "Undefined");
     }
 
     {
@@ -222,10 +231,13 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
         ostk::core::utils::Print::Line(anOutputStream)
             << "Last state:"
-            << (lastState.isDefined()
-                    ? String::Format("{} - {} - {}", lastState.accessInstant().toString(),
-                                     lastState.accessPosition().toString(), lastState.accessVelocity().toString())
-                    : "Undefined");
+            << (lastState.isDefined() ? String::Format(
+                                            "{} - {} - {}",
+                                            lastState.accessInstant().toString(),
+                                            lastState.accessPosition().toString(),
+                                            lastState.accessVelocity().toString()
+                                        )
+                                      : "Undefined");
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();

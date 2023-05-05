@@ -17,8 +17,9 @@ namespace models
 {
 
 Transform::Transform(const DynamicProvider& aDynamicTransformProvider, const Shared<const Frame>& aFrameSPtr)
-    : transformProvider_(aDynamicTransformProvider), frameSPtr_(aFrameSPtr)
-{ }
+    : transformProvider_(aDynamicTransformProvider),
+      frameSPtr_(aFrameSPtr)
+{}
 
 Transform* Transform::clone() const
 {
@@ -56,12 +57,13 @@ State Transform::calculateStateAt(const Instant& anInstant) const
     const Quaternion q_B_REF = q_REF_B.toConjugate();
     const Vector3d w_B_REF_in_B = q_B_REF * (w_REF_B_in_REF * -1.0);
 
-    return {anInstant,
-            Position::Meters(x_REF, this->frameSPtr_),
-            Velocity::MetersPerSecond(v_REF_in_REF, this->frameSPtr_),
-            q_B_REF,
-            w_B_REF_in_B,
-            this->frameSPtr_};
+    return {
+        anInstant,
+        Position::Meters(x_REF, this->frameSPtr_),
+        Velocity::MetersPerSecond(v_REF_in_REF, this->frameSPtr_),
+        q_B_REF,
+        w_B_REF_in_B,
+        this->frameSPtr_};
 }
 
 Axes Transform::getAxesAt(const Instant& anInstant) const
@@ -102,8 +104,9 @@ Shared<const Frame> Transform::getBodyFrame(const String& aFrameName) const
         return this->transformProvider_.getTransformAt(anInstant).getInverse();
     }};
 
-    return Frame::Construct(aFrameName, false, this->frameSPtr_,
-                            std::make_shared<const DynamicProvider>(dynamicTransformProvider));
+    return Frame::Construct(
+        aFrameName, false, this->frameSPtr_, std::make_shared<const DynamicProvider>(dynamicTransformProvider)
+    );
 }
 
 void Transform::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -147,8 +150,9 @@ Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quate
     return {dynamicTransformProvider, Frame::GCRF()};
 }
 
-Transform Transform::NadirPointing(const trajectory::Orbit& anOrbit,
-                                   const trajectory::Orbit::FrameType& anOrbitalFrameType)
+Transform Transform::NadirPointing(
+    const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
+)
 {
     using ostk::physics::coord::Transform;
 

@@ -30,22 +30,39 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM : publ
    protected:
     void SetUp() override
     {
-        this->opm_ = OPM {OPM::Header {
-                              Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC),
-                              Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-                          },
-                          {OPM::Deployment {"A", 123, Duration::Seconds(123.456),
-                                            Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-                                            Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
-                                            Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
-                                            Length::Kilometers(100.0), Length::Kilometers(200.0), Angle::Degrees(1.0),
-                                            Angle::Degrees(2.0), Angle::Degrees(3.0), Angle::Degrees(4.0), 123.456},
-                           OPM::Deployment {"B", 456, Duration::Seconds(456.123),
-                                            Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 7), Scale::UTC),
-                                            Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
-                                            Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
-                                            Length::Kilometers(300.0), Length::Kilometers(400.0), Angle::Degrees(5.0),
-                                            Angle::Degrees(6.0), Angle::Degrees(7.0), Angle::Degrees(8.0), 456.123}}};
+        this->opm_ = OPM {
+            OPM::Header {
+                Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC),
+                Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
+            },
+            {OPM::Deployment {
+                 "A",
+                 123,
+                 Duration::Seconds(123.456),
+                 Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
+                 Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
+                 Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
+                 Length::Kilometers(100.0),
+                 Length::Kilometers(200.0),
+                 Angle::Degrees(1.0),
+                 Angle::Degrees(2.0),
+                 Angle::Degrees(3.0),
+                 Angle::Degrees(4.0),
+                 123.456},
+             OPM::Deployment {
+                 "B",
+                 456,
+                 Duration::Seconds(456.123),
+                 Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 7), Scale::UTC),
+                 Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
+                 Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
+                 Length::Kilometers(300.0),
+                 Length::Kilometers(400.0),
+                 Angle::Degrees(5.0),
+                 Angle::Degrees(6.0),
+                 Angle::Degrees(7.0),
+                 Angle::Degrees(8.0),
+                 456.123}}};
     }
 
     OPM opm_ = OPM::Undefined();
@@ -59,10 +76,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Cons
             Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
         },
         {OPM::Deployment {
-            "A", 123, Duration::Seconds(123.456), Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-            Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()), Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
-            Length::Kilometers(100.0), Length::Kilometers(200.0), Angle::Degrees(1.0), Angle::Degrees(2.0),
-            Angle::Degrees(3.0), Angle::Degrees(4.0), 123.456}}};
+            "A",
+            123,
+            Duration::Seconds(123.456),
+            Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
+            Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
+            Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
+            Length::Kilometers(100.0),
+            Length::Kilometers(200.0),
+            Angle::Degrees(1.0),
+            Angle::Degrees(2.0),
+            Angle::Degrees(3.0),
+            Angle::Degrees(4.0),
+            123.456}}};
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, IsDefined)
@@ -224,7 +250,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load
 
     {
         const OPM opm = OPM::Load(File::Path(
-            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM/opm_1.yaml")));
+            Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM/opm_1.yaml")
+        ));
 
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 1, 12, 34, 56, 789), Scale::UTC), opm.getHeader().generationDate);
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 2, 12, 34, 56, 789), Scale::UTC), opm.getHeader().launchDate);
@@ -235,10 +262,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load
         EXPECT_EQ(1, opm.getDeployments()[0].sequenceNumber);
         EXPECT_EQ(Duration::Hours(1.0), opm.getDeployments()[0].missionTime);
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 2, 13, 34, 56, 789), Scale::UTC), opm.getDeployments()[0].date);
-        EXPECT_EQ(Position::Meters({693289.644, 6876578.628, -133035.288}, Frame::ITRF()),
-                  opm.getDeployments()[0].position);
-        EXPECT_EQ(Velocity::MetersPerSecond({1305.783, 39.783, 7525.920}, Frame::ITRF()),
-                  opm.getDeployments()[0].velocity);
+        EXPECT_EQ(
+            Position::Meters({693289.644, 6876578.628, -133035.288}, Frame::ITRF()), opm.getDeployments()[0].position
+        );
+        EXPECT_EQ(
+            Velocity::MetersPerSecond({1305.783, 39.783, 7525.920}, Frame::ITRF()), opm.getDeployments()[0].velocity
+        );
         EXPECT_EQ(Length::Kilometers(526.768), opm.getDeployments()[0].meanPerigeeAltitude);
         EXPECT_EQ(Length::Kilometers(568.430), opm.getDeployments()[0].meanApogeeAltitude);
         EXPECT_EQ(Angle::Degrees(97.123), opm.getDeployments()[0].meanInclination);
@@ -251,10 +280,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Load
         EXPECT_EQ(2, opm.getDeployments()[1].sequenceNumber);
         EXPECT_EQ(Duration::Hours(2.0), opm.getDeployments()[1].missionTime);
         EXPECT_EQ(Instant::DateTime(DateTime(2020, 1, 2, 14, 34, 56, 789), Scale::UTC), opm.getDeployments()[1].date);
-        EXPECT_EQ(Position::Meters({699863.059, 6875647.517, -123777.595}, Frame::ITRF()),
-                  opm.getDeployments()[1].position);
-        EXPECT_EQ(Velocity::MetersPerSecond({1504.658, 6.705, 7538.669}, Frame::ITRF()),
-                  opm.getDeployments()[1].velocity);
+        EXPECT_EQ(
+            Position::Meters({699863.059, 6875647.517, -123777.595}, Frame::ITRF()), opm.getDeployments()[1].position
+        );
+        EXPECT_EQ(
+            Velocity::MetersPerSecond({1504.658, 6.705, 7538.669}, Frame::ITRF()), opm.getDeployments()[1].velocity
+        );
         EXPECT_EQ(Length::Kilometers(536.779), opm.getDeployments()[1].meanPerigeeAltitude);
         EXPECT_EQ(Length::Kilometers(529.851), opm.getDeployments()[1].meanApogeeAltitude);
         EXPECT_EQ(Angle::Degrees(97.124), opm.getDeployments()[1].meanInclination);

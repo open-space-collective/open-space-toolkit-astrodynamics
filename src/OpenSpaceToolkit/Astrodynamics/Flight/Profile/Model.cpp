@@ -14,9 +14,9 @@ namespace flight
 namespace profile
 {
 
-Model::Model() { }
+Model::Model() {}
 
-Model::~Model() { }
+Model::~Model() {}
 
 bool Model::operator!=(const Model& aModel) const
 {

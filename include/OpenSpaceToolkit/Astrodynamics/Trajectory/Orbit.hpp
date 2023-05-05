@@ -79,9 +79,11 @@ class Orbit : public Trajectory
 
     Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelestialObjectSPtr);
 
-    Orbit(const Array<State>& aStateArray,
-          const Integer& anInitialRevolutionNumber,
-          const Shared<const Celestial>& aCelestialObjectSPtr);
+    Orbit(
+        const Array<State>& aStateArray,
+        const Integer& anInitialRevolutionNumber,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
 
     Orbit(const Orbit& anOrbit);
 
@@ -121,10 +123,12 @@ class Orbit : public Trajectory
     /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return             Circular orbit
 
-    static Orbit Circular(const Instant& anEpoch,
-                          const Length& anAltitude,
-                          const Angle& anInclination,
-                          const Shared<const Celestial>& aCelestialObjectSPtr);
+    static Orbit Circular(
+        const Instant& anEpoch,
+        const Length& anAltitude,
+        const Angle& anInclination,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
 
     /// @brief              Constructs an equatorial orbit
     ///
@@ -136,10 +140,12 @@ class Orbit : public Trajectory
     /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return             Equatorial orbit
 
-    static Orbit Equatorial(const Instant& anEpoch,
-                            const Length& anApoapsisAltitude,
-                            const Length& aPeriapsisAltitude,
-                            const Shared<const Celestial>& aCelestialObjectSPtr);
+    static Orbit Equatorial(
+        const Instant& anEpoch,
+        const Length& anApoapsisAltitude,
+        const Length& aPeriapsisAltitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
 
     /// @brief              Constructs a circular-equatorial orbit
     ///
@@ -150,9 +156,9 @@ class Orbit : public Trajectory
     /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return             Circular-equatorial orbit
 
-    static Orbit CircularEquatorial(const Instant& anEpoch,
-                                    const Length& anAltitude,
-                                    const Shared<const Celestial>& aCelestialObjectSPtr);
+    static Orbit CircularEquatorial(
+        const Instant& anEpoch, const Length& anAltitude, const Shared<const Celestial>& aCelestialObjectSPtr
+    );
 
     /// @brief              Constructs a Sun-synchronous orbit
     ///
@@ -164,10 +170,12 @@ class Orbit : public Trajectory
     /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @return             Sun-synchronous orbit
 
-    static Orbit SunSynchronous(const Instant& anEpoch,
-                                const Length& anAltitude,
-                                const Time& aLocalTimeAtDescendingNode,
-                                const Shared<const Celestial>& aCelestialObjectSPtr);
+    static Orbit SunSynchronous(
+        const Instant& anEpoch,
+        const Length& anAltitude,
+        const Time& aLocalTimeAtDescendingNode,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
 
     static String StringFromFrameType(const Orbit::FrameType& aFrameType);
 

@@ -64,11 +64,13 @@ class NumericalSolver
     /// @param              [in] aRelativeTolerance A number indicating the relative integration tolerance
     /// @param              [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
 
-    NumericalSolver(const NumericalSolver::LogType& aLogType,
-                    const NumericalSolver::StepperType& aStepperType,
-                    const Real& aTimeStep,
-                    const Real& aRelativeTolerance,
-                    const Real& anAbsoluteTolerance);
+    NumericalSolver(
+        const NumericalSolver::LogType& aLogType,
+        const NumericalSolver::StepperType& aStepperType,
+        const Real& aTimeStep,
+        const Real& aRelativeTolerance,
+        const Real& anAbsoluteTolerance
+    );
 
     /// @brief              Copy Constructor
     ///
@@ -182,10 +184,12 @@ class NumericalSolver
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<std::vector<double>>
 
-    Array<StateVector> integrateStatesAtSortedInstants(const StateVector& anInitialStateVector,
-                                                       const Instant& aStartInstant,
-                                                       const Array<Instant>& anInstantArray,
-                                                       const SystemOfEquationsWrapper& aSystemOfEquations);
+    Array<StateVector> integrateStatesAtSortedInstants(
+        const StateVector& anInitialStateVector,
+        const Instant& aStartInstant,
+        const Array<Instant>& anInstantArray,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    );
 
     /// @brief              Perform numerical integration from an instant to another instant
     ///
@@ -200,10 +204,12 @@ class NumericalSolver
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
-    StateVector integrateStateFromInstantToInstant(const StateVector& anInitialStateVector,
-                                                   const Instant& aStartInstant,
-                                                   const Instant& anEndInstant,
-                                                   const SystemOfEquationsWrapper& aSystemOfEquations);
+    StateVector integrateStateFromInstantToInstant(
+        const StateVector& anInitialStateVector,
+        const Instant& aStartInstant,
+        const Instant& anEndInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    );
 
     /// @brief              Perform numerical integration for a certain duration
     ///
@@ -217,9 +223,11 @@ class NumericalSolver
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
-    StateVector integrateStateForDuration(const StateVector& anInitialStateVector,
-                                          const Duration& anIntegrationDuration,
-                                          const SystemOfEquationsWrapper& aSystemOfEquations);
+    StateVector integrateStateForDuration(
+        const StateVector& anInitialStateVector,
+        const Duration& anIntegrationDuration,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    );
 
     /// @brief              Get string from the integration stepper type
     ///

@@ -35,12 +35,14 @@ using ostk::physics::time::Instant;
 class State
 {
    public:
-    State(const Instant& anInstant,
-          const Position& aPosition,
-          const Velocity& aVelocity,
-          const Quaternion& anAttitude,
-          const Vector3d& anAngularVelocity,
-          const Shared<const Frame>& aReferenceFrame);
+    State(
+        const Instant& anInstant,
+        const Position& aPosition,
+        const Velocity& aVelocity,
+        const Quaternion& anAttitude,
+        const Vector3d& anAngularVelocity,
+        const Shared<const Frame>& aReferenceFrame
+    );
 
     bool operator==(const State& aState) const;
 

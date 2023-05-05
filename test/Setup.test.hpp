@@ -19,7 +19,8 @@ std::string someGlobalString;
 class Environment : public testing::Environment
 {
    public:
-    Environment(const std::string& aCommandLineArg) : commandLineArg_(aCommandLineArg)
+    Environment(const std::string& aCommandLineArg)
+        : commandLineArg_(aCommandLineArg)
     {
         if (commandLineArg_ != "")
         {
@@ -31,11 +32,11 @@ class Environment : public testing::Environment
         }
     }
 
-    virtual ~Environment() { }
+    virtual ~Environment() {}
 
-    virtual void SetUp() { }
+    virtual void SetUp() {}
 
-    virtual void TearDown() { }
+    virtual void TearDown() {}
 
    private:
     std::string commandLineArg_;

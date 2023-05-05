@@ -7,11 +7,13 @@ namespace ostk
 namespace astro
 {
 
-Access::Access(const Access::Type& aType,
-               const Instant& anAcquisitionOfSignal,
-               const Instant& aTimeOfClosestApproach,
-               const Instant& aLossOfSignal,
-               const Angle& aMaxElevation)
+Access::Access(
+    const Access::Type& aType,
+    const Instant& anAcquisitionOfSignal,
+    const Instant& aTimeOfClosestApproach,
+    const Instant& aLossOfSignal,
+    const Angle& aMaxElevation
+)
     : type_(aType),
       acquisitionOfSignal_(anAcquisitionOfSignal),
       timeOfClosestApproach_(aTimeOfClosestApproach),
@@ -22,14 +24,16 @@ Access::Access(const Access::Type& aType,
     {
         if (timeOfClosestApproach_ < acquisitionOfSignal_)
         {
-            throw ostk::core::error::RuntimeError("TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(),
-                                                  acquisitionOfSignal_.toString());
+            throw ostk::core::error::RuntimeError(
+                "TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()
+            );
         }
 
         if (lossOfSignal_ < timeOfClosestApproach_)
         {
-            throw ostk::core::error::RuntimeError("LOS [{}] < TCA [{}]", lossOfSignal_.toString(),
-                                                  timeOfClosestApproach_.toString());
+            throw ostk::core::error::RuntimeError(
+                "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()
+            );
         }
     }
 }
@@ -171,8 +175,9 @@ Angle Access::getMaxElevation() const
 
 Access Access::Undefined()
 {
-    return Access(Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(),
-                  Angle::Undefined());
+    return Access(
+        Access::Type::Undefined, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), Angle::Undefined()
+    );
 }
 
 String Access::StringFromType(const Access::Type& aType)

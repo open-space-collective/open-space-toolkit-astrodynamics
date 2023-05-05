@@ -26,17 +26,23 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-Propagated::Propagated(const SatelliteDynamics& aSatelliteDynamics,
-                       const NumericalSolver& aNumericalSolver,
-                       const State& aState)
-    : Model(), propagator_(aSatelliteDynamics, aNumericalSolver), cachedStateArray_(1, aState)
+Propagated::Propagated(
+    const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
+)
+    : Model(),
+      propagator_(aSatelliteDynamics, aNumericalSolver),
+      cachedStateArray_(1, aState)
 
-{ }
+{}
 
-Propagated::Propagated(const SatelliteDynamics& aSatelliteDynamics,
-                       const NumericalSolver& aNumericalSolver,
-                       const Array<State>& aCachedStateArray)
-    : Model(), propagator_(aSatelliteDynamics, aNumericalSolver), cachedStateArray_(aCachedStateArray)
+Propagated::Propagated(
+    const SatelliteDynamics& aSatelliteDynamics,
+    const NumericalSolver& aNumericalSolver,
+    const Array<State>& aCachedStateArray
+)
+    : Model(),
+      propagator_(aSatelliteDynamics, aNumericalSolver),
+      cachedStateArray_(aCachedStateArray)
 
 {
     sanitizeCachedArray();
@@ -205,12 +211,15 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
             Real backwardWeight =
                 (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates;
 
-            VectorXd coordinates = (forwardStates[k].getCoordinates() * forwardWeight +
-                                    backwardStates[k].getCoordinates() * backwardWeight);
+            VectorXd coordinates =
+                (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight
+                );
 
-            averagedStates.add({instants[k],
-                                Position::Meters({coordinates[0], coordinates[1], coordinates[2]}, gcrfSPtr),
-                                Velocity::MetersPerSecond({coordinates[3], coordinates[4], coordinates[5]}, gcrfSPtr)});
+            averagedStates.add(
+                {instants[k],
+                 Position::Meters({coordinates[0], coordinates[1], coordinates[2]}, gcrfSPtr),
+                 Velocity::MetersPerSecond({coordinates[3], coordinates[4], coordinates[5]}, gcrfSPtr)}
+            );
         }
 
         allStates.add(averagedStates);
@@ -292,7 +301,8 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
 
         // Propagate for duration of this orbital period
         const State currentState = propagator_.calculateStateAt(
-            cachedStateArray_[0], cachedStateArray_[0].getInstant() + (durationSign * orbitalPeriod));
+            cachedStateArray_[0], cachedStateArray_[0].getInstant() + (durationSign * orbitalPeriod)
+        );
 
         // Update the current instant position and velocity coordinates
         currentPositionCoordinates = currentState.getPosition().getCoordinates();
@@ -376,16 +386,22 @@ void Propagated::sanitizeCachedArray() const
 
     // Check to see if there are any duplicated instants with different positions and velocities
     Array<State> cachedStateArrayUnique(cachedStateArray_);
-    cachedStateArrayUnique.erase(std::unique(cachedStateArrayUnique.begin(), cachedStateArrayUnique.end(),
-                                             [](const auto& lhs, const auto& rhs) {
-                                                 return lhs.getInstant() == rhs.getInstant();
-                                             }),
-                                 cachedStateArrayUnique.end());
+    cachedStateArrayUnique.erase(
+        std::unique(
+            cachedStateArrayUnique.begin(),
+            cachedStateArrayUnique.end(),
+            [](const auto& lhs, const auto& rhs) {
+                return lhs.getInstant() == rhs.getInstant();
+            }
+        ),
+        cachedStateArrayUnique.end()
+    );
 
     if (cachedStateArray_.getSize() != cachedStateArrayUnique.getSize())
     {
         throw ostk::core::error::runtime::Wrong(
-            "State array with States at same instant but different position/velocity were found in cachedStateArray");
+            "State array with States at same instant but different position/velocity were found in cachedStateArray"
+        );
     }
 }
 

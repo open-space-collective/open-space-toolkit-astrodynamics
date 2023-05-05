@@ -17,8 +17,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
     class_<Propagator>(aModule, "Propagator")
 
-        .def(init<const SatelliteDynamics&, const NumericalSolver&>(), arg("satellite_dynamics"),
-             arg("numerical_solver"))
+        .def(
+            init<const SatelliteDynamics&, const NumericalSolver&>(), arg("satellite_dynamics"), arg("numerical_solver")
+        )
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))

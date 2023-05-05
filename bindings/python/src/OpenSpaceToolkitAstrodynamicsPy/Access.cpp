@@ -18,9 +18,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
 
         access_class
 
-            .def(init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(), arg("type"),
-                 arg("acquisition_of_signal"), arg("time_of_closest_approach"), arg("loss_of_signal"),
-                 arg("max_elevation"))
+            .def(
+                init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
+                arg("type"),
+                arg("acquisition_of_signal"),
+                arg("time_of_closest_approach"),
+                arg("loss_of_signal"),
+                arg("max_elevation")
+            )
 
             .def(self == self)
             .def(self != self)

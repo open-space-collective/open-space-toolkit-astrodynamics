@@ -11,9 +11,9 @@ namespace trajectory
 namespace orbit
 {
 
-Model::Model() { }
+Model::Model() {}
 
-Model::~Model() { }
+Model::~Model() {}
 
 }  // namespace orbit
 }  // namespace trajectory
