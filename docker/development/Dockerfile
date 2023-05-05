@@ -1,7 +1,7 @@
 ################################################################################################################################################################
 
 # @project        Open Space Toolkit ▸ Astrodynamics
-# @file           docker/development/debian/Dockerfile
+# @file           docker/development/Dockerfile
 # @author         Lucas Brémond <lucas@loftorbital.com>
 # @license        Apache License 2.0
 
@@ -9,7 +9,7 @@
 
 ARG BASE_IMAGE_VERSION="latest"
 
-FROM docker.io/openspacecollective/open-space-toolkit-base:latest-debian
+FROM docker.io/openspacecollective/open-space-toolkit-base:latest
 
 LABEL maintainer="lucas@loftorbital.com"
 
