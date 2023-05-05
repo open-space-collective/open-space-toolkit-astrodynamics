@@ -194,7 +194,7 @@ build-packages-python: build-development-image ## Build Python packages
 
 ################################################################################################################################################################
 
-start-development: ## Start development environment
+start-development-no-link: ## Start development environment
 
 	@ echo "Starting development environment..."
 
@@ -217,7 +217,7 @@ start-development-link:
 	@ project_directory="$(CURDIR)" docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
 
 ifndef link
-start-development: start-development
+start-development: start-development-no-link
 else
 start-development: start-development-link
 endif
