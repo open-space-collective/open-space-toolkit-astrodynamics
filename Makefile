@@ -57,7 +57,7 @@ pull-release-image-cpp:
 	docker pull $(docker_release_image_cpp_repository):$(docker_image_version) || true
 	docker pull $(docker_release_image_cpp_repository):latest || true
 
-pull-release-image-python: pull-development-image
+pull-release-image-python:
 
 	@ echo "Pulling Python release image..."
 
