@@ -33,9 +33,9 @@ pull: ## Pull all images
 	@ make pull-development-image
 	@ make pull-release-images
 
-pull-development-image: ## Pull development images
+pull-development-image: ## Pull development image
 
-	@ echo "Pulling development images..."
+	@ echo "Pulling development image..."
 
 	docker pull $(docker_development_image_repository):$(docker_image_version) || true
 	docker pull $(docker_development_image_repository):latest || true
@@ -82,11 +82,11 @@ build-images: ## Build development and release images
 	@ make build-development-image
 	@ make build-release-images
 
-build-development-image: pull-development-image ## Build development images
+build-development-image: pull-development-image ## Build development image
 
-	@ echo "Building development images..."
+	@ echo "Building development image..."
 
-	docker buildx build \
+	docker build \
 		--cache-from=$(docker_development_image_repository):latest \
 		--file="$(CURDIR)/docker/development/Dockerfile" \
 		--tag=$(docker_development_image_repository):$(docker_image_version) \
@@ -108,7 +108,7 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 
 	@ echo "Building C++ release image..."
 
-	docker buildx build \
+	docker build \
 		--cache-from=$(docker_release_image_cpp_repository):latest \
 		--file="$(CURDIR)/docker/release/Dockerfile" \
 		--tag=$(docker_release_image_cpp_repository):$(docker_image_version) \
@@ -121,7 +121,7 @@ build-release-image-python: build-development-image pull-release-image-python
 
 	@ echo "Building Python release image..."
 
-	docker buildx build \
+	docker build \
 		--cache-from=$(docker_release_image_python_repository):latest \
 		--file="$(CURDIR)/docker/release/Dockerfile" \
 		--tag=$(docker_release_image_python_repository):$(docker_image_version) \
@@ -134,7 +134,7 @@ build-release-image-jupyter: pull-release-image-jupyter
 
 	@ echo "Building Jupyter Notebook release image..."
 
-	docker buildx build \
+	docker build \
 		--cache-from=$(docker_release_image_jupyter_repository):latest \
 		--file="$(CURDIR)/docker/jupyter/Dockerfile" \
 		--tag=$(docker_release_image_jupyter_repository):$(docker_image_version) \
@@ -194,7 +194,7 @@ build-packages-python: build-development-image ## Build Python packages
 
 ################################################################################################################################################################
 
-start-development-no-link: ## Start development environment
+start-development-no-link: build-development-image ## Start development environment
 
 	@ echo "Starting development environment..."
 
@@ -208,7 +208,7 @@ start-development-no-link: ## Start development environment
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
 
-start-development-link:
+start-development-link: ## Start linked development environment
 
 	$(if $(links), , $(error "You need to provide the links to the C++ dependency repositories you want to link with, separated by white spaces. For example: make start-development-link links="/home/OSTk/open-space-toolkit-io /home/OSTk/open-space-toolkit-core"))
 
@@ -242,7 +242,7 @@ start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "start-notebook.sh --NotebookApp.token=''"
+		bash -c "start-notebook.sh --ServerApp.token=''"
 
 debug-jupyter-notebook: build-release-image-jupyter
 
@@ -258,11 +258,11 @@ debug-jupyter-notebook: build-release-image-jupyter
 		--volume="$(CURDIR)/lib/$(jupyter_project_name_python_shared_object).so:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/$(jupyter_project_name_python_shared_object).so:ro" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "start-notebook.sh --NotebookApp.token=''"
+		bash -c "start-notebook.sh --ServerApp.token=''"
 
 ################################################################################################################################################################
 
-debug-development:build-development-image
+debug-development: build-development-image ## Debug development environment
 
 	@ echo "Debugging development environment..."
 
@@ -272,7 +272,7 @@ debug-development:build-development-image
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
 
-debug-cpp-release: build-release-image-cpp
+debug-cpp-release: build-release-image-cpp ## Debug C++ release environment
 
 	@ echo "Debugging C++ release environment..."
 
@@ -282,7 +282,7 @@ debug-cpp-release: build-release-image-cpp
 		--entrypoint=/bin/bash \
 		$(docker_release_image_cpp_repository):$(docker_image_version)
 
-debug-python-release: build-release-image-python
+debug-python-release: build-release-image-python ## Debug Python release environment
 
 	@ echo "Debugging Python release environment..."
 
@@ -315,6 +315,7 @@ test-unit-cpp: build-development-image ## Run C++ unit tests
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
@@ -328,6 +329,7 @@ test-unit-python: build-release-image-python ## Run Python unit tests
 
 	docker run \
 		--rm \
+		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--workdir=/usr/local/lib/python3.11/site-packages/ostk/$(project_name) \
 		--entrypoint="" \
 		$(docker_release_image_python_repository):$(docker_image_version) \
@@ -346,6 +348,7 @@ test-coverage-cpp: build-development-image
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
@@ -375,12 +378,12 @@ clean: ## Clean
 
 .PHONY: pull pull-development-image \
 		build build-images build-development-image \
-		pull-release-images pull-release-image-cpp  pull-release-image-python pull-release-image-jupyter \
+		pull-release-images pull-release-image-cpp pull-release-image-python pull-release-image-jupyter \
 		build-release-image-cpp build-release-image-python build-release-image-jupyter \
 		build-documentation build-packages-cpp \
 		start-development start-python start-jupyter-notebook debug-jupyter-notebook \
 		debug-development debug-cpp-release debug-python-release \
-		test test-unit test-unit-cpp test-unit-python test-coverage \
+		test test-unit test-unit-cpp test-unit-python test-coverage test-coverage-cpp \
 		clean
 
 ################################################################################################################################################################
@@ -388,6 +391,8 @@ clean: ## Clean
 help:
 
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+export DOCKER_BUILDKIT = 1
 
 .DEFAULT_GOAL := help
 
