@@ -5,7 +5,7 @@
         "ms-python.python",
         "mhutchie.git-graph"
     ],
-    "image": "openspacecollective/open-space-toolkit-astrodynamics-development:latest-debian",
+    "image": "openspacecollective/open-space-toolkit-astrodynamics-development:latest",
 	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},

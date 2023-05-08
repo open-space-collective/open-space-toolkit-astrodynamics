@@ -9,83 +9,117 @@
 
 ################################################################################################################################################################
 
-project_directory=$(git rev-parse --show-toplevel)
-
-open_space_toolkit_core_directory="${project_directory}/../open-space-toolkit-core"
-open_space_toolkit_physics_directory="${project_directory}/../open-space-toolkit-physics"
+# Check input arguments
 
 if [[ -z ${project_directory} ]]; then
     echo "Variable [project_directory] is undefined."
     exit 1
 fi
 
-options=""
-command="/bin/bash"
+if [[ -z ${docker_development_image_repository} ]]; then
+    echo "Variable [docker_development_image_repository] is undefined."
+    exit 1
+fi
+
+if [[ -z ${docker_image_version} ]]; then
+    echo "Variable [docker_image_version] is undefined."
+    exit 1
+fi
+
+project_directory=$(git rev-parse --show-toplevel)
+
+# Initialize variables
+
+options=()
+command=""
 
 # Setup linked mode
 
 if [[ ! -z ${1} ]] && [[ ${1} == "--link" ]]; then
 
-    options=""
-    command=""
+    for link in "${@:2}"
 
-    # Open Space Toolkit ▸ Core
+    do
 
-    if [[ -z ${open_space_toolkit_core_directory} ]]; then
-        echo "Variable [open_space_toolkit_core_directory] is undefined."
-        exit 1
-    fi
+        # Extract last part of the path
 
-    if [[ ! -d ${open_space_toolkit_core_directory} ]]; then
-        echo "Open Space Toolkit ▸ Core directory [${open_space_toolkit_core_directory}] cannot be found."
-        exit 1
-    fi
+        dep=${link##*/}
 
-    options="${options} \
-    --volume=${open_space_toolkit_core_directory}:/mnt/open-space-toolkit-core:ro"
+        # Log the linking step
 
-    command="${command} \
-    rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
-    rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
-    cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
-    cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
-    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
-    ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
+        echo "Linking with ${dep} at ${link}..."
 
-    # Open Space Toolkit ▸ I/O
+        # Open Space Toolkit ▸ Core
 
-    # TBI
+        if [[ ${dep} == "open-space-toolkit-core" ]]; then
 
-    # Open Space Toolkit ▸ Mathematics
+            options+=( "-v" )
+            options+=( "${link}:/mnt/open-space-toolkit-core:ro" )
 
-    # TBI
+            command="${command} \
+            rm -rf /usr/local/include/OpenSpaceToolkit/Core; \
+            rm -f /usr/local/lib/libopen-space-toolkit-core.so*; \
+            cp -as /mnt/open-space-toolkit-core/include/OpenSpaceToolkit/Core /usr/local/include/OpenSpaceToolkit/Core; \
+            cp -as /mnt/open-space-toolkit-core/src/OpenSpaceToolkit/Core/* /usr/local/include/OpenSpaceToolkit/Core/; \
+            ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so /usr/local/lib/; \
+            ln -s /mnt/open-space-toolkit-core/lib/libopen-space-toolkit-core.so.0 /usr/local/lib/;"
 
-    # Open Space Toolkit ▸ Physics
+        fi
 
-    if [[ -z ${open_space_toolkit_physics_directory} ]]; then
-        echo "Variable [open_space_toolkit_physics_directory] is undefined."
-        exit 1
-    fi
+        # Open Space Toolkit ▸ IO
 
-    if [[ ! -d ${open_space_toolkit_physics_directory} ]]; then
-        echo "Open Space Toolkit ▸ Physics directory [${open_space_toolkit_physics_directory}] cannot be found."
-        exit 1
-    fi
+        if [[ ${dep} == "open-space-toolkit-io" ]]; then
 
-    # options="--volume=$(printf %q "${open_space_toolkit_physics_directory}"):/mnt/open-space-toolkit-physics:ro"
+            options+=( "-v" )
+            options+=( "${link}:/mnt/open-space-toolkit-io:ro" )
 
-    command="${command} \
-    rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
-    rm -f /usr/local/lib/libopen-space-toolkit-physics.so*; \
-    cp -as /mnt/open-space-toolkit-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
-    cp -as /mnt/open-space-toolkit-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
-    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so /usr/local/lib/; \
-    ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so.0 /usr/local/lib/;"
+            command="${command} \
+            rm -rf /usr/local/include/OpenSpaceToolkit/IO; \
+            rm -f /usr/local/lib/libopen-space-toolkit-io.so*; \
+            cp -as /mnt/open-space-toolkit-io/include/OpenSpaceToolkit/IO /usr/local/include/OpenSpaceToolkit/IO; \
+            cp -as /mnt/open-space-toolkit-io/src/OpenSpaceToolkit/IO/* /usr/local/include/OpenSpaceToolkit/IO/; \
+            ln -s /mnt/open-space-toolkit-io/lib/libopen-space-toolkit-io.so /usr/local/lib/; \
+            ln -s /mnt/open-space-toolkit-io/lib/libopen-space-toolkit-io.so.0 /usr/local/lib/;"
 
-    # Output
+        fi
 
-    command="${command} \
-    /bin/bash"
+        # Open Space Toolkit ▸ Mathematics
+
+        if [[ ${dep} == "open-space-toolkit-mathematics" ]]; then
+
+            options+=( "-v" )
+            options+=( "${link}:/mnt/open-space-toolkit-mathematics:ro" )
+
+            command="${command} \
+            rm -rf /usr/local/include/OpenSpaceToolkit/Mathematics; \
+            rm -f /usr/local/lib/libopen-space-toolkit-mathematics.so*; \
+            cp -as /mnt/open-space-toolkit-mathematics/include/OpenSpaceToolkit/Mathematics /usr/local/include/OpenSpaceToolkit/Mathematics; \
+            cp -as /mnt/open-space-toolkit-mathematics/src/OpenSpaceToolkit/Mathematics/* /usr/local/include/OpenSpaceToolkit/Mathematics/; \
+            ln -s /mnt/open-space-toolkit-mathematics/lib/libopen-space-toolkit-mathematics.so /usr/local/lib/; \
+            ln -s /mnt/open-space-toolkit-mathematics/lib/libopen-space-toolkit-mathematics.so.0 /usr/local/lib/;"
+
+        fi
+
+        # Open Space Toolkit ▸ Physics
+
+        if [[ ${dep} == "open-space-toolkit-physics" ]]; then
+
+            options+=( "-v" )
+            options+=( "${link}:/mnt/open-space-toolkit-physics:ro" )
+        
+            command="${command} \
+            rm -rf /usr/local/include/OpenSpaceToolkit/Physics; \
+            rm -f /usr/local/lib/libopen-space-toolkit-physics.so*; \
+            cp -as /mnt/open-space-toolkit-physics/include/OpenSpaceToolkit/Physics /usr/local/include/OpenSpaceToolkit/Physics; \
+            cp -as /mnt/open-space-toolkit-physics/src/OpenSpaceToolkit/Physics/* /usr/local/include/OpenSpaceToolkit/Physics/; \
+            ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so /usr/local/lib/; \
+            ln -s /mnt/open-space-toolkit-physics/lib/libopen-space-toolkit-physics.so.0 /usr/local/lib/;"
+
+        fi
+
+    done
+
+    command="${command} /bin/bash"
 
 fi
 
@@ -95,7 +129,7 @@ docker run \
     -it \
     --rm \
     --privileged \
-    ${options} \
+    "${options[@]}" \
     --volume="${project_directory}:/app:delegated" \
     --volume="${project_directory}/tools/development/helpers:/app/build/helpers:ro,delegated" \
     --workdir="/app/build" \
