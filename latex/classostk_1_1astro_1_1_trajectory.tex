@@ -1,5 +1,5 @@
-\hypertarget{classostk_1_1astro_1_1_trajectory}{}\section{ostk\+:\+:astro\+:\+:Trajectory Class Reference}
-\label{classostk_1_1astro_1_1_trajectory}\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
+\hypertarget{classostk_1_1astro_1_1_trajectory}{}\doxysection{ostk\+::astro\+::Trajectory Class Reference}
+\label{classostk_1_1astro_1_1_trajectory}\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}}
 
 
 Path followed by an object through space as a function of time.  
@@ -9,106 +9,106 @@ Path followed by an object through space as a function of time.
 
 {\ttfamily \#include $<$Trajectory.\+hpp$>$}
 
-Inheritance diagram for ostk\+:\+:astro\+:\+:Trajectory\+:\begin{figure}[H]
+Inheritance diagram for ostk\+::astro\+::Trajectory\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2.000000cm]{classostk_1_1astro_1_1_trajectory}
 \end{center}
 \end{figure}
-\subsection*{Public Member Functions}
+\doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} (const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model} \&a\+Model)
+\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model}} \&a\+Model)
 \begin{DoxyCompactList}\small\item\em Constructor (model) \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1_trajectory_a5bffa48518940b06d353988efdeb098a}{Trajectory} (const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \&a\+State\+Array)
+\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a5bffa48518940b06d353988efdeb098a}{Trajectory}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+State\+Array)
 \begin{DoxyCompactList}\small\item\em Constructor (state array) \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1_trajectory_a2a7642fa6183da49b5def83f63f08c42}{Trajectory} (const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory)
+\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a2a7642fa6183da49b5def83f63f08c42}{Trajectory}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory)
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \& \hyperlink{classostk_1_1astro_1_1_trajectory_aa8229045bd7cf0696b8cd235cc3837a8}{operator=} (const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory)
+\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \& \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_aa8229045bd7cf0696b8cd235cc3837a8}{operator=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory)
 \begin{DoxyCompactList}\small\item\em Copy assignment operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classostk_1_1astro_1_1_trajectory_a13b1a0621195ed85aa3df0da5ae935f2}{operator==} (const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory) const
+bool \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a13b1a0621195ed85aa3df0da5ae935f2}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory) const
 \begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classostk_1_1astro_1_1_trajectory_abb524dcee260456d546f5e01ee9c228c}{operator!=} (const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory) const
+bool \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_abb524dcee260456d546f5e01ee9c228c}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory) const
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
-bool \hyperlink{classostk_1_1astro_1_1_trajectory_ab0c02a9844e584b50da35df710b71e81}{is\+Defined} () const
+bool \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_ab0c02a9844e584b50da35df710b71e81}{is\+Defined}} () const
 \begin{DoxyCompactList}\small\item\em Check if trajectory is defined. \end{DoxyCompactList}\item 
-const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model} \& \hyperlink{classostk_1_1astro_1_1_trajectory_a7a5e15ddb0b4e1a1546615840610252c}{access\+Model} () const
-\begin{DoxyCompactList}\small\item\em \hyperlink{classostk_1_1astro_1_1_access}{Access} trajectory model. \end{DoxyCompactList}\item 
-\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} \hyperlink{classostk_1_1astro_1_1_trajectory_a0814d622d4bfb55cedb3d8eafd39f640}{get\+State\+At} (const Instant \&an\+Instant) const
+const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model}} \& \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a7a5e15ddb0b4e1a1546615840610252c}{access\+Model}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} trajectory model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a0814d622d4bfb55cedb3d8eafd39f640}{get\+State\+At}} (const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Get state at a given instant. \end{DoxyCompactList}\item 
-Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \hyperlink{classostk_1_1astro_1_1_trajectory_a31f02515d567ac57c8d5e06d47da08a8}{get\+States\+At} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const
+Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a31f02515d567ac57c8d5e06d47da08a8}{get\+States\+At}} (const Array$<$ Instant $>$ \&an\+Instant\+Array) const
 \begin{DoxyCompactList}\small\item\em Get states at a given instants. \end{DoxyCompactList}\item 
-virtual void \hyperlink{classostk_1_1astro_1_1_trajectory_aac11fb7c53f4cf970f52f681a75c5261}{print} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_aac11fb7c53f4cf970f52f681a75c5261}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print trajectory to output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
+\doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \hyperlink{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}{Undefined} ()
+static \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}{Undefined}} ()
 \begin{DoxyCompactList}\small\item\em Constructs an undefined trajectory. \end{DoxyCompactList}\item 
-static \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Position} (const physics\+::coord\+::\+Position \&a\+Position)
+static \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Position}} (const physics\+::coord\+::\+Position \&a\+Position)
 \begin{DoxyCompactList}\small\item\em Constructs a trajectory from a given position. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Friends}
+\doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-std\+::ostream \& \hyperlink{classostk_1_1astro_1_1_trajectory_aef0327f0240dc2d71eca34dc287f88ea}{operator$<$$<$} (std\+::ostream \&an\+Output\+Stream, const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&a\+Trajectory)
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_aef0327f0240dc2d71eca34dc287f88ea}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory)
 \begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
+\doxysubsection{Detailed Description}
 Path followed by an object through space as a function of time. 
 
-https\+://en.wikipedia.\+org/wiki/\+Trajectory 
+\href{https://en.wikipedia.org/wiki/Trajectory}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Trajectory}} 
 
-\subsection{Constructor \& Destructor Documentation}
+\doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}\label{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!Trajectory@{Trajectory}}
-\index{Trajectory@{Trajectory}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model} \&}]{a\+Model }\end{DoxyParamCaption})}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!Trajectory@{Trajectory}}
+\index{Trajectory@{Trajectory}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model}} \&}]{a\+Model }\end{DoxyParamCaption})}
 
 
 
 Constructor (model) 
 
 
-\begin{DoxyCode}
-Tabulated model = \hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a81cf8ebea4354805ab69e732bfe73d77}{Tabulated::Load}(File::Path(Path::Parse(\textcolor{stringliteral}{"/path/to/trajectory.csv"}))) ;
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \{ model \} ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Tabulated model = \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated_a81cf8ebea4354805ab69e732bfe73d77}{Tabulated::Load}}(File::Path(Path::Parse(\textcolor{stringliteral}{"/path/to/trajectory.csv"}))) ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \{ model \} ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Model} & A trajectory model \\
+\mbox{\texttt{ in}}  & {\em a\+Model} & A trajectory model \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a5bffa48518940b06d353988efdeb098a}\label{classostk_1_1astro_1_1_trajectory_a5bffa48518940b06d353988efdeb098a}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!Trajectory@{Trajectory}}
-\index{Trajectory@{Trajectory}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ \&}]{a\+State\+Array }\end{DoxyParamCaption})}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!Trajectory@{Trajectory}}
+\index{Trajectory@{Trajectory}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+State\+Array }\end{DoxyParamCaption})}
 
 
 
 Constructor (state array) 
 
 
-\begin{DoxyCode}
-Array<State> stateArray = \{ ... \} ;
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \{ stateArray \} ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Array<State> stateArray = \{ ... \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \{ stateArray \} ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+State\+Array} & An array of states \\
+\mbox{\texttt{ in}}  & {\em a\+State\+Array} & An array of states \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a2a7642fa6183da49b5def83f63f08c42}\label{classostk_1_1astro_1_1_trajectory_a2a7642fa6183da49b5def83f63f08c42}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!Trajectory@{Trajectory}}
-\index{Trajectory@{Trajectory}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!Trajectory@{Trajectory}}
+\index{Trajectory@{Trajectory}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{Trajectory()}{Trajectory()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Trajectory\+::\+Trajectory (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
 
 
 
@@ -116,81 +116,81 @@ Copy constructor.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Trajectory} & A trajectory \\
+\mbox{\texttt{ in}}  & {\em a\+Trajectory} & A trajectory \\
 \hline
 \end{DoxyParams}
 
 
-\subsection{Member Function Documentation}
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a7a5e15ddb0b4e1a1546615840610252c}\label{classostk_1_1astro_1_1_trajectory_a7a5e15ddb0b4e1a1546615840610252c}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!access\+Model@{access\+Model}}
-\index{access\+Model@{access\+Model}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{access\+Model()}{accessModel()}}
-{\footnotesize\ttfamily const \hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model} \& ostk\+::astro\+::\+Trajectory\+::access\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!accessModel@{accessModel}}
+\index{accessModel@{accessModel}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{accessModel()}{accessModel()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model}} \& ostk\+::astro\+::\+Trajectory\+::access\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
-\hyperlink{classostk_1_1astro_1_1_access}{Access} trajectory model. 
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} trajectory model. 
 
 \begin{DoxyReturn}{Returns}
 Reference to trajectory model 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a0814d622d4bfb55cedb3d8eafd39f640}\label{classostk_1_1astro_1_1_trajectory_a0814d622d4bfb55cedb3d8eafd39f640}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!get\+State\+At@{get\+State\+At}}
-\index{get\+State\+At@{get\+State\+At}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{get\+State\+At()}{getStateAt()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} ostk\+::astro\+::\+Trajectory\+::get\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!getStateAt@{getStateAt}}
+\index{getStateAt@{getStateAt}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{getStateAt()}{getStateAt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} ostk\+::astro\+::\+Trajectory\+::get\+State\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const}
 
 
 
 Get state at a given instant. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \{ ... \} ;
-Instant instant = \{ ... \} ;
-State state = trajectory.getStateAt(instant) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \{ ... \} ;}
+\DoxyCodeLine{Instant instant = \{ ... \} ;}
+\DoxyCodeLine{State state = trajectory.getStateAt(instant) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em an\+Instant} & An instant \\
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 State 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a31f02515d567ac57c8d5e06d47da08a8}\label{classostk_1_1astro_1_1_trajectory_a31f02515d567ac57c8d5e06d47da08a8}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!get\+States\+At@{get\+States\+At}}
-\index{get\+States\+At@{get\+States\+At}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{get\+States\+At()}{getStatesAt()}}
-{\footnotesize\ttfamily Array$<$ \hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State} $>$ ostk\+::astro\+::\+Trajectory\+::get\+States\+At (\begin{DoxyParamCaption}\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array }\end{DoxyParamCaption}) const}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!getStatesAt@{getStatesAt}}
+\index{getStatesAt@{getStatesAt}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{getStatesAt()}{getStatesAt()}}
+{\footnotesize\ttfamily Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ ostk\+::astro\+::\+Trajectory\+::get\+States\+At (\begin{DoxyParamCaption}\item[{const Array$<$ Instant $>$ \&}]{an\+Instant\+Array }\end{DoxyParamCaption}) const}
 
 
 
 Get states at a given instants. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \{ ... \} ;
-Array<Instant> instants = \{ ... \} ;
-Array<State> state = trajectory.getStatesAt(instants) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \{ ... \} ;}
+\DoxyCodeLine{Array<Instant> instants = \{ ... \} ;}
+\DoxyCodeLine{Array<State> state = trajectory.getStatesAt(instants) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em an\+Instant\+Array} & An array of instants \\
+\mbox{\texttt{ in}}  & {\em an\+Instant\+Array} & An array of instants \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Array of states 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_ab0c02a9844e584b50da35df710b71e81}\label{classostk_1_1astro_1_1_trajectory_ab0c02a9844e584b50da35df710b71e81}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!is\+Defined@{is\+Defined}}
-\index{is\+Defined@{is\+Defined}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{is\+Defined()}{isDefined()}}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::\+Trajectory\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
@@ -198,8 +198,8 @@ Array of states
 Check if trajectory is defined. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...).isDefined() ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...).isDefined() ;}
 \end{DoxyCode}
 
 
@@ -207,92 +207,92 @@ Check if trajectory is defined.
 True if trajectory is defined 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_abb524dcee260456d546f5e01ee9c228c}\label{classostk_1_1astro_1_1_trajectory_abb524dcee260456d546f5e01ee9c228c}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!operator"!=@{operator"!=}}
-\index{operator"!=@{operator"!=}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
-{\footnotesize\ttfamily bool ostk\+::astro\+::\+Trajectory\+::operator!= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption}) const}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Trajectory\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption}) const}
 
 
 
 Not equal to operator. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...) != \hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...) != \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Trajectory} & A trajectory \\
+\mbox{\texttt{ in}}  & {\em a\+Trajectory} & A trajectory \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 True if trajectories are not equal 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_aa8229045bd7cf0696b8cd235cc3837a8}\label{classostk_1_1astro_1_1_trajectory_aa8229045bd7cf0696b8cd235cc3837a8}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!operator=@{operator=}}
-\index{operator=@{operator=}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{operator=()}{operator=()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \& ostk\+::astro\+::\+Trajectory\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!operator=@{operator=}}
+\index{operator=@{operator=}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \& ostk\+::astro\+::\+Trajectory\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
 
 
 
 Copy assignment operator. 
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a13b1a0621195ed85aa3df0da5ae935f2}\label{classostk_1_1astro_1_1_trajectory_a13b1a0621195ed85aa3df0da5ae935f2}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!operator==@{operator==}}
-\index{operator==@{operator==}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{operator==()}{operator==()}}
-{\footnotesize\ttfamily bool ostk\+::astro\+::\+Trajectory\+::operator== (\begin{DoxyParamCaption}\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption}) const}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Trajectory\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption}) const}
 
 
 
 Equal to operator. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...) == \hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...) == \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Trajectory} & A trajectory \\
+\mbox{\texttt{ in}}  & {\em a\+Trajectory} & A trajectory \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 True if trajectories are equal 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}\label{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!Position@{Position}}
-\index{Position@{Position}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{Position()}{Position()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} ostk\+::astro\+::\+Trajectory\+::\+Position (\begin{DoxyParamCaption}\item[{const physics\+::coord\+::\+Position \&}]{a\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!Position@{Position}}
+\index{Position@{Position}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{Position()}{Position()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} ostk\+::astro\+::\+Trajectory\+::\+Position (\begin{DoxyParamCaption}\item[{const physics\+::coord\+::\+Position \&}]{a\+Position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 Constructs a trajectory from a given position. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Position} position = Position::Meters(\{ 0.0, 0.0, 0.0 \}, Frame::GCRF()) ;
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Trajectory::Position}(position) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Position}} position = Position::Meters(\{ 0.0, 0.0, 0.0 \}, Frame::GCRF()) ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_ae98d1466450030f73a83567c8cc1471a}{Trajectory::Position}}(position) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Position} & A position \\
+\mbox{\texttt{ in}}  & {\em a\+Position} & A position \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Static trajectory 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_aac11fb7c53f4cf970f52f681a75c5261}\label{classostk_1_1astro_1_1_trajectory_aac11fb7c53f4cf970f52f681a75c5261}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!print@{print}}
-\index{print@{print}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{print()}{print()}}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!print@{print}}
+\index{print@{print}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily void ostk\+::astro\+::\+Trajectory\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
@@ -300,36 +300,36 @@ Static trajectory
 Print trajectory to output stream. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \{ ... \} ;
-trajectory.print(std::cout, \textcolor{keyword}{true}) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \{ ... \} ;}
+\DoxyCodeLine{trajectory.print(std::cout, \textcolor{keyword}{true}) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\tt in}  & {\em display\+Decorator} & If true, display decorator \\
+\mbox{\texttt{ in}}  & {\em display\+Decorator} & If true, display decorator \\
 \hline
 \end{DoxyParams}
 
 
-Reimplemented in \hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_ae890e832785f84c3f03c1e103f952826}{ostk\+::astro\+::trajectory\+::\+Orbit}.
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_ae890e832785f84c3f03c1e103f952826}{ostk\+::astro\+::trajectory\+::\+Orbit}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}\label{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!Undefined@{Undefined}}
-\index{Undefined@{Undefined}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{Undefined()}{Undefined()}}
-{\footnotesize\ttfamily \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} ostk\+::astro\+::\+Trajectory\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} ostk\+::astro\+::\+Trajectory\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 Constructs an undefined trajectory. 
 
 
-\begin{DoxyCode}
-\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory} trajectory = \hyperlink{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}{Trajectory::Undefined}() ; \textcolor{comment}{// Undefined}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}} trajectory = \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a87873d63cae80dff7e43c97dc9b3668f}{Trajectory::Undefined}}() ; \textcolor{comment}{// Undefined}}
 \end{DoxyCode}
 
 
@@ -338,28 +338,28 @@ Undefined trajectory
 \end{DoxyReturn}
 
 
-\subsection{Friends And Related Function Documentation}
+\doxysubsection{Friends And Related Function Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_trajectory_aef0327f0240dc2d71eca34dc287f88ea}\label{classostk_1_1astro_1_1_trajectory_aef0327f0240dc2d71eca34dc287f88ea}} 
-\index{ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ostk\+::astro\+::\+Trajectory@{ostk\+::astro\+::\+Trajectory}}
-\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
-{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory} \&}]{a\+Trajectory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+\index{ostk::astro::Trajectory@{ostk::astro::Trajectory}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::Trajectory@{ostk::astro::Trajectory}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
 
 
 Output stream operator. 
 
 
-\begin{DoxyCode}
-std::cout << \hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}(...) ;
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory_a9333200bd6afed5aef4f5aad8a2a8e84}{Trajectory}}(...) ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em an\+Output\+Stream} & An output stream \\
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\tt in}  & {\em a\+Trajectory} & A trajectory \\
+\mbox{\texttt{ in}}  & {\em a\+Trajectory} & A trajectory \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -369,5 +369,5 @@ A reference to output stream
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-include/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_trajectory_8hpp}{Trajectory.\+hpp}\item 
-src/\+Open\+Space\+Toolkit/\+Astrodynamics/\hyperlink{_trajectory_8cpp}{Trajectory.\+cpp}\end{DoxyCompactItemize}
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_trajectory_8hpp}{Trajectory.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_trajectory_8cpp}{Trajectory.\+cpp}}\end{DoxyCompactItemize}

@@ -1,55 +1,43 @@
-Structure
-
-\href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml}{\tt } \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\tt } \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/gh/open-space-collective%2Fopen-space-toolkit-astrodynamics}{\tt } \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\tt } \href{https://opensource.org/licenses/Apache-2.0}{\tt }
+Structure\href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/actions/workflows/build-test.yml}{\texttt{ }} \href{https://codecov.io/gh/open-space-collective/open-space-toolkit-astrodynamics}{\texttt{ }} \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\texttt{ }} \href{https://badge.fury.io/gh/open-space-collective\%2Fopen-space-toolkit-astrodynamics}{\texttt{ }} \href{https://badge.fury.io/py/open-space-toolkit-astrodynamics}{\texttt{ }} \href{https://opensource.org/licenses/Apache-2.0}{\texttt{ }}
 
 Orbit, attitude, access.
 
-
-
-\subsection*{Getting Started}
-
+\hypertarget{index_autotoc_md1}{}\doxysection{Getting Started}\label{index_autotoc_md1}
 Want to get started? This is the simplest and quickest way\+:
 
-\href{https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/main?urlpath=lab/tree/notebooks}{\tt }
+\href{https://mybinder.org/v2/gh/open-space-collective/open-space-toolkit/main?urlpath=lab/tree/notebooks}{\texttt{ }}
 
-{\itshape Nothing to download or install! This will automatically start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\tt Jupyter\+Lab} environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.}
-
-\subsubsection*{Alternatives}
-
-\paragraph*{Docker Images}
-
-\href{https://www.docker.com/}{\tt Docker} must be installed on your system.
-
-\subparagraph*{i\+Python}
-
-The following command will start an \href{https://ipython.org/}{\tt i\+Python} shell within a container where the O\+S\+Tk components are already installed\+:
+{\itshape Nothing to download or install! This will automatically start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\texttt{ Jupyter\+Lab}} environment in your browser with Open Space Toolkit libraries and example notebooks ready to use.}\hypertarget{index_autotoc_md2}{}\doxysubsection{Alternatives}\label{index_autotoc_md2}
+\hypertarget{index_autotoc_md3}{}\doxysubsubsection{Docker Images}\label{index_autotoc_md3}
+\href{https://www.docker.com/}{\texttt{ Docker}} must be installed on your system.\hypertarget{index_autotoc_md4}{}\doxyparagraph{i\+Python}\label{index_autotoc_md4}
+The following command will start an \href{https://ipython.org/}{\texttt{ i\+Python}} shell within a container where the O\+S\+Tk components are already installed\+:
 
 
-\begin{DoxyCode}
-docker run -it openspacecollective/open-space-toolkit-astrodynamics-python
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker run -\/it openspacecollective/open-\/space-\/toolkit-\/astrodynamics-\/python}
 \end{DoxyCode}
 
 
 Once the shell is up and running, playing with it is easy\+:
 
 
-\begin{DoxyCode}
-\textcolor{keyword}{from} ostk.physics \textcolor{keyword}{import} Environment
-\textcolor{keyword}{from} ostk.physics.time \textcolor{keyword}{import} Instant
-\textcolor{keyword}{from} ostk.astrodynamics.trajectory \textcolor{keyword}{import} Orbit
-\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models \textcolor{keyword}{import} SGP4
-\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models.sgp4 \textcolor{keyword}{import} TLE
-
-tle = TLE(
-    \textcolor{stringliteral}{'1 25544U 98067A   18231.17878740  .00000187  00000-0  10196-4 0  9994'},
-    \textcolor{stringliteral}{'2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'}
-)  \textcolor{comment}{# Construct Two-Line Element set}
-
-earth = Environment.default().access\_celestial\_object\_with\_name(\textcolor{stringliteral}{'Earth'})  \textcolor{comment}{# Access Earth model}
-
-orbit = Orbit(SGP4(tle), earth)  \textcolor{comment}{# Construct orbit using SGP4 model}
-
-orbit.get\_state\_at(Instant.now())  \textcolor{comment}{# Compute and display current satellite state (position, velocity)}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{from} ostk.physics \textcolor{keyword}{import} Environment}
+\DoxyCodeLine{\textcolor{keyword}{from} ostk.physics.time \textcolor{keyword}{import} Instant}
+\DoxyCodeLine{\textcolor{keyword}{from} ostk.astrodynamics.trajectory \textcolor{keyword}{import} Orbit}
+\DoxyCodeLine{\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models \textcolor{keyword}{import} SGP4}
+\DoxyCodeLine{\textcolor{keyword}{from} ostk.astrodynamics.trajectory.orbit.models.sgp4 \textcolor{keyword}{import} TLE}
+\DoxyCodeLine{}
+\DoxyCodeLine{tle = TLE(}
+\DoxyCodeLine{    \textcolor{stringliteral}{'1 25544U 98067A   18231.17878740  .00000187  00000-\/0  10196-\/4 0  9994'},}
+\DoxyCodeLine{    \textcolor{stringliteral}{'2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'}}
+\DoxyCodeLine{)  \textcolor{comment}{\# Construct Two-\/Line Element set}}
+\DoxyCodeLine{}
+\DoxyCodeLine{earth = Environment.default().access\_celestial\_object\_with\_name(\textcolor{stringliteral}{'Earth'})  \textcolor{comment}{\# Access Earth model}}
+\DoxyCodeLine{}
+\DoxyCodeLine{orbit = Orbit(SGP4(tle), earth)  \textcolor{comment}{\# Construct orbit using SGP4 model}}
+\DoxyCodeLine{}
+\DoxyCodeLine{orbit.get\_state\_at(Instant.now())  \textcolor{comment}{\# Compute and display current satellite state (position, velocity)}}
 \end{DoxyCode}
 
 
@@ -57,71 +45,45 @@ By default, O\+S\+Tk fetches the ephemeris from J\+PL, Earth Orientation Paramet
 
 As a result, when running O\+S\+Tk for the first time, it may take a minute to fetch all the necessary data.
 
-{\itshape Tip\+: Use tab for auto-\/completion!}
-
-\subparagraph*{Jupyter\+Lab}
-
-The following command will start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\tt Jupyter\+Lab} server within a container where the O\+S\+Tk components are already installed\+:
+{\itshape Tip\+: Use tab for auto-\/completion!}\hypertarget{index_autotoc_md5}{}\doxyparagraph{Jupyter\+Lab}\label{index_autotoc_md5}
+The following command will start a \href{https://jupyterlab.readthedocs.io/en/stable/}{\texttt{ Jupyter\+Lab}} server within a container where the O\+S\+Tk components are already installed\+:
 
 
-\begin{DoxyCode}
-docker run --publish=8888:8888 openspacecollective/open-space-toolkit-astrodynamics-jupyter
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker run -\/-\/publish=8888:8888 openspacecollective/open-\/space-\/toolkit-\/astrodynamics-\/jupyter}
 \end{DoxyCode}
 
 
-Once the container is running, access \href{http://localhost:8888/lab}{\tt http\+://localhost\+:8888/lab} and create a Python 3 Notebook.
-
-\subsection*{Installation}
-
-\subsubsection*{C++}
-
-The binary packages are hosted using \href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases}{\tt Git\+Hub Releases}\+:
+Once the container is running, access \href{http://localhost:8888/lab}{\texttt{ http\+://localhost\+:8888/lab}} and create a Python 3 Notebook.\hypertarget{index_autotoc_md6}{}\doxysection{Installation}\label{index_autotoc_md6}
+\hypertarget{index_autotoc_md7}{}\doxysubsection{C++}\label{index_autotoc_md7}
+The binary packages are hosted using \href{https://github.com/open-space-collective/open-space-toolkit-astrodynamics/releases}{\texttt{ Git\+Hub Releases}}\+:
 
 
 \begin{DoxyItemize}
 \item Runtime libraries\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/runtime}
 \item C++ headers\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/devel}
 \item Python bindings\+: {\ttfamily open-\/space-\/toolkit-\/astrodynamics-\/\+X.\+Y.\+Z-\/1.\+x86\+\_\+64-\/python}
-\end{DoxyItemize}
-
-\paragraph*{Debian / Ubuntu}
-
+\end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysubsubsection{Debian / Ubuntu}\label{index_autotoc_md8}
 After downloading the relevant {\ttfamily .deb} binary packages, install\+:
 
 
-\begin{DoxyCode}
-apt install open-space-toolkit-astrodynamics-*.deb
+\begin{DoxyCode}{0}
+\DoxyCodeLine{apt install open-\/space-\/toolkit-\/astrodynamics-\/*.deb}
 \end{DoxyCode}
+\hypertarget{index_autotoc_md9}{}\doxysubsection{Python}\label{index_autotoc_md9}
+Install from \href{https://pypi.org/project/open-space-toolkit-astrodynamics/}{\texttt{ Py\+PI}}\+:
 
 
-\paragraph*{Fedora / Cent\+OS}
-
-After downloading the relevant {\ttfamily .rpm} binary packages, install\+:
-
-
-\begin{DoxyCode}
-dnf install open-space-toolkit-astrodynamics-*.rpm
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip install open-\/space-\/toolkit-\/astrodynamics}
 \end{DoxyCode}
-
-
-\subsubsection*{Python}
-
-Install from \href{https://pypi.org/project/open-space-toolkit-astrodynamics/}{\tt Py\+PI}\+:
-
-
-\begin{DoxyCode}
-pip install open-space-toolkit-astrodynamics
-\end{DoxyCode}
-
-
-\subsection*{Documentation}
-
+\hypertarget{index_autotoc_md10}{}\doxysection{Documentation}\label{index_autotoc_md10}
 Documentation is available here\+:
 
 
 \begin{DoxyItemize}
-\item \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\tt C++}
-\item \href{./bindings/python/docs}{\tt Python}
+\item \href{https://open-space-collective.github.io/open-space-toolkit-astrodynamics}{\texttt{ C++}}
+\item \href{./bindings/python/docs}{\texttt{ Python}}
 \end{DoxyItemize}
 
 $<$details$>$
@@ -129,68 +91,61 @@ $<$details$>$
 The library exhibits the following detailed and descriptive structure\+:
 
 
-\begin{DoxyCode}
-├── NumericalSolver
-├── Trajectory
-│   ├── State
-│   ├── Orbit
-│   │   ├── Models
-│   │   │   ├── Kepler
-│   │   │   │   └── Classical Orbital Elements (COE)
-│   │   │   ├── SGP4
-│   │   │   │   └── Two-Line Element \textcolor{keyword}{set} (TLE)
-│   │   │   ├── Tabulated (input csv)
-│   │   │   └── Propagated (numerical integration)
-│   │   ├── Pass
-|   |   └── Messages
-|   |       └── SpaceX
-|   |           └── OPM
-│   ├── Models
-│   |   ├── Static
-│   |   └── Tabulated
-│   └── Propagator
-├── Flight
-│   ├── Profile
-|   |    ├── Models
-│   |    |   ├── Transform
-│   |    |   └── Tabulated
-│   |    └── State
-│   └── System
-|        ├── SatelliteSystem
-|        └── Dynamics
-|            └── SatelliteDynamics
-├── Access
-|   └── Generator
-└── Conjunction
-    └── Messages
-        └── CCSDS
-            └── CDM
+\begin{DoxyCode}{0}
+\DoxyCodeLine{├── NumericalSolver}
+\DoxyCodeLine{├── Trajectory}
+\DoxyCodeLine{│   ├── State}
+\DoxyCodeLine{│   ├── Orbit}
+\DoxyCodeLine{│   │   ├── Models}
+\DoxyCodeLine{│   │   │   ├── Kepler}
+\DoxyCodeLine{│   │   │   │   └── Classical Orbital Elements (COE)}
+\DoxyCodeLine{│   │   │   ├── SGP4}
+\DoxyCodeLine{│   │   │   │   └── Two-\/Line Element set (TLE)}
+\DoxyCodeLine{│   │   │   ├── Tabulated (input csv)}
+\DoxyCodeLine{│   │   │   └── Propagated (numerical integration)}
+\DoxyCodeLine{│   │   ├── Pass}
+\DoxyCodeLine{|   |   └── Messages}
+\DoxyCodeLine{|   |       └── SpaceX}
+\DoxyCodeLine{|   |           └── OPM}
+\DoxyCodeLine{│   ├── Models}
+\DoxyCodeLine{│   |   ├── Static}
+\DoxyCodeLine{│   |   └── Tabulated}
+\DoxyCodeLine{│   └── Propagator}
+\DoxyCodeLine{├── Flight}
+\DoxyCodeLine{│   ├── Profile}
+\DoxyCodeLine{|   |    ├── Models}
+\DoxyCodeLine{│   |    |   ├── Transform}
+\DoxyCodeLine{│   |    |   └── Tabulated}
+\DoxyCodeLine{│   |    └── State}
+\DoxyCodeLine{│   └── System}
+\DoxyCodeLine{|        ├── SatelliteSystem}
+\DoxyCodeLine{|        └── Dynamics}
+\DoxyCodeLine{|            └── SatelliteDynamics}
+\DoxyCodeLine{├── Access}
+\DoxyCodeLine{|   └── Generator}
+\DoxyCodeLine{└── Conjunction}
+\DoxyCodeLine{    └── Messages}
+\DoxyCodeLine{        └── CCSDS}
+\DoxyCodeLine{            └── CDM}
 \end{DoxyCode}
 
 
-$<$/details$>$
-
-\subsection*{Tutorials}
-
+$<$/details$>$\hypertarget{index_autotoc_md11}{}\doxysection{Tutorials}\label{index_autotoc_md11}
 Tutorials are available here\+:
 
 
 \begin{DoxyItemize}
-\item \href{./tutorials/cpp}{\tt C++}
-\item \href{./tutorials/python}{\tt Python}
-\end{DoxyItemize}
-
-\subsection*{Setup}
-
-\subsubsection*{Development Environment}
-
-Using \href{https://www.docker.com}{\tt Docker} for development is recommended, to simplify the installation of the necessary build tools and dependencies. Instructions on how to install Docker are available \href{https://docs.docker.com/install/}{\tt here}.
+\item \href{./tutorials/cpp}{\texttt{ C++}}
+\item \href{./tutorials/python}{\texttt{ Python}}
+\end{DoxyItemize}\hypertarget{index_autotoc_md12}{}\doxysection{Setup}\label{index_autotoc_md12}
+\hypertarget{index_autotoc_md13}{}\doxysubsection{Development Environment}\label{index_autotoc_md13}
+Using \href{https://www.docker.com}{\texttt{ Docker}} for development is recommended, to simplify the installation of the necessary build tools and dependencies. Instructions on how to install Docker are available \href{https://docs.docker.com/install/}{\texttt{ here}}.
 
 To start the development environment\+:
 
 
-\begin{DoxyCode}
-make start-development
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make start-\/development}
 \end{DoxyCode}
 
 
@@ -203,73 +158,57 @@ This will\+:
 \item Start a {\ttfamily bash} shell from the {\ttfamily ./build} working directory.
 \end{DoxyEnumerate}
 
-If installing Docker is not an option, you can manually install the development tools (G\+CC, C\+Make) and all required dependencies, by following a procedure similar to the one described in the \href{./docker/development/Dockerfile}{\tt Development Dockerfile}.
-
-\subsubsection*{Build}
-
+If installing Docker is not an option, you can manually install the development tools (G\+CC, C\+Make) and all required dependencies, by following a procedure similar to the one described in the \href{./docker/development/Dockerfile}{\texttt{ Development Dockerfile}}.\hypertarget{index_autotoc_md14}{}\doxysubsection{Build}\label{index_autotoc_md14}
 From the {\ttfamily ./build} directory\+:
 
 
-\begin{DoxyCode}
-cmake ..
-make
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cmake ..}
+\DoxyCodeLine{make}
 \end{DoxyCode}
 
 
-{\itshape Tip\+: {\ttfamily helpers/build.\+sh} simplifies building from within the development environment.}
-
-\subsubsection*{Test}
-
+{\itshape Tip\+: {\ttfamily helpers/build.\+sh} simplifies building from within the development environment.}\hypertarget{index_autotoc_md15}{}\doxysubsection{Test}\label{index_autotoc_md15}
 To start a container to build and run the tests\+:
 
 
-\begin{DoxyCode}
-make test
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make test}
 \end{DoxyCode}
 
 
 Or to run them manually\+:
 
 
-\begin{DoxyCode}
-./bin/open-space-toolkit-astrodynamics.test
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./bin/open-\/space-\/toolkit-\/astrodynamics.test}
 \end{DoxyCode}
 
 
-{\itshape Tip\+: {\ttfamily helpers/test.\+sh} simplifies running tests from within the development environment.}
-
-\subsection*{Dependencies}
-
+{\itshape Tip\+: {\ttfamily helpers/test.\+sh} simplifies running tests from within the development environment.}\hypertarget{index_autotoc_md16}{}\doxysection{Dependencies}\label{index_autotoc_md16}
 \tabulinesep=1mm
-\begin{longtabu} spread 0pt [c]{*{4}{|X[-1]}|}
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
 \hline
-\rowcolor{\tableheadbgcolor}\textbf{ Name }&\textbf{ Version }&\textbf{ License }&\textbf{ Link  }\\\cline{1-4}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Name }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ License }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Link  }\\\cline{1-4}
 \endfirsthead
 \hline
 \endfoot
 \hline
-\rowcolor{\tableheadbgcolor}\textbf{ Name }&\textbf{ Version }&\textbf{ License }&\textbf{ Link  }\\\cline{1-4}
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Name }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ License }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Link  }\\\cline{1-4}
 \endhead
-Pybind11 &{\ttfamily 2.\+10.\+1} &B\+S\+D-\/3-\/\+Clause &\href{https://github.com/pybind/pybind11}{\tt github.\+com/pybind/pybind11} \\\cline{1-4}
-ordered-\/map &{\ttfamily 0.\+6.\+0} &M\+IT &\href{https://github.com/Tessil/ordered-map}{\tt github.\+com/\+Tessil/ordered-\/map} \\\cline{1-4}
-Eigen &{\ttfamily 3.\+3.\+7} &M\+P\+L2 &\href{http://eigen.tuxfamily.org/index.php}{\tt eigen.\+tuxfamily.\+org} \\\cline{1-4}
-S\+G\+P4 &{\ttfamily 6a448b4} &Apache License 2.\+0 &\href{https://github.com/dnwrnr/sgp4}{\tt github.\+com/dnwrnr/sgp4} \\\cline{1-4}
-N\+Lopt &{\ttfamily 2.\+5.\+0} &L\+G\+PL &\href{https://github.com/stevengj/nlopt}{\tt github.\+com/stevengj/nlopt} \\\cline{1-4}
-Core &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-core}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/core} \\\cline{1-4}
-I/O &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-io}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/io} \\\cline{1-4}
-Mathematics &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-mathematics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/mathematics} \\\cline{1-4}
-Physics &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-physics}{\tt github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/physics} \\\cline{1-4}
+Pybind11 &{\ttfamily 2.\+10.\+1} &B\+S\+D-\/3-\/\+Clause &\href{https://github.com/pybind/pybind11}{\texttt{ github.\+com/pybind/pybind11}}  \\\cline{1-4}
+ordered-\/map &{\ttfamily 0.\+6.\+0} &M\+IT &\href{https://github.com/Tessil/ordered-map}{\texttt{ github.\+com/\+Tessil/ordered-\/map}}  \\\cline{1-4}
+Eigen &{\ttfamily 3.\+3.\+7} &M\+P\+L2 &\href{http://eigen.tuxfamily.org/index.php}{\texttt{ eigen.\+tuxfamily.\+org}}  \\\cline{1-4}
+S\+G\+P4 &{\ttfamily 6a448b4} &Apache License 2.\+0 &\href{https://github.com/dnwrnr/sgp4}{\texttt{ github.\+com/dnwrnr/sgp4}}  \\\cline{1-4}
+N\+Lopt &{\ttfamily 2.\+5.\+0} &L\+G\+PL &\href{https://github.com/stevengj/nlopt}{\texttt{ github.\+com/stevengj/nlopt}}  \\\cline{1-4}
+Core &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-core}{\texttt{ github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/core}}  \\\cline{1-4}
+I/O &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-io}{\texttt{ github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/io}}  \\\cline{1-4}
+Mathematics &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-mathematics}{\texttt{ github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/mathematics}}  \\\cline{1-4}
+Physics &{\ttfamily main} &Apache License 2.\+0 &\href{https://github.com/open-space-collective/open-space-toolkit-physics}{\texttt{ github.\+com/open-\/space-\/collective/open-\/space-\/toolkit-\/physics}}  \\\cline{1-4}
 \end{longtabu}
-\subsection*{Contribution}
-
+\hypertarget{index_autotoc_md17}{}\doxysection{Contribution}\label{index_autotoc_md17}
 Contributions are more than welcome!
 
-Please read our \hyperlink{_c_o_n_t_r_i_b_u_t_i_n_g_8md}{contributing guide} to learn about our development process, how to propose fixes and improvements, and how to build and test the code.
-
-\subsection*{Special Thanks}
-
-\href{https://www.loftorbital.com/}{\tt }
-
-\subsection*{License}
-
+Please read our \mbox{\hyperlink{_c_o_n_t_r_i_b_u_t_i_n_g_8md}{contributing guide}} to learn about our development process, how to propose fixes and improvements, and how to build and test the code.\hypertarget{index_autotoc_md18}{}\doxysection{Special Thanks}\label{index_autotoc_md18}
+\href{https://www.loftorbital.com/}{\texttt{ }}\hypertarget{index_autotoc_md19}{}\doxysection{License}\label{index_autotoc_md19}
 Apache License 2.\+0 
