@@ -26,7 +26,7 @@ namespace models
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 Tabulated::Tabulated                        (   const   Array<State>&               aStateArray,
-                                                                                const   InterpolationType&          anInterpolationType                                 )
+                                                                                const   InterpolationType&          anInterpolationType                         )
                                 :   Model(),
                                     interpolationType_(anInterpolationType)
 {
@@ -35,7 +35,7 @@ namespace models
     using ostk::math::curvefitting::interp::BarycentricRational ;
     using ostk::math::curvefitting::interp::Linear ;
 
-    if (aStateArray.isEmpty())
+    if (aStateArray.getSize() < 2)
     {
         return ;
     }
@@ -50,7 +50,7 @@ namespace models
     VectorXd timestamps(stateArray.getSize()) ;
     MatrixXd coordinates(stateArray.getSize(), 6) ;
 
-    for (Size i = 0 ; i < stateArray.getSize() ; ++i)
+    for (Index i = 0 ; i < stateArray.getSize() ; ++i)
     {
 
         timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds() ;
@@ -62,7 +62,7 @@ namespace models
 
     interpolators_.reserve(coordinates.cols()) ;
 
-    for (Size i = 0 ; i < Size(coordinates.cols()) ; ++i)
+    for (Index i = 0 ; i < Size(coordinates.cols()) ; ++i)
     {
 
         if (interpolationType_ == Tabulated::InterpolationType::CubicSpline)
@@ -116,7 +116,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            Tabulated::isDefined                        ( ) const
 {
-    return !interpolators_.isEmpty() ;
+    return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined() ;
 }
 
 Interval                        Tabulated::getInterval                     ( ) const
@@ -156,7 +156,7 @@ State                           Tabulated::getLastState                     ( ) 
 State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const
 {
 
-    using ostk::core::types::Size ;
+    using ostk::core::types::Index ;
     using ostk::core::types::String ;
 
     if (!anInstant.isDefined())
@@ -176,7 +176,7 @@ State                           Tabulated::calculateStateAt                 (   
 
     VectorXd interpolatedCoordinates(interpolators_.getSize()) ;
 
-    for (Size i = 0 ; i < interpolators_.getSize() ; ++i)
+    for (Index i = 0 ; i < interpolators_.getSize() ; ++i)
     {
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds()) ;
     }

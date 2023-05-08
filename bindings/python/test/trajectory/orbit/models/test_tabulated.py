@@ -68,9 +68,9 @@ class TestTabulated:
     @pytest.mark.parametrize(
         'interpolation_type',
         (
-            (Tabulated.InterpolationType.linear),
-            (Tabulated.InterpolationType.cubic_spline),
-            (Tabulated.InterpolationType.barycentric_rational),
+            (Tabulated.InterpolationType.Linear),
+            (Tabulated.InterpolationType.CubicSpline),
+            (Tabulated.InterpolationType.BarycentricRational),
         )
     )
     def test_constructor (self,
@@ -86,9 +86,9 @@ class TestTabulated:
     @pytest.mark.parametrize(
         'interpolation_type,error_tolerance',
         (
-            (Tabulated.InterpolationType.linear, 420.0),
-            (Tabulated.InterpolationType.cubic_spline, 5e-3),
-            (Tabulated.InterpolationType.barycentric_rational, 5e-2),
+            (Tabulated.InterpolationType.Linear, 420.0),
+            (Tabulated.InterpolationType.CubicSpline, 5e-3),
+            (Tabulated.InterpolationType.BarycentricRational, 5e-2),
         )
     )
     def test_get_state_at_success (self,
@@ -115,9 +115,9 @@ class TestTabulated:
     @pytest.mark.parametrize(
         'interpolation_type',
         (
-            (Tabulated.InterpolationType.linear),
-            (Tabulated.InterpolationType.cubic_spline),
-            (Tabulated.InterpolationType.barycentric_rational),
+            (Tabulated.InterpolationType.Linear),
+            (Tabulated.InterpolationType.CubicSpline),
+            (Tabulated.InterpolationType.BarycentricRational),
         )
     )
     def test_get_state_at_failure (self,
