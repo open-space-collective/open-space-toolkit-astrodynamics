@@ -98,7 +98,7 @@ class Tabulated : public virtual Model
 
         Interval                getInterval                                 ( ) const ;
 
-        Tabulated::InterpolationType getInterpolationType                   ( ) const ;
+        InterpolationType            getInterpolationType                   ( ) const ;
 
         State                   getFirstState                               ( ) const ;
 

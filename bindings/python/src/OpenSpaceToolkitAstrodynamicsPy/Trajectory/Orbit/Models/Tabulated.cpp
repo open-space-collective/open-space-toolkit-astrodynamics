@@ -26,9 +26,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
 
     enum_<Tabulated::InterpolationType>(tabulated_class, "InterpolationType")
 
-        .value("linear", Tabulated::InterpolationType::Linear)
-        .value("cubic_spline", Tabulated::InterpolationType::CubicSpline)
-        .value("barycentric_rational", Tabulated::InterpolationType::BarycentricRational)
+        .value("Linear", Tabulated::InterpolationType::Linear)
+        .value("CubicSpline", Tabulated::InterpolationType::CubicSpline)
+        .value("BarycentricRational", Tabulated::InterpolationType::BarycentricRational)
 
     ;
 
