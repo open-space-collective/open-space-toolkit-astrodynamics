@@ -20,10 +20,12 @@
 
 using ostk::core::types::Integer ;
 using ostk::core::types::Size ;
+using ostk::core::types::Index ;
 using ostk::core::types::Real ;
 using ostk::core::types::String ;
 using ostk::core::ctnr::Table ;
 using ostk::core::ctnr::Array ;
+using ostk::core::ctnr::Tuple ;
 using ostk::core::fs::Path ;
 using ostk::core::fs::File ;
 
@@ -94,8 +96,6 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Constr
 TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStateAt)
 {
 
-    using ostk::core::ctnr::Tuple ;
-
     const Array<Tuple<Tabulated::InterpolationType, Real>> testCases =
     {
         { Tabulated::InterpolationType::Linear, 420.0 },
@@ -128,6 +128,57 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Calcul
             EXPECT_TRUE((residuals.array() < tolerance).all()) << String::Format("Residual: {}", residuals.maxCoeff()) ;
 
         }
+    }
+
+}
+
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStatesAt)
+{
+
+    const Array<Tuple<Tabulated::InterpolationType, Real>> testCases =
+    {
+        { Tabulated::InterpolationType::Linear, 420.0 },
+        { Tabulated::InterpolationType::BarycentricRational, 5e-2 },
+        { Tabulated::InterpolationType::CubicSpline, 5e-3 },
+    } ;
+
+    for (const auto& testCase : testCases)
+    {
+
+        Tabulated::InterpolationType interpolationType = std::get<0>(testCase) ;
+        Real tolerance = std::get<1>(testCase) ;
+
+        const Tabulated tabulated(states_, 0, interpolationType) ;
+
+        Array<Instant> referenceInstants = Array<Instant>::Empty() ;
+        Array<State> referenceStates = Array<State>::Empty() ;
+
+        for (Index i = 0 ; i < referenceStates_.getSize() - testStatesCount_ ; ++i)
+        {
+
+            const Instant referenceInstant = referenceStates_[i].accessInstant() ;
+
+            if (i == 0 || referenceInstant >= states_.accessLast().accessInstant())
+            {
+                continue ;
+            }
+
+            referenceInstants.add(referenceInstant) ;
+            referenceStates.add(referenceStates_[i]) ;
+
+        }
+
+        const Array<State> states = tabulated.calculateStatesAt(referenceInstants) ;
+
+        for (Index i = 0 ; i < states.getSize() ; ++i)
+        {
+            
+            VectorXd residuals = (states[i].getCoordinates() - referenceStates[i].getCoordinates()).array().abs() ;
+
+            EXPECT_TRUE((residuals.array() < tolerance).all()) << String::Format("Residual: {}", residuals.maxCoeff()) ;
+
+        }
+
     }
 
 }

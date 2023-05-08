@@ -106,6 +106,8 @@ class Tabulated : public virtual Model
 
         virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
 
+        virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
+
         virtual void            print                                       (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            =   true ) const override ;
 

@@ -52,6 +52,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def("get_revolution_number_at_epoch", &Tabulated::getRevolutionNumberAtEpoch)
         .def("get_interval", &Tabulated::getInterval)
         .def("calculate_state_at", &Tabulated::calculateStateAt, arg("instant"))
+        .def("calculate_states_at", &Tabulated::calculateStatesAt, arg("instants"))
         .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))
 
     ;

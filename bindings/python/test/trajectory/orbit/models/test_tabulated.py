@@ -91,11 +91,11 @@ class TestTabulated:
             (Tabulated.InterpolationType.BarycentricRational, 5e-2),
         )
     )
-    def test_get_state_at_success (self,
-                                   test_states: list[State],
-                                   reference_states: list[State],
-                                   interpolation_type: Tabulated.InterpolationType,
-                                   error_tolerance: float):
+    def test_calculate_state_at_success (self,
+                                         test_states: list[State],
+                                         reference_states: list[State],
+                                         interpolation_type: Tabulated.InterpolationType,
+                                         error_tolerance: float):
 
         tabulated = Tabulated(
             states = test_states,
@@ -103,13 +103,42 @@ class TestTabulated:
             interpolation_type = interpolation_type,
         )
 
-        calculated_states: list[State] = [
-            tabulated.calculate_state_at(state.get_instant())
+        for reference_state in reference_states:
+            if not tabulated.get_interval().contains_instant(reference_state.get_instant()):
+                continue
+
+            calculated_state: State = tabulated.calculate_state_at(reference_state.get_instant())
+            assert np.all(np.abs(calculated_state.get_coordinates() - reference_state.get_coordinates()) < error_tolerance)
+
+    @pytest.mark.parametrize(
+        'interpolation_type,error_tolerance',
+        (
+            (Tabulated.InterpolationType.Linear, 420.0),
+            (Tabulated.InterpolationType.CubicSpline, 5e-3),
+            (Tabulated.InterpolationType.BarycentricRational, 5e-2),
+        )
+    )
+    def test_calculate_states_at_success (self,
+                                          test_states: list[State],
+                                          reference_states: list[State],
+                                          interpolation_type: Tabulated.InterpolationType,
+                                          error_tolerance: float):
+
+        tabulated = Tabulated(
+            states = test_states,
+            initial_revolution_number = 1,
+            interpolation_type = interpolation_type,
+        )
+
+        states_within_interval: list[State] = [
+            state
             for state in reference_states
             if tabulated.get_interval().contains_instant(state.get_instant())
         ]
 
-        for (calculated_state, reference_state) in zip(calculated_states, reference_states):
+        calculated_states: list[State] = tabulated.calculate_states_at([state.get_instant() for state in states_within_interval])
+
+        for (calculated_state, reference_state) in zip(calculated_states, states_within_interval):
             assert np.all(np.abs(calculated_state.get_coordinates() - reference_state.get_coordinates()) < error_tolerance)
 
     @pytest.mark.parametrize(
@@ -120,9 +149,9 @@ class TestTabulated:
             (Tabulated.InterpolationType.BarycentricRational),
         )
     )
-    def test_get_state_at_failure (self,
-                                   test_states: list[State],
-                                   interpolation_type: Tabulated.InterpolationType):
+    def test_calculate_state_at_failure (self,
+                                         test_states: list[State],
+                                         interpolation_type: Tabulated.InterpolationType):
 
         tabulated = Tabulated(
             states = test_states,

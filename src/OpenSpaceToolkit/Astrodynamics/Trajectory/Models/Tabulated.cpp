@@ -185,6 +185,33 @@ State                           Tabulated::calculateStateAt                 (   
 
 }
 
+Array<State>                    Tabulated::calculateStatesAt                (   const   Array<Instant>&             anInstantArray                              ) const
+{
+
+        using ostk::core::types::Index ;
+
+        if (anInstantArray.isEmpty())
+        {
+            return Array<State>::Empty() ;
+        }
+
+        if (!this->isDefined())
+        {
+            throw ostk::core::error::runtime::Undefined("Tabulated") ;
+        }
+
+        Array<State> stateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
+
+        for (Index i = 0 ; i < anInstantArray.getSize() ; ++i)
+        {
+            stateArray[i] = this->calculateStateAt(anInstantArray[i]) ;
+        }
+
+        return stateArray ;
+
+}
+
+
 void                            Tabulated::print                            (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
 {
