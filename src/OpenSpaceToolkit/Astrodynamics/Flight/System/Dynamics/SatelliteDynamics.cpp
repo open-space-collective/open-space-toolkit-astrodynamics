@@ -30,6 +30,7 @@ SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const Sat
       satelliteSystem_(aSatelliteSystem),
       instant_(Instant::Undefined())
 {
+<<<<<<< HEAD
 }
 
 SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics)
@@ -38,6 +39,22 @@ SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics
       gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
       satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
       instant_(Instant::Undefined())
+=======
+
+    const bool atmosphereWellDefined = environment_.accessCelestialObjectWithName("Earth")->ha() ;
+    const bool ballisticCoefficientDefined = satelliteSystem_.getDragCoefficient().isDefined() && satelliteSystem_.getCrossSectionalSurfaceArea().isDefined() && satelliteSystem_.getMass().isDefined() ;
+    this->dragWellDefined_ = atmosphereWellDefined && ballisticCoefficientDefined ;
+
+}
+
+                                SatelliteDynamics::SatelliteDynamics        (   const   SatelliteDynamics&          aSatelliteDynamics                          )
+                                :   Dynamics(aSatelliteDynamics),
+                                    environment_(aSatelliteDynamics.environment_),
+                                    gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
+                                    satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
+                                    instant_(Instant::Undefined())
+                                    dragWellDefined_(aSatelliteDynamics.dragWellDefined_)
+>>>>>>> feat: add drag-defined flag
 {
 }
 
@@ -134,6 +151,11 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     const Instant currentInstant = instant_ + Duration::Seconds(t);
     environment_.setInstant(currentInstant);
 
+    dxdt[3] = 0 ;
+    dxdt[4] = 0 ;
+    dxdt[5] = 0 ;
+
+    // GRAVITY
     // Initialize gravitational acceleration vector
     Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
 
@@ -160,78 +182,40 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
     }
 
-    // ##### Temp
-    const Real dragCoefficient = 2.2 ;
-    const Real surfaceArea = 1.0 ;
-    const Real rho = 1.0e-13 ;
-    // #####
+    dxdt[3] += totalGravitationalAcceleration_SI[0] ;
+    dxdt[4] += totalGravitationalAcceleration_SI[1] ;
+    dxdt[5] += totalGravitationalAcceleration_SI[2] ;
 
-    const Real mass = satelliteSystem_.getMass().inKilograms() ;
-    const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+    // DRAG
+    if dragWellDefined_
+    {
 
-    // Add drag acceleration
-    const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
+        const Real dragCoefficient = satelliteSystem_.getDragCoefficient() ;
+        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
+        const Real rho = environment_.getDensityAt(currentPosition, currentInstant) ;
 
-    // Calculate drag acceleration
-    const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
+        const Real mass = satelliteSystem_.getMass().inKilograms() ;
 
-    // Integrate position and velocity states
+        // [TBI]: Define in Physics celestial body
+        const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+
+        const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
+
+        // Calculate drag acceleration
+        const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
+
+        dxdt[3] += dragAcceleration[0] ;
+        dxdt[4] += dragAcceleration[1] ;
+        dxdt[5] += dragAcceleration[2] ;
+
+    }
+
+    // Propagate velocity
     dxdt[0] = x[3] ;
     dxdt[1] = x[4] ;
     dxdt[2] = x[5] ;
-    dxdt[3] = totalGravitationalAcceleration_SI[0] + dragAcceleration[0] ;
-    dxdt[4] = totalGravitationalAcceleration_SI[1] + dragAcceleration[1] ;
-    dxdt[5] = totalGravitationalAcceleration_SI[2] + dragAcceleration[2] ;
 
 }
-
-// void                            SatelliteDynamics::Exponential_Dynamics
-//                                                                             (   const SatelliteDynamics::StateVector&
-//                                                                             x,
-//                                                                                         SatelliteDynamics::StateVector&
-//                                                                                         dxdt,
-//                                                                                 const   double ) const
-// {
-//     // Find position magnitude
-//     const double positionMagnitude = std::sqrt(std::pow(x[0],2) + std::pow(x[1],2) + std::pow(x[2],2));
-
-//     // Integrate velocity states
-//     const double positionMagnitudeCubed = std::pow(positionMagnitude,3) ;
-
-//     // Access constants
-//     const double mu_SI =
-//     ((environment_.accessCelestialObjectWithName("Earth"))->getGravitationalParameter()).in(GravitationalParameterSIUnit)
-//     ; const double Re = ((environment_.accessCelestialObjectWithName("Earth"))->getEquatorialRadius()).inMeters() ;
-//     const double dragCoefficient = satelliteSystem_.getDragCoefficient() ;
-//     const double surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
-//     const double mass = satelliteSystem_.getMass().inKilograms() ;
-//     const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
-//     const double rho0 = 6.967e-13 ; // kg/m^3
-//     const double h0 = 500000 ;
-//     const double H = 63822 ;
-
-//     // Calculate relative velocity to wind
-//     const Vector3d relativeVelocity = Vector3d({ x[3], x[4], x[5] }) -
-//     Vector3d({earthAngularVelocity.cross(Vector3d({ x[0], x[1], x[2] }))}) ; const double relativeVelocityMagnitude =
-//     std::sqrt(std::pow(relativeVelocity[0],2) + std::pow(relativeVelocity[1],2) + std::pow(relativeVelocity[2],2)) ;
-
-//     // Calculate density parameters
-//     const double hEllipse = positionMagnitude - Re ;
-//     const double rho = rho0 * std::exp( - (hEllipse - h0) / H ) ;
-
-//     // Calculate drag acceleration
-//     const Vector3d dragAcceleration = -0.5 * dragCoefficient * (surfaceArea / mass) * rho * relativeVelocityMagnitude
-//     * relativeVelocity ;
-
-//     // Integrate position and velocity states
-//     dxdt[0] = x[3] ;
-//     dxdt[1] = x[4] ;
-//     dxdt[2] = x[5] ;
-//     dxdt[3] = -(mu_SI / positionMagnitudeCubed) * x[0] + dragAcceleration[0] ;
-//     dxdt[4] = -(mu_SI / positionMagnitudeCubed) * x[1] + dragAcceleration[1] ;
-//     dxdt[5] = -(mu_SI / positionMagnitudeCubed) * x[2] + dragAcceleration[2] ;
-
-// }
 
 }  // namespace dynamics
 }  // namespace system
