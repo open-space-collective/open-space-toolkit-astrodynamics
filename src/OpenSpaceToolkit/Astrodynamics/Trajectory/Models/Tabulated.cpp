@@ -33,7 +33,7 @@ namespace models
 
     using ostk::math::curvefitting::interp::CubicSpline ;
     using ostk::math::curvefitting::interp::BarycentricRational ;
-    using ostk::math::curvefitting::interp::LinearInterpolator ;
+    using ostk::math::curvefitting::interp::Linear ;
 
     if (aStateArray.isEmpty())
     {
@@ -75,7 +75,7 @@ namespace models
         }
         else if (interpolationType_ == Tabulated::InterpolationType::Linear)
         {
-            interpolators_.add(std::make_shared<LinearInterpolator>(LinearInterpolator(timestamps, coordinates.col(i)))) ;
+            interpolators_.add(std::make_shared<Linear>(Linear(timestamps, coordinates.col(i)))) ;
         }
 
     }

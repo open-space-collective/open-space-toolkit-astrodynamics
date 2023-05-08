@@ -16,9 +16,9 @@
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/BarycentricRational.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/CubicSpline.hpp>
-#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolation/Linear.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/CubicSpline.hpp>
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/Linear.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
