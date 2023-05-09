@@ -1,7 +1,4 @@
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy.cxx
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
+// Copyright © Loft Orbital Solutions Inc.
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ArrayCasting.hpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp>

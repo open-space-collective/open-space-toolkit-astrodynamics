@@ -282,7 +282,6 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 format: build-development-image ## Format all of the source code with the rules in .clang-format
 
 	docker run \
-		-it \
 		--rm \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
@@ -293,7 +292,6 @@ format: build-development-image ## Format all of the source code with the rules 
 format-check: build-development-image ## Runs the clang-format tool to check the code against rules and formatting
 
 	docker run \
-		-it \
 		--rm \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
@@ -304,12 +302,12 @@ format-check: build-development-image ## Runs the clang-format tool to check the
 format-python: build-development-image  ## Runs the black format tool against python code
 
 	docker run \
-		-it \
 		--rm \
-		--volume="$(CURDIR):/app" \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
-		"$(docker_development_image_repository):$(docker_image_version)" \
-		python3.11 -m black --line-length=90 bindings/python/
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
 
 test: ## Run tests
 
@@ -395,7 +393,7 @@ clean: ## Clean
 		build-release-image-cpp build-release-image-python build-release-image-jupyter \
 		build-documentation build-packages-cpp \
 		start-development start-python start-jupyter-notebook debug-jupyter-notebook \
-		format format-check \
+		format format-check format-python \
 		debug-development debug-cpp-release debug-python-release \
 		test test-unit test-unit-cpp test-unit-python test-coverage test-coverage-cpp \
 		clean
