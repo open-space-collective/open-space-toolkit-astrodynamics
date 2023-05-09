@@ -26,12 +26,16 @@ pull: ## Pull all images
 	@ make pull-development-image
 	@ make pull-release-images
 
+.PHONY: pull
+
 pull-development-image: ## Pull development image
 
 	@ echo "Pulling development image..."
 
 	docker pull $(docker_development_image_repository):$(docker_image_version) || true
 	docker pull $(docker_development_image_repository):latest || true
+
+.PHONY: pull-development-image
 
 pull-release-images: ## Pull release images
 
@@ -43,12 +47,16 @@ pull-release-images: ## Pull release images
 
 	@ make pull-release-image-jupyter
 
+.PHONY: pull-release-images
+
 pull-release-image-cpp:
 
 	@ echo "Pull C++ release image..."
 
 	docker pull $(docker_release_image_cpp_repository):$(docker_image_version) || true
 	docker pull $(docker_release_image_cpp_repository):latest || true
+
+.PHONY: pull-release-image-cpp
 
 pull-release-image-python:
 
@@ -57,12 +65,16 @@ pull-release-image-python:
 	docker pull $(docker_release_image_python_repository):$(docker_image_version) || true
 	docker pull $(docker_release_image_python_repository):latest || true
 
+.PHONY: pull-release-image-python
+
 pull-release-image-jupyter:
 
 	@ echo "Pulling Jupyter Notebook release image..."
 
 	docker pull $(docker_release_image_jupyter_repository):$(docker_image_version) || true
 	docker pull $(docker_release_image_jupyter_repository):latest || true
+
+.PHONY: pull-release-image-jupyter
 
 build: build-images ## Build all images
 
@@ -72,6 +84,8 @@ build-images: ## Build development and release images
 
 	@ make build-development-image
 	@ make build-release-images
+
+.PHONY: build-images
 
 build-development-image: pull-development-image ## Build development image
 
@@ -85,6 +99,8 @@ build-development-image: pull-development-image ## Build development image
 		--build-arg="VERSION=$(docker_image_version)" \
 		"$(CURDIR)"
 
+.PHONY: build-development-image
+
 build-release-images: ## Build release images
 
 	@ echo "Building release images..."
@@ -94,6 +110,8 @@ build-release-images: ## Build release images
 	@ make build-release-image-python
 
 	@ make build-release-image-jupyter
+
+.PHONY: build-release-images
 
 build-release-image-cpp: build-development-image pull-release-image-cpp
 
@@ -107,6 +125,8 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 		--build-arg="VERSION=$(docker_image_version)" \
 		--target=cpp-release \
 		"$(CURDIR)"
+	
+.PHONY: build-release-image-cpp
 
 build-release-image-python: build-development-image pull-release-image-python
 
@@ -121,6 +141,8 @@ build-release-image-python: build-development-image pull-release-image-python
 		--target=python-release \
 		"$(CURDIR)"
 
+.PHONY: build-release-image-python
+
 build-release-image-jupyter: pull-release-image-jupyter
 
 	@ echo "Building Jupyter Notebook release image..."
@@ -132,6 +154,8 @@ build-release-image-jupyter: pull-release-image-jupyter
 		--tag=$(docker_release_image_jupyter_repository):latest \
 		--build-arg="JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=$(jupyter_notebook_image_repository)" \
 		"$(CURDIR)/docker/jupyter"
+
+.PHONY: build-release-image-jupyter
 
 build-documentation: build-development-image ## Build documentation
 
@@ -146,12 +170,16 @@ build-documentation: build-development-image ## Build documentation
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_DOCUMENTATION=ON .. \
 		&& make docs"
 
+.PHONY: build-documentation
+
 build-packages: ## Build packages
 
 	@ echo "Building packages..."
 
 	@ make build-packages-cpp
 	@ make build-packages-python
+
+.PHONY: build-packages
 
 build-packages-cpp: build-development-image ## Build C++ packages
 
@@ -168,6 +196,8 @@ build-packages-cpp: build-development-image ## Build C++ packages
 		&& mkdir -p /app/packages/cpp \
 		&& mv /app/build/*.deb /app/packages/cpp"
 
+.PHONY: build-packages-cpp
+
 build-packages-python: build-development-image ## Build Python packages
 
 	@ echo "Building Python packages..."
@@ -183,6 +213,8 @@ build-packages-python: build-development-image ## Build Python packages
 		&& mkdir -p /app/packages/python \
 		&& mv /app/build/bindings/python/dist/*.whl /app/packages/python"
 
+.PHONY: build-packages-python
+
 start-development-no-link: build-development-image ## Start development environment
 
 	@ echo "Starting development environment..."
@@ -197,6 +229,8 @@ start-development-no-link: build-development-image ## Start development environm
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
 
+.PHONY: start-development-no-link
+
 start-development-link: ## Start linked development environment
 
 	$(if $(links), , $(error "You need to provide the links to the C++ dependency repositories you want to link with, separated by white spaces. For example: make start-development-link links="/home/OSTk/open-space-toolkit-io /home/OSTk/open-space-toolkit-core"))
@@ -205,11 +239,15 @@ start-development-link: ## Start linked development environment
 
 	@ project_directory="$(CURDIR)" docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
 
+.PHONY: start-development-link
+
 ifndef link
 start-development: start-development-no-link
 else
 start-development: start-development-link
 endif
+
+.PHONY: start-development
 
 start-python: build-release-image-python ## Start Python runtime environment
 
@@ -219,6 +257,8 @@ start-python: build-release-image-python ## Start Python runtime environment
 		-it \
 		--rm \
 		$(docker_release_image_python_repository):$(docker_image_version)
+
+.PHONY: start-python
 
 start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook environment
 
@@ -232,6 +272,8 @@ start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
 		bash -c "start-notebook.sh --ServerApp.token=''"
+
+.PHONY: start-jupyter-notebook
 
 debug-jupyter-notebook: build-release-image-jupyter
 
@@ -249,6 +291,8 @@ debug-jupyter-notebook: build-release-image-jupyter
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
 		bash -c "start-notebook.sh --ServerApp.token=''"
 
+.PHONY: debug-jupyter-notebook
+
 debug-development: build-development-image ## Debug development environment
 
 	@ echo "Debugging development environment..."
@@ -258,6 +302,8 @@ debug-development: build-development-image ## Debug development environment
 		--rm \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
+
+.PHONY: debug-development
 
 debug-cpp-release: build-release-image-cpp ## Debug C++ release environment
 
@@ -269,6 +315,8 @@ debug-cpp-release: build-release-image-cpp ## Debug C++ release environment
 		--entrypoint=/bin/bash \
 		$(docker_release_image_cpp_repository):$(docker_image_version)
 
+.PHONY: debug-cpp-release
+
 debug-python-release: build-release-image-python ## Debug Python release environment
 
 	@ echo "Debugging Python release environment..."
@@ -278,6 +326,8 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 		--rm \
 		--entrypoint=/bin/bash \
 		$(docker_release_image_python_repository):$(docker_image_version)
+
+.PHONY: debug-python-release
 
 format: build-development-image ## Format all of the source code with the rules in .clang-format
 
@@ -289,6 +339,8 @@ format: build-development-image ## Format all of the source code with the rules 
 		$(docker_development_image_repository):$(docker_image_version) \
 		clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
+.PHONY: format
+
 format-check: build-development-image ## Runs the clang-format tool to check the code against rules and formatting
 
 	docker run \
@@ -296,18 +348,21 @@ format-check: build-development-image ## Runs the clang-format tool to check the
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		--user="$(shell id -u):$(shell id -g)" \
-		"$(docker_development_image_repository):$(docker_image_version)" \
+		$(docker_development_image_repository):$(docker_image_version) \
 		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
+
+.PHONY: format-check
 
 format-python: build-development-image  ## Runs the black format tool against python code
 
 	docker run \
 		--rm \
-		--privileged \
-		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+
+.PHONY: format-python
 
 test: ## Run tests
 
@@ -316,12 +371,16 @@ test: ## Run tests
 	@ make test-unit
 	@ make test-coverage
 
+.PHONY: test
+
 test-unit: ## Run unit tests
 
 	@ echo "Running unit tests..."
 
 	@ make test-unit-cpp
 	@ make test-unit-python
+
+.PHONY: test-unit
 
 test-unit-cpp: build-development-image ## Run C++ unit tests
 
@@ -338,6 +397,8 @@ test-unit-cpp: build-development-image ## Run C++ unit tests
 		&& make -j 4 \
 		&& make test"
 
+.PHONY: test-unit-cpp
+
 test-unit-python: build-release-image-python ## Run Python unit tests
 
 	@ echo "Running Python unit tests..."
@@ -350,11 +411,15 @@ test-unit-python: build-release-image-python ## Run Python unit tests
 		$(docker_release_image_python_repository):$(docker_image_version) \
 		/bin/bash -c "pip install pytest && pytest -sv ."
 
+.PHONY: test-unit-python
+
 test-coverage: ## Run test coverage cpp
 
 	@ echo "Running coverage tests..."
 
 	@ make test-coverage-cpp
+
+.PHONY: test-coverage
 
 test-coverage-cpp: build-development-image
 
@@ -374,6 +439,8 @@ test-coverage-cpp: build-development-image
 		&& mkdir /app/coverage \
 		&& mv /app/build/coverage* /app/coverage"
 
+.PHONY: test-coverage-cpp
+
 clean: ## Clean
 
 	@ echo "Cleaning up..."
@@ -387,16 +454,7 @@ clean: ## Clean
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
 
-.PHONY: pull pull-development-image \
-		build build-images build-development-image \
-		pull-release-images pull-release-image-cpp pull-release-image-python pull-release-image-jupyter \
-		build-release-image-cpp build-release-image-python build-release-image-jupyter \
-		build-documentation build-packages-cpp \
-		start-development start-python start-jupyter-notebook debug-jupyter-notebook \
-		format format-check format-python \
-		debug-development debug-cpp-release debug-python-release \
-		test test-unit test-unit-cpp test-unit-python test-coverage test-coverage-cpp \
-		clean
+.PHONY: clean
 
 help:
 
