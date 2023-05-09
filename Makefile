@@ -15,6 +15,8 @@ docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 jupyter_notebook_image_repository := jupyter/scipy-notebook:python-3.8.8
 jupyter_notebook_port := 9005
 jupyter_python_version := 3.8
+
+project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
 jupyter_project_name_python_shared_object := $(shell echo "OpenSpaceToolkit${project_name_camel_case}.cpython-38-x86_64-linux-gnu")
 
 clang_format_sources_path ?= $(shell find ~+ src/ include/ test/ bindings/python/src/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp' -o -name '*.tpp')
