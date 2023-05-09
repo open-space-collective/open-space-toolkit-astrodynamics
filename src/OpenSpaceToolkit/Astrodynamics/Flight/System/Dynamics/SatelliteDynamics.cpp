@@ -183,16 +183,18 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     dxdt[5] += totalGravitationalAcceleration_SI[2] ;
 
     // DRAG
+    
     const Real mass = satelliteSystem_.getMass().inKilograms() ;
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient() ;
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
 
     for (const auto& objectName : environment_.getObjectNames())
     {
+
         // TBI: currently only defined for Earth
         if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel() != nullptr)
         {
-            
+
             const Real rho = environment_.accessCelestialObjectWithName(objectName)->getAtmosphericDensityAt(currentPosition).getValue() ;
 
             // [TBI]: Define in Physics celestial body
@@ -210,6 +212,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         }
 
     }
+    
     // Propagate velocity
     dxdt[0] = x[3] ;
     dxdt[1] = x[4] ;
