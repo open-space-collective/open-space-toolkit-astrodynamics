@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['first_799',['First',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a7fb55ed0b7a30342ba6da306428cae04',1,'ostk::astro::trajectory::orbit::Pass']]],
-  ['fourth_800',['Fourth',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a6e599f7a2a9186d391be4537f105be98',1,'ostk::astro::trajectory::orbit::Pass']]]
+  ['debris_811',['Debris',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#a9ef446f2327904fc0516249120ec9d71a7e4a693bfe182987626f234139a8dc83',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],
+  ['descending_812',['Descending',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a9fb48e13f29c899a8b74c43091fe4203ae3cf5ac19407b1a62c6fccaff675a53b',1,'ostk::astro::trajectory::orbit::Pass']]]
 ];

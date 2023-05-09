@@ -81,6 +81,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1mo
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
@@ -106,10 +107,18 @@ Inheritance diagram for ostk::astro::trajectory::models::Tabulated:</div>
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a6cfa3365af2959f1e2b966aeaa7d4d77"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">InterpolationType</a> { <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77a32a843da6ea40ab3b17a3421ccdf671b">InterpolationType::Linear</a>, 
+<a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77a98cf9ba70112c998166a82b6f289bb9f">InterpolationType::BarycentricRational</a>, 
+<a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77abc050383dcd36a2e1f9481e562332cfa">InterpolationType::CubicSpline</a>
+ }</td></tr>
+<tr class="separator:a6cfa3365af2959f1e2b966aeaa7d4d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a789aab702a52091467869fb78018b37d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a789aab702a52091467869fb78018b37d">Tabulated</a> (const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aStateArray)</td></tr>
-<tr class="separator:a789aab702a52091467869fb78018b37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c9756b91c3ff6508560951098f81acd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a1c9756b91c3ff6508560951098f81acd">Tabulated</a> (const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aStateArray, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">InterpolationType</a> &amp;anInterpolationType=<a class="el" href="_trajectory_2_models_2_tabulated_8hpp.html#ad7c40273c493179caae28b4aa810dc29">DEFAULT_TABULATED_INTERPOLATION_TYPE</a>)</td></tr>
+<tr class="separator:a1c9756b91c3ff6508560951098f81acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a553d2c4027ce269c1c2b3f4e9c65e14d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html">Tabulated</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a553d2c4027ce269c1c2b3f4e9c65e14d">clone</a> () const override</td></tr>
 <tr class="separator:a553d2c4027ce269c1c2b3f4e9c65e14d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec2a2014af9276d9cc89cd1898a5d001"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#aec2a2014af9276d9cc89cd1898a5d001">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html">Tabulated</a> &amp;aTabulatedModel) const</td></tr>
@@ -120,8 +129,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a379da4c10a738c3f4578042c9bae0c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad385f1f0126aa00fbc33c120debff086"><td class="memItemLeft" align="right" valign="top">Interval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#ad385f1f0126aa00fbc33c120debff086">getInterval</a> () const</td></tr>
 <tr class="separator:ad385f1f0126aa00fbc33c120debff086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08ee176a9ef597e7176c28f254f55598"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">InterpolationType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a08ee176a9ef597e7176c28f254f55598">getInterpolationType</a> () const</td></tr>
+<tr class="separator:a08ee176a9ef597e7176c28f254f55598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbc913778b26803ff1343ef80a41707d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#adbc913778b26803ff1343ef80a41707d">getFirstState</a> () const</td></tr>
+<tr class="separator:adbc913778b26803ff1343ef80a41707d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b7b624e62841fb93513f02c9d7c8f67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a7b7b624e62841fb93513f02c9d7c8f67">getLastState</a> () const</td></tr>
+<tr class="separator:a7b7b624e62841fb93513f02c9d7c8f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2ebaa6456986636aa58c2f8666ed0b9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#af2ebaa6456986636aa58c2f8666ed0b9">calculateStateAt</a> (const Instant &amp;anInstant) const override</td></tr>
 <tr class="separator:af2ebaa6456986636aa58c2f8666ed0b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32239d967738b2625504bc5efe8737eb"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a32239d967738b2625504bc5efe8737eb">calculateStatesAt</a> (const Array&lt; Instant &gt; &amp;anInstantArray) const override</td></tr>
+<tr class="separator:a32239d967738b2625504bc5efe8737eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a330bfffa50eb77eb7f6d45cfec1e9e29"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a330bfffa50eb77eb7f6d45cfec1e9e29">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="separator:a330bfffa50eb77eb7f6d45cfec1e9e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classostk_1_1astro_1_1trajectory_1_1_model')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html">ostk::astro::trajectory::Model</a></td></tr>
@@ -137,8 +154,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a53365ee40062f5571b664998a56701e3 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="memTemplItemLeft" align="right" valign="top">const Type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3">as</a> () const</td></tr>
 <tr class="memdesc:a53365ee40062f5571b664998a56701e3 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> model as its underlying type.  <a href="classostk_1_1astro_1_1trajectory_1_1_model.html#a53365ee40062f5571b664998a56701e3">More...</a><br /></td></tr>
 <tr class="separator:a53365ee40062f5571b664998a56701e3 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c3e4913aed2272174c0e6cd0d1a6415 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a3c3e4913aed2272174c0e6cd0d1a6415">calculateStatesAt</a> (const Array&lt; Instant &gt; &amp;anInstantArray) const</td></tr>
-<tr class="separator:a3c3e4913aed2272174c0e6cd0d1a6415 inherit pub_methods_classostk_1_1astro_1_1trajectory_1_1_model"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -159,11 +174,39 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html" title="Tabulated trajectory model.">Tabulated</a> trajectory model. </p>
-<pre class="fragment">                        For now, a simple linear interpolation is performed between steps.
-                        In a future release, more advanced interpolation schemes (quadratic, spline, ...) will be provided. 
-</pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a789aab702a52091467869fb78018b37d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a789aab702a52091467869fb78018b37d">&#9670;&nbsp;</a></span>Tabulated()</h2>
+<pre class="fragment">                        Interpolation is performed between states using the specified interpolation scheme.
+                        For now, linear, barycentric rational and cubic spline interpolation schemes are supported. 
+</pre> </div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a6cfa3365af2959f1e2b966aeaa7d4d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cfa3365af2959f1e2b966aeaa7d4d77">&#9670;&nbsp;</a></span>InterpolationType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">ostk::astro::trajectory::models::Tabulated::InterpolationType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6cfa3365af2959f1e2b966aeaa7d4d77a32a843da6ea40ab3b17a3421ccdf671b"></a>Linear&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6cfa3365af2959f1e2b966aeaa7d4d77a98cf9ba70112c998166a82b6f289bb9f"></a>BarycentricRational&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6cfa3365af2959f1e2b966aeaa7d4d77abc050383dcd36a2e1f9481e562332cfa"></a>CubicSpline&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a1c9756b91c3ff6508560951098f81acd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c9756b91c3ff6508560951098f81acd">&#9670;&nbsp;</a></span>Tabulated()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,8 +215,18 @@ Friends</h2></td></tr>
           <td class="memname">ostk::astro::trajectory::models::Tabulated::Tabulated </td>
           <td>(</td>
           <td class="paramtype">const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>aStateArray</em></td><td>)</td>
+          <td class="paramname"><em>aStateArray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">InterpolationType</a> &amp;&#160;</td>
+          <td class="paramname"><em>anInterpolationType</em> = <code><a class="el" href="_trajectory_2_models_2_tabulated_8hpp.html#ad7c40273c493179caae28b4aa810dc29">DEFAULT_TABULATED_INTERPOLATION_TYPE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,6 +264,34 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a32239d967738b2625504bc5efe8737eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32239d967738b2625504bc5efe8737eb">&#9670;&nbsp;</a></span>calculateStatesAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; ostk::astro::trajectory::models::Tabulated::calculateStatesAt </td>
+          <td>(</td>
+          <td class="paramtype">const Array&lt; Instant &gt; &amp;&#160;</td>
+          <td class="paramname"><em>anInstantArray</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a3c3e4913aed2272174c0e6cd0d1a6415">ostk::astro::trajectory::Model</a>.</p>
+
+</div>
+</div>
 <a id="a553d2c4027ce269c1c2b3f4e9c65e14d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a553d2c4027ce269c1c2b3f4e9c65e14d">&#9670;&nbsp;</a></span>clone()</h2>
 
@@ -240,6 +321,40 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="adbc913778b26803ff1343ef80a41707d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbc913778b26803ff1343ef80a41707d">&#9670;&nbsp;</a></span>getFirstState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::trajectory::models::Tabulated::getFirstState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08ee176a9ef597e7176c28f254f55598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08ee176a9ef597e7176c28f254f55598">&#9670;&nbsp;</a></span>getInterpolationType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a6cfa3365af2959f1e2b966aeaa7d4d77">Tabulated::InterpolationType</a> ostk::astro::trajectory::models::Tabulated::getInterpolationType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad385f1f0126aa00fbc33c120debff086"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad385f1f0126aa00fbc33c120debff086">&#9670;&nbsp;</a></span>getInterval()</h2>
 
@@ -248,6 +363,23 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">Interval ostk::astro::trajectory::models::Tabulated::getInterval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7b7b624e62841fb93513f02c9d7c8f67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b7b624e62841fb93513f02c9d7c8f67">&#9670;&nbsp;</a></span>getLastState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::trajectory::models::Tabulated::getLastState </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

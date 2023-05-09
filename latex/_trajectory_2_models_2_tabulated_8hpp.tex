@@ -1,13 +1,17 @@
 \hypertarget{_trajectory_2_models_2_tabulated_8hpp}{}\doxysection{include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Models/\+Tabulated.hpp File Reference}
 \label{_trajectory_2_models_2_tabulated_8hpp}\index{include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp@{include/OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp}}
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Model.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Interval.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+File\+System/\+File.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Array.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Pair.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Index.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Curve\+Fitting/\+Interpolator.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Curve\+Fitting/\+Interpolator/\+Barycentric\+Rational.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Curve\+Fitting/\+Interpolator/\+Cubic\+Spline.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Curve\+Fitting/\+Interpolator/\+Linear.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Interval.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+Model.\+hpp$>$}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -24,6 +28,11 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated}
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_1_1models}{ostk\+::astro\+::trajectory\+::models}}
 \end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_trajectory_2_models_2_tabulated_8hpp_ad7c40273c493179caae28b4aa810dc29}{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+A\+B\+U\+L\+A\+T\+E\+D\+\_\+\+I\+N\+T\+E\+R\+P\+O\+L\+A\+T\+I\+O\+N\+\_\+\+T\+Y\+PE}}~Tabulated\+::\+Interpolation\+Type\+::\+Linear
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -32,3 +41,12 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated}
 \begin{DoxyAuthor}{Author}
 Lucas Brémond \href{mailto:lucas@loftorbital.com}{\texttt{ lucas@loftorbital.\+com}} @license Apache License 2.\+0 
 \end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_trajectory_2_models_2_tabulated_8hpp_ad7c40273c493179caae28b4aa810dc29}\label{_trajectory_2_models_2_tabulated_8hpp_ad7c40273c493179caae28b4aa810dc29}} 
+\index{Tabulated.hpp@{Tabulated.hpp}!DEFAULT\_TABULATED\_INTERPOLATION\_TYPE@{DEFAULT\_TABULATED\_INTERPOLATION\_TYPE}}
+\index{DEFAULT\_TABULATED\_INTERPOLATION\_TYPE@{DEFAULT\_TABULATED\_INTERPOLATION\_TYPE}!Tabulated.hpp@{Tabulated.hpp}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_TABULATED\_INTERPOLATION\_TYPE}{DEFAULT\_TABULATED\_INTERPOLATION\_TYPE}}
+{\footnotesize\ttfamily \#define D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+A\+B\+U\+L\+A\+T\+E\+D\+\_\+\+I\+N\+T\+E\+R\+P\+O\+L\+A\+T\+I\+O\+N\+\_\+\+T\+Y\+PE~Tabulated\+::\+Interpolation\+Type\+::\+Linear}
+

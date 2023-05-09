@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type_793',['Type',['../classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93',1,'ostk::astro::Access::Type()'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febcc',1,'ostk::astro::trajectory::orbit::Pass::Type()']]]
+  ['steppertype_804',['StepperType',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947',1,'ostk::astro::NumericalSolver']]]
 ];

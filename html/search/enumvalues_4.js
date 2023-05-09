@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['inertial_801',['Inertial',['../classostk_1_1astro_1_1flight_1_1_profile.html#a01d9e77f30ba7131c70e81d12b237ea4a4d5cc7bc19ef3d1ab992ba044dc0ebe4',1,'ostk::astro::flight::Profile']]]
+  ['first_813',['First',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a7fb55ed0b7a30342ba6da306428cae04',1,'ostk::astro::trajectory::orbit::Pass']]],
+  ['fourth_814',['Fourth',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a6e599f7a2a9186d391be4537f105be98',1,'ostk::astro::trajectory::orbit::Pass']]]
 ];

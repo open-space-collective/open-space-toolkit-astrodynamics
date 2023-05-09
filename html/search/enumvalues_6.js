@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['logadaptive_804',['LogAdaptive',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e',1,'ostk::astro::NumericalSolver']]],
-  ['logconstant_805',['LogConstant',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4ca40b79e6f53444b0a01aa353abfd9fe91',1,'ostk::astro::NumericalSolver']]],
-  ['lvlh_806',['LVLH',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7acdfe4a5ed313c123b78c17d455cfa94f',1,'ostk::astro::trajectory::Orbit']]],
-  ['lvlhgd_807',['LVLHGD',['../classostk_1_1astro_1_1trajectory_1_1_orbit.html#a1cc449ad56374471a8ab4300dde979e7a9f24a174bf2de776f4f87caef847746f',1,'ostk::astro::trajectory::Orbit']]]
+  ['j2_816',['J2',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494',1,'ostk::astro::trajectory::orbit::models::Kepler']]],
+  ['j4_817',['J4',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369',1,'ostk::astro::trajectory::orbit::models::Kepler']]]
 ];
