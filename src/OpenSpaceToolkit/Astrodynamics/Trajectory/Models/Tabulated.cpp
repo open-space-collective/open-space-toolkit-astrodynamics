@@ -25,11 +25,64 @@ namespace models
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                                Tabulated::Tabulated                        (   const   Array<State>&               aStateArray                                 )
+                                Tabulated::Tabulated                        (   const   Array<State>&               aStateArray,
+                                                                                const   InterpolationType&          anInterpolationType                         )
                                 :   Model(),
-                                    states_(aStateArray),
-                                    stateIndex_(0)
+                                    interpolationType_(anInterpolationType)
 {
+
+    using ostk::math::curvefitting::interp::CubicSpline ;
+    using ostk::math::curvefitting::interp::BarycentricRational ;
+    using ostk::math::curvefitting::interp::Linear ;
+
+    if (aStateArray.getSize() < 2)
+    {
+        return ;
+    }
+
+    Array<State> stateArray = aStateArray ;
+
+    std::sort(stateArray.begin(), stateArray.end(), [] (const auto& lhs, const auto& rhs) { return lhs.getInstant() < rhs.getInstant() ; }) ;
+
+    firstState_ = aStateArray.accessFirst() ;
+    lastState_ = aStateArray.accessLast() ;
+
+    VectorXd timestamps(stateArray.getSize()) ;
+    MatrixXd coordinates(stateArray.getSize(), 6) ;
+
+    for (Index i = 0 ; i < stateArray.getSize() ; ++i)
+    {
+
+        timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds() ;
+
+        coordinates.row(i).segment<3>(0) = stateArray[i].accessPosition().accessCoordinates() ;
+        coordinates.row(i).segment<3>(3) = stateArray[i].accessVelocity().accessCoordinates() ;
+
+    }
+
+    interpolators_.reserve(coordinates.cols()) ;
+
+    for (Index i = 0 ; i < Size(coordinates.cols()) ; ++i)
+    {
+
+        if (interpolationType_ == Tabulated::InterpolationType::CubicSpline)
+        {
+            interpolators_.add(std::make_shared<CubicSpline>(CubicSpline(timestamps, coordinates.col(i)))) ;
+        }
+        else if (interpolationType_ == Tabulated::InterpolationType::BarycentricRational)
+        {
+            interpolators_.add(std::make_shared<BarycentricRational>(BarycentricRational(timestamps, coordinates.col(i)))) ;
+        }
+        else if (interpolationType_ == Tabulated::InterpolationType::Linear)
+        {
+            interpolators_.add(std::make_shared<Linear>(Linear(timestamps, coordinates.col(i)))) ;
+        }
+        else
+        {
+            throw ostk::core::error::runtime::Wrong("InterpolationType") ;
+        }
+
+    }
 
 }
 
@@ -46,7 +99,7 @@ bool                            Tabulated::operator ==                      (   
         return false ;
     }
 
-    return states_ == aTabulatedModel.states_ ;
+    return interpolationType_ == aTabulatedModel.getInterpolationType() && firstState_ == aTabulatedModel.getFirstState() && lastState_ == aTabulatedModel.getLastState() ;
 
 }
 
@@ -67,7 +120,7 @@ std::ostream&                   operator <<                                 (   
 
 bool                            Tabulated::isDefined                        ( ) const
 {
-    return !states_.isEmpty() ;
+    return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined() ;
 }
 
 Interval                        Tabulated::getInterval                     ( ) const
@@ -78,20 +131,37 @@ Interval                        Tabulated::getInterval                     ( ) c
         throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
-    return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant()) ;
+    return Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant()) ;
 
+}
+
+Tabulated::InterpolationType    Tabulated::getInterpolationType             ( ) const
+{
+
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Tabulated") ;
+    }
+
+    return interpolationType_ ;
+
+}
+
+State                           Tabulated::getFirstState                    ( ) const
+{
+    return firstState_ ;
+}
+
+State                           Tabulated::getLastState                     ( ) const
+{
+    return lastState_ ;
 }
 
 State                           Tabulated::calculateStateAt                 (   const   Instant&                    anInstant                                   ) const
 {
 
-    using ostk::core::types::Real ;
-
-    using ostk::math::obj::Vector3d ;
-
-    using ostk::physics::time::Duration ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
+    using ostk::core::types::Index ;
+    using ostk::core::types::String ;
 
     if (!anInstant.isDefined())
     {
@@ -103,39 +173,45 @@ State                           Tabulated::calculateStateAt                 (   
         throw ostk::core::error::runtime::Undefined("Tabulated") ;
     }
 
-    const Pair<const State*, const State*> stateRange = this->accessStateRangeAt(anInstant) ;
-
-    if ((stateRange.first != nullptr) && (stateRange.second != nullptr))
+    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
     {
-
-        const State& previousState = *(stateRange.first) ;
-        const State& nextState = *(stateRange.second) ;
-
-        const Real ratio = Duration::Between(previousState.accessInstant(), anInstant).inSeconds() / Duration::Between(previousState.accessInstant(), nextState.accessInstant()).inSeconds() ;
-
-        const Vector3d x_ECI = previousState.accessPosition().accessCoordinates() + ratio * (nextState.accessPosition().accessCoordinates() - previousState.accessPosition().accessCoordinates()) ;
-        const Vector3d v_ECI = previousState.accessVelocity().accessCoordinates() + ratio * (nextState.accessVelocity().accessCoordinates() - previousState.accessVelocity().accessCoordinates()) ;
-
-        const Position position = { x_ECI, previousState.accessPosition().getUnit(), previousState.accessPosition().accessFrame() } ;
-        const Velocity velocity = { v_ECI, previousState.accessVelocity().getUnit(), previousState.accessVelocity().accessFrame() } ;
-
-        const State state = { anInstant, position, velocity } ;
-
-        return state ;
-
-    }
-    else if (stateRange.first != nullptr)
-    {
-        return *(stateRange.first) ;
-    }
-    else if (stateRange.second != nullptr)
-    {
-        return *(stateRange.second) ;
+        throw ostk::core::error::RuntimeError(String::Format("Provided instant [{}] is outside of interpolation range [{}, {}].", anInstant.toString(), firstState_.accessInstant().toString(), lastState_.accessInstant().toString())) ;
     }
 
-    throw ostk::core::error::RuntimeError("Cannot calculate state at [{}].", anInstant.toString()) ;
+    VectorXd interpolatedCoordinates(interpolators_.getSize()) ;
 
-    return State::Undefined() ;
+    for (Index i = 0 ; i < interpolators_.getSize() ; ++i)
+    {
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds()) ;
+    }
+
+    return State(anInstant, Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()), Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3),  firstState_.accessPosition().accessFrame())) ;
+
+}
+
+Array<State>                    Tabulated::calculateStatesAt                (   const   Array<Instant>&             anInstantArray                              ) const
+{
+
+        using ostk::core::types::Index ;
+
+        if (anInstantArray.isEmpty())
+        {
+            return Array<State>::Empty() ;
+        }
+
+        if (!this->isDefined())
+        {
+            throw ostk::core::error::runtime::Undefined("Tabulated") ;
+        }
+
+        Array<State> stateArray = Array<State>(anInstantArray.getSize(), State::Undefined()) ;
+
+        for (Index i = 0 ; i < anInstantArray.getSize() ; ++i)
+        {
+            stateArray[i] = this->calculateStateAt(anInstantArray[i]) ;
+        }
+
+        return stateArray ;
 
 }
 
@@ -186,126 +262,6 @@ bool                            Tabulated::operator ==                      (   
 bool                            Tabulated::operator !=                      (   const   Model&                      aModel                                      ) const
 {
     return !((*this) == aModel) ;
-}
-
-Pair<const State*, const State*> Tabulated::accessStateRangeAt              (   const   Instant&                    anInstant                                   ) const
-{
-
-    using ostk::core::ctnr::Unpack ;
-
-    State const* previousStatePtr = nullptr ;
-    State const* nextStatePtr = nullptr ;
-
-    while (true) // To be improved
-    {
-
-        Unpack(previousStatePtr, nextStatePtr) = this->accessStateRangeAtIndex(stateIndex_) ; // Check index cache
-
-        if ((previousStatePtr != nullptr) && (nextStatePtr != nullptr))
-        {
-
-            if ((previousStatePtr->accessInstant() <= anInstant) && (anInstant <= nextStatePtr->accessInstant()))
-            {
-
-                if (previousStatePtr->accessInstant() == anInstant)
-                {
-                    return { nullptr, previousStatePtr } ;
-                }
-                else if (nextStatePtr->accessInstant() == anInstant)
-                {
-                    return { nextStatePtr, nullptr } ;
-                }
-
-                return { previousStatePtr, nextStatePtr } ;
-
-            }
-            else
-            {
-
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_-- ;
-                    }
-                    else
-                    {
-                        break ;
-                    }
-
-                }
-                else
-                {
-
-                    if ((states_.getSize() > 0) && (stateIndex_ < (states_.getSize() - 1)))
-                    {
-                        stateIndex_++ ;
-                    }
-                    else
-                    {
-                        break ;
-                    }
-
-                }
-
-            }
-
-        }
-        else if (previousStatePtr != nullptr)
-        {
-
-            if (previousStatePtr->accessInstant() == anInstant)
-            {
-                return { nullptr, previousStatePtr } ;
-            }
-            else
-            {
-
-                if (anInstant < previousStatePtr->accessInstant())
-                {
-
-                    if (stateIndex_ > 0)
-                    {
-                        stateIndex_-- ;
-                    }
-                    else
-                    {
-                        break ;
-                    }
-
-                }
-                else
-                {
-                    return { nullptr, nullptr } ;
-                }
-
-            }
-
-        }
-        else
-        {
-
-            stateIndex_ = 0 ;
-
-            break ;
-
-        }
-
-    }
-
-    return { nullptr, nullptr } ;
-
-}
-
-Pair<const State*, const State*> Tabulated::accessStateRangeAtIndex         (   const   Index&                      anIndex                                     ) const
-{
-
-    const State* previousStatePtr = (anIndex < states_.getSize()) ? &(states_.at(anIndex)) : nullptr ;
-    const State* nextStatePtr = ((anIndex + 1) < states_.getSize()) ? &(states_.at(anIndex + 1)) : nullptr ;
-
-    return { previousStatePtr, nextStatePtr } ;
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
