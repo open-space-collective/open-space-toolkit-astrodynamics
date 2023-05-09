@@ -25,7 +25,8 @@ CDM::CDM(
       relativeMetadata_(aRelativeMetadata),
       objectsMetadata_(aMetadataArray),
       objectsData_(aDataArray)
-{}
+{
+}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM)
 {
@@ -357,7 +358,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
     // TBI: Set the other fields to Undefined() or String::Empty() (except `MESSAGE_FOR`) for now
 
     // Utility Function (to be moved later)
-    const auto referenceFrameStringToFrame = [](const String& referenceFrameString) -> Shared<const Frame> {
+    const auto referenceFrameStringToFrame = [](const String& referenceFrameString) -> Shared<const Frame>
+    {
         if (referenceFrameString == "ITRF")
         {
             return Frame::ITRF();

@@ -301,6 +301,16 @@ format-check: build-development-image ## Runs the clang-format tool to check the
 		"$(docker_development_image_repository):$(docker_image_version)" \
 		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
+format-python: build-development-image  ## Runs the black format tool against python code
+
+	docker run \
+		-it \
+		--rm \
+		--volume="$(CURDIR):/app" \
+		--workdir=/app \
+		"$(docker_development_image_repository):$(docker_image_version)" \
+		python3.11 -m black --line-length=90 bindings/python/
+
 test: ## Run tests
 
 	@ echo "Running tests..."

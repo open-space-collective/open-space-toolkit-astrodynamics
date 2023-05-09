@@ -36,8 +36,8 @@ COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
 
-def test_trajectory_undefined ():
 
+def test_trajectory_undefined():
     trajectory: Trajectory = Trajectory.undefined()
 
     assert trajectory is not None

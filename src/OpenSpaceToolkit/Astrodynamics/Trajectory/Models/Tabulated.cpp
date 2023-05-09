@@ -29,9 +29,14 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
 
     Array<State> stateArray = aStateArray;
 
-    std::sort(stateArray.begin(), stateArray.end(), [](const auto& lhs, const auto& rhs) {
-        return lhs.getInstant() < rhs.getInstant();
-    });
+    std::sort(
+        stateArray.begin(),
+        stateArray.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.getInstant() < rhs.getInstant();
+        }
+    );
 
     firstState_ = aStateArray.accessFirst();
     lastState_ = aStateArray.accessLast();

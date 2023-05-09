@@ -40,7 +40,8 @@ Orbit::Orbit(const orbit::Model& aModel, const Shared<const Celestial>& aCelesti
     : Trajectory(aModel),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
-{}
+{
+}
 
 Orbit::Orbit(
     const Array<State>& aStateArray,
@@ -50,13 +51,15 @@ Orbit::Orbit(
     : Trajectory(orbit::models::Tabulated(aStateArray, anInitialRevolutionNumber)),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(aCelestialObjectSPtr)
-{}
+{
+}
 
 Orbit::Orbit(const Orbit& anOrbit)
     : Trajectory(anOrbit),
       modelPtr_(dynamic_cast<const orbit::Model*>(&this->accessModel())),
       celestialObjectSPtr_(anOrbit.celestialObjectSPtr_)
-{}
+{
+}
 
 Orbit::~Orbit()
 {
@@ -388,10 +391,12 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
     }
 
     const auto generateDynamicProvider =
-        [this](const auto& anAttitudeGenerator, const Shared<const Frame>& aReferenceFrame) -> auto {
+        [this](const auto& anAttitudeGenerator, const Shared<const Frame>& aReferenceFrame) -> auto
+    {
         const Shared<const DynamicProvider> dynamicProviderSPtr = std::make_shared<const DynamicProvider>(
             // TBM: Using `this` here will trigger a segfault if the Orbit is de-allocated while the Frame is used.
-            [this, anAttitudeGenerator, aReferenceFrame](const Instant& anInstant) -> Transform {
+            [this, anAttitudeGenerator, aReferenceFrame](const Instant& anInstant) -> Transform
+            {
                 const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame);
 
                 const Vector3d x_GCRF = state.accessPosition().accessCoordinates();
@@ -433,7 +438,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
     {
         case Orbit::FrameType::NED:
         {
-            const auto calculateAttitude = [this](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [this](const State& aState) -> Quaternion
+            {
                 // Get state in central body centered, central body fixed frame
 
                 const State state =
@@ -476,7 +482,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             // Z axis along orbital momentum
             // Y axis toward velocity vector
 
-            const auto calculateAttitude = [](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [](const State& aState) -> Quaternion
+            {
                 const Vector3d x_GCRF = aState.accessPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
 
@@ -503,7 +510,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             // Y axis along negative orbital momentum
             // X axis toward velocity vector
 
-            const auto calculateAttitude = [](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [](const State& aState) -> Quaternion
+            {
                 const Vector3d x_GCRF = aState.accessPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
 
@@ -529,7 +537,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             // X axis along position vector
             // Z axis along orbital momentum
 
-            const auto calculateAttitude = [](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [](const State& aState) -> Quaternion
+            {
                 const Vector3d x_GCRF = aState.accessPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
 
@@ -555,7 +564,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             // X axis along velocity vector
             // Z axis along orbital momentum
 
-            const auto calculateAttitude = [](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [](const State& aState) -> Quaternion
+            {
                 const Vector3d x_GCRF = aState.accessPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
 
@@ -581,7 +591,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             // X axis along velocity vector
             // Y axis along orbital momentum
 
-            const auto calculateAttitude = [](const State& aState) -> Quaternion {
+            const auto calculateAttitude = [](const State& aState) -> Quaternion
+            {
                 const Vector3d x_GCRF = aState.accessPosition().accessCoordinates();
                 const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
 
@@ -791,7 +802,8 @@ Orbit Orbit::SunSynchronous(
         throw ostk::core::error::runtime::Undefined("Celestial object");
     }
 
-    const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr](const Length& aSemiMajorAxis) -> Angle {
+    const auto calculateSunSynchronousInclination = [&aCelestialObjectSPtr](const Length& aSemiMajorAxis) -> Angle
+    {
         /// @ref Capderou M., Handbook of Satellite Orbits: From Kepler to GPS, p.292
 
         const Real a = aSemiMajorAxis.inMeters();
@@ -805,7 +817,8 @@ Orbit Orbit::SunSynchronous(
         return Angle::Radians(std::acos(-1.0 / k_h * std::pow((a / R), (7.0 / 2.0))));
     };
 
-    const auto calculateEquationOfTime = [](const Instant& anInstant) -> Angle {
+    const auto calculateEquationOfTime = [](const Instant& anInstant) -> Angle
+    {
         const Real julianDate = anInstant.getJulianDate(Scale::UTC);
 
         // Julian Date of J2000.0
@@ -843,7 +856,8 @@ Orbit Orbit::SunSynchronous(
         return Angle::Degrees(equationOfTime_deg);
     };
 
-    const auto calculateRaan = [calculateEquationOfTime, &anEpoch](const Time& aLocalTimeAtAscendingNode) -> Angle {
+    const auto calculateRaan = [calculateEquationOfTime, &anEpoch](const Time& aLocalTimeAtAscendingNode) -> Angle
+    {
         const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
                                (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
                                (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
@@ -890,7 +904,8 @@ Orbit Orbit::SunSynchronous(
         return raan;
     };
 
-    const auto calculateLocalTimeAtAscendingNode = [&aLocalTimeAtDescendingNode]() -> Time {
+    const auto calculateLocalTimeAtAscendingNode = [&aLocalTimeAtDescendingNode]() -> Time
+    {
         return {
             Uint8((aLocalTimeAtDescendingNode.getHour() + 12) % 24),
             aLocalTimeAtDescendingNode.getMinute(),

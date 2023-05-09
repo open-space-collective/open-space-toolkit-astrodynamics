@@ -38,11 +38,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
     {
         const Environment environment = Environment::Default();
 
-        const auto aerFilter = [](const AER&) -> bool {
+        const auto aerFilter = [](const AER&) -> bool
+        {
             return true;
         };
 
-        const auto accessFilter = [](const Access&) -> bool {
+        const auto accessFilter = [](const Access&) -> bool
+        {
             return true;
         };
 
@@ -52,15 +54,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
     {
         const Environment environment = Environment::Default();
 
-        const auto aerFilter = [](const AER&) -> bool {
+        const auto aerFilter = [](const AER&) -> bool
+        {
             return true;
         };
 
-        const auto accessFilter = [](const Access&) -> bool {
+        const auto accessFilter = [](const Access&) -> bool
+        {
             return true;
         };
 
-        const auto stateFilter = [](const State&, const State&) -> bool {
+        const auto stateFilter = [](const State&, const State&) -> bool
+        {
             return true;
         };
 
@@ -87,11 +92,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
     {
         const Environment environment = Environment::Default();
 
-        const auto aerFilter = [](const AER&) -> bool {
+        const auto aerFilter = [](const AER&) -> bool
+        {
             return true;
         };
 
-        const auto accessFilter = [](const Access&) -> bool {
+        const auto accessFilter = [](const Access&) -> bool
+        {
             return true;
         };
 
@@ -188,7 +195,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateFirstOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateFirstOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const Length semiMajorAxis = Length::Kilometers(7000.0);
             const Real eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(+45.0);
@@ -212,7 +220,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             return orbit;
         };
 
-        const auto generateSecondOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateSecondOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const Length semiMajorAxis = Length::Kilometers(7000.0);
             const Real eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(+45.0);
@@ -295,7 +304,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory {
+        const auto generateGroundStationTrajectory = []() -> Trajectory
+        {
             const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
 
             const Position groundStationPosition = Position::Meters(
@@ -305,7 +315,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             return Trajectory::Position(groundStationPosition);
         };
 
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const Length semiMajorAxis = Length::Kilometers(7000.0);
             const Real eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(+45.0);
@@ -388,7 +399,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory {
+        const auto generateGroundStationTrajectory = []() -> Trajectory
+        {
             const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
 
             const Position groundStationPosition = Position::Meters(
@@ -398,7 +410,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             return Trajectory::Position(groundStationPosition);
         };
 
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const TLE tle = {
                 "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
                 "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"};
@@ -466,8 +479,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const Interval interval = Interval::Closed(startInstant, endInstant);
         const Duration step = Duration::Minutes(1.0);
 
-        const auto generateTrajectory =
-            [&interval, &step](const Position& aStartPosition, const Velocity& aVelocity) -> Trajectory {
+        const auto generateTrajectory = [&interval,
+                                         &step](const Position& aStartPosition, const Velocity& aVelocity) -> Trajectory
+        {
             Array<State> states = Array<State>::Empty();
 
             for (const auto& instant : interval.generateGrid(step))
@@ -496,7 +510,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         );
 
         {
-            const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool {
+            const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
+            {
                 (void)aFirstState;
                 (void)aSecondState;
                 return true;
@@ -515,7 +530,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         }
 
         {
-            const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool {
+            const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
+            {
                 (void)aSecondState;
                 return (aFirstState.getInstant() - Instant::DateTime(DateTime(2020, 1, 1, 0, 5, 0), Scale::UTC))
                            .getAbsolute() >= Duration::Minutes(2.0);
@@ -594,7 +610,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAerFilter)
 
         Generator generator = {environment};
 
-        const auto aerFilter = [](const AER&) -> bool {
+        const auto aerFilter = [](const AER&) -> bool
+        {
             return true;
         };
 
@@ -617,7 +634,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetAccessFilter)
 
         Generator generator = {environment};
 
-        const auto accessFilter = [](const Access&) -> bool {
+        const auto accessFilter = [](const Access&) -> bool
+        {
             return true;
         };
 
@@ -641,7 +659,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
 
         Generator generator = {environment};
 
-        const auto stateFilter = [](const State&, const State&) -> bool {
+        const auto stateFilter = [](const State&, const State&) -> bool
+        {
             return true;
         };
 
@@ -708,7 +727,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory {
+        const auto generateGroundStationTrajectory = []() -> Trajectory
+        {
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
@@ -718,7 +738,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             return Trajectory::Position(groundStationPosition);
         };
 
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const Length semiMajorAxis = Length::Kilometers(6878.14);
             const Real eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(97.5034);
@@ -836,7 +857,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
 
         const Interval interval = Interval::Closed(startInstant, endInstant);
 
-        const auto generateGroundStationTrajectory = []() -> Trajectory {
+        const auto generateGroundStationTrajectory = []() -> Trajectory
+        {
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
@@ -846,7 +868,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             return Trajectory::Position(groundStationPosition);
         };
 
-        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit {
+        const auto generateSatelliteOrbit = [&environment, &startInstant]() -> Orbit
+        {
             const Length semiMajorAxis = Length::Kilometers(6878.14);
             const Real eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(97.5034);

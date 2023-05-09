@@ -272,8 +272,7 @@ class TestTabulated:
             )
             assert np.all(
                 np.abs(
-                    calculated_state.get_coordinates()
-                    - reference_state.get_coordinates()
+                    calculated_state.get_coordinates() - reference_state.get_coordinates()
                 )
                 < error_tolerance
             )
@@ -314,8 +313,7 @@ class TestTabulated:
         ):
             assert np.all(
                 np.abs(
-                    calculated_state.get_coordinates()
-                    - reference_state.get_coordinates()
+                    calculated_state.get_coordinates() - reference_state.get_coordinates()
                 )
                 < error_tolerance
             )

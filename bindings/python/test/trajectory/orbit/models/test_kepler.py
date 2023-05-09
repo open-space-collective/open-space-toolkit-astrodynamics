@@ -28,8 +28,8 @@ Access = astrodynamics.Access
 
 earth = Environment.default().access_celestial_object_with_name("Earth")
 
-def construct_kepler ():
 
+def construct_kepler():
     a = Length.kilometers(7000.0)
     e = 0.1
     i = Angle.degrees(35.0)
@@ -48,8 +48,8 @@ def construct_kepler ():
 
     return kepler
 
-def test_trajectory_orbit_models_kepler_constructors ():
 
+def test_trajectory_orbit_models_kepler_constructors():
     a = Length.kilometers(7000.0)
     e = 0.1
     i = Angle.degrees(35.0)
@@ -70,15 +70,15 @@ def test_trajectory_orbit_models_kepler_constructors ():
     assert isinstance(kepler, Kepler)
     assert kepler.is_defined()
 
-def test_trajectory_orbit_models_kepler_comparators ():
 
+def test_trajectory_orbit_models_kepler_comparators():
     kepler: Kepler = construct_kepler()
 
     assert kepler == kepler
     assert (kepler != kepler) is False
 
-def test_trajectory_orbit_models_kepler_getters ():
 
+def test_trajectory_orbit_models_kepler_getters():
     kepler: Kepler = construct_kepler()
 
     # get_classical_orbital_elements
@@ -113,16 +113,16 @@ def test_trajectory_orbit_models_kepler_getters ():
 
     assert kepler.get_perturbation_type() is not None
 
-def test_trajectory_orbit_models_kepler_calculate_state_at_epoch ():
 
+def test_trajectory_orbit_models_kepler_calculate_state_at_epoch():
     kepler: Kepler = construct_kepler()
 
     epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
     assert kepler.calculate_state_at(epoch) is not None
 
-def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch ():
 
+def test_trajectory_orbit_models_kepler_calculate_rev_number_at_epoch():
     kepler: Kepler = construct_kepler()
 
     epoch: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)

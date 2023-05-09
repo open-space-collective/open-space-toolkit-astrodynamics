@@ -20,7 +20,8 @@ Tabulated::Tabulated(const Array<State>& aStateArray)
     : Model(),
       states_(aStateArray),
       stateIndex_(0)
-{}
+{
+}
 
 Tabulated* Tabulated::clone() const
 {

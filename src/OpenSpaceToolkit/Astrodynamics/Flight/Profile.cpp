@@ -12,11 +12,13 @@ namespace flight
 
 Profile::Profile(const Model& aModel)
     : modelUPtr_(aModel.clone())
-{}
+{
+}
 
 Profile::Profile(const Profile& aProfile)
     : modelUPtr_(aProfile.modelUPtr_ ? Unique<Model>(aProfile.modelUPtr_->clone()) : nullptr)
-{}
+{
+}
 
 Profile& Profile::operator=(const Profile& aProfile)
 {
@@ -110,7 +112,8 @@ Profile Profile::NadirPointing(const trajectory::Orbit& anOrbit, const trajector
 
 Profile::Profile()
     : modelUPtr_(nullptr)
-{}
+{
+}
 
 }  // namespace flight
 }  // namespace astro

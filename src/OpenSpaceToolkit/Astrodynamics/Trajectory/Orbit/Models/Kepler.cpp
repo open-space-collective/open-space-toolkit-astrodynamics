@@ -43,7 +43,8 @@ Kepler::Kepler(
       j2_(aJ2),
       j4_(aJ4),
       perturbationType_(aPerturbationType)
-{}
+{
+}
 
 Kepler::Kepler(
     const COE& aClassicalOrbitalElementSet,
@@ -63,7 +64,8 @@ Kepler::Kepler(
       j2_(aCelestialObject.getJ2()),
       j4_(aCelestialObject.getJ4()),
       perturbationType_(aPerturbationType)
-{}
+{
+}
 
 Kepler* Kepler::clone() const
 {

@@ -14,7 +14,8 @@ using ostk::core::ctnr::Array;
 
 template <typename T>
 struct type_caster<Array<T>> : list_caster<Array<T>, T>
-{};
+{
+};
 
 // using list_caster::load ;
 // using list_caster::cast ;

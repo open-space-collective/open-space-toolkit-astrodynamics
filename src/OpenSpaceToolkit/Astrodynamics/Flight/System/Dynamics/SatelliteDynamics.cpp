@@ -29,7 +29,8 @@ SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const Sat
       gcrfSPtr_(Frame::GCRF()),
       satelliteSystem_(aSatelliteSystem),
       instant_(Instant::Undefined())
-{}
+{
+}
 
 SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics)
     : Dynamics(aSatelliteDynamics),
@@ -37,7 +38,8 @@ SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics
       gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
       satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
       instant_(Instant::Undefined())
-{}
+{
+}
 
 SatelliteDynamics::~SatelliteDynamics() {}
 

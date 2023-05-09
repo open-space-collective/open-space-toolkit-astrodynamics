@@ -20,7 +20,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         .value("CubicSpline", Tabulated::InterpolationType::CubicSpline)
         .value("BarycentricRational", Tabulated::InterpolationType::BarycentricRational)
 
-    ;
+        ;
 
     tabulated_class
         .def(

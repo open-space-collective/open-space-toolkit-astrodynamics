@@ -358,7 +358,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
                 currentStateVector,
                 startInstant,
                 instantArray,
-                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -399,7 +400,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
                 currentStateVector,
                 startInstant,
                 instantArray,
-                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -440,7 +442,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
                 currentStateVector,
                 startInstant,
                 instantArray,
-                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -481,7 +484,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
                 currentStateVector,
                 startInstant,
                 instantArray,
-                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -527,7 +531,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -550,7 +555,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -573,7 +579,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -596,7 +603,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector = numericalSolver.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -630,7 +638,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -638,7 +647,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -680,7 +690,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector_1 = numericalSolver_1.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -688,7 +699,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
         const NumericalSolver::StateVector propagatedStateVector_2 = numericalSolver_2.integrateStateForDuration(
             currentStateVector,
             propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -732,7 +744,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
             currentStateVector,
             instant,
             instant + propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -757,7 +770,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
             currentStateVector,
             instant,
             instant + propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -782,7 +796,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
             currentStateVector,
             instant,
             instant + propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -807,7 +822,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
             currentStateVector,
             instant,
             instant + propDuration,
-            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+            [](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+            {
                 dxdt[0] = x[1];
                 dxdt[1] = -x[0];
             }
@@ -844,7 +860,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
                 currentStateVector,
                 instant,
                 instant + propDuration,
-                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -854,7 +871,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
                 currentStateVector,
                 instant,
                 instant + propDuration,
-                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -897,7 +915,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
                 currentStateVector,
                 instant,
                 instant + propDuration,
-                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }
@@ -907,7 +926,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
                 currentStateVector,
                 instant,
                 instant + propDuration,
-                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void {
+                [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
+                {
                     dxdt[0] = x[1];
                     dxdt[1] = -x[0];
                 }

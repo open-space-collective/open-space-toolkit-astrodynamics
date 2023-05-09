@@ -28,7 +28,8 @@ State::State(
       attitude_(anAttitude),
       angularVelocity_(anAngularVelocity),
       frameSPtr_(aReferenceFrame)
-{}
+{
+}
 
 bool State::operator==(const State& aState) const
 {

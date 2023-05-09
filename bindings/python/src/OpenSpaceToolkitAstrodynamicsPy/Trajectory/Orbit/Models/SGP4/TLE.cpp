@@ -64,7 +64,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_SGP4_TLE(pyb
 
         .def_static(
             "can_parse",
-            +[](const String& aFirstLine, const String& aSecondLine) -> bool {
+            +[](const String& aFirstLine, const String& aSecondLine) -> bool
+            {
                 return TLE::CanParse(aFirstLine, aSecondLine);
             },
             arg("first_line"),

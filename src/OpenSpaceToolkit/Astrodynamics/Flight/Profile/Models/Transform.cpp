@@ -19,7 +19,8 @@ namespace models
 Transform::Transform(const DynamicProvider& aDynamicTransformProvider, const Shared<const Frame>& aFrameSPtr)
     : transformProvider_(aDynamicTransformProvider),
       frameSPtr_(aFrameSPtr)
-{}
+{
+}
 
 Transform* Transform::clone() const
 {
@@ -100,9 +101,11 @@ Shared<const Frame> Transform::getBodyFrame(const String& aFrameName) const
         throw ostk::core::error::runtime::Undefined("Transform");
     }
 
-    const DynamicProvider dynamicTransformProvider = {[this](const Instant& anInstant) -> Transform {
-        return this->transformProvider_.getTransformAt(anInstant).getInverse();
-    }};
+    const DynamicProvider dynamicTransformProvider = {
+        [this](const Instant& anInstant) -> Transform
+        {
+            return this->transformProvider_.getTransformAt(anInstant).getInverse();
+        }};
 
     return Frame::Construct(
         aFrameName, false, this->frameSPtr_, std::make_shared<const DynamicProvider>(dynamicTransformProvider)
@@ -136,7 +139,8 @@ Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quate
     }
 
     const DynamicProvider dynamicTransformProvider = {
-        [aTrajectory, aQuaternion](const Instant& anInstant) -> Transform {
+        [aTrajectory, aQuaternion](const Instant& anInstant) -> Transform
+        {
             static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
             const trajectory::State trajectoryState = aTrajectory.getStateAt(anInstant).inFrame(gcrfSPtr);
@@ -169,7 +173,8 @@ Transform Transform::NadirPointing(
     const Shared<const Frame> orbitalFrameSPtr = anOrbit.getOrbitalFrame(anOrbitalFrameType);
 
     const DynamicProvider dynamicTransformProvider = {
-        [anOrbit, orbitalFrameSPtr](const Instant& anInstant) -> Transform {
+        [anOrbit, orbitalFrameSPtr](const Instant& anInstant) -> Transform
+        {
             static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
             return orbitalFrameSPtr->getTransformTo(gcrfSPtr, anInstant);

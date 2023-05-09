@@ -55,21 +55,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             .def("access_model", &Orbit::accessModel, return_value_policy::reference)  // [TBR]
             .def(
                 "access_kepler_model",
-                +[](const Orbit& anOrbit) -> const Kepler& {
+                +[](const Orbit& anOrbit) -> const Kepler&
+                {
                     return anOrbit.accessModel().as<Kepler>();
                 },
                 return_value_policy::reference
             )  // [TBR]
             .def(
                 "access_sgp4_model",
-                +[](const Orbit& anOrbit) -> const SGP4& {
+                +[](const Orbit& anOrbit) -> const SGP4&
+                {
                     return anOrbit.accessModel().as<SGP4>();
                 },
                 return_value_policy::reference
             )  // [TBR]
             .def(
                 "access_propagated_model",
-                +[](const Orbit& anOrbit) -> const Propagated& {
+                +[](const Orbit& anOrbit) -> const Propagated&
+                {
                     return anOrbit.accessModel().as<Propagated>();
                 },
                 return_value_policy::reference

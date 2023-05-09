@@ -2,10 +2,9 @@
 
 import pytest
 
+
 class TestImport:
-
-    def test_import (self):
-
+    def test_import(self):
         from ostk.astrodynamics import Trajectory
         from ostk.astrodynamics.trajectory import State
         from ostk.astrodynamics.trajectory import Orbit

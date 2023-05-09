@@ -17,7 +17,8 @@ namespace models
 Static::Static(const Position& aPosition)
     : Model(),
       position_(aPosition)
-{}
+{
+}
 
 Static* Static::clone() const
 {

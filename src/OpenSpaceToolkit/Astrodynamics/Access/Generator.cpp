@@ -26,7 +26,8 @@ Generator::Generator(const Environment& anEnvironment, const Duration& aStep, co
       aerFilter_({}),
       accessFilter_({}),
       stateFilter_({})
-{}
+{
+}
 
 Generator::Generator(
     const Environment& anEnvironment,
@@ -42,7 +43,8 @@ Generator::Generator(
       aerFilter_(anAerFilter),
       accessFilter_(anAccessFilter),
       stateFilter_(aStateFilter)
-{}
+{
+}
 
 bool Generator::isDefined() const
 {
@@ -127,14 +129,16 @@ Array<Access> Generator::computeAccesses(
 
     const auto earthSPtr = environment.accessCelestialObjectWithName("Earth");  // [TBR] This is Earth specific
 
-    const auto getStatesAt = [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State> {
+    const auto getStatesAt = [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
+    {
         const State fromState = aFromTrajectory.getStateAt(anInstant);
         const State toState = aToTrajectory.getStateAt(anInstant);
 
         return {fromState, toState};
     };
 
-    const auto getPositionsFromStates = [](const State& aFromState, const State& aToState) -> Pair<Position, Position> {
+    const auto getPositionsFromStates = [](const State& aFromState, const State& aToState) -> Pair<Position, Position>
+    {
         static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
 
         if (aFromState.accessInstant() != aToState.accessInstant())
@@ -149,7 +153,8 @@ Array<Access> Generator::computeAccesses(
     };
 
     const auto calculateAer =
-        [&earthSPtr](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER {
+        [&earthSPtr](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER
+    {
         const Point referencePoint_ITRF =
             Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()
             );  // [TBR] This is Earth specific
@@ -171,7 +176,8 @@ Array<Access> Generator::computeAccesses(
 
     const auto isAccessActive = [this, &environment, &earthSPtr, getPositionsFromStates, calculateAer](
                                     const Instant& anInstant, const State& aFromState, const State& aToState
-                                ) -> bool {
+                                ) -> bool
+    {
         environment.setInstant(anInstant);
 
         if (stateFilter_ && (!stateFilter_(aFromState, aToState)))
@@ -245,7 +251,8 @@ Array<Access> Generator::computeAccesses(
         return true;
     };
 
-    const auto isAccessActiveAt = [getStatesAt, isAccessActive](const Instant& aNextInstant) -> bool {
+    const auto isAccessActiveAt = [getStatesAt, isAccessActive](const Instant& aNextInstant) -> bool
+    {
         const auto [fromState, toState] = getStatesAt(aNextInstant);
 
         const bool accessIsActive = isAccessActive(aNextInstant, fromState, toState);
@@ -253,7 +260,8 @@ Array<Access> Generator::computeAccesses(
         return accessIsActive;
     };
 
-    const auto elevationAt = [calculateAer, getStatesAt, getPositionsFromStates](const Instant& anInstant) -> Angle {
+    const auto elevationAt = [calculateAer, getStatesAt, getPositionsFromStates](const Instant& anInstant) -> Angle
+    {
         const auto [fromState, toState] = getStatesAt(anInstant);
         const auto [fromPosition, toPosition] = getPositionsFromStates(fromState, toState);
 
@@ -272,7 +280,8 @@ Array<Access> Generator::computeAccesses(
                                    const Duration& aTolerance,
                                    const bool isConditionActiveAtPreviousInstant,
                                    const std::function<bool(const Instant&)>& aCondition
-                               ) -> Instant {
+                               ) -> Instant
+    {
         const Duration step = Duration::Between(aPreviousInstant, aNextInstant);
 
         if (step <= aTolerance)
@@ -304,7 +313,8 @@ Array<Access> Generator::computeAccesses(
                                const Instant& aTimeOfClosestApproach,
                                const Instant& aLossOfSignal,
                                const Angle& aMaxElevation
-                           ) {
+                           )
+    {
         const Access access = {aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal, aMaxElevation};
 
         if (accessFilter_ ? accessFilter_(access) : true)
@@ -398,7 +408,8 @@ Array<Access> Generator::computeAccesses(
                     };
 
                     const auto calculateRange =
-                        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double {
+                        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double
+                    {
                         (void)aGradient;
 
                         if (aDataContext == nullptr)
@@ -564,7 +575,8 @@ Generator Generator::AerRanges(
     // aRangeRange.getType()) : Interval<Real>::Undefined() ;
 
     const std::function<bool(const AER&)> aerFilter =
-        [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool {
+        [azimuthRange_deg, elevationRange_deg, rangeRange_m](const AER& anAER) -> bool
+    {
         return ((!azimuthRange_deg.isDefined()) || azimuthRange_deg.contains(anAER.getAzimuth().inDegrees(0.0, +360.0))
                ) &&
                ((!elevationRange_deg.isDefined()) ||
@@ -612,7 +624,8 @@ Generator Generator::AerMask(
     }
 
     const std::function<bool(const AER&)> aerFilter = [anAzimuthElevationMask_deg,
-                                                       rangeRange_m](const AER& anAER) -> bool {
+                                                       rangeRange_m](const AER& anAER) -> bool
+    {
         const Real azimuth = anAER.getAzimuth().inDegrees(0.0, +360.0);
         const Real elevation = anAER.getElevation().inDegrees(-180.0, +180.0);
 

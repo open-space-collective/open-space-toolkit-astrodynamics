@@ -21,18 +21,26 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
 
-@pytest.fixture
-def satellite_dynamics_default_inputs () :
 
+@pytest.fixture
+def satellite_dynamics_default_inputs():
     environment = Environment.default()
 
     mass = Mass(90.0, Mass.Unit.Kilogram)
-    satellite_geometry = Composite(Cuboid(Point(0.0, 0.0, 0.0), [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], [1.0, 0.0, 0.0]))
-    inertia_tensor = np.ndarray(shape = (3, 3))
+    satellite_geometry = Composite(
+        Cuboid(
+            Point(0.0, 0.0, 0.0),
+            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+            [1.0, 0.0, 0.0],
+        )
+    )
+    inertia_tensor = np.ndarray(shape=(3, 3))
     surface_area = 0.8
     drag_coefficient = 2.2
 
-    satellite_system = SatelliteSystem(mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient)
+    satellite_system = SatelliteSystem(
+        mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
+    )
 
     frame: Frame = Frame.GCRF()
     position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
@@ -43,26 +51,25 @@ def satellite_dynamics_default_inputs () :
 
     return (environment, satellite_system, state)
 
-@pytest.fixture
-def satellite_dynamics (satellite_dynamics_default_inputs) -> SatelliteDynamics:
 
+@pytest.fixture
+def satellite_dynamics(satellite_dynamics_default_inputs) -> SatelliteDynamics:
     return SatelliteDynamics(*satellite_dynamics_default_inputs[:-1])
 
+
 class TestSatelliteDynamics:
-
-    def test_constructor_success (self, satellite_dynamics: SatelliteDynamics):
-
+    def test_constructor_success(self, satellite_dynamics: SatelliteDynamics):
         assert satellite_dynamics is not None
         assert isinstance(satellite_dynamics, SatelliteDynamics)
         assert satellite_dynamics.is_defined()
 
-    def test_comparators_success (self, satellite_dynamics: SatelliteDynamics):
-
+    def test_comparators_success(self, satellite_dynamics: SatelliteDynamics):
         assert (satellite_dynamics == satellite_dynamics) is True
         assert (satellite_dynamics != satellite_dynamics) is False
 
-    def test_getters_setters_success (self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics):
-
+    def test_getters_setters_success(
+        self, satellite_dynamics_default_inputs, satellite_dynamics: SatelliteDynamics
+    ):
         (_, _, state) = satellite_dynamics_default_inputs
 
         satellite_dynamics.set_instant(state.get_instant())
@@ -71,11 +78,12 @@ class TestSatelliteDynamics:
 
         assert satellite_dynamics.is_defined()
 
-    def test_get_dynamical_equations (self, satellite_dynamics: SatelliteDynamics):
-
+    def test_get_dynamical_equations(self, satellite_dynamics: SatelliteDynamics):
         with pytest.raises(RuntimeError):
             satellite_dynamics.get_dynamical_equations()
 
         satellite_dynamics.set_instant(Instant.J2000())
 
-        assert satellite_dynamics.get_dynamical_equations() is not None  # Returns "<function PyCapsule.>" builtin_function_or_method
+        assert (
+            satellite_dynamics.get_dynamical_equations() is not None
+        )  # Returns "<function PyCapsule.>" builtin_function_or_method

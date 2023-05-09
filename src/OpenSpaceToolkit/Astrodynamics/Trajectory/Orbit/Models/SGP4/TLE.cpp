@@ -654,11 +654,13 @@ TLE TLE::Construct(
                           (epochDateTime.getTime().getMinute() / 1440.0) +
                           (epochDateTime.getTime().getFloatingSeconds() / 86400.0);
 
-    const auto formatFloatingPointNotation = [](const Real& aValue) -> String {
+    const auto formatFloatingPointNotation = [](const Real& aValue) -> String
+    {
         return ((aValue < 0.0) ? "-" : " ") + String::Format("{:.8f}", aValue.abs()).replace("0.", ".");
     };
 
-    const auto formatScientificNotation = [](const Real& aValue) -> String {
+    const auto formatScientificNotation = [](const Real& aValue) -> String
+    {
         if (aValue == 0.0)
         {
             return " 00000-0";

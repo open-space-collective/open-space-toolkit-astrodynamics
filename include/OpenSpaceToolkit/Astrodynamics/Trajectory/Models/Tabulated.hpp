@@ -70,8 +70,10 @@ class Tabulated : public virtual Model
 
     };
 
-    Tabulated(const Array<State>& aStateArray,
-              const InterpolationType& anInterpolationType = DEFAULT_TABULATED_INTERPOLATION_TYPE);
+    Tabulated(
+        const Array<State>& aStateArray,
+        const InterpolationType& anInterpolationType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+    );
 
     virtual Tabulated* clone() const override;
 

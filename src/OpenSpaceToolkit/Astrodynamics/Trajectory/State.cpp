@@ -16,7 +16,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     : instant_(anInstant),
       position_(aPosition),
       velocity_(aVelocity)
-{}
+{
+}
 
 bool State::operator==(const State& aState) const
 {

@@ -12,13 +12,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
 
         .def(
             "__eq__",
-            [](const BaseModel &self, const BaseModel &other) {
+            [](const BaseModel &self, const BaseModel &other)
+            {
                 return self == other;
             }
         )
         .def(
             "__ne__",
-            [](const BaseModel &self, const BaseModel &other) {
+            [](const BaseModel &self, const BaseModel &other)
+            {
                 return self != other;
             }
         )

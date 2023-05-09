@@ -25,14 +25,16 @@ SatelliteSystem::SatelliteSystem(
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient)
-{}
+{
+}
 
 SatelliteSystem::SatelliteSystem(const SatelliteSystem& aSatelliteSystem)
     : System(aSatelliteSystem),
       inertiaTensor_(aSatelliteSystem.inertiaTensor_),
       crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
       dragCoefficient_(aSatelliteSystem.dragCoefficient_)
-{}
+{
+}
 
 SatelliteSystem::~SatelliteSystem() {}
 

@@ -20,7 +20,8 @@ Propagator::Propagator(const SatelliteDynamics& aSatelliteDynamics, const Numeri
     : satelliteDynamics_(aSatelliteDynamics),
       numericalSolver_(aNumericalSolver)
 
-{}
+{
+}
 
 Propagator* Propagator::clone() const
 {

@@ -33,7 +33,8 @@ Propagated::Propagated(
       propagator_(aSatelliteDynamics, aNumericalSolver),
       cachedStateArray_(1, aState)
 
-{}
+{
+}
 
 Propagated::Propagated(
     const SatelliteDynamics& aSatelliteDynamics,
@@ -345,7 +346,8 @@ void Propagated::print(std::ostream& anOutputStream, bool displayDecorator) cons
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void();
 
     ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array");
-    [&](const Array<State>&) -> void {
+    [&](const Array<State>&) -> void
+    {
         for (State iterState : cachedStateArray_)
         {
             iterState.print(anOutputStream, false);
@@ -378,9 +380,14 @@ void Propagated::sanitizeCachedArray() const
     }
 
     // Sort cashed state array and remove duplicate states
-    std::sort(cachedStateArray_.begin(), cachedStateArray_.end(), [](const auto& lhs, const auto& rhs) {
-        return lhs.getInstant() < rhs.getInstant();
-    });
+    std::sort(
+        cachedStateArray_.begin(),
+        cachedStateArray_.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.getInstant() < rhs.getInstant();
+        }
+    );
 
     cachedStateArray_.erase(std::unique(cachedStateArray_.begin(), cachedStateArray_.end()), cachedStateArray_.end());
 
@@ -390,7 +397,8 @@ void Propagated::sanitizeCachedArray() const
         std::unique(
             cachedStateArrayUnique.begin(),
             cachedStateArrayUnique.end(),
-            [](const auto& lhs, const auto& rhs) {
+            [](const auto& lhs, const auto& rhs)
+            {
                 return lhs.getInstant() == rhs.getInstant();
             }
         ),

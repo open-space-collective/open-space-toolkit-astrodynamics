@@ -34,9 +34,11 @@ using ostk::astro::trajectory::State;
 class Tabulated : public virtual trajectory::orbit::Model, public trajectory::models::Tabulated
 {
    public:
-    Tabulated(const Array<State>& aStateArray,
-              const Integer& anInitialRevolutionNumber,
-              const InterpolationType& aType = DEFAULT_TABULATED_INTERPOLATION_TYPE);
+    Tabulated(
+        const Array<State>& aStateArray,
+        const Integer& anInitialRevolutionNumber,
+        const InterpolationType& aType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+    );
 
     virtual Tabulated* clone() const override;
 

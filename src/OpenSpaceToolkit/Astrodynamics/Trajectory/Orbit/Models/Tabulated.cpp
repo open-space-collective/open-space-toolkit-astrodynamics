@@ -16,13 +16,16 @@ namespace orbit
 namespace models
 {
 
-Tabulated::Tabulated(const Array<State>& aStateArray,
-                     const Integer& anInitialRevolutionNumber,
-                     const InterpolationType& anInterpolationType)
+Tabulated::Tabulated(
+    const Array<State>& aStateArray,
+    const Integer& anInitialRevolutionNumber,
+    const InterpolationType& anInterpolationType
+)
     : trajectory::orbit::Model(),
       trajectory::models::Tabulated(aStateArray, anInterpolationType),
       initialRevolutionNumber_(anInitialRevolutionNumber)
-{}
+{
+}
 
 Tabulated* Tabulated::clone() const
 {

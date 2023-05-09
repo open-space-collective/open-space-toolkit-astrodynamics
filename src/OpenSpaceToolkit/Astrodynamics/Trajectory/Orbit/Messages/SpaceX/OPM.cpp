@@ -33,7 +33,8 @@ Vector3d vector3dFromObject(const ctnr::Object& anObject)
 OPM::OPM(const OPM::Header& aHeader, const Array<OPM::Deployment>& aDeploymentArray)
     : header_(aHeader),
       deployments_(aDeploymentArray)
-{}
+{
+}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM)
 {

@@ -43,7 +43,8 @@ COE::COE(
       raan_(aRaan),
       aop_(anAop),
       trueAnomaly_(aTrueAnomaly)
-{}
+{
+}
 
 bool COE::operator==(const COE& aCOE) const
 {
@@ -663,7 +664,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
 
     // Provides a starting value to solve Kepler's equation
 
-    auto keplerstart3 = [](Real e, Real M) -> Real {
+    auto keplerstart3 = [](Real e, Real M) -> Real
+    {
         const Real t34 = e * e;
         const Real t35 = e * t34;
         const Real t33 = std::cos(M);
@@ -673,7 +675,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
 
     // An iteration (correction) method to solve Kepler's equation
 
-    auto eps3 = [](Real e, Real M, Real x) -> Real {
+    auto eps3 = [](Real e, Real M, Real x) -> Real
+    {
         const Real t1 = std::cos(x);
         const Real t2 = -1.0 + e * t1;
         const Real t3 = std::sin(x);

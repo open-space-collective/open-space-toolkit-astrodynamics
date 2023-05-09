@@ -29,8 +29,8 @@ Access = astrodynamics.Access
 environment = Environment.default()
 earth = environment.access_celestial_object_with_name("Earth")
 
-def construct_coe ():
 
+def construct_coe():
     a = Length.kilometers(7000.0)
     e = 0.1
     i = Angle.degrees(35.0)
@@ -42,8 +42,8 @@ def construct_coe ():
 
     return coe
 
-def test_trajectory_orbit_models_kepler_coe_constructors ():
 
+def test_trajectory_orbit_models_kepler_coe_constructors():
     a = Length.kilometers(7000.0)
     e = 0.1
     i = Angle.degrees(35.0)
@@ -63,15 +63,15 @@ def test_trajectory_orbit_models_kepler_coe_constructors ():
     assert isinstance(coe, COE)
     assert coe.is_defined() is False
 
-def test_trajectory_orbit_models_kepler_coe_comparators ():
 
+def test_trajectory_orbit_models_kepler_coe_comparators():
     coe: COE = construct_coe()
 
     assert coe == coe
     assert (coe != coe) is False
 
-def test_trajectory_orbit_models_kepler_coe_getters ():
 
+def test_trajectory_orbit_models_kepler_coe_getters():
     coe: COE = construct_coe()
 
     # get_semi_major_axis()
@@ -106,23 +106,25 @@ def test_trajectory_orbit_models_kepler_coe_getters ():
 
     assert coe.get_eccentric_anomaly() is not None
 
-def test_trajectory_orbit_models_kepler_coe_get_mean_motion ():
 
+def test_trajectory_orbit_models_kepler_coe_get_mean_motion():
     coe: COE = construct_coe()
 
     assert coe.get_mean_motion(earth.gravitational_parameter) is not None
 
-def test_trajectory_orbit_models_kepler_coe_get_orbital_period ():
 
+def test_trajectory_orbit_models_kepler_coe_get_orbital_period():
     coe: COE = construct_coe()
 
     assert coe.get_orbital_period(earth.gravitational_parameter) is not None
 
-def test_trajectory_orbit_models_kepler_coe_static_methods ():
 
+def test_trajectory_orbit_models_kepler_coe_static_methods():
     coe: COE = construct_coe()
 
     assert COE.eccentric_anomaly_from_true_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert COE.true_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert COE.mean_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
-    assert COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
+    assert (
+        COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
+    )
