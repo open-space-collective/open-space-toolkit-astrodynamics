@@ -77,6 +77,10 @@ namespace models
         {
             interpolators_.add(std::make_shared<Linear>(Linear(timestamps, coordinates.col(i)))) ;
         }
+        else
+        {
+            throw ostk::core::error::runtime::Wrong("InterpolationType")
+        }
 
     }
 
@@ -210,7 +214,6 @@ Array<State>                    Tabulated::calculateStatesAt                (   
         return stateArray ;
 
 }
-
 
 void                            Tabulated::print                            (           std::ostream&               anOutputStream,
                                                                                         bool                        displayDecorator                            ) const
