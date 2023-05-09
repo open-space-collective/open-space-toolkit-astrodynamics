@@ -79,7 +79,7 @@ namespace models
         }
         else
         {
-            throw ostk::core::error::runtime::Wrong("InterpolationType")
+            throw ostk::core::error::runtime::Wrong("InterpolationType") ;
         }
 
     }
