@@ -65,8 +65,8 @@ using ostk::astro::trajectory::State ;
 
 /// @brief                      Tabulated trajectory model
 ///
-///                             For now, a simple linear interpolation is performed between steps.
-///                             In a future release, more advanced interpolation schemes (quadratic, spline, ...) will be provided.
+///                             Interpolation is performed between states using the specified interpolation scheme.
+///                             For now, linear, barycentric rational and cubic spline interpolation schemes are supported.
 
 class Tabulated : public virtual Model
 {
@@ -98,7 +98,7 @@ class Tabulated : public virtual Model
 
         Interval                getInterval                                 ( ) const ;
 
-        InterpolationType            getInterpolationType                   ( ) const ;
+        InterpolationType       getInterpolationType                        ( ) const ;
 
         State                   getFirstState                               ( ) const ;
 
