@@ -578,7 +578,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     {
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+        Earth sphericalEarthModel = Earth::Spherical() ;
+        sphericalEarthModel.accessAtmosphericModel() = nullptr ;
+
+        const Array<Shared<Object>> objects = {std::make_shared<Earth>(sphericalEarthModel)};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -769,11 +772,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     // Eart+Sun+Moon gravity
     {
         // Create environment
-        const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {
-            std::make_shared<Moon>(Moon::Default()),
-            std::make_shared<Sun>(Sun::Default()),
-            std::make_shared<Earth>(Earth::Spherical())};
+        const Instant instantJ2000 = Instant::J2000() ;
+
+        Earth sphericalEarthModel = Earth::Spherical() ;
+        sphericalEarthModel.accessAtmosphericModel() = nullptr ;
+
+        const Array<Shared<Object>> objects = { std::make_shared<Moon>(Moon::Default()), std::make_shared<Sun>(Sun::Default()), std::make_shared<Earth>(sphericalEarthModel) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
@@ -841,8 +845,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     // Minimum radius "re-entry" test
     {
         // Create environment
-        const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+        const Instant instantJ2000 = Instant::J2000() ;
+        Earth sphericalEarthModel = Earth::Spherical() ;
+        sphericalEarthModel.accessAtmosphericModel() = nullptr ;
+
+        const Array<Shared<Object>> objects = { std::make_shared<Earth>(sphericalEarthModel) } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();

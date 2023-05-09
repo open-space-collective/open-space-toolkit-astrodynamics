@@ -126,5 +126,5 @@ docker run \
     --volume="${project_directory}:/app:delegated" \
     --volume="${project_directory}/tools/development/helpers:/app/build/helpers:ro,delegated" \
     --workdir="/app/build" \
-    ${docker_development_image_repository}:${docker_image_version}-${target} \
+    ${docker_development_image_repository}:${docker_image_version} \
     /bin/bash -c "${command}"

@@ -41,10 +41,6 @@ SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics
       instant_(Instant::Undefined())
 =======
 
-    const bool atmosphereWellDefined = environment_.accessCelestialObjectWithName("Earth")->ha() ;
-    const bool ballisticCoefficientDefined = satelliteSystem_.getDragCoefficient().isDefined() && satelliteSystem_.getCrossSectionalSurfaceArea().isDefined() && satelliteSystem_.getMass().isDefined() ;
-    this->dragWellDefined_ = atmosphereWellDefined && ballisticCoefficientDefined ;
-
 }
 
                                 SatelliteDynamics::SatelliteDynamics        (   const   SatelliteDynamics&          aSatelliteDynamics                          )
@@ -52,7 +48,7 @@ SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics
                                     environment_(aSatelliteDynamics.environment_),
                                     gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
                                     satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
-                                    instant_(Instant::Undefined())
+                                    instant_(Instant::Undefined()),
                                     dragWellDefined_(aSatelliteDynamics.dragWellDefined_)
 >>>>>>> feat: add drag-defined flag
 {
@@ -187,29 +183,33 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     dxdt[5] += totalGravitationalAcceleration_SI[2] ;
 
     // DRAG
-    if dragWellDefined_
+    const Real mass = satelliteSystem_.getMass().inKilograms() ;
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient() ;
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
+
+    for (const auto& objectName : environment_.getObjectNames())
     {
+        // TBI: currently only defined for Earth
+        if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel() != nullptr)
+        {
+            
+            const Real rho = environment_.accessCelestialObjectWithName(objectName)->getAtmosphericDensityAt(currentPosition).getValue() ;
 
-        const Real dragCoefficient = satelliteSystem_.getDragCoefficient() ;
-        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
-        const Real rho = environment_.getDensityAt(currentPosition, currentInstant) ;
+            // [TBI]: Define in Physics celestial body
+            const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
 
-        const Real mass = satelliteSystem_.getMass().inKilograms() ;
+            const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
 
-        // [TBI]: Define in Physics celestial body
-        const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+            // Calculate drag acceleration
+            const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
 
-        const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
+            dxdt[3] += dragAcceleration[0] ;
+            dxdt[4] += dragAcceleration[1] ;
+            dxdt[5] += dragAcceleration[2] ;
 
-        // Calculate drag acceleration
-        const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
-
-        dxdt[3] += dragAcceleration[0] ;
-        dxdt[4] += dragAcceleration[1] ;
-        dxdt[5] += dragAcceleration[2] ;
+        }
 
     }
-
     // Propagate velocity
     dxdt[0] = x[3] ;
     dxdt[1] = x[4] ;
