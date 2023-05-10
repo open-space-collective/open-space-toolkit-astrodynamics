@@ -1,4 +1,4 @@
-# Copyright © Loft Orbital Solutions Inc.
+# Apache License 2.0 
 
 ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.8.8
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright © Loft Orbital Solutions Inc.
+# Apache License 2.0 
 
 PYTHON_VERSION="3.11"
 

@@ -1,4 +1,4 @@
-// Copyright © Loft Orbital Solutions Inc.
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile__

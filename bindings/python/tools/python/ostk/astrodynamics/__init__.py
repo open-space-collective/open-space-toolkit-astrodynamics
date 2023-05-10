@@ -1,4 +1,4 @@
-# Copyright © Loft Orbital Solutions Inc.
+# Apache License 2.0 
 
 from ostk.physics import *
 

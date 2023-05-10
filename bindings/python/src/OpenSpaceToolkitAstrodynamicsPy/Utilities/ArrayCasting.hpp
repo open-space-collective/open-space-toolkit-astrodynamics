@@ -1,4 +1,4 @@
-// Copyright © Loft Orbital Solutions Inc.
+/// Apache License 2.0  
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

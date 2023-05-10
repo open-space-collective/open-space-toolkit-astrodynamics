@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright © Loft Orbital Solutions Inc.
+# Apache License 2.0 
 
 project_directory="$(git rev-parse --show-toplevel)"
 build_directory="${project_directory}/build"

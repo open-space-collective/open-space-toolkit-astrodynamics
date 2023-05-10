@@ -1,4 +1,4 @@
-// Copyright © Loft Orbital Solutions Inc.
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Models/Transform.cpp>

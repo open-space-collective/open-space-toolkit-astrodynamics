@@ -1,4 +1,4 @@
-// Copyright © Loft Orbital Solutions Inc.
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Propagated.cpp>

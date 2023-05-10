@@ -1,4 +1,4 @@
-# Copyright © Loft Orbital Solutions Inc.
+# Apache License 2.0 
 
 FROM openspacecollective/open-space-toolkit-base:0.1.4
 

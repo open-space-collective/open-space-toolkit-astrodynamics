@@ -1,4 +1,4 @@
-// Copyright © Loft Orbital Solutions Inc.
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Access_Generator__
 #define __OpenSpaceToolkit_Astrodynamics_Access_Generator__
