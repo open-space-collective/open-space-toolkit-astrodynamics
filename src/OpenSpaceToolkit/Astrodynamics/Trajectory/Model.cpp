@@ -1,18 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
 
 namespace ostk
 {
@@ -21,48 +12,31 @@ namespace astro
 namespace trajectory
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Model::Model() {}
 
-                                Model::Model                                ( )
+Model::~Model() {}
+
+std::ostream& operator<<(std::ostream& anOutputStream, const Model& aModel)
 {
+    aModel.print(anOutputStream);
 
+    return anOutputStream;
 }
 
-                                Model::~Model                               ( )
+Array<State> Model::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
+    Array<State> stateArray = Array<State>::Empty();
 
-}
-
-std::ostream&                   operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Model&                      aModel                                      )
-{
-
-    aModel.print(anOutputStream) ;
-
-    return anOutputStream ;
-
-}
-
-Array<State>                    Model::calculateStatesAt                    (   const   Array<Instant>&             anInstantArray                              ) const
-{
-
-    Array<State> stateArray = Array<State>::Empty() ;
-
-    stateArray.reserve(anInstantArray.getSize()) ;
+    stateArray.reserve(anInstantArray.getSize());
 
     for (const auto& instant : anInstantArray)
     {
-        stateArray.add(this->calculateStateAt(instant)) ;
+        stateArray.add(this->calculateStateAt(instant));
     }
 
-    return stateArray ;
-
+    return stateArray;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk

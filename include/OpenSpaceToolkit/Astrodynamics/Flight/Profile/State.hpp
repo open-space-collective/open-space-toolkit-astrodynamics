@@ -1,24 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_State__
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
 {
@@ -29,92 +20,78 @@ namespace flight
 namespace profile
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::types::Shared;
 
-using ostk::core::types::Shared ;
+using ostk::math::geom::d3::trf::rot::Quaternion;
+using ostk::math::obj::Vector3d;
 
-using ostk::math::obj::Vector3d ;
-using ostk::math::geom::d3::trf::rot::Quaternion ;
-
-using ostk::physics::time::Instant ;
-using ostk::physics::coord::Position ;
-using ostk::physics::coord::Velocity ;
-using ostk::physics::coord::Frame ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::time::Instant;
 
 /// @brief                      Spacecraft flight profile state
 
 class State
 {
+   public:
+    State(
+        const Instant& anInstant,
+        const Position& aPosition,
+        const Velocity& aVelocity,
+        const Quaternion& anAttitude,
+        const Vector3d& anAngularVelocity,
+        const Shared<const Frame>& aReferenceFrame
+    );
 
-    public:
+    bool operator==(const State& aState) const;
 
-                                State                                       (   const   Instant&                    anInstant,
-                                                                                const   Position&                   aPosition,
-                                                                                const   Velocity&                   aVelocity,
-                                                                                const   Quaternion&                 anAttitude,
-                                                                                const   Vector3d&                   anAngularVelocity,
-                                                                                const   Shared<const Frame>&        aReferenceFrame                             ) ;
+    bool operator!=(const State& aState) const;
 
-        bool                    operator ==                                 (   const   State&                      aState                                      ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const State& aState);
 
-        bool                    operator !=                                 (   const   State&                      aState                                      ) const ;
+    bool isDefined() const;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   State&                      aState                                      ) ;
+    const Instant& accessInstant() const;
 
-        bool                    isDefined                                   ( ) const ;
+    const Position& accessPosition() const;
 
-        const Instant&          accessInstant                               ( ) const ;
+    const Velocity& accessVelocity() const;
 
-        const Position&         accessPosition                              ( ) const ;
+    const Quaternion& accessAttitude() const;
 
-        const Velocity&         accessVelocity                              ( ) const ;
+    const Vector3d& accessAngularVelocity() const;
 
-        const Quaternion&       accessAttitude                              ( ) const ;
+    Instant getInstant() const;
 
-        const Vector3d&         accessAngularVelocity                       ( ) const ;
+    Position getPosition() const;
 
-        Instant                 getInstant                                  ( ) const ;
+    Velocity getVelocity() const;
 
-        Position                getPosition                                 ( ) const ;
+    Quaternion getAttitude() const;
 
-        Velocity                getVelocity                                 ( ) const ;
+    Vector3d getAngularVelocity() const;
 
-        Quaternion              getAttitude                                 ( ) const ;
+    Shared<const Frame> getFrame() const;
 
-        Vector3d                getAngularVelocity                          ( ) const ;
+    State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
-        Shared<const Frame>     getFrame                                    ( ) const ;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        State                   inFrame                                     (   const   Shared<const Frame>&        aFrameSPtr                                  ) const ;
+    static State Undefined();
 
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
+   private:
+    Instant instant_;
+    Position position_;
+    Velocity velocity_;
+    Quaternion attitude_;
+    Vector3d angularVelocity_;
+    Shared<const Frame> frameSPtr_;
+};
 
-        static State            Undefined                                   ( ) ;
-
-    private:
-
-        Instant                 instant_ ;
-        Position                position_ ;
-        Velocity                velocity_ ;
-        Quaternion              attitude_ ;
-        Vector3d                angularVelocity_ ;
-        Shared<const Frame>     frameSPtr_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace profile
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

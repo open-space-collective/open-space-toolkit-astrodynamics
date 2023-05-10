@@ -1,32 +1,25 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 
-#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/BarycentricRational.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/CubicSpline.hpp>
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator/Linear.hpp>
 
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -37,108 +30,94 @@ namespace trajectory
 namespace models
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::fs::File;
+using ostk::core::types::Index;
+using ostk::core::types::Shared;
+using ostk::core::types::Size;
 
-using ostk::core::types::Index ;
-using ostk::core::types::Size ;
-using ostk::core::types::Shared ;
-using ostk::core::ctnr::Pair ;
-using ostk::core::ctnr::Array ;
-using ostk::core::fs::File ;
+using ostk::math::curvefitting::interp::Interpolator;
+using ostk::math::obj::MatrixXd;
+using ostk::math::obj::VectorXd;
 
-using ostk::math::obj::VectorXd ;
-using ostk::math::obj::MatrixXd ;
-using ostk::math::curvefitting::interp::Interpolator ;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Interval ;
-using ostk::physics::time::Scale ;
+using ostk::astro::trajectory::Model;
+using ostk::astro::trajectory::State;
 
-using ostk::astro::trajectory::Model ;
-using ostk::astro::trajectory::State ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define                         DEFAULT_TABULATED_INTERPOLATION_TYPE                       Tabulated::InterpolationType::Linear
+#define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Tabulated trajectory model
 ///
 ///                             Interpolation is performed between states using the specified interpolation scheme.
-///                             For now, linear, barycentric rational and cubic spline interpolation schemes are supported.
+///                             For now, linear, barycentric rational and cubic spline interpolation schemes are
+///                             supported.
 
 class Tabulated : public virtual Model
 {
+   public:
+    enum class InterpolationType
+    {
 
-    public:
+        Linear,
+        BarycentricRational,
+        CubicSpline
 
-        enum class InterpolationType
-        {
+    };
 
-            Linear,
-            BarycentricRational,
-            CubicSpline
+    Tabulated(
+        const Array<State>& aStateArray,
+        const InterpolationType& anInterpolationType = DEFAULT_TABULATED_INTERPOLATION_TYPE
+    );
 
-        } ;
+    virtual Tabulated* clone() const override;
 
-                                Tabulated                                   (   const   Array<State>&               aStateArray,
-                                                                                const   InterpolationType&          anInterpolationType                         = DEFAULT_TABULATED_INTERPOLATION_TYPE ) ;
+    bool operator==(const Tabulated& aTabulatedModel) const;
 
-        virtual Tabulated*      clone                                       ( ) const override ;
+    bool operator!=(const Tabulated& aTabulatedModel) const;
 
-        bool                    operator ==                                 (   const   Tabulated&                  aTabulatedModel                             ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel);
 
-        bool                    operator !=                                 (   const   Tabulated&                  aTabulatedModel                             ) const ;
+    virtual bool isDefined() const override;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Tabulated&                  aTabulatedModel                             ) ;
+    Interval getInterval() const;
 
-        virtual bool            isDefined                                   ( ) const override ;
+    InterpolationType getInterpolationType() const;
 
-        Interval                getInterval                                 ( ) const ;
+    State getFirstState() const;
 
-        InterpolationType       getInterpolationType                        ( ) const ;
+    State getLastState() const;
 
-        State                   getFirstState                               ( ) const ;
+    virtual State calculateStateAt(const Instant& anInstant) const override;
 
-        State                   getLastState                                ( ) const ;
+    virtual Array<State> calculateStatesAt(const Array<Instant>& anInstantArray) const override;
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        virtual Array<State>    calculateStatesAt                           (   const   Array<Instant>&             anInstantArray                              ) const override ;
+    static Tabulated Load(const File& aFile);
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+   protected:
+    virtual bool operator==(const Model& aModel) const override;
 
-        static Tabulated        Load                                        (   const   File&                       aFile                                       ) ;
+    virtual bool operator!=(const Model& aModel) const override;
 
-    protected:
+   private:
+    State firstState_ = State::Undefined();
+    State lastState_ = State::Undefined();
 
-        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const override ;
+    InterpolationType interpolationType_;
 
-        virtual bool            operator !=                                 (   const   Model&                      aModel                                      ) const override ;
+    Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty();
+};
 
-    private:
-
-        State                   firstState_ = State::Undefined() ;
-        State                   lastState_ = State::Undefined() ;
-
-        InterpolationType       interpolationType_ ;
-
-        Array<Shared<Interpolator>> interpolators_ = Array<Shared<Interpolator>>::Empty() ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace models
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

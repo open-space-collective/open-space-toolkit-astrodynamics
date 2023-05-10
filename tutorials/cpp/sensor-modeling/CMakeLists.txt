@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           tutorials/cpp/sensor-modeling/CMakeLists.txt
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Apache License 2.0 
 
 ## Project Properties
 
@@ -18,8 +11,6 @@ SET (PROJECT_VENDOR_ID "org.open-space-collective")
 SET (PROJECT_VENDOR_NAME "Open Space Collective")
 SET (PROJECT_VENDOR_CONTACT "contact@open-space-collective.org")
 SET (PROJECT_VENDOR_URL "open-space-collective.org")
-
-################################################################################################################################################################
 
 ## Setup
 
@@ -35,8 +26,6 @@ SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tools/cmake")
 
 CMAKE_POLICY (SET "CMP0048" NEW)
 
-################################################################################################################################################################
-
 ## Project Configuration
 
 PROJECT (${PROJECT_NAME} LANGUAGES "C" "CXX")
@@ -48,8 +37,6 @@ IF (BUILD_CODE_COVERAGE)
 ELSEIF (NOT CMAKE_BUILD_TYPE)
     SET (CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type [None|Debug|Release|RelWithDebInfo|MinSizeRel]." FORCE)
 ENDIF ()
-
-################################################################################################################################################################
 
 ## Flags
 
@@ -73,13 +60,9 @@ SET (CMAKE_CXX_STANDARD 14)
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_CXX_EXTENSIONS OFF)
 
-################################################################################################################################################################
-
 ## Debugging Options
 
 SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
-
-################################################################################################################################################################
 
 ## Dependencies
 
@@ -109,8 +92,6 @@ FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.1" REQUIRED)
 
 FIND_PACKAGE ("OpenSpaceToolkitAstrodynamics" "0.1" REQUIRED)
 
-################################################################################################################################################################
-
 ## Targets
 
 SET (APPLICATION_NAME "${PROJECT_PACKAGE_NAME}")
@@ -125,5 +106,3 @@ TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitCore_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
 TARGET_LINK_LIBRARIES (${APPLICATION_TARGET} ${OpenSpaceToolkitAstrodynamics_LIBRARIES})
-
-################################################################################################################################################################

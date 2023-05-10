@@ -1,19 +1,10 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/trajectory/orbit/test_pass.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Apache License 2.0 
 
 import pytest
 
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 Length = physics.units.Length
 Angle = physics.units.Angle
@@ -39,10 +30,8 @@ Access = astrodynamics.Access
 
 earth = Environment.default().access_celestial_object_with_name("Earth")
 
-################################################################################################################################################################
 
-def test_trajectory_orbit_pass ():
-
+def test_trajectory_orbit_pass():
     pass_type = Pass.Type.Partial
     pass_revolution_number = 123
     pass_start_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -64,5 +53,3 @@ def test_trajectory_orbit_pass ():
     assert Pass.string_from_type(Pass.Type.Complete) is not None
     assert Pass.string_from_phase(Pass.Phase.Ascending) is not None
     assert Pass.string_from_quarter(Pass.Quarter.First) is not None
-
-################################################################################################################################################################

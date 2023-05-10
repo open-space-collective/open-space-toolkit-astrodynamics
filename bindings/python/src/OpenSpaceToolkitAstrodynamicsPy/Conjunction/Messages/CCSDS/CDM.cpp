@@ -1,54 +1,38 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages/CCSDS/CDM.cpp
-/// @author         Remy Derollez <remy@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Messages/CCSDS/CDM.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM  ( pybind11::module& aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Array;
+    using ostk::core::types::Integer;
+    using ostk::core::types::Real;
+    using ostk::core::types::String;
 
-    using ostk::core::types::Integer ;
-    using ostk::core::types::Real ;
-    using ostk::core::types::String ;
-    using ostk::core::ctnr::Array ;
+    using ostk::math::obj::MatrixXd;
 
-    using ostk::math::obj::MatrixXd ;
+    using ostk::physics::coord::Frame;
+    using ostk::physics::coord::Position;
+    using ostk::physics::coord::Velocity;
+    using ostk::physics::time::DateTime;
+    using ostk::physics::time::Duration;
+    using ostk::physics::time::Instant;
+    using ostk::physics::time::Scale;
+    using ostk::physics::units::Length;
+    using ostk::physics::units::Mass;
 
-    using ostk::physics::time::Instant ;
-    using ostk::physics::time::DateTime ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::time::Scale ;
-    using ostk::physics::units::Length ;
-    using ostk::physics::units::Mass ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-    using ostk::physics::coord::Frame ;
+    using ostk::astro::conjunction::messages::ccsds::CDM;
+    using ostk::astro::trajectory::State;
 
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::conjunction::messages::ccsds::CDM ;
-
-    class_<CDM> cdm(aModule, "CDM") ;
+    class_<CDM> cdm(aModule, "CDM");
 
     cdm
 
-        .def
-        (
-            init
-            <
-                const CDM::Header&,
-                const CDM::RelativeMetadata,
-                const Array<CDM::Metadata>,
-                const Array<CDM::Data>
-            >(),
+        .def(
+            init<const CDM::Header&, const CDM::RelativeMetadata, const Array<CDM::Metadata>, const Array<CDM::Data> >(
+            ),
             arg("header"),
             arg("relative_metadata"),
             arg("objects_metadata_array"),
@@ -81,7 +65,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_static("load", &CDM::Load, arg("file"))
         .def_static("object_type_from_string", &CDM::ObjectTypeFromString, arg("string"))
 
-    ;
+        ;
 
     enum_<CDM::ObjectType>(cdm, "ObjectType")
 
@@ -91,12 +75,11 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .value("Unknown", CDM::ObjectType::Unknown)
         .value("Other", CDM::ObjectType::Other)
 
-    ;
+        ;
 
     class_<CDM::Header>(cdm, "Header")
 
-        .def
-        (
+        .def(
             init<const String&, const String&, const Instant&, const String&, const String&, const String&>(),
             arg("ccsds_cdm_version"),
             arg("comment") = String::Empty(),
@@ -113,14 +96,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_readonly("message_for", &CDM::Header::messageFor)
         .def_readonly("message_id", &CDM::Header::messageId)
 
-    ;
+        ;
 
     class_<CDM::RelativeMetadata>(cdm, "RelativeMetadata")
 
-        .def
-        (
-            init
-            <
+        .def(
+            init<
                 const String&,
                 const Instant&,
                 const Length&,
@@ -136,8 +117,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
                 const Instant&,
                 const Instant&,
                 const Real&,
-                const String&
-            >(),
+                const String&>(),
             arg("comment") = String::Empty(),
             arg("time_of_closest_approach"),
             arg("miss_distance"),
@@ -173,14 +153,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_readonly("collision_probability", &CDM::RelativeMetadata::collisionProbability)
         .def_readonly("collision_probability_method", &CDM::RelativeMetadata::collisionProbabilityMethod)
 
-    ;
+        ;
 
     class_<CDM::Metadata>(cdm, "Metadata")
 
-        .def
-        (
-            init
-            <
+        .def(
+            init<
                 const String&,
                 const String&,
                 const Integer&,
@@ -202,8 +180,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
                 const String&,
                 const bool&,
                 const bool&,
-                const bool&
-            >(),
+                const bool&>(),
             arg("comment") = String::Empty(),
             arg("object"),
             arg("object_designator"),
@@ -251,14 +228,12 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_readonly("earth_tides", &CDM::Metadata::earthTides)
         .def_readonly("in_track_thrust", &CDM::Metadata::inTrackThrust)
 
-    ;
+        ;
 
     class_<CDM::Data>(cdm, "Data")
 
-        .def
-        (
-            init
-            <
+        .def(
+            init<
                 const Instant&,
                 const Instant&,
                 const Duration&,
@@ -278,8 +253,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
                 const Real&,
                 const Real&,
                 const State&,
-                const MatrixXd&
-            >(),
+                const MatrixXd&>(),
             arg("time_last_observation_start"),
             arg("time_last_observation_end"),
             arg("recommended_od_span"),
@@ -323,8 +297,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Mess
         .def_readonly("state", &CDM::Data::state)
         .def_readonly("covariance_matrix", &CDM::Data::covarianceMatrix)
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

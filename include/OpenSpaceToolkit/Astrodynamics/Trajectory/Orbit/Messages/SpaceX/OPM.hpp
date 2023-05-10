@@ -1,32 +1,23 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Messages/SpaceX/OPM.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Dictionary.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -41,27 +32,23 @@ namespace messages
 namespace spacex
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+namespace ctnr = ostk::core::ctnr;
 
-namespace ctnr = ostk::core::ctnr ;
+using ostk::core::ctnr::Array;
+using ostk::core::fs::File;
+using ostk::core::types::Index;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::String;
 
-using ostk::core::types::Integer ;
-using ostk::core::types::Index ;
-using ostk::core::types::Real ;
-using ostk::core::types::String ;
-using ostk::core::ctnr::Array ;
-using ostk::core::fs::File ;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Length;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Duration ;
-using ostk::physics::units::Length ;
-using ostk::physics::units::Angle ;
-using ostk::physics::coord::Position ;
-using ostk::physics::coord::Velocity ;
-
-using ostk::astro::trajectory::State ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::astro::trajectory::State;
 
 /// @brief                      SpaceX Orbital Parameter Message (OPM)
 ///
@@ -96,83 +83,66 @@ using ostk::astro::trajectory::State ;
 
 class OPM
 {
+   public:
+    struct Header
+    {
+        Instant generationDate;
+        Instant launchDate;
+    };
 
-    public:
+    struct Deployment
+    {
+        String name;
+        Integer sequenceNumber;
+        Duration missionTime;
+        Instant date;
+        Position position;
+        Velocity velocity;
+        Length meanPerigeeAltitude;
+        Length meanApogeeAltitude;
+        Angle meanInclination;
+        Angle meanArgumentOfPerigee;
+        Angle meanLongitudeAscendingNode;
+        Angle meanMeanAnomaly;
+        Real ballisticCoefficient;  // [kg/m2]
 
-        struct Header
-        {
+        State toState() const;
+    };
 
-            Instant             generationDate ;
-            Instant             launchDate ;
+    OPM(const OPM::Header& aHeader, const Array<OPM::Deployment>& aDeploymentArray);
 
-        } ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM);
 
-        struct Deployment
-        {
+    bool isDefined() const;
 
-            String              name ;
-            Integer             sequenceNumber ;
-            Duration            missionTime ;
-            Instant             date ;
-            Position            position ;
-            Velocity            velocity ;
-            Length              meanPerigeeAltitude ;
-            Length              meanApogeeAltitude ;
-            Angle               meanInclination ;
-            Angle               meanArgumentOfPerigee ;
-            Angle               meanLongitudeAscendingNode ;
-            Angle               meanMeanAnomaly ;
-            Real                ballisticCoefficient ; // [kg/m2]
+    OPM::Header getHeader() const;
 
-            State               toState                                     ( ) const ;
+    Array<OPM::Deployment> getDeployments() const;
 
-        } ;
+    OPM::Deployment getDeploymentAt(const Index& anIndex) const;
 
-                                OPM                                         (   const   OPM::Header&                aHeader,
-                                                                                const   Array<OPM::Deployment>&     aDeploymentArray                            ) ;
+    OPM::Deployment getDeploymentWithName(const String& aName) const;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   OPM&                        anOPM                                       ) ;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-        bool                    isDefined                                   ( ) const ;
+    static OPM Undefined();
 
-        OPM::Header             getHeader                                   ( ) const ;
+    static OPM Dictionary(const ctnr::Dictionary& aDictionary);
 
-        Array<OPM::Deployment>  getDeployments                              ( ) const ;
+    static OPM Parse(const String& aString);
 
-        OPM::Deployment         getDeploymentAt                             (   const   Index&                      anIndex                                     ) const ;
+    static OPM Load(const File& aFile);
 
-        OPM::Deployment         getDeploymentWithName                       (   const   String&                     aName                                       ) const ;
+   private:
+    OPM::Header header_;
+    Array<OPM::Deployment> deployments_;
+};
 
-        void                    print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const ;
-
-        static OPM              Undefined                                   ( ) ;
-
-        static OPM              Dictionary                                  (   const   ctnr::Dictionary&           aDictionary                                 ) ;
-
-        static OPM              Parse                                       (   const   String&                     aString                                     ) ;
-
-        static OPM              Load                                        (   const   File&                       aFile                                       ) ;
-
-    private:
-
-        OPM::Header             header_ ;
-        Array<OPM::Deployment>  deployments_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace spacex
+}  // namespace messages
+}  // namespace orbit
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

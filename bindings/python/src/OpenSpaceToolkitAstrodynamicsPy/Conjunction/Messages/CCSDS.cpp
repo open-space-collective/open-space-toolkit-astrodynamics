@@ -1,28 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages/CCSDS.cpp
-/// @author         Remy Derollez <remy@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/Messages/CCSDS/CDM.cpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS (  pybind11::module&     aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS(pybind11::module& aModule)
 {
-
     // Create "ccsds" python submodule
-    auto ccsds = aModule.def_submodule("ccsds") ;
+    auto ccsds = aModule.def_submodule("ccsds");
 
     // Add __path__ attribute for "ccsds" submodule
-    ccsds.attr("__path__") = "ostk.astrodynamics.conjunction.messages.ccsds" ;
+    ccsds.attr("__path__") = "ostk.astrodynamics.conjunction.messages.ccsds";
 
     // Add objects to "ccsds" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(ccsds) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(ccsds);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

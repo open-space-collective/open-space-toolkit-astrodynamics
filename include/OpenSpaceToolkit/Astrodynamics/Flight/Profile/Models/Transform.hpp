@@ -1,27 +1,18 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform__
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 
-#include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 
 namespace ostk
 {
@@ -34,89 +25,71 @@ namespace profile
 namespace models
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::ctnr::Array;
+using ostk::core::types::String;
 
-using ostk::core::types::String ;
-using ostk::core::ctnr::Array ;
+using ostk::physics::coord::Axes;
+using ostk::physics::coord::Frame;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic;
 
-using ostk::physics::time::Instant ;
-using ostk::physics::time::Interval ;
-using ostk::physics::coord::Frame ;
-using ostk::physics::coord::Axes ;
-using DynamicProvider = ostk::physics::coord::frame::provider::Dynamic ;
-
-using ostk::astro::flight::profile::Model ;
-using ostk::astro::flight::profile::State ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::astro::flight::profile::Model;
+using ostk::astro::flight::profile::State;
 
 /// @brief                      Transform provided profile model
 
 class Transform : public virtual Model
 {
+   public:
+    Transform(const DynamicProvider& aDynamicTransformProvider, const Shared<const Frame>& aFrameSPtr);
 
-    public:
+    virtual Transform* clone() const override;
 
-                                Transform                                   (   const   DynamicProvider&            aDynamicTransformProvider,
-                                                                                const   Shared<const Frame>&        aFrameSPtr                                  ) ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Transform& aTransformModel);
 
-        virtual Transform*      clone                                       ( ) const override ;
+    virtual bool isDefined() const override;
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   Transform&                  aTransformModel                             ) ;
+    virtual State calculateStateAt(const Instant& anInstant) const override;
 
-        virtual bool            isDefined                                   ( ) const override ;
+    virtual Axes getAxesAt(const Instant& anInstant) const override;
 
-        virtual State           calculateStateAt                            (   const   Instant&                    anInstant                                   ) const override ;
+    virtual Shared<const Frame> getBodyFrame(const String& aFrameName) const override;
 
-        virtual Axes            getAxesAt                                   (   const   Instant&                    anInstant                                   ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        virtual Shared<const Frame> getBodyFrame                            (   const   String&                     aFrameName                                  ) const override ;
+    static Transform Undefined();
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+    /// @brief              Constructs a flight profile with inertial pointing
+    ///
+    /// @param              [in] aTrajectory A trajectory
+    /// @param              [in] aQuaternion A pointing in GCRF
+    /// @return             Flight profile
 
-        static Transform        Undefined                                   ( ) ;
+    static Transform InertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion);
 
-        /// @brief              Constructs a flight profile with inertial pointing
-        ///
-        /// @param              [in] aTrajectory A trajectory
-        /// @param              [in] aQuaternion A pointing in GCRF
-        /// @return             Flight profile
+    /// @brief              Constructs a flight profile with nadir pointing
+    ///
+    /// @param              [in] anOrbit An orbit
+    /// @param              [in] anOrbitalFrameType An orbital frame type
+    /// @return             Flight profile
 
-        static Transform        InertialPointing                            (   const   Trajectory&                 aTrajectory,
-                                                                                const   Quaternion&                 aQuaternion                                 ) ;
+    static Transform NadirPointing(
+        const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
+    );
 
-        /// @brief              Constructs a flight profile with nadir pointing
-        ///
-        /// @param              [in] anOrbit An orbit
-        /// @param              [in] anOrbitalFrameType An orbital frame type
-        /// @return             Flight profile
+   protected:
+    virtual bool operator==(const Model& aModel) const override;
 
-        static Transform        NadirPointing                               (   const   trajectory::Orbit&          anOrbit,
-                                                                                const   trajectory::Orbit::FrameType& anOrbitalFrameType                        ) ;
+   private:
+    DynamicProvider transformProvider_;
+    Shared<const Frame> frameSPtr_;
+};
 
-    protected:
-
-        virtual bool            operator ==                                 (   const   Model&                      aModel                                      ) const override ;
-
-    private:
-
-        DynamicProvider         transformProvider_ ;
-        Shared<const Frame>     frameSPtr_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace models
+}  // namespace profile
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,40 +1,35 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <pybind11/functional.h> // To pass anonymous functions directly
+#include <pybind11/functional.h>  // To pass anonymous functions directly
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator (        pybind11::module&         aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::ctnr::Map;
+    using ostk::core::types::Real;
+    using ostk::core::types::Shared;
 
-    using ostk::core::types::Shared ;
-    using ostk::core::types::Real ;
-    using ostk::core::ctnr::Map ;
+    using ostk::physics::Environment;
+    using ostk::physics::coord::spherical::AER;
+    using ostk::physics::time::Duration;
 
-    using ostk::physics::Environment ;
-    using ostk::physics::time::Duration ;
-    using ostk::physics::coord::spherical::AER ;
-
-    using ostk::astro::trajectory::State ;
-    using ostk::astro::Access ;
-    using ostk::astro::access::Generator ;
+    using ostk::astro::Access;
+    using ostk::astro::access::Generator;
+    using ostk::astro::trajectory::State;
 
     class_<Generator, Shared<Generator>>(aModule, "Generator")
 
-        .def
-        (
-            init<const Environment&, std::function<bool (const AER&)>&, std::function<bool (const Access&)>&, std::function<bool (const State&, const State&)>&, const Duration&, const Duration&>(),
+        .def(
+            init<
+                const Environment&,
+                std::function<bool(const AER&)>&,
+                std::function<bool(const Access&)>&,
+                std::function<bool(const State&, const State&)>&,
+                const Duration&,
+                const Duration&>(),
             arg("environment"),
             arg("aer_filter") = none(),
             arg("access_filter") = none(),
@@ -43,69 +38,26 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
             arg("tolerance") = DEFAULT_TOLERANCE
         )
 
-        .def
-        (
-            "is_defined",
-            &Generator::isDefined
-        )
+        .def("is_defined", &Generator::isDefined)
 
-        .def
-        (
-            "get_step",
-            &Generator::getStep
-        )
-        .def
-        (
-            "get_tolerance",
-            &Generator::getTolerance
-        )
+        .def("get_step", &Generator::getStep)
+        .def("get_tolerance", &Generator::getTolerance)
 
-        .def
-        (
+        .def(
             "compute_accesses",
             &Generator::computeAccesses,
             arg("interval"),
             arg("from_trajectory"),
             arg("to_trajectory")
         )
-        .def
-        (
-            "set_step",
-            &Generator::setStep,
-            arg("step")
-        )
-        .def
-        (
-            "set_tolerance",
-            &Generator::setTolerance,
-            arg("tolerance")
-        )
-        .def
-        (
-            "set_aer_filter",
-            &Generator::setAerFilter,
-            arg("aer_filter")
-        )
-        .def
-        (
-            "set_access_filter",
-            &Generator::setAccessFilter,
-            arg("access_filter")
-        )
-        .def
-        (
-            "set_state_filter",
-            &Generator::setStateFilter,
-            arg("state_filter")
-        )
+        .def("set_step", &Generator::setStep, arg("step"))
+        .def("set_tolerance", &Generator::setTolerance, arg("tolerance"))
+        .def("set_aer_filter", &Generator::setAerFilter, arg("aer_filter"))
+        .def("set_access_filter", &Generator::setAccessFilter, arg("access_filter"))
+        .def("set_state_filter", &Generator::setStateFilter, arg("state_filter"))
 
-        .def_static
-        (
-            "undefined",
-            &Generator::Undefined
-        )
-        .def_static
-        (
+        .def_static("undefined", &Generator::Undefined)
+        .def_static(
             "aer_ranges",
             &Generator::AerRanges,
             arg("azimuth_range"),
@@ -113,17 +65,9 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access_Generator
             arg("range_range"),
             arg("environment")
         )
-        .def_static
-        (
-            "aer_mask",
-            &Generator::AerMask,
-            arg("azimuth_elevation_mask"),
-            arg("range_range"),
-            arg("environment")
+        .def_static(
+            "aer_mask", &Generator::AerMask, arg("azimuth_elevation_mask"), arg("range_range"), arg("environment")
         )
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

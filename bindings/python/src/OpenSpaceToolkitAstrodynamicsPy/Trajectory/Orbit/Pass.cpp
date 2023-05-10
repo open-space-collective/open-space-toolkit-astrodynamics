@@ -1,33 +1,22 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Pass.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass (        pybind11::module&    aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Pass(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::core::types::Integer;
 
-    using ostk::core::types::Integer ;
+    using ostk::physics::time::Interval;
 
-    using ostk::physics::time::Interval ;
+    using ostk::astro::trajectory::orbit::Pass;
 
-    using ostk::astro::trajectory::orbit::Pass ;
-
-    class_<Pass> pass_class(aModule, "Pass") ;
+    class_<Pass> pass_class(aModule, "Pass");
 
     pass_class
 
-        .def
-        (
+        .def(
             init<const Pass::Type&, const Integer&, const Interval&>(),
             arg("type"),
             arg("revolution_number"),
@@ -52,7 +41,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .def_static("string_from_phase", &Pass::StringFromPhase, arg("phase"))
         .def_static("string_from_quarter", &Pass::StringFromQuarter, arg("quarter"))
 
-    ;
+        ;
 
     enum_<Pass::Type>(pass_class, "Type")
 
@@ -60,7 +49,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .value("Complete", Pass::Type::Complete)
         .value("Partial", Pass::Type::Partial)
 
-    ;
+        ;
 
     enum_<Pass::Phase>(pass_class, "Phase")
 
@@ -68,7 +57,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .value("Ascending", Pass::Phase::Ascending)
         .value("Descending", Pass::Phase::Descending)
 
-    ;
+        ;
 
     enum_<Pass::Quarter>(pass_class, "Quarter")
 
@@ -78,8 +67,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit
         .value("Third", Pass::Quarter::Third)
         .value("Fourth", Pass::Quarter::Fourth)
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

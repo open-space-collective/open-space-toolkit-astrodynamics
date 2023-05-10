@@ -1,18 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
@@ -21,9 +12,7 @@
 
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
 namespace ostk
 {
@@ -34,152 +23,140 @@ namespace flight
 namespace system
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+using ostk::core::types::Real;
 
-using ostk::core::types::Real ;
+using ostk::math::geom::d3::objects::Composite;
+using ostk::math::geom::d3::objects::Cuboid;
+using ostk::math::geom::d3::objects::Point;
+using ostk::math::obj::Matrix3d;
+using ostk::math::obj::Vector3d;
 
-using ostk::math::obj::Vector3d ;
-using ostk::math::obj::Matrix3d ;
-using ostk::math::geom::d3::objects::Cuboid ;
-using ostk::math::geom::d3::objects::Composite ;
-using ostk::math::geom::d3::objects::Point ;
+using ostk::physics::units::Mass;
 
-using ostk::physics::units::Mass ;
+using ostk::astro::flight::System;
 
-using ostk::astro::flight::System ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @brief                      Defines the dynamics system who's motion is being studied, in particular this is a satellite system
+/// @brief                      Defines the dynamics system who's motion is being studied, in particular this is a
+/// satellite system
 
 class SatelliteSystem : public System
 {
+   public:
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     Mass mass = { ... } ;
+    ///                     Composite composite ( ... ) ;
+    ///                     Matrix3d intertiaTensor ( ... ) ;
+    ///                     Real crossSectionalSurfaceArea = 0.8 ;
+    ///                     Real dragCoefficient = 2.2 ;
+    ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
+    ///                     dragCoefficient } ;
+    /// @endcode
+    ///
+    /// @param              [in] aMass A mass
+    /// @param              [in] aCompositeGeometry A composite geometry
+    /// @param              [in] anInertiaTensor An inertia tensor
+    /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
+    /// @param              [in] aDragCoefficient A drag coefficient
 
-    public:
+    SatelliteSystem(
+        const Mass& aMass,
+        const Composite& aSatelliteGeometry,
+        const Matrix3d& anInertiaTensor,
+        const Real& aCrossSectionalSurfaceArea,
+        const Real& aDragCoefficient
+    );
 
-        /// @brief              Constructor
-        ///
-        /// @code
-        ///                     Mass mass = { ... } ;
-        ///                     Composite composite ( ... ) ;
-        ///                     Matrix3d intertiaTensor ( ... ) ;
-        ///                     Real crossSectionalSurfaceArea = 0.8 ;
-        ///                     Real dragCoefficient = 2.2 ;
-        ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea, dragCoefficient } ;
-        /// @endcode
-        ///
-        /// @param              [in] aMass A mass
-        /// @param              [in] aCompositeGeometry A composite geometry
-        /// @param              [in] anInertiaTensor An inertia tensor
-        /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
-        /// @param              [in] aDragCoefficient A drag coefficient
+    /// @brief              Copy Constructor
+    ///
+    /// @param              [in] aSatelliteSystem A satellite system
 
-                                SatelliteSystem                             (   const   Mass&                       aMass,
-                                                                                const   Composite&                  aSatelliteGeometry,
-                                                                                const   Matrix3d&                   anInertiaTensor,
-                                                                                const   Real&                       aCrossSectionalSurfaceArea,
-                                                                                const   Real&                       aDragCoefficient                            ) ;
+    SatelliteSystem(const SatelliteSystem& aSatelliteSystem);
 
-        /// @brief              Copy Constructor
-        ///
-        /// @param              [in] aSatelliteSystem A satellite system
+    /// @brief              Destructor
 
-                                SatelliteSystem                             (   const   SatelliteSystem&            aSatelliteSystem                            ) ;
+    virtual ~SatelliteSystem() override;
 
-        /// @brief              Destructor
+    /// @brief              Clone satellite system
+    ///
+    /// @return             Pointer to cloned satellite system
 
-        virtual                 ~SatelliteSystem                            ( ) override ;
+    SatelliteSystem* clone() const;
 
-        /// @brief              Clone satellite system
-        ///
-        /// @return             Pointer to cloned satellite system
+    /// @brief              Equal to operator
+    ///
+    /// @param              [in] aSatelliteSystem A satellite system
+    /// @return             True if satellite systems are equal
 
-        SatelliteSystem*        clone                                       ( ) const ;
+    bool operator==(const SatelliteSystem& aSatelliteSystem) const;
 
-        /// @brief              Equal to operator
-        ///
-        /// @param              [in] aSatelliteSystem A satellite system
-        /// @return             True if satellite systems are equal
+    /// @brief              Not equal to operator
+    ///
+    /// @param              [in] aSatelliteSystem A satellite system
+    /// @return             True if satellite systems are not equal
 
-        bool                    operator ==                                 (   const   SatelliteSystem&            aSatelliteSystem                            ) const ;
+    bool operator!=(const SatelliteSystem& aSatelliteSystem) const;
 
-        /// @brief              Not equal to operator
-        ///
-        /// @param              [in] aSatelliteSystem A satellite system
-        /// @return             True if satellite systems are not equal
+    /// @brief              Output stream operator
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aSatelliteSystem A satellite system
+    /// @return             A reference to output stream
 
-        bool                    operator !=                                 (   const   SatelliteSystem&            aSatelliteSystem                            ) const ;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aSatelliteSystem);
 
-        /// @brief              Output stream operator
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] aSatelliteSystem A satellite system
-        /// @return             A reference to output stream
+    /// @brief              Check if satellite system is defined
+    ///
+    /// @return             True if satellite system is defined
 
-        friend std::ostream&    operator <<                                 (           std::ostream&               anOutputStream,
-                                                                                const   SatelliteSystem&            aSatelliteSystem                            ) ;
+    virtual bool isDefined() const override;
 
-        /// @brief              Check if satellite system is defined
-        ///
-        /// @return             True if satellite system is defined
+    /// @brief              Print satellite system
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
 
-        virtual bool            isDefined                                   ( ) const override ;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-        /// @brief              Print satellite system
-        ///
-        /// @param              [in] anOutputStream An output stream
-        /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @brief              Get satellite system's inertia tensor
+    ///
+    /// @code
+    ///                     Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
+    /// @endcode
+    ///
+    /// @return             Matrix3d
 
-        virtual void            print                                       (           std::ostream&               anOutputStream,
-                                                                                        bool                        displayDecorator                            =   true ) const override ;
+    Matrix3d getInertiaTensor() const;
 
-        /// @brief              Get satellite system's inertia tensor
-        ///
-        /// @code
-        ///                     Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
-        /// @endcode
-        ///
-        /// @return             Matrix3d
+    /// @brief              Get satellite system's surface area
+    ///
+    /// @code
+    ///                     Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
+    /// @endcode
+    ///
+    /// @return             Real
 
-        Matrix3d                getInertiaTensor                            ( ) const ;
+    Real getCrossSectionalSurfaceArea() const;
 
-        /// @brief              Get satellite system's surface area
-        ///
-        /// @code
-        ///                     Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
-        /// @endcode
-        ///
-        /// @return             Real
+    /// @brief              Get satellite system's drag coefficient
+    ///
+    /// @code
+    ///                     Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
+    /// @endcode
+    ///
+    /// @return             Real
 
-        Real                    getCrossSectionalSurfaceArea                ( ) const ;
+    Real getDragCoefficient() const;
 
-        /// @brief              Get satellite system's drag coefficient
-        ///
-        /// @code
-        ///                     Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
-        /// @endcode
-        ///
-        /// @return             Real
+   private:
+    Matrix3d inertiaTensor_;
+    Real crossSectionalSurfaceArea_;
+    Real dragCoefficient_;
+};
 
-        Real                    getDragCoefficient                          ( ) const ;
-
-    private:
-
-        Matrix3d                inertiaTensor_ ;
-        Real                    crossSectionalSurfaceArea_ ;
-        Real                    dragCoefficient_ ;
-
-} ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-}
-}
-}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}  // namespace system
+}  // namespace flight
+}  // namespace astro
+}  // namespace ostk
 
 #endif
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

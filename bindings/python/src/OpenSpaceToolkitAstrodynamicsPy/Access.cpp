@@ -1,36 +1,24 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Access.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
 
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (           pybind11::module&           aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::physics::time::Instant;
+    using ostk::physics::units::Angle;
 
-    using ostk::physics::time::Instant ;
-    using ostk::physics::units::Angle ;
-
-    using ostk::astro::Access ;
+    using ostk::astro::Access;
 
     {
-
-        class_<Access> access_class(aModule, "Access") ;
+        class_<Access> access_class(aModule, "Access");
 
         access_class
 
-            .def
-            (
+            .def(
                 init<const Access::Type&, const Instant&, const Instant&, const Instant&, const Angle&>(),
                 arg("type"),
                 arg("acquisition_of_signal"),
@@ -60,7 +48,7 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
 
             .def_static("string_from_type", &Access::StringFromType, arg("type"))
 
-        ;
+            ;
 
         enum_<Access::Type>(access_class, "Type")
 
@@ -68,19 +56,15 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Access      (   
             .value("Complete", Access::Type::Complete)
             .value("Partial", Access::Type::Partial)
 
-        ;
-
+            ;
     }
 
     // Create "access" python submodule
-    auto access = aModule.def_submodule("access") ;
+    auto access = aModule.def_submodule("access");
 
     // Add __path__ attribute for "access" submodule
-    access.attr("__path__") = "ostk.astrodynamics.access" ;
+    access.attr("__path__") = "ostk.astrodynamics.access";
 
     // Add elements to "access" module
-    OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access) ;
-
+    OpenSpaceToolkitAstrodynamicsPy_Access_Generator(access);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

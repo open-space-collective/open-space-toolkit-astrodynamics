@@ -1,36 +1,20 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           bindings/python/src/OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp
-/// @author         Lucas Brémond <lucas@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0  
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State (        pybind11::module&         aModule                                     )
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
 {
+    using namespace pybind11;
 
-    using namespace pybind11 ;
+    using ostk::physics::coord::Position;
+    using ostk::physics::coord::Velocity;
+    using ostk::physics::time::Instant;
 
-    using ostk::physics::time::Instant ;
-    using ostk::physics::coord::Position ;
-    using ostk::physics::coord::Velocity ;
-
-    using ostk::astro::trajectory::State ;
+    using ostk::astro::trajectory::State;
 
     class_<State>(aModule, "State")
 
-        .def
-        (
-            init<const Instant&, const Position&, const Velocity&>(),
-            arg("instant"),
-            arg("position"),
-            arg("velocity")
-        )
+        .def(init<const Instant&, const Position&, const Velocity&>(), arg("instant"), arg("position"), arg("velocity"))
 
         .def(self == self)
         .def(self != self)
@@ -50,8 +34,5 @@ inline void                     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State
 
         .def_static("undefined", &State::Undefined)
 
-    ;
-
+        ;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

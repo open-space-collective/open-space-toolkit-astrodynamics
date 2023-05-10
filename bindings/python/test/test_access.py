@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/test/test_access.py
-# @author         Lucas Brémond <lucas@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Apache License 2.0 
 
 import pytest
 
@@ -16,8 +9,6 @@ import ostk.mathematics as mathematics
 import ostk.physics as physics
 
 import ostk.astrodynamics as astrodynamics
-
-################################################################################################################################################################
 
 RealInterval = mathematics.objects.RealInterval
 Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
@@ -44,40 +35,46 @@ COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.sgp4
 Access = astrodynamics.Access
 
-################################################################################################################################################################
 
-def test_access_constructors ():
-
+def test_access_constructors():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
     max_elevation = Angle.degrees(54.3)
 
-    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal, max_elevation)
+    access: Access = Access(
+        Access.Type.Complete,
+        acquisition_of_signal,
+        time_at_closest_approach,
+        loss_of_signal,
+        max_elevation,
+    )
 
     assert access is not None
     assert isinstance(access, Access)
 
-################################################################################################################################################################
 
-def test_access_undefined ():
-
+def test_access_undefined():
     access: Access = Access.undefined()
 
     assert access is not None
     assert isinstance(access, Access)
     assert access.is_defined() is False
 
-################################################################################################################################################################
 
-def test_access_getters ():
-
+def test_access_getters():
     acquisition_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     time_at_closest_approach = Instant.date_time(DateTime(2018, 1, 1, 0, 1, 0), Scale.UTC)
     loss_of_signal = Instant.date_time(DateTime(2018, 1, 1, 0, 2, 0), Scale.UTC)
     max_elevation = Angle.degrees(54.3)
 
-    access: Access = Access(Access.Type.Complete, acquisition_of_signal, time_at_closest_approach, loss_of_signal, max_elevation)
+    access: Access = Access(
+        Access.Type.Complete,
+        acquisition_of_signal,
+        time_at_closest_approach,
+        loss_of_signal,
+        max_elevation,
+    )
 
     # get_type
     access_type: Access.Type = access.get_type()
@@ -124,12 +121,8 @@ def test_access_getters ():
     assert max_el is not None
     assert isinstance(max_el, Angle)
 
-################################################################################################################################################################
 
-def test_access_string_from_type ():
-
-    assert Access.string_from_type(Access.Type.Undefined) == 'Undefined'
-    assert Access.string_from_type(Access.Type.Complete) == 'Complete'
-    assert Access.string_from_type(Access.Type.Partial) == 'Partial'
-
-################################################################################################################################################################
+def test_access_string_from_type():
+    assert Access.string_from_type(Access.Type.Undefined) == "Undefined"
+    assert Access.string_from_type(Access.Type.Complete) == "Complete"
+    assert Access.string_from_type(Access.Type.Partial) == "Partial"

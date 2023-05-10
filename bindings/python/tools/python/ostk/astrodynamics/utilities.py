@@ -1,11 +1,4 @@
-################################################################################################################################################################
-
-# @project        Open Space Toolkit ▸ Astrodynamics
-# @file           bindings/python/tools/python/ostk/astrodynamics/utilities.py
-# @author         Remy Derollez <remy@loftorbital.com>
-# @license        Apache License 2.0
-
-################################################################################################################################################################
+# Apache License 2.0 
 
 from .OpenSpaceToolkitAstrodynamicsPy import *
 
@@ -20,13 +13,11 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
-################################################################################################################################################################
 
-def lla_from_state (state: trajectory.State) -> list:
-
-    '''
+def lla_from_state(state: trajectory.State) -> list:
+    """
     Return latitude (degrees), longitude (degrees), altitude (meters) float list from a state.
-    '''
+    """
 
     lla = lla_from_position(state.get_position(), state.get_instant())
 
@@ -36,12 +27,11 @@ def lla_from_state (state: trajectory.State) -> list:
         float(lla.get_altitude().in_meters()),
     ]
 
-def lla_from_position (position: Position,
-                       instant: Instant) -> LLA:
 
-    '''
+def lla_from_position(position: Position, instant: Instant) -> LLA:
+    """
     Return LLA from position and instant.
-    '''
+    """
 
     return LLA.cartesian(
         position.in_frame(Frame.ITRF(), instant).get_coordinates(),
@@ -49,25 +39,27 @@ def lla_from_position (position: Position,
         Earth.flattening,
     )
 
-def position_from_lla (lla: LLA) -> Position:
 
-    '''
+def position_from_lla(lla: LLA) -> Position:
+    """
     Return position from lla.
-    '''
+    """
 
     return Position.meters(
         lla.to_cartesian(Earth.equatorial_radius, Earth.flattening),
         Frame.ITRF(),
     )
 
-def compute_aer (instant: Instant,
-                 from_position: Position,
-                 to_position: Position,
-                 environment: Environment) -> list:
 
-    '''
+def compute_aer(
+    instant: Instant,
+    from_position: Position,
+    to_position: Position,
+    environment: Environment,
+) -> list:
+    """
     Return [azimuth (degrees), elevation (degrees), range (meters)] from Instant and Positions (observer, target).
-    '''
+    """
 
     from_lla = lla_from_position(from_position, instant)
 
@@ -85,41 +77,52 @@ def compute_aer (instant: Instant,
         float(aer.get_range().in_meters()),
     ]
 
-def compute_time_lla_aer_state (state: trajectory.State,
-                                from_position: Position,
-                                environment: Environment) -> list:
 
-    '''
+def compute_time_lla_aer_state(
+    state: trajectory.State, from_position: Position, environment: Environment
+) -> list:
+    """
     Return [instant, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
-    '''
+    """
 
     instant = state.get_instant()
 
     lla = lla_from_state(state)
-    aer = compute_aer(instant, from_position, state.get_position().in_frame(Frame.ITRF(), state.get_instant()), environment)
+    aer = compute_aer(
+        instant,
+        from_position,
+        state.get_position().in_frame(Frame.ITRF(), state.get_instant()),
+        environment,
+    )
 
     return [instant, lla[0], lla[1], lla[2], aer[0], aer[1], aer[2]]
 
-def compute_trajectory_geometry (trajectory: Trajectory,
-                                 interval: Interval) -> list:
 
-    '''
+def compute_trajectory_geometry(trajectory: Trajectory, interval: Interval) -> list:
+    """
     Return [latitude (degrees), longitude (degrees), altitude (meters)] values along a Trajectory during Interval.
-    '''
+    """
 
     return [
         lla_from_state(state)
-        for state in trajectory.get_states_at(interval.generate_grid(Duration.minutes(1.0)))
+        for state in trajectory.get_states_at(
+            interval.generate_grid(Duration.minutes(1.0))
+        )
     ]
 
-def convert_state (instant: Instant,
-                   state: trajectory.State) -> list:
 
-    '''
+def convert_state(instant: Instant, state: trajectory.State) -> list:
+    """
     Convert an input (Instant, State) into dataframe-ready values.
-    '''
+    """
 
-    lla = LLA.cartesian(state.get_position().in_frame(Frame.ITRF(), state.get_instant()).get_coordinates(), Earth.equatorial_radius, Earth.flattening)
+    lla = LLA.cartesian(
+        state.get_position()
+        .in_frame(Frame.ITRF(), state.get_instant())
+        .get_coordinates(),
+        Earth.equatorial_radius,
+        Earth.flattening,
+    )
 
     return [
         repr(instant),
@@ -130,5 +133,3 @@ def convert_state (instant: Instant,
         float(lla.get_longitude().in_degrees()),
         float(lla.get_altitude().in_meters()),
     ]
-
-################################################################################################################################################################
