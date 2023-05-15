@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 
@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::orbit::models::Tabulated;
 
-    class_<Tabulated> tabulated_class(aModule, "Tabulated");
+    class_<Tabulated, ostk::astro::trajectory::orbit::Model> tabulated_class(aModule, "Tabulated");
 
     enum_<Tabulated::InterpolationType>(tabulated_class, "InterpolationType")
 

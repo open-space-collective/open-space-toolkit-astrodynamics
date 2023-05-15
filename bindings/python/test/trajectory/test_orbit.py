@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -26,6 +26,7 @@ Pass = astrodynamics.trajectory.orbit.Pass
 Kepler = astrodynamics.trajectory.orbit.models.Kepler
 COE = astrodynamics.trajectory.orbit.models.kepler.COE
 SGP4 = astrodynamics.trajectory.orbit.models.SGP4
+Tabulated = astrodynamics.trajectory.orbit.models.Tabulated
 TLE = astrodynamics.trajectory.orbit.models.sgp4.TLE
 State = astrodynamics.trajectory.State
 Access = astrodynamics.Access
