@@ -41,6 +41,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         .def("get_epoch", &Tabulated::getEpoch)
         .def("get_revolution_number_at_epoch", &Tabulated::getRevolutionNumberAtEpoch)
         .def("get_interval", &Tabulated::getInterval)
+        .def("get_interpolation_type", &Tabulated::getInterpolationType)
         .def("calculate_state_at", &Tabulated::calculateStateAt, arg("instant"))
         .def("calculate_states_at", &Tabulated::calculateStatesAt, arg("instants"))
         .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))
