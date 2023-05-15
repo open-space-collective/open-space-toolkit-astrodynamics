@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Models_Tabulated__
@@ -49,8 +49,6 @@ using ostk::astro::trajectory::Model;
 using ostk::astro::trajectory::State;
 
 #define DEFAULT_TABULATED_INTERPOLATION_TYPE Tabulated::InterpolationType::Linear
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief                      Tabulated trajectory model
 ///
