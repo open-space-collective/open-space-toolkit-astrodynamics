@@ -142,7 +142,8 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}{NumericalSolver}} numericalSolver = \{ aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_ac67671257ab8be4f684842505f4ce8d8}{NumericalSolver}} numericalSolver = \{ aLogType, aStepperType, aTimeStep, aRelativeTolerance,}
+\DoxyCodeLine{anAbsoluteTolerance \} ;}
 \end{DoxyCode}
 
 
@@ -297,7 +298,8 @@ Perform numerical integration for a certain duration.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector}} stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, SystemofEquations) ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector}} stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector,}
+\DoxyCodeLine{instant, otherInstant, SystemofEquations) ;}
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}
@@ -323,7 +325,8 @@ Perform numerical integration from an instant to another instant.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector}} stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector, instant, otherInstant, systemOfEquations) ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{StateVector}} stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector,}
+\DoxyCodeLine{instant, otherInstant, systemOfEquations) ;}
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}
@@ -351,7 +354,9 @@ Perform numerical integration from a starting instant to an array of states.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{Array<StateVector> stateVectorArray = numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray, systemOfEquations) ;}
+\DoxyCodeLine{Array<StateVector> stateVectorArray =}
+\DoxyCodeLine{numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray,}
+\DoxyCodeLine{systemOfEquations) ;}
 \end{DoxyCode}
 
 

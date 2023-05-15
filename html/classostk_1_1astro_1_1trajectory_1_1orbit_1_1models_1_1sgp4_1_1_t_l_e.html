@@ -344,7 +344,8 @@ Friends</h2></td></tr>
 
 <p>Returns true if <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> can be generated from the given lines. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a843f3432e8411de6b8d7e9c40d7191d2">TLE::CanParse</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>,</div>
-<div class="line">              <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>) ; <span class="comment">// True</span></div>
+<div class="line">              <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>) ; <span class="comment">//</span></div>
+<div class="line">              True</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aFirstLine</td><td>A first line </td></tr>
@@ -382,7 +383,8 @@ Friends</h2></td></tr>
 
 <p>Returns true if <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> can be generated from the given string. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a843f3432e8411de6b8d7e9c40d7191d2">TLE::CanParse</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n</span></div>
-<div class="line"><span class="stringliteral">               2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>) ; <span class="comment">// True</span></div>
+<div class="line"><span class="stringliteral">               2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>) ; <span class="comment">//</span></div>
+<div class="line">               True</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aString</td><td>A string </td></tr>
@@ -667,7 +669,8 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Generate checksum for the given <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> line. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a4f9d8d752fc3700fd9bac043f106e19b">TLE::GenerateChecksum</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>) ;</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a4f9d8d752fc3700fd9bac043f106e19b">TLE::GenerateChecksum</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0</span></div>
+<div class="line"><span class="stringliteral">2927&quot;</span>) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aLine</td><td>A <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> line </td></tr>
@@ -836,7 +839,9 @@ Friends</h2></td></tr>
 <p>Get first line. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a>(<span class="stringliteral">&quot;ISS (ZARYA)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360</span></div>
+<div class="line"><span class="stringliteral">    325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;1 25544U 98067A   08264.51782528</span></div>
+<div class="line">    -.00002182  00000-0 -11606-4 0  2927<span class="stringliteral">&quot;</span></div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>First line </dd></dl>
 
 </div>
@@ -1039,7 +1044,8 @@ Friends</h2></td></tr>
 <p>Get satellite name. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a>(<span class="stringliteral">&quot;ISS (ZARYA)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;ISS (ZARYA)&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360</span></div>
+<div class="line"><span class="stringliteral">    325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;ISS (ZARYA)&quot;</span></div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>Satellite name </dd></dl>
 
 </div>
@@ -1082,7 +1088,9 @@ Friends</h2></td></tr>
 <p>Get second line. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a>(<span class="stringliteral">&quot;ISS (ZARYA)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360</span></div>
+<div class="line"><span class="stringliteral">    325.0288 15.72125391563537&quot;</span>).getSatelliteName() ; <span class="comment">// &quot;2 25544  51.6416 247.4627 0006703</span></div>
+<div class="line">    130.5360 325.0288 15.72125391563537<span class="stringliteral">&quot;</span></div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>Second line </dd></dl>
 
 </div>
@@ -1124,7 +1132,8 @@ Friends</h2></td></tr>
 
 <p>Check if <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> is defined. </p>
 <div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927&quot;</span>,</div>
-<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>).isDefined() ; <span class="comment">// True</span></div>
+<div class="line">    <span class="stringliteral">&quot;2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>).isDefined() ;</div>
+<div class="line">    <span class="comment">// True</span></div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>True if <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> is defined </dd></dl>
 
 </div>
@@ -1246,8 +1255,9 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructs a <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html" title="A Two-Line Element set (TLE) is data format encoding a list of orbital elements of an Earth-orbiting ...">TLE</a> from a given string. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a> tle = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a7f97a74af47895aa315aebc52f410d26">TLE::Parse</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n</span></div>
-<div class="line"><span class="stringliteral">                      2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537&quot;</span>) ;</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">TLE</a> tle = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a7f97a74af47895aa315aebc52f410d26">TLE::Parse</a>(<span class="stringliteral">&quot;1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0 2927\n</span></div>
+<div class="line"><span class="stringliteral">                      2 25544  51.6416 247.4627 0006703 130.5360</span></div>
+<div class="line"><span class="stringliteral">                      325.0288 15.72125391563537&quot;</span>) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aString</td><td>A string </td></tr>
@@ -1423,11 +1433,11 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a4f9d8d752fc3700fd9bac043f106e19b"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a4f9d8d752fc3700fd9bac043f106e19b">ostk::astro::trajectory::orbit::models::sgp4::TLE::GenerateChecksum</a></div><div class="ttdeci">static Integer GenerateChecksum(const String &amp;aLine)</div><div class="ttdoc">Generate checksum for the given TLE line.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:834</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a57323db2c24577c2e8ddce79fa776d1e"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">ostk::astro::trajectory::orbit::models::sgp4::TLE::TLE</a></div><div class="ttdeci">TLE(const String &amp;aFirstLine, const String &amp;aSecondLine)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:38</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a871cdedd5bc51c9f3afa976e0597ea51"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a871cdedd5bc51c9f3afa976e0597ea51">ostk::astro::trajectory::orbit::models::sgp4::TLE::Undefined</a></div><div class="ttdeci">static TLE Undefined()</div><div class="ttdoc">Constructs an undefined TLE.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:485</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a843f3432e8411de6b8d7e9c40d7191d2"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a843f3432e8411de6b8d7e9c40d7191d2">ostk::astro::trajectory::orbit::models::sgp4::TLE::CanParse</a></div><div class="ttdeci">static bool CanParse(const String &amp;aString)</div><div class="ttdoc">Returns true if TLE can be generated from the given string.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:490</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a7f97a74af47895aa315aebc52f410d26"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a7f97a74af47895aa315aebc52f410d26">ostk::astro::trajectory::orbit::models::sgp4::TLE::Parse</a></div><div class="ttdeci">static TLE Parse(const String &amp;aString)</div><div class="ttdoc">Constructs a TLE from a given string.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:554</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a4f9d8d752fc3700fd9bac043f106e19b"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a4f9d8d752fc3700fd9bac043f106e19b">ostk::astro::trajectory::orbit::models::sgp4::TLE::GenerateChecksum</a></div><div class="ttdeci">static Integer GenerateChecksum(const String &amp;aLine)</div><div class="ttdoc">Generate checksum for the given TLE line.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:774</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a57323db2c24577c2e8ddce79fa776d1e"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a57323db2c24577c2e8ddce79fa776d1e">ostk::astro::trajectory::orbit::models::sgp4::TLE::TLE</a></div><div class="ttdeci">TLE(const String &amp;aFirstLine, const String &amp;aSecondLine)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:27</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a871cdedd5bc51c9f3afa976e0597ea51"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a871cdedd5bc51c9f3afa976e0597ea51">ostk::astro::trajectory::orbit::models::sgp4::TLE::Undefined</a></div><div class="ttdeci">static TLE Undefined()</div><div class="ttdoc">Constructs an undefined TLE.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:438</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a843f3432e8411de6b8d7e9c40d7191d2"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a843f3432e8411de6b8d7e9c40d7191d2">ostk::astro::trajectory::orbit::models::sgp4::TLE::CanParse</a></div><div class="ttdeci">static bool CanParse(const String &amp;aString)</div><div class="ttdoc">Returns true if TLE can be generated from the given string.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:443</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e_html_a7f97a74af47895aa315aebc52f410d26"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a7f97a74af47895aa315aebc52f410d26">ostk::astro::trajectory::orbit::models::sgp4::TLE::Parse</a></div><div class="ttdeci">static TLE Parse(const String &amp;aString)</div><div class="ttdoc">Constructs a TLE from a given string.</div><div class="ttdef"><b>Definition:</b> TLE.cpp:501</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

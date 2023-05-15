@@ -1,14 +1,15 @@
 \hypertarget{_numerical_solver_8cpp}{}\doxysection{src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Numerical\+Solver.cpp File Reference}
 \label{_numerical_solver_8cpp}\index{src/OpenSpaceToolkit/Astrodynamics/NumericalSolver.cpp@{src/OpenSpaceToolkit/Astrodynamics/NumericalSolver.cpp}}
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Numerical\+Solver.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/numeric/odeint.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Error.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Utilities.\+hpp$>$}\newline
-{\ttfamily \#include $<$boost/numeric/odeint.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Numerical\+Solver.\+hpp$>$}\newline
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
  \mbox{\hyperlink{namespaceostk}{ostk}}
-\item 
+\begin{DoxyCompactList}\small\item\em Apache License 2.\+0 ~\newline
+ \end{DoxyCompactList}\item 
  \mbox{\hyperlink{namespaceostk_1_1astro}{ostk\+::astro}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
@@ -23,11 +24,3 @@ typedef runge\+\_\+kutta\+\_\+fehlberg78$<$ Numerical\+Solver\+::\+State\+Vector
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}{ostk\+::astro\+::operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const Numerical\+Solver \&a\+Numerical\+Solver)
 \end{DoxyCompactItemize}
-
-
-\doxysubsection{Detailed Description}
-@project Open Space Toolkit ▸ Astrodynamics
-
-\begin{DoxyAuthor}{Author}
-Antoine Paletta \href{mailto:antoine.paletta@loftorbital.com}{\texttt{ antoine.\+paletta@loftorbital.\+com}} @license Apache License 2.\+0 
-\end{DoxyAuthor}
