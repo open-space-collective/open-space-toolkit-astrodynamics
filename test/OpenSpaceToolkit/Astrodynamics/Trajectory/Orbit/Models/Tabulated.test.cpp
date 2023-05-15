@@ -1,22 +1,15 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.test.cpp
-/// @author         Vishwa Shah <vishwa@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 
 #include <Global.test.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using ostk::core::types::Integer;
 using ostk::core::types::Size;
@@ -31,6 +24,7 @@ using ostk::core::fs::File;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
@@ -40,10 +34,9 @@ using ostk::physics::coord::Velocity;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::orbit::Model;
 using ostk::astro::trajectory::orbit::models::Tabulated;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public ::testing::Test
 {
@@ -94,6 +87,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Constructor)
 {
     const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
+
+    Environment environment = Environment::Default();
+
+    const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStateAt)
@@ -199,5 +196,3 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, NotEqua
 
     EXPECT_TRUE(tabulated != anotherTabulated);
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

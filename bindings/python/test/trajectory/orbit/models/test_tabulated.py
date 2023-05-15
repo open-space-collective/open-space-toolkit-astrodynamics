@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -11,9 +11,16 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
+from ostk.physics import Environment
 
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory.orbit.models import Tabulated
+
+
+@pytest.fixture
+def earth():
+    return Environment.default().access_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -238,6 +245,33 @@ class TestTabulated:
                 interpolation_type=interpolation_type,
             )
             is not None
+        )
+
+    def test_constructor_orbit_tabulated_sucess(
+        self,
+        test_states: list[State],
+        earth,
+    ):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_type=Tabulated.InterpolationType.CubicSpline,
+        )
+
+        orbit: Orbit = Orbit(tabulated, earth)
+
+        assert orbit is not None
+        assert isinstance(orbit, Orbit)
+
+    def test_get_interpolation_type(self, test_states: list[State]):
+        tabulated = Tabulated(
+            states=test_states,
+            initial_revolution_number=1,
+            interpolation_type=Tabulated.InterpolationType.CubicSpline,
+        )
+
+        assert (
+            tabulated.get_interpolation_type() == Tabulated.InterpolationType.CubicSpline
         )
 
     @pytest.mark.parametrize(

@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 
@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::orbit::models::Tabulated;
 
-    class_<Tabulated> tabulated_class(aModule, "Tabulated");
+    class_<Tabulated, ostk::astro::trajectory::orbit::Model> tabulated_class(aModule, "Tabulated");
 
     enum_<Tabulated::InterpolationType>(tabulated_class, "InterpolationType")
 
@@ -41,6 +41,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Tabulated(py
         .def("get_epoch", &Tabulated::getEpoch)
         .def("get_revolution_number_at_epoch", &Tabulated::getRevolutionNumberAtEpoch)
         .def("get_interval", &Tabulated::getInterval)
+        .def("get_interpolation_type", &Tabulated::getInterpolationType)
         .def("calculate_state_at", &Tabulated::calculateStateAt, arg("instant"))
         .def("calculate_states_at", &Tabulated::calculateStatesAt, arg("instants"))
         .def("calculate_revolution_number_at", &Tabulated::calculateRevolutionNumberAt, arg("instant"))

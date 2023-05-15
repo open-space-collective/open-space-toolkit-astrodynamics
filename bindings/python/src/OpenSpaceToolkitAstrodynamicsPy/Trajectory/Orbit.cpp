@@ -1,9 +1,10 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Messages.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model.cpp>
@@ -24,6 +25,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::orbit::models::Kepler;
     using ostk::astro::trajectory::orbit::models::Propagated;
+    using ostk::astro::trajectory::orbit::models::Tabulated;
     using ostk::astro::trajectory::orbit::models::SGP4;
 
     {
@@ -74,6 +76,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 +[](const Orbit& anOrbit) -> const Propagated&
                 {
                     return anOrbit.accessModel().as<Propagated>();
+                },
+                return_value_policy::reference
+            )  // [TBR]
+            .def(
+                "access_tabulated_model",
+                +[](const Orbit& anOrbit) -> const Tabulated&
+                {
+                    return anOrbit.accessModel().as<Tabulated>();
                 },
                 return_value_policy::reference
             )  // [TBR]
