@@ -5,7 +5,6 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Full/FullPropagator.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {

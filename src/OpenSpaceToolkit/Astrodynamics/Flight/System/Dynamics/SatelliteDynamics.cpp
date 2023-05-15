@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -28,6 +28,7 @@ SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const Sat
       environment_(anEnvironment),
       gcrfSPtr_(Frame::GCRF()),
       satelliteSystem_(aSatelliteSystem),
+      forceArray_({GravityForce, DragForce}),  // Define here based on element from environment here basically!
       instant_(Instant::Undefined())
 {
 }
@@ -134,39 +135,52 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     const Instant currentInstant = instant_ + Duration::Seconds(t);
     environment_.setInstant(currentInstant);
 
+    // Initialize total acceleration value
+    Vector3d totalAcceleration_SI = {0.0, 0.0, 0.0};
+
+    // Add force models acceleration contributions
+    for (const auto$ forceModel : forceArray)
+    {
+        totalAcceleration_SI += forceModel.getAcceleration(
+            const Position& aPosition,
+            const Velocity& aVelocity,
+            const Instant& anInstant,
+        );
+    }
+
     // Initialize gravitational acceleration vector
-    Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
+    // Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
 
     // Access all objects in the environment and loop through them
-    for (const auto& objectName : environment_.getObjectNames())
-    {
-        if (objectName != "Earth")
-        {
-            // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
-            const Vector gravitationalAcceleration3rdBodyCorrection =
-                environment_.accessCelestialObjectWithName(objectName)
-                    ->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
+    // for (const auto& objectName : environment_.getObjectNames())
+    // {
+    //     if (objectName != "Earth")
+    //     {
+    //         // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
+    //         const Vector gravitationalAcceleration3rdBodyCorrection =
+    //             environment_.accessCelestialObjectWithName(objectName)
+    //                 ->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
 
-            // Subtract 3rd body correct from total gravitational acceleration
-            totalGravitationalAcceleration_SI -=
-                gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, currentInstant).getValue();
-        }
+    //         // Subtract 3rd body correct from total gravitational acceleration
+    //         totalGravitationalAcceleration_SI -=
+    //             gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, currentInstant).getValue();
+    //     }
 
-        // Obtain gravitational acceleration from current object
-        const Vector gravitationalAcceleration =
-            environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition);
+    //     // Obtain gravitational acceleration from current object
+    //     const Vector gravitationalAcceleration =
+    //         environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition);
 
-        // Add object's gravity to total gravitational acceleration
-        totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
-    }
+    //     // Add object's gravity to total gravitational acceleration
+    //     totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
+    // }
 
     // Integrate position and velocity states
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
-    dxdt[3] = totalGravitationalAcceleration_SI[0];
-    dxdt[4] = totalGravitationalAcceleration_SI[1];
-    dxdt[5] = totalGravitationalAcceleration_SI[2];
+    dxdt[3] = totalAcceleration_SI[0];
+    dxdt[4] = totalAcceleration_SI[1];
+    dxdt[5] = totalAcceleration_SI[2];
 }
 
 // void                            SatelliteDynamics::Exponential_Dynamics

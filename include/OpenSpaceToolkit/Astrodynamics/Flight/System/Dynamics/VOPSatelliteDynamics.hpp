@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_VOPSatelliteDynamics__
+#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_VOPSatelliteDynamics__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
@@ -63,7 +63,7 @@ using ostk::astro::trajectory::State;
 ///                             Represents a system of differential equations that can be solved by calling the
 ///                             NumericalSolver class
 
-class SatelliteDynamics : public Dynamics
+class VOPSatelliteDynamics : public Dynamics
 {
    public:
     /// @brief              Constructor
@@ -71,51 +71,51 @@ class SatelliteDynamics : public Dynamics
     /// @code
     ///                     Environment environment = { ... } ;
     ///                     SatelliteSystem satelliteSystem = { ... } ;
-    ///                     SatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
+    ///                     VOPSatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
     /// @endcode
     ///
     /// @param              [in] anEnvironment An environment
     /// @param              [in] aSatelliteSystem A satellite system
 
-    SatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem);
+    VOPSatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem);
 
     /// @brief              Copy Constructor
     ///
-    /// @param              [in] SatelliteDynamics A satellite dynamics
+    /// @param              [in] VOPSatelliteDynamics A satellite dynamics
 
-    SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics);
+    VOPSatelliteDynamics(const VOPSatelliteDynamics& aVOPSatelliteDynamics);
 
     /// @brief              Destructor
 
-    virtual ~SatelliteDynamics() override;
+    virtual ~VOPSatelliteDynamics() override;
 
     /// @brief              Clone satellite dynamics
     ///
     /// @return             Pointer to cloned satellite dynamics
 
-    virtual SatelliteDynamics* clone() const override;
+    virtual VOPSatelliteDynamics* clone() const override;
 
     /// @brief              Equal to operator
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
     /// @return             True if satellite dynamics are equal
 
-    bool operator==(const SatelliteDynamics& aSatelliteDynamics) const;
+    bool operator==(const VOPSatelliteDynamics& aVOPSatelliteDynamics) const;
 
     /// @brief              Not equal to operator
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
     /// @return             True if satellite dynamics are not equal
 
-    bool operator!=(const SatelliteDynamics& aSatelliteDynamics) const;
+    bool operator!=(const VOPSatelliteDynamics& aVOPSatelliteDynamics) const;
 
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aSatelliteDynamics A satellite dynamics
+    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
     /// @return             A reference to output stream
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteDynamics& aSatelliteDynamics);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const VOPSatelliteDynamics& aVOPSatelliteDynamics);
 
     /// @brief              Check if satellite dynamics is defined
     ///
@@ -168,9 +168,9 @@ class SatelliteDynamics : public Dynamics
     void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
 
     // // Atmospheric perturbations only
-    // void                    Exponential_Dynamics                        (   const   SatelliteDynamics::StateVector&
+    // void                    Exponential_Dynamics                        (   const   VOPSatelliteDynamics::StateVector&
     // x,
-    //                                                                                 SatelliteDynamics::StateVector&
+    //                                                                                 VOPSatelliteDynamics::StateVector&
     //                                                                                 dxdt,
     //                                                                         const   double ) const ;
 };
