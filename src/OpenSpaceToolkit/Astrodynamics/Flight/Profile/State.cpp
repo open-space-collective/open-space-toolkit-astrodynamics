@@ -137,25 +137,8 @@ Vector3d State::getAngularVelocity() const
     return this->accessAngularVelocity();
 }
 
-VectorXd                        State::getCoordinates                       ( ) const
-{
 
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State") ;
-    }
-
-    VectorXd coordinates(12) ;
-    coordinates.segment(0, 3) = this->accessPosition().accessCoordinates() ;
-    coordinates.segment(3, 3) = this->accessVelocity().accessCoordinates() ;
-    coordinates.segment(6, 4) = this->accessAttitude().toVector() ;
-    coordinates.segment(10, 3) = this->accessAngularVelocity() ;
-
-    return coordinates ;
-
-}
-
-Shared<const Frame>             State::getFrame                             ( ) const
+Shared<const Frame> State::getFrame() const
 {
     if (!this->isDefined())
     {
@@ -164,6 +147,24 @@ Shared<const Frame>             State::getFrame                             ( ) 
 
     return this->frameSPtr_;
 }
+
+// VectorXd                        State::getCoordinates                       ( ) const
+// {
+
+//     if (!this->isDefined())
+//     {
+//         throw ostk::core::error::runtime::Undefined("State") ;
+//     }
+
+//     VectorXd coordinates(12) ;
+//     coordinates.segment(0, 3) = this->accessPosition().accessCoordinates() ;
+//     coordinates.segment(3, 3) = this->accessVelocity().accessCoordinates() ;
+//     coordinates.segment(6, 4) = this->accessAttitude().toVector() ;
+//     coordinates.segment(10, 3) = this->accessAngularVelocity() ;
+
+//     return coordinates ;
+
+// }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 {

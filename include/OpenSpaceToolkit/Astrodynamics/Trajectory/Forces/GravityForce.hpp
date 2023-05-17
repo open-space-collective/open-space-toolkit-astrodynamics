@@ -36,16 +36,24 @@ class GravityForce : public Force
 {
    public:
 
-    GravityForce(const Shared<GravitationalModel>& aGravitationalModel);
+    GravityForce(const Shared<const GravitationalModel>& aGravitationalModelSPtr);
+
+    /// @brief              Destructor
+
+    virtual ~GravityForce() override;
+
+    /// @brief              Clone gravity force
+    ///
+    /// @return             Pointer to cloned gravity force
 
     virtual GravityForce* clone() const override;
 
-    virtual bool isDefined() const override;
+    // virtual bool isDefined() const override;
 
-    Vector3d getAcceleration(const Position& aPosition, const Instant& anInstant) const;
+    virtual Vector3d getContribution(const Position& aPosition, const Instant& anInstant) const override;
 
    private:
-    Shared<GravitationalModel> gravitationalModelSPtr_;
+    Shared<const GravitationalModel> gravitationalModelSPtr_;
 
 };
 

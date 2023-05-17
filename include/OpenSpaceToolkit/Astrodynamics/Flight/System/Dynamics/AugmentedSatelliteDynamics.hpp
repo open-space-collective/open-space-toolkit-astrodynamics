@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_VOPSatelliteDynamics__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_VOPSatelliteDynamics__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AugmentedSatelliteDynamics__
+#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AugmentedSatelliteDynamics__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
@@ -20,10 +20,13 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/GravityForce.hpp>
 
 namespace ostk
 {
@@ -58,12 +61,14 @@ using ostk::physics::time::Instant;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::Force;
+using ostk::astro::trajectory::force::GravityForce;
 
 /// @brief                      Defines a satellite in orbit subject to forces of varying fidelity
 ///                             Represents a system of differential equations that can be solved by calling the
 ///                             NumericalSolver class
 
-class VOPSatelliteDynamics : public Dynamics
+class AugmentedSatelliteDynamics : public Dynamics
 {
    public:
     /// @brief              Constructor
@@ -71,51 +76,51 @@ class VOPSatelliteDynamics : public Dynamics
     /// @code
     ///                     Environment environment = { ... } ;
     ///                     SatelliteSystem satelliteSystem = { ... } ;
-    ///                     VOPSatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
+    ///                     AugmentedSatelliteDynamics satelliteDynamics = { environment, satelliteSystem } ;
     /// @endcode
     ///
     /// @param              [in] anEnvironment An environment
     /// @param              [in] aSatelliteSystem A satellite system
 
-    VOPSatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem);
+    AugmentedSatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem);
 
     /// @brief              Copy Constructor
     ///
-    /// @param              [in] VOPSatelliteDynamics A satellite dynamics
+    /// @param              [in] AugmentedSatelliteDynamics A satellite dynamics
 
-    VOPSatelliteDynamics(const VOPSatelliteDynamics& aVOPSatelliteDynamics);
+    AugmentedSatelliteDynamics(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics);
 
     /// @brief              Destructor
 
-    virtual ~VOPSatelliteDynamics() override;
+    virtual ~AugmentedSatelliteDynamics() override;
 
     /// @brief              Clone satellite dynamics
     ///
     /// @return             Pointer to cloned satellite dynamics
 
-    virtual VOPSatelliteDynamics* clone() const override;
+    virtual AugmentedSatelliteDynamics* clone() const override;
 
     /// @brief              Equal to operator
     ///
-    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
+    /// @param              [in] aAugmentedSatelliteDynamics A satellite dynamics
     /// @return             True if satellite dynamics are equal
 
-    bool operator==(const VOPSatelliteDynamics& aVOPSatelliteDynamics) const;
+    bool operator==(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics) const;
 
     /// @brief              Not equal to operator
     ///
-    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
+    /// @param              [in] aAugmentedSatelliteDynamics A satellite dynamics
     /// @return             True if satellite dynamics are not equal
 
-    bool operator!=(const VOPSatelliteDynamics& aVOPSatelliteDynamics) const;
+    bool operator!=(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics) const;
 
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aVOPSatelliteDynamics A satellite dynamics
+    /// @param              [in] aAugmentedSatelliteDynamics A satellite dynamics
     /// @return             A reference to output stream
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const VOPSatelliteDynamics& aVOPSatelliteDynamics);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics);
 
     /// @brief              Check if satellite dynamics is defined
     ///
@@ -146,7 +151,7 @@ class VOPSatelliteDynamics : public Dynamics
     /// @endcode
     /// @param              [in] anInstant An instant
 
-    void setInstant(const Instant& anInstant);
+    virtual void setInstant(const Instant& anInstant) override;  // Weird, improve
 
     /// @brief              Obtain dynamical equations function wrapper
     ///
@@ -155,22 +160,24 @@ class VOPSatelliteDynamics : public Dynamics
     /// @endcode
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
+    Array<Shared<const Force>> accessForces () const;
+
     virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations() override;
 
    private:
     Environment environment_;
     Shared<const Frame> gcrfSPtr_;
     SatelliteSystem satelliteSystem_;
-    Array<const Force> forceArray_;
+    Array<Shared<Force>> forceArray_;
     Instant instant_;
 
     // Only force model currently used that incorporates solely Earth's gravity
     void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
 
     // // Atmospheric perturbations only
-    // void                    Exponential_Dynamics                        (   const   VOPSatelliteDynamics::StateVector&
+    // void                    Exponential_Dynamics                        (   const   AugmentedSatelliteDynamics::StateVector&
     // x,
-    //                                                                                 VOPSatelliteDynamics::StateVector&
+    //                                                                                 AugmentedSatelliteDynamics::StateVector&
     //                                                                                 dxdt,
     //                                                                         const   double ) const ;
 };

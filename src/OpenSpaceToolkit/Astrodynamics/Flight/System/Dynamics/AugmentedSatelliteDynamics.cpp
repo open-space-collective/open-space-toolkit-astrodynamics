@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AugmentedSatelliteDynamics.hpp>
 
 namespace ostk
 {
@@ -29,7 +29,7 @@ using ostk::astro::trajectory::force::GravityForce;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
+AugmentedSatelliteDynamics::AugmentedSatelliteDynamics(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
     : Dynamics(),
       environment_(anEnvironment),
       gcrfSPtr_(Frame::GCRF()),
@@ -49,52 +49,52 @@ SatelliteDynamics::SatelliteDynamics(const Environment& anEnvironment, const Sat
 
 }
 
-SatelliteDynamics::SatelliteDynamics(const SatelliteDynamics& aSatelliteDynamics)
-    : Dynamics(aSatelliteDynamics),
-      environment_(aSatelliteDynamics.environment_),
-      gcrfSPtr_(aSatelliteDynamics.gcrfSPtr_),
-      satelliteSystem_(aSatelliteDynamics.satelliteSystem_),
+AugmentedSatelliteDynamics::AugmentedSatelliteDynamics(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics)
+    : Dynamics(aAugmentedSatelliteDynamics),
+      environment_(aAugmentedSatelliteDynamics.environment_),
+      gcrfSPtr_(aAugmentedSatelliteDynamics.gcrfSPtr_),
+      satelliteSystem_(aAugmentedSatelliteDynamics.satelliteSystem_),
       instant_(Instant::Undefined())
 {
 }
 
-SatelliteDynamics::~SatelliteDynamics() {}
+AugmentedSatelliteDynamics::~AugmentedSatelliteDynamics() {}
 
-SatelliteDynamics* SatelliteDynamics::clone() const
+AugmentedSatelliteDynamics* AugmentedSatelliteDynamics::clone() const
 {
-    return new SatelliteDynamics(*this);
+    return new AugmentedSatelliteDynamics(*this);
 }
 
-bool SatelliteDynamics::operator==(const SatelliteDynamics& aSatelliteDynamics) const
+bool AugmentedSatelliteDynamics::operator==(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics) const
 {
-    if ((!this->isDefined()) || (!aSatelliteDynamics.isDefined()))
+    if ((!this->isDefined()) || (!aAugmentedSatelliteDynamics.isDefined()))
     {
         return false;
     }
 
-    return (environment_.getInstant() == aSatelliteDynamics.environment_.getInstant()) &&
-           (environment_.getObjectNames() == aSatelliteDynamics.environment_.getObjectNames()) &&
-           (satelliteSystem_ == aSatelliteDynamics.satelliteSystem_);
+    return (environment_.getInstant() == aAugmentedSatelliteDynamics.environment_.getInstant()) &&
+           (environment_.getObjectNames() == aAugmentedSatelliteDynamics.environment_.getObjectNames()) &&
+           (satelliteSystem_ == aAugmentedSatelliteDynamics.satelliteSystem_);
 }
 
-bool SatelliteDynamics::operator!=(const SatelliteDynamics& aSatelliteDynamics) const
+bool AugmentedSatelliteDynamics::operator!=(const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics) const
 {
-    return !((*this) == aSatelliteDynamics);
+    return !((*this) == aAugmentedSatelliteDynamics);
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteDynamics& aSatelliteDynamics)
+std::ostream& operator<<(std::ostream& anOutputStream, const AugmentedSatelliteDynamics& aAugmentedSatelliteDynamics)
 {
-    aSatelliteDynamics.print(anOutputStream);
+    aAugmentedSatelliteDynamics.print(anOutputStream);
 
     return anOutputStream;
 }
 
-bool SatelliteDynamics::isDefined() const
+bool AugmentedSatelliteDynamics::isDefined() const
 {
     return environment_.isDefined() && satelliteSystem_.isDefined();
 }
 
-void SatelliteDynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
+void AugmentedSatelliteDynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Satellite Dynamics") : void();
 
@@ -106,17 +106,17 @@ void SatelliteDynamics::print(std::ostream& anOutputStream, bool displayDecorato
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Instant SatelliteDynamics::getInstant() const
+Instant AugmentedSatelliteDynamics::getInstant() const
 {
     return instant_;
 }
 
-void SatelliteDynamics::setInstant(const Instant& anInstant)
+void AugmentedSatelliteDynamics::setInstant(const Instant& anInstant)
 {
     this->instant_ = anInstant;
 }
 
-Array<Shared<const Force>> SatelliteDynamics::accessForces () const
+Array<Shared<const Force>> AugmentedSatelliteDynamics::accessForces () const
 {
 
     Array<Shared<const Force>> forces = Array<Shared<const Force>>::Empty() ;
@@ -132,11 +132,11 @@ Array<Shared<const Force>> SatelliteDynamics::accessForces () const
 
 }
 
-Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations()
+Dynamics::DynamicalEquationWrapper AugmentedSatelliteDynamics::getDynamicalEquations()
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("SatelliteDynamics");
+        throw ostk::core::error::runtime::Undefined("AugmentedSatelliteDynamics");
     }
 
     if (!this->instant_.isDefined())
@@ -145,7 +145,7 @@ Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations()
     }
 
     return std::bind(
-        &SatelliteDynamics::DynamicalEquations,
+        &AugmentedSatelliteDynamics::DynamicalEquations,
         this,
         std::placeholders::_1,
         std::placeholders::_2,
@@ -153,7 +153,7 @@ Dynamics::DynamicalEquationWrapper SatelliteDynamics::getDynamicalEquations()
     );
 }
 
-void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t)
+void AugmentedSatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t)
 {
     const Position currentPosition = Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_);
     const Mass currentMass = this->satelliteSystem_.getMass();
@@ -213,8 +213,6 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     //     totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
     // }
 
-    // std::cout << totalAcceleration_SI << std::endl;
-
     // Integrate position and velocity states
     dxdt[0] = x[3];
     dxdt[1] = x[4];
@@ -222,12 +220,13 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     dxdt[3] = totalAcceleration_SI[0];
     dxdt[4] = totalAcceleration_SI[1];
     dxdt[5] = totalAcceleration_SI[2];
+    dxdt[6] = -2 * x[6];  // Adding mass decrease law here
 }
 
-// void                            SatelliteDynamics::Exponential_Dynamics
-//                                                                             (   const SatelliteDynamics::StateVector&
+// void                            AugmentedSatelliteDynamics::Exponential_Dynamics
+//                                                                             (   const AugmentedSatelliteDynamics::StateVector&
 //                                                                             x,
-//                                                                                         SatelliteDynamics::StateVector&
+//                                                                                         AugmentedSatelliteDynamics::StateVector&
 //                                                                                         dxdt,
 //                                                                                 const   double ) const
 // {

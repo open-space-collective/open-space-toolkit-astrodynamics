@@ -5,6 +5,8 @@
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -18,6 +20,8 @@ namespace trajectory
 
 using ostk::core::ctnr::Array;
 
+using ostk::math::obj::Vector3d;
+
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
@@ -27,9 +31,18 @@ using ostk::astro::trajectory::State;
 class Force
 {
    public:
+
+    /// @brief              Constructor (pure virtual)
+
     Force();
 
+    /// @brief              Destructor (pure virtual)
+
     virtual ~Force() = 0;
+
+    /// @brief              Clone dynamics (pure virtual)
+    ///
+    /// @return             Pointer to cloned force
 
     virtual Force* clone() const = 0;
 
@@ -39,9 +52,9 @@ class Force
 
     // friend std::ostream& operator<<(std::ostream& anOutputStream, const Force& aForce);
 
-    virtual bool isDefined() const = 0;
+    // virtual bool isDefined() const = 0;
 
-    virtual Vector3d getAcceleration(const Position& aPosition, const Velocity& aVelocity, const Instant& anInstant);
+    virtual Vector3d getContribution(const Position& aPosition, const Instant& anInstant) const = 0;
 
     /// @brief              Returns true if model can be converted to type
     ///

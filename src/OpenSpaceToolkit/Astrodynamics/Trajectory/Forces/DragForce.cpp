@@ -1,28 +1,28 @@
-/// Apache License 2.0
+// /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
+// #include <OpenSpaceToolkit/Core/Error.hpp>
+// #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
+// #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
 
-namespace ostk
-{
-namespace astro
-{
-namespace trajectory
-{
+// namespace ostk
+// {
+// namespace astro
+// {
+// namespace trajectory
+// {
 
-Force::Force() {}
+// Force::Force() {}
 
-Force::~Force() {}
+// Force::~Force() {}
 
-std::ostream& operator<<(std::ostream& anOutputStream, const Force& aForce)
-{
-    aForce.print(anOutputStream);
+// std::ostream& operator<<(std::ostream& anOutputStream, const Force& aForce)
+// {
+//     aForce.print(anOutputStream);
 
-    return anOutputStream;
-}
+//     return anOutputStream;
+// }
 
-}  // namespace trajectory
-}  // namespace astro
-}  // namespace ostk
+// }  // namespace trajectory
+// }  // namespace astro
+// }  // namespace ostk

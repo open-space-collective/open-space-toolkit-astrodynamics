@@ -1,10 +1,12 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
 {
@@ -14,6 +16,8 @@ namespace flight
 {
 namespace system
 {
+
+using ostk::physics::time::Instant;
 
 /// @brief                      Defines the a dynamical system subject to equations of motion
 
@@ -43,6 +47,10 @@ class Dynamics
     /// @return             True if dynamics is defined
 
     virtual bool isDefined() const = 0;
+
+    /// @brief              Set Instant on the dynamics
+
+    virtual void setInstant(const Instant& anInstant) = 0;
 
     /// @brief              Print dynamics (pure virtual)
     ///

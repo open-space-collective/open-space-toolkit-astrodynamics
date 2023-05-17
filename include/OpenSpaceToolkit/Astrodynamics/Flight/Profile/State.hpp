@@ -24,8 +24,6 @@ using ostk::core::types::Shared;
 
 using ostk::math::geom::d3::trf::rot::Quaternion;
 using ostk::math::obj::Vector3d;
-
-using ostk::math::obj::Vector3d ;
 using ostk::math::obj::VectorXd ;
 using ostk::math::geom::d3::trf::rot::Quaternion ;
 
@@ -76,9 +74,7 @@ class State
 
     Quaternion getAttitude() const;
 
-        VectorXd                getCoordinates                              ( ) const ;
-
-        Shared<const Frame>     getFrame                                    ( ) const ;
+    Vector3d getAngularVelocity() const;
 
     Shared<const Frame> getFrame() const;
 

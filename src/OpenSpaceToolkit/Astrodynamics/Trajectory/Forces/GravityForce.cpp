@@ -3,7 +3,7 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/GravityForce.hpp>
 
 namespace ostk
 {
@@ -11,25 +11,35 @@ namespace astro
 {
 namespace trajectory
 {
+namespace force
+{
 
-GravityForce::GravityForce() {}
+GravityForce::GravityForce(const Shared<const GravitationalModel>& aGravitationalModelSPtr)
+    : gravitationalModelSPtr_(aGravitationalModelSPtr)
+{
+}
 
 GravityForce::~GravityForce() {}
 
-// std::ostream& operator<<(std::ostream& anOutputStream, const GravityForce& aGravityForce)
-// {
-//     aGravityForce.print(anOutputStream);
+GravityForce* GravityForce::clone() const
+{
+    return new GravityForce(*this);
+}
 
-//     return anOutputStream;
-// }
-
-Vector3d GravityForce::getAcceleration(const Position& aPosition, const Instant& anInstant) const
+Vector3d GravityForce::getContribution(const Position& aPosition, const Instant& anInstant) const
 {
 
-    Vector3d gravitationalModelFieldValue = this->gravitationalModelSPtr_->getFieldValueAt(vectorPosition, anInstant);  // vectorPosition is a Vector3d
+    Vector3d positionCoordinates = aPosition.getCoordinates();
+    Vector3d gravitationalModelFieldValue = this->gravitationalModelSPtr_->getFieldValueAt(positionCoordinates, anInstant);  // vectorPosition is a Vector3d
+
+    std::cout << "Force Grav" << std::endl;
+    std::cout << gravitationalModelFieldValue << std::endl ;
+
+    return gravitationalModelFieldValue;
 
 }
 
+}  // namespace force
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

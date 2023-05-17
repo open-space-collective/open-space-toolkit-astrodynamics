@@ -16,12 +16,12 @@ Force::Force() {}
 
 Force::~Force() {}
 
-std::ostream& operator<<(std::ostream& anOutputStream, const Force& aForce)
-{
-    aForce.print(anOutputStream);
+// std::ostream& operator<<(std::ostream& anOutputStream, const Force& aForce)
+// {
+//     aForce.print(anOutputStream);
 
-    return anOutputStream;
-}
+//     return anOutputStream;
+// }
 
 }  // namespace trajectory
 }  // namespace astro

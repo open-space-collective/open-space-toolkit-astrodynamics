@@ -20,10 +20,13 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/GravityForce.hpp>
 
 namespace ostk
 {
@@ -58,6 +61,8 @@ using ostk::physics::time::Instant;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::Force;
+using ostk::astro::trajectory::force::GravityForce;
 
 /// @brief                      Defines a satellite in orbit subject to forces of varying fidelity
 ///                             Represents a system of differential equations that can be solved by calling the
@@ -146,7 +151,7 @@ class SatelliteDynamics : public Dynamics
     /// @endcode
     /// @param              [in] anInstant An instant
 
-    void setInstant(const Instant& anInstant);
+    virtual void setInstant(const Instant& anInstant) override;  // Weird, improve
 
     /// @brief              Obtain dynamical equations function wrapper
     ///
@@ -155,13 +160,15 @@ class SatelliteDynamics : public Dynamics
     /// @endcode
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
+    Array<Shared<const Force>> accessForces () const;
+
     virtual Dynamics::DynamicalEquationWrapper getDynamicalEquations() override;
 
    private:
     Environment environment_;
     Shared<const Frame> gcrfSPtr_;
     SatelliteSystem satelliteSystem_;
-    Array<const Force> forceArray_;
+    Array<Shared<Force>> forceArray_;
     Instant instant_;
 
     // Only force model currently used that incorporates solely Earth's gravity
