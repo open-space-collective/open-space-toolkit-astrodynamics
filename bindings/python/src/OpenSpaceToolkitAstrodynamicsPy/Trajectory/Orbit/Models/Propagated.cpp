@@ -6,12 +6,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 {
     using namespace pybind11;
 
+    using ostk::core::types::Shared;
     using ostk::core::ctnr::Array;
 
     using ostk::physics::time::Instant;
 
     using ostk::astro::NumericalSolver;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics;
+    using ostk::astro::flight::system::Dynamics;
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::orbit::models::Propagated;
 
@@ -21,15 +22,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
         propagated_class
 
             .def(
-                init<const SatelliteDynamics&, const NumericalSolver&, const State&>(),
-                arg("satellite_dynamics"),
+                init<const Array<Shared<Dynamics>>&, const NumericalSolver&, const State&>(),
+                arg("dynamics"),
                 arg("numerical_solver"),
                 arg("state")
             )
 
             .def(
-                init<const SatelliteDynamics&, const NumericalSolver&, const Array<State>&>(),
-                arg("satellite_dynamics"),
+                init<const Array<Shared<Dynamics>>&, const NumericalSolver&, const Array<State>&>(),
+                arg("dynamics"),
                 arg("numerical_solver"),
                 arg("state_array")
             )

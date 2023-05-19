@@ -4,7 +4,16 @@
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
+using ostk::core::types::Shared;
+
+using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
 
 namespace ostk
 {
@@ -21,8 +30,6 @@ class Dynamics
 {
    public:
     typedef std::vector<double> StateVector;  // Container used to hold the state vector
-    typedef std::function<void(const StateVector&, StateVector&, const double)>
-        DynamicalEquationWrapper;  // Function pointer type for returning dynamical equation's pointers
 
     /// @brief              Constructor (pure virtual)
 
@@ -55,7 +62,9 @@ class Dynamics
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    virtual DynamicalEquationWrapper getDynamicalEquations() = 0;
+    virtual void update(const StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) = 0;
+
+    const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 };
 
 }  // namespace system

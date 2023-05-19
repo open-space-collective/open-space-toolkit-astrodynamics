@@ -6,20 +6,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 {
     using namespace pybind11;
 
+    using ostk::core::types::Shared;
+    using ostk::core::ctnr::Array;
+
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
     using ostk::physics::time::Instant;
 
     using ostk::astro::NumericalSolver;
-    using ostk::astro::flight::system::dynamics::SatelliteDynamics;
+    using ostk::astro::flight::system::Dynamics;
     using ostk::astro::trajectory::Propagator;
     using ostk::astro::trajectory::State;
 
     class_<Propagator>(aModule, "Propagator")
 
-        .def(
-            init<const SatelliteDynamics&, const NumericalSolver&>(), arg("satellite_dynamics"), arg("numerical_solver")
-        )
+        .def(init<const Array<Shared<Dynamics>>&, const NumericalSolver&>(), arg("dynamics"), arg("numerical_solver"))
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))
@@ -29,10 +30,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def("calculate_state_at", &Propagator::calculateStateAt, arg("state"), arg("instant"))
 
         .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"))
-
-        .def_static("medium_fidelity", &Propagator::MediumFidelity)
-
-        .def_static("high_fidelity", &Propagator::HighFidelity)
 
         ;
 }

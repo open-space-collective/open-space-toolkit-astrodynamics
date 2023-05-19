@@ -25,8 +25,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -50,24 +49,26 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::flight::system::dynamics::SatelliteDynamics;
 using ostk::astro::trajectory::State;
+using ostk::astro::flight::system::Dynamics;
 
 /// @brief                      Defines a propagator to be used for numerical integration
 
 class Propagator
 {
    public:
+    typedef std::function<void(const Dynamics::StateVector&, Dynamics::StateVector&, const double)>
+        DynamicalEquationWrapper;
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagator propagator = { aSatelliteDynamics, aNumericalSolver } ;
+    ///                     Propagator propagator = { aDynamicsArray, aNumericalSolver } ;
     /// @endcode
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics object
+    /// @param              [in] aDynamicsArray A dynamics array
     /// @param              [in] aNumericalSolver A numerical solver
 
-    Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver);
+    Propagator(const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver);
 
     /// @brief              Clone propagator
     ///
@@ -111,6 +112,12 @@ class Propagator
     /// @param              [in] anInstant An instant
     /// @return             State
 
+    void setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
+
+    Array<Shared<Dynamics>> getDynamics() const;
+
+    void addDynamics(const Shared<Dynamics>& aDynamics);
+
     State calculateStateAt(const State& aState, const Instant& anInstant) const;
 
     /// @brief              Calculate the states at an array of instants, given an initial state
@@ -130,28 +137,18 @@ class Propagator
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Create a medium fidelity Propagator object with recommended settings
-    ///
-    /// @code
-    ///                     Propagator propagator = Propagator::MediumFidelity(aState) ;
-    /// @endcode
-    /// @param              [in] aState A State
-    /// @return             Propagator
+    DynamicalEquationWrapper getDynamicalEquations(const Instant& anInstant) const;
 
-    static Propagator MediumFidelity();
-
-    /// @brief              Create a high fidelity Propagator object with recommended settings
-    ///
-    /// @code
-    ///                     Propagator propagator = Propagator::HighFidelity(aState) ;
-    /// @endcode
-    /// @param              [in] aState A State
-    /// @return             Propagator
-
-    static Propagator HighFidelity();
+    static void DynamicalEquations(
+        const Dynamics::StateVector& x,
+        Dynamics::StateVector& dxdt,
+        const double t,
+        const Array<Shared<Dynamics>>& dynamics,
+        const Instant& anInstant
+    );
 
    private:
-    mutable SatelliteDynamics satelliteDynamics_;
+    mutable Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
 };
 

@@ -27,7 +27,6 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -59,10 +58,10 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::flight::system::dynamics::SatelliteDynamics;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;
+using ostk::astro::flight::system::Dynamics;
 
 /// @brief                      Defines an orbit model that is propagated using numerical propagation
 
@@ -80,7 +79,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @param              [in] aState A state
 
     Propagated(
-        const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
+        const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver, const State& aState
     );
 
     /// @brief              Constructor with additional option of passing in an existing array of states
@@ -94,7 +93,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @param              [in] aCachedStateArray A state array
 
     Propagated(
-        const SatelliteDynamics& aSatelliteDynamics,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver,
         const Array<State>& aCachedStateArray
     );

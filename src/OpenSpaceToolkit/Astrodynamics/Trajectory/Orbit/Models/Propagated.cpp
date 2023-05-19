@@ -27,22 +27,22 @@ static const Derived::Unit GravitationalParameterSIUnit =
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagated::Propagated(
-    const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
+    const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver, const State& aState
 )
     : Model(),
-      propagator_(aSatelliteDynamics, aNumericalSolver),
+      propagator_(aDynamicsArray, aNumericalSolver),
       cachedStateArray_(1, aState)
 
 {
 }
 
 Propagated::Propagated(
-    const SatelliteDynamics& aSatelliteDynamics,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver,
     const Array<State>& aCachedStateArray
 )
     : Model(),
-      propagator_(aSatelliteDynamics, aNumericalSolver),
+      propagator_(aDynamicsArray, aNumericalSolver),
       cachedStateArray_(aCachedStateArray)
 
 {
