@@ -35,17 +35,6 @@ NumericalSolver::NumericalSolver(
 {
 }
 
-NumericalSolver::NumericalSolver(const NumericalSolver& aNumericalSolver)
-    : logType_(aNumericalSolver.logType_),
-      stepperType_(aNumericalSolver.stepperType_),
-      timeStep_(aNumericalSolver.timeStep_),
-      relativeTolerance_(aNumericalSolver.relativeTolerance_),
-      absoluteTolerance_(aNumericalSolver.absoluteTolerance_),
-      states_(),
-      instants_()
-{
-}
-
 NumericalSolver* NumericalSolver::clone() const
 {
     return new NumericalSolver(*this);

@@ -40,6 +40,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
             .def("get_cross_sectional_surface_area", &SatelliteSystem::getCrossSectionalSurfaceArea)
             .def("get_drag_coefficient", &SatelliteSystem::getDragCoefficient)
 
-            ;
+            .def_static("undefined", &SatelliteSystem::Undefined);
     }
 }

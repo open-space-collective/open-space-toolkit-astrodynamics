@@ -1,9 +1,5 @@
 # Apache License 2.0
 
-import pytest
-
-import numpy as np
-
 import ostk.mathematics as mathematics
 
 import ostk.physics as physics
@@ -28,7 +24,6 @@ Trajectory = astrodynamics.Trajectory
 Profile = astrodynamics.flight.Profile
 State = astrodynamics.flight.profile.State
 SatelliteSystem = astrodynamics.flight.system.SatelliteSystem
-SatelliteDynamics = astrodynamics.flight.system.dynamics.SatelliteDynamics
 Orbit = astrodynamics.trajectory.Orbit
 Pass = astrodynamics.trajectory.orbit.Pass
 Kepler = astrodynamics.trajectory.orbit.models.Kepler

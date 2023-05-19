@@ -138,7 +138,8 @@ The library exhibits the following detailed and descriptive structure:
 │   └── System
 |        ├── SatelliteSystem
 |        └── Dynamics
-|            └── SatelliteDynamics
+|            └── GravitationalDynamics
+|            └── AtmosphericDynamics
 ├── Access
 |   └── Generator
 └── Conjunction

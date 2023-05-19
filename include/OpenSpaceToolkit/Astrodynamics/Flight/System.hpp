@@ -39,12 +39,6 @@ class System
 
     System(const Mass& aMass, const Composite& aGeometry);
 
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] aSystem A system
-
-    System(const System& aSystem);
-
     /// @brief              Destructor
 
     virtual ~System();
@@ -109,6 +103,8 @@ class System
     /// @return             Composite
 
     Composite getGeometry() const;
+
+    static System Undefined();
 
    private:
     Mass mass_;

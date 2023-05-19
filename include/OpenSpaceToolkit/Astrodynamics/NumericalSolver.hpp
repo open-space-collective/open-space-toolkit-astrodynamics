@@ -73,12 +73,6 @@ class NumericalSolver
         const Real& anAbsoluteTolerance
     );
 
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] NumericalSolver A numerical solver
-
-    NumericalSolver(const NumericalSolver& aNumericalSolver);
-
     /// @brief              Clone numerical solver
     ///
     /// @return             Pointer to cloned numerical solver

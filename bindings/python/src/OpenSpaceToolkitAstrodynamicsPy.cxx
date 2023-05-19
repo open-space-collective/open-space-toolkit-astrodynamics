@@ -37,6 +37,6 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     OpenSpaceToolkitAstrodynamicsPy_Flight(m);
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
-    OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(m
-    );  // [TBI] This module will likely be moved to ostk-mathemetics in a future version
+    // [TBI] This module will likely be moved to ostk-mathemetics in a future version
+    OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(m);
 }
