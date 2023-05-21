@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
@@ -12,12 +12,12 @@ docker_release_image_cpp_repository := $(docker_image_repository)-cpp
 docker_release_image_python_repository := $(docker_image_repository)-python
 docker_release_image_jupyter_repository := $(docker_image_repository)-jupyter
 
-jupyter_notebook_image_repository := jupyter/scipy-notebook:python-3.8.8
+jupyter_notebook_image_repository := jupyter/scipy-notebook:python-3.10.11
 jupyter_notebook_port := 9005
-jupyter_python_version := 3.8
+jupyter_python_version := 3.10
 
 project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
-jupyter_project_name_python_shared_object := $(shell echo "OpenSpaceToolkit${project_name_camel_case}.cpython-38-x86_64-linux-gnu")
+jupyter_project_name_python_shared_object := $(shell echo "OpenSpaceToolkit${project_name_camel_case}.cpython-310-x86_64-linux-gnu")
 
 clang_format_sources_path ?= $(shell find ~+ src/ include/ test/ bindings/python/src/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp' -o -name '*.tpp')
 
@@ -125,7 +125,7 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 		--build-arg="VERSION=$(docker_image_version)" \
 		--target=cpp-release \
 		"$(CURDIR)"
-	
+
 .PHONY: build-release-image-cpp
 
 build-release-image-python: build-development-image pull-release-image-python
@@ -209,7 +209,7 @@ build-packages-cpp-standalone: ## Build C++ packages (standalone)
 .PHONY: build-packages-cpp-standalone
 
 build-packages-python: build-development-image ## Build Python packages
-	
+
 	@ $(MAKE) build-packages-python-standalone
 
 .PHONY: build-packages-python
@@ -399,7 +399,7 @@ test-unit: ## Run unit tests
 .PHONY: test-unit
 
 test-unit-cpp: build-development-image ## Run C++ unit tests
-	
+
 	@ $(MAKE) test-unit-cpp-standalone
 
 .PHONY: test-unit-cpp

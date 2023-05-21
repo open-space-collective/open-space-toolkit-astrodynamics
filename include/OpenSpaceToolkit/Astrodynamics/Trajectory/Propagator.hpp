@@ -1,9 +1,10 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -30,6 +31,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Maneuver.hpp>
 
 namespace ostk
 {
@@ -52,6 +54,7 @@ using ostk::physics::time::Instant;
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::dynamics::SatelliteDynamics;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::Maneuver;
 
 /// @brief                      Defines a propagator to be used for numerical integration
 
@@ -68,6 +71,18 @@ class Propagator
     /// @param              [in] aNumericalSolver A numerical solver
 
     Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver);
+
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     Propagator propagator = { aSatelliteDynamics, aNumericalSolver, aManeuverArray } ;
+    /// @endcode
+    ///
+    /// @param              [in] aSatelliteDynamics A satellite dynamics object
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] aManeuverArray A maneuver array
+
+    Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const Array<Maneuver>& aManeuverArray);
 
     /// @brief              Clone propagator
     ///
@@ -153,6 +168,7 @@ class Propagator
    private:
     mutable SatelliteDynamics satelliteDynamics_;
     mutable NumericalSolver numericalSolver_;
+    Array<Maneuver> maneuverArray_;
 };
 
 }  // namespace trajectory

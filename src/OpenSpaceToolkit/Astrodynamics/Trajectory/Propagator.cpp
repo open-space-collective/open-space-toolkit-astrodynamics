@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -13,13 +13,21 @@ namespace trajectory
 {
 
 using ostk::core::types::Size;
+using ostk::core::ctnr::Pair;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagator::Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver)
     : satelliteDynamics_(aSatelliteDynamics),
-      numericalSolver_(aNumericalSolver)
+      numericalSolver_(aNumericalSolver),
+      maneuverArray_(Array<Maneuver>::Empty())
+{
+}
 
+Propagator::Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const Array<Maneuver>& aManeuverArray)
+    : satelliteDynamics_(aSatelliteDynamics),
+      numericalSolver_(aNumericalSolver),
+      maneuverArray_(aManeuverArray)
 {
 }
 
@@ -127,13 +135,74 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
+    // TBI: Dummy implementation at Propagator level, it should probably not live at this level
+    // Check size of this->maneuverArray_ before continuing
+
+    Array<Maneuver> forwardInstantManeuvers;
+    Array<Maneuver> backwardInstantManeuvers;
+
+    for (const Maneuver& aManeuver : this->maneuverArray_)
+    {
+        if (aManeuver.getInstant() <= aState.getInstant())
+        {
+            backwardInstantManeuvers.add(aManeuver);
+        }
+        else
+        {
+            forwardInstantManeuvers.add(aManeuver);
+        }
+    }
+
+    Array<Pair<Instant, Maneuver>> forwardInstantsNonManeuverPairs = Array<Instant>(forwardInstants.begin(), forwardInstants.end())
+        .map<Pair<Instant, Maneuver>>([] (const Instant& anInstant) -> Pair<Instant, Maneuver> { return { anInstant, Maneuver::Undefined() } ; }) ;
+    Array<Pair<Instant, Maneuver>> forwardInstantManeuverPairs = Array<Maneuver>(forwardInstantManeuvers.begin(), forwardInstantManeuvers.end())
+        .map<Pair<Instant, Maneuver>>([] (const Maneuver& aManeuver) -> Pair<Instant, Maneuver> { return { aManeuver.getInstant(), aManeuver } ; }) ;
+
+    Array<Pair<Instant, Maneuver>> forwardInstantPairs = forwardInstantManeuverPairs + forwardInstantManeuverPairs;
+
+    std::sort(
+        forwardInstantPairs.begin(),
+        forwardInstantPairs.end(),
+        [](const auto& lhs, const auto& rhs)
+        {
+            return lhs.first < rhs.first;
+        }
+    );
+
     // forward propagation only
     Array<SatelliteDynamics::StateVector> propagatedForwardStateVectorArray;
-    if (!forwardInstants.isEmpty())
+    Instant startInstant = aState.getInstant();
+    if (!forwardInstantPairs.isEmpty())
     {
-        propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector, aState.getInstant(), forwardInstants, satelliteDynamics_.getDynamicalEquations()
-        );
+
+        for (const auto& instantManeuverPair: forwardInstantPairs)
+        {
+
+            Instant propagationInstant = instantManeuverPair.first;
+            Maneuver maneuver = instantManeuverPair.second;
+
+            SatelliteDynamics::StateVector propagationVector;
+
+            if (!maneuver.isDefined())
+            {
+                propagationVector = numericalSolver_.integrateStateFromInstantToInstant(
+                    startStateVector, startInstant, propagationInstant, satelliteDynamics_.getDynamicalEquations()
+                );
+
+                startStateVector = propagationVector;
+                startInstant = propagationInstant;
+
+                propagatedForwardStateVectorArray.add(propagationVector);
+            }
+            else
+            {
+                Vector3d deltaV = maneuver.getVelocityDelta().getCoordinates();  // Check Frame, link with attitude provider
+
+                propagationVector[3] += deltaV[0];
+                propagationVector[4] += deltaV[1];
+                propagationVector[5] += deltaV[2];
+            }
+        }
     }
 
     // backward propagation only

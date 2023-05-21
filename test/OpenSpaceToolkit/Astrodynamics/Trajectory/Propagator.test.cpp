@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <numeric>
 
@@ -75,6 +75,7 @@ using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::dynamics::SatelliteDynamics;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::Maneuver;
 
 using ostk::astro::trajectory::Propagator;
 
@@ -257,6 +258,47 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
         Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC),
         Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)};
+
+    for (const Instant& instant : instantArray)
+    {
+        EXPECT_NO_THROW(propagator.calculateStateAt(state, instant));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAtWithManeuver)
+{
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    const SatelliteSystem satelliteSystem = {
+        Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+
+    // Create environment
+    const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+
+    const Environment customEnvironment = Environment(Instant::J2000(), objects);
+
+    // Current state and instant setup
+    const State state = {
+        Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+
+    // Satellite dynamics setup
+    SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
+
+    // Create maneuvers
+    const Array<Maneuver> maneuverArray = {
+        Maneuver(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC), Duration::Seconds(0.0), Velocity::MetersPerSecond({30.0, 34.0, 50.0}, gcrfSPtr_)),
+        Maneuver(Instant::DateTime(DateTime(2018, 1, 2, 1, 30, 0), Scale::UTC), Duration::Seconds(0.0), Velocity::MetersPerSecond({30.0, 34.0, 50.0}, gcrfSPtr_))
+    };
+
+    // Setup Propagator model and orbit
+    const Propagator propagator = {satelliteDynamics, numericalSolver_, maneuverArray};
+
+    // Setup instants
+    const Array<Instant> instantArray = {
+        Instant::DateTime(DateTime(2018, 1, 2, 3, 0, 0), Scale::UTC)};
 
     for (const Instant& instant : instantArray)
     {

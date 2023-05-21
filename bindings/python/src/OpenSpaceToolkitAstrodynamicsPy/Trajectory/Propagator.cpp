@@ -1,10 +1,12 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::module& aModule)
 {
     using namespace pybind11;
+
+    using ostk::core::ctnr::Array;
 
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
@@ -14,11 +16,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::astro::flight::system::dynamics::SatelliteDynamics;
     using ostk::astro::trajectory::Propagator;
     using ostk::astro::trajectory::State;
+    using ostk::astro::trajectory::Maneuver;
 
     class_<Propagator>(aModule, "Propagator")
 
         .def(
             init<const SatelliteDynamics&, const NumericalSolver&>(), arg("satellite_dynamics"), arg("numerical_solver")
+        )
+
+        .def(
+            init<const SatelliteDynamics&, const NumericalSolver&, const Array<Maneuver>&>(), arg("satellite_dynamics"), arg("numerical_solver"), arg("maneuver_array")
         )
 
         .def("__str__", &(shiftToString<Propagator>))

@@ -1,6 +1,6 @@
-# Apache License 2.0 
+# Apache License 2.0
 
-ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.8.8
+ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.10.11
 
 FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
@@ -23,21 +23,23 @@ RUN pip install --quiet numpy pandas plotly \
 
 # Install JupyterLab extensions
 
-RUN jupyter labextension install --no-build \
-        @jupyterlab/shortcuts-extension \
-        @jupyter-widgets/jupyterlab-manager \
-        jupyter-matplotlib \
-        plotlywidget \
-        jupyterlab-plotly \
- && jupyter lab build \
- && jupyter labextension update --all
+RUN npm config rm proxy
+RUN npm config rm https-proxy
 
-COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
+# RUN jupyter labextension install --no-build \
+#         @jupyterlab/shortcuts-extension \
+#         @jupyter-widgets/jupyterlab-manager \
+#         jupyter-matplotlib \
+#         plotlywidget \
+#         jupyterlab-plotly \
+#  && jupyter labextension update --all
+
+# COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
 
 RUN chown -R ${NB_UID}:${NB_UID} /home/jovyan/.jupyter
 
-ENV LD_LIBRARY_PATH "/usr/local/lib:/usr/lib/x86_64-linux-gnu:/opt/conda/lib/python3.8/site-packages:/home/jovyan/lib:/opt/conda/lib"
-ENV PYTHONPATH "/opt/conda/lib/python3.8/site-packages:/home/jovyan/lib"
+ENV LD_LIBRARY_PATH "/usr/local/lib:/usr/lib/x86_64-linux-gnu:/opt/conda/lib/python3.10/site-packages:/home/jovyan/lib:/opt/conda/lib"
+ENV PYTHONPATH "/opt/conda/lib/python3.10/site-packages:/home/jovyan/lib"
 
 # Add OSTk Data Settings
 
