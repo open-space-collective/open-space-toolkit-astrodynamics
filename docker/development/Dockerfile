@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 ARG BASE_IMAGE_VERSION="latest"
 
@@ -93,7 +93,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ## Open Space Toolkit ▸ I/O
 
-ARG OSTK_IO_VERSION="0.5.0"
+ARG OSTK_IO_VERSION="0.6.0"
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
@@ -115,7 +115,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION="0.6.0"
+ARG OSTK_PHYSICS_VERSION="0.8.1"
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
