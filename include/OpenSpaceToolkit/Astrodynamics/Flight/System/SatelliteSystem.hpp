@@ -148,6 +148,8 @@ class SatelliteSystem : public System
 
     Real getDragCoefficient() const;
 
+    static SatelliteSystem Undefined();
+
    private:
     Matrix3d inertiaTensor_;
     Real crossSectionalSurfaceArea_;

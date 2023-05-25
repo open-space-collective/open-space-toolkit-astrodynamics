@@ -110,6 +110,8 @@ class System
 
     Composite getGeometry() const;
 
+    static System Undefined();
+
    private:
     Mass mass_;
     Composite geometry_;

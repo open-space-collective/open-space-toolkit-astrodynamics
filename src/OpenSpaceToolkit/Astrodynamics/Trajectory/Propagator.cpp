@@ -90,6 +90,14 @@ void Propagator::DynamicalEquations(
         throw ostk::core::error::RuntimeError("Satellite altitude too low, has re-entered.");
     }
 
+    dxdt[0] = x[3];
+    dxdt[1] = x[4];
+    dxdt[2] = x[5];
+
+    dxdt[3] = 0.0;
+    dxdt[4] = 0.0;
+    dxdt[5] = 0.0;
+
     for (const Shared<Dynamics>& dynamic : dynamics)
     {
         dynamic->update(x, dxdt, anInstant + Duration::Seconds(t));
@@ -110,7 +118,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     );
 
     const Dynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
-        startStateVector, aState.getInstant(), anInstant, this->getDynamicalEquations(anInstant)
+        startStateVector, aState.getInstant(), anInstant, this->getDynamicalEquations(aState.getInstant())
     );
 
     return {

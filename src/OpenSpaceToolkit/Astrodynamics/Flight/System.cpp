@@ -91,6 +91,11 @@ Composite System::getGeometry() const
     return geometry_;
 }
 
+System System::Undefined()
+{
+    return {Mass::Undefined(), Composite::Undefined()};
+}
+
 }  // namespace flight
 }  // namespace astro
 }  // namespace ostk

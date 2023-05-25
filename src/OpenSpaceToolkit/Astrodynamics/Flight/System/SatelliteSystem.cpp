@@ -120,6 +120,11 @@ Real SatelliteSystem::getDragCoefficient() const
     return dragCoefficient_;
 }
 
+SatelliteSystem SatelliteSystem::Undefined()
+{
+    return {Mass::Undefined(), Composite::Undefined(), Matrix3d::Zero(), Real::Undefined(), Real::Undefined()};
+}
+
 }  // namespace system
 }  // namespace flight
 }  // namespace astro

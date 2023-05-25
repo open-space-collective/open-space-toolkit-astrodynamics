@@ -70,6 +70,8 @@ void GravitationalDynamics::update(
     // Initialize gravitational acceleration vector
     Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
 
+    celestial_.setInstant(anInstant);
+
     if (celestial_.accessName() != "Earth")
     {
         // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
@@ -90,13 +92,10 @@ void GravitationalDynamics::update(
 
     // TBI: Maybe we need a way to set the index in the state vector to generalize this
 
-    // Integrate position and velocity states
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-    dxdt[3] = totalGravitationalAcceleration_SI[0];
-    dxdt[4] = totalGravitationalAcceleration_SI[1];
-    dxdt[5] = totalGravitationalAcceleration_SI[2];
+    // Set acceleration
+    dxdt[3] += totalGravitationalAcceleration_SI[0];
+    dxdt[4] += totalGravitationalAcceleration_SI[1];
+    dxdt[5] += totalGravitationalAcceleration_SI[2];
 }
 
 }  // namespace dynamics

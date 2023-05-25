@@ -244,185 +244,160 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
     }
 }
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStatesAt)
-// {
-//     const Composite satelliteGeometry(Cuboid(
-//         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-//         {1.0, 2.0, 3.0}
-//     ));
-//     const SatelliteSystem satelliteSystem = {
-//         Mass(200.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStatesAt)
+{
+    dynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(Earth::Spherical())));
 
-//     // Test exception for unsorted instant array
-//     {
-//         // Create environment
-//         const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+    const Propagator propagator = {dynamics_, numericalSolver_};
 
-//         const Environment customEnvironment = Environment(Instant::J2000(), objects);
+    // Test exception for unsorted instant array
+    {
+        // Current state and instant setup
+        const State state = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
 
-//         // Current state and instant setup
-//         const State state = {
-//             Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-//             Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-//             Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        // Setup instants
+        Array<Instant> instantArray = Array<Instant>::Empty();
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC));
 
-//         // Satellite dynamics setup
-//         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
+        EXPECT_ANY_THROW(propagator.calculateStatesAt(state, instantArray));
+    }
 
-//         // Setup Propagator model and orbit
-//         const Propagator propagator = {satelliteDynamics, numericalSolver_};
+    /// Test full state results against reference trajectory
+    // Reference data setup
+    const Table referenceData = Table::Load(
+        File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
+                               "Propagated/CalculateStatesAt_StateValidation.csv")),
+        Table::Format::CSV,
+        true
+    );
 
-//         // Setup instants
-//         Array<Instant> instantArray = Array<Instant>::Empty();
-//         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC));
-//         instantArray.add(Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC));
-//         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC));
-//         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC));
+    Array<Instant> instantArray = Array<Instant>::Empty();
+    Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty();
+    Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty();
 
-//         EXPECT_ANY_THROW(propagator.calculateStatesAt(state, instantArray));
-//     }
+    for (const auto& referenceRow : referenceData)
+    {
+        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
-//     /// Test full state results against reference trajectory
-//     // Reference data setup
-//     const Table referenceData = Table::Load(
-//         File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/"
-//                                "Propagated/CalculateStatesAt_StateValidation.csv")),
-//         Table::Format::CSV,
-//         true
-//     );
+        referencePositionArray.add(
+            {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
+        );
+        referenceVelocityArray.add(
+            {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
+        );
+    }
 
-//     Array<Instant> instantArray = Array<Instant>::Empty();
-//     Array<Vector3d> referencePositionArray = Array<Vector3d>::Empty();
-//     Array<Vector3d> referenceVelocityArray = Array<Vector3d>::Empty();
+    // Test forward propagation
+    {
+        // Choose state to put into cachedStateArray
+        size_t cachedStateReferenceIndex = 0;
+        const Instant startInstant = instantArray[cachedStateReferenceIndex];
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
-//     for (const auto& referenceRow : referenceData)
-//     {
-//         instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
+        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
 
-//         referencePositionArray.add(
-//             {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
-//         );
-//         referenceVelocityArray.add(
-//             {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
-//         );
-//     }
+        // Validation loop
+        for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+        {
+            const Position position = propagatedStateArray[i].accessPosition();
+            const Velocity velocity = propagatedStateArray[i].accessVelocity();
 
-//     // Create environment
-//     const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
 
-//     const Environment customEnvironment = Environment(Instant::J2000(), objects);
+            ASSERT_GT(2e-7, positionError);
+            ASSERT_GT(2e-10, velocityError);
+            ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
 
-//     // Satellite dynamics setup
-//     SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
+            // // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionError << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+        }
+    }
 
-//     // Setup Propagator model and perform propagation
-//     const Propagator propagator = {satelliteDynamics, numericalSolver_};
+    // Test forward + backward propagation
+    {
+        // Choose state to put into cachedStateArray
+        size_t cachedStateReferenceIndex = 30;
+        const Instant startInstant = instantArray[cachedStateReferenceIndex];
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
-//     // Test forward propagation
-//     {
-//         // Choose state to put into cachedStateArray
-//         size_t cachedStateReferenceIndex = 0;
-//         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-//         const State state = {
-//             startInstant,
-//             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-//             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
 
-//         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
+        // Validation loop
+        for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+        {
+            const Position position = propagatedStateArray[i].accessPosition();
+            const Velocity velocity = propagatedStateArray[i].accessVelocity();
 
-//         // Validation loop
-//         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
-//         {
-//             const Position position = propagatedStateArray[i].accessPosition();
-//             const Velocity velocity = propagatedStateArray[i].accessVelocity();
+            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
 
-//             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-//             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            ASSERT_GT(2e-7, positionError);
+            ASSERT_GT(2e-10, velocityError);
+            ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
 
-//             ASSERT_GT(2e-7, positionError);
-//             ASSERT_GT(2e-10, velocityError);
-//             ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
+            // // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionError << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+        }
+    }
 
-//             // // Results console output
-//             // std::cout << "**************************************" << std::endl;
-//             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-//             // std::cout << "Position error is: " << positionError << "m" << std::endl;
-//             // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
-//             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-//             // std::cout << "**************************************" << std::endl;
-//         }
-//     }
+    // Test backward propagation
+    {
+        // Choose state to put into cachedStateArray
+        size_t cachedStateReferenceIndex = 60;
+        const Instant startInstant = instantArray[cachedStateReferenceIndex];
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
 
-//     // Test forward + backward propagation
-//     {
-//         // Choose state to put into cachedStateArray
-//         size_t cachedStateReferenceIndex = 30;
-//         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-//         const State state = {
-//             startInstant,
-//             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-//             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
 
-//         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
+        // Validation loop
+        for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
+        {
+            const Position position = propagatedStateArray[i].accessPosition();
+            const Velocity velocity = propagatedStateArray[i].accessVelocity();
 
-//         // Validation loop
-//         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
-//         {
-//             const Position position = propagatedStateArray[i].accessPosition();
-//             const Velocity velocity = propagatedStateArray[i].accessVelocity();
+            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
 
-//             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-//             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            ASSERT_GT(2e-7, positionError);
+            ASSERT_GT(2e-10, velocityError);
+            ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
 
-//             ASSERT_GT(2e-7, positionError);
-//             ASSERT_GT(2e-10, velocityError);
-//             ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
-
-//             // // Results console output
-//             // std::cout << "**************************************" << std::endl;
-//             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-//             // std::cout << "Position error is: " << positionError << "m" << std::endl;
-//             // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
-//             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-//             // std::cout << "**************************************" << std::endl;
-//         }
-//     }
-
-//     // Test backward propagation
-//     {
-//         // Choose state to put into cachedStateArray
-//         size_t cachedStateReferenceIndex = 60;
-//         const Instant startInstant = instantArray[cachedStateReferenceIndex];
-//         const State state = {
-//             startInstant,
-//             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-//             Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
-
-//         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
-
-//         // Validation loop
-//         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
-//         {
-//             const Position position = propagatedStateArray[i].accessPosition();
-//             const Velocity velocity = propagatedStateArray[i].accessVelocity();
-
-//             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-//             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
-
-//             ASSERT_GT(2e-7, positionError);
-//             ASSERT_GT(2e-10, velocityError);
-//             ASSERT_EQ(propagatedStateArray[i].getInstant(), instantArray[i]);
-
-//             // // Results console output
-//             // std::cout << "**************************************" << std::endl;
-//             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-//             // std::cout << "Position error is: " << positionError << "m" << std::endl;
-//             // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
-//             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-//             // std::cout << "**************************************" << std::endl;
-//         }
-//     }
-// }
+            // // Results console output
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionError << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityError <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+        }
+    }
+}
 
 // /* VALIDATION TESTS */
 // /* Force model validation tests */
