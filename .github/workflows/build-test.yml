@@ -31,14 +31,14 @@ jobs:
       - id: project-name
         name: Get Project Name
         run: |
-          echo "Project name: ${project_version}"
-          echo "::set-output name=value::${{ env.PROJECT_NAME }}"
+          echo "Project name: ${{ env.PROJECT_NAME }}"
+          echo "value=${{ env.PROJECT_NAME }}" >> $GITHUB_OUTPUT
       - id: project-version
         name: Get Project Version
         run: |
           project_version=$(git describe --tags --always)
           echo "Project version: ${project_version}"
-          echo "::set-output name=value::${project_version}"
+          echo "value=${project_version}" >> $GITHUB_OUTPUT
 
   build-and-test:
     name: Build & Test
