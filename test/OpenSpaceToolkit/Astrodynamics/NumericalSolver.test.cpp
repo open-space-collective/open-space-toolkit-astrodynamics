@@ -294,8 +294,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15);
         EXPECT_EQ(numericalSolver.getAbsoluteTolerance(), 1.0e-15);
     }
-<<<<<<< HEAD
-=======
 
     {
 
@@ -307,7 +305,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 
     }
 
->>>>>>> test: add perf tests for new RK4 integrator wrapper
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
@@ -323,22 +320,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     using ostk::astro::NumericalSolver;
 
     {
-<<<<<<< HEAD
-        EXPECT_TRUE(
-            NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) ==
-            "RungeKuttaCashKarp54"
-        );
-        EXPECT_TRUE(
-            NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) ==
-            "RungeKuttaFehlberg78"
-        );
-=======
 
         EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) == "RungeKuttaCashKarp54") ;
         EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) == "RungeKuttaFehlberg78") ;
         EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKutta4) == "RungeKutta4") ;
 
->>>>>>> test: add perf tests for new RK4 integrator wrapper
     }
 
     {
@@ -527,8 +513,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
             );
         }
     }
-<<<<<<< HEAD
-=======
 
     // Performance test with RungeKutta4 in forward time
     {
@@ -616,7 +600,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     }
 
->>>>>>> test: add perf tests for new RK4 integrator wrapper
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
