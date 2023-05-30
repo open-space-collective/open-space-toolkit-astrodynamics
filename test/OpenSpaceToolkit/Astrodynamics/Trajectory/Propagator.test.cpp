@@ -1591,6 +1591,91 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
     }
 }
 
+TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_Exponential )
+{
+    const Composite satelliteGeometry(Cuboid({ 0.0, 0.0, 0.0 }, { Vector3d { 1.0, 0.0, 0.0 }, Vector3d { 0.0, 1.0, 0.0 }, Vector3d { 0.0, 0.0, 1.0 } }, { 1.0, 2.0, 3.0 })) ;
+
+    // Constant Cd of 2.1 & constant surface area of 1m^2
+    const SatelliteSystem satelliteSystem = { Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 2.1, 1.0 } ;
+
+    // Earth with Exponential atmospheric drag compared against OREKit
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00.000"), Scale::UTC) ;
+
+        // Reference data setup
+        const Table referenceData = Table::Load(File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_Drag_Exponential_2hr_run.csv")), Table::Format::CSV, true) ;
+
+        Array<Instant> instantArray = Array<Instant>::Empty() ;
+        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty() ;
+        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty() ;
+
+        for (const auto& referenceRow : referenceData)
+        {
+
+                instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601) , Scale::UTC)) ;
+
+                referencePositionArray_GCRF.add( Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()) ) ;
+                referenceVelocityArray_GCRF.add( Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()) ) ;
+
+        }
+
+        // Create environment
+        const Instant instantJ2000 = Instant::J2000() ;
+        const Array<Shared<Object>> objects =
+        {
+            std::make_shared<Earth>(Earth::Spherical())
+        } ;
+
+        const Environment customEnvironment = Environment(instantJ2000, objects) ;
+
+        // Setup initial conditions
+        const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
+
+        // Satellite dynamics setup
+        SatelliteDynamics satelliteDynamics = { customEnvironment, satelliteSystem } ;
+
+        // RK4 Numerical solver
+        NumericalSolver numericalSolver = { NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 30.0, 1.0e-15, 1.0e-15 } ;
+
+        // Setup Propagator model and orbit
+        const Propagator propagator = { satelliteDynamics, numericalSolver_ } ;
+
+        // Propagate all states
+        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray) ;
+
+        // Validation loop
+        for (size_t i = 0; i < instantArray.getSize(); i++)
+        {
+            // GCRF Compare
+            const Position position_GCRF = propagatedStateArray[i].accessPosition() ;
+            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity() ;
+
+            const double positionError_GCRF = (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm() ;
+            const double velocityError_GCRF = (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm() ;
+
+            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame()) ;
+            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame()) ;
+
+            ASSERT_GT(2e-4, positionError_GCRF) ;
+            ASSERT_GT(2e-6, velocityError_GCRF) ;
+
+
+        // Results console output
+
+        // std::cout << "**************************************" << std::endl;
+        // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+        // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
+        // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+        // std::cout << "**************************************" << std::endl;
+
+        }
+
+    }
+
+}
+
 /* Propagation Interval validation test */
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_IntervalSelfComparison)
 {
