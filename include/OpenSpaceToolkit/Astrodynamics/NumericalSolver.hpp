@@ -34,7 +34,8 @@ class NumericalSolver
     enum class StepperType
     {
         RungeKuttaCashKarp54,
-        RungeKuttaFehlberg78
+        RungeKuttaFehlberg78,
+        RungeKutta4
     };
 
     enum class LogType

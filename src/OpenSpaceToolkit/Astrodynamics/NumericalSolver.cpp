@@ -16,6 +16,7 @@ using namespace boost::numeric::odeint;
 
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
 typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
+typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4 ;
 
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
@@ -229,6 +230,13 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
             break;
         }
 
+        case NumericalSolver::StepperType::RungeKutta4:
+        {
+            integrate_times(stepper_type_4(), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
+        
+            break ;
+        }
+
         default:
             throw ostk::core::error::runtime::Wrong("Stepper type");
     }
@@ -346,6 +354,29 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                     throw ostk::core::error::runtime::Wrong("Log type");
             }
         }
+        
+        case NumericalSolver::StepperType::RungeKutta4:
+        {
+            switch (logType_)
+            {
+
+                case NumericalSolver::LogType::NoLog:
+                case NumericalSolver::LogType::LogAdaptive:
+                {
+                    integrate_adaptive(stepper_type_4(), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
+                    return aStateVector ;
+                }
+
+                case NumericalSolver::LogType::LogConstant:
+                {
+                    integrate_const(stepper_type_4(), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
+                    return aStateVector ;
+                }
+                default:
+                    throw ostk::core::error::runtime::Wrong("Log type") ;
+
+            }
+        }
 
         default:
             throw ostk::core::error::runtime::Wrong("Stepper type");
@@ -393,6 +424,9 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
 
         case NumericalSolver::StepperType::RungeKuttaFehlberg78:
             return "RungeKuttaFehlberg78";
+
+        case NumericalSolver::StepperType::RungeKutta4:
+            return "RungeKutta4" ;
 
         default:
             throw ostk::core::error::runtime::Wrong("Stepper Type");
