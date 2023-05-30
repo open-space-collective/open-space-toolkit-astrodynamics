@@ -1629,6 +1629,9 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
 
+        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential()) ;
+        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere ;
+
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;
 
@@ -1713,6 +1716,9 @@ TEST_F (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropA
         } ;
 
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
+
+        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential()) ;
+        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere ;
 
         // Setup initial conditions
         const State state = { startInstant, Position::Meters({ referencePositionArray_GCRF[0] }, gcrfSPtr_), Velocity::MetersPerSecond({ referenceVelocityArray_GCRF[0] }, gcrfSPtr_) } ;

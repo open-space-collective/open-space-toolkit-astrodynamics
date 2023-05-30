@@ -18,6 +18,7 @@
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -563,6 +564,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     using ostk::physics::env::obj::celest::Earth ;
     using ostk::physics::env::obj::celest::Sun ;
     using ostk::physics::env::obj::celest::Moon ;
+    using ostk::physics::environment::atmospheric::earth::Exponential ;
 
     using ostk::astro::trajectory::State ;
     using ostk::astro::flight::system::SatelliteSystem ;
@@ -830,15 +832,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         EXPECT_GT(5e-14, startStateVector[5] - Earth_Sun_Moon_ReferencePull[5]);
     }
 
-    // Earth only gravity + Drag
+    // Earth only gravity + exponential Drag
     {
         // Comparison data generated using OREKIT 
 
         // Setup environment
         const Instant instantJ2000 = Instant::J2000() ;
+
         const Shared<Object> earth = std::make_shared<Earth>(Earth::Spherical()) ;
         const Array<Shared<Object>> objects = { earth } ;
+
         const Environment customEnvironment = Environment(instantJ2000, objects) ;
+
+        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential()) ;
+        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere ;
+
         const Shared<const Frame> gcrfSPtr = Frame::GCRF() ;
 
         // Satellite shape does not matter for drag, since constant Cd & area are defined
@@ -868,12 +876,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         startStateVector[3] = startVelocityCoordinates[0]; startStateVector[4] = startVelocityCoordinates[1]; startStateVector[5] = startVelocityCoordinates[2] ;
         
         // Check initial conditions precision
-        EXPECT_GT(1e-15, startStateVector[0] - 6878137.0) ;
-        EXPECT_GT(1e-15, startStateVector[1] - 0.0 ) ;
-        EXPECT_GT(1e-15, startStateVector[2] - 0.0 ) ;
-        EXPECT_GT(1e-15, startStateVector[3] - 0.0 ) ;
-        EXPECT_GT(1e-15, startStateVector[4] - 7612.608170359118) ;
-        EXPECT_GT(1e-15, startStateVector[5] - 0.0 ) ;
+        EXPECT_NEAR(startStateVector[0], 6878137.0, 1e-15) ;
+        EXPECT_NEAR(startStateVector[1], 0.0, 1e-15 ) ;
+        EXPECT_NEAR(startStateVector[2], 0.0, 1e-15) ;
+        EXPECT_NEAR(startStateVector[3], 0.0, 1e-15 ) ;
+        EXPECT_NEAR(startStateVector[4], 7612.608170359118, 1e-15) ;
+        EXPECT_NEAR(startStateVector[5], 0.0, 1e-15 ) ;
 
         // Perform 1.0s integration step
         runge_kutta4<SatelliteDynamics::StateVector> stepper ;
@@ -890,12 +898,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
 
         // OREKit has Z-axis change at the 13th decimal place, which is not realistic for this simple model.
         // Consider this the precision and compare at 12th decimal place.
-        EXPECT_GT(1e-12, startStateVector[0] - Earth_DragReference[0]) ;
-        EXPECT_GT(1e-12, startStateVector[1] - Earth_DragReference[1]) ;
-        EXPECT_GT(1e-12, startStateVector[2] - Earth_DragReference[2]) ;
-        EXPECT_GT(1e-12, startStateVector[3] - Earth_DragReference[3]) ;
-        EXPECT_GT(1e-12, startStateVector[4] - Earth_DragReference[4]) ;
-        EXPECT_GT(1e-12, startStateVector[5] - Earth_DragReference[5]) ;
+        EXPECT_NEAR(startStateVector[0], Earth_DragReference[0], 1e-12) ;
+        EXPECT_NEAR(startStateVector[1], Earth_DragReference[1], 1e-12) ;
+        EXPECT_NEAR(startStateVector[2], Earth_DragReference[2], 1e-12) ;
+        EXPECT_NEAR(startStateVector[3], Earth_DragReference[3], 1e-12) ;
+        EXPECT_NEAR(startStateVector[4], Earth_DragReference[4], 1e-12) ;
+        EXPECT_NEAR(startStateVector[5], Earth_DragReference[5], 1e-12) ;
 
     }
 }
