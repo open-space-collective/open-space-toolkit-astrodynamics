@@ -162,7 +162,6 @@ class SatelliteDynamics : public Dynamics
     Shared<const Frame> gcrfSPtr_;
     SatelliteSystem satelliteSystem_;
     Instant instant_;
-    bool dragWellDefined_ ;
 
     void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
 
