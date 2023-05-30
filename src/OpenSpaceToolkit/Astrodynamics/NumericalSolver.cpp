@@ -233,7 +233,6 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
         case NumericalSolver::StepperType::RungeKutta4:
         {
             integrate_times(stepper_type_4(), aSystemOfEquations, aStateVector, anIntegrationDurationInSecsArray.begin(), anIntegrationDurationInSecsArray.end(), adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
-        
             break ;
         }
 
@@ -362,11 +361,8 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
 
                 case NumericalSolver::LogType::NoLog:
                 case NumericalSolver::LogType::LogAdaptive:
-                {
-                    integrate_adaptive(stepper_type_4(), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
-                    return aStateVector ;
-                }
-
+                    // Integrate_adaptive uses constant step size under the hood
+                    // for a stepper without error control like RK4.
                 case NumericalSolver::LogType::LogConstant:
                 {
                     integrate_const(stepper_type_4(), aSystemOfEquations, aStateVector, (0.0), integrationDurationInSecs, adjustedTimeStep, [&] (const NumericalSolver::StateVector &x, double t) -> void { this->observeNumericalIntegration(x, t) ; } ) ;
