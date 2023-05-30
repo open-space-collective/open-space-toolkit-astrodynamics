@@ -897,6 +897,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         EXPECT_GT(1e-12, startStateVector[4] - Earth_DragReference[4]) ;
         EXPECT_GT(1e-12, startStateVector[5] - Earth_DragReference[5]) ;
 
-        EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0));
     }
 }
