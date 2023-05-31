@@ -134,9 +134,9 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     const Instant currentInstant = instant_ + Duration::Seconds(t);
     environment_.setInstant(currentInstant);
 
-    dxdt[3] = 0 ;
-    dxdt[4] = 0 ;
-    dxdt[5] = 0 ;
+    dxdt[3] = 0;
+    dxdt[4] = 0;
+    dxdt[5] = 0;
 
     // GRAVITY
     // Initialize gravitational acceleration vector
@@ -165,46 +165,45 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
     }
 
-    dxdt[3] += totalGravitationalAcceleration_SI[0] ;
-    dxdt[4] += totalGravitationalAcceleration_SI[1] ;
-    dxdt[5] += totalGravitationalAcceleration_SI[2] ;
+    dxdt[3] += totalGravitationalAcceleration_SI[0];
+    dxdt[4] += totalGravitationalAcceleration_SI[1];
+    dxdt[5] += totalGravitationalAcceleration_SI[2];
 
     // DRAG
-    
-    const Real mass = satelliteSystem_.getMass().inKilograms() ;
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient() ;
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea() ;
+
+    const Real mass = satelliteSystem_.getMass().inKilograms();
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 
     for (const auto& objectName : environment_.getObjectNames())
     {
-
         // TBI: currently only defined for Earth
         if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel() != nullptr)
         {
-
-            const Real atmosphericDensity = environment_.accessCelestialObjectWithName(objectName)->getAtmosphericDensityAt(currentPosition).getValue() ;
+            const Real atmosphericDensity = environment_.accessCelestialObjectWithName(objectName)
+                                                ->getAtmosphericDensityAt(currentPosition)
+                                                .getValue();
 
             // [TBI]: Define in Physics celestial body
-            const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
+            const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};  // rad/s
 
-            const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
+            const Vector3d relativeVelocity =
+                Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
 
             // Calculate drag acceleration
-            const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity ;
+            const Vector3d dragAcceleration = -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity *
+                                              relativeVelocity.norm() * relativeVelocity;
 
-            dxdt[3] += dragAcceleration[0] ;
-            dxdt[4] += dragAcceleration[1] ;
-            dxdt[5] += dragAcceleration[2] ;
-
+            dxdt[3] += dragAcceleration[0];
+            dxdt[4] += dragAcceleration[1];
+            dxdt[5] += dragAcceleration[2];
         }
-
     }
-    
-    // Propagate velocity
-    dxdt[0] = x[3] ;
-    dxdt[1] = x[4] ;
-    dxdt[2] = x[5] ;
 
+    // Propagate velocity
+    dxdt[0] = x[3];
+    dxdt[1] = x[4];
+    dxdt[2] = x[5];
 }
 
 }  // namespace dynamics

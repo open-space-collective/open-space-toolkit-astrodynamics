@@ -164,7 +164,6 @@ class SatelliteDynamics : public Dynamics
     Instant instant_;
 
     void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
-
 };
 
 }  // namespace dynamics
