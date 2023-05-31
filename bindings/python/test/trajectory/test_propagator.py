@@ -77,7 +77,7 @@ def propagator(propagator_default_inputs) -> Propagator:
     return Propagator(*propagator_default_inputs[:2])
 
 
-class TestPropagated:
+class TestPropagator:
     def test_constructors(self, propagator: Propagator):
         assert propagator is not None
         assert isinstance(propagator, Propagator)

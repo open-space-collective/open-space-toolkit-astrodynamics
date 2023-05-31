@@ -93,6 +93,12 @@ class TestNumericalSolver:
             == "RungeKuttaFehlberg78"
         )
         assert (
+            NumericalSolver.string_from_stepper_type(
+                NumericalSolver.StepperType.RungeKutta4
+            )
+            == "RungeKutta4"
+        )
+        assert (
             NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == "NoLog"
         )
         assert (
