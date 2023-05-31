@@ -182,7 +182,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel() != nullptr)
         {
 
-            const Real rho = environment_.accessCelestialObjectWithName(objectName)->getAtmosphericDensityAt(currentPosition).getValue() ;
+            const Real atmosphericDensity = environment_.accessCelestialObjectWithName(objectName)->getAtmosphericDensityAt(currentPosition).getValue() ;
 
             // [TBI]: Define in Physics celestial body
             const Vector3d earthAngularVelocity = { 0, 0, 7.2921159e-5 } ; // rad/s
@@ -190,7 +190,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
             const Vector3d relativeVelocity = Vector3d( x[3], x[4], x[5] ) - earthAngularVelocity.cross(Vector3d( x[0], x[1], x[2] )) ;
 
             // Calculate drag acceleration
-            const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * rho * relativeVelocity.norm() * relativeVelocity ;
+            const Vector3d dragAcceleration = -( 0.5 / mass ) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity ;
 
             dxdt[3] += dragAcceleration[0] ;
             dxdt[4] += dragAcceleration[1] ;
