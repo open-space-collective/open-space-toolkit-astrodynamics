@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>

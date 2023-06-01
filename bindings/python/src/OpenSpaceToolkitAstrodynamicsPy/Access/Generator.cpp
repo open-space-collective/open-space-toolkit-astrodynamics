@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <pybind11/functional.h>  // To pass anonymous functions directly
 

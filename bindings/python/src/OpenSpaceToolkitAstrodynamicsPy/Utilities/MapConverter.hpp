@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__
 #define __OpenSpaceToolkitAstrodynamicsPy_Utilities_MapConverter__

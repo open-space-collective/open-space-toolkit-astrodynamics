@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated__

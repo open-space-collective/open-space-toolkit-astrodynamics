@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Models/Transform.hpp>
