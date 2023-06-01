@@ -52,7 +52,7 @@ def propagated_default_inputs():
     )
     inertia_tensor = np.ndarray(shape=(3, 3))
     surface_area = 0.8
-    drag_coefficient = 2.2
+    drag_coefficient = 0.0
 
     satellitesystem = SatelliteSystem(
         mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
