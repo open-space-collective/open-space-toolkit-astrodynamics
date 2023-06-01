@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ArrayCasting.hpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Utilities/ShiftToString.hpp>

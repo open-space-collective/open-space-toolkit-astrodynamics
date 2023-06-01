@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System__
