@@ -14,9 +14,9 @@ namespace astro
 
 using namespace boost::numeric::odeint;
 
+typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
 typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
-typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
@@ -196,6 +196,23 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
 
     switch (stepperType_)
     {
+        case NumericalSolver::StepperType::RungeKutta4:
+        {
+            integrate_times(
+                stepper_type_4(),
+                aSystemOfEquations,
+                aStateVector,
+                anIntegrationDurationInSecsArray.begin(),
+                anIntegrationDurationInSecsArray.end(),
+                adjustedTimeStep,
+                [&](const NumericalSolver::StateVector& x, double t) -> void
+                {
+                    this->observeNumericalIntegration(x, t);
+                }
+            );
+            break;
+        }
+
         case NumericalSolver::StepperType::RungeKuttaCashKarp54:
         {
             integrate_times(
@@ -217,23 +234,6 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
         {
             integrate_times(
                 make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()),
-                aSystemOfEquations,
-                aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
-                adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
-            );
-            break;
-        }
-
-        case NumericalSolver::StepperType::RungeKutta4:
-        {
-            integrate_times(
-                stepper_type_4(),
                 aSystemOfEquations,
                 aStateVector,
                 anIntegrationDurationInSecsArray.begin(),
@@ -279,6 +279,35 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
 
     switch (stepperType_)
     {
+        case NumericalSolver::StepperType::RungeKutta4:
+        {
+            switch (logType_)
+            {
+                case NumericalSolver::LogType::NoLog:
+                case NumericalSolver::LogType::LogAdaptive:
+                    // Integrate_adaptive uses constant step size under the hood
+                    // for a stepper without error control like RK4.
+                case NumericalSolver::LogType::LogConstant:
+                {
+                    integrate_const(
+                        stepper_type_4(),
+                        aSystemOfEquations,
+                        aStateVector,
+                        (0.0),
+                        integrationDurationInSecs,
+                        adjustedTimeStep,
+                        [&](const NumericalSolver::StateVector& x, double t) -> void
+                        {
+                            this->observeNumericalIntegration(x, t);
+                        }
+                    );
+                    return aStateVector;
+                }
+                default:
+                    throw ostk::core::error::runtime::Wrong("Log type");
+            }
+        }
+
         case NumericalSolver::StepperType::RungeKuttaCashKarp54:
         {
             switch (logType_)
@@ -348,35 +377,6 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                 {
                     integrate_const(
                         make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()),
-                        aSystemOfEquations,
-                        aStateVector,
-                        (0.0),
-                        integrationDurationInSecs,
-                        adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
-                    );
-                    return aStateVector;
-                }
-                default:
-                    throw ostk::core::error::runtime::Wrong("Log type");
-            }
-        }
-
-        case NumericalSolver::StepperType::RungeKutta4:
-        {
-            switch (logType_)
-            {
-                case NumericalSolver::LogType::NoLog:
-                case NumericalSolver::LogType::LogAdaptive:
-                    // Integrate_adaptive uses constant step size under the hood
-                    // for a stepper without error control like RK4.
-                case NumericalSolver::LogType::LogConstant:
-                {
-                    integrate_const(
-                        stepper_type_4(),
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
@@ -435,14 +435,14 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
 {
     switch (aStepperType)
     {
+        case NumericalSolver::StepperType::RungeKutta4:
+            return "RungeKutta4";
+
         case NumericalSolver::StepperType::RungeKuttaCashKarp54:
             return "RungeKuttaCashKarp54";
 
         case NumericalSolver::StepperType::RungeKuttaFehlberg78:
             return "RungeKuttaFehlberg78";
-
-        case NumericalSolver::StepperType::RungeKutta4:
-            return "RungeKutta4";
 
         default:
             throw ostk::core::error::runtime::Wrong("Stepper Type");

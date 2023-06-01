@@ -82,6 +82,12 @@ class TestNumericalSolver:
     def test_get_string_from_types(self):
         assert (
             NumericalSolver.string_from_stepper_type(
+                NumericalSolver.StepperType.RungeKutta4
+            )
+            == "RungeKutta4"
+        )
+        assert (
+            NumericalSolver.string_from_stepper_type(
                 NumericalSolver.StepperType.RungeKuttaCashKarp54
             )
             == "RungeKuttaCashKarp54"
@@ -91,12 +97,6 @@ class TestNumericalSolver:
                 NumericalSolver.StepperType.RungeKuttaFehlberg78
             )
             == "RungeKuttaFehlberg78"
-        )
-        assert (
-            NumericalSolver.string_from_stepper_type(
-                NumericalSolver.StepperType.RungeKutta4
-            )
-            == "RungeKutta4"
         )
         assert (
             NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == "NoLog"

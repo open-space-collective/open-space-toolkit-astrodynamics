@@ -33,9 +33,9 @@ class NumericalSolver
    public:
     enum class StepperType
     {
+        RungeKutta4,
         RungeKuttaCashKarp54,
-        RungeKuttaFehlberg78,
-        RungeKutta4
+        RungeKuttaFehlberg78
     };
 
     enum class LogType
