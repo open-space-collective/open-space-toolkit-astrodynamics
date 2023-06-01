@@ -599,7 +599,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
             );
         }
     }
-
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)

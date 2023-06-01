@@ -985,5 +985,4 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
 
         EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0));
     }
-
 }
