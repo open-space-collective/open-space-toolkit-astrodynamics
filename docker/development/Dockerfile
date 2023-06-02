@@ -86,7 +86,6 @@ RUN echo "VERSION_REGEX='^'\$2'\\.'\$3'\\.[0-9]*$'; curl https://api.github.com/
     > "/tmp/latest_ostk_patch_version.sh" \
     && chmod +x "/tmp/latest_ostk_patch_version.sh"
 
-
 ## Open Space Toolkit ▸ Core
 
 ARG OSTK_CORE_MAJOR="0"
@@ -94,7 +93,7 @@ ARG OSTK_CORE_MINOR="6"
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
- && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-core $OSTK_CORE_MAJOR $OSTK_CORE_MINOR) \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-core ${OSTK_CORE_MAJOR} ${OSTK_CORE_MINOR}) \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-runtime.deb \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
@@ -107,7 +106,7 @@ ARG OSTK_IO_MINOR="6"
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
- && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-io $OSTK_IO_MAJOR $OSTK_IO_MINOR) \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-io ${OSTK_IO_MAJOR} ${OSTK_IO_MINOR}) \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-runtime.deb \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
@@ -120,7 +119,7 @@ ARG OSTK_MATHEMATICS_MINOR="7"
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
- && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-mathematics $OSTK_MATHEMATICS_MAJOR $OSTK_MATHEMATICS_MINOR) \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-mathematics ${OSTK_MATHEMATICS_MAJOR} ${OSTK_MATHEMATICS_MINOR}) \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-runtime.deb \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
@@ -133,7 +132,7 @@ ARG OSTK_PHYSICS_MINOR="8"
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
- && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-physics $OSTK_PHYSICS_MAJOR $OSTK_PHYSICS_MINOR) \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-physics ${OSTK_PHYSICS_MAJOR} ${OSTK_PHYSICS_MINOR}) \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-runtime.deb \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
