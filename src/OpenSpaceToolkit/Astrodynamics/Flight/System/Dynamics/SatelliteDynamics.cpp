@@ -178,7 +178,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     for (const auto& objectName : environment_.getObjectNames())
     {
         // TBI: currently only defined for Earth
-        if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel() != nullptr)
+        if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel().isDefined())
         {
             const Real atmosphericDensity = environment_.accessCelestialObjectWithName(objectName)
                                                 ->getAtmosphericDensityAt(currentPosition)

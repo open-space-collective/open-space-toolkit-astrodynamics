@@ -277,7 +277,7 @@ ENDIF ()
 
 ### Open Space Toolkit ▸ Physics
 
-FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.8.3" REQUIRED)
+FIND_PACKAGE ("OpenSpaceToolkitPhysics" "0.2" REQUIRED)
 
 IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
