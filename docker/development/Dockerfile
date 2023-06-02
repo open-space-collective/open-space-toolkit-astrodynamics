@@ -8,10 +8,10 @@ LABEL maintainer="lucas@loftorbital.com"
 
 # Dependencies
 
-## Zip
+## Zip & jq
 
 RUN apt-get update \
- && apt-get install -y unzip \
+ && apt-get install -y unzip jq \
  && rm -rf /var/lib/apt/lists/*
 
 ## {fmt}
@@ -80,55 +80,62 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
  && make install \
  && rm -rf /tmp/nlopt
 
-## Get the latest bugfix version of an Open Space Toolkit repository
-## args: $1:repository, $2:major version, $3:minor version, $4: minimum patch version
-RUN eval get_latest_ostk_bugfix_version() { 
-    VERSION_REGEX='^'$2'\.'$3'\.[0-9]*$'
-    curl https://api.github.com/repos/open-space-collective/$1/releases -s \
-    | jq -r .[].tag_name | grep $VERSION_REGEX -m1 
-}
+## Script to get the latest patch version of an Open Space Toolkit repository
+## args: $1:project name, $2:major version, $3:minor version
+RUN echo "VERSION_REGEX='^'\$2'\\.'\$3'\\.[0-9]*$'; curl https://api.github.com/repos/open-space-collective/\$1/releases -s | jq -r .[].tag_name | grep -m1 \$VERSION_REGEX" \
+    > "/tmp/latest_ostk_patch_version.sh" \
+    && chmod +x "/tmp/latest_ostk_patch_version.sh"
+
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-core", 0, 6)
+ARG OSTK_CORE_MAJOR="0"
+ARG OSTK_CORE_MINOR="6"
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-core $OSTK_CORE_MAJOR $OSTK_CORE_MINOR) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-core
 
 ## Open Space Toolkit ▸ I/O
 
-ARG OSTK_IO_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-io", 0, 6)
+ARG OSTK_IO_MAJOR="0"
+ARG OSTK_IO_MINOR="6"
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-io $OSTK_IO_MAJOR $OSTK_IO_MINOR) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-io
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-mathematics", 0, 7)
+ARG OSTK_MATHEMATICS_MAJOR="0"
+ARG OSTK_MATHEMATICS_MINOR="7"
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-mathematics $OSTK_MATHEMATICS_MAJOR $OSTK_MATHEMATICS_MINOR) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-mathematics
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-physics", 0, 8)
+ARG OSTK_PHYSICS_MAJOR="0"
+ARG OSTK_PHYSICS_MINOR="8"
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-physics $OSTK_PHYSICS_MAJOR $OSTK_PHYSICS_MINOR) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-physics
 
