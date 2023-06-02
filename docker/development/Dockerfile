@@ -80,9 +80,17 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
  && make install \
  && rm -rf /tmp/nlopt
 
+## Get the latest bugfix version of an Open Space Toolkit repository
+## args: $1:repository, $2:major version, $3:minor version, $4: minimum patch version
+RUN eval get_latest_ostk_bugfix_version() { 
+    VERSION_REGEX='^'$2'\.'$3'\.[0-9]*$'
+    curl https://api.github.com/repos/open-space-collective/$1/releases -s \
+    | jq -r .[].tag_name | grep $VERSION_REGEX -m1 
+}
+
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION="0.6.0"
+ARG OSTK_CORE_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-core", 0, 6)
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
@@ -93,7 +101,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ## Open Space Toolkit ▸ I/O
 
-ARG OSTK_IO_VERSION="0.6.0"
+ARG OSTK_IO_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-io", 0, 6)
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
@@ -104,7 +112,7 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
 
 ## Open Space Toolkit ▸ Mathematics
 
-ARG OSTK_MATHEMATICS_VERSION="0.7.1"
+ARG OSTK_MATHEMATICS_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-mathematics", 0, 7)
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
  && cd /tmp/open-space-toolkit-mathematics \
@@ -115,7 +123,7 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_VERSION="0.8.2"
+ARG OSTK_PHYSICS_VERSION=get_latest_ostk_bugfix_version("open-space-toolkit-physics", 0, 8)
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
