@@ -78,13 +78,18 @@ class TestDisplay:
             interval=search_interval,
             from_trajectory=ground_station_trajectory,
             to_trajectory=orbit_1,
-        )  
+        )
+
+        assert len(accesses_1) > 0
+
         accesses_2 = generator.compute_accesses(
             interval=search_interval,
             from_trajectory=ground_station_trajectory,
             to_trajectory=orbit_2,
         ) 
         
+        assert len(accesses_2) > 0
+
         accesses_plot = display.AccessesPlot(
             interval=search_interval,
             trajectory_step=Duration.minutes(5.0),
@@ -94,12 +99,12 @@ class TestDisplay:
         
         accesses_plot.add_satellite(
             trajectory=orbit_1,
-            interference_accesses=accesses_1,
+            accesses=accesses_1,
             rgb=[180,0,0])
 
         accesses_plot.add_satellite(
             trajectory=orbit_2,
-            interference_accesses=accesses_2,
+            accesses=accesses_2,
             rgb = [0,0,180])
         
         accesses_plot.show()
