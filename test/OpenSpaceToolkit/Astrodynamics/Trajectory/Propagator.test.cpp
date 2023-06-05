@@ -29,6 +29,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThrusterDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -397,6 +398,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
             // std::cout << "**************************************" << std::endl;
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ConstantThrustManeuver)
+{
+    using ostk::astro::flight::system::dynamics::ThrusterDynamics;
+    using ostk::math::obj::VectorXd;
+    using ostk::physics::data::Direction;
+
+    // Current state and instant setup
+    const State state = {
+        Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_)};
+
+    // TBI: These should be added in Physics
+
+    // Setup Propagator model and orbit
+    dynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(Earth::Spherical())));
+    dynamics_.add(std::make_shared<ThrusterDynamics>(ThrusterDynamics({30, 1500.0}, Direction({1.0, 0.0, 0.0}, gcrfSPtr_))));  // TBI: Set VNC frame here
+    const Propagator propagator = {dynamics_, numericalSolver_};
+
+    const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(30.0));
+
+    VectorXd expectedCoordinates(6);
+    expectedCoordinates << 6996338.248,+0226477.143,-0000000.000,-00244.143980,+07551.107081,+00000.000000;
+    std::cout << postBurnState.getCoordinates() - expectedCoordinates << std::endl;
 }
 
 // /* VALIDATION TESTS */

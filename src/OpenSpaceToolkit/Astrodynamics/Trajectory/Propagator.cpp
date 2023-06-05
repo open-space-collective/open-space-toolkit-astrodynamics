@@ -97,6 +97,7 @@ void Propagator::DynamicalEquations(
     dxdt[3] = 0.0;
     dxdt[4] = 0.0;
     dxdt[5] = 0.0;
+    dxdt[6] = 0.0; // TBI: set this automatically
 
     for (const Shared<Dynamics>& dynamic : dynamics)
     {
@@ -113,9 +114,11 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const VectorXd stateCoordinates = aState.getCoordinates();
 
-    const Dynamics::StateVector startStateVector(
+    Dynamics::StateVector startStateVector(
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
+
+    startStateVector.push_back(100.0);  // TBI: Add mass to state vector
 
     const Dynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
         startStateVector, aState.getInstant(), anInstant, this->getDynamicalEquations(aState.getInstant())
