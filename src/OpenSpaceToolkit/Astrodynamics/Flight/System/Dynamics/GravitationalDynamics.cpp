@@ -93,6 +93,9 @@ void GravitationalDynamics::update(
     // TBI: Maybe we need a way to set the index in the state vector to generalize this
 
     // Set acceleration
+    dxdt[0] = x[3];
+    dxdt[1] = x[4];
+    dxdt[2] = x[5];
     dxdt[3] += totalGravitationalAcceleration_SI[0];
     dxdt[4] += totalGravitationalAcceleration_SI[1];
     dxdt[5] += totalGravitationalAcceleration_SI[2];

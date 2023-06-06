@@ -84,6 +84,9 @@ void ThrusterDynamics::update(
 
     const Vector3d acceleration_GCRF = R_GCRF_VNC * acceleration_VNC;
 
+    dxdt[0] = x[3];
+    dxdt[1] = x[4];
+    dxdt[2] = x[5];
     dxdt[3] += acceleration_GCRF[0];
     dxdt[4] += acceleration_GCRF[1];
     dxdt[5] += acceleration_GCRF[2];

@@ -12,10 +12,11 @@ namespace astro
 namespace trajectory
 {
 
-State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
+State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity, const Mass& aMass)
     : instant_(anInstant),
       position_(aPosition),
-      velocity_(aVelocity)
+      velocity_(aVelocity),
+      mass_(aMass)
 {
 }
 
@@ -169,6 +170,21 @@ const Velocity& State::accessVelocity() const
     return this->velocity_;
 }
 
+const Mass& State::accessMass() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    if (!this->mass_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Mass");
+    }
+
+    return this->mass_;
+}
+
 Instant State::getInstant() const
 {
     return this->accessInstant();
@@ -184,16 +200,36 @@ Velocity State::getVelocity() const
     return this->accessVelocity();
 }
 
+Mass State::getMass() const
+{
+    return this->accessMass();
+}
+
 VectorXd State::getCoordinates() const
 {
+    using ostk::core::types::Size;
+
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    VectorXd coordinates(6);
+    Size coordinatesSize = 6;
+
+    // TBI: Very inefficient.
+    if (mass_.isDefined())
+    {
+        ++coordinatesSize;
+    }
+
+    VectorXd coordinates(coordinatesSize);
     coordinates.segment(0, 3) = this->accessPosition().accessCoordinates();
     coordinates.segment(3, 3) = this->accessVelocity().accessCoordinates();
+
+    if (mass_.isDefined())
+    {
+        coordinates(6) = this->accessMass().getValue();
+    }
 
     return coordinates;
 }

@@ -13,6 +13,7 @@ namespace trajectory
 {
 
 using ostk::core::types::Size;
+using ostk::core::types::Index;
 
 using ostk::physics::env::obj::celest::Earth;
 
@@ -82,22 +83,11 @@ void Propagator::DynamicalEquations(
     const Instant& anInstant
 )
 {
-    const Real radius = std::sqrt(x[0] * x[0] + x[1] * x[1] + x[2] * x[2]);
 
-    // Check for radii below 70km altitude
-    if (radius < Earth::Models::EGM2008::EquatorialRadius.inMeters() + 70000.0)
+    for (Index i = 0; i < dxdt.size(); ++i)
     {
-        throw ostk::core::error::RuntimeError("Satellite altitude too low, has re-entered.");
+        dxdt[i] = 0;
     }
-
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-
-    dxdt[3] = 0.0;
-    dxdt[4] = 0.0;
-    dxdt[5] = 0.0;
-    dxdt[6] = 0.0; // TBI: set this automatically
 
     for (const Shared<Dynamics>& dynamic : dynamics)
     {
@@ -117,8 +107,6 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     Dynamics::StateVector startStateVector(
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
-
-    startStateVector.push_back(100.0);  // TBI: Add mass to state vector
 
     const Dynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
         startStateVector, aState.getInstant(), anInstant, this->getDynamicalEquations(aState.getInstant())

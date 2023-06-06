@@ -27,13 +27,14 @@ using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
+using ostk::physics::units::Mass;
 
 /// @brief                      Trajectory state
 
 class State
 {
    public:
-    State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
+    State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity, const Mass& aMass = Mass::Undefined());
 
     bool operator==(const State& aState) const;
 
@@ -53,11 +54,15 @@ class State
 
     const Velocity& accessVelocity() const;
 
+    const Mass& accessMass() const;
+
     Instant getInstant() const;
 
     Position getPosition() const;
 
     Velocity getVelocity() const;
+
+    Mass getMass() const;
 
     VectorXd getCoordinates() const;
 
@@ -71,6 +76,8 @@ class State
     Instant instant_;
     Position position_;
     Velocity velocity_;
+    Mass mass_;
+
 };
 
 }  // namespace trajectory
