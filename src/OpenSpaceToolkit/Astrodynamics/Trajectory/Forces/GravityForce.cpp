@@ -14,8 +14,8 @@ namespace trajectory
 namespace force
 {
 
-GravityForce::GravityForce(const Shared<const GravitationalModel>& aGravitationalModelSPtr)
-    : gravitationalModelSPtr_(aGravitationalModelSPtr)
+GravityForce::GravityForce(const Shared<const Celestial>& aCelestialSPtr)
+    :   celestialSPtr_(aCelestialSPtr)
 {
 }
 
@@ -26,16 +26,28 @@ GravityForce* GravityForce::clone() const
     return new GravityForce(*this);
 }
 
-Vector3d GravityForce::getContribution(const Position& aPosition, const Instant& anInstant) const
+Vector3d GravityForce::getContribution(const Position& aPosition, const Instant& anInstant, const Velocity& aVelocity, const Real& aSurfaceArea, const Real& aDragCoefficient, const Real& aMass) const
 {
 
-    Vector3d positionCoordinates = aPosition.getCoordinates();
-    Vector3d gravitationalModelFieldValue = this->gravitationalModelSPtr_->getFieldValueAt(positionCoordinates, anInstant);  // vectorPosition is a Vector3d
+    (void) aVelocity;
+    (void) aSurfaceArea;
+    (void) aDragCoefficient;
+    (void) aMass;
 
-    std::cout << "Force Grav" << std::endl;
-    std::cout << gravitationalModelFieldValue << std::endl ;
+    Vector3d gravitationalModelFieldValue;
 
-    return gravitationalModelFieldValue;
+    const String celestialObjectName = celestialSPtr_->accessName();
+
+    if (celestialObjectName == "Earth")
+    {
+        gravitationalModelFieldValue = celestialSPtr_->getGravitationalFieldAt(aPosition).inFrame(Frame::GCRF(), anInstant).getValue();  // vectorPosition is a Vector3d
+    }
+    else
+    {
+        gravitationalModelFieldValue = - celestialSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, Frame::GCRF())).inFrame(Frame::GCRF(), anInstant).getValue();
+    }
+
+    return aMass * gravitationalModelFieldValue;
 
 }
 

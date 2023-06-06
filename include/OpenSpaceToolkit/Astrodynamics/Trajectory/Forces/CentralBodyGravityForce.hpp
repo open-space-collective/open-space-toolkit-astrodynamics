@@ -1,13 +1,12 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_GravityForce__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_GravityForce__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CentralBodyGravityForce__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_CentralBodyGravityForce__
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 // #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 // #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 // #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
@@ -31,35 +30,34 @@ using ostk::core::types::String;
 
 using ostk::math::obj::Vector3d;
 
-// using GravitationalModel = ostk::physics::environment::gravitational::Model;
-using ostk::physics::env::obj::Celestial;
+using GravitationalModel = ostk::physics::environment::gravitational::Model;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::Force;
 
-class GravityForce : public Force
+class CentralBodyGravityForce : public Force
 {
    public:
 
-    GravityForce(const Shared<const Celestial>& aCelestialSPtr);
+    CentralBodyGravityForce(const Shared<const GravitationalModel>& aGravitationalModelSPtr);
 
     /// @brief              Destructor
 
-    virtual ~GravityForce() override;
+    virtual ~CentralBodyGravityForce() override;
 
     /// @brief              Clone gravity force
     ///
     /// @return             Pointer to cloned gravity force
 
-    virtual GravityForce* clone() const override;
+    virtual CentralBodyGravityForce* clone() const override;
 
     // virtual bool isDefined() const override;
 
     virtual Vector3d getContribution(const Position& aPosition, const Instant& anInstant, const Velocity& aVelocity, const Real& aSurfaceArea, const Real& aDragCoefficient, const Real& aMass) const override;
 
    private:
-    Shared<const Celestial> celestialSPtr_;  // TBI: Ideally we would pass "less" information than this (e.g. position of body wrt central body, i.e.  in central body frame)
+    Shared<const GravitationalModel> gravitationalModelSPtr_;
 
 };
 

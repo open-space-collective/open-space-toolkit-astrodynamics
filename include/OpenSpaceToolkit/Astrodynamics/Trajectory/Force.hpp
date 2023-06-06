@@ -19,6 +19,7 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::types::Real;
 
 using ostk::math::obj::Vector3d;
 
@@ -54,7 +55,7 @@ class Force
 
     // virtual bool isDefined() const = 0;
 
-    virtual Vector3d getContribution(const Position& aPosition, const Instant& anInstant) const = 0;
+    virtual Vector3d getContribution(const Position& aPosition, const Instant& anInstant, const Velocity& aVelocity, const Real& aSurfaceArea, const Real& aDragCoefficient, const Real& aMass) const = 0;
 
     /// @brief              Returns true if model can be converted to type
     ///

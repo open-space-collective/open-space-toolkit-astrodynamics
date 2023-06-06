@@ -1,18 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// @project        Open Space Toolkit ▸ Astrodynamics
-/// @file           OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/FullSatelliteDynamics.cpp
-/// @author         Antoine Paletta <antoine.paletta@loftorbital.com>
-/// @license        Apache License 2.0
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/FullSatelliteDynamics.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace ostk
 {
@@ -25,15 +16,11 @@ namespace system
 namespace dynamics
 {
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 using ostk::physics::units::Length ;
 using ostk::physics::units::Time ;
 using ostk::physics::units::Derived ;
 
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second) ;
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                                 FullSatelliteDynamics::FullSatelliteDynamics        (   const   Environment&                anEnvironment,
                                                                                 const   SatelliteSystem&            aSatelliteSystem                            )
@@ -142,8 +129,6 @@ Dynamics::DynamicalEquationWrapper FullSatelliteDynamics::getDynamicalEquations 
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void                            FullSatelliteDynamics::DynamicalEquations   (   const   Dynamics::StateVector&      x,
                                                                                 Dynamics::StateVector&      dxdt,
                                                                                 const   double                      t                                           )
@@ -197,7 +182,7 @@ void                            FullSatelliteDynamics::DynamicalEquations   (   
 
     // Gravity gradient torque
     // Drag torque
-    // 
+    //
 
     // Integrate full state
 
@@ -226,12 +211,8 @@ void                            FullSatelliteDynamics::DynamicalEquations   (   
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
 }
 }
 }
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

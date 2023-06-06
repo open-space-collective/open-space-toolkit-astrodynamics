@@ -27,6 +27,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Force.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/GravityForce.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/CentralBodyGravityForce.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Forces/ThirdBodyGravityForce.hpp>
 
 namespace ostk
 {
