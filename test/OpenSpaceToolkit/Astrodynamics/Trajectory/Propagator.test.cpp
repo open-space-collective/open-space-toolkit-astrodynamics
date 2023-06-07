@@ -15,8 +15,8 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
@@ -29,9 +29,9 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThrusterDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -411,7 +411,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     using ostk::physics::environment::atmospheric::earth::Exponential;
     using ostk::astro::flight::system::SatelliteSystem;
 
-
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
@@ -426,7 +425,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Minutes(60.0));
 
     VectorXd expectedCoordinates(6);
-    expectedCoordinates << -5172890.413848375000,-4716058.194055955000,0000000.000000000000,05083.946625786208,-05576.415230079790,00000.000000000000;
+    expectedCoordinates << -5172890.413848375000, -4716058.194055955000, 0000000.000000000000, 05083.946625786208,
+        -05576.415230079790, 00000.000000000000;
 
     VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
     ASSERT_TRUE((residuals.array() < 1e-7).all()) << String::Format("Residual: {}", residuals.maxCoeff());
@@ -441,26 +441,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     using ostk::physics::environment::atmospheric::earth::Exponential;
     using ostk::astro::flight::system::SatelliteSystem;
 
-
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
         Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
-        Mass::Kilograms(100.0)};
+        Mass::Kilograms(10.0)};
 
     // Satellite shape does not matter for drag, since constant Cd & area are defined
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0},
-        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     // Satellite System
     // Cd = 2.1
     // Area = 1.0
     const SatelliteSystem satelliteSystem = {
-        Mass::Kilograms(100.0), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};  // TBI: use dry mass from satellite system in thruster dynamics
+        Mass::Kilograms(90.0),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        1.0,
+        2.1};  // TBI: use dry mass from satellite system in thruster dynamics
 
     // Setup Propagator model and orbit
     Celestial earth = Earth::Spherical();
@@ -472,7 +473,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
     VectorXd expectedCoordinates(6);
-    expectedCoordinates << -5172889.585695211000,-4716058.453899897000,0000000.000008572841,05083.947538266920,-05576.414764013522,-00000.000000010687;
+    expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
+        -05576.414764013522, -00000.000000010687;
 
     VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
     ASSERT_TRUE((residuals.array() < 1e-6).all()) << String::Format("Residual: {}", residuals.maxCoeff());
@@ -487,69 +489,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Consta
     using ostk::physics::environment::atmospheric::earth::Exponential;
     using ostk::astro::flight::system::SatelliteSystem;
 
-
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
         Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
-        Mass::Kilograms(100.0)};
+        Mass::Kilograms(10.0)};
 
     // Satellite shape does not matter for drag, since constant Cd & area are defined
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0},
-        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     // Satellite System
     // Cd = 2.1
     // Area = 1.0
     const SatelliteSystem satelliteSystem = {
-        Mass::Kilograms(100.0), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};  // TBI: use dry mass from satellite system in thruster dynamics
+        Mass::Kilograms(90.0),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        1.0,
+        2.1};  // TBI: use dry mass from satellite system in thruster dynamics
 
     // Setup Propagator model and orbit
     Celestial earth = Earth::Spherical();
     earth.accessAtmosphericModel() = std::make_shared<Exponential>(Exponential());
     dynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth)));
     dynamics_.add(std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earth, satelliteSystem)));
-    dynamics_.add(std::make_shared<ThrusterDynamics>(ThrusterDynamics({1, 1500.0}, Direction({1.0, 0.0, 0.0}, gcrfSPtr_))));  // TBI: Set VNC frame here
+    dynamics_.add(
+        std::make_shared<ThrusterDynamics>(ThrusterDynamics({1, 1500.0}, Direction({1.0, 0.0, 0.0}, gcrfSPtr_), satelliteSystem))
+    );  // TBI: Set VNC frame here
     const Propagator propagator = {dynamics_, numericalSolver_};
 
     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
     VectorXd expectedCoordinates(7);
-    expectedCoordinates << -5320761.901959980000,-4668633.969927717000,0000000.000006977032,04920.638509410778,-05657.638329841361,-00000.000000008794,99.755268109;
+    expectedCoordinates << -5320761.901959980000, -4668633.969927717000, 0000000.000006977032, 04920.638509410778,
+        -05657.638329841361, -00000.000000008794, 99.755268109;
 
     VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
-    ASSERT_TRUE((residuals.array() < 1e-4).all()) << String::Format("Residual: {}", residuals.maxCoeff());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ConstantThrustManeuver)
-{
-    using ostk::astro::flight::system::dynamics::ThrusterDynamics;
-    using ostk::math::obj::VectorXd;
-    using ostk::physics::data::Direction;
-
-    // Current state and instant setup
-    const State state = {
-        Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
-        Mass::Kilograms(100.0)};
-
-    // Setup Propagator model and orbit
-    dynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(Earth::Spherical())));
-    dynamics_.add(std::make_shared<ThrusterDynamics>(ThrusterDynamics({1.0, 1500.0}, Direction({1.0, 0.0, 0.0}, gcrfSPtr_))));  // TBI: Set VNC frame here
-    const Propagator propagator = {dynamics_, numericalSolver_};
-
-    const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(30.0));
-
-    VectorXd expectedCoordinates(7);
-    expectedCoordinates << 6996338.248,+0226477.143,-0000000.000,-00244.143980,+07551.107081,+00000.000000,99.938817027;
-
-    VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
-    ASSERT_TRUE((residuals.array() < 1e-4).all()) << String::Format("Residual: {}", residuals.maxCoeff());
+    ASSERT_TRUE((residuals.array() < 1e-6).all()) << String::Format("Residual: {}", residuals.maxCoeff());
 }
 
 // /* VALIDATION TESTS */

@@ -23,6 +23,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
@@ -56,6 +57,7 @@ using ostk::physics::env::obj::celest::Sun;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
+using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::trajectory::State;
 
@@ -111,7 +113,7 @@ class ThrusterDynamics : public Dynamics
     ///
     /// @param              [in] aCelestial A Celestial Object
 
-    ThrusterDynamics(const Propulsion& aPropulsion, const Direction& aDirection);
+    ThrusterDynamics(const Propulsion& aPropulsion, const Direction& aDirection, const SatelliteSystem& aSatelliteSystem);
 
     /// @brief              Copy Constructor
     ///
@@ -169,6 +171,7 @@ class ThrusterDynamics : public Dynamics
    private:
     Propulsion propulsion_;
     Direction direction_;
+    SatelliteSystem satelliteSystem_;
 };
 
 }  // namespace dynamics

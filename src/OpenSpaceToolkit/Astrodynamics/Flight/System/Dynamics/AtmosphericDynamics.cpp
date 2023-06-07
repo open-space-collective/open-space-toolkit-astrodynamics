@@ -84,7 +84,7 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
     const Vector3d relativeVelocity =
         Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
 
-    const Real mass = satelliteSystem_.getMass().inKilograms();
+    const Real mass = x[6] + satelliteSystem_.getMass().inKilograms(); // TBI: Add dry mass from satellite system
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 

@@ -21,17 +21,19 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 
-ThrusterDynamics::ThrusterDynamics(const Propulsion& aPropulsion, const Direction& aThrustDirection)
+ThrusterDynamics::ThrusterDynamics(const Propulsion& aPropulsion, const Direction& aThrustDirection, const SatelliteSystem& aSatelliteSystem)
     : Dynamics(),
       propulsion_(aPropulsion),
-      direction_(aThrustDirection)
+      direction_(aThrustDirection),
+      satelliteSystem_(aSatelliteSystem)
 {
 }
 
 ThrusterDynamics::ThrusterDynamics(const ThrusterDynamics& aThrusterDynamics)
     : Dynamics(aThrusterDynamics),
       propulsion_(aThrusterDynamics.propulsion_),
-      direction_(aThrusterDynamics.direction_)
+      direction_(aThrusterDynamics.direction_),
+      satelliteSystem_(aThrusterDynamics.satelliteSystem_)
 {
 }
 
@@ -80,7 +82,12 @@ void ThrusterDynamics::update(
     const Vector3d zAxis = xAxis.cross(yAxis);
     const RotationMatrix R_GCRF_VNC = RotationMatrix::Rows(xAxis, yAxis, zAxis).transpose();
 
-    const Vector3d acceleration_VNC = propulsion_.thrust_ / x[6] * direction_.getValue();  // TBI: don't hardcode VNC
+    if (x[6] <= 0.0)
+    {
+        throw ostk::core::error::RuntimeError("Out of fuel.");
+    }
+
+    const Vector3d acceleration_VNC = propulsion_.thrust_ / (x[6] + satelliteSystem_.getMass().inKilograms()) * direction_.getValue();  // TBI: don't hardcode VNC
 
     const Vector3d acceleration_GCRF = R_GCRF_VNC * acceleration_VNC;
 
