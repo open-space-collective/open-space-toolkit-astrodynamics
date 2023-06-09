@@ -3,8 +3,9 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThrusterDynamics.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThrusterDynamics.hpp>
 
 namespace ostk
 {
@@ -17,13 +18,8 @@ namespace system
 namespace dynamics
 {
 
-using ostk::physics::units::Derived;
-using ostk::physics::units::Length;
-using ostk::physics::units::Time;
-
-ThrusterDynamics::ThrusterDynamics(const Propulsion& aPropulsion, const Direction& aThrustDirection, const SatelliteSystem& aSatelliteSystem)
+ThrusterDynamics::ThrusterDynamics(const Direction& aThrustDirection, const SatelliteSystem& aSatelliteSystem)
     : Dynamics(),
-      propulsion_(aPropulsion),
       direction_(aThrustDirection),
       satelliteSystem_(aSatelliteSystem)
 {
@@ -31,7 +27,6 @@ ThrusterDynamics::ThrusterDynamics(const Propulsion& aPropulsion, const Directio
 
 ThrusterDynamics::ThrusterDynamics(const ThrusterDynamics& aThrusterDynamics)
     : Dynamics(aThrusterDynamics),
-      propulsion_(aThrusterDynamics.propulsion_),
       direction_(aThrusterDynamics.direction_),
       satelliteSystem_(aThrusterDynamics.satelliteSystem_)
 {
@@ -53,23 +48,21 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThrusterDynamics& a
 
 bool ThrusterDynamics::isDefined() const
 {
-    return propulsion_.isDefined();
+    return direction_.isDefined() && satelliteSystem_.isDefined();
 }
 
 void ThrusterDynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Thruster Dynamics") : void();
 
-    propulsion_.print(anOutputStream, false);
+    satelliteSystem_.print(anOutputStream, false);
 
-    // TBI: Print vector
+    // TBI: Print direction
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void ThrusterDynamics::update(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-)
+void ThrusterDynamics::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
 {
     (void)anInstant;
     using ostk::math::geom::d3::trf::rot::RotationMatrix;
@@ -87,7 +80,10 @@ void ThrusterDynamics::update(
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const Vector3d acceleration_VNC = propulsion_.thrust_ / (x[6] + satelliteSystem_.getMass().inKilograms()) * direction_.getValue();  // TBI: don't hardcode VNC
+    const Vector3d acceleration_VNC = satelliteSystem_.getPropulsionModel().getAcceleration(
+                                          Mass::Kilograms(x[6] + satelliteSystem_.getMass().inKilograms())
+                                      ) *
+                                      direction_.getValue();  // TBI: don't hardcode VNC
 
     const Vector3d acceleration_GCRF = R_GCRF_VNC * acceleration_VNC;
 
@@ -97,7 +93,7 @@ void ThrusterDynamics::update(
     dxdt[3] += acceleration_GCRF[0];
     dxdt[4] += acceleration_GCRF[1];
     dxdt[5] += acceleration_GCRF[2];
-    dxdt[6] -= propulsion_.massFlowRate_;
+    dxdt[6] -= satelliteSystem_.getPropulsionModel().getMassFlowRate().getValue();
 }
 
 }  // namespace dynamics

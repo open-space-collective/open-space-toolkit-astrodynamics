@@ -19,12 +19,14 @@ SatelliteSystem::SatelliteSystem(
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
     const Real& aCrossSectionalSurfaceArea,
-    const Real& aDragCoefficient
+    const Real& aDragCoefficient,
+    const PropulsionModel& aPropulsionModel
 )
     : System(aMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
-      dragCoefficient_(aDragCoefficient)
+      dragCoefficient_(aDragCoefficient),
+      propulsionModel_(aPropulsionModel)
 {
 }
 
@@ -32,7 +34,8 @@ SatelliteSystem::SatelliteSystem(const SatelliteSystem& aSatelliteSystem)
     : System(aSatelliteSystem),
       inertiaTensor_(aSatelliteSystem.inertiaTensor_),
       crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
-      dragCoefficient_(aSatelliteSystem.dragCoefficient_)
+      dragCoefficient_(aSatelliteSystem.dragCoefficient_),
+      propulsionModel_(aSatelliteSystem.propulsionModel_)
 {
 }
 
@@ -118,6 +121,16 @@ Real SatelliteSystem::getDragCoefficient() const
     }
 
     return dragCoefficient_;
+}
+
+PropulsionModel SatelliteSystem::getPropulsionModel() const
+{
+    if (!propulsionModel_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("SatelliteSystem");
+    }
+
+    return propulsionModel_;
 }
 
 SatelliteSystem SatelliteSystem::Undefined()

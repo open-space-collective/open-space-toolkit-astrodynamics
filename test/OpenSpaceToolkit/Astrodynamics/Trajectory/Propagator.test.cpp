@@ -488,6 +488,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Consta
     using ostk::physics::data::Direction;
     using ostk::physics::environment::atmospheric::earth::Exponential;
     using ostk::astro::flight::system::SatelliteSystem;
+    using ostk::astro::flight::system::PropulsionModel;
 
     // Current state and instant setup
     const State state = {
@@ -501,6 +502,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Consta
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
+    // Propulsion Model
+    const PropulsionModel propulsionModel = PropulsionModel(1.0, 1500.0);
+
     // Satellite System
     // Cd = 2.1
     // Area = 1.0
@@ -509,7 +513,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Consta
         satelliteGeometry,
         Matrix3d::Identity(),
         1.0,
-        2.1};  // TBI: use dry mass from satellite system in thruster dynamics
+        2.1,
+        propulsionModel};  // TBI: use dry mass from satellite system in thruster dynamics
 
     // Setup Propagator model and orbit
     Celestial earth = Earth::Spherical();
@@ -517,7 +522,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Consta
     dynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth)));
     dynamics_.add(std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earth, satelliteSystem)));
     dynamics_.add(
-        std::make_shared<ThrusterDynamics>(ThrusterDynamics({1, 1500.0}, Direction({1.0, 0.0, 0.0}, gcrfSPtr_), satelliteSystem))
+        std::make_shared<ThrusterDynamics>(ThrusterDynamics(Direction({1.0, 0.0, 0.0}, gcrfSPtr_), satelliteSystem))
     );  // TBI: Set VNC frame here
     const Propagator propagator = {dynamics_, numericalSolver_};
 

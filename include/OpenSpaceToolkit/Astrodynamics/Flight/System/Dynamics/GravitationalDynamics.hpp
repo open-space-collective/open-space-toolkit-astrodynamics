@@ -126,7 +126,7 @@ class GravitationalDynamics : public Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
-    void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant);
+    virtual void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) override;
 
    private:
     Celestial celestial_ = Celestial::Undefined();

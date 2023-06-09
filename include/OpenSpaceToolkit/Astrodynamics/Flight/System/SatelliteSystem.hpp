@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionModel.hpp>
 
 namespace ostk
 {
@@ -34,6 +35,7 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::units::Mass;
 
 using ostk::astro::flight::System;
+using ostk::astro::flight::system::PropulsionModel;
 
 /// @brief                      Defines the dynamics system who's motion is being studied, in particular this is a
 /// satellite system
@@ -58,13 +60,15 @@ class SatelliteSystem : public System
     /// @param              [in] anInertiaTensor An inertia tensor
     /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
     /// @param              [in] aDragCoefficient A drag coefficient
+    /// @param              [in] aPropulsionModel A propulsion model (optional)
 
     SatelliteSystem(
         const Mass& aMass,
         const Composite& aSatelliteGeometry,
         const Matrix3d& anInertiaTensor,
         const Real& aCrossSectionalSurfaceArea,
-        const Real& aDragCoefficient
+        const Real& aDragCoefficient,
+        const PropulsionModel& aPropulsionModel = PropulsionModel::Undefined()
     );
 
     /// @brief              Copy Constructor
@@ -148,12 +152,23 @@ class SatelliteSystem : public System
 
     Real getDragCoefficient() const;
 
+    /// @brief              Get satellite system's propulsion model
+    ///
+    /// @code
+    ///                     PropulsionModel propulsionModel = satelliteSystem.getPropulsionModel() ;
+    /// @endcode
+    ///
+    /// @return             Real
+
+    PropulsionModel getPropulsionModel() const;
+
     static SatelliteSystem Undefined();
 
    private:
     Matrix3d inertiaTensor_;
     Real crossSectionalSurfaceArea_;
     Real dragCoefficient_;
+    PropulsionModel propulsionModel_;
 };
 
 }  // namespace system
