@@ -51,7 +51,7 @@ pull-release-images: ## Pull release images
 
 .PHONY: pull-release-images
 
-pull-release-image-cpp:
+pull-release-image-cpp: ## Pull release image cpp
 
 	@ echo "Pull C++ release image..."
 
@@ -60,7 +60,7 @@ pull-release-image-cpp:
 
 .PHONY: pull-release-image-cpp
 
-pull-release-image-python:
+pull-release-image-python: ## Pull release image python
 
 	@ echo "Pulling Python release image..."
 
@@ -69,7 +69,7 @@ pull-release-image-python:
 
 .PHONY: pull-release-image-python
 
-pull-release-image-jupyter:
+pull-release-image-jupyter: ## Pull release image jupyter
 
 	@ echo "Pulling Jupyter Notebook release image..."
 
@@ -114,7 +114,7 @@ build-release-images: ## Build release images
 
 .PHONY: build-release-images
 
-build-release-image-cpp: build-development-image pull-release-image-cpp
+build-release-image-cpp: build-development-image pull-release-image-cpp ## Build release image cpp
 
 	@ echo "Building C++ release image..."
 
@@ -128,7 +128,7 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 
 .PHONY: build-release-image-cpp
 
-build-release-image-python: build-development-image pull-release-image-python
+build-release-image-python: build-development-image pull-release-image-python ## Build release image python
 
 	@ echo "Building Python release image..."
 
@@ -142,7 +142,7 @@ build-release-image-python: build-development-image pull-release-image-python
 
 .PHONY: build-release-image-python
 
-build-release-image-jupyter: pull-release-image-jupyter
+build-release-image-jupyter: pull-release-image-jupyter ## Build release image jupyter
 
 	@ echo "Building Jupyter Notebook release image..."
 
@@ -291,7 +291,7 @@ start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter
+debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
