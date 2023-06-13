@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
 
 namespace ostk
@@ -19,6 +21,7 @@ namespace dynamics
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+using ostk::physics::env::obj::Celestial;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -134,10 +137,6 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     const Instant currentInstant = instant_ + Duration::Seconds(t);
     environment_.setInstant(currentInstant);
 
-    dxdt[3] = 0;
-    dxdt[4] = 0;
-    dxdt[5] = 0;
-
     // GRAVITY
     // Initialize gravitational acceleration vector
     Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
@@ -145,12 +144,14 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     // Access all objects in the environment and loop through them
     for (const auto& objectName : environment_.getObjectNames())
     {
+        
+        Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
+        
         if (objectName != "Earth")
         {
             // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
             const Vector gravitationalAcceleration3rdBodyCorrection =
-                environment_.accessCelestialObjectWithName(objectName)
-                    ->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
+                object->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
 
             // Subtract 3rd body correct from total gravitational acceleration
             totalGravitationalAcceleration_SI -=
@@ -158,18 +159,14 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         }
 
         // Obtain gravitational acceleration from current object
-        const Vector gravitationalAcceleration =
-            environment_.accessCelestialObjectWithName(objectName)->getGravitationalFieldAt(currentPosition);
+        const Vector gravitationalAcceleration = object->getGravitationalFieldAt(currentPosition);
 
         // Add object's gravity to total gravitational acceleration
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
     }
 
-    dxdt[3] += totalGravitationalAcceleration_SI[0];
-    dxdt[4] += totalGravitationalAcceleration_SI[1];
-    dxdt[5] += totalGravitationalAcceleration_SI[2];
-
     // DRAG
+    Vector3d totalDragAcceleration = {0.0, 0.0, 0.0};
 
     const Real mass = satelliteSystem_.getMass().inKilograms();
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
@@ -177,16 +174,19 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
 
     for (const auto& objectName : environment_.getObjectNames())
     {
+        Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
+
         // TBI: currently only defined for Earth
-        if (environment_.accessCelestialObjectWithName(objectName)->accessAtmosphericModel().isDefined())
+        if (object->accessAtmosphericModel()->isDefined())
         {
-            const Real atmosphericDensity = environment_.accessCelestialObjectWithName(objectName)
-                                                ->getAtmosphericDensityAt(currentPosition)
+            const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition)
                                                 .getValue();
 
             // [TBI]: Define in Physics celestial body
-            const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};  // rad/s
-
+            const Vector3d earthAngularVelocity = 
+            {0,0,0};
+            //    Frame::ITRF().getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity(); // rad/s
+            
             const Vector3d relativeVelocity =
                 Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
 
@@ -194,9 +194,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
             const Vector3d dragAcceleration = -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity *
                                               relativeVelocity.norm() * relativeVelocity;
 
-            dxdt[3] += dragAcceleration[0];
-            dxdt[4] += dragAcceleration[1];
-            dxdt[5] += dragAcceleration[2];
+            totalDragAcceleration += dragAcceleration;
         }
     }
 
@@ -204,6 +202,10 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
+
+    dxdt[3] = totalGravitationalAcceleration_SI[0] + totalDragAcceleration[0];
+    dxdt[4] = totalGravitationalAcceleration_SI[1] + totalDragAcceleration[1];
+    dxdt[5] = totalGravitationalAcceleration_SI[2] + totalDragAcceleration[2];
 }
 
 }  // namespace dynamics

@@ -288,7 +288,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 
     {
         NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0);
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15);
@@ -297,12 +297,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 
     {
         NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 5.0, 1.0e-15, 1.0e-15};
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         EXPECT_EQ(numericalSolver.getTimeStep(), 5.0);
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15);
         EXPECT_EQ(numericalSolver.getAbsoluteTolerance(), 1.0e-15);
     }
+
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
@@ -318,6 +319,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     using ostk::astro::NumericalSolver;
 
     {
+        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKutta4) == "RungeKutta4");
         EXPECT_TRUE(
             NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaCashKarp54) ==
             "RungeKuttaCashKarp54"
@@ -326,7 +328,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
             NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) ==
             "RungeKuttaFehlberg78"
         );
-        EXPECT_TRUE(NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKutta4) == "RungeKutta4");
     }
 
     {
