@@ -70,7 +70,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
     enum_<CDM::ObjectType>(cdm, "ObjectType")
 
         .value("Payload", CDM::ObjectType::Payload)
-        .value("Rocket Body", CDM::ObjectType::RocketBody)
+        .value("RocketBody", CDM::ObjectType::RocketBody)
         .value("Debris", CDM::ObjectType::Debris)
         .value("Unknown", CDM::ObjectType::Unknown)
         .value("Other", CDM::ObjectType::Other)
