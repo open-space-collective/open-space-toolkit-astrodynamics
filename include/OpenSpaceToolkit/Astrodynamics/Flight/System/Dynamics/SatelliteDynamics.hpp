@@ -13,6 +13,7 @@
 
 #include <OpenSpaceToolkit/Physics/Data/Vector.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>

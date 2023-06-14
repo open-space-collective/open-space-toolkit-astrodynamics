@@ -15,7 +15,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -54,6 +57,10 @@ using ostk::math::obj::Matrix3d;
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::Environment;
+using ostk::physics::env::ephem::Analytical;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
+using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -62,7 +69,6 @@ using ostk::physics::env::obj::Celestial;
 using ostk::physics::env::obj::celest::Earth;
 using ostk::physics::env::obj::celest::Moon;
 using ostk::physics::env::obj::celest::Sun;
-using ostk::physics::environment::atmospheric::earth::Exponential;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -1651,12 +1657,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+        const Array<Shared<Object>> objects = {std::make_shared<Earth>(
+            Earth(
+            Earth::Models::Spherical::GravitationalParameter,
+            Earth::Models::Spherical::EquatorialRadius,
+            Earth::Models::Spherical::Flattening,
+            Earth::Models::Spherical::J2,
+            Earth::Models::Spherical::J4,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            EarthGravitationalModel::Type::Spherical,
+            EarthMagneticModel::Type::Undefined,
+            EarthAtmosphericModel::Type::Exponential,
+            Instant::J2000()
+            ))
+        };
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
-
-        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential());
-        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere;
 
         // Setup initial conditions
         const State state = {
@@ -1750,12 +1766,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
+        const Array<Shared<Object>> objects = {std::make_shared<Earth>(
+            Earth(
+            Earth::Models::Spherical::GravitationalParameter,
+            Earth::Models::Spherical::EquatorialRadius,
+            Earth::Models::Spherical::Flattening,
+            Earth::Models::Spherical::J2,
+            Earth::Models::Spherical::J4,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            EarthGravitationalModel::Type::Spherical,
+            EarthMagneticModel::Type::Undefined,
+            EarthAtmosphericModel::Type::Exponential,
+            Instant::J2000()
+            ))
+        };
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
-
-        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential());
-        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere;
 
         // Setup initial conditions
         const State state = {

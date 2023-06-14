@@ -18,7 +18,6 @@
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -563,12 +562,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
     using ostk::physics::Environment;
+    using ostk::physics::env::ephem::Analytical;
     using ostk::physics::env::Object;
     using ostk::physics::env::obj::celest::Earth;
     using ostk::physics::env::obj::celest::Sun;
     using ostk::physics::env::obj::celest::Moon;
-    using ostk::physics::env::ephem::Analytical;
-    using ostk::physics::environment::atmospheric::earth::Exponential;
     using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
     using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
     using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;

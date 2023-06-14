@@ -21,6 +21,7 @@ namespace dynamics
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+using ostk::physics::coord::Frame;
 using ostk::physics::env::obj::Celestial;
 
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -183,8 +184,8 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
                                                 .getValue();
 
             // [TBI]: Define in Physics celestial body
-            const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};
-            //    Frame::ITRF().getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity(); // rad/s
+            // const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};
+            const Vector3d earthAngularVelocity = Frame::ITRF()->getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity(); // rad/s
             
             const Vector3d relativeVelocity =
                 Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
