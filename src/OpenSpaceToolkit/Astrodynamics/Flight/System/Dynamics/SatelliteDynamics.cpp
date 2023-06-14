@@ -181,7 +181,6 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         {
             const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition).getValue();
 
-            // [TBI]: Define in Physics celestial body
             const Vector3d earthAngularVelocity =
                 Frame::GCRF()->getTransformTo(Frame::ITRF(), currentInstant).getAngularVelocity();  // rad/s
 
@@ -201,6 +200,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     dxdt[1] = x[4];
     dxdt[2] = x[5];
 
+    // Propagate acceleration
     dxdt[3] = totalGravitationalAcceleration_SI[0] + totalDragAcceleration[0];
     dxdt[4] = totalGravitationalAcceleration_SI[1] + totalDragAcceleration[1];
     dxdt[5] = totalGravitationalAcceleration_SI[2] + totalDragAcceleration[2];
