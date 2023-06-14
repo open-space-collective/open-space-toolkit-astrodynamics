@@ -108,7 +108,8 @@ def create_3d_globe(data: Any) -> go.Figure:
 
 
 class AccessesPlot:
-    """Accesses plot. It displays a 2D world map, with 1 ground station and
+    """
+    Accesses plot. It displays a 2D world map, with 1 ground station and
     multiple satellites, highlighting the accesses.
     """
 
