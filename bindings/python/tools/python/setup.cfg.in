@@ -1,0 +1,31 @@
+# Apache License 2.0
+
+[bdist_wheel]
+python-tag=py${EXTENSION}
+bdist-dir=./dist${EXTENSION}
+
+[metadata]
+name = open-space-toolkit-astrodynamics
+version = ${PROJECT_VERSION_STRING}
+author = Open Space Collective
+author_email = contact@open-space-collective.org
+description = Orbit, attitude, access.
+keywords = open-space-collective, open-space-toolkit astrodynamics
+long_description = file: README.md
+long_description_content_type = text/markdown
+license = Apache License 2.0
+classifiers =
+    Development Status :: 3 - Alpha
+    Programming Language :: Python :: 3
+    License :: OSI Approved :: Apache Software License
+    Operating System :: POSIX :: Linux
+
+[options]
+zip_safe = True
+include_package_data = True
+python_requires = ==${PYTHON_VERSION}.*
+install_requires = file: requirements.txt
+
+[options.package_data]
+ostk.astrodynamics=libopen-space-toolkit-astrodynamics.so.0, ${LIBRARY_TARGET}.*${EXTENSION}*.so
+*=*/data/*

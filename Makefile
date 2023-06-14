@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
@@ -51,7 +51,7 @@ pull-release-images: ## Pull release images
 
 .PHONY: pull-release-images
 
-pull-release-image-cpp:
+pull-release-image-cpp: ## Pull release image cpp
 
 	@ echo "Pull C++ release image..."
 
@@ -60,7 +60,7 @@ pull-release-image-cpp:
 
 .PHONY: pull-release-image-cpp
 
-pull-release-image-python:
+pull-release-image-python: ## Pull release image python
 
 	@ echo "Pulling Python release image..."
 
@@ -69,7 +69,7 @@ pull-release-image-python:
 
 .PHONY: pull-release-image-python
 
-pull-release-image-jupyter:
+pull-release-image-jupyter: ## Pull release image jupyter
 
 	@ echo "Pulling Jupyter Notebook release image..."
 
@@ -114,7 +114,7 @@ build-release-images: ## Build release images
 
 .PHONY: build-release-images
 
-build-release-image-cpp: build-development-image pull-release-image-cpp
+build-release-image-cpp: build-development-image pull-release-image-cpp ## Build release image cpp
 
 	@ echo "Building C++ release image..."
 
@@ -125,10 +125,10 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 		--build-arg="VERSION=$(docker_image_version)" \
 		--target=cpp-release \
 		"$(CURDIR)"
-	
+
 .PHONY: build-release-image-cpp
 
-build-release-image-python: build-development-image pull-release-image-python
+build-release-image-python: build-development-image pull-release-image-python ## Build release image python
 
 	@ echo "Building Python release image..."
 
@@ -142,7 +142,7 @@ build-release-image-python: build-development-image pull-release-image-python
 
 .PHONY: build-release-image-python
 
-build-release-image-jupyter: pull-release-image-jupyter
+build-release-image-jupyter: pull-release-image-jupyter ## Build release image jupyter
 
 	@ echo "Building Jupyter Notebook release image..."
 
@@ -209,7 +209,7 @@ build-packages-cpp-standalone: ## Build C++ packages (standalone)
 .PHONY: build-packages-cpp-standalone
 
 build-packages-python: build-development-image ## Build Python packages
-	
+
 	@ $(MAKE) build-packages-python-standalone
 
 .PHONY: build-packages-python
@@ -291,7 +291,7 @@ start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter
+debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -399,7 +399,7 @@ test-unit: ## Run unit tests
 .PHONY: test-unit
 
 test-unit-cpp: build-development-image ## Run C++ unit tests
-	
+
 	@ $(MAKE) test-unit-cpp-standalone
 
 .PHONY: test-unit-cpp
@@ -440,7 +440,7 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 		--entrypoint="" \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
-		&& $(MAKE) -j 4 && pip install bindings/python/dist/*311*.whl \
+		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
 		&& cd /usr/local/lib/python3.11/site-packages/ostk/$(project_name)/ \
 		&& python3.11 -m pytest -sv ."
 
