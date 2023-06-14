@@ -213,6 +213,8 @@ class AccessesPlot:
             self._append_line(satellite_access_df, 2, rgb, 1.0)
 
     def show(self):
-        """Displays the figure."""
+        """
+        Display the figure.
+        """
         figure = create_2d_map(data=self._data)
         figure.show()
