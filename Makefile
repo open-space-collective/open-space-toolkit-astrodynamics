@@ -416,7 +416,7 @@ test-unit-cpp-standalone: ## Run C++ unit tests (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=ON .. \
-		&& $(MAKE) -j $(nproc) \
+		&& $(MAKE) -j 4 \
 		&& $(MAKE) test"
 
 .PHONY: test-unit-cpp-standalone
@@ -472,7 +472,7 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_UNIT_TESTS=ON -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_CODE_COVERAGE=ON .. \
-		&& $(MAKE) -j $(nproc) \
+		&& $(MAKE) -j 4 \
 		&& $(MAKE) coverage \
 		&& (rm -rf /app/coverage || true) \
 		&& mkdir /app/coverage \
