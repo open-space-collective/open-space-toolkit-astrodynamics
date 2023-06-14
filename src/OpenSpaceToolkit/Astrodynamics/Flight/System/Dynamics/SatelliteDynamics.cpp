@@ -177,14 +177,13 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
 
         // TBI: currently only defined for Earth
-        if (object->accessAtmosphericModel()->isDefined())
+        if (object->accessAtmosphericModel() && object->accessAtmosphericModel()->isDefined())
         {
             const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition)
                                                 .getValue();
 
             // [TBI]: Define in Physics celestial body
-            const Vector3d earthAngularVelocity = 
-            {0,0,0};
+            const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};
             //    Frame::ITRF().getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity(); // rad/s
             
             const Vector3d relativeVelocity =
