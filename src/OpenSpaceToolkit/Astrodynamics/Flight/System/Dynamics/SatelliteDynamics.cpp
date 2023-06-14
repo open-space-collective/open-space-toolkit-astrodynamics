@@ -182,9 +182,8 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
             const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition).getValue();
 
             // [TBI]: Define in Physics celestial body
-            // const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};
             const Vector3d earthAngularVelocity =
-                Frame::ITRF()->getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity();  // rad/s
+                Frame::GCRF()->getTransformTo(Frame::ITRF(), currentInstant).getAngularVelocity();  // rad/s
 
             const Vector3d relativeVelocity =
                 Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
