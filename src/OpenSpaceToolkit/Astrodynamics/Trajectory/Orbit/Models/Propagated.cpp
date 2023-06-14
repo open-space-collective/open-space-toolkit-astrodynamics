@@ -18,6 +18,9 @@ namespace models
 
 using ostk::core::types::Size;
 
+using ostk::math::obj::Vector3d;
+using ostk::math::obj::VectorXd;
+
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
@@ -26,35 +29,12 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-Propagated::Propagated(
-    const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver, const State& aState
-)
-    : Model(),
-      propagator_(aDynamicsArray, aNumericalSolver),
-      cachedStateArray_(1, aState)
-
-{
-}
-
 Propagated::Propagated(const Propagator& aPropagator, const State& aState)
     : Model(),
       propagator_(aPropagator),
       cachedStateArray_(1, aState)
 
 {
-}
-
-Propagated::Propagated(
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver,
-    const Array<State>& aCachedStateArray
-)
-    : Model(),
-      propagator_(aDynamicsArray, aNumericalSolver),
-      cachedStateArray_(aCachedStateArray)
-
-{
-    sanitizeCachedArray();
 }
 
 Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray)

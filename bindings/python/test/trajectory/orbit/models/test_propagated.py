@@ -24,6 +24,7 @@ from ostk.astrodynamics.trajectory.orbit.models import Propagated
 def propagator(propagator_default_inputs) -> Propagator:
     return Propagator(*propagator_default_inputs[:2])
 
+
 @pytest.fixture
 def state() -> State:
     frame: Frame = Frame.GCRF()
@@ -35,13 +36,16 @@ def state() -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     return State(instant, position, velocity)
 
+
 @pytest.fixture
 def gravitational_dynamics() -> GravitationalDynamics:
     return GravitationalDynamics(Earth.WGS84(20, 0))
 
+
 @pytest.fixture
 def dynamics(gravitational_dynamics: GravitationalDynamics) -> list:
     return [gravitational_dynamics]
+
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
@@ -55,19 +59,31 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def propagated(dynamics: list, numerical_solver: NumericalSolver, state: State) -> Propagated:
+def propagated(
+    dynamics: list, numerical_solver: NumericalSolver, state: State
+) -> Propagated:
     return Propagated(dynamics, numerical_solver, state)
+
 
 @pytest.fixture
 def earth() -> Earth:
     return Earth.spherical()
 
+
 @pytest.fixture
 def orbit(propagated: Propagated, earth: Earth) -> Orbit:
     return Orbit(propagated, earth)
 
+
 class TestPropagated:
-    def test_constructors(self, propagated: Propagated, earth: Earth, dynamics: list, numerical_solver: NumericalSolver, state: State):
+    def test_constructors(
+        self,
+        propagated: Propagated,
+        earth: Earth,
+        dynamics: list,
+        numerical_solver: NumericalSolver,
+        state: State,
+    ):
         assert propagated is not None
         assert isinstance(propagated, Propagated)
         assert propagated.is_defined()
@@ -79,9 +95,7 @@ class TestPropagated:
         assert orbit.is_defined()
 
         state_array = [state, state]
-        propagated_with_state_array = Propagated(
-            dynamics, numerical_solver, state_array
-        )
+        propagated_with_state_array = Propagated(dynamics, numerical_solver, state_array)
 
         assert propagated_with_state_array is not None
         assert isinstance(propagated_with_state_array, Propagated)
@@ -146,17 +160,13 @@ class TestPropagated:
         assert propagated_state_array_orbit[0].get_instant() == instant_array[0]
         assert propagated_state_array_orbit[1].get_instant() == instant_array[1]
 
-    def test_calculate_rev_number_at(
-        self, propagated: Propagated, orbit: Orbit
-    ):
+    def test_calculate_rev_number_at(self, propagated: Propagated, orbit: Orbit):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC)
 
         assert propagated.calculate_revolution_number_at(instant) == 1
         assert orbit.get_revolution_number_at(instant) == 1
 
-    def test_access_cached_state_array(
-        self, propagated: Propagated, state: State
-    ):
+    def test_access_cached_state_array(self, propagated: Propagated, state: State):
         assert len(propagated.access_cached_state_array()) == 1
         assert propagated.access_cached_state_array()[0] == state
 
@@ -164,9 +174,7 @@ class TestPropagated:
         assert propagated.access_propagator() is not None
         assert isinstance(propagated.access_propagator(), Propagator)
 
-    def test_set_cached_state_array(
-        self, propagated: Propagated, state: State
-    ):
+    def test_set_cached_state_array(self, propagated: Propagated, state: State):
         assert len(propagated.access_cached_state_array()) == 1
 
         propagated.set_cached_state_array([state, state, state])

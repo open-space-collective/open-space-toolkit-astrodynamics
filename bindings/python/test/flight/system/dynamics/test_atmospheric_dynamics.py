@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -15,6 +15,7 @@ from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
+from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics.trajectory import State
@@ -24,7 +25,20 @@ from ostk.astrodynamics.flight.system.dynamics import AtmosphericDynamics
 
 @pytest.fixture
 def earth() -> Earth:
-    return Earth.WGS84(20, 0)
+    earth_WGS84 = Earth.WGS84(20, 0)
+    return Earth(
+        earth.get_gravitational_parameter(),
+        earth.get_equatorial_radius(),
+        0.0,
+        0.0,
+        0.0,
+        earth.access_ephemeris(),
+        earth.access_gravitational_model().get_type(),
+        None,
+        EarthAtmosphericModel.EarthAtmosphericType.Exponential,
+        Instant.J2000(),
+    )
+
 
 @pytest.fixture
 def satellite_system() -> SatelliteSystem:
@@ -44,9 +58,11 @@ def satellite_system() -> SatelliteSystem:
         mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
     )
 
+
 @pytest.fixture
 def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDynamics:
     return AtmosphericDynamics(earth, satellite_system)
+
 
 @pytest.fixture
 def state() -> State:
@@ -57,6 +73,7 @@ def state() -> State:
     )
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     return State(instant, position, velocity)
+
 
 class TestAtmosphericDynamics:
     def test_constructors(self, dynamics: AtmosphericDynamics):

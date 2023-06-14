@@ -45,20 +45,6 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagated propagated = { aDynamicsArray, aNumericalSolver, aState } ;
-    /// @endcode
-    ///
-    /// @param              [in] aDynamicsArray An array of dynamics
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @param              [in] aState A state
-
-    Propagated(
-        const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver, const State& aState
-    );
-
-    /// @brief              Constructor with a propagator
-    ///
-    /// @code
     ///                     Propagated propagated = { aPropagator, aState } ;
     /// @endcode
     ///
@@ -67,23 +53,7 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
 
     Propagated(const Propagator& aPropagator, const State& aState);
 
-    /// @brief              Constructor with additional option of passing in an existing array of states
-    ///
-    /// @code
-    ///                     Propagated propagated = { aDynamicsArray, aNumericalSolver, aCachedStateArray } ;
-    /// @endcode
-    ///
-    /// @param              [in] aDynamicsArray An array of dynamics
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @param              [in] aCachedStateArray A state array
-
-    Propagated(
-        const Array<Shared<Dynamics>>& aDynamicsArray,
-        const NumericalSolver& aNumericalSolver,
-        const Array<State>& aCachedStateArray
-    );
-
-    /// @brief              Constructor with a propagator and cached state array
+    /// @brief              Constructor with a cached state array
     ///
     /// @code
     ///                     Propagated propagated = { aPropagator, aCachedStateArray } ;

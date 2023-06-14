@@ -26,6 +26,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -41,8 +42,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 
-using ostk::math::obj::Vector3d;
-
+using ostk::physics::Environment;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Duration;
@@ -51,6 +51,7 @@ using ostk::physics::time::Instant;
 using ostk::astro::NumericalSolver;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::SatelliteSystem;
 
 /// @brief                      Defines a propagator to be used for numerical integration
 
@@ -60,19 +61,32 @@ class Propagator
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagator propagator = { aDynamicsArray, aNumericalSolver } ;
+    ///                     Propagator propagator = { aNumericalSolver, aDynamicsArray } ;
     /// @endcode
     ///
-    /// @param              [in] aDynamicsArray A dynamics array
     /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] aDynamicsArray A dynamics array
 
-    Propagator(const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver);
+    Propagator(
+        const NumericalSolver& aNumericalSolver,
+        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
+    );
 
-    /// @brief              Clone propagator
+    /// @brief              Constructor
     ///
-    /// @return             Pointer to cloned propagator
+    /// @code
+    ///                     Propagator propagator = { aNumericalSolver, anEnvironment } ;
+    /// @endcode
+    ///
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] anEnvironment An environment
+    /// @param              [in] aSatelliteSystem A satellite system
 
-    Propagator* clone() const;
+    Propagator(
+        const NumericalSolver& aNumericalSolver,
+        const Environment& anEnvironment,
+        const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
+    );
 
     /// @brief              Equal to operator
     ///
@@ -159,6 +173,9 @@ class Propagator
     /// @param              [in] (optional) displayDecorators If true, display decorators
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    /// @brief              Undefined
+    static Propagator Undefined();
 
    private:
     Array<Shared<Dynamics>> dynamics_ = Array<Shared<Dynamics>>::Empty();

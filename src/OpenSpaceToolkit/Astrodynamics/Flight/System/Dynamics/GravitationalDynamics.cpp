@@ -31,8 +31,8 @@ GravitationalDynamics::GravitationalDynamics(const Shared<Celestial>& aCelestial
     : Dynamics(),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
-    // TBI: Add !celestialObjectSPtr_->accessGravitationalModel()->isDefined() check when implemented
-    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->accessGravitationalModel())
+    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->accessGravitationalModel() ||
+        !celestialObjectSPtr_->accessGravitationalModel()->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational Model");
     }

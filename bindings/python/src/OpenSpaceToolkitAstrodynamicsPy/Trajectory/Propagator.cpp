@@ -15,7 +15,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
     class_<Propagator>(aModule, "Propagator")
 
-        .def(init<const Array<Shared<Dynamics>>&, const NumericalSolver&>(), arg("dynamics"), arg("numerical_solver"))
+        .def(
+            init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
+            arg("numerical_solver"),
+            arg("dynamics") = Array<Shared<Dynamics>>::Empty()
+        )
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))

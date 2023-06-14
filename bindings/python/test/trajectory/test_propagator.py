@@ -42,9 +42,11 @@ def satellite_system() -> SatelliteSystem:
         mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
     )
 
+
 @pytest.fixture
 def propagator(propagator_default_inputs) -> Propagator:
     return Propagator(*propagator_default_inputs[:2])
+
 
 @pytest.fixture
 def state() -> State:
@@ -57,13 +59,16 @@ def state() -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     return State(instant, position, velocity)
 
+
 @pytest.fixture
 def gravitational_dynamics() -> GravitationalDynamics:
     return GravitationalDynamics(Earth.WGS84(20, 0))
 
+
 @pytest.fixture
 def dynamics(gravitational_dynamics: GravitationalDynamics) -> list:
     return [gravitational_dynamics]
+
 
 @pytest.fixture
 def numerical_solver() -> NumericalSolver:
@@ -75,9 +80,11 @@ def numerical_solver() -> NumericalSolver:
         1.0e-15,
     )
 
+
 @pytest.fixture
 def propagator(dynamics: list, numerical_solver: NumericalSolver) -> Propagator:
     return Propagator(dynamics, numerical_solver)
+
 
 class TestPropagator:
     def test_constructors(self, propagator: Propagator):
@@ -92,10 +99,12 @@ class TestPropagator:
         assert len(propagator.get_dynamics()) == 1
 
         propagator.set_dynamics(dynamics + dynamics)
-        
+
         assert len(propagator.get_dynamics()) == 2
 
-    def test_add_dynamics(self, propagator: Propagator, gravitational_dynamics: GravitationalDynamics):
+    def test_add_dynamics(
+        self, propagator: Propagator, gravitational_dynamics: GravitationalDynamics
+    ):
         assert len(propagator.get_dynamics()) == 1
 
         propagator.add_dynamics(gravitational_dynamics)
@@ -152,4 +161,3 @@ class TestPropagator:
         with pytest.raises(RuntimeError):
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
-                

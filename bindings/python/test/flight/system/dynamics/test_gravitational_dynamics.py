@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -20,9 +20,11 @@ from ostk.astrodynamics.flight.system.dynamics import GravitationalDynamics
 def earth() -> Earth:
     return Earth.WGS84(20, 0)
 
+
 @pytest.fixture
 def dynamics(earth: Earth) -> GravitationalDynamics:
     return GravitationalDynamics(earth)
+
 
 @pytest.fixture
 def state() -> State:
@@ -33,6 +35,7 @@ def state() -> State:
     )
     instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     return State(instant, position, velocity)
+
 
 class TestGravitationalDynamics:
     def test_constructors(self, dynamics: GravitationalDynamics):

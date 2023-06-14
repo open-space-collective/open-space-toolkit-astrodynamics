@@ -474,5 +474,12 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
     }
 }
 
+NumericalSolver NumericalSolver::Undefined()
+{
+    return NumericalSolver(
+        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
+    );
+}
+
 }  // namespace astro
 }  // namespace ostk

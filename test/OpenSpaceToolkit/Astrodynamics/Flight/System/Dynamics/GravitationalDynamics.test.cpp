@@ -34,6 +34,7 @@ using ostk::physics::time::Scale;
 using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Time;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::GravitationalDynamics;
@@ -79,7 +80,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        nullptr,  // TBI: Until we have an Undefined type we have to set as nullptr
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel(EarthGravitationalModel::Type::Undefined)),
         nullptr,
         nullptr,
         startInstant_};

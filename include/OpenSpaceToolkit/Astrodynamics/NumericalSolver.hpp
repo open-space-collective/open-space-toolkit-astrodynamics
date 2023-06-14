@@ -244,6 +244,10 @@ class NumericalSolver
 
     static String StringFromLogType(const NumericalSolver::LogType& aLogType);
 
+    /// @brief              Undefined
+
+    static NumericalSolver Undefined();
+
    private:
     NumericalSolver::LogType logType_;
     NumericalSolver::StepperType stepperType_;

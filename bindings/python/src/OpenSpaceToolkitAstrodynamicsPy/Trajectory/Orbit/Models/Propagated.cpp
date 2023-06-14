@@ -22,21 +22,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
 
         propagated_class
 
-            .def(
-                init<const Array<Shared<Dynamics>>&, const NumericalSolver&, const State&>(),
-                arg("dynamics"),
-                arg("numerical_solver"),
-                arg("state")
-            )
-
             .def(init<const Propagator&, const State&>(), arg("propagator"), arg("state"))
-
-            .def(
-                init<const Array<Shared<Dynamics>>&, const NumericalSolver&, const Array<State>&>(),
-                arg("dynamics"),
-                arg("numerical_solver"),
-                arg("state_array")
-            )
 
             .def(init<const Propagator&, const Array<State>&>(), arg("propagator"), arg("state_array"))
 

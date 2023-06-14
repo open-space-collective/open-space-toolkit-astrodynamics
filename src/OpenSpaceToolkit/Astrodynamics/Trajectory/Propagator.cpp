@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 namespace ostk
@@ -15,19 +17,43 @@ namespace trajectory
 using ostk::core::types::Size;
 using ostk::core::types::Index;
 
-using ostk::physics::env::obj::celest::Earth;
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::env::obj::Celestial;
+
+using ostk::astro::flight::system::dynamics::GravitationalDynamics;
+using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-Propagator::Propagator(const Array<Shared<Dynamics>>& aDynamicsArray, const NumericalSolver& aNumericalSolver)
+Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
     : dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
 {
 }
 
-Propagator* Propagator::clone() const
+Propagator::Propagator(
+    const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
+)
+    : dynamics_(Array<Shared<Dynamics>>::Empty()),
+      numericalSolver_(aNumericalSolver)
 {
-    return new Propagator(*this);
+    for (const String& name : anEnvironment.getObjectNames())
+    {
+        // TBI: We should come up with a way to avoid the cloning here, somewhat defeats the purpose.
+        const Shared<Celestial> celestial(anEnvironment.accessCelestialObjectWithName(name)->clone());
+        if (celestial->accessGravitationalModel()->isDefined())
+        {
+            const Shared<Dynamics> dynamics = std::make_shared<GravitationalDynamics>(GravitationalDynamics(celestial));
+            this->addDynamics(dynamics);
+        }
+        else if (celestial->accessAtmosphericModel()->isDefined())
+        {
+            const Shared<Dynamics> dynamics =
+                std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(celestial, aSatelliteSystem));
+            this->addDynamics(dynamics);
+        }
+    }
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const
@@ -200,6 +226,11 @@ void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) cons
     numericalSolver_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+Propagator Propagator::Undefined()
+{
+    return {NumericalSolver::Undefined(), Array<Shared<Dynamics>>::Empty()};
 }
 
 }  // namespace trajectory
