@@ -14,6 +14,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -563,7 +567,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     using ostk::physics::env::obj::celest::Earth;
     using ostk::physics::env::obj::celest::Sun;
     using ostk::physics::env::obj::celest::Moon;
+    using ostk::physics::env::ephem::Analytical;
     using ostk::physics::environment::atmospheric::earth::Exponential;
+    using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+    using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
+    using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
     using ostk::astro::trajectory::State;
     using ostk::astro::flight::system::SatelliteSystem;
@@ -856,13 +864,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         // Setup environment
         const Instant instantJ2000 = Instant::J2000();
 
-        const Shared<Object> earth = std::make_shared<Earth>(Earth::Spherical());
+        // Custom Earth with added exponential atmosphere
+        const Shared<Object> earth = std::make_shared<Earth>(
+            Earth(
+            Earth::Models::Spherical::GravitationalParameter,
+            Earth::Models::Spherical::EquatorialRadius,
+            Earth::Models::Spherical::Flattening,
+            Earth::Models::Spherical::J2,
+            Earth::Models::Spherical::J4,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            EarthGravitationalModel::Type::Spherical,
+            EarthMagneticModel::Type::Undefined,
+            EarthAtmosphericModel::Type::Exponential,
+            Instant::J2000()
+            ));
+
         const Array<Shared<Object>> objects = {earth};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
-
-        const Shared<Exponential> exponentialAtmosphere = std::make_shared<Exponential>(Exponential());
-        customEnvironment.accessCelestialObjectWithName("Earth")->accessAtmosphericModel() = exponentialAtmosphere;
 
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -985,4 +1004,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
 
         EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0));
     }
+
 }
