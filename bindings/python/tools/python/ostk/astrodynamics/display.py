@@ -184,7 +184,8 @@ class AccessesPlot:
     def add_satellite(
         self, trajectory: Trajectory, accesses: list[Access], rgb: list[int]
     ) -> None:
-        """Adds a satellite trajectory to the plot, including a highligh ot the interference
+        """
+        Add a satellite trajectory to the plot, including a highligh ot the interference
         accesses.
         """
 
