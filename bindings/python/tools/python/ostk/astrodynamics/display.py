@@ -218,3 +218,4 @@ class AccessesPlot:
         """
         figure = create_2d_map(data=self._data)
         figure.show()
+
