@@ -303,7 +303,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
         EXPECT_EQ(numericalSolver.getRelativeTolerance(), 1.0e-15);
         EXPECT_EQ(numericalSolver.getAbsoluteTolerance(), 1.0e-15);
     }
-
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)

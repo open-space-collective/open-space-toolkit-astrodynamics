@@ -145,9 +145,8 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     // Access all objects in the environment and loop through them
     for (const auto& objectName : environment_.getObjectNames())
     {
-        
         Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
-        
+
         if (objectName != "Earth")
         {
             // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
@@ -180,13 +179,13 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         // TBI: currently only defined for Earth
         if (object->accessAtmosphericModel() && object->accessAtmosphericModel()->isDefined())
         {
-            const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition)
-                                                .getValue();
+            const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition).getValue();
 
             // [TBI]: Define in Physics celestial body
             // const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};
-            const Vector3d earthAngularVelocity = Frame::ITRF()->getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity(); // rad/s
-            
+            const Vector3d earthAngularVelocity =
+                Frame::ITRF()->getTransformTo(Frame::GCRF(), currentInstant).getAngularVelocity();  // rad/s
+
             const Vector3d relativeVelocity =
                 Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
 

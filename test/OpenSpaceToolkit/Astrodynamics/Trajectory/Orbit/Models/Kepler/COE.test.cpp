@@ -620,9 +620,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
     }
 
     {
-
         // [TBI] Add more tests
-
     }
 
     {
@@ -682,11 +680,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
     }
 
     {
-
         // const Array
 
         // [TBI] Add more tests
-
     }
 
     {

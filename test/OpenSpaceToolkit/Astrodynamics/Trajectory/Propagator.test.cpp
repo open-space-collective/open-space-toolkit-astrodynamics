@@ -15,10 +15,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -1657,8 +1657,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(
-            Earth(
+        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth(
             Earth::Models::Spherical::GravitationalParameter,
             Earth::Models::Spherical::EquatorialRadius,
             Earth::Models::Spherical::Flattening,
@@ -1669,8 +1668,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             EarthMagneticModel::Type::Undefined,
             EarthAtmosphericModel::Type::Exponential,
             Instant::J2000()
-            ))
-        };
+        ))};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
 
@@ -1766,8 +1764,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(
-            Earth(
+        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth(
             Earth::Models::Spherical::GravitationalParameter,
             Earth::Models::Spherical::EquatorialRadius,
             Earth::Models::Spherical::Flattening,
@@ -1778,8 +1775,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             EarthMagneticModel::Type::Undefined,
             EarthAtmosphericModel::Type::Exponential,
             Instant::J2000()
-            ))
-        };
+        ))};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
 

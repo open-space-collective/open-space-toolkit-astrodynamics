@@ -14,10 +14,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -863,8 +863,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         const Instant instantJ2000 = Instant::J2000();
 
         // Custom Earth with added exponential atmosphere
-        const Shared<Object> earth = std::make_shared<Earth>(
-            Earth(
+        const Shared<Object> earth = std::make_shared<Earth>(Earth(
             Earth::Models::Spherical::GravitationalParameter,
             Earth::Models::Spherical::EquatorialRadius,
             Earth::Models::Spherical::Flattening,
@@ -875,7 +874,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
             EarthMagneticModel::Type::Undefined,
             EarthAtmosphericModel::Type::Exponential,
             Instant::J2000()
-            ));
+        ));
 
         const Array<Shared<Object>> objects = {earth};
 
@@ -1002,5 +1001,4 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
 
         EXPECT_ANY_THROW(stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0));
     }
-
 }
