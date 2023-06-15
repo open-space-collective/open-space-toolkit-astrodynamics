@@ -145,7 +145,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
     // Access all objects in the environment and loop through them
     for (const auto& objectName : environment_.getObjectNames())
     {
-        Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
+        const Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
 
         if (objectName != "Earth")
         {
@@ -174,7 +174,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
 
     for (const auto& objectName : environment_.getObjectNames())
     {
-        Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
+        const Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
 
         // TBI: currently only defined for Earth
         if (object->accessAtmosphericModel() && object->accessAtmosphericModel()->isDefined())
