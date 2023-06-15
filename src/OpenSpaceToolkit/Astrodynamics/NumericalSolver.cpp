@@ -281,12 +281,13 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
     {
         case NumericalSolver::StepperType::RungeKutta4:
         {
+            // Integrate_adaptive uses constant step size under the hood
+            // for a stepper without error control like RK4.
+            // Therefore, just use integrate_const for simplicity.
             switch (logType_)
             {
                 case NumericalSolver::LogType::NoLog:
                 case NumericalSolver::LogType::LogAdaptive:
-                    // Integrate_adaptive uses constant step size under the hood
-                    // for a stepper without error control like RK4.
                 case NumericalSolver::LogType::LogConstant:
                 {
                     integrate_const(
