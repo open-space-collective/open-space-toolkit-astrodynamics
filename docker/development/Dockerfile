@@ -127,8 +127,8 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_MAJOR="0"
-ARG OSTK_PHYSICS_MINOR="8"
+ARG OSTK_PHYSICS_MAJOR="1"
+ARG OSTK_PHYSICS_MINOR="0"
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
  && cd /tmp/open-space-toolkit-physics \
