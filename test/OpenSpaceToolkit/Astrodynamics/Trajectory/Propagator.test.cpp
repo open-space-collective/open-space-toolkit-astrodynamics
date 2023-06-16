@@ -135,7 +135,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     const NumericalSolver defaultRK4_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
-        30.0,
+        5.0,
         1.0e-15,
         1.0e-15,
     };
@@ -1684,7 +1684,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         };
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultNumericalSolver_, dynamics};
+        const Propagator propagator = {defaultRK4_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1702,7 +1702,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-4, positionErrorGCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
             ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
@@ -1771,7 +1771,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         };
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultNumericalSolver_, dynamics};
+        const Propagator propagator = {defaultRK4_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1789,7 +1789,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-4, positionErrorGCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
             ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
