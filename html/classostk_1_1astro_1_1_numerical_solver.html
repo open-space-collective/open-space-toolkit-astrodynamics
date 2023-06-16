@@ -98,7 +98,8 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1_numerical_solve
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:afb80f81b2c3cc1d356b0b4749e45b947"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947">StepperType</a> { <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37">StepperType::RungeKuttaCashKarp54</a>, 
+<tr class="memitem:afb80f81b2c3cc1d356b0b4749e45b947"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947">StepperType</a> { <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58">StepperType::RungeKutta4</a>, 
+<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37">StepperType::RungeKuttaCashKarp54</a>, 
 <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7">StepperType::RungeKuttaFehlberg78</a>
  }</td></tr>
 <tr class="separator:afb80f81b2c3cc1d356b0b4749e45b947"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -254,7 +255,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37"></a>RungeKuttaCashKarp54&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58"></a>RungeKutta4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37"></a>RungeKuttaCashKarp54&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7"></a>RungeKuttaFehlberg78&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
@@ -865,10 +867,10 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:387</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a4a1673a6f74a72d6bacfe6480b9c1ccd"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">std::vector&lt; double &gt; StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:47</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:369</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ac67671257ab8be4f684842505f4ce8d8"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:20</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:435</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a4a1673a6f74a72d6bacfe6480b9c1ccd"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">std::vector&lt; double &gt; StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:48</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:417</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ac67671257ab8be4f684842505f4ce8d8"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:21</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

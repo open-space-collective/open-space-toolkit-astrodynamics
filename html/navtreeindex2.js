@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4c74402d5483a51e5e0fe1920cd52ec4":[4,0,0,0,3,1,1,2,14],
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4de0c3d7a2b37c1c2ab4d6e207339809":[4,0,0,0,3,1,1,2,4],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a8f6d00fe11481e9267aded6f9aeafb1a":[4,0,0,0,3,1,1,2,12],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a9c71803234f356ade03453e3ae19ae94":[4,0,0,0,3,1,1,2,19],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#aac43844f43000a181bf504529763bc82":[4,0,0,0,3,1,1,2,15],
@@ -162,8 +164,8 @@ var NAVTREEINDEX2 =
 "functions_e.html":[4,2,0,4],
 "functions_enum.html":[4,2,4],
 "functions_f.html":[4,2,0,5],
-"functions_func.html":[4,2,1,0],
 "functions_func.html":[4,2,1],
+"functions_func.html":[4,2,1,0],
 "functions_func_c.html":[4,2,1,1],
 "functions_func_d.html":[4,2,1,2],
 "functions_func_e.html":[4,2,1,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "namespaceostk_1_1astro_1_1access.html":[4,0,0,0,0],
 "namespaceostk_1_1astro_1_1access.html":[3,0,0,0,0],
 "namespaceostk_1_1astro_1_1conjunction.html":[4,0,0,0,1],
-"namespaceostk_1_1astro_1_1conjunction.html":[3,0,0,0,1],
-"namespaceostk_1_1astro_1_1conjunction_1_1messages.html":[3,0,0,0,1,0],
-"namespaceostk_1_1astro_1_1conjunction_1_1messages.html":[4,0,0,0,1,0]
+"namespaceostk_1_1astro_1_1conjunction.html":[3,0,0,0,1]
 };

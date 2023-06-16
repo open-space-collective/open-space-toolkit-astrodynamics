@@ -8,6 +8,7 @@ var classostk_1_1astro_1_1_numerical_solver =
       [ "LogAdaptive", "classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e", null ]
     ] ],
     [ "StepperType", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947", [
+      [ "RungeKutta4", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58", null ],
       [ "RungeKuttaCashKarp54", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37", null ],
       [ "RungeKuttaFehlberg78", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7", null ]
     ] ],

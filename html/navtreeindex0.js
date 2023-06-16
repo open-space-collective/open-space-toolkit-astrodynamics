@@ -40,7 +40,8 @@ var NAVTREEINDEX0 =
 "_kepler_8hpp.html#a42fbab7c9532a311984a768a10f815aa":[5,0,1,0,0,3,1,1,2,1],
 "_kepler_8hpp_source.html":[5,0,1,0,0,3,1,1,2],
 "_numerical_solver_8cpp.html":[5,0,2,0,0,5],
-"_numerical_solver_8cpp.html#a1504859af3ff5ed6cea30697522bbf4e":[5,0,2,0,0,5,2],
+"_numerical_solver_8cpp.html#a1504859af3ff5ed6cea30697522bbf4e":[5,0,2,0,0,5,3],
+"_numerical_solver_8cpp.html#a60ad55c3b6d885619737be7886f78802":[5,0,2,0,0,5,2],
 "_numerical_solver_8cpp.html#ac65cff551d02047f499131307bd5f688":[5,0,2,0,0,5,1],
 "_numerical_solver_8cpp.html#ae0e87d949c5bf8265860957bc3e551a4":[5,0,2,0,0,5,0],
 "_numerical_solver_8hpp.html":[5,0,1,0,0,6],
@@ -163,8 +164,9 @@ var NAVTREEINDEX0 =
 "classostk_1_1astro_1_1_numerical_solver.html#adb327bb6a9dc0fc4ab8fca57030b51e6":[4,0,0,0,5,10],
 "classostk_1_1astro_1_1_numerical_solver.html#af488ebaa295739474e0f696aa9134171":[4,0,0,0,5,16],
 "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947":[4,0,0,0,5,3],
-"classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7":[4,0,0,0,5,3,1],
-"classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37":[4,0,0,0,5,3,0],
+"classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58":[4,0,0,0,5,3,0],
+"classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7":[4,0,0,0,5,3,2],
+"classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37":[4,0,0,0,5,3,1],
 "classostk_1_1astro_1_1_trajectory.html":[4,0,0,0,6],
 "classostk_1_1astro_1_1_trajectory.html#a0814d622d4bfb55cedb3d8eafd39f640":[4,0,0,0,6,4],
 "classostk_1_1astro_1_1_trajectory.html#a13b1a0621195ed85aa3df0da5ae935f2":[4,0,0,0,6,9],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "classostk_1_1astro_1_1flight_1_1_profile.html#af35830c9e26ca7fffcc6e7e3ce86e9b2":[4,0,0,0,2,2,6],
 "classostk_1_1astro_1_1flight_1_1_system.html":[4,0,0,0,2,3],
 "classostk_1_1astro_1_1flight_1_1_system.html#a01f4e86fb2ffa95f70cd56b1ff1c80e7":[4,0,0,0,2,3,1],
-"classostk_1_1astro_1_1flight_1_1_system.html#a24d1aacf9355f5ee56fa56eeabe231ab":[4,0,0,0,2,3,9],
-"classostk_1_1astro_1_1flight_1_1_system.html#a45d6ad6bca50c0d9cb9b50135ed2efa3":[4,0,0,0,2,3,6],
-"classostk_1_1astro_1_1flight_1_1_system.html#a465eb91f18cbc10466b30694daab39fd":[4,0,0,0,2,3,2]
+"classostk_1_1astro_1_1flight_1_1_system.html#a24d1aacf9355f5ee56fa56eeabe231ab":[4,0,0,0,2,3,9]
 };
