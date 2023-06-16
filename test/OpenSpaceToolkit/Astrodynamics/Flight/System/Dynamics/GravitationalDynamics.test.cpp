@@ -35,6 +35,8 @@ using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
+using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::GravitationalDynamics;
@@ -71,19 +73,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
     EXPECT_NO_THROW(GravitationalDynamics gravitationalDynamics(earth));
 
-    const Celestial earthNull = {
-        "Earth",
-        Celestial::Type::Earth,
+    const Earth earthNull = {
         {398600441500000.0, GravitationalParameterSIUnit},
         Length::Meters(6378137.0),
         0.0,
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel(EarthGravitationalModel::Type::Undefined)),
-        nullptr,
-        nullptr,
-        startInstant_};
+        EarthGravitationalModel::Type::Undefined,
+        EarthMagneticModel::Type::Undefined,
+        EarthAtmosphericModel::Type::Undefined,
+    };
 
     const String expectedString = "{Gravitational Model} is undefined.";
 
@@ -219,8 +219,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
-
-    std::cout << startStateVector_[0] << std::endl;
 
     // Set reference pull values for the Earth
     Earth_Sun_Moon_ReferencePull[0] = 6.999995932647768e+06 + 6.999999999999768e+06 + 7.000000000000282e+06;

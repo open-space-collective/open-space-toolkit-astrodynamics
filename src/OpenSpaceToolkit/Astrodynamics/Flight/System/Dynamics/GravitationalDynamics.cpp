@@ -31,8 +31,7 @@ GravitationalDynamics::GravitationalDynamics(const Shared<Celestial>& aCelestial
     : Dynamics(),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
-    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->accessGravitationalModel() ||
-        !celestialObjectSPtr_->accessGravitationalModel()->isDefined())
+    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->gravitationalModelIsDefined())
     {
         throw ostk::core::error::runtime::Undefined("Gravitational Model");
     }
@@ -73,13 +72,11 @@ void GravitationalDynamics::update(
     // Initialize gravitational acceleration vector
     Vector3d totalGravitationalAcceleration_SI = {0.0, 0.0, 0.0};
 
-    celestialObjectSPtr_->setInstant(anInstant);
-
     if (celestialObjectSPtr_->accessName() != "Earth")
     {
         // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
         const Vector gravitationalAcceleration3rdBodyCorrection =
-            celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
+            celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant);
 
         // Subtract 3rd body correct from total gravitational acceleration
         totalGravitationalAcceleration_SI -=
@@ -88,7 +85,7 @@ void GravitationalDynamics::update(
 
     // Obtain gravitational acceleration from current object
     const Vector gravitationalAcceleration =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_));
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant);
 
     // Add object's gravity to total gravitational acceleration
     totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();

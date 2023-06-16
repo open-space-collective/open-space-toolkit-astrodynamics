@@ -53,6 +53,8 @@ using ostk::physics::units::Mass;
 using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Time;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::SatelliteSystem;
@@ -93,20 +95,17 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics 
     /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
-    // Have to create a Celestial as Earth gravitational constructor does not have an 'Undefined' enum type
-    const Celestial earth_ = {
-        "Earth",
-        Celestial::Type::Earth,
+    const Earth earth_ = {
         {398600441500000.0, GravitationalParameterSIUnit},
         Length::Meters(6378137.0),
         0.0,
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        nullptr,
-        nullptr,
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel(EarthAtmosphericModel::Type::Exponential)),
-        startInstant_};
+        EarthGravitationalModel::Type::Undefined,
+        EarthMagneticModel::Type::Undefined,
+        EarthAtmosphericModel::Type::Exponential,
+    };
 
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 
@@ -119,19 +118,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 {
     EXPECT_NO_THROW(AtmosphericDynamics atmosphericDynamics(earthSPtr_, satelliteSystem_));
 
-    const Celestial earth = {
-        "Earth",
-        Celestial::Type::Earth,
+    const Earth earth = {
         {398600441500000.0, GravitationalParameterSIUnit},
         Length::Meters(6378137.0),
         0.0,
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        nullptr,
-        nullptr,
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel(EarthAtmosphericModel::Type::Undefined)),
-        startInstant_};
+        EarthGravitationalModel::Type::Undefined,
+        EarthMagneticModel::Type::Undefined,
+        EarthAtmosphericModel::Type::Undefined,
+    };
 
     const String expectedString = "{Atmospheric Model} is undefined.";
 

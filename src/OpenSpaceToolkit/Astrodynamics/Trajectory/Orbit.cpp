@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Utilities.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Spherical/LLA.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
@@ -774,10 +774,10 @@ Orbit Orbit::SunSynchronous(
 
     using ostk::math::obj::Vector3d;
 
-    using ostk::physics::Environment;
     using ostk::physics::time::Scale;
     using ostk::physics::units::Derived;
     using ostk::physics::units::Mass;
+    using ostk::physics::env::obj::celest::Sun;
 
     using orbit::models::Kepler;
     using orbit::models::kepler::COE;
@@ -865,18 +865,11 @@ Orbit Orbit::SunSynchronous(
                                (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
                                (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
 
-        // Environment
-
-        Environment environment = Environment::Default();  // [TBM] This is a temporary solution
-
-        environment.setInstant(anEpoch);
+        Sun sun = Sun::Default();  // [TBM] This is a temporary solution
 
         // Sun direction in GCRF
 
-        const Vector3d sunDirection_GCRF = environment.accessCelestialObjectWithName("Sun")
-                                               ->getPositionIn(Frame::GCRF(), anEpoch)
-                                               .getCoordinates()
-                                               .normalized();
+        const Vector3d sunDirection_GCRF = sun.getPositionIn(Frame::GCRF(), anEpoch).getCoordinates().normalized();
 
         // Desired angle between the Sun and the ascending node
 

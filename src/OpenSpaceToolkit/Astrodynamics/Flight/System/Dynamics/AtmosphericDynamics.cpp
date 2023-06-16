@@ -35,8 +35,7 @@ AtmosphericDynamics::AtmosphericDynamics(const Shared<Celestial>& aCelestial, co
       celestialObjectSPtr_(aCelestial),
       satelliteSystem_(aSatelliteSystem)
 {
-    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->accessAtmosphericModel() ||
-        !celestialObjectSPtr_->accessAtmosphericModel()->isDefined())
+    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->atmosphericModelIsDefined())
     {
         throw ostk::core::error::runtime::Undefined("Atmospheric Model");
     }
@@ -78,7 +77,7 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
 
     // Get atmospheric density
     const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_))
+        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 

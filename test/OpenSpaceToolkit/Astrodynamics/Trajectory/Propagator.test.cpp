@@ -460,7 +460,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_)};
 
     // Setup Propagator
-    Earth earth = {
+    const Earth earth = {
         {398600441500000.0, GravitationalParameterSIUnit},
         Length::Meters(6378137.0),
         0.0,
@@ -469,9 +469,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         std::make_shared<Analytical>(Frame::ITRF()),
         EarthGravitationalModel::Type::Spherical,
         EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Exponential,
-        Instant::J2000()};
-    Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+        EarthAtmosphericModel::Type::Exponential};
+
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
     defaultDynamics_.add(std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)));
     const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
@@ -482,7 +482,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
         -05576.414764013522, -00000.000000010687;
 
-    VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
+    const VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
     ASSERT_TRUE((residuals.array() < 1e-6).all()) << String::Format("Residual: {}", residuals.maxCoeff());
 }
 
