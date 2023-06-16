@@ -151,7 +151,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         {
             // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
             const Vector gravitationalAcceleration3rdBodyCorrection =
-                object->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_));
+                object->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), currentInstant);
 
             // Subtract 3rd body correct from total gravitational acceleration
             totalGravitationalAcceleration_SI -=
@@ -159,7 +159,7 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         }
 
         // Obtain gravitational acceleration from current object
-        const Vector gravitationalAcceleration = object->getGravitationalFieldAt(currentPosition);
+        const Vector gravitationalAcceleration = object->getGravitationalFieldAt(currentPosition, currentInstant);
 
         // Add object's gravity to total gravitational acceleration
         totalGravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, currentInstant).getValue();
@@ -177,9 +177,9 @@ void SatelliteDynamics::DynamicalEquations(const Dynamics::StateVector& x, Dynam
         const Shared<const Celestial> object = environment_.accessCelestialObjectWithName(objectName);
 
         // TBI: currently only defined for Earth
-        if (object->accessAtmosphericModel() && object->accessAtmosphericModel()->isDefined())
+        if (object->atmosphericModelIsDefined())
         {
-            const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition).getValue();
+            const Real atmosphericDensity = object->getAtmosphericDensityAt(currentPosition, currentInstant).getValue();
 
             const Vector3d earthAngularVelocity =
                 Frame::GCRF()->getTransformTo(Frame::ITRF(), currentInstant).getAngularVelocity();  // rad/s

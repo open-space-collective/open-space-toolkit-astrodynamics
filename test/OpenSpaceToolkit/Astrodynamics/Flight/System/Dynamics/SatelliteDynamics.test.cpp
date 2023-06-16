@@ -872,8 +872,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
             std::make_shared<Analytical>(Frame::ITRF()),
             EarthGravitationalModel::Type::Spherical,
             EarthMagneticModel::Type::Undefined,
-            EarthAtmosphericModel::Type::Exponential,
-            Instant::J2000()
+            EarthAtmosphericModel::Type::Exponential
         ));
 
         const Array<Shared<Object>> objects = {earth};

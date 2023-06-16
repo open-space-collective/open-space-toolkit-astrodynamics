@@ -1666,8 +1666,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             std::make_shared<Analytical>(Frame::ITRF()),
             EarthGravitationalModel::Type::Spherical,
             EarthMagneticModel::Type::Undefined,
-            EarthAtmosphericModel::Type::Exponential,
-            Instant::J2000()
+            EarthAtmosphericModel::Type::Exponential
         ))};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
@@ -1773,8 +1772,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             std::make_shared<Analytical>(Frame::ITRF()),
             EarthGravitationalModel::Type::Spherical,
             EarthMagneticModel::Type::Undefined,
-            EarthAtmosphericModel::Type::Exponential,
-            Instant::J2000()
+            EarthAtmosphericModel::Type::Exponential
         ))};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
