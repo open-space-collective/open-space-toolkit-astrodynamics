@@ -43,6 +43,21 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated : public 
    protected:
     void SetUp() override
     {
+        for (Size i = 0; i < 10; ++i)
+        {
+            states_.add(State(
+                Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00.000"), Scale::UTC) + Duration::Minutes(i),
+                Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF())
+            ));
+        }
+    }
+
+    void loadData()
+    {
+        states_.clear();
+        referenceStates_.clear();
+
         const Table referenceData = Table::Load(
             File::Path(Path::Parse(
                 "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Tabulated/propagated_states.csv"
@@ -93,8 +108,39 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Constru
     const Orbit orbit = {tabulated, environment.accessCelestialObjectWithName("Earth")};
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, GetInterval)
+{
+    using ostk::physics::time::Interval;
+
+    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
+
+    EXPECT_TRUE(tabulated.getInterval().isDefined());
+    EXPECT_TRUE(
+        tabulated.getInterval() ==
+        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant())
+    );
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, EqualToOperator)
+{
+    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
+    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
+
+    EXPECT_TRUE(tabulated == anotherTabulated);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, NotEqualToOperator)
+{
+    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::CubicSpline);
+    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
+
+    EXPECT_TRUE(tabulated != anotherTabulated);
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStateAt)
 {
+    loadData();
+
     const Array<Tuple<Tabulated::InterpolationType, Real>> testCases = {
         {Tabulated::InterpolationType::Linear, 420.0},
         {Tabulated::InterpolationType::BarycentricRational, 5e-2},
@@ -128,6 +174,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Calcula
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, CalculateStatesAt)
 {
+    loadData();
+
     const Array<Tuple<Tabulated::InterpolationType, Real>> testCases = {
         {Tabulated::InterpolationType::Linear, 420.0},
         {Tabulated::InterpolationType::BarycentricRational, 5e-2},
@@ -166,33 +214,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, Calcula
             EXPECT_TRUE((residuals.array() < tolerance).all()) << String::Format("Residual: {}", residuals.maxCoeff());
         }
     }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, GetInterval)
-{
-    using ostk::physics::time::Interval;
-
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
-
-    EXPECT_TRUE(tabulated.getInterval().isDefined());
-    EXPECT_TRUE(
-        tabulated.getInterval() ==
-        Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant())
-    );
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, EqualToOperator)
-{
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::Linear);
-    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
-
-    EXPECT_TRUE(tabulated == anotherTabulated);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Tabulated, NotEqualToOperator)
-{
-    const Tabulated tabulated(states_, 0, Tabulated::InterpolationType::CubicSpline);
-    const Tabulated anotherTabulated(states_, 0, Tabulated::InterpolationType::Linear);
-
-    EXPECT_TRUE(tabulated != anotherTabulated);
 }
