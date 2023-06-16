@@ -81,7 +81,8 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
-    const Vector3d earthAngularVelocity = {0, 0, 7.2921159e-5};  // rad/s
+    const Vector3d earthAngularVelocity =
+        Frame::GCRF()->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity =
         Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));

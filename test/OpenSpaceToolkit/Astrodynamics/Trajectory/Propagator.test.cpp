@@ -114,6 +114,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
 
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+
+    const NumericalSolver defaultRK4_ = {
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 30.0, 1.0e-15, 1.0e-15};
+
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
@@ -1598,14 +1602,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_Exponential_500km)
 {
-    const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    ));
-
-    // Constant Cd of 2.1 & constant surface area of 1m^2
-    const SatelliteSystem satelliteSystem = {
-        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};
-
     // Earth with Exponential atmospheric drag compared against OREKit
     {
         // Current state and instant setup
@@ -1637,9 +1633,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             );
         }
 
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth(
+        // Setup dynamics
+        const Earth earth = Earth(
             Earth::Models::Spherical::GravitationalParameter,
             Earth::Models::Spherical::EquatorialRadius,
             Earth::Models::Spherical::Flattening,
@@ -1649,9 +1644,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             EarthGravitationalModel::Type::Spherical,
             EarthMagneticModel::Type::Undefined,
             EarthAtmosphericModel::Type::Exponential
-        ))};
-
-        const Environment customEnvironment = Environment(instantJ2000, objects);
+        );
+        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+        };
 
         // Setup initial conditions
         const State state = {
@@ -1659,15 +1656,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
-
-        // RK4 Numerical solver
-        NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 30.0, 1.0e-15, 1.0e-15};
-
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_};
+        const Propagator propagator = {defaultRK4_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1704,14 +1694,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_Exponential_320km)
 {
-    const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    ));
-
-    // Constant Cd of 2.1 & constant surface area of 1m^2
-    const SatelliteSystem satelliteSystem = {
-        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};
-
     // Earth with Exponential atmospheric drag compared against OREKit
     {
         // Current state and instant setup
@@ -1743,9 +1725,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             );
         }
 
-        // Create environment
-        const Instant instantJ2000 = Instant::J2000();
-        const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth(
+        // Setup dynamics
+        const Earth earth = Earth(
             Earth::Models::Spherical::GravitationalParameter,
             Earth::Models::Spherical::EquatorialRadius,
             Earth::Models::Spherical::Flattening,
@@ -1755,9 +1736,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             EarthGravitationalModel::Type::Spherical,
             EarthMagneticModel::Type::Undefined,
             EarthAtmosphericModel::Type::Exponential
-        ))};
-
-        const Environment customEnvironment = Environment(instantJ2000, objects);
+        );
+        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+        };
 
         // Setup initial conditions
         const State state = {
@@ -1765,15 +1748,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
-        // Satellite dynamics setup
-        SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
-
-        // RK4 Numerical solver
-        NumericalSolver numericalSolver = {
-            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 30.0, 1.0e-15, 1.0e-15};
-
         // Setup Propagator model and orbit
-        const Propagator propagator = {satelliteDynamics, numericalSolver_};
+        const Propagator propagator = {defaultRK4_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);

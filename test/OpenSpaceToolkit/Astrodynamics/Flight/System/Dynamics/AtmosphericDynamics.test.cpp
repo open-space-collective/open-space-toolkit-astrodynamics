@@ -92,15 +92,15 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics 
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
-    /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+    // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
     const Earth earth_ = {
-        {398600441500000.0, GravitationalParameterSIUnit},
-        Length::Meters(6378137.0),
-        0.0,
-        0.0,
-        0.0,
+        Earth::Models::Spherical::GravitationalParameter,
+        Earth::Models::Spherical::EquatorialRadius,
+        Earth::Models::Spherical::Flattening,
+        Earth::Models::Spherical::J2,
+        Earth::Models::Spherical::J4,
         std::make_shared<Analytical>(Frame::ITRF()),
         EarthGravitationalModel::Type::Undefined,
         EarthMagneticModel::Type::Undefined,
@@ -169,7 +169,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 }
 
 // Test data gathered from Orekit
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, OneStepEarthOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, OneStepAtmosphereOnly)
 {
     // Setup dynamics
     const Array<Shared<Dynamics>> dynamics = {
@@ -181,7 +181,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 
     // Set reference pull values for the Earth
     Dynamics::StateVector Earth_ReferencePull = {
-        7000000.0000000000000000, 0.0, 0.0, 0.0, 7546.0532621292200000, -00000.0000000000197640};
+        7000000.0000000000000000, 0.0, 0.0, 0.0, 7546.0532621292200000, -00000.0000000000197640,};
 
     EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
     EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
@@ -189,4 +189,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
     EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
     EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
     EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, OneStepAtmosphereGravity)
+{
+    // Setup dynamics
+    const Earth earth = {
+        Earth::Models::Spherical::GravitationalParameter,
+        Earth::Models::Spherical::EquatorialRadius,
+        Earth::Models::Spherical::Flattening,
+        Earth::Models::Spherical::J2,
+        Earth::Models::Spherical::J4,
+        std::make_shared<Analytical>(Frame::ITRF()),
+        EarthGravitationalModel::Type::Spherical,
+        EarthMagneticModel::Type::Undefined,
+        EarthAtmosphericModel::Type::Exponential,
+    };
+
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_))};
+
+    // Setup initial conditions
+    const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
+
+    Dynamics::StateVector startStateVector = {
+        6878137.0,
+        0.0,
+        0.0,
+        0.0,
+        7612.608170359118000,
+        0.0,
+    };
+
+    // Perform 1.0s integration step
+    runge_kutta4<Dynamics::StateVector> stepper;
+    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+
+    // Set reference pull values for the Earth
+    Dynamics::StateVector Earth_ReferencePull = {
+        6878132.787246078000000,
+        7612.606615971900000,
+        -0.000000000000330,
+        -8.425506982847088,
+        7612.603507382901000,
+        -0.000000000000649,
+    };
+
+    EXPECT_GT(1e-12, startStateVector_[0] - Earth_ReferencePull[0]);
+    EXPECT_GT(1e-12, startStateVector_[1] - Earth_ReferencePull[1]);
+    EXPECT_GT(1e-12, startStateVector_[2] - Earth_ReferencePull[2]);
+    EXPECT_GT(1e-12, startStateVector_[3] - Earth_ReferencePull[3]);
+    EXPECT_GT(1e-12, startStateVector_[4] - Earth_ReferencePull[4]);
+    EXPECT_GT(1e-12, startStateVector_[5] - Earth_ReferencePull[5]);
 }
