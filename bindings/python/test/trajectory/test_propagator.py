@@ -52,7 +52,7 @@ def propagator_default_inputs():
     )
     inertia_tensor = np.identity(3)
     surface_area = 0.8
-    drag_coefficient = 2.2
+    drag_coefficient = 0.0
 
     satellitesystem = SatelliteSystem(
         mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
@@ -77,7 +77,7 @@ def propagator(propagator_default_inputs) -> Propagator:
     return Propagator(*propagator_default_inputs[:2])
 
 
-class TestPropagated:
+class TestPropagator:
     def test_constructors(self, propagator: Propagator):
         assert propagator is not None
         assert isinstance(propagator, Propagator)

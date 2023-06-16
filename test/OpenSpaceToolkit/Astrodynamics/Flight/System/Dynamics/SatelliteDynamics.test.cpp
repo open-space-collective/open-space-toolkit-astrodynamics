@@ -14,6 +14,10 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
@@ -534,42 +538,47 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, Ge
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, getDynamicalEquations)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
     using ostk::core::types::Shared;
+    using ostk::core::types::Real;
+    using ostk::core::ctnr::Array;
     using ostk::core::types::String;
+    using ostk::core::types::Integer;
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
     using ostk::math::obj::Matrix3d;
     using ostk::math::obj::Vector3d;
+    using ostk::math::geom::d3::objects::Cuboid;
+    using ostk::math::geom::d3::objects::Composite;
+    using ostk::math::geom::d3::objects::Point;
 
-    using ostk::physics::Environment;
+    using ostk::physics::units::Length;
+    using ostk::physics::units::Mass;
+    using ostk::physics::units::Derived;
+    using ostk::physics::time::Scale;
+    using ostk::physics::time::Instant;
+    using ostk::physics::time::Duration;
+    using ostk::physics::time::Interval;
+    using ostk::physics::time::DateTime;
     using ostk::physics::coord::Frame;
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
+    using ostk::physics::Environment;
+    using ostk::physics::env::ephem::Analytical;
     using ostk::physics::env::Object;
     using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::env::obj::celest::Moon;
     using ostk::physics::env::obj::celest::Sun;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-    using ostk::physics::units::Mass;
+    using ostk::physics::env::obj::celest::Moon;
+    using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+    using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
+    using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+    using ostk::astro::trajectory::State;
     using ostk::astro::flight::system::SatelliteSystem;
     using ostk::astro::flight::system::dynamics::SatelliteDynamics;
-    using ostk::astro::trajectory::State;
 
     using namespace boost::numeric::odeint;
 
     SatelliteDynamics::StateVector Earth_ReferencePull(6);
+    SatelliteDynamics::StateVector Earth_DragReference(6);
     SatelliteDynamics::StateVector Moon_ReferencePull(6);
     SatelliteDynamics::StateVector Sun_ReferencePull(6);
     SatelliteDynamics::StateVector Earth_Sun_Moon_ReferencePull(6);
@@ -578,13 +587,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     {
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
+
         const Array<Shared<Object>> objects = {std::make_shared<Earth>(Earth::Spherical())};
 
         const Environment customEnvironment = Environment(instantJ2000, objects);
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         // Current state and instant setup, choose equinox as instant to make geometry simple
-        /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+        // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
         const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
         const State startState = {
@@ -598,8 +608,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
             {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
             {1.0, 2.0, 3.0}
         ));
+
+        // Drag coefficient to 0.0 to neglect atmospheric drag
         const SatelliteSystem satelliteSystem = {
-            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 0.0};
 
         // Satellite dynamics setup with Celestial object
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -648,7 +660,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         // Current state and instant setup, choose equinox as instant to make geometry simple
-        /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+        // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
         const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
         const State startState = {
@@ -662,8 +674,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
             {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
             {1.0, 2.0, 3.0}
         ));
+
+        // Drag coefficient to 0.0 to neglect atmospheric drag
         const SatelliteSystem satelliteSystem = {
-            Mass(90.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+            Mass(90.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 0.0};
 
         // Satellite dynamics setup with Celestial object
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -712,7 +726,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         // Current state and instant setup, choose equinox as instant to make geometry simple
-        /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+        // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
         const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
         const State startState = {
@@ -770,6 +784,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
     {
         // Create environment
         const Instant instantJ2000 = Instant::J2000();
+
         const Array<Shared<Object>> objects = {
             std::make_shared<Moon>(Moon::Default()),
             std::make_shared<Sun>(Sun::Default()),
@@ -779,7 +794,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
         // Current state and instant setup, choose equinox as instant to make geometry simple
-        /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+        // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
         const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
         const State startState = {
@@ -793,8 +808,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
             {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
             {1.0, 2.0, 3.0}
         ));
+
+        // Drag coefficient to 0.0 to neglect atmospheric drag
         const SatelliteSystem satelliteSystem = {
-            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 0.0};
 
         // Satellite dynamics setup with Celestial object
         SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
@@ -836,6 +853,103 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_SatelliteDynamics, ge
         EXPECT_GT(5e-14, startStateVector[3] - Earth_Sun_Moon_ReferencePull[3]);
         EXPECT_GT(5e-14, startStateVector[4] - Earth_Sun_Moon_ReferencePull[4]);
         EXPECT_GT(5e-14, startStateVector[5] - Earth_Sun_Moon_ReferencePull[5]);
+    }
+
+    // Earth only gravity + exponential Drag
+    {
+        // Comparison data generated using OREKIT
+
+        // Setup environment
+        const Instant instantJ2000 = Instant::J2000();
+
+        // Custom Earth with added exponential atmosphere
+        const Shared<Object> earth = std::make_shared<Earth>(Earth(
+            Earth::Models::Spherical::GravitationalParameter,
+            Earth::Models::Spherical::EquatorialRadius,
+            Earth::Models::Spherical::Flattening,
+            Earth::Models::Spherical::J2,
+            Earth::Models::Spherical::J4,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            EarthGravitationalModel::Type::Spherical,
+            EarthMagneticModel::Type::Undefined,
+            EarthAtmosphericModel::Type::Exponential
+        ));
+
+        const Array<Shared<Object>> objects = {earth};
+
+        const Environment customEnvironment = Environment(instantJ2000, objects);
+
+        const Shared<const Frame> gcrfSPtr = Frame::GCRF();
+
+        // Satellite shape does not matter for drag, since constant Cd & area are defined
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+
+        // Satellite System
+        // Cd = 2.1
+        // Area = 1.0
+        const SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};
+
+        // Initial conditions
+        const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
+        const Length semiMajorAxis = Earth::Models::Spherical::EquatorialRadius + Length::Kilometers(500);
+        const double startingSpeedY = 7612.608170359118000;
+
+        const State startState = {
+            startInstant,
+            Position::Meters({semiMajorAxis.inMeters(), 0.0, 0.0}, gcrfSPtr),
+            Velocity::MetersPerSecond({0.0, startingSpeedY, 0.0}, gcrfSPtr)};
+
+        // Satellite dynamics setup with Celestial object
+        SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
+        satelliteDynamics.setInstant(startInstant);
+
+        // Set up initial state vector
+        SatelliteDynamics::StateVector startStateVector(6);
+        const Vector3d startPositionCoordinates =
+            (startState.getPosition()).inUnit(Position::Unit::Meter).accessCoordinates();
+        const Vector3d startVelocityCoordinates =
+            (startState.getVelocity()).inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+        startStateVector[0] = startPositionCoordinates[0];
+        startStateVector[1] = startPositionCoordinates[1];
+        startStateVector[2] = startPositionCoordinates[2];
+        startStateVector[3] = startVelocityCoordinates[0];
+        startStateVector[4] = startVelocityCoordinates[1];
+        startStateVector[5] = startVelocityCoordinates[2];
+
+        // Check initial conditions precision
+        EXPECT_NEAR(startStateVector[0], 6878137.0, 1e-15);
+        EXPECT_NEAR(startStateVector[1], 0.0, 1e-15);
+        EXPECT_NEAR(startStateVector[2], 0.0, 1e-15);
+        EXPECT_NEAR(startStateVector[3], 0.0, 1e-15);
+        EXPECT_NEAR(startStateVector[4], 7612.608170359118, 1e-15);
+        EXPECT_NEAR(startStateVector[5], 0.0, 1e-15);
+
+        // Perform 1.0s integration step
+        runge_kutta4<SatelliteDynamics::StateVector> stepper;
+        stepper.do_step(satelliteDynamics.getDynamicalEquations(), startStateVector, (0.0), 1.0);
+
+        // Reference values achieved in OREKit
+        Earth_DragReference[0] = 6878132.787246078000000;
+        Earth_DragReference[1] = 7612.606615971900000;
+        Earth_DragReference[2] = -0.000000000000330;
+
+        Earth_DragReference[3] = -8.425506982847088;
+        Earth_DragReference[4] = 7612.603507382901000;
+        Earth_DragReference[5] = -0.000000000000649;
+
+        // OREKit has Z-axis change at the 13th decimal place, which is not realistic for this simple model.
+        // Consider this the precision and compare at 12th decimal place.
+        EXPECT_NEAR(startStateVector[0], Earth_DragReference[0], 1e-12);
+        EXPECT_NEAR(startStateVector[1], Earth_DragReference[1], 1e-12);
+        EXPECT_NEAR(startStateVector[2], Earth_DragReference[2], 1e-12);
+        EXPECT_NEAR(startStateVector[3], Earth_DragReference[3], 1e-12);
+        EXPECT_NEAR(startStateVector[4], Earth_DragReference[4], 1e-12);
+        EXPECT_NEAR(startStateVector[5], Earth_DragReference[5], 1e-12);
     }
 
     // Minimum radius "re-entry" test

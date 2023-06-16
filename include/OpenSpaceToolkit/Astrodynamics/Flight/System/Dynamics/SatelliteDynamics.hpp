@@ -11,6 +11,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Data/Vector.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -163,15 +164,7 @@ class SatelliteDynamics : public Dynamics
     SatelliteSystem satelliteSystem_;
     Instant instant_;
 
-    // Only force model currently used that incorporates solely Earth's gravity
     void DynamicalEquations(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const double t);
-
-    // // Atmospheric perturbations only
-    // void                    Exponential_Dynamics                        (   const   SatelliteDynamics::StateVector&
-    // x,
-    //                                                                                 SatelliteDynamics::StateVector&
-    //                                                                                 dxdt,
-    //                                                                         const   double ) const ;
 };
 
 }  // namespace dynamics

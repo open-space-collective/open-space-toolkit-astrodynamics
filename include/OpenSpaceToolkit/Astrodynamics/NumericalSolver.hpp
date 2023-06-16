@@ -33,6 +33,7 @@ class NumericalSolver
    public:
     enum class StepperType
     {
+        RungeKutta4,
         RungeKuttaCashKarp54,
         RungeKuttaFehlberg78
     };

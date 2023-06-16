@@ -874,7 +874,7 @@ Orbit Orbit::SunSynchronous(
         // Sun direction in GCRF
 
         const Vector3d sunDirection_GCRF = environment.accessCelestialObjectWithName("Sun")
-                                               ->getPositionIn(Frame::GCRF())
+                                               ->getPositionIn(Frame::GCRF(), anEpoch)
                                                .getCoordinates()
                                                .normalized();
 

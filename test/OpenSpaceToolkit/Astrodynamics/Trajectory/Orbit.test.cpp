@@ -936,9 +936,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     // VVLH
 
     {
-
         // [TBI]
-
     }
 
     {
