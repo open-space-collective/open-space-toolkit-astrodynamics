@@ -1648,6 +1648,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+            std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
         };
 
         // Setup initial conditions
@@ -1657,7 +1658,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultRK4_, dynamics};
+        const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1740,6 +1741,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+            std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
         };
 
         // Setup initial conditions
@@ -1749,7 +1751,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultRK4_, dynamics};
+        const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);

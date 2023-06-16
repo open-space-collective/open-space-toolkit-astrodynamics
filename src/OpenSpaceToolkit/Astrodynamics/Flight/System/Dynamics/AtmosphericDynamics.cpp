@@ -30,7 +30,7 @@ using ostk::physics::data::Scalar;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-AtmosphericDynamics::AtmosphericDynamics(const Shared<Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem)
+AtmosphericDynamics::AtmosphericDynamics(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem)
     : Dynamics(),
       celestialObjectSPtr_(aCelestial),
       satelliteSystem_(aSatelliteSystem)
@@ -82,7 +82,7 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        Frame::GCRF()->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
+        gcrfSPtr_->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity =
         Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
@@ -101,7 +101,7 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
     dxdt[5] += dragAcceleration_SI[2];
 }
 
-Shared<Celestial> AtmosphericDynamics::getCelestial() const
+Shared<const Celestial> AtmosphericDynamics::getCelestial() const
 {
     return celestialObjectSPtr_;
 }

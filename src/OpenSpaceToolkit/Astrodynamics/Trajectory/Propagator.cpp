@@ -40,14 +40,13 @@ Propagator::Propagator(
 {
     for (const String& name : anEnvironment.getObjectNames())
     {
-        // TBI: We should come up with a way to avoid the cloning here, somewhat defeats the purpose.
-        const Shared<Celestial> celestial(anEnvironment.accessCelestialObjectWithName(name)->clone());
-        if (celestial->accessGravitationalModel()->isDefined())
+        const Shared<const Celestial> celestial = anEnvironment.accessCelestialObjectWithName(name);
+        if (celestial->gravitationalModelIsDefined())
         {
             const Shared<Dynamics> dynamics = std::make_shared<GravitationalDynamics>(GravitationalDynamics(celestial));
             this->addDynamics(dynamics);
         }
-        else if (celestial->accessAtmosphericModel()->isDefined())
+        else if (celestial->atmosphericModelIsDefined())
         {
             const Shared<Dynamics> dynamics =
                 std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(celestial, aSatelliteSystem));

@@ -27,7 +27,7 @@ using ostk::physics::units::Time;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-GravitationalDynamics::GravitationalDynamics(const Shared<Celestial>& aCelestialObjectSPtr)
+GravitationalDynamics::GravitationalDynamics(const Shared<const Celestial>& aCelestialObjectSPtr)
     : Dynamics(),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
@@ -99,7 +99,7 @@ void GravitationalDynamics::update(
     dxdt[5] += totalGravitationalAcceleration_SI[2];
 }
 
-Shared<Celestial> GravitationalDynamics::getCelestial() const
+Shared<const Celestial> GravitationalDynamics::getCelestial() const
 {
     if (!this->celestialObjectSPtr_->isDefined())
     {

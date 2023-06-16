@@ -25,6 +25,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
 
 #include <Global.test.hpp>
 
@@ -59,6 +60,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::dynamics::GravitationalDynamics;
 using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
 
 using namespace boost::numeric::odeint;
@@ -77,8 +79,13 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics 
             {1.0, 2.0, 3.0}
         ));
 
-        satelliteSystem_ =
-            SatelliteSystem(Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 500.0, 2.1);
+        satelliteSystem_ = {
+            Mass::Kilograms(100.0),
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            500.0,
+            2.1,
+        };
 
         startStateVector_.resize(6);
         startStateVector_[0] = 7000000.0;
@@ -181,7 +188,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 
     // Set reference pull values for the Earth
     Dynamics::StateVector Earth_ReferencePull = {
-        7000000.0000000000000000, 0.0, 0.0, 0.0, 7546.0532621292200000, -00000.0000000000197640,};
+        7000000.0000000000000000,
+        0.0,
+        0.0,
+        0.0,
+        7546.0532621292200000,
+        -00000.0000000000197640,
+    };
 
     EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
     EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
@@ -208,8 +221,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
+    const Composite satelliteGeometry(Cuboid {
+        {0.0, 0.0, 0.0},
+        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 2.0, 3.0}});
+
+    const SatelliteSystem satelliteSystem = {
+        Mass::Kilograms(100.0),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        1.0,
+        2.1,
+    };
+
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_))};
+        std::make_shared<GravitationalDynamics>(earthSPtr),
+        std::make_shared<AtmosphericDynamics>(earthSPtr, satelliteSystem),
+    };
 
     // Setup initial conditions
     const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
@@ -228,7 +256,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
     stepper.do_step(Dynamics::GetDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    Dynamics::StateVector Earth_ReferencePull = {
+    Dynamics::StateVector referenceValues = {
         6878132.787246078000000,
         7612.606615971900000,
         -0.000000000000330,
@@ -237,10 +265,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
         -0.000000000000649,
     };
 
-    EXPECT_GT(1e-12, startStateVector_[0] - Earth_ReferencePull[0]);
-    EXPECT_GT(1e-12, startStateVector_[1] - Earth_ReferencePull[1]);
-    EXPECT_GT(1e-12, startStateVector_[2] - Earth_ReferencePull[2]);
-    EXPECT_GT(1e-12, startStateVector_[3] - Earth_ReferencePull[3]);
-    EXPECT_GT(1e-12, startStateVector_[4] - Earth_ReferencePull[4]);
-    EXPECT_GT(1e-12, startStateVector_[5] - Earth_ReferencePull[5]);
+    EXPECT_GT(1e-12, startStateVector[0] - referenceValues[0]);
+    EXPECT_GT(1e-12, startStateVector[1] - referenceValues[1]);
+    EXPECT_GT(1e-12, startStateVector[2] - referenceValues[2]);
+    EXPECT_GT(1e-12, startStateVector[3] - referenceValues[3]);
+    EXPECT_GT(1e-12, startStateVector[4] - referenceValues[4]);
+    EXPECT_GT(1e-12, startStateVector[5] - referenceValues[5]);
 }

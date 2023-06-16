@@ -38,7 +38,7 @@ class GravitationalDynamics : public Dynamics
     ///
     /// @param              [in] aCelestial A Celestial Object
 
-    GravitationalDynamics(const Shared<Celestial>& aCelestial);
+    GravitationalDynamics(const Shared<const Celestial>& aCelestial);
 
     /// @brief              Destructor
 
@@ -83,10 +83,10 @@ class GravitationalDynamics : public Dynamics
     ///
     /// @return             A celestial
 
-    Shared<Celestial> getCelestial() const;
+    Shared<const Celestial> getCelestial() const;
 
    private:
-    Shared<Celestial> celestialObjectSPtr_;
+    Shared<const Celestial> celestialObjectSPtr_;
 };
 
 }  // namespace dynamics

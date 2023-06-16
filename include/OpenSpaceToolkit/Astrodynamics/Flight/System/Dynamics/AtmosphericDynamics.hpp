@@ -41,7 +41,7 @@ class AtmosphericDynamics : public Dynamics
     ///
     /// @param              [in] aCelestial A Celestial Object
 
-    AtmosphericDynamics(const Shared<Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
+    AtmosphericDynamics(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
 
     /// @brief              Destructor
 
@@ -86,7 +86,7 @@ class AtmosphericDynamics : public Dynamics
     ///
     /// @return             A celestial
 
-    Shared<Celestial> getCelestial() const;
+    Shared<const Celestial> getCelestial() const;
 
     /// @brief              Get satellite system
     ///
@@ -95,7 +95,7 @@ class AtmosphericDynamics : public Dynamics
     SatelliteSystem getSatelliteSystem() const;
 
    private:
-    Shared<Celestial> celestialObjectSPtr_;
+    Shared<const Celestial> celestialObjectSPtr_;
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
