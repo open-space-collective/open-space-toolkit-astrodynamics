@@ -103,15 +103,15 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics 
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
     const Earth earth_ = {
-        Earth::Models::Spherical::GravitationalParameter,
-        Earth::Models::Spherical::EquatorialRadius,
-        Earth::Models::Spherical::Flattening,
-        Earth::Models::Spherical::J2,
-        Earth::Models::Spherical::J4,
+        EarthGravitationalModel::Spherical.gravitationalParameter_,
+        EarthGravitationalModel::Spherical.equatorialRadius_,
+        EarthGravitationalModel::Spherical.flattening_,
+        EarthGravitationalModel::Spherical.J2_,
+        EarthGravitationalModel::Spherical.J4_,
         std::make_shared<Analytical>(Frame::ITRF()),
-        EarthGravitationalModel::Type::Undefined,
-        EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Exponential,
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
@@ -132,9 +132,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        EarthGravitationalModel::Type::Undefined,
-        EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Undefined,
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
     };
 
     const String expectedString = "{Atmospheric Model} is undefined.";
@@ -208,15 +208,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 {
     // Setup dynamics
     const Earth earth = {
-        Earth::Models::Spherical::GravitationalParameter,
-        Earth::Models::Spherical::EquatorialRadius,
-        Earth::Models::Spherical::Flattening,
-        Earth::Models::Spherical::J2,
-        Earth::Models::Spherical::J4,
         std::make_shared<Analytical>(Frame::ITRF()),
-        EarthGravitationalModel::Type::Spherical,
-        EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Exponential,
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);

@@ -40,7 +40,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
 
         using ostk::physics::Environment;
         using ostk::physics::coord::Frame;
-        using ostk::physics::env::obj::celest::Earth;
+        using ostk::physics::environment::gravitational::Earth;
         using ostk::physics::time::DateTime;
         using ostk::physics::time::Instant;
         using ostk::physics::time::Scale;
@@ -64,10 +64,10 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -268,7 +268,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
 
     using ostk::physics::Environment;
     using ostk::physics::coord::Frame;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
@@ -297,10 +297,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -404,7 +404,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
 
     using ostk::physics::Environment;
     using ostk::physics::coord::Frame;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
@@ -435,10 +435,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -541,10 +541,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -647,10 +647,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};

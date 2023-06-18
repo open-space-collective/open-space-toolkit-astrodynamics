@@ -1,3 +1,3 @@
 # Apache License 2.0
 
-open-space-toolkit-physics~=1.0.0
+open-space-toolkit-physics~=1.1.0

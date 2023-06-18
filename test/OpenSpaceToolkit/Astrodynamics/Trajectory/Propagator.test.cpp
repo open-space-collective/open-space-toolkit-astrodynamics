@@ -464,21 +464,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_)};
 
     // Setup Propagator
-    const Earth earth = {
-        {398600441500000.0, GravitationalParameterSIUnit},
-        Length::Meters(6378137.0),
-        0.0,
-        0.0,
-        0.0,
-        std::make_shared<Analytical>(Frame::ITRF()),
-        EarthGravitationalModel::Type::Spherical,
-        EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Exponential};
+    const Earth earth = Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential));
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    defaultDynamics_.add(std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)));
-    const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
+        std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+        };
+    const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
@@ -1634,16 +1631,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         }
 
         // Setup dynamics
-        const Earth earth = Earth(
-            Earth::Models::Spherical::GravitationalParameter,
-            Earth::Models::Spherical::EquatorialRadius,
-            Earth::Models::Spherical::Flattening,
-            Earth::Models::Spherical::J2,
-            Earth::Models::Spherical::J4,
-            std::make_shared<Analytical>(Frame::ITRF()),
-            EarthGravitationalModel::Type::Spherical,
-            EarthMagneticModel::Type::Undefined,
-            EarthAtmosphericModel::Type::Exponential
+        const Earth earth = Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
@@ -1727,16 +1718,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         }
 
         // Setup dynamics
-        const Earth earth = Earth(
-            Earth::Models::Spherical::GravitationalParameter,
-            Earth::Models::Spherical::EquatorialRadius,
-            Earth::Models::Spherical::Flattening,
-            Earth::Models::Spherical::J2,
-            Earth::Models::Spherical::J4,
-            std::make_shared<Analytical>(Frame::ITRF()),
-            EarthGravitationalModel::Type::Spherical,
-            EarthMagneticModel::Type::Undefined,
-            EarthAtmosphericModel::Type::Exponential
+        const Earth earth = Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {

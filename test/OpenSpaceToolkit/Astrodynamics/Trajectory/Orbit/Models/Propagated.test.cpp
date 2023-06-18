@@ -69,6 +69,7 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Mass;
 using ostk::physics::units::Time;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
@@ -723,7 +724,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, {EGM2008Dynamics}}, state};
 
         // Calculate gravitational parameter
-        const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter;
+        const Derived gravitationalParameter = EarthGravitationalModel::Spherical.gravitationalParameter_;
         const Derived::Unit GravitationalParameterSIUnit =
             Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
         const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);

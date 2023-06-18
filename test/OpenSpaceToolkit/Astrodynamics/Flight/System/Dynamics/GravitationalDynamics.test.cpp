@@ -80,9 +80,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
         0.0,
         0.0,
         std::make_shared<Analytical>(Frame::ITRF()),
-        EarthGravitationalModel::Type::Undefined,
-        EarthMagneticModel::Type::Undefined,
-        EarthAtmosphericModel::Type::Undefined,
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
     };
 
     const String expectedString = "{Gravitational Model} is undefined.";

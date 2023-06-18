@@ -255,9 +255,9 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     }
 
     // Calculate gravitational parameter (Spherical earth has the most modern value which is the correct one)
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
 
-    const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter;
+    const Derived gravitationalParameter = Earth::Spherical.gravitationalParameter_;
     const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
 
     Position currentPosition = cachedStateArray_[0].getPosition();

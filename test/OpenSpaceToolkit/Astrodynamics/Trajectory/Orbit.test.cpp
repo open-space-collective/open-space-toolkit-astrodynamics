@@ -26,36 +26,40 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Table;
+using ostk::core::fs::File;
+using ostk::core::fs::Path;
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+
+using ostk::math::obj::Vector3d;
+using ostk::math::geom::d3::trf::rot::Quaternion;
+
+using ostk::physics::Environment;
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::env::obj::celest::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Derived;
+using ostk::physics::units::Length;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+
+using ostk::astro::trajectory::Orbit;
+using ostk::astro::trajectory::orbit::Pass;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::orbit::models::Kepler;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         const Environment environment = Environment::Default();
@@ -70,10 +74,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -106,34 +110,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         const Environment environment = Environment::Default();
@@ -148,10 +124,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -171,34 +147,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         const Environment environment = Environment::Default();
@@ -213,10 +161,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -236,33 +184,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         const Environment environment = Environment::Default();
@@ -277,10 +198,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -297,35 +218,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::Pass;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         // Environment setup
@@ -344,10 +236,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -384,35 +276,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::Pass;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         // Environment setup
@@ -431,10 +294,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -481,35 +344,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::Pass;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         // Environment setup
@@ -528,10 +362,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -592,10 +426,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
@@ -656,10 +490,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
@@ -706,38 +540,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::trf::rot::Quaternion;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Transform;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::Pass;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     // NED
 
@@ -766,10 +568,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -863,10 +665,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
     //     const COE coe = { semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly } ;
 
     //     const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC) ;
-    //     const Derived gravitationalParameter = Earth::GravitationalParameter ;
-    //     const Length equatorialRadius = Earth::EquatorialRadius ;
-    //     const Real J2 = Earth::J2 ;
-    //     const Real J4 = Earth::J4 ;
+    //     const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_ ;
+    //     const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_ ;
+    //     const Real J2 = EarthGravitationalModel::EGM2008.J2_ ;
+    //     const Real J4 = EarthGravitationalModel::EGM2008.J4_ ;
 
     //     const Kepler keplerianModel = { coe, epoch, gravitationalParameter, equatorialRadius, J2, J4,
     //     Kepler::PerturbationType::None } ;
@@ -948,34 +750,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
 
     {
         const Environment environment = Environment::Default();
@@ -990,10 +764,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::GravitationalParameter;
-        const Length equatorialRadius = Earth::EquatorialRadius;
-        const Real J2 = Earth::J2;
-        const Real J4 = Earth::J4;
+        const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_;
+        const Real J2 = EarthGravitationalModel::EGM2008.J2_;
+        const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -1011,8 +785,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 {
-    using ostk::astro::trajectory::Orbit;
-
     {
         EXPECT_NO_THROW(Orbit::Undefined());
         EXPECT_FALSE(Orbit::Undefined().isDefined());
@@ -1021,18 +793,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-
-    using ostk::physics::Environment;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
 
     {
         struct Scenario
@@ -1182,17 +942,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-
-    using ostk::physics::Environment;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
 
     {
         struct Scenario
@@ -1330,17 +1079,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-
-    using ostk::physics::Environment;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
 
     {
         struct Scenario
