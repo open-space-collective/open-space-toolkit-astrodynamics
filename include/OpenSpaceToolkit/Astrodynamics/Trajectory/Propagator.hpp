@@ -116,12 +116,6 @@ class Propagator
 
     bool isDefined() const;
 
-    /// @brief              Set dynamics array
-    /// @code
-    ///                     propagator.setDynamics(aDynamicsArray);
-    /// @endcode
-    /// @param              [in] aDynamicsArray A Dynamics Array
-
     /// @brief              Get the dynamics array
     /// @code
     ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
@@ -129,6 +123,12 @@ class Propagator
     /// @return             An array of dynamics
 
     Array<Shared<Dynamics>> getDynamics() const;
+
+    /// @brief              Set dynamics array
+    /// @code
+    ///                     propagator.setDynamics(aDynamicsArray);
+    /// @endcode
+    /// @param              [in] aDynamicsArray A Dynamics Array
 
     void setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
 

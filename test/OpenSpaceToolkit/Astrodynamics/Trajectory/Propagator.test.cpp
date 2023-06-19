@@ -33,8 +33,9 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -85,8 +86,9 @@ using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::dynamics::GravitationalDynamics;
-using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
@@ -107,7 +109,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             SatelliteSystem(Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1);
 
         earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        defaultDynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)));
+        defaultDynamics_.add(std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_)));
 
         defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
     }
@@ -135,7 +137,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constr
     {
         Environment environment = Environment::Default();
         EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, environment));
-        EXPECT_TRUE(Propagator(defaultNumericalSolver_, environment).getDynamics().getSize() == 3);
+
+        const Propagator propagator = {defaultNumericalSolver_, environment};
+
+        EXPECT_TRUE(propagator.getDynamics().getSize() == 3);
+
+        EXPECT_TRUE(dynamic_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
+        EXPECT_TRUE(dynamic_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[1]).isDefined());
+        EXPECT_TRUE(dynamic_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
     }
 }
 
@@ -223,10 +232,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, setDyn
     {
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
 
-        const Shared<Dynamics> gravitationalDynamics =
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_));
+        const Shared<Dynamics> centralBodyGravity =
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_));
 
-        defaultPropagator_.setDynamics({gravitationalDynamics, gravitationalDynamics});
+        defaultPropagator_.setDynamics({centralBodyGravity, centralBodyGravity});
 
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
 
@@ -241,14 +250,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, addDyn
     {
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
 
-        const Shared<Dynamics> gravitationalDynamics =
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_));
+        const Shared<Dynamics> centralBodyGravity =
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_));
 
-        defaultPropagator_.addDynamics(gravitationalDynamics);
+        defaultPropagator_.addDynamics(centralBodyGravity);
 
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
 
-        defaultPropagator_.addDynamics(gravitationalDynamics);
+        defaultPropagator_.addDynamics(centralBodyGravity);
 
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 3);
     }
@@ -472,8 +481,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
-        std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
+        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
         };
     const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
@@ -491,7 +500,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 // TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ConstantThrustManeuverWithDrag)
 // {
 //     using ostk::astro::flight::system::dynamics::ThrusterDynamics;
-//     using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
+//     using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 //     using ostk::math::obj::VectorXd;
 //     using ostk::physics::data::Direction;
 //     using ostk::physics::environment::atmospheric::earth::Exponential;
@@ -527,7 +536,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
 //     // Setup Propagator
 //     earthSpherical_->accessAtmosphericModel() = std::make_shared<Exponential>(Exponential());
-//     defaultDynamics_.add(std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earth, satelliteSystem)));
+//     defaultDynamics_.add(std::make_shared<AtmosphericDrag>(AtmosphericDrag(earth, satelliteSystem)));
 //     defaultDynamics_.add(
 //         std::make_shared<ThrusterDynamics>(ThrusterDynamics(Direction({1.0, 0.0, 0.0}, gcrfSPtr_), satelliteSystem))
 //     );  // TBI: Set VNC frame here
@@ -759,7 +768,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -836,13 +845,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator_360 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_360))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
         const Propagator propagator_100 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_100))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_100))}};
         const Propagator propagator_70 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_70))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_45))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_360 = propagator_360.calculateStatesAt(state, instantArray);
@@ -950,7 +959,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Setup initial conditions
         const State state = {
@@ -1024,7 +1033,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Setup initial conditions
         const State state = {
@@ -1107,13 +1116,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator_360 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_360))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
         const Propagator propagator_180 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_180))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
         const Propagator propagator_90 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_90))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_90))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_45))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_360 = propagator_360.calculateStatesAt(state, instantArray);
@@ -1225,7 +1234,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup Propagator
         const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::EGM84(70, 70));
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1301,11 +1310,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator_180 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_180))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
         const Propagator propagator_70 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_70))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth_45))}};
+            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_180 = propagator_180.calculateStatesAt(state, instantArray);
@@ -1393,9 +1402,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         defaultDynamics_ = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(moonSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(sunSpherical_))};
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(moonSpherical_),
+            std::make_shared<ThirdBodyGravity>(sunSpherical_)};
 
         // Setup initial conditions
         const State state = {
@@ -1478,8 +1487,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // dynamics setup
         const Shared<Celestial> sunSpherical = std::make_shared<Celestial>(Sun::Spherical());
         defaultDynamics_ = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(sunSpherical))};
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(sunSpherical)};
 
         // Setup Propagator
         const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
@@ -1557,8 +1566,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // dynamics setup
         const Shared<Celestial> moonSpherical = std::make_shared<Celestial>(Moon::Spherical());
         defaultDynamics_ = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(moonSpherical)),
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(moonSpherical),
         };
 
         // Setup Propagator
@@ -1638,8 +1647,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
-            std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
+            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
         };
 
         // Setup initial conditions
@@ -1725,8 +1734,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSPtr)),
-            std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr, satelliteSystem_)),
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
+            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
         };
 
         // Setup initial conditions

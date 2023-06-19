@@ -19,7 +19,7 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics.flight.system.dynamics import GravitationalDynamics
+from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
 
@@ -61,12 +61,12 @@ def state() -> State:
 
 
 @pytest.fixture
-def gravitational_dynamics() -> GravitationalDynamics:
-    return GravitationalDynamics(Earth.WGS84(20, 0))
+def gravitational_dynamics() -> CentralBodyGravity:
+    return CentralBodyGravity(Earth.WGS84(20, 0))
 
 
 @pytest.fixture
-def dynamics(gravitational_dynamics: GravitationalDynamics) -> list:
+def dynamics(gravitational_dynamics: CentralBodyGravity) -> list:
     return [gravitational_dynamics]
 
 
@@ -103,7 +103,7 @@ class TestPropagator:
         assert len(propagator.get_dynamics()) == 2
 
     def test_add_dynamics(
-        self, propagator: Propagator, gravitational_dynamics: GravitationalDynamics
+        self, propagator: Propagator, gravitational_dynamics: CentralBodyGravity
     ):
         assert len(propagator.get_dynamics()) == 1
 
