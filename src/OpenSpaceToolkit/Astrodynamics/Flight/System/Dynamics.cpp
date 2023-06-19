@@ -15,9 +15,26 @@ using ostk::core::types::Index;
 
 using ostk::physics::time::Duration;
 
-Dynamics::Dynamics() {}
+Dynamics::Dynamics(const String& aName)
+    : name_(aName)
+{
+}
 
 Dynamics::~Dynamics() {}
+
+void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Dynamics") : void();
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+String Dynamics::getName() const
+{
+    return name_;
+}
 
 Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
     const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
@@ -50,7 +67,7 @@ void Dynamics::DynamicalEquations(
 
     for (const Shared<Dynamics>& dynamics : aDynamicsArray)
     {
-        dynamics->update(x, dxdt, nextInstant);
+        dynamics->applyContribution(x, dxdt, nextInstant);
     }
 }
 

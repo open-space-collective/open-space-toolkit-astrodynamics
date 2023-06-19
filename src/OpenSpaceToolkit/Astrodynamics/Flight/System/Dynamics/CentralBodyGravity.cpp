@@ -28,7 +28,12 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
-    : Dynamics(),
+    : CentralBodyGravity(aCelestialObjectSPtr, String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName()))
+{
+}
+
+CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr, const String& aName)
+    : Dynamics(aName),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->gravitationalModelIsDefined())
@@ -51,46 +56,42 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity&
     return anOutputStream;
 }
 
-bool CentralBodyGravity::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Gravitational Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
 
     ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void CentralBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+bool CentralBodyGravity::isDefined() const
 {
-    // Obtain gravitational acceleration from current object
-    const Vector gravitationalAcceleration =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant);
-
-    // Add object's gravity to total gravitational acceleration
-    Vector3d gravitationalAcceleration_SI = gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();
-
-    // Set acceleration
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-    dxdt[3] += gravitationalAcceleration_SI[0];
-    dxdt[4] += gravitationalAcceleration_SI[1];
-    dxdt[5] += gravitationalAcceleration_SI[2];
+    return celestialObjectSPtr_->isDefined();
 }
 
 Shared<const Celestial> CentralBodyGravity::getCelestial() const
 {
-    if (!this->celestialObjectSPtr_->isDefined())
+    if (!celestialObjectSPtr_->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Celestial");
     }
 
     return celestialObjectSPtr_;
+}
+
+void CentralBodyGravity::applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const
+{
+    // Obtain gravitational acceleration from current object
+    const Vector3d gravitationalAcceleration =
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant).inFrame(gcrfSPtr_, anInstant).getValue();
+
+    // Integrate velocity states
+    dxdt[3] += gravitationalAcceleration[0];
+    dxdt[4] += gravitationalAcceleration[1];
+    dxdt[5] += gravitationalAcceleration[2];
 }
 
 }  // namespace dynamics

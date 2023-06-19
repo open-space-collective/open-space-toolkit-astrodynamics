@@ -21,6 +21,7 @@ namespace system
 {
 
 using ostk::core::types::Shared;
+using ostk::core::types::String;
 using ostk::core::ctnr::Array;
 
 using ostk::physics::time::Instant;
@@ -34,9 +35,11 @@ class Dynamics
     typedef std::vector<double> StateVector;  // Container used to hold the state vector
     typedef std::function<void(const StateVector&, StateVector&, const double)> DynamicalEquationWrapper;
 
-    /// @brief              Constructor (pure virtual)
+    /// @brief              Constructor
+    ///
+    /// @param              [in] aName A name
 
-    Dynamics();
+    Dynamics(const String& aName = String::Empty());
 
     /// @brief              Destructor (pure virtual)
 
@@ -54,20 +57,25 @@ class Dynamics
 
     virtual bool isDefined() const = 0;
 
-    /// @brief              Print dynamics (pure virtual)
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
-
-    /// @brief              Update the state derivative (pure virtual)
+    /// @brief              Apply contributions to the state derivative (pure virtual)
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void update(const StateVector& x, StateVector& dxdt, const Instant& anInstant) = 0;
+    virtual void applyContribution(const StateVector& x, StateVector& dxdt, const Instant& anInstant) const = 0;
+
+    /// @brief              Print dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    /// @brief              Get name
+    ///
+    /// @return             Name
+    String getName() const;
 
     /// @brief              Get dynamical equations function wrapper (pure virtual)
     ///
@@ -82,6 +90,7 @@ class Dynamics
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
    private:
+
     /// @brief              Dynamical Equations
     ///
     /// @param              [in] x A state vector
@@ -97,6 +106,8 @@ class Dynamics
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const Instant& anInstant
     );
+
+    const String name_;
 };
 
 }  // namespace system

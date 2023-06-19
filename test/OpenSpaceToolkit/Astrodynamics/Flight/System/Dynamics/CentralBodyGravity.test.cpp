@@ -15,6 +15,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 
 #include <Global.test.hpp>
 
@@ -40,6 +41,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::PositionDerivative;
 
 using namespace boost::numeric::odeint;
 
@@ -73,6 +75,29 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity :
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Constructor)
 {
     {
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_));
+    }
+
+    {
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_, "test"));
+    }
+
+    {
+        const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(earthSPtrWGS84));
+    }
+
+    {
+        const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sun));
+    }
+
+    {
+        const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(moon));
+    }
+
+    {
         const Earth earth = {
             {398600441500000.0, GravitationalParameterSIUnit},
             Length::Meters(6378137.0),
@@ -102,25 +127,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
             },
             ostk::core::error::runtime::Undefined
         );
-    }
-
-    {
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_));
-    }
-
-    {
-        const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(earthSPtrWGS84));
-    }
-
-    {
-        const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sun));
-    }
-
-    {
-        const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(moon));
     }
 }
 
@@ -159,6 +165,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetName)
+{
+    {
+        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
+        EXPECT_TRUE(centralBodyGravity.getName() != String::Empty());
+    }
+
+    {
+        const String name = "test";
+        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_, name);
+        EXPECT_TRUE(centralBodyGravity.getName() == name);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetCelestial)
 {
     const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
@@ -166,12 +186,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     EXPECT_TRUE(centralBodyGravity.getCelestial() == sphericalEarthSPtr_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Update)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, ApplyContribution)
 {
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    centralBodyGravity.update(startStateVector_, dxdt, startInstant_);
+    centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
@@ -186,7 +206,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
     // Setup dynamics
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))};
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth)),
+        std::make_shared<PositionDerivative>(PositionDerivative()),
+    };
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;

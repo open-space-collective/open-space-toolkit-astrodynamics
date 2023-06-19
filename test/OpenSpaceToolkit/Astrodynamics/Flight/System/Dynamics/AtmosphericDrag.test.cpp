@@ -128,6 +128,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
     }
 
     {
+        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_, "test"));
+    }
+
+    {
         const Earth earth = {
             {398600441500000.0, GravitationalParameterSIUnit},
             Length::Meters(6378137.0),
@@ -192,6 +196,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Pr
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetName)
+{
+    {
+        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+        EXPECT_TRUE(atmosphericDynamics.getName() != String::Empty());
+    }
+
+    {
+        const String name = "test";
+        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_, name);
+        EXPECT_TRUE(atmosphericDynamics.getName() == name);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetCelestial)
 {
     AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
@@ -204,11 +222,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
     EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Update)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ApplyContribution)
 {
     Dynamics::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
-    atmosphericDrag.update(startStateVector_, dxdt, startInstant_);
+    atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);

@@ -20,6 +20,8 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::String;
+
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
 
@@ -40,39 +42,55 @@ class AtmosphericDrag : public Dynamics
     /// @endcode
     ///
     /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aSatelliteSystem A satellite system
 
     AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
+
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     const Celestial = { ... };
+    ///                     const SatelliteSystem = { ... };
+    ///                     const aName = { ... };
+    ///                     AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem, aName };
+    /// @endcode
+    ///
+    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aSatelliteSystem A satellite system
+    /// @param              [in] aName A name
+
+    AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName);
 
     /// @brief              Destructor
 
     virtual ~AtmosphericDrag() override;
 
-    /// @brief              Clone gravitational dynamics
+    /// @brief              Clone atmospheric drag dynamics
     ///
-    /// @return             Pointer to cloned gravitational dynamics
+    /// @return             Pointer to cloned atmospheric drag dynamics
 
     virtual AtmosphericDrag* clone() const override;
 
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream
-    /// @param              [in] anAtmosphericDrag A gravitational dynamics
+    /// @param              [in] anAtmosphericDrag An atmospheric drag dynamics
     /// @return             A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag);
 
-    /// @brief              Check if gravitational dynamics is defined
-    ///
-    /// @return             True if gravitational dynamics is defined
-
-    virtual bool isDefined() const override;
-
-    /// @brief              Print gravitational dynamics
+    /// @brief              Print atmospheric drag dynamics
     ///
     /// @param              [in] anOutputStream An output stream
     /// @param              [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+
+    /// @brief              Check if atmospheric drag dynamics is defined
+    ///
+    /// @return             True if atmospheric drag dynamics is defined
+
+    virtual bool isDefined() const override;
 
     /// @brief              Get celestial
     ///
@@ -86,13 +104,13 @@ class AtmosphericDrag : public Dynamics
 
     SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Update the state derivative
+    /// @brief              Apply contributions to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) override;
+    virtual void applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

@@ -16,6 +16,8 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::String;
+
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Position;
@@ -28,7 +30,12 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
-    : Dynamics(),
+    : ThirdBodyGravity(aCelestialObjectSPtr, String::Format("Third Body Gravity [{}]", aCelestialObjectSPtr->getName()))
+{
+}
+
+ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr, const String& aName)
+    : Dynamics(aName),
       celestialObjectSPtr_(aCelestialObjectSPtr)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->gravitationalModelIsDefined())
@@ -57,55 +64,53 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& a
     return anOutputStream;
 }
 
-bool ThirdBodyGravity::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Gravitational Dynamics") : void();
+    
+    Dynamics::print(anOutputStream, false);
 
     ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void ThirdBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+bool ThirdBodyGravity::isDefined() const
 {
-    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
-    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
-    const Vector gravitationalAcceleration3rdBodyCorrection =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant);
-
-    // Subtract 3rd body correct from total gravitational acceleration
-    Vector3d gravitationalAcceleration_SI =
-        -gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, anInstant).getValue();
-
-    // Obtain gravitational acceleration from current object
-    const Vector gravitationalAcceleration =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant);
-
-    // Add object's gravity to total gravitational acceleration
-    gravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();
-
-    // Set acceleration
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
-    dxdt[3] += gravitationalAcceleration_SI[0];
-    dxdt[4] += gravitationalAcceleration_SI[1];
-    dxdt[5] += gravitationalAcceleration_SI[2];
+    return celestialObjectSPtr_->isDefined();
 }
 
 Shared<const Celestial> ThirdBodyGravity::getCelestial() const
 {
-    if (!this->celestialObjectSPtr_->isDefined())
+    if (!celestialObjectSPtr_->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Celestial");
     }
 
     return celestialObjectSPtr_;
+}
+
+void ThirdBodyGravity::applyContribution(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+) const
+{
+    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
+    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
+    Vector3d gravitationalAcceleration =
+        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant)
+             .inFrame(gcrfSPtr_, anInstant)
+             .getValue();
+
+    // Add celestial's gravity to total gravitational acceleration
+    gravitationalAcceleration +=
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
+            .inFrame(gcrfSPtr_, anInstant)
+            .getValue();
+
+    // Integrate velocity states
+    dxdt[3] += gravitationalAcceleration[0];
+    dxdt[4] += gravitationalAcceleration[1];
+    dxdt[5] += gravitationalAcceleration[2];
 }
 
 }  // namespace dynamics

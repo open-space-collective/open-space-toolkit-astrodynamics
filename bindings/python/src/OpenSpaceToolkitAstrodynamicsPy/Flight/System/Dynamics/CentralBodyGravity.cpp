@@ -24,6 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGr
 
             .def("get_celestial", &CentralBodyGravity::getCelestial)
 
-            .def("update", &CentralBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"));
+            .def("applyContribution", &CentralBodyGravity::applyContribution, arg("x"), arg("dxdt"), arg("instant"));
     }
 }

@@ -122,26 +122,28 @@ The library exhibits the following detailed and descriptive structure:
 │   │   │   ├── Tabulated (input csv)
 │   │   │   └── Propagated (numerical integration)
 │   │   ├── Pass
-|   |   └── Messages
-|   |       └── SpaceX
-|   |           └── OPM
+│   │   └── Messages
+│   │       └── SpaceX
+│   │           └── OPM
 │   ├── Models
-│   |   ├── Static
-│   |   └── Tabulated
+│   │   ├── Static
+│   │   └── Tabulated
 │   └── Propagator
 ├── Flight
 │   ├── Profile
-|   |    ├── Models
-│   |    |   ├── Transform
-│   |    |   └── Tabulated
-│   |    └── State
+│   │    ├── Models
+│   │    │   ├── Transform
+│   │    │   └── Tabulated
+│   │    └── State
 │   └── System
-|        ├── SatelliteSystem
-|        └── Dynamics
-|            └── CentralBodyGravity
-|            └── AtmosphericDrag
+│        ├── SatelliteSystem
+│        └── Dynamics
+│            └── PositionDerivative
+│            └── CentralBodyGravity
+│            └── ThirdBodyGravity
+│            └── AtmosphericDrag
 ├── Access
-|   └── Generator
+│   └── Generator
 └── Conjunction
     └── Messages
         └── CCSDS

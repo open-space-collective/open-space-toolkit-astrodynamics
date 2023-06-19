@@ -19,6 +19,7 @@ namespace dynamics
 {
 
 using ostk::core::types::Real;
+using ostk::core::types::String;
 
 using ostk::physics::Unit;
 using ostk::physics::units::Derived;
@@ -30,9 +31,16 @@ using ostk::physics::data::Scalar;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem)
-    : Dynamics(),
-      celestialObjectSPtr_(aCelestial),
+AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem)
+    : AtmosphericDrag(aCelestialSPtr, aSatelliteSystem, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
+{
+}
+
+AtmosphericDrag::AtmosphericDrag(
+    const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem, const String& aName
+)
+    : Dynamics(aName),
+      celestialObjectSPtr_(aCelestialSPtr),
       satelliteSystem_(aSatelliteSystem)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->atmosphericModelIsDefined())
@@ -55,14 +63,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& an
     return anOutputStream;
 }
 
-bool AtmosphericDrag::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined() && satelliteSystem_.isDefined();
-}
-
 void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Dynamics") : void();
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Drag Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
 
     ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
 
@@ -71,7 +76,32 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void AtmosphericDrag::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+bool AtmosphericDrag::isDefined() const
+{
+    return celestialObjectSPtr_->isDefined() && satelliteSystem_.isDefined();
+}
+
+Shared<const Celestial> AtmosphericDrag::getCelestial() const
+{
+    if (!celestialObjectSPtr_->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial Object");
+    }
+
+    return celestialObjectSPtr_;
+}
+
+SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
+{
+    if (!satelliteSystem_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Satellite System");
+    }
+
+    return satelliteSystem_;
+}
+
+void AtmosphericDrag::applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const
 {
     (void)anInstant;
 
@@ -99,21 +129,6 @@ void AtmosphericDrag::update(const Dynamics::StateVector& x, Dynamics::StateVect
     dxdt[3] += dragAcceleration_SI[0];
     dxdt[4] += dragAcceleration_SI[1];
     dxdt[5] += dragAcceleration_SI[2];
-}
-
-Shared<const Celestial> AtmosphericDrag::getCelestial() const
-{
-    return celestialObjectSPtr_;
-}
-
-SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
-{
-    if (!satelliteSystem_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite System");
-    }
-
-    return satelliteSystem_;
 }
 
 }  // namespace dynamics

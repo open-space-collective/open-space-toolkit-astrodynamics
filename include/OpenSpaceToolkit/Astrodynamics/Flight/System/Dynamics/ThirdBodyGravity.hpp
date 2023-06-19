@@ -19,6 +19,8 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::String;
+
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
 
@@ -32,7 +34,7 @@ class ThirdBodyGravity : public Dynamics
     /// @brief              Constructor
     ///
     /// @code
-    ///                     const Celestial = { ... };
+    ///                     const aCelestial = { ... };
     ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial };
     /// @endcode
     ///
@@ -40,36 +42,49 @@ class ThirdBodyGravity : public Dynamics
 
     ThirdBodyGravity(const Shared<const Celestial>& aCelestial);
 
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     const aCelestial = { ... };
+    ///                     const aName = { ... };
+    ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial, aName };
+    /// @endcode
+    ///
+    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aName A name
+
+    ThirdBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
+
     /// @brief              Destructor
 
     virtual ~ThirdBodyGravity() override;
 
-    /// @brief              Clone gravitational dynamics
+    /// @brief              Clone third body gravity dynamics
     ///
-    /// @return             Pointer to cloned gravitational dynamics
+    /// @return             Pointer to cloned third body gravity dynamics
 
     virtual ThirdBodyGravity* clone() const override;
 
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aThirdBodyGravity A gravitational dynamics
+    /// @param              [in] aThirdBodyGravity A third body gravity dynamics
     /// @return             A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& aThirdBodyGravity);
 
-    /// @brief              Check if gravitational dynamics is defined
-    ///
-    /// @return             True if gravitational dynamics is defined
-
-    virtual bool isDefined() const override;
-
-    /// @brief              Print gravitational dynamics
+    /// @brief              Print third body gravity dynamics
     ///
     /// @param              [in] anOutputStream An output stream
     /// @param              [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+
+    /// @brief              Check if third body gravity dynamics is defined
+    ///
+    /// @return             True if third body gravity dynamics is defined
+
+    virtual bool isDefined() const override;
 
     /// @brief              Get celestial
     ///
@@ -77,13 +92,13 @@ class ThirdBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief              Update the state derivative
+    /// @brief              Apply contributions to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) override;
+    virtual void applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

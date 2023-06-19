@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
@@ -22,6 +23,7 @@ using ostk::math::obj::VectorXd;
 
 using ostk::physics::env::obj::Celestial;
 
+using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
@@ -32,6 +34,7 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
     : dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
 {
+    this->addDynamics(std::make_shared<PositionDerivative>());
 }
 
 Propagator::Propagator(
@@ -70,6 +73,8 @@ Propagator::Propagator(
             this->addDynamics(dynamics);
         }
     }
+
+    this->addDynamics(std::make_shared<PositionDerivative>());
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const

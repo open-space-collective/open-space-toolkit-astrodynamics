@@ -24,6 +24,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGrav
 
             .def("get_celestial", &ThirdBodyGravity::getCelestial)
 
-            .def("update", &ThirdBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"));
+            .def("applyContribution", &ThirdBodyGravity::applyContribution, arg("x"), arg("dxdt"), arg("instant"));
     }
 }

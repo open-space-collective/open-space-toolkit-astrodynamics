@@ -140,7 +140,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constr
 
         const Propagator propagator = {defaultNumericalSolver_, environment};
 
-        EXPECT_TRUE(propagator.getDynamics().getSize() == 3);
+        // default environment has 3 bodies (Earth Sun and Moon) with gravitational fields
+        // and 1 default dynamics of integrating the Position Derivative
+        EXPECT_TRUE(propagator.getDynamics().getSize() == 4);
 
         EXPECT_TRUE(dynamic_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
         EXPECT_TRUE(dynamic_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[1]).isDefined());
