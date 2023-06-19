@@ -14,7 +14,8 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 
 #include <Global.test.hpp>
 
@@ -39,14 +40,15 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::GravitationalDynamics;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 
 using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -62,102 +64,126 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamic
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
-    /* Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction */
+    // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
     Dynamics::StateVector startStateVector_;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Constructor)
 {
-    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    EXPECT_NO_THROW(GravitationalDynamics gravitationalDynamics(earth));
+    {
+        const Earth earth = {
+            {398600441500000.0, GravitationalParameterSIUnit},
+            Length::Meters(6378137.0),
+            0.0,
+            0.0,
+            0.0,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
+        };
 
-    const Earth earthNull = {
-        {398600441500000.0, GravitationalParameterSIUnit},
-        Length::Meters(6378137.0),
-        0.0,
-        0.0,
-        0.0,
-        std::make_shared<Analytical>(Frame::ITRF()),
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
-    };
+        const String expectedString = "{Gravitational Model} is undefined.";
 
-    const String expectedString = "{Gravitational Model} is undefined.";
-
-    // Test the throw and the message that is thrown
-    EXPECT_THROW(
-        {
-            try
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
             {
-                GravitationalDynamics gravitationalDynamics(std::make_shared<Celestial>(earthNull));
-            }
-            catch (const ostk::core::error::runtime::Undefined& e)
+                try
+                {
+                    ThirdBodyGravity thirdBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.what());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        const String expectedString = "Cannot calculate third body acceleration for the Earth yet.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
             {
-                EXPECT_EQ(expectedString, e.what());
-                throw;
-            }
-        },
-        ostk::core::error::runtime::Undefined
-    );
+                try
+                {
+                    ThirdBodyGravity thirdBodyGravitationalDynamics(std::make_shared<Celestial>(Earth::Spherical()));
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(expectedString, e.what());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    {
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr));
+    }
+
+    {
+        const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(sunSPtr));
+    }
+
+    {
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr));
+    }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, isDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, IsDefined)
 {
-    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    const GravitationalDynamics gravitationalDynamics(earth);
+    {
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        const ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr);
 
-    EXPECT_TRUE(gravitationalDynamics.isDefined());
+        EXPECT_TRUE(thirdBodyGravitationalDynamics.isDefined());
+    }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, getCelestial)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetCelestial)
 {
-    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    const GravitationalDynamics gravitationalDynamics(earth);
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+    const ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr);
 
-    EXPECT_TRUE(gravitationalDynamics.getCelestial() == earth);
+    EXPECT_TRUE(thirdBodyGravitationalDynamics.getCelestial() == moonSPtr);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, OneStepEarthOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Update)
 {
-    Dynamics::StateVector Earth_ReferencePull(6);
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
+    ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
 
-    // Setup dynamics
-    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth))};
+    Dynamics::StateVector dxdt(6, 0.0);
+    thirdBodyGravitationalDynamics.update(startStateVector_, dxdt, startInstant_);
 
-    // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    Earth_ReferencePull[0] = 6.999995932647768e+06;
-    Earth_ReferencePull[1] = -2.312964634635743e-17;
-    Earth_ReferencePull[2] = 0.000000000000000e+00;
-    Earth_ReferencePull[3] = -8.134706038871020e+00;
-    Earth_ReferencePull[4] = -4.625929269271485e-17;
-    Earth_ReferencePull[5] = 0.000000000000000e+00;
-
-    EXPECT_GT(1e-15, startStateVector_[0] - Earth_ReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector_[1] - Earth_ReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector_[2] - Earth_ReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector_[3] - Earth_ReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector_[4] - Earth_ReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector_[5] - Earth_ReferencePull[5]);
+    EXPECT_GT(1e-15, 0.0 - dxdt[0]);
+    EXPECT_GT(1e-15, 0.0 - dxdt[1]);
+    EXPECT_GT(1e-15, 0.0 - dxdt[2]);
+    EXPECT_GT(1e-15, -4.620543790697659e-07 - dxdt[3]);
+    EXPECT_GT(1e-15, 2.948717888154649e-07 - dxdt[4]);
+    EXPECT_GT(1e-15, 1.301648617451192e-07 - dxdt[5]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, OneStepSunOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunOnly)
 {
     Dynamics::StateVector Sun_ReferencePull(6);
     // Setup dynamics
     const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<GravitationalDynamics>(GravitationalDynamics(sun))};
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(sun)};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Sun_ReferencePull[0] = 7.000000000000282e+06;
@@ -175,17 +201,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
     EXPECT_GT(1e-15, startStateVector_[5] - Sun_ReferencePull[5]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, OneStepMoonOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepMoonOnly)
 {
     Dynamics::StateVector Moon_ReferencePull(6);
 
     // Setup dynamics
     const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<GravitationalDynamics>(GravitationalDynamics(moon))};
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(moon)};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Moon_ReferencePull[0] = 6.999999999999768e+06;
@@ -203,7 +229,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
     EXPECT_GT(1e-15, startStateVector_[5] - Moon_ReferencePull[5]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics, OneStepSunMoonEarth)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunMoonEarth)
 {
     Dynamics::StateVector Earth_Sun_Moon_ReferencePull(6);
 
@@ -212,13 +238,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynami
     const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<GravitationalDynamics>(GravitationalDynamics(earth)),
-        std::make_shared<GravitationalDynamics>(GravitationalDynamics(sun)),
-        std::make_shared<GravitationalDynamics>(GravitationalDynamics(moon))};
+        std::make_shared<CentralBodyGravity>(earth),
+        std::make_shared<ThirdBodyGravity>(sun),
+        std::make_shared<ThirdBodyGravity>(moon)};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Earth_Sun_Moon_ReferencePull[0] = 6.999995932647768e+06 + 6.999999999999768e+06 + 7.000000000000282e+06;

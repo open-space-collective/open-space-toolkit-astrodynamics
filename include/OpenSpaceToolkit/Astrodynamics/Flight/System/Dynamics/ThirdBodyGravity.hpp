@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_GravitationalDynamics__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity__
+#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity__
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -24,39 +24,39 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::flight::system::Dynamics;
 
-/// @brief                      Defined the acceleration experienced by a point mass due to gravity
+/// @brief                      Define the acceleration experienced by a point mass due to gravity
 
-class GravitationalDynamics : public Dynamics
+class ThirdBodyGravity : public Dynamics
 {
    public:
     /// @brief              Constructor
     ///
     /// @code
     ///                     const Celestial = { ... };
-    ///                     GravitationalDynamics gravitationalDynamics = { aCelestial };
+    ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial };
     /// @endcode
     ///
     /// @param              [in] aCelestial A Celestial Object
 
-    GravitationalDynamics(const Shared<const Celestial>& aCelestial);
+    ThirdBodyGravity(const Shared<const Celestial>& aCelestial);
 
     /// @brief              Destructor
 
-    virtual ~GravitationalDynamics() override;
+    virtual ~ThirdBodyGravity() override;
 
     /// @brief              Clone gravitational dynamics
     ///
     /// @return             Pointer to cloned gravitational dynamics
 
-    virtual GravitationalDynamics* clone() const override;
+    virtual ThirdBodyGravity* clone() const override;
 
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aGravitationalDynamics A gravitational dynamics
+    /// @param              [in] aThirdBodyGravity A gravitational dynamics
     /// @return             A reference to output stream
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const GravitationalDynamics& aGravitationalDynamics);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& aThirdBodyGravity);
 
     /// @brief              Check if gravitational dynamics is defined
     ///
@@ -71,6 +71,12 @@ class GravitationalDynamics : public Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
+    /// @brief              Get celestial
+    ///
+    /// @return             A celestial
+
+    Shared<const Celestial> getCelestial() const;
+
     /// @brief              Update the state derivative
     ///
     /// @param              [in] x A state vector
@@ -78,12 +84,6 @@ class GravitationalDynamics : public Dynamics
     /// @param              [in] anInstant An instant
 
     virtual void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) override;
-
-    /// @brief              Get celestial
-    ///
-    /// @return             A celestial
-
-    Shared<const Celestial> getCelestial() const;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

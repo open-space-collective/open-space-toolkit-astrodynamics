@@ -24,8 +24,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 
 #include <Global.test.hpp>
 
@@ -60,15 +60,15 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::GravitationalDynamics;
-using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
 using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -121,52 +121,68 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics 
     Shared<Celestial> earthSPtr_ = nullptr;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Constructor)
 {
-    EXPECT_NO_THROW(AtmosphericDynamics atmosphericDynamics(earthSPtr_, satelliteSystem_));
+    {
+        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_));
+    }
 
-    const Earth earth = {
-        {398600441500000.0, GravitationalParameterSIUnit},
-        Length::Meters(6378137.0),
-        0.0,
-        0.0,
-        0.0,
-        std::make_shared<Analytical>(Frame::ITRF()),
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
-    };
+    {
+        const Earth earth = {
+            {398600441500000.0, GravitationalParameterSIUnit},
+            Length::Meters(6378137.0),
+            0.0,
+            0.0,
+            0.0,
+            std::make_shared<Analytical>(Frame::ITRF()),
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
+        };
 
-    const String expectedString = "{Atmospheric Model} is undefined.";
+        const String expectedString = "{Atmospheric Model} is undefined.";
 
-    // Test the throw and the message that is thrown
-    EXPECT_THROW(
-        {
-            try
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
             {
-                AtmosphericDynamics atmosphericDynamics(std::make_shared<Celestial>(earth), satelliteSystem_);
-            }
-            catch (const ostk::core::error::runtime::Undefined& e)
-            {
-                EXPECT_EQ(expectedString, e.what());
-                throw;
-            }
-        },
-        ostk::core::error::runtime::Undefined
-    );
+                try
+                {
+                    AtmosphericDrag atmosphericDrag(std::make_shared<Celestial>(earth), satelliteSystem_);
+                }
+                catch (const ostk::core::error::runtime::Undefined& e)
+                {
+                    EXPECT_EQ(expectedString, e.what());
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::Undefined
+        );
+    }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, IsDefined)
 {
-    AtmosphericDynamics atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
     EXPECT_TRUE(atmosphericDynamics.isDefined());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, Update)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetCelestial)
+{
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetSatelliteSystem)
+{
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Update)
 {
     Dynamics::StateVector dxdt(6, 0.0);
-    AtmosphericDynamics atmosphericDynamics(earthSPtr_, satelliteSystem_);
-    atmosphericDynamics.update(startStateVector_, dxdt, startInstant_);
+    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    atmosphericDrag.update(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
@@ -176,15 +192,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 }
 
 // Test data gathered from Orekit
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, OneStepAtmosphereOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereOnly)
 {
     // Setup dynamics
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(earthSPtr_, satelliteSystem_))};
+        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Dynamics::StateVector Earth_ReferencePull = {
@@ -204,7 +220,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
     EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics, OneStepAtmosphereGravity)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereGravity)
 {
     // Setup dynamics
     const Earth earth = {
@@ -230,8 +246,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
     };
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<GravitationalDynamics>(earthSPtr),
-        std::make_shared<AtmosphericDynamics>(earthSPtr, satelliteSystem),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
     };
 
     // Setup initial conditions
@@ -248,7 +264,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDynamics
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant), startStateVector, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Dynamics::StateVector referenceValues = {

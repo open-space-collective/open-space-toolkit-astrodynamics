@@ -26,7 +26,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
@@ -74,7 +75,8 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::GravitationalDynamics;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
@@ -87,7 +89,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
     void SetUp() override
     {
         earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        defaultDynamics_.add(std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)));
+        defaultDynamics_.add(std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_)));
 
         this->defaultPosition_ = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_);
         this->defaultVelocity_ = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_);
@@ -712,7 +714,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const Shared<Celestial> earthEGM2008_70 = std::make_shared<Celestial>(Earth::EGM2008(70, 70));
         // Create environment
         const Shared<Dynamics> EGM2008Dynamics =
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_70));
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70));
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC);
@@ -1118,7 +1120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     {
         const Shared<Celestial> earthEGM2008_100 = std::make_shared<Celestial>(Earth::EGM2008(100, 100));
         Array<Shared<Dynamics>> EGM2008Dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_100))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_100))};
 
         // Setup initial conditions
         const State state = {
@@ -1170,13 +1172,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> earthEGM2008_45 = std::make_shared<Celestial>(Earth::EGM2008(45, 45));
         // Create environment
         const Array<Shared<Dynamics>> EGM2008Dynamics_360 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_360))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_360))};
         const Array<Shared<Dynamics>> EGM2008Dynamics_100 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_100))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_100))};
         const Array<Shared<Dynamics>> EGM2008Dynamics_70 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_70))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70))};
         const Array<Shared<Dynamics>> EGM2008Dynamics_45 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_45))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_45))};
 
         // Setup initial conditions
         const State state = {
@@ -1271,7 +1273,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     {
         const Shared<Celestial> earthEGM96_360 = std::make_shared<Celestial>(Earth::EGM96(360, 360));
         Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_360))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1346,7 +1348,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     {
         const Shared<Celestial> earthEGM96_70 = std::make_shared<Celestial>(Earth::EGM96(70, 70));
         Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_70))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_70))};
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1453,13 +1455,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 
         // Create environment
         const Array<Shared<Dynamics>> EGM96Dynamics_360 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_360))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
         const Array<Shared<Dynamics>> EGM96Dynamics_180 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_180))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_180))};
         const Array<Shared<Dynamics>> EGM96Dynamics_90 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_90))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_90))};
         const Array<Shared<Dynamics>> EGM96Dynamics_45 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_45))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_45))};
 
         // Setup initial conditions
         const State state = {
@@ -1554,7 +1556,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     {
         const Shared<Celestial> earthEGM84_70 = std::make_shared<Celestial>(Earth::EGM84(70, 70));
         const Array<Shared<Dynamics>> EGM84Dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM84_70))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_70))};
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1665,11 +1667,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> earthEGM84_45 = std::make_shared<Celestial>(Earth::EGM84(45, 45));
 
         const Array<Shared<Dynamics>> EGM84Dynamics_180 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM84_180))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_180))};
         const Array<Shared<Dynamics>> EGM84Dynamics_70 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM84_70))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_70))};
         const Array<Shared<Dynamics>> EGM84Dynamics_45 = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM84_45))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_45))};
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_180 = {{defaultNumericalSolver_, EGM84Dynamics_180}, state};
@@ -1766,9 +1768,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(moonSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(sunSpherical_))};
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(moonSpherical_),
+            std::make_shared<ThirdBodyGravity>(sunSpherical_)};
 
         // Setup initial conditions
         const State state = {
@@ -1847,8 +1849,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(sunSpherical_))};
+            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(sunSpherical_)};
 
         // Setup initial conditions
         const State state = {
@@ -1927,8 +1928,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical_)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(moonSpherical_))};
+            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(moonSpherical_)};
         // Setup initial conditions
         const State state = {
             startInstant,
@@ -2016,7 +2016,7 @@ TEST_F(
 
         const Shared<Celestial> earthEGM96_360 = std::make_shared<Celestial>(Earth::EGM96(360, 360));
         const Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM96_360))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {{defaultNumericalSolver_, EGM96Dynamics}, state};
@@ -2275,16 +2275,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> sunSpherical = std::make_shared<Celestial>(Sun::Spherical());
 
         const Array<Shared<Dynamics>> testedDynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthEGM2008_70)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(moonSpherical)),
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(sunSpherical))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70)),
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSpherical)),
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSpherical))};
 
         const Position position = Position::Meters({7000000.0, 0.0, 0.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, Frame::GCRF());
 
         const Shared<Celestial> earthSpherical = std::make_shared<Celestial>(Earth::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<GravitationalDynamics>(GravitationalDynamics(earthSpherical))};
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical))};
 
         for (size_t i = 0; i < timingTestSampleSize; i++)
         {

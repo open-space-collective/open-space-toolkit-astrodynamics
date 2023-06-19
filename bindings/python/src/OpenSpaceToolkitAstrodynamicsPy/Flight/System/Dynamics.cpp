@@ -2,8 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/AtmosphericDynamics.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/GravitationalDynamics.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/AtmosphericDrag.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/CentralBodyGravity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/ThirdBodyGravity.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::module& aModule)
 {
@@ -14,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
     using ostk::astro::flight::system::Dynamics;
 
     class_<Dynamics, Shared<Dynamics>>(aModule, "Dynamics")
-        .def_static("get_dynamical_equations", &Dynamics::GetDynamicalEquations, arg("instant"), arg("dynamics_array"))
+        .def_static("get_dynamical_equations", &Dynamics::GetDynamicalEquations, arg("dynamics_array"), arg("instant"))
 
         ;
 
@@ -25,6 +26,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
     dynamics.attr("__path__") = "ostk.astrodynamics.flight.system.dynamics";
 
     // Add objects to "dynamics" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_GravitationalDynamics(dynamics);
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDynamics(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGravity(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGravity(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDrag(dynamics);
 }

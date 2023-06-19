@@ -16,27 +16,21 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics.flight.system.dynamics import AtmosphericDynamics
+from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 
 
 @pytest.fixture
 def earth() -> Earth:
-    earth_WGS84 = Earth.WGS84(20, 0)
-    return Earth(
-        earth.get_gravitational_parameter(),
-        earth.get_equatorial_radius(),
-        0.0,
-        0.0,
-        0.0,
-        earth.access_ephemeris(),
-        earth.access_gravitational_model().get_type(),
-        None,
-        EarthAtmosphericModel.EarthAtmosphericType.Exponential,
-        Instant.J2000(),
+    return Earth.from_models(
+        EarthGravitationalModel(EarthGravitationalModel.Type.Undefined),
+        EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+        EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
 
 
@@ -51,8 +45,8 @@ def satellite_system() -> SatelliteSystem:
         )
     )
     inertia_tensor = np.ndarray(shape=(3, 3))
-    surface_area = 0.8
-    drag_coefficient = 2.2
+    surface_area = 1.0
+    drag_coefficient = 2.1
 
     return SatelliteSystem(
         mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
@@ -60,14 +54,14 @@ def satellite_system() -> SatelliteSystem:
 
 
 @pytest.fixture
-def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDynamics:
-    return AtmosphericDynamics(earth, satellite_system)
+def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDrag:
+    return AtmosphericDrag(earth, satellite_system)
 
 
 @pytest.fixture
 def state() -> State:
     frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([7500000.0, 0.0, 0.0], frame)
+    position: Position = Position.meters([6900000.0, 0.0, 0.0], frame)
     velocity: Velocity = Velocity.meters_per_second(
         [0.0, 5335.865450622126, 5335.865450622126], frame
     )
@@ -75,16 +69,16 @@ def state() -> State:
     return State(instant, position, velocity)
 
 
-class TestAtmosphericDynamics:
-    def test_constructors(self, dynamics: AtmosphericDynamics):
+class TestAtmosphericDrag:
+    def test_constructors(self, dynamics: AtmosphericDrag):
         assert dynamics is not None
-        assert isinstance(dynamics, AtmosphericDynamics)
+        assert isinstance(dynamics, AtmosphericDrag)
         assert dynamics.is_defined()
 
-    def test_getters(self, dynamics: AtmosphericDynamics, earth: Earth):
+    def test_getters(self, dynamics: AtmosphericDrag, earth: Earth):
         assert dynamics.get_celestial() == earth
 
-    def test_update(self, dynamics: AtmosphericDynamics, state: State):
+    def test_update(self, dynamics: AtmosphericDrag, state: State):
         dxdt: np.ndarray = np.zeros(6)
         dynamics.update(state.get_coordinates(), dxdt, state.get_instant())
         assert True

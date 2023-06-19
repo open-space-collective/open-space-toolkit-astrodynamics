@@ -3,8 +3,9 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/GravitationalDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 namespace ostk
@@ -21,8 +22,9 @@ using ostk::math::obj::VectorXd;
 
 using ostk::physics::env::obj::Celestial;
 
-using ostk::astro::flight::system::dynamics::GravitationalDynamics;
-using ostk::astro::flight::system::dynamics::AtmosphericDynamics;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -38,18 +40,33 @@ Propagator::Propagator(
     : dynamics_(Array<Shared<Dynamics>>::Empty()),
       numericalSolver_(aNumericalSolver)
 {
+    const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>
+    {
+        if (aCelestial->gravitationalModelIsDefined())
+        {
+            if (aCelestial->getName() == "Earth")
+            {
+                return std::make_shared<CentralBodyGravity>(aCelestial);
+            }
+            return std::make_shared<ThirdBodyGravity>(aCelestial);
+        }
+
+        if (aCelestial->atmosphericModelIsDefined())
+        {
+            return std::make_shared<AtmosphericDrag>(aCelestial, aSatelliteSystem);
+        }
+
+        return nullptr;
+    };
+
     for (const String& name : anEnvironment.getObjectNames())
     {
-        const Shared<const Celestial> celestial = anEnvironment.accessCelestialObjectWithName(name);
-        if (celestial->gravitationalModelIsDefined())
+        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
+
+        const Shared<Dynamics> dynamics = getDynamics(celestialSPtr);
+
+        if (dynamics)
         {
-            const Shared<Dynamics> dynamics = std::make_shared<GravitationalDynamics>(GravitationalDynamics(celestial));
-            this->addDynamics(dynamics);
-        }
-        else if (celestial->atmosphericModelIsDefined())
-        {
-            const Shared<Dynamics> dynamics =
-                std::make_shared<AtmosphericDynamics>(AtmosphericDynamics(celestial, aSatelliteSystem));
             this->addDynamics(dynamics);
         }
     }
@@ -82,6 +99,11 @@ bool Propagator::isDefined() const
     return numericalSolver_.isDefined();
 }
 
+Array<Shared<Dynamics>> Propagator::getDynamics() const
+{
+    return this->dynamics_;
+}
+
 void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 {
     this->dynamics_ = aDynamicsArray;
@@ -95,11 +117,6 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
 void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
-}
-
-Array<Shared<Dynamics>> Propagator::getDynamics() const
-{
-    return this->dynamics_;
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -117,7 +134,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+        Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
     return {
@@ -177,7 +194,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
     }
 
@@ -191,7 +208,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());

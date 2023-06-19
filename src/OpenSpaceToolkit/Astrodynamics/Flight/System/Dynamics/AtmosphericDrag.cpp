@@ -5,7 +5,7 @@
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 
 namespace ostk
 {
@@ -30,7 +30,7 @@ using ostk::physics::data::Scalar;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-AtmosphericDynamics::AtmosphericDynamics(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem)
+AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem)
     : Dynamics(),
       celestialObjectSPtr_(aCelestial),
       satelliteSystem_(aSatelliteSystem)
@@ -41,26 +41,26 @@ AtmosphericDynamics::AtmosphericDynamics(const Shared<const Celestial>& aCelesti
     }
 }
 
-AtmosphericDynamics::~AtmosphericDynamics() {}
+AtmosphericDrag::~AtmosphericDrag() {}
 
-AtmosphericDynamics* AtmosphericDynamics::clone() const
+AtmosphericDrag* AtmosphericDrag::clone() const
 {
-    return new AtmosphericDynamics(*this);
+    return new AtmosphericDrag(*this);
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDynamics& anAtmosphericDynamics)
+std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag)
 {
-    anAtmosphericDynamics.print(anOutputStream);
+    anAtmosphericDrag.print(anOutputStream);
 
     return anOutputStream;
 }
 
-bool AtmosphericDynamics::isDefined() const
+bool AtmosphericDrag::isDefined() const
 {
     return celestialObjectSPtr_->isDefined() && satelliteSystem_.isDefined();
 }
 
-void AtmosphericDynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
+void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Dynamics") : void();
 
@@ -71,7 +71,7 @@ void AtmosphericDynamics::print(std::ostream& anOutputStream, bool displayDecora
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+void AtmosphericDrag::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
 {
     (void)anInstant;
 
@@ -101,12 +101,12 @@ void AtmosphericDynamics::update(const Dynamics::StateVector& x, Dynamics::State
     dxdt[5] += dragAcceleration_SI[2];
 }
 
-Shared<const Celestial> AtmosphericDynamics::getCelestial() const
+Shared<const Celestial> AtmosphericDrag::getCelestial() const
 {
     return celestialObjectSPtr_;
 }
 
-SatelliteSystem AtmosphericDynamics::getSatelliteSystem() const
+SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 {
     if (!satelliteSystem_.isDefined())
     {
