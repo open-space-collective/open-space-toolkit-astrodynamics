@@ -43,8 +43,11 @@ def central_body_dynamics() -> CentralBodyGravity:
 def position_derivative() -> PositionDerivative:
     return PositionDerivative()
 
+
 @pytest.fixture
-def dynamics(position_derivative: PositionDerivative, central_body_dynamics: CentralBodyGravity) -> list:
+def dynamics(
+    position_derivative: PositionDerivative, central_body_dynamics: CentralBodyGravity
+) -> list:
     return [position_derivative, central_body_dynamics]
 
 

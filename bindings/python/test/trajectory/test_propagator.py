@@ -67,12 +67,16 @@ def state() -> State:
 def central_body_gravity() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
 
+
 @pytest.fixture
 def position_derivative() -> PositionDerivative:
     return PositionDerivative()
 
+
 @pytest.fixture
-def dynamics(position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity) -> list:
+def dynamics(
+    position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity
+) -> list:
     return [position_derivative, central_body_gravity]
 
 
