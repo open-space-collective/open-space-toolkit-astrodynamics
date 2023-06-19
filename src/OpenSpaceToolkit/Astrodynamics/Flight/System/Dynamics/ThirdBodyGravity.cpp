@@ -35,6 +35,12 @@ ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObje
     {
         throw ostk::core::error::runtime::Undefined("Gravitational Model");
     }
+
+    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
+    if (celestialObjectSPtr_->getName() == "Earth")
+    {
+        throw ostk::core::error::RuntimeError("Cannot calculate third body acceleration for the Earth yet.");
+    }
 }
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
@@ -69,8 +75,8 @@ void ThirdBodyGravity::update(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 )
 {
-
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
+    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
     const Vector gravitationalAcceleration3rdBodyCorrection =
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant);
 

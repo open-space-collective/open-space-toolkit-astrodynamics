@@ -104,13 +104,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
     }
 
     {
-        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr));
+        const String expectedString = "Cannot calculate third body acceleration for the Earth yet.";
+
+        // Test the throw and the message that is thrown
+        EXPECT_THROW(
+            {
+                try
+                {
+                    ThirdBodyGravity thirdBodyGravitationalDynamics(std::make_shared<Celestial>(Earth::Spherical()));
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(expectedString, e.what());
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
     }
 
     {
-        const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtrWGS84));
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr));
     }
 
     {
@@ -127,98 +142,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, IsDefined)
 {
     {
-        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-        const ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        const ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr);
 
         EXPECT_TRUE(thirdBodyGravitationalDynamics.isDefined());
     }
 
-    {
-        const Earth earth = {
-            {398600441500000.0, GravitationalParameterSIUnit},
-            Length::Meters(6378137.0),
-            0.0,
-            0.0,
-            0.0,
-            std::make_shared<Analytical>(Frame::ITRF()),
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Dipole),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-        };
-
-        ThirdBodyGravity thirdBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
-
-        EXPECT_FALSE(thirdBodyGravitationalDynamics.isDefined());
-    }
-
-    {
-        const Earth earth = {
-            nullptr,
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM84),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Dipole),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-        };
-
-        ThirdBodyGravity thirdBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
-
-        EXPECT_FALSE(thirdBodyGravitationalDynamics.isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetCelestial)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+    const ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr);
 
-    EXPECT_TRUE(thirdBodyGravitationalDynamics.getCelestial() == earthSPtr);
+    EXPECT_TRUE(thirdBodyGravitationalDynamics.getCelestial() == moonSPtr);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Update)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
     ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
 
     Dynamics::StateVector dxdt(6, 0.0);
     thirdBodyGravitationalDynamics.update(startStateVector_, dxdt, startInstant_);
+
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
-
-    std::cout << "CENTRAL BODY GRAVITY" << std::endl;
-    std::cout << dxdt[3] << std::endl;
-    std::cout << dxdt[4] << std::endl;
-    std::cout << dxdt[5] << std::endl;
-    //     EXPECT_GT(1e-15, 0.0 - dxdt[3]);
-    //     EXPECT_GT(5e-11, -0.0000278707803890 - dxdt[4]);
-    //     EXPECT_GT(5e-11, -0.0000000000197640 - dxdt[5]);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepEarthOnly)
-{
-    Dynamics::StateVector EarthReferencePull(6);
-
-    // Setup dynamics
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(earthSPtr))};
-
-    // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    EarthReferencePull[0] = 6.999995932647768e+06;
-    EarthReferencePull[1] = -2.312964634635743e-17;
-    EarthReferencePull[2] = 0.000000000000000e+00;
-    EarthReferencePull[3] = -8.134706038871020e+00;
-    EarthReferencePull[4] = -4.625929269271485e-17;
-    EarthReferencePull[5] = 0.000000000000000e+00;
-
-    EXPECT_GT(1e-15, startStateVector_[0] - EarthReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector_[1] - EarthReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector_[2] - EarthReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector_[3] - EarthReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector_[4] - EarthReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector_[5] - EarthReferencePull[5]);
+    EXPECT_GT(1e-15, -4.620543790697659e-07 - dxdt[3]);
+    EXPECT_GT(1e-15, 2.948717888154649e-07 - dxdt[4]);
+    EXPECT_GT(1e-15, 1.301648617451192e-07 - dxdt[5]);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunOnly)

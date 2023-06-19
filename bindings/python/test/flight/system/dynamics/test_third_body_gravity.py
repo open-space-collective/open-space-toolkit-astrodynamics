@@ -10,7 +10,7 @@ from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial_bodies import Moon
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import Dynamics
@@ -18,13 +18,13 @@ from ostk.astrodynamics.flight.system.dynamics import ThirdBodyGravity
 
 
 @pytest.fixture
-def earth() -> Earth:
-    return Earth.WGS84(20, 0)
+def moon() -> Moon:
+    return Moon.spherical()
 
 
 @pytest.fixture
-def dynamics(earth: Earth) -> ThirdBodyGravity:
-    return ThirdBodyGravity(earth)
+def dynamics(moon: Moon) -> ThirdBodyGravity:
+    return ThirdBodyGravity(moon)
 
 
 @pytest.fixture
@@ -51,9 +51,9 @@ class TestThirdBodyGravity:
     def test_getters(
         self,
         dynamics: ThirdBodyGravity,
-        earth: Earth,
+        moon: Moon,
     ):
-        assert dynamics.get_celestial() == earth
+        assert dynamics.get_celestial() == moon
 
     def test_update(
         self,

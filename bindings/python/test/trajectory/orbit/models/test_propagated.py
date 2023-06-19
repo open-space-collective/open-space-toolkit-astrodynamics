@@ -13,16 +13,12 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics import NumericalSolver
-from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
+from ostk.astrodynamics.flight.system import Dynamics
+from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
-
-
-@pytest.fixture
-def propagator(propagator_default_inputs) -> Propagator:
-    return Propagator(*propagator_default_inputs[:2])
 
 
 @pytest.fixture
@@ -59,10 +55,13 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def propagated(
-    dynamics: list, numerical_solver: NumericalSolver, state: State
-) -> Propagated:
-    return Propagated(dynamics, numerical_solver, state)
+def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
+    return Propagator(numerical_solver, dynamics)
+
+
+@pytest.fixture
+def propagated(propagator: Propagator, state: State) -> Propagated:
+    return Propagated(propagator, state)
 
 
 @pytest.fixture
@@ -95,7 +94,7 @@ class TestPropagated:
         assert orbit.is_defined()
 
         state_array = [state, state]
-        propagated_with_state_array = Propagated(dynamics, numerical_solver, state_array)
+        propagated_with_state_array = Propagated(Propagator(numerical_solver, dynamics), state_array)
 
         assert propagated_with_state_array is not None
         assert isinstance(propagated_with_state_array, Propagated)

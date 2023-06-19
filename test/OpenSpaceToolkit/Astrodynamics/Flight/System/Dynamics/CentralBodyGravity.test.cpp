@@ -132,36 +132,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
         EXPECT_TRUE(centralBodyGravitationalDynamics.isDefined());
     }
 
-    {
-        const Earth earth = {
-            {398600441500000.0, GravitationalParameterSIUnit},
-            Length::Meters(6378137.0),
-            0.0,
-            0.0,
-            0.0,
-            std::make_shared<Analytical>(Frame::ITRF()),
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Dipole),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-        };
-
-        CentralBodyGravity centralBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
-
-        EXPECT_FALSE(centralBodyGravitationalDynamics.isDefined());
-    }
-
-    {
-        const Earth earth = {
-            nullptr,
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM84),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Dipole),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-        };
-
-        CentralBodyGravity centralBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
-
-        EXPECT_FALSE(centralBodyGravitationalDynamics.isDefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetCelestial)

@@ -19,6 +19,7 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
@@ -82,8 +83,8 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def propagator(dynamics: list, numerical_solver: NumericalSolver) -> Propagator:
-    return Propagator(dynamics, numerical_solver)
+def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
+    return Propagator(numerical_solver, dynamics)
 
 
 class TestPropagator:
