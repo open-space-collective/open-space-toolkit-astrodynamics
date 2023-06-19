@@ -26,6 +26,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 
 #include <Global.test.hpp>
 
@@ -60,6 +61,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
@@ -174,7 +176,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, St
 {
     {
         AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-    
+
         testing::internal::CaptureStdout();
 
         EXPECT_NO_THROW(std::cout << atmosphericDynamics << std::endl);
@@ -290,6 +292,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     };
 
     const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
         std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
     };

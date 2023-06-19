@@ -59,7 +59,9 @@ class AtmosphericDrag : public Dynamics
     /// @param              [in] aSatelliteSystem A satellite system
     /// @param              [in] aName A name
 
-    AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName);
+    AtmosphericDrag(
+        const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName
+    );
 
     /// @brief              Destructor
 
@@ -110,7 +112,9 @@ class AtmosphericDrag : public Dynamics
     /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const override;
+    virtual void applyContribution(
+        const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    ) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

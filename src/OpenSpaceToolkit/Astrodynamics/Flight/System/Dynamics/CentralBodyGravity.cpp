@@ -28,7 +28,9 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
-    : CentralBodyGravity(aCelestialObjectSPtr, String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName()))
+    : CentralBodyGravity(
+          aCelestialObjectSPtr, String::Format("Central Body Gravity [{}]", aCelestialObjectSPtr->getName())
+      )
 {
 }
 
@@ -62,7 +64,8 @@ void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorat
 
     Dynamics::print(anOutputStream, false);
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
+    // TBI: Print Celestial once we have
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -82,11 +85,15 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-void CentralBodyGravity::applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const
+void CentralBodyGravity::applyContribution(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+) const
 {
     // Obtain gravitational acceleration from current object
     const Vector3d gravitationalAcceleration =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant).inFrame(gcrfSPtr_, anInstant).getValue();
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
+            .inFrame(gcrfSPtr_, anInstant)
+            .getValue();
 
     // Integrate velocity states
     dxdt[3] += gravitationalAcceleration[0];

@@ -33,8 +33,8 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 #endif
 
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Flight(m);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
     // [TBI] This module will likely be moved to ostk-mathematics in a future version

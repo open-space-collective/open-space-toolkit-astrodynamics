@@ -27,6 +27,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
@@ -75,6 +76,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::trajectory::Orbit;
@@ -88,8 +90,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
    protected:
     void SetUp() override
     {
-        earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        defaultDynamics_.add(std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_)));
+        this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+        this->defaultDynamics_ = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+        };
 
         this->defaultPosition_ = Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_);
         this->defaultVelocity_ = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_);
@@ -101,8 +106,15 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
             {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
             {1.0, 2.0, 3.0}
         ));
-        this->satelliteSystem_ = {Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1};
-        propagator_ = Propagator(defaultNumericalSolver_, defaultDynamics_);
+        this->satelliteSystem_ = {
+            Mass(100.0, Mass::Unit::Kilogram),
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            1.0,
+            2.1,
+        };
+
+        this->propagator_ = Propagator(defaultNumericalSolver_, defaultDynamics_);
     }
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
@@ -129,7 +141,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constr
     stateArray.add(defaultState_);
     const Instant instant_1 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC);
     const State state_1 = {
-        instant_1, Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+        instant_1,
+        Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_),
+    };
     stateArray.add(state_1);
 
     // Constructor without putting into orbit object
@@ -197,7 +212,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualT
         const State state_0 = {
             instant_0,
             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_),
+        };
         stateArray.add(state_0);
         const Propagated propagatedModel_3 = {propagator_, stateArray};
         EXPECT_FALSE(propagatedModel == propagatedModel_3);
@@ -232,7 +248,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
         const State state_0 = {
             instant_0,
             Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr_),
+        };
         stateArray.add(state_0);
         const Propagated propagatedModel_3 = {propagator_, stateArray};
         EXPECT_TRUE(propagatedModel != propagatedModel_3);
@@ -304,7 +321,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         Instant::DateTime(DateTime(2018, 1, 1, 22, 0, 0), Scale::UTC),
         defaultInstant_,
         Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC),
-        Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC)};
+        Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC),
+    };
 
     // Test CalculateStateAt in propagatedModel and in orbit
     {
@@ -337,12 +355,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
     {
         instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
-        referencePositionArray.add(
-            {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
-        );
-        referenceVelocityArray.add(
-            {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
-        );
+        referencePositionArray.add({
+            referenceRow[1].accessReal(),
+            referenceRow[2].accessReal(),
+            referenceRow[3].accessReal(),
+        });
+        referenceVelocityArray.add({
+            referenceRow[4].accessReal(),
+            referenceRow[5].accessReal(),
+            referenceRow[6].accessReal(),
+        });
     }
 
     // Test cachedStateArray with one cachedState at the beginning of reference states
@@ -353,7 +375,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and perform propagation
         const Propagated propagatedModel = {propagator_, state};
@@ -391,7 +414,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and perform propagation
         const Propagated propagatedModel = {propagator_, state};
@@ -428,7 +452,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and perform propagation
         const Propagated propagatedModel = {propagator_, state};
@@ -465,13 +490,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state_1 = {
             instantArray[cachedStateReferenceIndex_1],
             Position::Meters({referencePositionArray[cachedStateReferenceIndex_1]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_1]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_1]}, gcrfSPtr_),
+        };
         cachedStateArray.add(state_1);
         size_t cachedStateReferenceIndex_2 = 60;
         const State state_2 = {
             instantArray[cachedStateReferenceIndex_2],
             Position::Meters({referencePositionArray[cachedStateReferenceIndex_2]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_2]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_2]}, gcrfSPtr_),
+        };
         cachedStateArray.add(state_2);
 
         // Setup Propagated model and perform propagation
@@ -512,7 +539,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
                 const State state = {
                     instantArray[i],
                     Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
-                    Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
+                    Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_),
+                };
                 cachedStateArray.add(state);
             }
         }
@@ -553,7 +581,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
             const State state = {
                 instantArray[i],
                 Position::Meters({referencePositionArray[i]}, gcrfSPtr_),
-                Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_)};
+                Velocity::MetersPerSecond({referenceVelocityArray[i]}, gcrfSPtr_),
+            };
             cachedStateArray.add(state);
         }
 
@@ -592,7 +621,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state = {
             instantArray[cachedStateReferenceIndex],
             Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_),
+        };
         cachedStateArray.add({state, state});
 
         // Setup Propagated model and perform propagation
@@ -634,12 +664,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
         const State state_1 = {
             instantArray[cachedStateReferenceIndex_1],
             Position::Meters({referencePositionArray[cachedStateReferenceIndex_1]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_1]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_1]}, gcrfSPtr_),
+        };
         size_t cachedStateReferenceIndex_2 = 60;
         const State state_2 = {
             instantArray[cachedStateReferenceIndex_2],
             Position::Meters({referencePositionArray[cachedStateReferenceIndex_2]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_2]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex_2]}, gcrfSPtr_),
+        };
         cachedStateArray.add(state_2);
         cachedStateArray.add(state_1);
 
@@ -711,10 +743,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
     // Test accuracy of calculateRevolutionNumber at by checking that it returns results accurate to the force model it
     // is using
     {
+        // Setup dynamics
         const Shared<Celestial> earthEGM2008_70 = std::make_shared<Celestial>(Earth::EGM2008(70, 70));
-        // Create environment
-        const Shared<Dynamics> EGM2008Dynamics =
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70));
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_70),
+        };
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime(2021, 1, 2, 0, 0, 0), Scale::UTC);
@@ -723,7 +757,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_twobody = {propagator_, state};
-        const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, {EGM2008Dynamics}}, state};
+        const Propagated propagatedModel_fullgrav = {{defaultNumericalSolver_, dynamics}, state};
 
         // Calculate gravitational parameter
         const Derived gravitationalParameter = EarthGravitationalModel::Spherical.gravitationalParameter_;
@@ -944,7 +978,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {propagator_, state};
@@ -1003,19 +1038,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         {
             instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
-            referencePositionArray_GCRF.add(
-                {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
-            );
-            referenceVelocityArray_GCRF.add(
-                {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
-            );
+            referencePositionArray_GCRF.add({
+                referenceRow[1].accessReal(),
+                referenceRow[2].accessReal(),
+                referenceRow[3].accessReal(),
+            });
+            referenceVelocityArray_GCRF.add({
+                referenceRow[4].accessReal(),
+                referenceRow[5].accessReal(),
+                referenceRow[6].accessReal(),
+            });
 
-            referencePositionArray_ITRF.add(
-                {referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()}
-            );
-            referenceVelocityArray_ITRF.add(
-                {referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()}
-            );
+            referencePositionArray_ITRF.add({
+                referenceRow[7].accessReal(),
+                referenceRow[8].accessReal(),
+                referenceRow[9].accessReal(),
+            });
+            referenceVelocityArray_ITRF.add({
+                referenceRow[10].accessReal(),
+                referenceRow[11].accessReal(),
+                referenceRow[12].accessReal(),
+            });
         }
 
         // Current state and instant setup
@@ -1025,7 +1068,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {propagator_, state};
@@ -1119,17 +1163,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     // EGM2008 100x100 perturbation only vs STK EGM2008
     {
         const Shared<Celestial> earthEGM2008_100 = std::make_shared<Celestial>(Earth::EGM2008(100, 100));
-        Array<Shared<Dynamics>> EGM2008Dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_100))};
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_100),
+        };
 
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {{defaultNumericalSolver_, {EGM2008Dynamics}}, state};
+        const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
         const Orbit orbit = {propagatedModel, earthEGM2008_100};
 
         // Propagate all states
@@ -1172,19 +1219,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> earthEGM2008_45 = std::make_shared<Celestial>(Earth::EGM2008(45, 45));
         // Create environment
         const Array<Shared<Dynamics>> EGM2008Dynamics_360 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_360))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_360),
+        };
         const Array<Shared<Dynamics>> EGM2008Dynamics_100 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_100))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_100),
+        };
         const Array<Shared<Dynamics>> EGM2008Dynamics_70 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_70),
+        };
         const Array<Shared<Dynamics>> EGM2008Dynamics_45 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_45))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM2008_45),
+        };
 
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_360 = {{defaultNumericalSolver_, EGM2008Dynamics_360}, state};
@@ -1272,8 +1328,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     // EGM96 360x360 perturbation only vs GMAT
     {
         const Shared<Celestial> earthEGM96_360 = std::make_shared<Celestial>(Earth::EGM96(360, 360));
-        Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
+        Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_360),
+        };
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1306,10 +1364,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {{defaultNumericalSolver_, EGM96Dynamics}, state};
+        const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
         const Orbit orbit = {propagatedModel, earthEGM96_360};
 
         // Propagate all states
@@ -1347,8 +1406,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     // EGM96 70x70 perturbation only vs STK WGS84EGM96
     {
         const Shared<Celestial> earthEGM96_70 = std::make_shared<Celestial>(Earth::EGM96(70, 70));
-        Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_70))};
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_70),
+        };
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1381,10 +1442,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {{defaultNumericalSolver_, {EGM96Dynamics}}, state};
+        const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
         const Orbit orbit = {propagatedModel, earthEGM96_70};
 
         // Propagate all states
@@ -1455,19 +1517,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
 
         // Create environment
         const Array<Shared<Dynamics>> EGM96Dynamics_360 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_360),
+        };
         const Array<Shared<Dynamics>> EGM96Dynamics_180 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_180))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_180),
+        };
         const Array<Shared<Dynamics>> EGM96Dynamics_90 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_90))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_90),
+        };
         const Array<Shared<Dynamics>> EGM96Dynamics_45 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_45))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM96_45),
+        };
 
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_360 = {{defaultNumericalSolver_, EGM96Dynamics_360}, state};
@@ -1555,8 +1626,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
     // EGM84 70x70 perturbation only vs STK EGM84
     {
         const Shared<Celestial> earthEGM84_70 = std::make_shared<Celestial>(Earth::EGM84(70, 70));
-        const Array<Shared<Dynamics>> EGM84Dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_70))};
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM84_70),
+        };
 
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
@@ -1589,10 +1662,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
-        const Propagated propagatedModel = {{defaultNumericalSolver_, EGM84Dynamics}, state};
+        const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
         const Orbit orbit = {propagatedModel, earthEGM84_70};
 
         // Propagate all states
@@ -1660,18 +1734,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         const Shared<Celestial> earthEGM84_180 = std::make_shared<Celestial>(Earth::EGM84(180, 180));
         const Shared<Celestial> earthEGM84_70 = std::make_shared<Celestial>(Earth::EGM84(70, 70));
         const Shared<Celestial> earthEGM84_45 = std::make_shared<Celestial>(Earth::EGM84(45, 45));
 
         const Array<Shared<Dynamics>> EGM84Dynamics_180 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_180))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM84_180),
+        };
         const Array<Shared<Dynamics>> EGM84Dynamics_70 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_70))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM84_70),
+        };
         const Array<Shared<Dynamics>> EGM84Dynamics_45 = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM84_45))};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthEGM84_45),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel_180 = {{defaultNumericalSolver_, EGM84Dynamics_180}, state};
@@ -1768,15 +1849,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSpherical_),
             std::make_shared<ThirdBodyGravity>(moonSpherical_),
-            std::make_shared<ThirdBodyGravity>(sunSpherical_)};
+            std::make_shared<ThirdBodyGravity>(sunSpherical_),
+        };
 
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
@@ -1849,13 +1933,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(sunSpherical_)};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(sunSpherical_),
+        };
 
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
@@ -1928,12 +2016,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(moonSpherical_)};
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthSpherical_),
+            std::make_shared<ThirdBodyGravity>(moonSpherical_),
+        };
         // Setup initial conditions
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {{defaultNumericalSolver_, dynamics}, state};
@@ -2012,11 +2104,13 @@ TEST_F(
         const State state = {
             startInstant,
             Position::Meters({referencePositionArray_GCRF[0]}, Frame::GCRF()),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, Frame::GCRF())};
+            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, Frame::GCRF()),
+        };
 
         const Shared<Celestial> earthEGM96_360 = std::make_shared<Celestial>(Earth::EGM96(360, 360));
         const Array<Shared<Dynamics>> EGM96Dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM96_360))};
+            std::make_shared<CentralBodyGravity>(earthEGM96_360),
+        };
 
         // Setup Propagated model and orbit
         const Propagated propagatedModel = {{defaultNumericalSolver_, EGM96Dynamics}, state};
@@ -2275,16 +2369,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         const Shared<Celestial> sunSpherical = std::make_shared<Celestial>(Sun::Spherical());
 
         const Array<Shared<Dynamics>> testedDynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthEGM2008_70)),
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSpherical)),
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSpherical))};
+            std::make_shared<CentralBodyGravity>(earthEGM2008_70),
+            std::make_shared<CentralBodyGravity>(moonSpherical),
+            std::make_shared<CentralBodyGravity>(sunSpherical),
+        };
 
         const Position position = Position::Meters({7000000.0, 0.0, 0.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, Frame::GCRF());
 
         const Shared<Celestial> earthSpherical = std::make_shared<Celestial>(Earth::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical))};
+            std::make_shared<CentralBodyGravity>(earthSpherical),
+        };
 
         for (size_t i = 0; i < timingTestSampleSize; i++)
         {
@@ -2334,19 +2430,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propag
 {
     {
         Array<State> states = {
-            {Instant::DateTime(DateTime::Parse("2023-01-30T18:30:00.184", DateTime::Format::ISO8601), Scale::UTC),
-             Position::Meters({-5981016.371280898340, 2114677.607544674072, 2683244.080375305377}, gcrfSPtr_),
-             Velocity::MetersPerSecond({3142.190382984703, 50.122115740761, 6934.877387038766}, gcrfSPtr_)},
-            {Instant::DateTime(DateTime::Parse("2023-01-30T18:35:00.184", DateTime::Format::ISO8601), Scale::UTC),
-             Position::Meters({-4730169.446157290600, 2014399.438757266616, 4579373.510992174037}, gcrfSPtr_),
-             Velocity::MetersPerSecond({5120.144014790862, -712.422950530929, 5589.998515385998}, gcrfSPtr_)},
-            {Instant::DateTime(DateTime::Parse("2023-01-30T18:40:00.184", DateTime::Format::ISO8601), Scale::UTC),
-             Position::Meters({-2965004.866673604585, 1695085.379882899811, 5976267.045515080914}, gcrfSPtr_),
-             Velocity::MetersPerSecond({6539.557709872774, -1396.675776577052, 3637.641862957897}, gcrfSPtr_)}};
+            {
+                Instant::DateTime(DateTime::Parse("2023-01-30T18:30:00.184", DateTime::Format::ISO8601), Scale::UTC),
+                Position::Meters({-5981016.371280898340, 2114677.607544674072, 2683244.080375305377}, gcrfSPtr_),
+                Velocity::MetersPerSecond({3142.190382984703, 50.122115740761, 6934.877387038766}, gcrfSPtr_),
+            },
+            {
+                Instant::DateTime(DateTime::Parse("2023-01-30T18:35:00.184", DateTime::Format::ISO8601), Scale::UTC),
+                Position::Meters({-4730169.446157290600, 2014399.438757266616, 4579373.510992174037}, gcrfSPtr_),
+                Velocity::MetersPerSecond({5120.144014790862, -712.422950530929, 5589.998515385998}, gcrfSPtr_),
+            },
+            {
+                Instant::DateTime(DateTime::Parse("2023-01-30T18:40:00.184", DateTime::Format::ISO8601), Scale::UTC),
+                Position::Meters({-2965004.866673604585, 1695085.379882899811, 5976267.045515080914}, gcrfSPtr_),
+                Velocity::MetersPerSecond({6539.557709872774, -1396.675776577052, 3637.641862957897}, gcrfSPtr_),
+            }};
 
-        Propagated propagated(propagator_, states);
+        Propagated propagatedModel(propagator_, states);
 
-        State estimatedState = propagated.calculateStateAt(states[1].getInstant());
+        State estimatedState = propagatedModel.calculateStateAt(states[1].getInstant());
 
         ASSERT_EQ(estimatedState, states[1]);
     }

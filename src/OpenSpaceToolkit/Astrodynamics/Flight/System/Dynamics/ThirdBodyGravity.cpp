@@ -67,10 +67,11 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& a
 void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Gravitational Dynamics") : void();
-    
+
     Dynamics::print(anOutputStream, false);
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
+    // TBI: Print Celestial once there is a print method in OSTk physics
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

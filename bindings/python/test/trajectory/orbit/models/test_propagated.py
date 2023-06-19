@@ -18,6 +18,7 @@ from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
 
 
@@ -34,13 +35,17 @@ def state() -> State:
 
 
 @pytest.fixture
-def gravitational_dynamics() -> CentralBodyGravity:
+def central_body_dynamics() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
 
 
 @pytest.fixture
-def dynamics(gravitational_dynamics: CentralBodyGravity) -> list:
-    return [gravitational_dynamics]
+def position_derivative() -> PositionDerivative:
+    return PositionDerivative()
+
+@pytest.fixture
+def dynamics(position_derivative: PositionDerivative, central_body_dynamics: CentralBodyGravity) -> list:
+    return [position_derivative, central_body_dynamics]
 
 
 @pytest.fixture

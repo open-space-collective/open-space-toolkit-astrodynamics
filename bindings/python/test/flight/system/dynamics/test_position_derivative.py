@@ -14,17 +14,12 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import Dynamics
-from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 
 
 @pytest.fixture
-def earth() -> Earth:
-    return Earth.WGS84(20, 0)
-
-
-@pytest.fixture
-def dynamics(earth: Earth) -> CentralBodyGravity:
-    return CentralBodyGravity(earth)
+def dynamics() -> PositionDerivative:
+    return PositionDerivative()
 
 
 @pytest.fixture
@@ -38,20 +33,17 @@ def state() -> State:
     return State(instant, position, velocity)
 
 
-class TestCentralBodyGravity:
+class TestPositionDerivative:
     def test_constructors(
         self,
-        dynamics: CentralBodyGravity,
+        dynamics: PositionDerivative,
     ):
         assert dynamics is not None
-        assert isinstance(dynamics, CentralBodyGravity)
+        assert isinstance(dynamics, PositionDerivative)
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_getters(self, dynamics: CentralBodyGravity, earth: Earth):
-        assert dynamics.get_celestial() == earth
-
-    def test_apply_contribution(self, dynamics: CentralBodyGravity, state: State):
+    def test_apply_contribution(self, dynamics: PositionDerivative, state: State):
         dxdt: np.ndarray = np.zeros(6)
         dynamics.apply_contribution(state.get_coordinates(), dxdt, state.get_instant())
         assert True

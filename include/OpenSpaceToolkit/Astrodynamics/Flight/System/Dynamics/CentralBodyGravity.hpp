@@ -98,7 +98,9 @@ class CentralBodyGravity : public Dynamics
     /// @param              [in] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const override;
+    virtual void applyContribution(
+        const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    ) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

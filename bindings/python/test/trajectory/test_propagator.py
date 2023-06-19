@@ -22,6 +22,7 @@ from ostk.astrodynamics import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
 
@@ -63,13 +64,16 @@ def state() -> State:
 
 
 @pytest.fixture
-def gravitational_dynamics() -> CentralBodyGravity:
+def central_body_gravity() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
 
+@pytest.fixture
+def position_derivative() -> PositionDerivative:
+    return PositionDerivative()
 
 @pytest.fixture
-def dynamics(gravitational_dynamics: CentralBodyGravity) -> list:
-    return [gravitational_dynamics]
+def dynamics(position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity) -> list:
+    return [position_derivative, central_body_gravity]
 
 
 @pytest.fixture
@@ -98,24 +102,24 @@ class TestPropagator:
         assert propagator.get_dynamics() == dynamics
 
     def test_set_dynamics(self, propagator: Propagator, dynamics: list):
-        assert len(propagator.get_dynamics()) == 1
+        assert len(propagator.get_dynamics()) == 2
 
         propagator.set_dynamics(dynamics + dynamics)
 
-        assert len(propagator.get_dynamics()) == 2
+        assert len(propagator.get_dynamics()) == 4
 
     def test_add_dynamics(
-        self, propagator: Propagator, gravitational_dynamics: CentralBodyGravity
+        self, propagator: Propagator, central_body_gravity: CentralBodyGravity
     ):
-        assert len(propagator.get_dynamics()) == 1
+        assert len(propagator.get_dynamics()) == 2
 
-        propagator.add_dynamics(gravitational_dynamics)
-        propagator.add_dynamics(gravitational_dynamics)
+        propagator.add_dynamics(central_body_gravity)
+        propagator.add_dynamics(central_body_gravity)
 
-        assert len(propagator.get_dynamics()) == 3
+        assert len(propagator.get_dynamics()) == 4
 
     def test_clear_dynamics(self, propagator: Propagator):
-        assert len(propagator.get_dynamics()) == 1
+        assert len(propagator.get_dynamics()) >= 1
 
         propagator.clear_dynamics()
 
@@ -165,13 +169,13 @@ class TestPropagator:
             propagator.calculate_states_at(state, instant_array)
 
     def test_from_environment(
-        self, numerical_solver: NumericalSolver, environment: Environment, satellite_system: SatelliteSystem
+        self,
+        numerical_solver: NumericalSolver,
+        environment: Environment,
+        satellite_system: SatelliteSystem,
     ):
-        assert (
-            Propagator.from_environment(numerical_solver, environment)
-            is not None
-        )
-        
+        assert Propagator.from_environment(numerical_solver, environment) is not None
+
         assert (
             Propagator.from_environment(numerical_solver, environment, satellite_system)
             is not None

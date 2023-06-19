@@ -83,6 +83,7 @@ class Dynamics
     /// @param              [in] anInstant An instant
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
+    // TBM: Rename this to be clearer
     static DynamicalEquationWrapper GetDynamicalEquations(
         const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
     );
@@ -90,7 +91,6 @@ class Dynamics
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
    private:
-
     /// @brief              Dynamical Equations
     ///
     /// @param              [in] x A state vector
@@ -99,7 +99,8 @@ class Dynamics
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
 
-    static void DynamicalEquations(  // TBI: Unclear naming
+    // TBM: Rename this to be clearer
+    static void DynamicalEquations(
         const StateVector& x,
         StateVector& dxdt,
         const double t,

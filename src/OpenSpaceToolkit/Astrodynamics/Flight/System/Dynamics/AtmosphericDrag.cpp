@@ -32,7 +32,9 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
 AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem)
-    : AtmosphericDrag(aCelestialSPtr, aSatelliteSystem, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
+    : AtmosphericDrag(
+          aCelestialSPtr, aSatelliteSystem, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName())
+      )
 {
 }
 
@@ -74,7 +76,8 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
 
     Dynamics::print(anOutputStream, false);
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_;
+    // TBI: Print Celestial once there is a print method in OSTk physics
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
 
@@ -106,7 +109,9 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
-void AtmosphericDrag::applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const
+void AtmosphericDrag::applyContribution(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+) const
 {
     (void)anInstant;
 

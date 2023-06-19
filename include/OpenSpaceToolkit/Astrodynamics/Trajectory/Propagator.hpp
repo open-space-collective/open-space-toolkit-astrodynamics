@@ -191,7 +191,6 @@ class Propagator
    private:
     Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
-
 };
 
 }  // namespace trajectory

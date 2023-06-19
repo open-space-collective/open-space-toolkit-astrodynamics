@@ -229,16 +229,13 @@ Propagator Propagator::Default()
     };
 }
 
-Propagator Propagator::Default(
-    const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
+Propagator Propagator::Default(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
 {
     return Propagator::FromEnvironment(NumericalSolver::Default(), anEnvironment, aSatelliteSystem);
 }
 
 Propagator Propagator::FromEnvironment(
-    const NumericalSolver& aNumericalSolver,
-    const Environment& anEnvironment,
-    const SatelliteSystem& aSatelliteSystem
+    const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
 )
 {
     const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>

@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
+#define PYBIND11_DETAILED_ERROR_MESSAGES
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::module& aModule)
 {

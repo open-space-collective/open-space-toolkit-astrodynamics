@@ -49,7 +49,9 @@ void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorat
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void PositionDerivative::applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const
+void PositionDerivative::applyContribution(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+) const
 {
     (void)anInstant;
 

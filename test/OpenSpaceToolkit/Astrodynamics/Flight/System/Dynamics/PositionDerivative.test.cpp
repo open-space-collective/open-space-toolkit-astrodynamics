@@ -1,6 +1,5 @@
 /// Apache License 2.0
 
-
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 
@@ -16,7 +15,6 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
    protected:
     void SetUp() override
     {
-
         startStateVector_.resize(6);
         startStateVector_[0] = 7000000.0;
         startStateVector_[1] = 0.0;
@@ -24,7 +22,6 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
         startStateVector_[3] = 5000.12345;
         startStateVector_[4] = 7546.05329;
         startStateVector_[5] = 8000.5737;
-
     }
 
     const PositionDerivative positionDerivative_;
@@ -38,7 +35,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
     {
         EXPECT_NO_THROW(PositionDerivative positionDerivative());
     }
-
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, IsDefined)
@@ -60,7 +56,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, Print)
 {
     {
-
         testing::internal::CaptureStdout();
 
         EXPECT_NO_THROW(positionDerivative_.print(std::cout, true));
