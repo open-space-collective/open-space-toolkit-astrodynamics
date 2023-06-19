@@ -14,11 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGrav
     using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 
     {
-<<<<<<< HEAD
-        class_<ThirdBodyGravity, Shared<ThirdBodyGravity>, Dynamics>(aModule, "ThirdBodyGravity")
-=======
         class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(aModule, "ThirdBodyGravity")
->>>>>>> feat: add missing files
             .def(init<const Shared<Celestial>&>(), arg("celestial"))
 
             .def("__str__", &(shiftToString<ThirdBodyGravity>))
@@ -26,18 +22,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGrav
 
             .def("is_defined", &ThirdBodyGravity::isDefined)
 
-<<<<<<< HEAD
             .def("get_celestial", &ThirdBodyGravity::getCelestial)
 
             .def("update", &ThirdBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"));
     }
-=======
-            .def("update", &ThirdBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"))
-
-            .def("get_celestial", &ThirdBodyGravity::getCelestial)
-
-            ;
-    }
-
->>>>>>> feat: add missing files
 }

@@ -51,21 +51,21 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity :
    protected:
     void SetUp() override
     {
-        startStateVector.resize(6);
+        startStateVector_.resize(6);
 
-        startStateVector[0] = 7000000.0;
-        startStateVector[1] = 0.0;
-        startStateVector[2] = 0.0;
-        startStateVector[3] = 0.0;
-        startStateVector[4] = 0.0;
-        startStateVector[5] = 0.0;
+        startStateVector_[0] = 7000000.0;
+        startStateVector_[1] = 0.0;
+        startStateVector_[2] = 0.0;
+        startStateVector_[3] = 0.0;
+        startStateVector_[4] = 0.0;
+        startStateVector_[5] = 0.0;
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
     // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
-    const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
+    const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
-    Dynamics::StateVector startStateVector;
+    Dynamics::StateVector startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Constructor)
@@ -152,11 +152,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
     {
         const Earth earth = {
-            {398600441500000.0, GravitationalParameterSIUnit},
-            Length::Meters(6378137.0),
-            0.0,
-            0.0,
-            0.0,
             nullptr,
             std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM84),
             std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Dipole),
@@ -183,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    centralBodyGravitationalDynamics.update(startStateVector, dxdt, startInstant);
+    centralBodyGravitationalDynamics.update(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);

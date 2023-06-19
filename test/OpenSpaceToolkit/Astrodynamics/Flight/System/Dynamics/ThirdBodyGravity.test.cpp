@@ -52,21 +52,21 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity : p
    protected:
     void SetUp() override
     {
-        startStateVector.resize(6);
+        startStateVector_.resize(6);
 
-        startStateVector[0] = 7000000.0;
-        startStateVector[1] = 0.0;
-        startStateVector[2] = 0.0;
-        startStateVector[3] = 0.0;
-        startStateVector[4] = 0.0;
-        startStateVector[5] = 0.0;
+        startStateVector_[0] = 7000000.0;
+        startStateVector_[1] = 0.0;
+        startStateVector_[2] = 0.0;
+        startStateVector_[3] = 0.0;
+        startStateVector_[4] = 0.0;
+        startStateVector_[5] = 0.0;
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
     // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
-    const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
+    const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
-    Dynamics::StateVector startStateVector;
+    Dynamics::StateVector startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Constructor)
@@ -179,7 +179,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, U
     ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    thirdBodyGravitationalDynamics.update(startStateVector, dxdt, startInstant);
+    thirdBodyGravitationalDynamics.update(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
@@ -203,7 +203,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     EarthReferencePull[0] = 6.999995932647768e+06;
@@ -213,12 +213,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     EarthReferencePull[4] = -4.625929269271485e-17;
     EarthReferencePull[5] = 0.000000000000000e+00;
 
-    EXPECT_GT(1e-15, startStateVector[0] - EarthReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector[1] - EarthReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector[2] - EarthReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector[3] - EarthReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector[4] - EarthReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector[5] - EarthReferencePull[5]);
+    EXPECT_GT(1e-15, startStateVector_[0] - EarthReferencePull[0]);
+    EXPECT_GT(1e-15, startStateVector_[1] - EarthReferencePull[1]);
+    EXPECT_GT(1e-15, startStateVector_[2] - EarthReferencePull[2]);
+    EXPECT_GT(1e-15, startStateVector_[3] - EarthReferencePull[3]);
+    EXPECT_GT(1e-15, startStateVector_[4] - EarthReferencePull[4]);
+    EXPECT_GT(1e-15, startStateVector_[5] - EarthReferencePull[5]);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunOnly)

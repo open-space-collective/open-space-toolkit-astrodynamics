@@ -19,7 +19,7 @@ Dynamics::Dynamics() {}
 
 Dynamics::~Dynamics() {}
 
-Dynamics::DynamicalEquationWrapper Dynamics::getDynamicalEquations(
+Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
     const Instant& anInstant, const Array<Shared<Dynamics>>& aDynamicsArray
 )
 {

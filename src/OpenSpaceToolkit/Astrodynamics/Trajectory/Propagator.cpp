@@ -135,7 +135,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
+        Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
     );
 
     return {
@@ -195,7 +195,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
         );
     }
 
@@ -209,7 +209,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());

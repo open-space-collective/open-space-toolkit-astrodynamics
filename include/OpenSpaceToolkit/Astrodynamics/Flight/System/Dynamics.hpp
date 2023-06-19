@@ -65,7 +65,7 @@ class Dynamics
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    static DynamicalEquationWrapper getDynamicalEquations(
+    static DynamicalEquationWrapper GetDynamicalEquations(
         const Instant& anInstant, const Array<Shared<Dynamics>>& aDynamicsArray
     );
 
