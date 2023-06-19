@@ -26,7 +26,7 @@ using ostk::core::ctnr::Array;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
-/// @brief                      Defines the a dynamical system subject to equations of motion
+/// @brief                      Define a dynamical system subject to equations of motion
 
 class Dynamics
 {
@@ -61,21 +61,35 @@ class Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const = 0;
 
-    /// @brief              Obtain dynamical equations function wrapper (pure virtual)
+    /// @brief              Get dynamical equations function wrapper (pure virtual)
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    virtual void update(const StateVector& x, StateVector& dxdt, const Instant& anInstant) = 0;
-
-    static DynamicalEquationWrapper GetDynamicalEquations(
-        const Instant& anInstant, const Array<Shared<Dynamics>>& dynamics
+    static DynamicalEquationWrapper getDynamicalEquations(
+        const Instant& anInstant, const Array<Shared<Dynamics>>& aDynamicsArray
     );
 
-    static void DynamicalEquations(
+    /// @brief              Update the state derivative (pure virtual)
+    ///
+    /// @param              [in] x A state vector
+    /// @param              [in] dxdt A state derivative vector
+    /// @param              [in] anInstant An instant
+
+    virtual void update(const StateVector& x, StateVector& dxdt, const Instant& anInstant) = 0;
+
+    /// @brief              Dynamical Equations
+    ///
+    /// @param              [in] x A state vector
+    /// @param              [in] dxdt A state derivative vector
+    /// @param              [in] t A step duration from anInstant to the next
+    /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
+    /// @param              [in] anInstant An instant
+
+    static void DynamicalEquations(  // TBI: Unclear naming
         const StateVector& x,
         StateVector& dxdt,
         const double t,
-        const Array<Shared<Dynamics>>& dynamics,
+        const Array<Shared<Dynamics>>& aDynamicsArray,
         const Instant& anInstant
     );
 

@@ -16,11 +16,11 @@
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
@@ -105,40 +105,40 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             {1.0, 2.0, 3.0}
         ));
 
-        satelliteSystem_ =
+        satelliteSystem =
             SatelliteSystem(Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 1.0, 2.1);
 
-        earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        defaultDynamics_.add(std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_)));
+        earthSpherical = std::make_shared<Celestial>(Earth::Spherical());
+        defaultDynamics.add(std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical)));
 
-        defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
+        defaultPropagator = {defaultNumericalSolver, defaultDynamics};
     }
 
-    const NumericalSolver defaultNumericalSolver_ = {
+    const NumericalSolver defaultNumericalSolver = {
         NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
 
-    const NumericalSolver defaultRK4_ = {
+    const NumericalSolver defaultRK4 = {
         NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKutta4, 30.0, 1.0e-15, 1.0e-15};
 
-    const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
+    const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-    Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-    Shared<Celestial> earthSpherical_ = nullptr;
-    Propagator defaultPropagator_ = Propagator::Undefined();
+    Array<Shared<Dynamics>> defaultDynamics = Array<Shared<Dynamics>>::Empty();
+    SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
+    Shared<Celestial> earthSpherical = nullptr;
+    Propagator defaultPropagator = Propagator::Undefined();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
 {
     {
-        EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, defaultDynamics_));
+        EXPECT_NO_THROW(Propagator(defaultNumericalSolver, defaultDynamics));
     }
 
     {
         Environment environment = Environment::Default();
-        EXPECT_NO_THROW(Propagator(defaultNumericalSolver_, environment));
+        EXPECT_NO_THROW(Propagator(defaultNumericalSolver, environment));
 
-        const Propagator propagator = {defaultNumericalSolver_, environment};
+        const Propagator propagator = {defaultNumericalSolver, environment};
 
         EXPECT_TRUE(propagator.getDynamics().getSize() == 3);
 
@@ -151,8 +151,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualToOperator)
 {
     {
-        const Propagator propagator_x = {defaultPropagator_};
-        EXPECT_TRUE(defaultPropagator_ == propagator_x);
+        const Propagator propagator_x = {defaultPropagator};
+        EXPECT_TRUE(defaultPropagator == propagator_x);
 
         const NumericalSolver numericalSolver_1 = {
             NumericalSolver::LogType::LogConstant,
@@ -160,32 +160,37 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualT
             5.0,
             1.0e-15,
             1.0e-15};
-        const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
-        EXPECT_FALSE(defaultPropagator_ == propagator_1);
+        const Propagator propagator_1 = {numericalSolver_1, defaultDynamics};
+        EXPECT_FALSE(defaultPropagator == propagator_1);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEqualToOperator)
 {
     {
-        const Propagator propagator_x = {defaultPropagator_};
-        EXPECT_FALSE(defaultPropagator_ != propagator_x);
+        const Propagator propagatorX = {defaultPropagator};
+        EXPECT_FALSE(defaultPropagator != propagatorX);
 
-        const NumericalSolver numericalSolver_1 = {
+        const NumericalSolver numericalSolver1 = {
             NumericalSolver::LogType::LogConstant,
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
             1.0e-15};
-        const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
-        EXPECT_TRUE(defaultPropagator_ != propagator_1);
+        const Propagator propagator1 = {numericalSolver1, defaultDynamics};
+        EXPECT_TRUE(defaultPropagator != propagator1);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, IsDefined)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.isDefined());
+        EXPECT_TRUE(defaultPropagator.isDefined());
+    }
+
+    {
+        const Propagator propagatorWithEmptyDynamicsArray = {defaultNumericalSolver};
+        EXPECT_TRUE(propagatorWithEmptyDynamicsArray.isDefined());
     }
 }
 
@@ -203,7 +208,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Stream
     {
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << defaultPropagator_ << std::endl);
+        EXPECT_NO_THROW(std::cout << defaultPropagator << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -214,63 +219,68 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
     {
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(defaultPropagator_.print(std::cout, true));
-        EXPECT_NO_THROW(defaultPropagator_.print(std::cout, false));
+        EXPECT_NO_THROW(defaultPropagator.print(std::cout, true));
+        EXPECT_NO_THROW(defaultPropagator.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, getDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, GetDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getDynamics() == defaultDynamics_);
+        EXPECT_TRUE(defaultPropagator.getDynamics() == defaultDynamics);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, setDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 1);
 
         const Shared<Dynamics> centralBodyGravity =
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_));
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical));
 
-        defaultPropagator_.setDynamics({centralBodyGravity, centralBodyGravity});
+        defaultPropagator.setDynamics({centralBodyGravity, centralBodyGravity});
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 2);
 
-        defaultPropagator_.setDynamics({});
+        defaultPropagator.setDynamics({});
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 0);
+        EXPECT_TRUE(defaultPropagator.isDefined())
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, addDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AddDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 1);
 
         const Shared<Dynamics> centralBodyGravity =
-            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical_));
+            std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSpherical));
 
-        defaultPropagator_.addDynamics(centralBodyGravity);
+        defaultPropagator.addDynamics(centralBodyGravity);
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 2);
 
-        defaultPropagator_.addDynamics(centralBodyGravity);
+        defaultPropagator.addDynamics(centralBodyGravity);
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 3);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 3);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, clearDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ClearDynamics)
 {
     {
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 1);
 
-        defaultPropagator_.clearDynamics();
+        defaultPropagator.clearDynamics();
 
-        EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 0);
+
+        defaultPropagator.clearDynamics();
+
+        EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 0);
     }
 }
 
@@ -279,8 +289,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
     // Setup instants
     const Array<Instant> instantArray = {
@@ -291,7 +301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
 
     for (const Instant& instant : instantArray)
     {
-        EXPECT_NO_THROW(defaultPropagator_.calculateStateAt(state, instant));
+        EXPECT_NO_THROW(defaultPropagator.calculateStateAt(state, instant));
     }
 }
 
@@ -302,8 +312,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         // Current state and instant setup
         const State state = {
             Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
         // Setup instants
         Array<Instant> instantArray = Array<Instant>::Empty();
@@ -312,7 +322,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC));
         instantArray.add(Instant::DateTime(DateTime(2018, 1, 2, 2, 0, 0), Scale::UTC));
 
-        EXPECT_ANY_THROW(defaultPropagator_.calculateStatesAt(state, instantArray));
+        EXPECT_ANY_THROW(defaultPropagator.calculateStatesAt(state, instantArray));
     }
 
     /// Test full state results against reference trajectory
@@ -347,10 +357,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr)};
 
-        const Array<State> propagatedStateArray = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
@@ -382,10 +392,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr)};
 
-        const Array<State> propagatedStateArray = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
@@ -417,10 +427,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const Instant startInstant = instantArray[cachedStateReferenceIndex];
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArray[cachedStateReferenceIndex]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArray[cachedStateReferenceIndex]}, gcrfSPtr)};
 
-        const Array<State> propagatedStateArray = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
@@ -451,10 +461,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_)};
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr)};
 
-    const State finalState = defaultPropagator_.calculateStateAt(state, state.getInstant() + Duration::Minutes(60.0));
+    const State finalState = defaultPropagator.calculateStateAt(state, state.getInstant() + Duration::Minutes(60.0));
 
     VectorXd expectedCoordinates(6);
     expectedCoordinates << -5172890.413848375000, -4716058.194055955000, 0000000.000000000000, 05083.946625786208,
@@ -469,22 +479,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_)};
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr)};
 
     // Setup Propagator
     const Earth earth = Earth::FromModels(
         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential));
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+    );
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
+        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem)),
         std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
-        };
-    const Propagator propagator = {defaultNumericalSolver_, dynamics};
+    };
+    const Propagator propagator = {defaultNumericalSolver, dynamics};
 
     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
@@ -510,8 +521,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 //     // Current state and instant setup
 //     const State state = {
 //         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-//         Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-//         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
+//         Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+//         Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr),
 //         Mass::Kilograms(10.0)};
 
 //     // Satellite shape does not matter for drag, since constant Cd & area are defined
@@ -535,12 +546,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 //         propulsionModel};  // TBI: use dry mass from satellite system in thruster dynamics
 
 //     // Setup Propagator
-//     earthSpherical_->accessAtmosphericModel() = std::make_shared<Exponential>(Exponential());
-//     defaultDynamics_.add(std::make_shared<AtmosphericDrag>(AtmosphericDrag(earth, satelliteSystem)));
-//     defaultDynamics_.add(
-//         std::make_shared<ThrusterDynamics>(ThrusterDynamics(Direction({1.0, 0.0, 0.0}, gcrfSPtr_), satelliteSystem))
+//     earthSpherical->accessAtmosphericModel() = std::make_shared<Exponential>(Exponential());
+//     defaultDynamics.add(std::make_shared<AtmosphericDrag>(AtmosphericDrag(earth, satelliteSystem)));
+//     defaultDynamics.add(
+//         std::make_shared<ThrusterDynamics>(ThrusterDynamics(Direction({1.0, 0.0, 0.0}, gcrfSPtr), satelliteSystem))
 //     );  // TBI: Set VNC frame here
-//     const Propagator propagator = {defaultDynamics_, defaultNumericalSolver_};
+//     const Propagator propagator = {defaultDynamics, defaultNumericalSolver};
 
 //     const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0
 //     * 60.0));
@@ -571,17 +582,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -589,36 +600,34 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Propagate all states
-        const Array<State> propagatedStateArray = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-3, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -636,8 +645,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
         Array<Vector3d> referencePositionArray_ITRF = Array<Vector3d>::Empty();
         Array<Vector3d> referenceVelocityArray_ITRF = Array<Vector3d>::Empty();
 
@@ -645,10 +654,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 {referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()}
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 {referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()}
             );
 
@@ -668,29 +677,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Propagate all states
-        const Array<State> propagatedStateArray = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-7, positionError_GCRF);
-            ASSERT_GT(2e-10, velocityError_GCRF);
+            ASSERT_GT(2e-7, positionErrorGCRF);
+            ASSERT_GT(2e-10, velocityErrorGCRF);
 
             // ITRF Compare
             const Position position_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).accessPosition();
@@ -711,8 +718,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
@@ -742,17 +749,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -760,15 +767,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Create dynamics
         const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::EGM2008(100, 100));
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -777,26 +784,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(1.5e-1, positionError_GCRF);
-            ASSERT_GT(1.5e-4, velocityError_GCRF);
+            ASSERT_GT(1.5e-1, positionErrorGCRF);
+            ASSERT_GT(1.5e-4, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -816,17 +821,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -840,18 +845,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Setup Propagator
         const Propagator propagator_360 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
         const Propagator propagator_100 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_100))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_100))}};
         const Propagator propagator_70 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_360 = propagator_360.calculateStatesAt(state, instantArray);
@@ -863,60 +868,60 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF_360 = propagatedStateArray_360[i].accessPosition();
-            const Velocity velocity_GCRF_360 = propagatedStateArray_360[i].accessVelocity();
-            const Position position_GCRF_100 = propagatedStateArray_100[i].accessPosition();
-            const Velocity velocity_GCRF_100 = propagatedStateArray_100[i].accessVelocity();
-            const Position position_GCRF_70 = propagatedStateArray_70[i].accessPosition();
-            const Velocity velocity_GCRF_70 = propagatedStateArray_70[i].accessVelocity();
-            const Position position_GCRF_45 = propagatedStateArray_45[i].accessPosition();
-            const Velocity velocity_GCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Position positionGCRF_360 = propagatedStateArray_360[i].accessPosition();
+            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].accessVelocity();
+            const Position positionGCRF_100 = propagatedStateArray_100[i].accessPosition();
+            const Velocity velocityGCRF_100 = propagatedStateArray_100[i].accessVelocity();
+            const Position positionGCRF_70 = propagatedStateArray_70[i].accessPosition();
+            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].accessVelocity();
+            const Position positionGCRF_45 = propagatedStateArray_45[i].accessPosition();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
 
             // 360 vs 100
-            const double positionError_GCRF_360_100 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_100.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_100 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_100.accessCoordinates()).norm();
-            ASSERT_GT(2e-3, positionError_GCRF_360_100);
-            ASSERT_GT(2e-6, velocityError_GCRF_360_100);
+            const double positionErrorGCRF_360_100 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_100.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_100 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_100.accessCoordinates()).norm();
+            ASSERT_GT(2e-3, positionErrorGCRF_360_100);
+            ASSERT_GT(2e-6, velocityErrorGCRF_360_100);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 100 Position error is: " << positionError_GCRF_360_100 << "m" << std::endl;
-            // std::cout << "360 vs 100 Velocity error is: " << velocityError_GCRF_360_100 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 100 Position error is: " << positionErrorGCRF_360_100 << "m" << std::endl;
+            // std::cout << "360 vs 100 Velocity error is: " << velocityErrorGCRF_360_100 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
             // 360 vs 70
-            const double positionError_GCRF_360_70 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_70.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_70 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_70.accessCoordinates()).norm();
-            ASSERT_GT(5e-2, positionError_GCRF_360_70);
-            ASSERT_GT(5e-5, velocityError_GCRF_360_70);
+            const double positionErrorGCRF_360_70 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_70.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_70 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_70.accessCoordinates()).norm();
+            ASSERT_GT(5e-2, positionErrorGCRF_360_70);
+            ASSERT_GT(5e-5, velocityErrorGCRF_360_70);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 70 Position error is: " << positionError_GCRF_360_70 << "m" << std::endl;
-            // std::cout << "360 vs 70 Velocity error is: " << velocityError_GCRF_360_70 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 70 Position error is: " << positionErrorGCRF_360_70 << "m" << std::endl;
+            // std::cout << "360 vs 70 Velocity error is: " << velocityErrorGCRF_360_70 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
             // 360 vs 45
-            const double positionError_GCRF_360_45 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_45.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_45 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_45.accessCoordinates()).norm();
-            ASSERT_GT(5e-1, positionError_GCRF_360_45);
-            ASSERT_GT(5e-4, velocityError_GCRF_360_45);
+            const double positionErrorGCRF_360_45 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_45 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+            ASSERT_GT(5e-1, positionErrorGCRF_360_45);
+            ASSERT_GT(5e-4, velocityErrorGCRF_360_45);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 45 Position error is: " << positionError_GCRF_360_45 << "m" << std::endl;
-            // std::cout << "360 vs 45 Velocity error is: " << velocityError_GCRF_360_45 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 45 Position error is: " << positionErrorGCRF_360_45 << "m" << std::endl;
+            // std::cout << "360 vs 45 Velocity error is: " << velocityErrorGCRF_360_45 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -939,17 +944,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -959,13 +964,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -974,26 +979,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(9e-2, positionError_GCRF);
-            ASSERT_GT(9e-5, velocityError_GCRF);
+            ASSERT_GT(9e-2, positionErrorGCRF);
+            ASSERT_GT(9e-5, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1013,17 +1016,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1033,13 +1036,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1048,26 +1051,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(1.5e-4, positionError_GCRF);
-            ASSERT_GT(1.5e-7, velocityError_GCRF);
+            ASSERT_GT(1.5e-4, positionErrorGCRF);
+            ASSERT_GT(1.5e-7, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1087,17 +1088,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1105,8 +1106,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Create dynamics
         const Shared<Celestial> earth_360 = std::make_shared<Celestial>(Earth::EGM96(360, 360));
@@ -1116,13 +1117,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup Propagator
         const Propagator propagator_360 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_360))}};
         const Propagator propagator_180 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
         const Propagator propagator_90 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_90))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_90))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_360 = propagator_360.calculateStatesAt(state, instantArray);
@@ -1134,60 +1135,60 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF_360 = propagatedStateArray_360[i].accessPosition();
-            const Velocity velocity_GCRF_360 = propagatedStateArray_360[i].accessVelocity();
-            const Position position_GCRF_180 = propagatedStateArray_180[i].accessPosition();
-            const Velocity velocity_GCRF_180 = propagatedStateArray_180[i].accessVelocity();
-            const Position position_GCRF_90 = propagatedStateArray_90[i].accessPosition();
-            const Velocity velocity_GCRF_90 = propagatedStateArray_90[i].accessVelocity();
-            const Position position_GCRF_45 = propagatedStateArray_45[i].accessPosition();
-            const Velocity velocity_GCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Position positionGCRF_360 = propagatedStateArray_360[i].accessPosition();
+            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].accessVelocity();
+            const Position positionGCRF_180 = propagatedStateArray_180[i].accessPosition();
+            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].accessVelocity();
+            const Position positionGCRF_90 = propagatedStateArray_90[i].accessPosition();
+            const Velocity velocityGCRF_90 = propagatedStateArray_90[i].accessVelocity();
+            const Position positionGCRF_45 = propagatedStateArray_45[i].accessPosition();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
 
             // 360 vs 180
-            const double positionError_GCRF_360_180 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_180.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_180 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_180.accessCoordinates()).norm();
-            ASSERT_GT(9e-7, positionError_GCRF_360_180);
-            ASSERT_GT(9e-10, velocityError_GCRF_360_180);
+            const double positionErrorGCRF_360_180 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_180.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_180 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_180.accessCoordinates()).norm();
+            ASSERT_GT(9e-7, positionErrorGCRF_360_180);
+            ASSERT_GT(9e-10, velocityErrorGCRF_360_180);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 180 Position error is: " << positionError_GCRF_360_180 << "m" << std::endl;
-            // std::cout << "360 vs 180 Velocity error is: " << velocityError_GCRF_360_180 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 180 Position error is: " << positionErrorGCRF_360_180 << "m" << std::endl;
+            // std::cout << "360 vs 180 Velocity error is: " << velocityErrorGCRF_360_180 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
             // 360 vs 90
-            const double positionError_GCRF_360_90 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_90.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_90 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_90.accessCoordinates()).norm();
-            ASSERT_GT(7e-3, positionError_GCRF_360_90);
-            ASSERT_GT(7e-6, velocityError_GCRF_360_90);
+            const double positionErrorGCRF_360_90 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_90.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_90 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_90.accessCoordinates()).norm();
+            ASSERT_GT(7e-3, positionErrorGCRF_360_90);
+            ASSERT_GT(7e-6, velocityErrorGCRF_360_90);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 90 Position error is: " << positionError_GCRF_360_90 << "m" << std::endl;
-            // std::cout << "360 vs 90 Velocity error is: " << velocityError_GCRF_360_90 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 90 Position error is: " << positionErrorGCRF_360_90 << "m" << std::endl;
+            // std::cout << "360 vs 90 Velocity error is: " << velocityErrorGCRF_360_90 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
             // 360 vs 45
-            const double positionError_GCRF_360_45 =
-                (position_GCRF_360.accessCoordinates() - position_GCRF_45.accessCoordinates()).norm();
-            const double velocityError_GCRF_360_45 =
-                (velocity_GCRF_360.accessCoordinates() - velocity_GCRF_45.accessCoordinates()).norm();
-            ASSERT_GT(5e-1, positionError_GCRF_360_45);
-            ASSERT_GT(5e-4, velocityError_GCRF_360_45);
+            const double positionErrorGCRF_360_45 =
+                (positionGCRF_360.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+            const double velocityErrorGCRF_360_45 =
+                (velocityGCRF_360.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+            ASSERT_GT(5e-1, positionErrorGCRF_360_45);
+            ASSERT_GT(5e-4, velocityErrorGCRF_360_45);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "360 vs 45 Position error is: " << positionError_GCRF_360_45 << "m" << std::endl;
-            // std::cout << "360 vs 45 Velocity error is: " << velocityError_GCRF_360_45 <<  "m/s" << std::endl;
+            // std::cout << "360 vs 45 Position error is: " << positionErrorGCRF_360_45 << "m" << std::endl;
+            // std::cout << "360 vs 45 Velocity error is: " << velocityErrorGCRF_360_45 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1210,17 +1211,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1228,13 +1229,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Setup Propagator
         const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::EGM84(70, 70));
         const Propagator propagator = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1243,26 +1244,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(7e-5, positionError_GCRF);
-            ASSERT_GT(7e-8, velocityError_GCRF);
+            ASSERT_GT(7e-5, positionErrorGCRF);
+            ASSERT_GT(7e-8, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1282,17 +1281,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1305,16 +1304,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Setup Propagator
         const Propagator propagator_180 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_180))}};
         const Propagator propagator_70 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_70))}};
         const Propagator propagator_45 = {
-            defaultNumericalSolver_, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
+            defaultNumericalSolver, {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth_45))}};
 
         // Propagate all states
         const Array<State> propagatedStateArray_180 = propagator_180.calculateStatesAt(state, instantArray);
@@ -1325,42 +1324,42 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF_180 = propagatedStateArray_180[i].accessPosition();
-            const Velocity velocity_GCRF_180 = propagatedStateArray_180[i].accessVelocity();
-            const Position position_GCRF_70 = propagatedStateArray_70[i].accessPosition();
-            const Velocity velocity_GCRF_70 = propagatedStateArray_70[i].accessVelocity();
-            const Position position_GCRF_45 = propagatedStateArray_45[i].accessPosition();
-            const Velocity velocity_GCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Position positionGCRF_180 = propagatedStateArray_180[i].accessPosition();
+            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].accessVelocity();
+            const Position positionGCRF_70 = propagatedStateArray_70[i].accessPosition();
+            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].accessVelocity();
+            const Position positionGCRF_45 = propagatedStateArray_45[i].accessPosition();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
 
             // 180 vs 70
-            const double positionError_GCRF_180_70 =
-                (position_GCRF_180.accessCoordinates() - position_GCRF_70.accessCoordinates()).norm();
-            const double velocityError_GCRF_180_70 =
-                (velocity_GCRF_180.accessCoordinates() - velocity_GCRF_70.accessCoordinates()).norm();
-            ASSERT_GT(6e-2, positionError_GCRF_180_70);
-            ASSERT_GT(6e-5, velocityError_GCRF_180_70);
+            const double positionErrorGCRF_180_70 =
+                (positionGCRF_180.accessCoordinates() - positionGCRF_70.accessCoordinates()).norm();
+            const double velocityErrorGCRF_180_70 =
+                (velocityGCRF_180.accessCoordinates() - velocityGCRF_70.accessCoordinates()).norm();
+            ASSERT_GT(6e-2, positionErrorGCRF_180_70);
+            ASSERT_GT(6e-5, velocityErrorGCRF_180_70);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "180 vs 70 Position error is: " << positionError_GCRF_180_70 << "m" << std::endl;
-            // std::cout << "180 vs 70 Velocity error is: " << velocityError_GCRF_180_70 <<  "m/s" << std::endl;
+            // std::cout << "180 vs 70 Position error is: " << positionErrorGCRF_180_70 << "m" << std::endl;
+            // std::cout << "180 vs 70 Velocity error is: " << velocityErrorGCRF_180_70 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
 
             // 180 vs 45
-            const double positionError_GCRF_180_45 =
-                (position_GCRF_180.accessCoordinates() - position_GCRF_45.accessCoordinates()).norm();
-            const double velocityError_GCRF_180_45 =
-                (velocity_GCRF_180.accessCoordinates() - velocity_GCRF_45.accessCoordinates()).norm();
-            ASSERT_GT(3e-1, positionError_GCRF_180_45);
-            ASSERT_GT(3e-4, velocityError_GCRF_180_45);
+            const double positionErrorGCRF_180_45 =
+                (positionGCRF_180.accessCoordinates() - positionGCRF_45.accessCoordinates()).norm();
+            const double velocityErrorGCRF_180_45 =
+                (velocityGCRF_180.accessCoordinates() - velocityGCRF_45.accessCoordinates()).norm();
+            ASSERT_GT(3e-1, positionErrorGCRF_180_45);
+            ASSERT_GT(3e-4, velocityErrorGCRF_180_45);
 
             // Results console output
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "180 vs 45 Position error is: " << positionError_GCRF_180_45 << "m" << std::endl;
-            // std::cout << "180 vs 45 Velocity error is: " << velocityError_GCRF_180_45 <<  "m/s" << std::endl;
+            // std::cout << "180 vs 45 Position error is: " << positionErrorGCRF_180_45 << "m" << std::endl;
+            // std::cout << "180 vs 45 Velocity error is: " << velocityErrorGCRF_180_45 <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1383,17 +1382,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1401,18 +1400,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Create dynamics
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
-        defaultDynamics_ = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
+        defaultDynamics = {
+            std::make_shared<CentralBodyGravity>(earthSpherical),
             std::make_shared<ThirdBodyGravity>(moonSpherical_),
             std::make_shared<ThirdBodyGravity>(sunSpherical_)};
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
-        const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+        const Propagator propagator = {defaultNumericalSolver, defaultDynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1421,26 +1420,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-3, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1463,17 +1460,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1481,17 +1478,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // dynamics setup
         const Shared<Celestial> sunSpherical = std::make_shared<Celestial>(Sun::Spherical());
-        defaultDynamics_ = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-            std::make_shared<ThirdBodyGravity>(sunSpherical)};
+        defaultDynamics = {
+            std::make_shared<CentralBodyGravity>(earthSpherical), std::make_shared<ThirdBodyGravity>(sunSpherical)};
 
         // Setup Propagator
-        const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+        const Propagator propagator = {defaultNumericalSolver, defaultDynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1500,26 +1496,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-3, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1542,17 +1536,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
             instantArray.add(startInstant + Duration::Seconds(referenceRow[1].accessReal()));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[2].accessReal(), referenceRow[3].accessReal(), referenceRow[4].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 1e3 * Vector3d(referenceRow[5].accessReal(), referenceRow[6].accessReal(), referenceRow[7].accessReal())
             );
         }
@@ -1560,18 +1554,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // dynamics setup
         const Shared<Celestial> moonSpherical = std::make_shared<Celestial>(Moon::Spherical());
-        defaultDynamics_ = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
+        defaultDynamics = {
+            std::make_shared<CentralBodyGravity>(earthSpherical),
             std::make_shared<ThirdBodyGravity>(moonSpherical),
         };
 
         // Setup Propagator
-        const Propagator propagator = {defaultNumericalSolver_, defaultDynamics_};
+        const Propagator propagator = {defaultNumericalSolver, defaultDynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1580,26 +1574,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-3, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-3, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1622,8 +1614,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
@@ -1631,10 +1623,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
                 DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
             ));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
             );
         }
@@ -1648,17 +1640,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
-            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
+            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem)),
         };
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultNumericalSolver_, dynamics};
+        const Propagator propagator = {defaultNumericalSolver, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1667,26 +1659,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-4, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-4, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1709,8 +1699,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         );
 
         Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArray_GCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArray_GCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
 
         for (const auto& referenceRow : referenceData)
         {
@@ -1718,10 +1708,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
                 DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
             ));
 
-            referencePositionArray_GCRF.add(
+            referencePositionArrayGCRF.add(
                 Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
             );
-            referenceVelocityArray_GCRF.add(
+            referenceVelocityArrayGCRF.add(
                 Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
             );
         }
@@ -1735,17 +1725,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
-            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem_)),
+            std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem)),
         };
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArray_GCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArray_GCRF[0]}, gcrfSPtr_)};
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr)};
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultNumericalSolver_, dynamics};
+        const Propagator propagator = {defaultNumericalSolver, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
@@ -1754,26 +1744,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_GCRF = propagatedStateArray[i].accessPosition();
-            const Velocity velocity_GCRF = propagatedStateArray[i].accessVelocity();
+            const Position positionGCRF = propagatedStateArray[i].accessPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_GCRF.accessCoordinates() - referencePositionArray_GCRF[i]).norm();
-            const double velocityError_GCRF =
-                (velocity_GCRF.accessCoordinates() - referenceVelocityArray_GCRF[i]).norm();
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
 
-            ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(2e-4, positionError_GCRF);
-            ASSERT_GT(2e-6, velocityError_GCRF);
+            ASSERT_GT(2e-4, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
@@ -1801,11 +1789,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
         // Propagate all states at short interval
-        const Array<State> propagatedStateArray_short = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray_short = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Propagate all states at long interval
         Array<Instant> instantArray_longInterval = Array<Instant>::Empty();
@@ -1815,7 +1803,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             instantArray_longInterval.add(instantArray[i]);
         }
         const Array<State> propagatedStateArray_long =
-            defaultPropagator_.calculateStatesAt(state, instantArray_longInterval);
+            defaultPropagator.calculateStatesAt(state, instantArray_longInterval);
 
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
@@ -1824,30 +1812,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             if (i % indexIncrement == 0)
             {
                 // GCRF Compare
-                const Position position_short = propagatedStateArray_short[i].accessPosition();
-                const Velocity velocity_short = propagatedStateArray_short[i].accessVelocity();
-                const Position position_long = propagatedStateArray_long[i / indexIncrement].accessPosition();
-                const Velocity velocity_long = propagatedStateArray_long[i / indexIncrement].accessVelocity();
+                const Position positionShort = propagatedStateArray_short[i].accessPosition();
+                const Velocity velocityShort = propagatedStateArray_short[i].accessVelocity();
+                const Position positionLong = propagatedStateArray_long[i / indexIncrement].accessPosition();
+                const Velocity velocityLong = propagatedStateArray_long[i / indexIncrement].accessVelocity();
 
-                const double positionError_GCRF =
-                    (position_short.accessCoordinates() - position_long.accessCoordinates()).norm();
-                const double velocityError_GCRF =
-                    (velocity_short.accessCoordinates() - velocity_long.accessCoordinates()).norm();
+                const double positionErrorGCRF =
+                    (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
+                const double velocityErrorGCRF =
+                    (velocityShort.accessCoordinates() - velocityLong.accessCoordinates()).norm();
 
-                ASSERT_EQ(*Frame::GCRF(), *position_short.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *velocity_short.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *position_long.accessFrame());
-                ASSERT_EQ(*Frame::GCRF(), *velocity_long.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *positionShort.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityShort.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *positionLong.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityLong.accessFrame());
 
-                ASSERT_GT(1.0e-7, positionError_GCRF);
-                ASSERT_GT(1.0e-7, velocityError_GCRF);
+                ASSERT_GT(1.0e-7, positionErrorGCRF);
+                ASSERT_GT(1.0e-7, velocityErrorGCRF);
 
                 // Results console output
 
                 // std::cout << "**************************************" << std::endl;
                 // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-                // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-                // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+                // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
                 // std::cout.setf(std::ios::fixed,std::ios::floatfield);
                 // std::cout << "**************************************" << std::endl;
             }
@@ -1872,8 +1860,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
         testing::internal::CaptureStdout();
 
@@ -1881,33 +1869,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // Propagator output generated
-            const State state_short = defaultPropagator_.calculateStateAt(state, instantArray[i]);
+            const State stateShort = defaultPropagator.calculateStateAt(state, instantArray[i]);
 
             // Run once every X times
             if (i % 10 == 0)
             {
-                const State state_long = defaultPropagator_.calculateStateAt(state, instantArray[i]);
+                const State stateLong = defaultPropagator.calculateStateAt(state, instantArray[i]);
 
                 // GCRF Compare
-                const Position position_short = state_short.accessPosition();
-                const Velocity velocity_short = state_short.accessVelocity();
-                const Position position_long = state_long.accessPosition();
-                const Velocity velocity_long = state_long.accessVelocity();
+                const Position positionShort = stateShort.accessPosition();
+                const Velocity velocityShort = stateShort.accessVelocity();
+                const Position positionLong = stateLong.accessPosition();
+                const Velocity velocityLong = stateLong.accessVelocity();
 
-                const double positionError_GCRF =
-                    (position_short.accessCoordinates() - position_long.accessCoordinates()).norm();
-                const double velocityError_GCRF =
-                    (velocity_short.accessCoordinates() - velocity_long.accessCoordinates()).norm();
+                const double positionErrorGCRF =
+                    (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
+                const double velocityErrorGCRF =
+                    (velocityShort.accessCoordinates() - velocityLong.accessCoordinates()).norm();
 
-                ASSERT_GT(3e-8, positionError_GCRF);
-                ASSERT_GT(3e-11, velocityError_GCRF);
+                ASSERT_GT(3e-8, positionErrorGCRF);
+                ASSERT_GT(3e-11, velocityErrorGCRF);
 
                 // Results console output
 
                 // std::cout << "**************************************" << std::endl;
                 // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-                // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-                // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+                // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
                 // std::cout.setf(std::ios::fixed,std::ios::floatfield);
                 // std::cout << "**************************************" << std::endl;
             }
@@ -1937,45 +1925,43 @@ TEST_F(
         }
 
         // Construct default numerical solver
-        const NumericalSolver numericalSolver_54 = {
+        const NumericalSolver numericalSolver54 = {
             NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
 
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_)};
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr)};
 
         // Setup Propagator
-        const Propagator propagator_54 = {numericalSolver_54, defaultDynamics_};
+        const Propagator propagator54 = {numericalSolver54, defaultDynamics};
 
         // Propagate all states
-        const Array<State> propagatedStateArray_54 = propagator_54.calculateStatesAt(state, instantArray);
-        const Array<State> propagatedStateArray_78 = defaultPropagator_.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray54 = propagator54.calculateStatesAt(state, instantArray);
+        const Array<State> propagatedStateArray78 = defaultPropagator.calculateStatesAt(state, instantArray);
 
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
-            const Position position_54 = propagatedStateArray_54[i].accessPosition();
-            const Velocity velocity_54 = propagatedStateArray_54[i].accessVelocity();
-            const Position position_78 = propagatedStateArray_78[i].accessPosition();
-            const Velocity velocity_78 = propagatedStateArray_78[i].accessVelocity();
+            const Position position54 = propagatedStateArray54[i].accessPosition();
+            const Velocity velocity54 = propagatedStateArray54[i].accessVelocity();
+            const Position position78 = propagatedStateArray78[i].accessPosition();
+            const Velocity velocity78 = propagatedStateArray78[i].accessVelocity();
 
-            const double positionError_GCRF =
-                (position_54.accessCoordinates() - position_78.accessCoordinates()).norm();
-            const double velocityError_GCRF =
-                (velocity_54.accessCoordinates() - velocity_78.accessCoordinates()).norm();
+            const double positionErrorGCRF = (position54.accessCoordinates() - position78.accessCoordinates()).norm();
+            const double velocityErrorGCRF = (velocity54.accessCoordinates() - velocity78.accessCoordinates()).norm();
 
-            ASSERT_GT(5e-7, positionError_GCRF);
-            ASSERT_GT(5e-10, velocityError_GCRF);
+            ASSERT_GT(5e-7, positionErrorGCRF);
+            ASSERT_GT(5e-10, velocityErrorGCRF);
 
             // Results console output
 
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionError_GCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityError_GCRF <<  "m/s" << std::endl;
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }

@@ -53,7 +53,7 @@ using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief                      Defines a propagator to be used for numerical integration
+/// @brief                      Define a propagator to be used for numerical propagation
 
 class Propagator
 {
@@ -75,7 +75,7 @@ class Propagator
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagator propagator = { aNumericalSolver, anEnvironment } ;
+    ///                     Propagator propagator = { aNumericalSolver, anEnvironment, aSatelliteSystem } ;
     /// @endcode
     ///
     /// @param              [in] aNumericalSolver A numerical solver
@@ -120,21 +120,21 @@ class Propagator
     /// @code
     ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
     /// @endcode
-    /// @return             An array of dynamics
+    /// @return             An array of dynamics shared pointers
 
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief              Set dynamics array
+    /// @brief              Set the dynamics array
     /// @code
     ///                     propagator.setDynamics(aDynamicsArray);
     /// @endcode
-    /// @param              [in] aDynamicsArray A Dynamics Array
+    /// @param              [in] aDynamicsArray A dynamics array
 
     void setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
 
-    /// @brief              Add a dynamics to the array
+    /// @brief              Add a dynamics to the array of shared pointers to dynamics
     /// @code
-    ///                     propagator.addDynamics(aDynamicsArray);
+    ///                     propagator.addDynamics(aDynamics);
     /// @endcode
     /// @param              [in] aDynamics A Dynamics shared pointer
 
@@ -158,7 +158,7 @@ class Propagator
     State calculateStateAt(const State& aState, const Instant& anInstant) const;
 
     /// @brief              Calculate the states at an array of instants, given an initial state
-    /// @brief              Can only be used with sorted instant array
+    /// @brief              Can only be used with sorted instants array
     /// @code
     ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;
     /// @endcode
@@ -178,7 +178,7 @@ class Propagator
     static Propagator Undefined();
 
    private:
-    Array<Shared<Dynamics>> dynamics_ = Array<Shared<Dynamics>>::Empty();
+    Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
 };
 

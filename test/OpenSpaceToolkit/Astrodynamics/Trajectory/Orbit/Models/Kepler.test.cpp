@@ -148,7 +148,6 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 {
-
     {
         // Environment setup
 
@@ -368,7 +367,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 {
-
     {
         // Environment setup
 
@@ -471,7 +469,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 {
-
     {
         // Environment setup
 
@@ -574,7 +571,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 {
-
     {
         // Environment setup
 
@@ -677,7 +673,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 {
-
     {
         // Environment setup
 

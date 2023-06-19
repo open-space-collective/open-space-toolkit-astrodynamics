@@ -60,7 +60,6 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 {
-
     {
         const Environment environment = Environment::Default();
 
@@ -110,7 +109,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 {
-
     {
         const Environment environment = Environment::Default();
 
@@ -147,7 +145,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 {
-
     {
         const Environment environment = Environment::Default();
 
@@ -184,7 +181,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
 {
-
     {
         const Environment environment = Environment::Default();
 
@@ -218,7 +214,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 {
-
     {
         // Environment setup
 
@@ -276,7 +271,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 {
-
     {
         // Environment setup
 
@@ -344,7 +338,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumber)
 {
-
     {
         // Environment setup
 
@@ -540,7 +533,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 {
-
     // NED
 
     {
@@ -750,7 +742,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
 {
-
     {
         const Environment environment = Environment::Default();
 
@@ -793,7 +784,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 {
-
     {
         struct Scenario
         {
@@ -942,7 +932,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 {
-
     {
         struct Scenario
         {
@@ -1079,7 +1068,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
 {
-
     {
         struct Scenario
         {

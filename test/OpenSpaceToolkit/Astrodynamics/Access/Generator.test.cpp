@@ -309,7 +309,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -404,7 +405,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -732,7 +734,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -862,7 +865,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);

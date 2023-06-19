@@ -33,7 +33,6 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -48,7 +47,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Construc
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -95,7 +93,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToO
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperator)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -142,7 +139,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqual
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -163,7 +159,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOp
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -184,7 +179,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefine
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -205,7 +199,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiM
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -226,7 +219,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccen
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -247,7 +239,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetIncli
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -268,7 +259,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -289,7 +279,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -410,7 +399,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueA
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -421,7 +409,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
+        const COE::CartesianState cartesianState =
+            coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
 
         const Position& position = cartesianState.first;
         const Velocity& velocity = cartesianState.second;
@@ -447,7 +436,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
+        const COE::CartesianState cartesianState =
+            coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
 
         const Position& position = cartesianState.first;
         const Velocity& velocity = cartesianState.second;
@@ -488,7 +478,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
-
     {
         EXPECT_NO_THROW(COE::Undefined());
     }
@@ -496,7 +485,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefine
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 {
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -612,7 +600,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
 {
-
     {
         const Angle meanAnomaly = Angle::Degrees(0.0);
         const Real eccentricity = 0.0;

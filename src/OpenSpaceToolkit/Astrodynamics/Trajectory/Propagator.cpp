@@ -40,7 +40,6 @@ Propagator::Propagator(
     : dynamics_(Array<Shared<Dynamics>>::Empty()),
       numericalSolver_(aNumericalSolver)
 {
-
     const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>
     {
         if (aCelestial->gravitationalModelIsDefined())
@@ -58,12 +57,12 @@ Propagator::Propagator(
         }
 
         return nullptr;
-
     };
 
     for (const String& name : anEnvironment.getObjectNames())
     {
-        const Shared<const Celestial> celestial = anEnvironment.accessCelestialObjectWithName(name);
+        const Shared<const Celestial> celestial =
+            anEnvironment.accessCelestialObjectWithName(name);  // TBI: Use CelestialSPtr?
 
         const Shared<Dynamics> dynamics = getDynamics(celestial);
 
@@ -101,6 +100,11 @@ bool Propagator::isDefined() const
     return numericalSolver_.isDefined();
 }
 
+Array<Shared<Dynamics>> Propagator::getDynamics() const
+{
+    return this->dynamics_;
+}
+
 void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 {
     this->dynamics_ = aDynamicsArray;
@@ -114,11 +118,6 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
 void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
-}
-
-Array<Shared<Dynamics>> Propagator::getDynamics() const
-{
-    return this->dynamics_;
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -136,7 +135,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+        Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
     );
 
     return {
@@ -196,7 +195,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
         );
     }
 
@@ -210,7 +209,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::getDynamicalEquations(aState.getInstant(), this->dynamics_)
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());

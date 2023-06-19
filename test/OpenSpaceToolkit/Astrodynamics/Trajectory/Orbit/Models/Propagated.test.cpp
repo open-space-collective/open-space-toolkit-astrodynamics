@@ -1849,8 +1849,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> sunSpherical_ = std::make_shared<Celestial>(Sun::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-            std::make_shared<ThirdBodyGravity>(sunSpherical_)};
+            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(sunSpherical_)};
 
         // Setup initial conditions
         const State state = {
@@ -1929,8 +1928,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, PropAc
         // Create dynamics
         const Shared<Celestial> moonSpherical_ = std::make_shared<Celestial>(Moon::Spherical());
         const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-            std::make_shared<ThirdBodyGravity>(moonSpherical_)};
+            std::make_shared<CentralBodyGravity>(earthSpherical_), std::make_shared<ThirdBodyGravity>(moonSpherical_)};
         // Setup initial conditions
         const State state = {
             startInstant,
