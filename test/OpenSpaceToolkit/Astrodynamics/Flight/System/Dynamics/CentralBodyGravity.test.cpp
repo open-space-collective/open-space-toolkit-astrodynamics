@@ -109,7 +109,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
     {
         const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(earthWGS84));
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(earthSPtrWGS84));
     }
 
     {
@@ -174,16 +174,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
     const CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
 
-    EXPECT_TRUE(centralBodyGravitationalDynamics.getCelestial() == earth);
+    EXPECT_TRUE(centralBodyGravitationalDynamics.getCelestial() == earthSPtr);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Update)
 {
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
+    CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr, satelliteSystem);
     centralBodyGravitationalDynamics.update(startStateVector, dxdt, startInstant);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
@@ -204,7 +203,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
     // Setup dynamics
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))};
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -230,8 +229,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 {
     Dynamics::StateVector SunReferencePull(6);
     // Setup dynamics
-    const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(sun))};
+    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -258,8 +257,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     Dynamics::StateVector MoonReferencePull(6);
 
     // Setup dynamics
-    const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(moon))};
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -286,13 +285,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     Dynamics::StateVector EarthSunMoonReferencePull(6);
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-    const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
+    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth)),
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(sun)),
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(moon))};
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSPtr)),
+        std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;

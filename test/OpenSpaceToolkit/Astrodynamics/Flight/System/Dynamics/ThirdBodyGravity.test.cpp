@@ -109,17 +109,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
 
     {
         const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(earthWGS84));
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtrWGS84));
     }
 
     {
-        const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(sun));
+        const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(sunSPtr));
     }
 
     {
-        const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moon));
+        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr));
     }
 }
 
@@ -174,16 +174,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, G
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
     const ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
 
-    EXPECT_TRUE(thirdBodyGravitationalDynamics.getCelestial() == earth);
+    EXPECT_TRUE(thirdBodyGravitationalDynamics.getCelestial() == earthSPtr);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Update)
 {
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
+    ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    ThirdBodyGravity thirdBodyGravitationalDynamics(earthSPtr, satelliteSystem);
     thirdBodyGravitationalDynamics.update(startStateVector, dxdt, startInstant);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
@@ -204,7 +203,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
     // Setup dynamics
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(earth))};
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(earthSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -230,8 +229,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 {
     Dynamics::StateVector SunReferencePull(6);
     // Setup dynamics
-    const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(sun))};
+    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(sunSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -258,8 +257,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     Dynamics::StateVector MoonReferencePull(6);
 
     // Setup dynamics
-    const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(moon))};
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(moonSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -286,13 +285,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     Dynamics::StateVector EarthSunMoonReferencePull(6);
 
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-    const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
+    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
+    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(earth)),
-        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(sun)),
-        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(moon))};
+        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(earthSPtr)),
+        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(sunSPtr)),
+        std::make_shared<ThirdBodyGravity>(ThirdBodyGravity(moonSPtr))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;

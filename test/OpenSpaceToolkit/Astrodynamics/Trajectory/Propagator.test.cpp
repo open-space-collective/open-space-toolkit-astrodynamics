@@ -247,7 +247,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDyn
         defaultPropagator.setDynamics({});
 
         EXPECT_TRUE(defaultPropagator.getDynamics().getSize() == 0);
-        EXPECT_TRUE(defaultPropagator.isDefined())
+        EXPECT_TRUE(defaultPropagator.isDefined());
     }
 }
 

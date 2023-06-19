@@ -183,6 +183,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Up
     Dynamics::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem);
     atmosphericDynamics.update(startStateVector, dxdt, startInstant);
+
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
