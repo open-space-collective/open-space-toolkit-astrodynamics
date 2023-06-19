@@ -73,6 +73,8 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
 
 void AtmosphericDrag::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
 {
+    (void)anInstant;
+
     // Get atmospheric density
     const Real atmosphericDensity =
         celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
@@ -82,21 +84,21 @@ void AtmosphericDrag::update(const Dynamics::StateVector& x, Dynamics::StateVect
     const Vector3d earthAngularVelocity =
         gcrfSPtr_->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
-    const Vector3d relativeVelocity = Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2])
-                                                                   );  // TBI: Currently Earth specific
+    const Vector3d relativeVelocity =
+        Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
 
     const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 
     // Add object's gravity to total gravitational acceleration
-    const Vector3d dragAccelerationSI =
+    const Vector3d dragAcceleration_SI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
     // Integrate velocity states
-    dxdt[3] += dragAccelerationSI[0];
-    dxdt[4] += dragAccelerationSI[1];
-    dxdt[5] += dragAccelerationSI[2];
+    dxdt[3] += dragAcceleration_SI[0];
+    dxdt[4] += dragAcceleration_SI[1];
+    dxdt[5] += dragAcceleration_SI[2];
 }
 
 Shared<const Celestial> AtmosphericDrag::getCelestial() const

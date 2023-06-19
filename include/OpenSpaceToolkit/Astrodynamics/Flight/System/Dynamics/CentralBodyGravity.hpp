@@ -33,7 +33,7 @@ class CentralBodyGravity : public Dynamics
     ///
     /// @code
     ///                     const Celestial = { ... };
-    ///                     CentralBodyGravity gravitationalDynamics = { aCelestial };
+    ///                     CentralBodyGravity centralBodyGravity = { aCelestial };
     /// @endcode
     ///
     /// @param              [in] aCelestial A Celestial Object

@@ -14,7 +14,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGr
     using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 
     {
+<<<<<<< HEAD
         class_<CentralBodyGravity, Shared<CentralBodyGravity>, Dynamics>(aModule, "CentralBodyGravity")
+=======
+        class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(aModule, "CentralBodyGravity")
+>>>>>>> feat: add missing files
             .def(init<const Shared<Celestial>&>(), arg("celestial"))
 
             .def("__str__", &(shiftToString<CentralBodyGravity>))
@@ -22,8 +26,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGr
 
             .def("is_defined", &CentralBodyGravity::isDefined)
 
+<<<<<<< HEAD
             .def("get_celestial", &CentralBodyGravity::getCelestial)
 
             .def("update", &CentralBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"));
     }
+=======
+            .def("update", &CentralBodyGravity::update, arg("x"), arg("dxdt"), arg("instant"))
+
+            .def("get_celestial", &CentralBodyGravity::getCelestial)
+
+            ;
+    }
+
+>>>>>>> feat: add missing files
 }

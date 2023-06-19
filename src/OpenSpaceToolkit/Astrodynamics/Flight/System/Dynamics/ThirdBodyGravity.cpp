@@ -65,23 +65,32 @@ void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void ThirdBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+void ThirdBodyGravity::update(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+)
 {
-    // Obtain 3rd body effect on center of Earth (origin in GCRF) aka 3rd body correction
+
+    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
     const Vector gravitationalAcceleration3rdBodyCorrection =
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant);
 
     // Subtract 3rd body correct from total gravitational acceleration
-    const Vector3d thirdBodyGravityAccelerationSI =
-        -gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, anInstant).getValue();
+    Vector3d gravitationalAcceleration_SI = -gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, anInstant).getValue();
+
+    // Obtain gravitational acceleration from current object
+    const Vector gravitationalAcceleration =
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant);
+
+    // Add object's gravity to total gravitational acceleration
+    gravitationalAcceleration_SI += gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();
 
     // Set acceleration
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
-    dxdt[3] += thirdBodyGravityAccelerationSI[0];
-    dxdt[4] += thirdBodyGravityAccelerationSI[1];
-    dxdt[5] += thirdBodyGravityAccelerationSI[2];
+    dxdt[3] += gravitationalAcceleration_SI[0];
+    dxdt[4] += gravitationalAcceleration_SI[1];
+    dxdt[5] += gravitationalAcceleration_SI[2];
 }
 
 Shared<const Celestial> ThirdBodyGravity::getCelestial() const

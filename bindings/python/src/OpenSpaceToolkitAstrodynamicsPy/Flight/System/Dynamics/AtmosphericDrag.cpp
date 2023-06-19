@@ -15,7 +15,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDr
     using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
     {
+<<<<<<< HEAD
         class_<AtmosphericDrag, Shared<AtmosphericDrag>, Dynamics>(aModule, "AtmosphericDrag")
+=======
+        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(aModule, "AtmosphericDrag")
+>>>>>>> feat: add missing files
             .def(init<const Shared<Celestial>&, SatelliteSystem&>(), arg("celestial"), arg("satellite_system"))
 
             .def("__str__", &(shiftToString<AtmosphericDrag>))
@@ -23,9 +27,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDr
 
             .def("is_defined", &AtmosphericDrag::isDefined)
 
+<<<<<<< HEAD
             .def("get_celestial", &AtmosphericDrag::getCelestial)
             .def("get_satellite_system", &AtmosphericDrag::getSatelliteSystem)
 
             .def("update", &AtmosphericDrag::update, arg("x"), arg("dxdt"), arg("instant"));
+=======
+            .def("update", &AtmosphericDrag::update, arg("x"), arg("dxdt"), arg("instant"))
+
+            .def("get_celestial", &AtmosphericDrag::getCelestial)
+            .def("get_satellite_system", &AtmosphericDrag::getSatelliteSystem);
+>>>>>>> feat: add missing files
     }
 }

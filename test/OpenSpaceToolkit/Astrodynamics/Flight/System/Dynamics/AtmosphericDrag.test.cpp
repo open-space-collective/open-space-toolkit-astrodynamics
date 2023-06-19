@@ -79,7 +79,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
             {1.0, 2.0, 3.0}
         ));
 
-        satelliteSystem = {
+        satelliteSystem_ = {
             Mass::Kilograms(100.0),
             satelliteGeometry,
             Matrix3d::Identity(),
@@ -87,22 +87,22 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
             2.1,
         };
 
-        startStateVector.resize(6);
-        startStateVector[0] = 7000000.0;
-        startStateVector[1] = 0.0;
-        startStateVector[2] = 0.0;
-        startStateVector[3] = 0.0;
-        startStateVector[4] = 7546.05329;
-        startStateVector[5] = 0.0;
+        startStateVector_.resize(6);
+        startStateVector_[0] = 7000000.0;
+        startStateVector_[1] = 0.0;
+        startStateVector_[2] = 0.0;
+        startStateVector_[3] = 0.0;
+        startStateVector_[4] = 7546.05329;
+        startStateVector_[5] = 0.0;
 
-        earthSPtr = std::make_shared<Celestial>(earth);
+        earthSPtr_ = std::make_shared<Celestial>(earth_);
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
     // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
-    const Instant startInstant = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
+    const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
-    const Earth earth = {
+    const Earth earth_ = {
         EarthGravitationalModel::Spherical.gravitationalParameter_,
         EarthGravitationalModel::Spherical.equatorialRadius_,
         EarthGravitationalModel::Spherical.flattening_,
@@ -114,17 +114,17 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
-    SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 
-    Dynamics::StateVector startStateVector;
+    Dynamics::StateVector startStateVector_;
 
-    Shared<Celestial> earthSPtr = nullptr;
+    Shared<Celestial> earthSPtr_ = nullptr;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Constructor)
 {
     {
-        EXPECT_NO_THROW(AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem));
+        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_));
     }
 
     {
@@ -147,7 +147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
             {
                 try
                 {
-                    AtmosphericDrag atmosphericDynamics(std::make_shared<Celestial>(earth), satelliteSystem);
+                    AtmosphericDrag atmosphericDrag(std::make_shared<Celestial>(earth), satelliteSystem_);
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
@@ -162,28 +162,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, IsDefined)
 {
-    AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
     EXPECT_TRUE(atmosphericDynamics.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetCelestial)
 {
-    AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem);
-    EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetSatelliteSystem)
 {
-    AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem);
-    EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Update)
 {
     Dynamics::StateVector dxdt(6, 0.0);
-    AtmosphericDrag atmosphericDynamics(earthSPtr, satelliteSystem);
-    atmosphericDynamics.update(startStateVector, dxdt, startInstant);
-
+    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    atmosphericDrag.update(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
@@ -197,14 +196,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 {
     // Setup dynamics
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr, satelliteSystem))};
+        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    Dynamics::StateVector EarthReferencePull = {
+    Dynamics::StateVector Earth_ReferencePull = {
         7000000.0000000000000000,
         0.0,
         0.0,
@@ -213,15 +212,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
         -00000.0000000000197640,
     };
 
-    EXPECT_GT(5e-11, startStateVector[0] - EarthReferencePull[0]);
-    EXPECT_GT(5e-11, startStateVector[1] - EarthReferencePull[1]);
-    EXPECT_GT(5e-11, startStateVector[2] - EarthReferencePull[2]);
-    EXPECT_GT(5e-11, startStateVector[3] - EarthReferencePull[3]);
-    EXPECT_GT(5e-11, startStateVector[4] - EarthReferencePull[4]);
-    EXPECT_GT(5e-11, startStateVector[5] - EarthReferencePull[5]);
+    EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
+    EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
+    EXPECT_GT(5e-11, startStateVector_[2] - Earth_ReferencePull[2]);
+    EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
+    EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
+    EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereAndGravity)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereGravity)
 {
     // Setup dynamics
     const Earth earth = {
@@ -265,7 +264,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Dynamics::StateVector referenceValues = {

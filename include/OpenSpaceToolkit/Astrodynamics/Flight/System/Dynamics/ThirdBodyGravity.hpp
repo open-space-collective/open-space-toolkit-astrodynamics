@@ -33,7 +33,7 @@ class ThirdBodyGravity : public Dynamics
     ///
     /// @code
     ///                     const Celestial = { ... };
-    ///                     ThirdBodyGravity gravitationalDynamics = { aCelestial };
+    ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial };
     /// @endcode
     ///
     /// @param              [in] aCelestial A Celestial Object
@@ -71,17 +71,17 @@ class ThirdBodyGravity : public Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
+    /// @brief              Get celestial
+    ///
+    /// @return             A celestial
+
+    Shared<const Celestial> getCelestial() const;
+
     /// @brief              Update the state derivative
     ///
     /// @param              [in] x A state vector
-    /// @param              [in] dxdt A state derivative vector
+    /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
-
-    /// @brief              Get celestial
-    ///
-    /// @return             A celestial object
-
-    Shared<const Celestial> getCelestial() const;
 
     virtual void update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) override;
 

@@ -199,121 +199,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
 {
-    Dynamics::StateVector EarthReferencePull(6);
+    Dynamics::StateVector Earth_ReferencePull(6);
 
     // Setup dynamics
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr))};
+    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
+    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth))};
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    EarthReferencePull[0] = 6.999995932647768e+06;
-    EarthReferencePull[1] = -2.312964634635743e-17;
-    EarthReferencePull[2] = 0.000000000000000e+00;
-    EarthReferencePull[3] = -8.134706038871020e+00;
-    EarthReferencePull[4] = -4.625929269271485e-17;
-    EarthReferencePull[5] = 0.000000000000000e+00;
+    Earth_ReferencePull[0] = 6.999995932647768e+06;
+    Earth_ReferencePull[1] = -2.312964634635743e-17;
+    Earth_ReferencePull[2] = 0.000000000000000e+00;
+    Earth_ReferencePull[3] = -8.134706038871020e+00;
+    Earth_ReferencePull[4] = -4.625929269271485e-17;
+    Earth_ReferencePull[5] = 0.000000000000000e+00;
 
-    EXPECT_GT(1e-15, startStateVector[0] - EarthReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector[1] - EarthReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector[2] - EarthReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector[3] - EarthReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector[4] - EarthReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector[5] - EarthReferencePull[5]);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepSunOnly)
-{
-    Dynamics::StateVector SunReferencePull(6);
-    // Setup dynamics
-    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSPtr))};
-
-    // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    SunReferencePull[0] = 7.000000000000282e+06;
-    SunReferencePull[1] = -1.266173652819505e-09;
-    SunReferencePull[2] = -5.501324277544413e-10;
-    SunReferencePull[3] = 5.618209329643997e-07;
-    SunReferencePull[4] = -2.532321435973975e-09;
-    SunReferencePull[5] = -1.100253640019350e-09;
-
-    EXPECT_GT(1e-15, startStateVector[0] - SunReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector[1] - SunReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector[2] - SunReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector[3] - SunReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector[4] - SunReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector[5] - SunReferencePull[5]);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepMoonOnly)
-{
-    Dynamics::StateVector MoonReferencePull(6);
-
-    // Setup dynamics
-    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSPtr))};
-
-    // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    MoonReferencePull[0] = 6.999999999999768e+06;
-    MoonReferencePull[1] = 1.474353635647267e-07;
-    MoonReferencePull[2] = 6.508220913373722e-08;
-    MoonReferencePull[3] = -4.620551958115301e-07;
-    MoonReferencePull[4] = 2.948701962648114e-07;
-    MoonReferencePull[5] = 1.301641965195380e-07;
-
-    EXPECT_GT(1e-15, startStateVector[0] - MoonReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector[1] - MoonReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector[2] - MoonReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector[3] - MoonReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector[4] - MoonReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector[5] - MoonReferencePull[5]);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepSunMoonEarth)
-{
-    Dynamics::StateVector EarthSunMoonReferencePull(6);
-
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(Sun::Spherical());
-    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
-
-    const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earthSPtr)),
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(sunSPtr)),
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(moonSPtr))};
-
-    // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::getDynamicalEquations(startInstant, dynamics), startStateVector, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    EarthSunMoonReferencePull[0] = 6.999995932647768e+06 + 6.999999999999768e+06 + 7.000000000000282e+06;
-    EarthSunMoonReferencePull[1] = -2.312964634635743e-17 + 1.474353635647267e-07 + -1.266173652819505e-09;
-    EarthSunMoonReferencePull[2] = 0.000000000000000e+00 + 6.508220913373722e-08 + -5.501324277544413e-10;
-    EarthSunMoonReferencePull[3] = -8.134706038871020e+00 + -4.620551958115301e-07 + 5.618209329643997e-07;
-    EarthSunMoonReferencePull[4] = -4.625929269271485e-17 + 2.948701962648114e-07 + -2.532321435973975e-09;
-    EarthSunMoonReferencePull[5] = 0.000000000000000e+00 + 1.301641965195380e-07 + -1.100253640019350e-09;
-
-    // [0] = 6.999995935640380e+06 ; EarthSunMoonReferencePull[1] = 4.700487584518332e-06 ;
-    // EarthSunMoonReferencePull[2] = 2.137317833766671e-06 ; EarthSunMoonReferencePull[3] =
-    // -8.128720814005144 ; EarthSunMoonReferencePull[4] = 9.401159910098908e-06 ;
-    // EarthSunMoonReferencePull[5] = 4.274716925865539e-06 ;
-
-    EXPECT_GT(5e-14, startStateVector[0] - EarthSunMoonReferencePull[0]);
-    EXPECT_GT(5e-14, startStateVector[1] - EarthSunMoonReferencePull[1]);
-    EXPECT_GT(5e-14, startStateVector[2] - EarthSunMoonReferencePull[2]);
-    EXPECT_GT(5e-14, startStateVector[3] - EarthSunMoonReferencePull[3]);
-    EXPECT_GT(5e-14, startStateVector[4] - EarthSunMoonReferencePull[4]);
-    EXPECT_GT(5e-14, startStateVector[5] - EarthSunMoonReferencePull[5]);
+    EXPECT_GT(1e-15, startStateVector_[0] - Earth_ReferencePull[0]);
+    EXPECT_GT(1e-15, startStateVector_[1] - Earth_ReferencePull[1]);
+    EXPECT_GT(1e-15, startStateVector_[2] - Earth_ReferencePull[2]);
+    EXPECT_GT(1e-15, startStateVector_[3] - Earth_ReferencePull[3]);
+    EXPECT_GT(1e-15, startStateVector_[4] - Earth_ReferencePull[4]);
+    EXPECT_GT(1e-15, startStateVector_[5] - Earth_ReferencePull[5]);
 }

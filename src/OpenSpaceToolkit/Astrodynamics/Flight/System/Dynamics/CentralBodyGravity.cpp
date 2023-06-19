@@ -65,23 +65,24 @@ void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorat
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void CentralBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
+void CentralBodyGravity::update(
+    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+)
 {
     // Obtain gravitational acceleration from current object
     const Vector gravitationalAcceleration =
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant);
 
     // Add object's gravity to total gravitational acceleration
-    const Vector3d centralBodyGravityAccelerationSI =
-        gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();
+    Vector3d gravitationalAcceleration_SI = gravitationalAcceleration.inFrame(gcrfSPtr_, anInstant).getValue();
 
     // Set acceleration
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
-    dxdt[3] += centralBodyGravityAccelerationSI[0];
-    dxdt[4] += centralBodyGravityAccelerationSI[1];
-    dxdt[5] += centralBodyGravityAccelerationSI[2];
+    dxdt[3] += gravitationalAcceleration_SI[0];
+    dxdt[4] += gravitationalAcceleration_SI[1];
+    dxdt[5] += gravitationalAcceleration_SI[2];
 }
 
 Shared<const Celestial> CentralBodyGravity::getCelestial() const
