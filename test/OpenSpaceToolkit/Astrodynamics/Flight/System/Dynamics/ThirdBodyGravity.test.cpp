@@ -66,6 +66,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity : p
     // Current state and instant setup, choose equinox as instant to make geometry simple
     // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
+    const Shared<Celestial> sphericalMoonSPtr_ = std::make_shared<Celestial>(Moon::Spherical());
 
     Dynamics::StateVector startStateVector_;
 };
@@ -125,8 +126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
     }
 
     {
-        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
-        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr));
+        EXPECT_NO_THROW(ThirdBodyGravity thirdBodyGravitationalDynamics(sphericalMoonSPtr_));
     }
 
     {
@@ -143,10 +143,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, IsDefined)
 {
     {
-        const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
-        const ThirdBodyGravity thirdBodyGravitationalDynamics(moonSPtr);
+        const ThirdBodyGravity thirdBodyGravitationalDynamics(sphericalMoonSPtr_);
 
         EXPECT_TRUE(thirdBodyGravitationalDynamics.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, StreamOperator)
+{
+    {
+        const ThirdBodyGravity thirdBodyGravitationalDynamics(sphericalMoonSPtr_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << thirdBodyGravitationalDynamics << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Print)
+{
+    {
+        const ThirdBodyGravity thirdBodyGravitationalDynamics(sphericalMoonSPtr_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(thirdBodyGravitationalDynamics.print(std::cout, true));
+        EXPECT_NO_THROW(thirdBodyGravitationalDynamics.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 

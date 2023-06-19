@@ -65,6 +65,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity :
     // Earth pulls in the -X direction, Sun pulls in the +X direction, and Moon in the +Y direction
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
 
+    const Shared<Celestial> sphericalEarthSPtr_ = std::make_shared<Celestial>(Earth::Spherical());
+
     Dynamics::StateVector startStateVector_;
 };
 
@@ -90,7 +92,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
             {
                 try
                 {
-                    CentralBodyGravity centralBodyGravitationalDynamics(std::make_shared<Celestial>(earth));
+                    CentralBodyGravity centralBodyGravity(std::make_shared<Celestial>(earth));
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
@@ -103,51 +105,73 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     }
 
     {
-        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr));
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_));
     }
 
     {
         const Shared<Celestial> earthSPtrWGS84 = std::make_shared<Celestial>(Earth::WGS84());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(earthSPtrWGS84));
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(earthSPtrWGS84));
     }
 
     {
         const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(sun));
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(sun));
     }
 
     {
         const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
-        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravitationalDynamics(moon));
+        EXPECT_NO_THROW(CentralBodyGravity centralBodyGravity(moon));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, IsDefined)
 {
     {
-        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-        const CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
+        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
-        EXPECT_TRUE(centralBodyGravitationalDynamics.isDefined());
+        EXPECT_TRUE(centralBodyGravity.isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, StreamOperator)
+{
+    {
+        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << centralBodyGravity << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Print)
+{
+    {
+        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(centralBodyGravity.print(std::cout, true));
+        EXPECT_NO_THROW(centralBodyGravity.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetCelestial)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    const CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
+    const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
-    EXPECT_TRUE(centralBodyGravitationalDynamics.getCelestial() == earthSPtr);
+    EXPECT_TRUE(centralBodyGravity.getCelestial() == sphericalEarthSPtr_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Update)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Earth::Spherical());
-    CentralBodyGravity centralBodyGravitationalDynamics(earthSPtr);
+    CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
     Dynamics::StateVector dxdt(6, 0.0);
-    centralBodyGravitationalDynamics.update(startStateVector_, dxdt, startInstant_);
+    centralBodyGravity.update(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);

@@ -166,6 +166,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Is
     EXPECT_TRUE(atmosphericDynamics.isDefined());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, StreamOperator)
+{
+    {
+        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << atmosphericDynamics << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Print)
+{
+    {
+        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(atmosphericDynamics.print(std::cout, true));
+        EXPECT_NO_THROW(atmosphericDynamics.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetCelestial)
 {
     AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
