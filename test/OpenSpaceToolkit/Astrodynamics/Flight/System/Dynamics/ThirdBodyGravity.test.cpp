@@ -14,8 +14,9 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
@@ -147,7 +148,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, I
 
         EXPECT_TRUE(thirdBodyGravitationalDynamics.isDefined());
     }
-
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetCelestial)

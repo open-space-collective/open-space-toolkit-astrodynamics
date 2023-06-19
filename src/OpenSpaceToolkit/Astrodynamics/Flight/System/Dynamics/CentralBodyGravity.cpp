@@ -65,9 +65,7 @@ void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorat
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void CentralBodyGravity::update(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-)
+void CentralBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
 {
     // Obtain gravitational acceleration from current object
     const Vector gravitationalAcceleration =

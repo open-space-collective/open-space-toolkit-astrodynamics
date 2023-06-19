@@ -131,7 +131,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
         EXPECT_TRUE(centralBodyGravitationalDynamics.isDefined());
     }
-
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetCelestial)

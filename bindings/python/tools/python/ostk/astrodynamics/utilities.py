@@ -47,7 +47,10 @@ def position_from_lla(lla: LLA) -> Position:
     """
 
     return Position.meters(
-        lla.to_cartesian(EarthGravitationalModel.EGM2008.equatorial_radius, EarthGravitationalModel.EGM2008.flattening),
+        lla.to_cartesian(
+            EarthGravitationalModel.EGM2008.equatorial_radius,
+            EarthGravitationalModel.EGM2008.flattening,
+        ),
         Frame.ITRF(),
     )
 

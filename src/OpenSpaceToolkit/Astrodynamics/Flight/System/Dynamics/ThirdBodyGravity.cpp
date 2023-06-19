@@ -71,9 +71,7 @@ void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-void ThirdBodyGravity::update(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-)
+void ThirdBodyGravity::update(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant)
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
     // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
@@ -81,7 +79,8 @@ void ThirdBodyGravity::update(
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant);
 
     // Subtract 3rd body correct from total gravitational acceleration
-    Vector3d gravitationalAcceleration_SI = -gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, anInstant).getValue();
+    Vector3d gravitationalAcceleration_SI =
+        -gravitationalAcceleration3rdBodyCorrection.inFrame(gcrfSPtr_, anInstant).getValue();
 
     // Obtain gravitational acceleration from current object
     const Vector gravitationalAcceleration =

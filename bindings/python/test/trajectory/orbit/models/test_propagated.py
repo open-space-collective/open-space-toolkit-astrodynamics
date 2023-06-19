@@ -94,7 +94,9 @@ class TestPropagated:
         assert orbit.is_defined()
 
         state_array = [state, state]
-        propagated_with_state_array = Propagated(Propagator(numerical_solver, dynamics), state_array)
+        propagated_with_state_array = Propagated(
+            Propagator(numerical_solver, dynamics), state_array
+        )
 
         assert propagated_with_state_array is not None
         assert isinstance(propagated_with_state_array, Propagated)
