@@ -8,6 +8,7 @@ from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Composite
 from ostk.mathematics.geometry.d3.objects import Point
 
+from ostk.physics import Environment
 from ostk.physics.units import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
@@ -45,8 +46,8 @@ def satellite_system() -> SatelliteSystem:
 
 
 @pytest.fixture
-def propagator(propagator_default_inputs) -> Propagator:
-    return Propagator(*propagator_default_inputs[:2])
+def environment() -> Environment:
+    return Environment.default()
 
 
 @pytest.fixture
@@ -162,3 +163,21 @@ class TestPropagator:
         with pytest.raises(RuntimeError):
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
+
+    def test_from_environment(
+        self, numerical_solver: NumericalSolver, environment: Environment, satellite_system: SatelliteSystem
+    ):
+        assert (
+            Propagator.from_environment(numerical_solver, environment)
+            is not None
+        )
+        
+        assert (
+            Propagator.from_environment(numerical_solver, environment, satellite_system)
+            is not None
+        )
+
+    def test_default(self, environment: Environment, satellite_system: SatelliteSystem):
+        assert Propagator.default()
+        assert Propagator.default(environment) is not None
+        assert Propagator.default(environment, satellite_system) is not None

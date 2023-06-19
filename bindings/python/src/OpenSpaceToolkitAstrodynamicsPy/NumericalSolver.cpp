@@ -101,6 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
             .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
             .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))
+            .def_static("default", &NumericalSolver::Default)
 
             ;
 

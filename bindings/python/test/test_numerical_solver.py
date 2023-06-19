@@ -154,3 +154,6 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(
             prop_state_vector[1] - math.cos((end_instant - start_instant).in_seconds())
         )
+
+    def test_default(self):
+        assert NumericalSolver.default() is not None

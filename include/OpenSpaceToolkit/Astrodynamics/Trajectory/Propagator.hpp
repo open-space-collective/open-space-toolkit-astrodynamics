@@ -72,22 +72,6 @@ class Propagator
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
     );
 
-    /// @brief              Constructor
-    ///
-    /// @code
-    ///                     Propagator propagator = { aNumericalSolver, anEnvironment, aSatelliteSystem } ;
-    /// @endcode
-    ///
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @param              [in] anEnvironment An environment
-    /// @param              [in] aSatelliteSystem A satellite system
-
-    Propagator(
-        const NumericalSolver& aNumericalSolver,
-        const Environment& anEnvironment,
-        const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
-    );
-
     /// @brief              Equal to operator
     ///
     /// @param              [in] aPropagator A propagator
@@ -175,11 +159,39 @@ class Propagator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief              Undefined
+    ///
+    /// @return             An undefined propagator
+
     static Propagator Undefined();
 
+    /// @brief              Default
+    ///
+    /// @return             A default propagator (with position derivative dynamics included)
+
+    static Propagator Default();
+
+    /// @brief              Default from environment
+    ///
+    /// @return             A default propagator from environment
+
+    static Propagator Default(
+        const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
+    );
+
+    /// @brief              From environment
+    ///
+    /// @return             A propagator from environment
+
+    static Propagator FromEnvironment(
+        const NumericalSolver& aNumericalSolver,
+        const Environment& anEnvironment,
+        const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
+    );
+
    private:
-    Array<Shared<Dynamics>> dynamics_ = Array<Shared<Dynamics>>::Empty();
+    Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
+
 };
 
 }  // namespace trajectory

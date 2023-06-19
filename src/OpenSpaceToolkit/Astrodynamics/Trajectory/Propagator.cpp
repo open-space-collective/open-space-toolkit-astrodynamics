@@ -34,47 +34,6 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
     : dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
 {
-    this->addDynamics(std::make_shared<PositionDerivative>());
-}
-
-Propagator::Propagator(
-    const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
-)
-    : dynamics_(Array<Shared<Dynamics>>::Empty()),
-      numericalSolver_(aNumericalSolver)
-{
-    const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>
-    {
-        if (aCelestial->gravitationalModelIsDefined())
-        {
-            if (aCelestial->getName() == "Earth")
-            {
-                return std::make_shared<CentralBodyGravity>(aCelestial);
-            }
-            return std::make_shared<ThirdBodyGravity>(aCelestial);
-        }
-
-        if (aCelestial->atmosphericModelIsDefined())
-        {
-            return std::make_shared<AtmosphericDrag>(aCelestial, aSatelliteSystem);
-        }
-
-        return nullptr;
-    };
-
-    for (const String& name : anEnvironment.getObjectNames())
-    {
-        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
-
-        const Shared<Dynamics> dynamics = getDynamics(celestialSPtr);
-
-        if (dynamics)
-        {
-            this->addDynamics(dynamics);
-        }
-    }
-
-    this->addDynamics(std::make_shared<PositionDerivative>());
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const
@@ -116,6 +75,11 @@ void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
 {
+    if (aDynamics == nullptr || !aDynamics->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Dynamics");
+    }
+
     this->dynamics_.add(aDynamics);
 }
 
@@ -251,7 +215,71 @@ void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) cons
 
 Propagator Propagator::Undefined()
 {
-    return {NumericalSolver::Undefined(), Array<Shared<Dynamics>>::Empty()};
+    return {
+        NumericalSolver::Undefined(),
+        Array<Shared<Dynamics>>::Empty(),
+    };
+}
+
+Propagator Propagator::Default()
+{
+    return {
+        NumericalSolver::Default(),
+        {std::make_shared<PositionDerivative>()},
+    };
+}
+
+Propagator Propagator::Default(
+    const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
+{
+    return Propagator::FromEnvironment(NumericalSolver::Default(), anEnvironment, aSatelliteSystem);
+}
+
+Propagator Propagator::FromEnvironment(
+    const NumericalSolver& aNumericalSolver,
+    const Environment& anEnvironment,
+    const SatelliteSystem& aSatelliteSystem
+)
+{
+    const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>
+    {
+        if (aCelestial->gravitationalModelIsDefined())
+        {
+            if (aCelestial->getName() == "Earth")
+            {
+                return std::make_shared<CentralBodyGravity>(aCelestial);
+            }
+            return std::make_shared<ThirdBodyGravity>(aCelestial);
+        }
+
+        if (aCelestial->atmosphericModelIsDefined())
+        {
+            return std::make_shared<AtmosphericDrag>(aCelestial, aSatelliteSystem);
+        }
+
+        return nullptr;
+    };
+
+    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
+
+    for (const String& name : anEnvironment.getObjectNames())
+    {
+        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
+
+        const Shared<Dynamics> dynamics = getDynamics(celestialSPtr);
+
+        if (dynamics)
+        {
+            dynamicsArray.add(dynamics);
+        }
+    }
+
+    dynamicsArray.add(std::make_shared<PositionDerivative>());
+
+    return {
+        aNumericalSolver,
+        dynamicsArray,
+    };
 }
 
 }  // namespace trajectory

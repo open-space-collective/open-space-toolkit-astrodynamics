@@ -245,8 +245,16 @@ class NumericalSolver
     static String StringFromLogType(const NumericalSolver::LogType& aLogType);
 
     /// @brief              Undefined
+    ///
+    /// @return             An undefined numerical solver
 
     static NumericalSolver Undefined();
+
+    /// @brief              Default
+    ///
+    /// @return             A default numerical solver
+
+    static NumericalSolver Default();
 
    private:
     NumericalSolver::LogType logType_;

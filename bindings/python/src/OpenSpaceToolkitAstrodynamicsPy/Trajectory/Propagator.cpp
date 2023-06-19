@@ -9,8 +9,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::core::types::Shared;
     using ostk::core::ctnr::Array;
 
+    using ostk::physics::Environment;
+
     using ostk::astro::NumericalSolver;
     using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::flight::system::SatelliteSystem;
     using ostk::astro::trajectory::Propagator;
 
     class_<Propagator>(aModule, "Propagator")
@@ -33,5 +36,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
         .def("calculate_state_at", &Propagator::calculateStateAt, arg("state"), arg("instant"))
 
-        .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"));
+        .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"))
+
+        .def_static("default", overload_cast<>(&Propagator::Default))
+        .def_static(
+            "default",
+            overload_cast<const Environment&, const SatelliteSystem&>(&Propagator::Default),
+            arg("environment"),
+            arg("satellite_system") = SatelliteSystem::Undefined()
+        )
+        .def_static(
+            "from_environment",
+            &Propagator::FromEnvironment,
+            arg("numerical_solver"),
+            arg("environment"),
+            arg("satellite_system") = SatelliteSystem::Undefined()
+        );
 }

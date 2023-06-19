@@ -481,5 +481,12 @@ NumericalSolver NumericalSolver::Undefined()
     );
 }
 
+NumericalSolver NumericalSolver::Default()
+{
+    return NumericalSolver(
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+    );
+}
+
 }  // namespace astro
 }  // namespace ostk

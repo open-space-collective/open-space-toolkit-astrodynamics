@@ -1146,14 +1146,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
 TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Undefined)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-
     using ostk::astro::NumericalSolver;
 
     {
@@ -1162,5 +1154,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Undefined)
 
     {
         EXPECT_FALSE(NumericalSolver::Undefined().isDefined());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Default)
+{
+    using ostk::astro::NumericalSolver;
+
+    {
+        EXPECT_NO_THROW(NumericalSolver::Default());
+    }
+
+    {
+        EXPECT_TRUE(NumericalSolver::Default().isDefined());
     }
 }

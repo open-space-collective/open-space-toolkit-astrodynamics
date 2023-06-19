@@ -47,6 +47,11 @@ AtmosphericDrag::AtmosphericDrag(
     {
         throw ostk::core::error::runtime::Undefined("Atmospheric Model");
     }
+
+    if (!satelliteSystem_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Satellite System");
+    }
 }
 
 AtmosphericDrag::~AtmosphericDrag() {}
