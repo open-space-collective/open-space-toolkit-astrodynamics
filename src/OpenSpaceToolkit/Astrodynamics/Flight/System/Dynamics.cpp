@@ -20,7 +20,7 @@ Dynamics::Dynamics() {}
 Dynamics::~Dynamics() {}
 
 Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
-    const Instant& anInstant, const Array<Shared<Dynamics>>& aDynamicsArray
+    const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
 )
 {
     return std::bind(
@@ -48,9 +48,9 @@ void Dynamics::DynamicalEquations(
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Shared<Dynamics>& dynamic : aDynamicsArray)  // update
+    for (const Shared<Dynamics>& dynamics : aDynamicsArray)
     {
-        dynamic->update(x, dxdt, nextInstant);
+        dynamics->update(x, dxdt, nextInstant);
     }
 }
 

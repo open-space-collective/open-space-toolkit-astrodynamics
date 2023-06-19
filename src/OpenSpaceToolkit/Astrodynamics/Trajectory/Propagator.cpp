@@ -61,10 +61,9 @@ Propagator::Propagator(
 
     for (const String& name : anEnvironment.getObjectNames())
     {
-        const Shared<const Celestial> celestial =
-            anEnvironment.accessCelestialObjectWithName(name);  // TBI: Use CelestialSPtr?
+        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
 
-        const Shared<Dynamics> dynamics = getDynamics(celestial);
+        const Shared<Dynamics> dynamics = getDynamics(celestialSPtr);
 
         if (dynamics)
         {
@@ -135,7 +134,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+        Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
     return {
@@ -195,7 +194,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
     }
 
@@ -209,7 +208,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::GetDynamicalEquations(aState.getInstant(), this->dynamics_)
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());

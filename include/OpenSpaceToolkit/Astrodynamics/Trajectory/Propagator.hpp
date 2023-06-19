@@ -178,7 +178,7 @@ class Propagator
     static Propagator Undefined();
 
    private:
-    Array<Shared<Dynamics>> dynamics_;
+    Array<Shared<Dynamics>> dynamics_ = Array<Shared<Dynamics>>::Empty();
     mutable NumericalSolver numericalSolver_;
 };
 

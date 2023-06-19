@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
     using ostk::astro::flight::system::Dynamics;
 
     class_<Dynamics, Shared<Dynamics>>(aModule, "Dynamics")
-        .def_static("get_dynamical_equations", &Dynamics::GetDynamicalEquations, arg("instant"), arg("dynamics_array"))
+        .def_static("get_dynamical_equations", &Dynamics::GetDynamicalEquations, arg("dynamics_array"), arg("instant"))
 
         ;
 

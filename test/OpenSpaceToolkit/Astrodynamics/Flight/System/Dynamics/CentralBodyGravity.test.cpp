@@ -151,14 +151,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
-
-    std::cout << "CENTRAL BODY GRAVITY" << std::endl;
-    std::cout << dxdt[3] << std::endl;
-    std::cout << dxdt[4] << std::endl;
-    std::cout << dxdt[5] << std::endl;
-    //     EXPECT_GT(1e-15, 0.0 - dxdt[3]);
-    //     EXPECT_GT(5e-11, -0.0000278707803890 - dxdt[4]);
-    //     EXPECT_GT(5e-11, -0.0000000000197640 - dxdt[5]);
+    EXPECT_GT(1e-15, -8.134702887755102 - dxdt[3]);
+    EXPECT_GT(1e-15, 0.0 - dxdt[4]);
+    EXPECT_GT(1e-15, 0.0 - dxdt[5]);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
@@ -171,7 +166,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(startInstant_, dynamics), startStateVector_, (0.0), 1.0);
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
     Earth_ReferencePull[0] = 6.999995932647768e+06;
