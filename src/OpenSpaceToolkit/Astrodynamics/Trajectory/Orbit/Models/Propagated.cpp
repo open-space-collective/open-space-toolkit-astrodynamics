@@ -343,12 +343,9 @@ void Propagated::print(std::ostream& anOutputStream, bool displayDecorator) cons
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagated") : void();
 
     ostk::core::utils::Print::Separator(anOutputStream, "Cached State Array");
-    [&](const Array<State>&) -> void
+    for (const State& iterState : cachedStateArray_)
     {
-        for (State iterState : cachedStateArray_)
-        {
-            iterState.print(anOutputStream, false);
-        };
+        iterState.print(anOutputStream, false);
     };
 
     ostk::core::utils::Print::Separator(anOutputStream, "Propagator");

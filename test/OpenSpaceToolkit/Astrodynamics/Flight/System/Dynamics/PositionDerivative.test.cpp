@@ -33,7 +33,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, Constructor)
 {
     {
-        EXPECT_NO_THROW(PositionDerivative positionDerivative());
+        EXPECT_NO_THROW(PositionDerivative positionDerivative({}));
     }
 }
 
