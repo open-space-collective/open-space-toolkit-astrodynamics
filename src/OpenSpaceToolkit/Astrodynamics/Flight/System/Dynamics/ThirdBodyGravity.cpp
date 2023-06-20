@@ -64,18 +64,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& a
     return anOutputStream;
 }
 
-void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Gravitational Dynamics") : void();
-
-    Dynamics::print(anOutputStream, false);
-
-    // TBI: Print Celestial once there is a print method in OSTk physics
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
 bool ThirdBodyGravity::isDefined() const
 {
     return celestialObjectSPtr_->isDefined();
@@ -97,21 +85,33 @@ void ThirdBodyGravity::applyContribution(
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
     // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
-    Vector3d gravitationalAcceleration =
+    Vector3d gravitationalAccelerationSI =
         -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant)
              .inFrame(gcrfSPtr_, anInstant)
              .getValue();
 
     // Add celestial's gravity to total gravitational acceleration
-    gravitationalAcceleration +=
+    gravitationalAccelerationSI +=
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
             .inFrame(gcrfSPtr_, anInstant)
             .getValue();
 
     // Integrate velocity states
-    dxdt[3] += gravitationalAcceleration[0];
-    dxdt[4] += gravitationalAcceleration[1];
-    dxdt[5] += gravitationalAcceleration[2];
+    dxdt[3] += gravitationalAccelerationSI[0];
+    dxdt[4] += gravitationalAccelerationSI[1];
+    dxdt[5] += gravitationalAccelerationSI[2];
+}
+
+void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Third Body Gravitational Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
+
+    // TBI: Print Celestial once there is a print method in OSTk physics
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace dynamics

@@ -54,20 +54,13 @@ class PositionDerivative : public Dynamics
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative& aPositionDerivative);
 
-    /// @brief              Print
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
     /// @brief              Check if position derivative dynamics is defined
     ///
     /// @return             True if position derivative dynamics is defined
 
     virtual bool isDefined() const override;
 
-    /// @brief              Apply contributions to the state derivative
+    /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
@@ -76,6 +69,13 @@ class PositionDerivative : public Dynamics
     virtual void applyContribution(
         const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
     ) const override;
+
+    /// @brief              Print
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 };
 
 }  // namespace dynamics

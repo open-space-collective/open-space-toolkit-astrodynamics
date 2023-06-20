@@ -41,7 +41,7 @@ class AtmosphericDrag : public Dynamics
     ///                     AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aCelestial A celestial object
     /// @param              [in] aSatelliteSystem A satellite system
 
     AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
@@ -55,7 +55,7 @@ class AtmosphericDrag : public Dynamics
     ///                     AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem, aName };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aCelestial A celestial object
     /// @param              [in] aSatelliteSystem A satellite system
     /// @param              [in] aName A name
 
@@ -81,13 +81,6 @@ class AtmosphericDrag : public Dynamics
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag);
 
-    /// @brief              Print atmospheric drag dynamics
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
     /// @brief              Check if atmospheric drag dynamics is defined
     ///
     /// @return             True if atmospheric drag dynamics is defined
@@ -106,7 +99,7 @@ class AtmosphericDrag : public Dynamics
 
     SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Apply contributions to the state derivative
+    /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
@@ -115,6 +108,13 @@ class AtmosphericDrag : public Dynamics
     virtual void applyContribution(
         const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
     ) const override;
+
+    /// @brief              Print atmospheric drag dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

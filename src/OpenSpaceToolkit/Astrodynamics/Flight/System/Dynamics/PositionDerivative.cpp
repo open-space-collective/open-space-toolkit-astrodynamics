@@ -42,13 +42,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
-void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Position Derivative Dynamics") : void();
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
 void PositionDerivative::applyContribution(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 ) const
@@ -59,6 +52,13 @@ void PositionDerivative::applyContribution(
     dxdt[0] = x[3];
     dxdt[1] = x[4];
     dxdt[2] = x[5];
+}
+
+void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Position Derivative Dynamics") : void();
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace dynamics

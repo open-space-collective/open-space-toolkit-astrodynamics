@@ -50,7 +50,7 @@ class CentralBodyGravity : public Dynamics
     ///                     CentralBodyGravity centralBodyGravity = { aCelestial, aName };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aCelestial A celestial object
     /// @param              [in] aName A name
 
     CentralBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
@@ -73,13 +73,6 @@ class CentralBodyGravity : public Dynamics
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity& aCentralBodyGravity);
 
-    /// @brief              Print central body gravity dynamics
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
     /// @brief              Check if central body gravity dynamics is defined
     ///
     /// @return             True if central body gravity dynamics is defined
@@ -92,7 +85,7 @@ class CentralBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief              Apply contributions to the state derivative
+    /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [in] dxdt A state derivative vector
@@ -101,6 +94,13 @@ class CentralBodyGravity : public Dynamics
     virtual void applyContribution(
         const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
     ) const override;
+
+    /// @brief              Print central body gravity dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

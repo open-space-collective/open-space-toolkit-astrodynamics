@@ -38,7 +38,7 @@ class ThirdBodyGravity : public Dynamics
     ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aCelestial A celestial object
 
     ThirdBodyGravity(const Shared<const Celestial>& aCelestial);
 
@@ -50,7 +50,7 @@ class ThirdBodyGravity : public Dynamics
     ///                     ThirdBodyGravity thirdBodyGravity = { aCelestial, aName };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A Celestial Object
+    /// @param              [in] aCelestial A celestial object
     /// @param              [in] aName A name
 
     ThirdBodyGravity(const Shared<const Celestial>& aCelestial, const String& aName);
@@ -73,13 +73,6 @@ class ThirdBodyGravity : public Dynamics
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& aThirdBodyGravity);
 
-    /// @brief              Print third body gravity dynamics
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
     /// @brief              Check if third body gravity dynamics is defined
     ///
     /// @return             True if third body gravity dynamics is defined
@@ -88,11 +81,11 @@ class ThirdBodyGravity : public Dynamics
 
     /// @brief              Get celestial
     ///
-    /// @return             A celestial
+    /// @return             A celestial object
 
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief              Apply contributions to the state derivative
+    /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
@@ -101,6 +94,13 @@ class ThirdBodyGravity : public Dynamics
     virtual void applyContribution(
         const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
     ) const override;
+
+    /// @brief              Print third body gravity dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;

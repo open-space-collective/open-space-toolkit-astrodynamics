@@ -57,7 +57,13 @@ class Dynamics
 
     virtual bool isDefined() const = 0;
 
-    /// @brief              Apply contributions to the state derivative (pure virtual)
+    /// @brief              Get name
+    ///
+    /// @return             Name of Dynamics
+
+    String getName() const;
+
+    /// @brief              Apply contribution to the state derivative (pure virtual)
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
@@ -72,18 +78,12 @@ class Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Get name
-    ///
-    /// @return             Name
-    String getName() const;
-
     /// @brief              Get dynamical equations function wrapper (pure virtual)
     ///
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    // TBM: Rename this to be clearer
     static DynamicalEquationWrapper GetDynamicalEquations(
         const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
     );
@@ -91,24 +91,23 @@ class Dynamics
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
    private:
+    const String name_;
+
     /// @brief              Dynamical Equations
     ///
     /// @param              [in] x A state vector
     /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] t A step duration from anInstant to the next
+    /// @param              [in] t A step duration from anInstant to the next in seconds
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
 
-    // TBM: Rename this to be clearer
     static void DynamicalEquations(
         const StateVector& x,
         StateVector& dxdt,
-        const double t,
+        const double& t,
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const Instant& anInstant
     );
-
-    const String name_;
 };
 
 }  // namespace system

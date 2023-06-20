@@ -58,18 +58,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity&
     return anOutputStream;
 }
 
-void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Gravitational Dynamics") : void();
-
-    Dynamics::print(anOutputStream, false);
-
-    // TBI: Print Celestial once we have
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
 bool CentralBodyGravity::isDefined() const
 {
     return celestialObjectSPtr_->isDefined();
@@ -90,15 +78,27 @@ void CentralBodyGravity::applyContribution(
 ) const
 {
     // Obtain gravitational acceleration from current object
-    const Vector3d gravitationalAcceleration =
+    const Vector3d gravitationalAccelerationSI =
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
             .inFrame(gcrfSPtr_, anInstant)
             .getValue();
 
     // Integrate velocity states
-    dxdt[3] += gravitationalAcceleration[0];
-    dxdt[4] += gravitationalAcceleration[1];
-    dxdt[5] += gravitationalAcceleration[2];
+    dxdt[3] += gravitationalAccelerationSI[0];
+    dxdt[4] += gravitationalAccelerationSI[1];
+    dxdt[5] += gravitationalAccelerationSI[2];
+}
+
+void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Central Body Gravitational Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
+
+    // TBI: Print Celestial once we have
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace dynamics

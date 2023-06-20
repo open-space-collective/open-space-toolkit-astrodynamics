@@ -22,6 +22,7 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 
 
@@ -73,6 +74,7 @@ class TestAtmosphericDrag:
     def test_constructors(self, dynamics: AtmosphericDrag):
         assert dynamics is not None
         assert isinstance(dynamics, AtmosphericDrag)
+        assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
     def test_getters(self, dynamics: AtmosphericDrag, earth: Earth):

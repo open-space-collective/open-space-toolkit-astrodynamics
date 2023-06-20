@@ -22,6 +22,11 @@ Dynamics::Dynamics(const String& aName)
 
 Dynamics::~Dynamics() {}
 
+String Dynamics::getName() const
+{
+    return name_;
+}
+
 void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Dynamics") : void();
@@ -29,11 +34,6 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-String Dynamics::getName() const
-{
-    return name_;
 }
 
 Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
@@ -53,7 +53,7 @@ Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
 void Dynamics::DynamicalEquations(
     const Dynamics::StateVector& x,
     Dynamics::StateVector& dxdt,
-    const double t,
+    const double& t,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Instant& anInstant
 )

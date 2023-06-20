@@ -70,20 +70,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& an
     return anOutputStream;
 }
 
-void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Drag Dynamics") : void();
-
-    Dynamics::print(anOutputStream, false);
-
-    // TBI: Print Celestial once there is a print method in OSTk physics
-    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
 bool AtmosphericDrag::isDefined() const
 {
     return celestialObjectSPtr_->isDefined() && satelliteSystem_.isDefined();
@@ -132,13 +118,27 @@ void AtmosphericDrag::applyContribution(
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 
     // Add object's gravity to total gravitational acceleration
-    const Vector3d dragAcceleration_SI =
+    const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
     // Integrate velocity states
-    dxdt[3] += dragAcceleration_SI[0];
-    dxdt[4] += dragAcceleration_SI[1];
-    dxdt[5] += dragAcceleration_SI[2];
+    dxdt[3] += dragAccelerationSI[0];
+    dxdt[4] += dragAccelerationSI[1];
+    dxdt[5] += dragAccelerationSI[2];
+}
+
+void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Drag Dynamics") : void();
+
+    Dynamics::print(anOutputStream, false);
+
+    // TBI: Print Celestial once there is a print method in OSTk physics
+    ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace dynamics
