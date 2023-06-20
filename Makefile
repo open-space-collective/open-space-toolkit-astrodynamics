@@ -2,6 +2,7 @@
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
+project_major_version := $(shell git describe --tags --always | cut -c 1)
 
 docker_registry_path := openspacecollective
 docker_image_repository := $(docker_registry_path)/open-space-toolkit-$(project_name)
@@ -301,7 +302,7 @@ debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
-		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.0:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.0:ro" \
+		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.$(project_major_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.$(project_major_version):ro" \
 		--volume="$(CURDIR)/lib/$(jupyter_project_name_python_shared_object).so:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/$(jupyter_project_name_python_shared_object).so:ro" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \

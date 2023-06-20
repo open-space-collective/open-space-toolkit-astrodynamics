@@ -26,5 +26,5 @@ include_package_data = True
 install_requires = file: requirements.txt
 
 [options.package_data]
-ostk.astrodynamics=libopen-space-toolkit-astrodynamics.so.0, ${LIBRARY_TARGET}.*${EXTENSION}*.so
+ostk.astrodynamics=${SHARED_LIBRARY_TARGET}.${PROJECT_VERSION_MAJOR}, ${LIBRARY_TARGET}.*${EXTENSION}*.so
 *=*/data/*
