@@ -3,6 +3,10 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 namespace ostk
@@ -13,19 +17,23 @@ namespace trajectory
 {
 
 using ostk::core::types::Size;
+using ostk::core::types::Index;
+
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::env::obj::Celestial;
+
+using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-Propagator::Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver)
-    : satelliteDynamics_(aSatelliteDynamics),
+Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
+    : dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
-
 {
-}
-
-Propagator* Propagator::clone() const
-{
-    return new Propagator(*this);
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const
@@ -35,7 +43,7 @@ bool Propagator::operator==(const Propagator& aPropagator) const
         return false;
     }
 
-    return (satelliteDynamics_ == aPropagator.satelliteDynamics_) && (numericalSolver_ == aPropagator.numericalSolver_);
+    return (numericalSolver_ == aPropagator.numericalSolver_ && dynamics_ == aPropagator.dynamics_);
 }
 
 bool Propagator::operator!=(const Propagator& aPropagator) const
@@ -52,7 +60,32 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Propagator& aPropag
 
 bool Propagator::isDefined() const
 {
-    return satelliteDynamics_.isDefined() && numericalSolver_.isDefined();
+    return numericalSolver_.isDefined();
+}
+
+Array<Shared<Dynamics>> Propagator::getDynamics() const
+{
+    return this->dynamics_;
+}
+
+void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
+{
+    this->dynamics_ = aDynamicsArray;
+}
+
+void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
+{
+    if (aDynamics == nullptr || !aDynamics->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Dynamics");
+    }
+
+    this->dynamics_.add(aDynamics);
+}
+
+void Propagator::clearDynamics()
+{
+    this->dynamics_.clear();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -64,14 +97,13 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const VectorXd stateCoordinates = aState.getCoordinates();
 
-    SatelliteDynamics::StateVector startStateVector(
-        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
-    );
+    Dynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
 
-    satelliteDynamics_.setInstant(aState.getInstant());
-
-    SatelliteDynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
-        startStateVector, aState.getInstant(), anInstant, satelliteDynamics_.getDynamicalEquations()
+    const Dynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
+        startStateVector,
+        aState.getInstant(),
+        anInstant,
+        Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
     return {
@@ -106,11 +138,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     const VectorXd stateCoordinates = aState.getCoordinates();
-    SatelliteDynamics::StateVector startStateVector(
-        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
-    );
-
-    satelliteDynamics_.setInstant(aState.getInstant());
+    Dynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
 
     Array<Instant> forwardInstants;
     Array<Instant> backwardInstants;
@@ -128,22 +156,28 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // forward propagation only
-    Array<SatelliteDynamics::StateVector> propagatedForwardStateVectorArray;
+    Array<Dynamics::StateVector> propagatedForwardStateVectorArray;
     if (!forwardInstants.isEmpty())
     {
         propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector, aState.getInstant(), forwardInstants, satelliteDynamics_.getDynamicalEquations()
+            startStateVector,
+            aState.getInstant(),
+            forwardInstants,
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
     }
 
     // backward propagation only
-    Array<SatelliteDynamics::StateVector> propagatedBackwardStateVectorArray;
+    Array<Dynamics::StateVector> propagatedBackwardStateVectorArray;
     if (!backwardInstants.isEmpty())
     {
         std::reverse(backwardInstants.begin(), backwardInstants.end());
 
         propagatedBackwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector, aState.getInstant(), backwardInstants, satelliteDynamics_.getDynamicalEquations()
+            startStateVector,
+            aState.getInstant(),
+            backwardInstants,
+            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
@@ -153,7 +187,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     propagatedStates.reserve(anInstantArray.getSize());
 
     Size k = 0;
-    for (const SatelliteDynamics::StateVector& stateVector :
+    for (const Dynamics::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
         State propagatedState = {
@@ -173,97 +207,76 @@ void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) cons
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propagator") : void();
 
-    ostk::core::utils::Print::Separator(anOutputStream, "Satellite Dynamics");
-    satelliteDynamics_.print(anOutputStream, false);
-
     ostk::core::utils::Print::Separator(anOutputStream, "Numerical Solver");
     numericalSolver_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Propagator Propagator::MediumFidelity()
+Propagator Propagator::Undefined()
 {
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::env::Object;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::env::obj::celest::Moon;
-    using ostk::physics::env::obj::celest::Sun;
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
-    // Create environment
-    const Array<Shared<Object>> objects =  // [TBI] Add drag to environment once it is added in ostk-physics
-        {std::make_shared<Earth>(Earth::EGM2008(35, 35))};
-
-    const Instant instant = Instant::J2000();
-
-    const Environment customEnvironment = Environment(instant, objects);
-
-    // Satellite system setup
-    const Composite satelliteGeometry = Composite {Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    )};
-    const SatelliteSystem satelliteSystem = {
-        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
-
-    // Satellite dynamics setup
-    const SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
-
-    // Construct default numerical solver
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
-
-    return {satelliteDynamics, numericalSolver};
+    return {
+        NumericalSolver::Undefined(),
+        Array<Shared<Dynamics>>::Empty(),
+    };
 }
 
-Propagator Propagator::HighFidelity()
+Propagator Propagator::Default()
 {
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
+    return {
+        NumericalSolver::Default(),
+        {std::make_shared<PositionDerivative>()},
+    };
+}
 
-    using ostk::physics::Environment;
-    using ostk::physics::env::Object;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::env::obj::celest::Moon;
-    using ostk::physics::env::obj::celest::Sun;
-    using ostk::physics::units::Mass;
+Propagator Propagator::Default(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
+{
+    return Propagator::FromEnvironment(NumericalSolver::Default(), anEnvironment, aSatelliteSystem);
+}
 
-    using ostk::astro::flight::system::SatelliteSystem;
+Propagator Propagator::FromEnvironment(
+    const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
+)
+{
+    const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Shared<Dynamics>
+    {
+        if (aCelestial->gravitationalModelIsDefined())
+        {
+            if (aCelestial->getName() == "Earth")
+            {
+                return std::make_shared<CentralBodyGravity>(aCelestial);
+            }
+            return std::make_shared<ThirdBodyGravity>(aCelestial);
+        }
 
-    // Create environment
-    const Array<Shared<Object>> objects =  // [TBI] Add drag to environment once it is added in ostk-physics
-        {std::make_shared<Earth>(Earth::EGM2008(100, 100)),
-         std::make_shared<Sun>(Sun::Spherical()),
-         std::make_shared<Moon>(Moon::Spherical())};
+        if (aCelestial->atmosphericModelIsDefined())
+        {
+            return std::make_shared<AtmosphericDrag>(aCelestial, aSatelliteSystem);
+        }
 
-    const Instant instant = Instant::J2000();
+        return nullptr;
+    };
 
-    const Environment customEnvironment = Environment(instant, objects);
+    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
 
-    // Satellite system setup
-    const Composite satelliteGeometry = Composite {Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    )};
-    const SatelliteSystem satelliteSystem = {
-        Mass(100.0, Mass::Unit::Kilogram), satelliteGeometry, Matrix3d::Identity(), 0.8, 2.2};
+    for (const String& name : anEnvironment.getObjectNames())
+    {
+        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
 
-    // Satellite dynamics setup
-    const SatelliteDynamics satelliteDynamics = {customEnvironment, satelliteSystem};
+        const Shared<Dynamics> dynamics = getDynamics(celestialSPtr);
 
-    // Construct default numerical solver
-    const NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        if (dynamics)
+        {
+            dynamicsArray.add(dynamics);
+        }
+    }
 
-    return {satelliteDynamics, numericalSolver};
+    dynamicsArray.add(std::make_shared<PositionDerivative>());
+
+    return {
+        aNumericalSolver,
+        dynamicsArray,
+    };
 }
 
 }  // namespace trajectory

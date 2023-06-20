@@ -163,7 +163,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
     using ostk::physics::coord::spherical::LLA;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
@@ -207,10 +207,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::GravitationalParameter;
-            const Length equatorialRadius = Earth::EquatorialRadius;
-            const Real J2 = Earth::J2;
-            const Real J4 = Earth::J4;
+            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+            const Real J2 = Earth::EGM2008.J2_;
+            const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -232,10 +232,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::GravitationalParameter;
-            const Length equatorialRadius = Earth::EquatorialRadius;
-            const Real J2 = Earth::J2;
-            const Real J4 = Earth::J4;
+            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+            const Real J2 = Earth::EGM2008.J2_;
+            const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -309,7 +309,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(0.0), Angle::Degrees(0.0), Length::Meters(20.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -327,10 +328,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::GravitationalParameter;
-            const Length equatorialRadius = Earth::EquatorialRadius;
-            const Real J2 = Earth::J2;
-            const Real J4 = Earth::J4;
+            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+            const Real J2 = Earth::EGM2008.J2_;
+            const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -404,7 +405,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const LLA groundStationLla = {Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(5.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -694,7 +696,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
     using ostk::physics::coord::Frame;
     using ostk::physics::coord::Position;
     using ostk::physics::coord::spherical::LLA;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
@@ -732,7 +734,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -750,10 +753,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::GravitationalParameter;
-            const Length equatorialRadius = Earth::EquatorialRadius;
-            const Real J2 = Earth::J2;
-            const Real J4 = Earth::J4;
+            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+            const Real J2 = Earth::EGM2008.J2_;
+            const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
@@ -824,7 +827,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
     using ostk::physics::coord::Frame;
     using ostk::physics::coord::Position;
     using ostk::physics::coord::spherical::LLA;
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
     using ostk::physics::time::DateTime;
     using ostk::physics::time::Duration;
     using ostk::physics::time::Instant;
@@ -862,7 +865,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const LLA groundStationLla = {Angle::Degrees(47.8864), Angle::Degrees(106.906), Length::Meters(10.0)};
 
             const Position groundStationPosition = Position::Meters(
-                groundStationLla.toCartesian(Earth::EquatorialRadius, Earth::Flattening), Frame::ITRF()
+                groundStationLla.toCartesian(Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_),
+                Frame::ITRF()
             );
 
             return Trajectory::Position(groundStationPosition);
@@ -880,10 +884,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
             const Instant epoch = startInstant;
-            const Derived gravitationalParameter = Earth::GravitationalParameter;
-            const Length equatorialRadius = Earth::EquatorialRadius;
-            const Real J2 = Earth::J2;
-            const Real J4 = Earth::J4;
+            const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+            const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+            const Real J2 = Earth::EGM2008.J2_;
+            const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};

@@ -18,7 +18,8 @@ class TestImport:
         from ostk.astrodynamics.flight import Profile
         from ostk.astrodynamics.flight import System
         from ostk.astrodynamics.flight.system import SatelliteSystem
-        from ostk.astrodynamics.flight.system.dynamics import SatelliteDynamics
+        from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+        from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
         from ostk.astrodynamics import Access
         from ostk.astrodynamics.access import Generator
         from ostk.astrodynamics import NumericalSolver

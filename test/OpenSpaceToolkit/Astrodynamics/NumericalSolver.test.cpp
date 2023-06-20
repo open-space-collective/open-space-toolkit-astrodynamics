@@ -1143,3 +1143,29 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
         EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0);
     }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Undefined)
+{
+    using ostk::astro::NumericalSolver;
+
+    {
+        EXPECT_NO_THROW(NumericalSolver::Undefined());
+    }
+
+    {
+        EXPECT_FALSE(NumericalSolver::Undefined().isDefined());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Default)
+{
+    using ostk::astro::NumericalSolver;
+
+    {
+        EXPECT_NO_THROW(NumericalSolver::Default());
+    }
+
+    {
+        EXPECT_TRUE(NumericalSolver::Default().isDefined());
+    }
+}

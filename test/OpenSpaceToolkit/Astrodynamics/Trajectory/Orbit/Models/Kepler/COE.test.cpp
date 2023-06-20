@@ -15,22 +15,24 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::types::Real;
+using ostk::core::types::String;
+
+using ostk::math::obj::Vector3d;
+
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::coord::Frame;
+using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::Duration;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Derived;
+using ostk::physics::units::Length;
+
+using ostk::astro::trajectory::orbit::models::kepler::COE;
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -45,20 +47,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Construc
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToOperator)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -105,20 +93,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EqualToO
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqualToOperator)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -165,20 +139,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, NotEqual
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOperator)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -199,20 +159,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StreamOp
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefined)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -233,20 +179,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, IsDefine
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiMajorAxis)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -267,20 +199,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetSemiM
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccentricity)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -301,20 +219,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetEccen
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetInclination)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -335,20 +239,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetIncli
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -369,20 +259,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetRaan)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -403,20 +279,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetAop)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueAnomaly)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.1;
@@ -537,22 +399,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueA
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCartesianState)
 {
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -563,7 +409,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF());
+        const COE::CartesianState cartesianState =
+            coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
 
         const Position& position = cartesianState.first;
         const Velocity& velocity = cartesianState.second;
@@ -589,7 +436,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const COE::CartesianState cartesianState = coe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF());
+        const COE::CartesianState cartesianState =
+            coe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
 
         const Position& position = cartesianState.first;
         const Velocity& velocity = cartesianState.second;
@@ -624,14 +472,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
     }
 
     {
-        EXPECT_ANY_THROW(COE::Undefined().getCartesianState(Earth::GravitationalParameter, Frame::GCRF()));
+        EXPECT_ANY_THROW(COE::Undefined().getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF()));
     }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         EXPECT_NO_THROW(COE::Undefined());
     }
@@ -639,21 +485,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefine
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesian)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -665,9 +496,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
         const COE referenceCoe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const COE::CartesianState cartesianState =
-            referenceCoe.getCartesianState(Earth::GravitationalParameter, Frame::GCRF());
+            referenceCoe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
 
-        const COE coe = COE::Cartesian(cartesianState, Earth::GravitationalParameter);
+        const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
 
         EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
         EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
@@ -687,7 +518,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
 
     {
         EXPECT_ANY_THROW(COE::Cartesian(
-            COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::GravitationalParameter
+            COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::EGM2008.gravitationalParameter_
         ));
     }
 }
@@ -769,20 +600,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, EccentricAnomalyFromMeanAnomaly)
 {
-    using ostk::core::types::Real;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::Duration;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         const Angle meanAnomaly = Angle::Degrees(0.0);
         const Real eccentricity = 0.0;

@@ -35,17 +35,6 @@ NumericalSolver::NumericalSolver(
 {
 }
 
-NumericalSolver::NumericalSolver(const NumericalSolver& aNumericalSolver)
-    : logType_(aNumericalSolver.logType_),
-      stepperType_(aNumericalSolver.stepperType_),
-      timeStep_(aNumericalSolver.timeStep_),
-      relativeTolerance_(aNumericalSolver.relativeTolerance_),
-      absoluteTolerance_(aNumericalSolver.absoluteTolerance_),
-      states_(),
-      instants_()
-{
-}
-
 NumericalSolver* NumericalSolver::clone() const
 {
     return new NumericalSolver(*this);
@@ -483,6 +472,20 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
             break;
         }
     }
+}
+
+NumericalSolver NumericalSolver::Undefined()
+{
+    return NumericalSolver(
+        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
+    );
+}
+
+NumericalSolver NumericalSolver::Default()
+{
+    return NumericalSolver(
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+    );
 }
 
 }  // namespace astro

@@ -19,12 +19,6 @@ System::System(const Mass& aMass, const Composite& aGeometry)
 {
 }
 
-System::System(const System& aSystem)
-    : mass_(aSystem.mass_),
-      geometry_(aSystem.geometry_)
-{
-}
-
 System::~System() {}
 
 System* System::clone() const
@@ -89,6 +83,11 @@ Composite System::getGeometry() const
     }
 
     return geometry_;
+}
+
+System System::Undefined()
+{
+    return {Mass::Undefined(), Composite::Undefined()};
 }
 
 }  // namespace flight

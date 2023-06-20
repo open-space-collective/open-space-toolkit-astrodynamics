@@ -67,12 +67,6 @@ class SatelliteSystem : public System
         const Real& aDragCoefficient
     );
 
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] aSatelliteSystem A satellite system
-
-    SatelliteSystem(const SatelliteSystem& aSatelliteSystem);
-
     /// @brief              Destructor
 
     virtual ~SatelliteSystem() override;
@@ -147,6 +141,12 @@ class SatelliteSystem : public System
     /// @return             Real
 
     Real getDragCoefficient() const;
+
+    /// @brief              Undefined satellite system
+    ///
+    /// @return             Undefined satellite system
+
+    static SatelliteSystem Undefined();
 
    private:
     Matrix3d inertiaTensor_;

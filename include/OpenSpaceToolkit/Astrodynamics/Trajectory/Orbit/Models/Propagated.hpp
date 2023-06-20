@@ -6,29 +6,9 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
-#include <OpenSpaceToolkit/Physics/Environment.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Object.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Moon.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Sun.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
-#include <OpenSpaceToolkit/Physics/Time/Time.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Length.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -46,23 +26,16 @@ namespace models
 {
 
 using ostk::core::ctnr::Array;
-using ostk::core::ctnr::Pair;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
-using ostk::core::types::String;
 
-using ostk::math::obj::Vector3d;
-
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
-using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::flight::system::dynamics::SatelliteDynamics;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;
+using ostk::astro::flight::system::Dynamics;
 
 /// @brief                      Defines an orbit model that is propagated using numerical propagation
 
@@ -72,32 +45,24 @@ class Propagated : public ostk::astro::trajectory::orbit::Model
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver, aState } ;
+    ///                     Propagated propagated = { aPropagator, aState } ;
     /// @endcode
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics object
-    /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] aPropagator A propagator
     /// @param              [in] aState A state
 
-    Propagated(
-        const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
-    );
+    Propagated(const Propagator& aPropagator, const State& aState);
 
-    /// @brief              Constructor with additional option of passing in an existing array of states
+    /// @brief              Constructor with a cached state array
     ///
     /// @code
-    ///                     Propagated propagated = { aSatelliteDynamics, aNumericalSolver, aCachedStateArray } ;
+    ///                     Propagated propagated = { aPropagator, aCachedStateArray } ;
     /// @endcode
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics object
-    /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] aPropagator A propagator
     /// @param              [in] aCachedStateArray A state array
 
-    Propagated(
-        const SatelliteDynamics& aSatelliteDynamics,
-        const NumericalSolver& aNumericalSolver,
-        const Array<State>& aCachedStateArray
-    );
+    Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray);
 
     /// @brief              Clone propagated
     ///

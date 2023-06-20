@@ -1,33 +1,10 @@
 # Apache License 2.0
 
-import ostk.physics as physics
+from ostk.physics.units import Length
+from ostk.physics.units import Angle
+from ostk.physics.environment.gravitational import Earth
 
-import ostk.astrodynamics as astrodynamics
-
-Length = physics.units.Length
-Angle = physics.units.Angle
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-DateTime = physics.time.DateTime
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-Environment = physics.Environment
-
-Trajectory = astrodynamics.Trajectory
-Model = astrodynamics.trajectory.Model
-Orbit = astrodynamics.trajectory.Orbit
-Pass = astrodynamics.trajectory.orbit.Pass
-Kepler = astrodynamics.trajectory.orbit.models.Kepler
-COE = astrodynamics.trajectory.orbit.models.kepler.COE
-SGP4 = astrodynamics.trajectory.orbit.models.SGP4
-TLE = astrodynamics.trajectory.orbit.models.sgp4.TLE
-State = astrodynamics.trajectory.State
-Access = astrodynamics.Access
-
-environment = Environment.default()
-earth = environment.access_celestial_object_with_name("Earth")
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 
 
 def construct_coe():
@@ -110,13 +87,13 @@ def test_trajectory_orbit_models_kepler_coe_getters():
 def test_trajectory_orbit_models_kepler_coe_get_mean_motion():
     coe: COE = construct_coe()
 
-    assert coe.get_mean_motion(earth.gravitational_parameter) is not None
+    assert coe.get_mean_motion(Earth.EGM2008.gravitational_parameter) is not None
 
 
 def test_trajectory_orbit_models_kepler_coe_get_orbital_period():
     coe: COE = construct_coe()
 
-    assert coe.get_orbital_period(earth.gravitational_parameter) is not None
+    assert coe.get_orbital_period(Earth.EGM2008.gravitational_parameter) is not None
 
 
 def test_trajectory_orbit_models_kepler_coe_static_methods():
