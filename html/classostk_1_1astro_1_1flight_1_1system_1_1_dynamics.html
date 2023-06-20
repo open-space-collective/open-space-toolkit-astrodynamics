@@ -83,13 +83,15 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1flight_1_1system
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ostk::astro::flight::system::Dynamics Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Defines the a dynamical system subject to equations of motion.  
+<p>Define a dynamical system subject to equations of motion.  
  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_dynamics_8hpp_source.html">Dynamics.hpp</a>&gt;</code></p>
@@ -99,7 +101,10 @@ Inheritance diagram for ostk::astro::flight::system::Dynamics:</div>
  <div class="center">
   <img src="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.png" usemap="#ostk::astro::flight::system::Dynamics_map" alt=""/>
   <map id="ostk::astro::flight::system::Dynamics_map" name="ostk::astro::flight::system::Dynamics_map">
-<area href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html" title="Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differentia..." alt="ostk::astro::flight::system::dynamics::SatelliteDynamics" shape="rect" coords="0,56,309,80"/>
+<area href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html" title="Define the acceleration experienced by a point mass due to atmospheric drag." alt="ostk::astro::flight::system::dynamics::AtmosphericDrag" shape="rect" coords="0,56,321,80"/>
+<area href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::flight::system::dynamics::CentralBodyGravity" shape="rect" coords="331,56,652,80"/>
+<area href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html" title="Define the contribution to the position due to velocity." alt="ostk::astro::flight::system::dynamics::PositionDerivative" shape="rect" coords="662,56,983,80"/>
+<area href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html" title="Define the acceleration experienced by a point mass due to gravity." alt="ostk::astro::flight::system::dynamics::ThirdBodyGravity" shape="rect" coords="993,56,1314,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -112,9 +117,9 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae095f36d21c5fb80059100b3f68a6034"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ae095f36d21c5fb80059100b3f68a6034">Dynamics</a> ()</td></tr>
-<tr class="memdesc:ae095f36d21c5fb80059100b3f68a6034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ae095f36d21c5fb80059100b3f68a6034">More...</a><br /></td></tr>
-<tr class="separator:ae095f36d21c5fb80059100b3f68a6034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3af17a36f06f2518e4a686148d40691c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">Dynamics</a> (const String &amp;aName=String::Empty())</td></tr>
+<tr class="memdesc:a3af17a36f06f2518e4a686148d40691c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">More...</a><br /></td></tr>
+<tr class="separator:a3af17a36f06f2518e4a686148d40691c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afad57df27ce6737316f0c1102e1919ae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#afad57df27ce6737316f0c1102e1919ae">~Dynamics</a> ()=0</td></tr>
 <tr class="memdesc:afad57df27ce6737316f0c1102e1919ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#afad57df27ce6737316f0c1102e1919ae">More...</a><br /></td></tr>
 <tr class="separator:afad57df27ce6737316f0c1102e1919ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,15 +129,29 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a13160e001990a6ce8db807e39b8f97df"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">isDefined</a> () const =0</td></tr>
 <tr class="memdesc:a13160e001990a6ce8db807e39b8f97df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if dynamics is defined (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">More...</a><br /></td></tr>
 <tr class="separator:a13160e001990a6ce8db807e39b8f97df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3fdfebb45a96bb0c6405c750e1c6d30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#aa3fdfebb45a96bb0c6405c750e1c6d30">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const =0</td></tr>
-<tr class="memdesc:aa3fdfebb45a96bb0c6405c750e1c6d30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print dynamics (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#aa3fdfebb45a96bb0c6405c750e1c6d30">More...</a><br /></td></tr>
-<tr class="separator:aa3fdfebb45a96bb0c6405c750e1c6d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2001816629758bad7e960af54e87ddaa"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a2001816629758bad7e960af54e87ddaa">getDynamicalEquations</a> ()=0</td></tr>
-<tr class="memdesc:a2001816629758bad7e960af54e87ddaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a2001816629758bad7e960af54e87ddaa">More...</a><br /></td></tr>
-<tr class="separator:a2001816629758bad7e960af54e87ddaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66734583c7858726da890f6e91273b8b"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">getName</a> () const</td></tr>
+<tr class="memdesc:a66734583c7858726da890f6e91273b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get name.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">More...</a><br /></td></tr>
+<tr class="separator:a66734583c7858726da890f6e91273b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeafa07fa43b4074788a3acc6dd6e419"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#adeafa07fa43b4074788a3acc6dd6e419">applyContribution</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;x, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;dxdt, const Instant &amp;anInstant) const =0</td></tr>
+<tr class="memdesc:adeafa07fa43b4074788a3acc6dd6e419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply contribution to the state derivative (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#adeafa07fa43b4074788a3acc6dd6e419">More...</a><br /></td></tr>
+<tr class="separator:adeafa07fa43b4074788a3acc6dd6e419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01cf369daf419b0f9864f0e1d8d90e24"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a01cf369daf419b0f9864f0e1d8d90e24">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const</td></tr>
+<tr class="memdesc:a01cf369daf419b0f9864f0e1d8d90e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print dynamics.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a01cf369daf419b0f9864f0e1d8d90e24">More...</a><br /></td></tr>
+<tr class="separator:a01cf369daf419b0f9864f0e1d8d90e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a67f485d4f732ba80ef9d3d7302e688cd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">GetDynamicalEquations</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</td></tr>
+<tr class="memdesc:a67f485d4f732ba80ef9d3d7302e688cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">More...</a><br /></td></tr>
+<tr class="separator:a67f485d4f732ba80ef9d3d7302e688cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a980aad3845f4b9ca1a64df4173134e44"><td class="memItemLeft" align="right" valign="top">const Shared&lt; const Frame &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF()</td></tr>
+<tr class="separator:a980aad3845f4b9ca1a64df4173134e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines the a dynamical system subject to equations of motion. </p>
+<div class="textblock"><p>Define a dynamical system subject to equations of motion. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a9b14f4fbea6fe1e96af9e71545d4c77e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b14f4fbea6fe1e96af9e71545d4c77e">&#9670;&nbsp;</a></span>DynamicalEquationWrapper</h2>
@@ -163,8 +182,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae095f36d21c5fb80059100b3f68a6034"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae095f36d21c5fb80059100b3f68a6034">&#9670;&nbsp;</a></span>Dynamics()</h2>
+<a id="a3af17a36f06f2518e4a686148d40691c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3af17a36f06f2518e4a686148d40691c">&#9670;&nbsp;</a></span>Dynamics()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,13 +191,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ostk::astro::flight::system::Dynamics::Dynamics </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramname"><em>aName</em> = <code>String::Empty()</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor (pure virtual) </p>
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A name </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -210,6 +236,60 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="adeafa07fa43b4074788a3acc6dd6e419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeafa07fa43b4074788a3acc6dd6e419">&#9670;&nbsp;</a></span>applyContribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ostk::astro::flight::system::Dynamics::applyContribution </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>dxdt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Apply contribution to the state derivative (pure virtual) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>A state vector </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dxdt</td><td>A state derivative vector </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a72d99b33f16cd8ac93fab4397d98d87d">ostk::astro::flight::system::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#a454d04592ea520a3d56000898093b1d1">ostk::astro::flight::system::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a0a748ee66cdc1e9b24b9f5513967433b">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#adf74720ba4b07e0bcfd0c5a320dee708">ostk::astro::flight::system::dynamics::PositionDerivative</a>.</p>
+
+</div>
+</div>
 <a id="a7de1a8ce101f3cee59fd624b487de5be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7de1a8ce101f3cee59fd624b487de5be">&#9670;&nbsp;</a></span>clone()</h2>
 
@@ -236,12 +316,12 @@ Public Member Functions</h2></td></tr>
 <p>Clone dynamics (pure virtual) </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to cloned dynamics </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#a57d066e3876e999e288d00a23fb9ec9c">ostk::astro::flight::system::dynamics::SatelliteDynamics</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#aff8041b8fd877b854950a4226fdbe101">ostk::astro::flight::system::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#ac31048251076f5c0e7bf575b7789a923">ostk::astro::flight::system::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a56b1b97d5d10facdf884cf461f0deb3c">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a04a97d45de4a8699ffbbdbd008116257">ostk::astro::flight::system::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
-<a id="a2001816629758bad7e960af54e87ddaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2001816629758bad7e960af54e87ddaa">&#9670;&nbsp;</a></span>getDynamicalEquations()</h2>
+<a id="a67f485d4f732ba80ef9d3d7302e688cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67f485d4f732ba80ef9d3d7302e688cd">&#9670;&nbsp;</a></span>GetDynamicalEquations()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -250,23 +330,59 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a> ostk::astro::flight::system::Dynamics::getDynamicalEquations </td>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">Dynamics::DynamicalEquationWrapper</a> ostk::astro::flight::system::Dynamics::GetDynamicalEquations </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>aDynamicsArray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Obtain dynamical equations function wrapper (pure virtual) </p>
+<p>Get dynamical equations function wrapper (pure virtual) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>A array of shared pointers to dynamics </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>std::function&lt;void(const std::vector&lt;double&gt;&amp;, std::vector&lt;double&gt;&amp;, const double)&gt; </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#aed9ddda1a1d1c4636e2c0d6ccc9d5a16">ostk::astro::flight::system::dynamics::SatelliteDynamics</a>.</p>
+</div>
+</div>
+<a id="a66734583c7858726da890f6e91273b8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66734583c7858726da890f6e91273b8b">&#9670;&nbsp;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String ostk::astro::flight::system::Dynamics::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get name. </p>
+<dl class="section return"><dt>Returns</dt><dd>Name of <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html" title="Define a dynamical system subject to equations of motion.">Dynamics</a> </dd></dl>
 
 </div>
 </div>
@@ -296,12 +412,12 @@ Public Member Functions</h2></td></tr>
 <p>Check if dynamics is defined (pure virtual) </p>
 <dl class="section return"><dt>Returns</dt><dd>True if dynamics is defined </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#aa58384471ec8825964af48a4a2235fab">ostk::astro::flight::system::dynamics::SatelliteDynamics</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a279876706fe6b8438f7c3507bef01592">ostk::astro::flight::system::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#ac3c0f63c901827bdcff58359c2081c66">ostk::astro::flight::system::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ad5b8acb98124efefd4a94ae2ed222e7e">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#ac9b701dffe0b64ce0931e4125e379fa7">ostk::astro::flight::system::dynamics::PositionDerivative</a>.</p>
 
 </div>
 </div>
-<a id="aa3fdfebb45a96bb0c6405c750e1c6d30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3fdfebb45a96bb0c6405c750e1c6d30">&#9670;&nbsp;</a></span>print()</h2>
+<a id="a01cf369daf419b0f9864f0e1d8d90e24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01cf369daf419b0f9864f0e1d8d90e24">&#9670;&nbsp;</a></span>print()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +426,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void ostk::astro::flight::system::Dynamics::print </td>
+          <td class="memname">void ostk::astro::flight::system::Dynamics::print </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>anOutputStream</em>, </td>
@@ -329,12 +445,12 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Print dynamics (pure virtual) </p>
+<p>Print dynamics. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
@@ -343,7 +459,22 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#af60a82bf97622e5b3a670c38ab4ddd32">ostk::astro::flight::system::dynamics::SatelliteDynamics</a>.</p>
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#adfca0c807bb765365ac69a456efde5bf">ostk::astro::flight::system::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#a2fc0c0e4676244da1ff05a31ca632a7c">ostk::astro::flight::system::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#acc3898d92a779f5a3a111f0e0d4a27ae">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7d9b302e022c8b31063a4a7e9fb2ef31">ostk::astro::flight::system::dynamics::PositionDerivative</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a980aad3845f4b9ca1a64df4173134e44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a980aad3845f4b9ca1a64df4173134e44">&#9670;&nbsp;</a></span>gcrfSPtr_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Shared&lt;const Frame&gt; ostk::astro::flight::system::Dynamics::gcrfSPtr_ = Frame::GCRF()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

@@ -90,19 +90,16 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1_p
 </div><!--header-->
 <div class="contents">
 
-<p>Defines a propagator to be used for numerical integration.  
+<p>Define a propagator to be used for numerical propagation.  
  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_propagator_8hpp_source.html">Propagator.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3e3802b0eaa96a0e9422db11a7deac16"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">Propagator</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver)</td></tr>
-<tr class="memdesc:a3e3802b0eaa96a0e9422db11a7deac16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">More...</a><br /></td></tr>
-<tr class="separator:a3e3802b0eaa96a0e9422db11a7deac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b21848949fad6f4f3f612a91c5c9106"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a9b21848949fad6f4f3f612a91c5c9106">clone</a> () const</td></tr>
-<tr class="memdesc:a9b21848949fad6f4f3f612a91c5c9106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone propagator.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a9b21848949fad6f4f3f612a91c5c9106">More...</a><br /></td></tr>
-<tr class="separator:a9b21848949fad6f4f3f612a91c5c9106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e34bb630b6a9531603899e4844035aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a6e34bb630b6a9531603899e4844035aa">Propagator</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver, const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray=Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt;::Empty())</td></tr>
+<tr class="memdesc:a6e34bb630b6a9531603899e4844035aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a6e34bb630b6a9531603899e4844035aa">More...</a><br /></td></tr>
+<tr class="separator:a6e34bb630b6a9531603899e4844035aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa16a98d76cd120299dd62e2f1e1c9bb9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa16a98d76cd120299dd62e2f1e1c9bb9">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> &amp;aPropagator) const</td></tr>
 <tr class="memdesc:aa16a98d76cd120299dd62e2f1e1c9bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equal to operator.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa16a98d76cd120299dd62e2f1e1c9bb9">More...</a><br /></td></tr>
 <tr class="separator:aa16a98d76cd120299dd62e2f1e1c9bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +109,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a52140a4499899dda02e5c73179975e53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a52140a4499899dda02e5c73179975e53">isDefined</a> () const</td></tr>
 <tr class="memdesc:a52140a4499899dda02e5c73179975e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if propagator is defined.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a52140a4499899dda02e5c73179975e53">More...</a><br /></td></tr>
 <tr class="separator:a52140a4499899dda02e5c73179975e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7a67afb98328043eb4496a60f7c5aad"><td class="memItemLeft" align="right" valign="top">Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ac7a67afb98328043eb4496a60f7c5aad">getDynamics</a> () const</td></tr>
+<tr class="memdesc:ac7a67afb98328043eb4496a60f7c5aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dynamics array.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ac7a67afb98328043eb4496a60f7c5aad">More...</a><br /></td></tr>
+<tr class="separator:ac7a67afb98328043eb4496a60f7c5aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49606c38f9d2bec6c821e201393361b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a49606c38f9d2bec6c821e201393361b3">setDynamics</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray)</td></tr>
+<tr class="memdesc:a49606c38f9d2bec6c821e201393361b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the dynamics array.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a49606c38f9d2bec6c821e201393361b3">More...</a><br /></td></tr>
+<tr class="separator:a49606c38f9d2bec6c821e201393361b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d3f0cd493a13fdb2fbca1c3a120745"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a49d3f0cd493a13fdb2fbca1c3a120745">addDynamics</a> (const Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &amp;aDynamics)</td></tr>
+<tr class="memdesc:a49d3f0cd493a13fdb2fbca1c3a120745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a dynamics to the array of shared pointers to dynamics.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a49d3f0cd493a13fdb2fbca1c3a120745">More...</a><br /></td></tr>
+<tr class="separator:a49d3f0cd493a13fdb2fbca1c3a120745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a162a6389a7bc9a54fb9e14f6973641d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a162a6389a7bc9a54fb9e14f6973641d0">clearDynamics</a> ()</td></tr>
+<tr class="memdesc:a162a6389a7bc9a54fb9e14f6973641d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the dynamics array.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a162a6389a7bc9a54fb9e14f6973641d0">More...</a><br /></td></tr>
+<tr class="separator:a162a6389a7bc9a54fb9e14f6973641d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0fde78b62924b7cf1eb81bf80bff165"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa0fde78b62924b7cf1eb81bf80bff165">calculateStateAt</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState, const Instant &amp;anInstant) const</td></tr>
 <tr class="memdesc:aa0fde78b62924b7cf1eb81bf80bff165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, given initial state.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa0fde78b62924b7cf1eb81bf80bff165">More...</a><br /></td></tr>
 <tr class="separator:aa0fde78b62924b7cf1eb81bf80bff165"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,12 +133,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a8d807b90b10f02edb732afe28dca0c04"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a8d807b90b10f02edb732afe28dca0c04">MediumFidelity</a> ()</td></tr>
-<tr class="memdesc:a8d807b90b10f02edb732afe28dca0c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a medium fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> object with recommended settings.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a8d807b90b10f02edb732afe28dca0c04">More...</a><br /></td></tr>
-<tr class="separator:a8d807b90b10f02edb732afe28dca0c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae49a22d28386d71da700c80b9a766983"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae49a22d28386d71da700c80b9a766983">HighFidelity</a> ()</td></tr>
-<tr class="memdesc:ae49a22d28386d71da700c80b9a766983"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a high fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> object with recommended settings.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae49a22d28386d71da700c80b9a766983">More...</a><br /></td></tr>
-<tr class="separator:ae49a22d28386d71da700c80b9a766983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abecfbaa1fe9f43e21984b9a8cd3f4e83"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#abecfbaa1fe9f43e21984b9a8cd3f4e83">Undefined</a> ()</td></tr>
+<tr class="memdesc:abecfbaa1fe9f43e21984b9a8cd3f4e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Undefined.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#abecfbaa1fe9f43e21984b9a8cd3f4e83">More...</a><br /></td></tr>
+<tr class="separator:abecfbaa1fe9f43e21984b9a8cd3f4e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a518b0833d3387322c3619c131124f006"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a518b0833d3387322c3619c131124f006">Default</a> ()</td></tr>
+<tr class="memdesc:a518b0833d3387322c3619c131124f006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a518b0833d3387322c3619c131124f006">More...</a><br /></td></tr>
+<tr class="separator:a518b0833d3387322c3619c131124f006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b994abb858da0b8abe00fcb791d0bbd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a2b994abb858da0b8abe00fcb791d0bbd">Default</a> (const Environment &amp;anEnvironment, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;aSatelliteSystem=<a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a71f5822114d8ff43d11a33bdf982aaa7">SatelliteSystem::Undefined</a>())</td></tr>
+<tr class="memdesc:a2b994abb858da0b8abe00fcb791d0bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default from environment.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a2b994abb858da0b8abe00fcb791d0bbd">More...</a><br /></td></tr>
+<tr class="separator:a2b994abb858da0b8abe00fcb791d0bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10fbabe96e609f8f30132907c0936670"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a10fbabe96e609f8f30132907c0936670">FromEnvironment</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;aNumericalSolver, const Environment &amp;anEnvironment, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;aSatelliteSystem=<a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a71f5822114d8ff43d11a33bdf982aaa7">SatelliteSystem::Undefined</a>())</td></tr>
+<tr class="memdesc:a10fbabe96e609f8f30132907c0936670"><td class="mdescLeft">&#160;</td><td class="mdescRight">From environment.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a10fbabe96e609f8f30132907c0936670">More...</a><br /></td></tr>
+<tr class="separator:a10fbabe96e609f8f30132907c0936670"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -138,10 +153,10 @@ Friends</h2></td></tr>
 <tr class="separator:a660922ef2c1c93694163c91686755257"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines a propagator to be used for numerical integration. </p>
+<div class="textblock"><p>Define a propagator to be used for numerical propagation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3e3802b0eaa96a0e9422db11a7deac16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e3802b0eaa96a0e9422db11a7deac16">&#9670;&nbsp;</a></span>Propagator()</h2>
+<a id="a6e34bb630b6a9531603899e4844035aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e34bb630b6a9531603899e4844035aa">&#9670;&nbsp;</a></span>Propagator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,14 +164,14 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">ostk::astro::trajectory::Propagator::Propagator </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;&#160;</td>
-          <td class="paramname"><em>aSatelliteDynamics</em>, </td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>aNumericalSolver</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
-          <td class="paramname"><em>aNumericalSolver</em>&#160;</td>
+          <td class="paramtype">const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>aDynamicsArray</em> = <code>Array&lt;Shared&lt;<a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a>&gt;&gt;::Empty()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -167,11 +182,11 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">Propagator</a> propagator = { aSatelliteDynamics, aNumericalSolver } ;</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a6e34bb630b6a9531603899e4844035aa">Propagator</a> propagator = { aNumericalSolver, aDynamicsArray } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteDynamics</td><td>A satellite dynamics object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aNumericalSolver</td><td>A numerical solver </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
   </table>
   </dd>
 </dl>
@@ -179,6 +194,33 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a49d3f0cd493a13fdb2fbca1c3a120745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d3f0cd493a13fdb2fbca1c3a120745">&#9670;&nbsp;</a></span>addDynamics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::Propagator::addDynamics </td>
+          <td>(</td>
+          <td class="paramtype">const Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aDynamics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a dynamics to the array of shared pointers to dynamics. </p>
+<div class="fragment"><div class="line">propagator.addDynamics(aDynamics);</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamics</td><td>A Dynamics shared pointer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa0fde78b62924b7cf1eb81bf80bff165"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0fde78b62924b7cf1eb81bf80bff165">&#9670;&nbsp;</a></span>calculateStateAt()</h2>
 
@@ -245,7 +287,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate the states at an array of instants, given an initial state. </p>
-<p>Can only be used with sorted instant array </p><div class="fragment"><div class="line">Array&lt;State&gt; states = propagator.calculateStatesAt(aState, anInstantArray) ;</div>
+<p>Can only be used with sorted instants array </p><div class="fragment"><div class="line">Array&lt;State&gt; states = propagator.calculateStatesAt(aState, anInstantArray) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstantArray</td><td>An instant array </td></tr>
@@ -256,28 +298,28 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a9b21848949fad6f4f3f612a91c5c9106"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b21848949fad6f4f3f612a91c5c9106">&#9670;&nbsp;</a></span>clone()</h2>
+<a id="a162a6389a7bc9a54fb9e14f6973641d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a162a6389a7bc9a54fb9e14f6973641d0">&#9670;&nbsp;</a></span>clearDynamics()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> * ostk::astro::trajectory::Propagator::clone </td>
+          <td class="memname">void ostk::astro::trajectory::Propagator::clearDynamics </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Clone propagator. </p>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to cloned propagator </dd></dl>
-
+<p>Clear the dynamics array. </p>
+<div class="fragment"><div class="line">propagator.clearDynamics();</div>
+</div><!-- fragment --> 
 </div>
 </div>
-<a id="ae49a22d28386d71da700c80b9a766983"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae49a22d28386d71da700c80b9a766983">&#9670;&nbsp;</a></span>HighFidelity()</h2>
+<a id="a518b0833d3387322c3619c131124f006"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a518b0833d3387322c3619c131124f006">&#9670;&nbsp;</a></span>Default() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +328,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::HighFidelity </td>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::Default </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -299,15 +341,113 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create a high fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> object with recommended settings. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">Propagator</a> propagator = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae49a22d28386d71da700c80b9a766983">Propagator::HighFidelity</a>(aState) ;</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> </dd></dl>
+<p>Default. </p>
+<dl class="section return"><dt>Returns</dt><dd>A default propagator (with position derivative dynamics included) </dd></dl>
+
+</div>
+</div>
+<a id="a2b994abb858da0b8abe00fcb791d0bbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b994abb858da0b8abe00fcb791d0bbd">&#9670;&nbsp;</a></span>Default() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::Default </td>
+          <td>(</td>
+          <td class="paramtype">const Environment &amp;&#160;</td>
+          <td class="paramname"><em>anEnvironment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSatelliteSystem</em> = <code><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a71f5822114d8ff43d11a33bdf982aaa7">SatelliteSystem::Undefined</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default from environment. </p>
+<dl class="section return"><dt>Returns</dt><dd>A default propagator from environment </dd></dl>
+
+</div>
+</div>
+<a id="a10fbabe96e609f8f30132907c0936670"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10fbabe96e609f8f30132907c0936670">&#9670;&nbsp;</a></span>FromEnvironment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::FromEnvironment </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>aNumericalSolver</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Environment &amp;&#160;</td>
+          <td class="paramname"><em>anEnvironment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSatelliteSystem</em> = <code><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a71f5822114d8ff43d11a33bdf982aaa7">SatelliteSystem::Undefined</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>From environment. </p>
+<dl class="section return"><dt>Returns</dt><dd>A propagator from environment </dd></dl>
+
+</div>
+</div>
+<a id="ac7a67afb98328043eb4496a60f7c5aad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7a67afb98328043eb4496a60f7c5aad">&#9670;&nbsp;</a></span>getDynamics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &gt; ostk::astro::trajectory::Propagator::getDynamics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the dynamics array. </p>
+<div class="fragment"><div class="line">Array&lt;Shared&lt;Dynamics&gt;&gt; dynamics = propagator.getDynamics();</div>
+</div><!-- fragment --> <dl class="section return"><dt>Returns</dt><dd>An array of dynamics shared pointers </dd></dl>
 
 </div>
 </div>
@@ -328,41 +468,6 @@ Friends</h2></td></tr>
 
 <p>Check if propagator is defined. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if propagator is defined </dd></dl>
-
-</div>
-</div>
-<a id="a8d807b90b10f02edb732afe28dca0c04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d807b90b10f02edb732afe28dca0c04">&#9670;&nbsp;</a></span>MediumFidelity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::MediumFidelity </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create a medium fidelity <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> object with recommended settings. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">Propagator</a> propagator = <a class="code" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a8d807b90b10f02edb732afe28dca0c04">Propagator::MediumFidelity</a>(aState) ;</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>A <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html" title="Defines a propagator to be used for numerical integration.">Propagator</a> </dd></dl>
 
 </div>
 </div>
@@ -457,6 +562,61 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a49606c38f9d2bec6c821e201393361b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49606c38f9d2bec6c821e201393361b3">&#9670;&nbsp;</a></span>setDynamics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ostk::astro::trajectory::Propagator::setDynamics </td>
+          <td>(</td>
+          <td class="paramtype">const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>aDynamicsArray</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the dynamics array. </p>
+<div class="fragment"><div class="line">propagator.setDynamics(aDynamicsArray);</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDynamicsArray</td><td>A dynamics array </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abecfbaa1fe9f43e21984b9a8cd3f4e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abecfbaa1fe9f43e21984b9a8cd3f4e83">&#9670;&nbsp;</a></span>Undefined()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html">Propagator</a> ostk::astro::trajectory::Propagator::Undefined </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Undefined. </p>
+<dl class="section return"><dt>Returns</dt><dd>An undefined propagator </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a id="a660922ef2c1c93694163c91686755257"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a660922ef2c1c93694163c91686755257">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
@@ -510,9 +670,7 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_propagator_html_a8d807b90b10f02edb732afe28dca0c04"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a8d807b90b10f02edb732afe28dca0c04">ostk::astro::trajectory::Propagator::MediumFidelity</a></div><div class="ttdeci">static Propagator MediumFidelity()</div><div class="ttdoc">Create a medium fidelity Propagator object with recommended settings.</div><div class="ttdef"><b>Definition:</b> Propagator.cpp:185</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_propagator_html_ae49a22d28386d71da700c80b9a766983"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae49a22d28386d71da700c80b9a766983">ostk::astro::trajectory::Propagator::HighFidelity</a></div><div class="ttdeci">static Propagator HighFidelity()</div><div class="ttdoc">Create a high fidelity Propagator object with recommended settings.</div><div class="ttdef"><b>Definition:</b> Propagator.cpp:226</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_propagator_html_a3e3802b0eaa96a0e9422db11a7deac16"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a3e3802b0eaa96a0e9422db11a7deac16">ostk::astro::trajectory::Propagator::Propagator</a></div><div class="ttdeci">Propagator(const SatelliteDynamics &amp;aSatelliteDynamics, const NumericalSolver &amp;aNumericalSolver)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Propagator.cpp:19</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1_propagator_html_a6e34bb630b6a9531603899e4844035aa"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a6e34bb630b6a9531603899e4844035aa">ostk::astro::trajectory::Propagator::Propagator</a></div><div class="ttdeci">Propagator(const NumericalSolver &amp;aNumericalSolver, const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray=Array&lt; Shared&lt; Dynamics &gt;&gt;::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Propagator.cpp:33</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

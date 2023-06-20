@@ -90,18 +90,33 @@ $(document).ready(function(){initNavTree('namespaceostk_1_1astro_1_1flight_1_1sy
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a satellite in orbit subject to forces of varying fidelity Represents a system of differential equations that can be solved by calling the <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html" title="Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...">NumericalSolver</a> class.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html">AtmosphericDrag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the acceleration experienced by a point mass due to atmospheric drag.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html">CentralBodyGravity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the acceleration experienced by a point mass due to gravity.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html">PositionDerivative</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the contribution to the position due to velocity.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html">ThirdBodyGravity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the acceleration experienced by a point mass due to gravity.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6f5490ccec4bf39bd4de23b8c86101f0"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#a6f5490ccec4bf39bd4de23b8c86101f0">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;aSatelliteDynamics)</td></tr>
-<tr class="separator:a6f5490ccec4bf39bd4de23b8c86101f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41cc1648d2789aaf9d6b84bcadb27db6"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#a41cc1648d2789aaf9d6b84bcadb27db6">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html">AtmosphericDrag</a> &amp;anAtmosphericDrag)</td></tr>
+<tr class="separator:a41cc1648d2789aaf9d6b84bcadb27db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc535129577e6c1898531afa890b8237"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#afc535129577e6c1898531afa890b8237">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html">CentralBodyGravity</a> &amp;aCentralBodyGravity)</td></tr>
+<tr class="separator:afc535129577e6c1898531afa890b8237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af70eb72c82a72ef9138662ddf703ea0f"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#af70eb72c82a72ef9138662ddf703ea0f">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html">PositionDerivative</a> &amp;aPositionDerivative)</td></tr>
+<tr class="separator:af70eb72c82a72ef9138662ddf703ea0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8645fcbf70676829738008ed9856feec"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html#a8645fcbf70676829738008ed9856feec">operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html">ThirdBodyGravity</a> &amp;aThirdBodyGravity)</td></tr>
+<tr class="separator:a8645fcbf70676829738008ed9856feec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a6f5490ccec4bf39bd4de23b8c86101f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f5490ccec4bf39bd4de23b8c86101f0">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+<a id="a41cc1648d2789aaf9d6b84bcadb27db6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41cc1648d2789aaf9d6b84bcadb27db6">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -115,8 +130,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics.html">SatelliteDynamics</a> &amp;&#160;</td>
-          <td class="paramname"><em>aSatelliteDynamics</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html">AtmosphericDrag</a> &amp;&#160;</td>
+          <td class="paramname"><em>anAtmosphericDrag</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -128,7 +143,115 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSatelliteDynamics</td><td>A satellite dynamics </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anAtmosphericDrag</td><td>An atmospheric drag dynamics </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
+
+</div>
+</div>
+<a id="afc535129577e6c1898531afa890b8237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc535129577e6c1898531afa890b8237">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::flight::system::dynamics::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html">CentralBodyGravity</a> &amp;&#160;</td>
+          <td class="paramname"><em>aCentralBodyGravity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCentralBodyGravity</td><td>A central body gravity dynamics </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
+
+</div>
+</div>
+<a id="af70eb72c82a72ef9138662ddf703ea0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af70eb72c82a72ef9138662ddf703ea0f">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::flight::system::dynamics::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html">PositionDerivative</a> &amp;&#160;</td>
+          <td class="paramname"><em>aPositionDerivative</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aPositionDerivative</td><td>A position derivative dynamics </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to output stream </dd></dl>
+
+</div>
+</div>
+<a id="a8645fcbf70676829738008ed9856feec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8645fcbf70676829738008ed9856feec">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; ostk::astro::flight::system::dynamics::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>anOutputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html">ThirdBodyGravity</a> &amp;&#160;</td>
+          <td class="paramname"><em>aThirdBodyGravity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThirdBodyGravity</td><td>A third body gravity dynamics </td></tr>
   </table>
   </dd>
 </dl>

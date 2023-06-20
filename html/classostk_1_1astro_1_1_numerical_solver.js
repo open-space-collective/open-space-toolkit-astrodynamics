@@ -13,7 +13,6 @@ var classostk_1_1astro_1_1_numerical_solver =
       [ "RungeKuttaFehlberg78", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7", null ]
     ] ],
     [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8", null ],
-    [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html#ab156915994e0b9207d9c240114f6ed67", null ],
     [ "clone", "classostk_1_1astro_1_1_numerical_solver.html#a5b96baffe23b77c14046e4fb7ffc89a1", null ],
     [ "getAbsoluteTolerance", "classostk_1_1astro_1_1_numerical_solver.html#a0f768255c5f2f51f395e4515db245930", null ],
     [ "getLogType", "classostk_1_1astro_1_1_numerical_solver.html#ad0403195d44325cc71a8a19359640329", null ],

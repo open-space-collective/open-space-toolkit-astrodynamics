@@ -18,10 +18,10 @@ Inheritance diagram for ostk\+::astro\+::trajectory\+::orbit\+::models\+::Propag
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&a\+Satellite\+Dynamics, const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}{Propagated}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}{Propagated}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&a\+Satellite\+Dynamics, const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+Cached\+State\+Array)
-\begin{DoxyCompactList}\small\item\em Constructor with additional option of passing in an existing array of states. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aea48e20ef7b8c5fdcf1a6be94f63d83c}{Propagated}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator, const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&a\+Cached\+State\+Array)
+\begin{DoxyCompactList}\small\item\em Constructor with a cached state array. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated}} $\ast$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a283639d985495c05adb9e80edb91cd12}{clone}} () const override
 \begin{DoxyCompactList}\small\item\em Clone propagated. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a88777b83d939ca894a20af525db347b8}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated}{Propagated}} \&a\+Propagated\+Model) const
@@ -66,11 +66,11 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1
 Defines an orbit model that is propagated using numerical propagation. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}} 
 \index{ostk::astro::trajectory::orbit::models::Propagated@{ostk::astro::trajectory::orbit::models::Propagated}!Propagated@{Propagated}}
 \index{Propagated@{Propagated}!ostk::astro::trajectory::orbit::models::Propagated@{ostk::astro::trajectory::orbit::models::Propagated}}
 \doxysubsubsection{\texorpdfstring{Propagated()}{Propagated()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&}]{a\+Satellite\+Dynamics,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&}]{a\+Propagator,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
 
 
 
@@ -78,40 +78,36 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated}} propagated = \{ aSatelliteDynamics, aNumericalSolver, aState \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}{Propagated}} propagated = \{ aPropagator, aState \} ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics object \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+State} & A state \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a58c26549679d4e20c45e3092ad549d4a}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aea48e20ef7b8c5fdcf1a6be94f63d83c}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aea48e20ef7b8c5fdcf1a6be94f63d83c}} 
 \index{ostk::astro::trajectory::orbit::models::Propagated@{ostk::astro::trajectory::orbit::models::Propagated}!Propagated@{Propagated}}
 \index{Propagated@{Propagated}!ostk::astro::trajectory::orbit::models::Propagated@{ostk::astro::trajectory::orbit::models::Propagated}}
 \doxysubsubsection{\texorpdfstring{Propagated()}{Propagated()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&}]{a\+Satellite\+Dynamics,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+Cached\+State\+Array }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::orbit\+::models\+::\+Propagated\+::\+Propagated (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&}]{a\+Propagator,  }\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \&}]{a\+Cached\+State\+Array }\end{DoxyParamCaption})}
 
 
 
-Constructor with additional option of passing in an existing array of states. 
+Constructor with a cached state array. 
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_a2115209c1b1167f655ff648c38b1659f}{Propagated}} propagated = \{ aSatelliteDynamics, aNumericalSolver, aCachedStateArray \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated_aa7cbaccadc0e9cad5062545ef58cc439}{Propagated}} propagated = \{ aPropagator, aCachedStateArray \} ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics object \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\mbox{\texttt{ in}}  & {\em a\+Propagator} & A propagator \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Cached\+State\+Array} & A state array \\
 \hline

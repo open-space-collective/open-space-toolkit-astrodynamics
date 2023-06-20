@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['pass_426',['Pass',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html',1,'ostk::astro::trajectory::orbit']]],
-  ['profile_427',['Profile',['../classostk_1_1astro_1_1flight_1_1_profile.html',1,'ostk::astro::flight']]],
-  ['propagated_428',['Propagated',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html',1,'ostk::astro::trajectory::orbit::models']]],
-  ['propagator_429',['Propagator',['../classostk_1_1astro_1_1trajectory_1_1_propagator.html',1,'ostk::astro::trajectory']]]
+  ['pass_448',['Pass',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html',1,'ostk::astro::trajectory::orbit']]],
+  ['positionderivative_449',['PositionDerivative',['../classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html',1,'ostk::astro::flight::system::dynamics']]],
+  ['profile_450',['Profile',['../classostk_1_1astro_1_1flight_1_1_profile.html',1,'ostk::astro::flight']]],
+  ['propagated_451',['Propagated',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_propagated.html',1,'ostk::astro::trajectory::orbit::models']]],
+  ['propagator_452',['Propagator',['../classostk_1_1astro_1_1trajectory_1_1_propagator.html',1,'ostk::astro::trajectory']]]
 ];

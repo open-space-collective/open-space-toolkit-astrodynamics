@@ -1,0 +1,249 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}{}\doxysection{ostk\+::astro\+::flight\+::system\+::dynamics\+::Atmospheric\+Drag Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+
+
+Define the acceleration experienced by a point mass due to atmospheric drag.  
+
+
+
+
+{\ttfamily \#include $<$Atmospheric\+Drag.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::flight\+::system\+::dynamics\+::Atmospheric\+Drag\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const String \&a\+Name)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a142ccd348126de8325d940101d53c8c5}{$\sim$\+Atmospheric\+Drag}} () override
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}{Atmospheric\+Drag}} $\ast$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}{clone}} () const override
+\begin{DoxyCompactList}\small\item\em Clone atmospheric drag dynamics. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a279876706fe6b8438f7c3507bef01592}{is\+Defined}} () const override
+\begin{DoxyCompactList}\small\item\em Check if atmospheric drag dynamics is defined. \end{DoxyCompactList}\item 
+Shared$<$ const Celestial $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a888e94eb49465f345f65d73928328337}{get\+Celestial}} () const
+\begin{DoxyCompactList}\small\item\em Get celestial. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}{get\+Satellite\+System}} () const
+\begin{DoxyCompactList}\small\item\em Get satellite system. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
+\begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_adfca0c807bb765365ac69a456efde5bf}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print atmospheric drag dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_acef8f9c08fcb130a4493461e53bd80bd}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}{Atmospheric\+Drag}} \&an\+Atmospheric\+Drag)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Define the acceleration experienced by a point mass due to atmospheric drag. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!AtmosphericDrag@{AtmosphericDrag}}
+\index{AtmosphericDrag@{AtmosphericDrag}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{AtmosphericDrag()}{AtmosphericDrag()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{const} Celestial = \{ ... \};}
+\DoxyCodeLine{\textcolor{keyword}{const} SatelliteSystem = \{ ... \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial, aSatelliteSystem \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Celestial} & A celestial object \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!AtmosphericDrag@{AtmosphericDrag}}
+\index{AtmosphericDrag@{AtmosphericDrag}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{AtmosphericDrag()}{AtmosphericDrag()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{const} Celestial = \{ ... \};}
+\DoxyCodeLine{\textcolor{keyword}{const} SatelliteSystem = \{ ... \};}
+\DoxyCodeLine{\textcolor{keyword}{const} aName = \{ ... \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial, aSatelliteSystem, aName \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Celestial} & A celestial object \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a142ccd348126de8325d940101d53c8c5}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a142ccd348126de8325d940101d53c8c5}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!````~AtmosphericDrag@{$\sim$AtmosphericDrag}}
+\index{````~AtmosphericDrag@{$\sim$AtmosphericDrag}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{$\sim$AtmosphericDrag()}{~AtmosphericDrag()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::$\sim$\+Atmospheric\+Drag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!applyContribution@{applyContribution}}
+\index{applyContribution@{applyContribution}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Apply contribution to the state derivative. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & A state vector \\
+\hline
+\mbox{\texttt{ out}}  & {\em dxdt} & A state derivative vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!clone@{clone}}
+\index{clone@{clone}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}{Atmospheric\+Drag}} $\ast$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Clone atmospheric drag dynamics. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned atmospheric drag dynamics 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a888e94eb49465f345f65d73928328337}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a888e94eb49465f345f65d73928328337}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!getCelestial@{getCelestial}}
+\index{getCelestial@{getCelestial}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{getCelestial()}{getCelestial()}}
+{\footnotesize\ttfamily Shared$<$ const Celestial $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::get\+Celestial (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get celestial. 
+
+\begin{DoxyReturn}{Returns}
+A celestial object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!getSatelliteSystem@{getSatelliteSystem}}
+\index{getSatelliteSystem@{getSatelliteSystem}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{getSatelliteSystem()}{getSatelliteSystem()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::get\+Satellite\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get satellite system. 
+
+\begin{DoxyReturn}{Returns}
+A satellite system 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a279876706fe6b8438f7c3507bef01592}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a279876706fe6b8438f7c3507bef01592}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if atmospheric drag dynamics is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if atmospheric drag dynamics is defined 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a13160e001990a6ce8db807e39b8f97df}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_adfca0c807bb765365ac69a456efde5bf}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_adfca0c807bb765365ac69a456efde5bf}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!print@{print}}
+\index{print@{print}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print atmospheric drag dynamics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a01cf369daf419b0f9864f0e1d8d90e24}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_acef8f9c08fcb130a4493461e53bd80bd}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_acef8f9c08fcb130a4493461e53bd80bd}} 
+\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}{Atmospheric\+Drag}} \&}]{an\+Atmospheric\+Drag }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Atmospheric\+Drag} & An atmospheric drag dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\mbox{\hyperlink{_atmospheric_drag_8hpp}{Atmospheric\+Drag.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\mbox{\hyperlink{_atmospheric_drag_8cpp}{Atmospheric\+Drag.\+cpp}}\end{DoxyCompactItemize}

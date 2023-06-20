@@ -104,25 +104,28 @@ The library exhibits the following detailed and descriptive structure\+:
 \DoxyCodeLine{│   │   │   ├── Tabulated (input csv)}
 \DoxyCodeLine{│   │   │   └── Propagated (numerical integration)}
 \DoxyCodeLine{│   │   ├── Pass}
-\DoxyCodeLine{|   |   └── Messages}
-\DoxyCodeLine{|   |       └── SpaceX}
-\DoxyCodeLine{|   |           └── OPM}
+\DoxyCodeLine{│   │   └── Messages}
+\DoxyCodeLine{│   │       └── SpaceX}
+\DoxyCodeLine{│   │           └── OPM}
 \DoxyCodeLine{│   ├── Models}
-\DoxyCodeLine{│   |   ├── Static}
-\DoxyCodeLine{│   |   └── Tabulated}
+\DoxyCodeLine{│   │   ├── Static}
+\DoxyCodeLine{│   │   └── Tabulated}
 \DoxyCodeLine{│   └── Propagator}
 \DoxyCodeLine{├── Flight}
 \DoxyCodeLine{│   ├── Profile}
-\DoxyCodeLine{|   |    ├── Models}
-\DoxyCodeLine{│   |    |   ├── Transform}
-\DoxyCodeLine{│   |    |   └── Tabulated}
-\DoxyCodeLine{│   |    └── State}
+\DoxyCodeLine{│   │    ├── Models}
+\DoxyCodeLine{│   │    │   ├── Transform}
+\DoxyCodeLine{│   │    │   └── Tabulated}
+\DoxyCodeLine{│   │    └── State}
 \DoxyCodeLine{│   └── System}
-\DoxyCodeLine{|        ├── SatelliteSystem}
-\DoxyCodeLine{|        └── Dynamics}
-\DoxyCodeLine{|            └── SatelliteDynamics}
+\DoxyCodeLine{│        ├── SatelliteSystem}
+\DoxyCodeLine{│        └── Dynamics}
+\DoxyCodeLine{│            └── PositionDerivative}
+\DoxyCodeLine{│            └── CentralBodyGravity}
+\DoxyCodeLine{│            └── ThirdBodyGravity}
+\DoxyCodeLine{│            └── AtmosphericDrag}
 \DoxyCodeLine{├── Access}
-\DoxyCodeLine{|   └── Generator}
+\DoxyCodeLine{│   └── Generator}
 \DoxyCodeLine{└── Conjunction}
 \DoxyCodeLine{    └── Messages}
 \DoxyCodeLine{        └── CCSDS}

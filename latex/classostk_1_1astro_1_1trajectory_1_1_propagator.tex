@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1trajectory_1_1_propagator}\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 
 
-Defines a propagator to be used for numerical integration.  
+Define a propagator to be used for numerical propagation.  
 
 
 
@@ -12,16 +12,22 @@ Defines a propagator to be used for numerical integration.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&a\+Satellite\+Dynamics, const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver)
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}{Propagator}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array=Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$\+::Empty())
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} $\ast$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}{clone}} () const
-\begin{DoxyCompactList}\small\item\em Clone propagator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa16a98d76cd120299dd62e2f1e1c9bb9}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator) const
 \begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator) const
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}{is\+Defined}} () const
 \begin{DoxyCompactList}\small\item\em Check if propagator is defined. \end{DoxyCompactList}\item 
+Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}{get\+Dynamics}} () const
+\begin{DoxyCompactList}\small\item\em Get the dynamics array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}{set\+Dynamics}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array)
+\begin{DoxyCompactList}\small\item\em Set the dynamics array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}{add\+Dynamics}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics)
+\begin{DoxyCompactList}\small\item\em Add a dynamics to the array of shared pointers to dynamics. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}{clear\+Dynamics}} ()
+\begin{DoxyCompactList}\small\item\em Clear the dynamics array. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}{calculate\+State\+At}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Calculate the state at an instant, given initial state. \end{DoxyCompactList}\item 
 Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_af61cfbdfeff89b32300f36c4346beee1}{calculate\+States\+At}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Array$<$ Instant $>$ \&an\+Instant\+Array) const
@@ -31,10 +37,14 @@ void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_afcd15a80e
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}{Medium\+Fidelity}} ()
-\begin{DoxyCompactList}\small\item\em Create a medium fidelity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} object with recommended settings. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}{High\+Fidelity}} ()
-\begin{DoxyCompactList}\small\item\em Create a high fidelity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} object with recommended settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_abecfbaa1fe9f43e21984b9a8cd3f4e83}{Undefined}} ()
+\begin{DoxyCompactList}\small\item\em Undefined. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a518b0833d3387322c3619c131124f006}{Default}} ()
+\begin{DoxyCompactList}\small\item\em Default. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}{Default}} (const Environment \&an\+Environment, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System=\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}())
+\begin{DoxyCompactList}\small\item\em Default from environment. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}{From\+Environment}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Environment \&an\+Environment, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System=\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}())
+\begin{DoxyCompactList}\small\item\em From environment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -43,14 +53,14 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagat
 
 
 \doxysubsection{Detailed Description}
-Defines a propagator to be used for numerical integration. 
+Define a propagator to be used for numerical propagation. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Propagator@{Propagator}}
 \index{Propagator@{Propagator}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{Propagator()}{Propagator()}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Propagator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_satellite_dynamics}{Satellite\+Dynamics}} \&}]{a\+Satellite\+Dynamics,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Propagator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array = {\ttfamily Array$<$Shared$<$\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}}$>$$>$\+:\+:Empty()} }\end{DoxyParamCaption})}
 
 
 
@@ -58,20 +68,39 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator}} propagator = \{ aSatelliteDynamics, aNumericalSolver \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}{Propagator}} propagator = \{ aNumericalSolver, aDynamicsArray \} ;}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+Dynamics} & A satellite dynamics object \\
-\hline
 \mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & A dynamics array \\
 \hline
 \end{DoxyParams}
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!addDynamics@{addDynamics}}
+\index{addDynamics@{addDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{addDynamics()}{addDynamics()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::add\+Dynamics (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics }\end{DoxyParamCaption})}
+
+
+
+Add a dynamics to the array of shared pointers to dynamics. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{propagator.addDynamics(aDynamics);}
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Dynamics} & A Dynamics shared pointer \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!calculateStateAt@{calculateStateAt}}
 \index{calculateStateAt@{calculateStateAt}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
@@ -106,7 +135,7 @@ Calculate the state at an instant, given initial state.
 
 Calculate the states at an array of instants, given an initial state. 
 
-Can only be used with sorted instant array 
+Can only be used with sorted instants array 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;}
 \end{DoxyCode}
@@ -118,40 +147,75 @@ Can only be used with sorted instant array
 \begin{DoxyReturn}{Returns}
 Array$<$\+State$>$ 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a9b21848949fad6f4f3f612a91c5c9106}} 
-\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!clone@{clone}}
-\index{clone@{clone}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
-\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} $\ast$ ostk\+::astro\+::trajectory\+::\+Propagator\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!clearDynamics@{clearDynamics}}
+\index{clearDynamics@{clearDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{clearDynamics()}{clearDynamics()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::clear\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Clone propagator. 
-
-\begin{DoxyReturn}{Returns}
-Pointer to cloned propagator 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}} 
-\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!HighFidelity@{HighFidelity}}
-\index{HighFidelity@{HighFidelity}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
-\doxysubsubsection{\texorpdfstring{HighFidelity()}{HighFidelity()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+High\+Fidelity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Create a high fidelity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} object with recommended settings. 
+Clear the dynamics array. 
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator}} propagator = \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae49a22d28386d71da700c80b9a766983}{Propagator::HighFidelity}}(aState) ;}
+\DoxyCodeLine{propagator.clearDynamics();}
 \end{DoxyCode}
- 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & A \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
-\hline
-\end{DoxyParams}
+ \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a518b0833d3387322c3619c131124f006}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a518b0833d3387322c3619c131124f006}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Default@{Default}}
+\index{Default@{Default}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{Default()}{Default()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Default (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Default. 
+
 \begin{DoxyReturn}{Returns}
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} 
+A default propagator (with position derivative dynamics included) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Default@{Default}}
+\index{Default@{Default}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{Default()}{Default()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Default (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Default from environment. 
+
+\begin{DoxyReturn}{Returns}
+A default propagator from environment 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!FromEnvironment@{FromEnvironment}}
+\index{FromEnvironment@{FromEnvironment}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{FromEnvironment()}{FromEnvironment()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+From\+Environment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Environment \&}]{an\+Environment,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+From environment. 
+
+\begin{DoxyReturn}{Returns}
+A propagator from environment 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!getDynamics@{getDynamics}}
+\index{getDynamics@{getDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{getDynamics()}{getDynamics()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ ostk\+::astro\+::trajectory\+::\+Propagator\+::get\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the dynamics array. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Array<Shared<Dynamics>> dynamics = propagator.getDynamics();}
+\end{DoxyCode}
+ \begin{DoxyReturn}{Returns}
+An array of dynamics shared pointers 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!isDefined@{isDefined}}
@@ -165,28 +229,6 @@ Check if propagator is defined.
 
 \begin{DoxyReturn}{Returns}
 True if propagator is defined 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}} 
-\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!MediumFidelity@{MediumFidelity}}
-\index{MediumFidelity@{MediumFidelity}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
-\doxysubsubsection{\texorpdfstring{MediumFidelity()}{MediumFidelity()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Medium\+Fidelity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Create a medium fidelity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} object with recommended settings. 
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a3e3802b0eaa96a0e9422db11a7deac16}{Propagator}} propagator = \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a8d807b90b10f02edb732afe28dca0c04}{Propagator::MediumFidelity}}(aState) ;}
-\end{DoxyCode}
- 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & A \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27e509435d7d512f5fefc10c7}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!operator"!=@{operator"!=}}
@@ -241,6 +283,38 @@ Print propagator.
 \mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!setDynamics@{setDynamics}}
+\index{setDynamics@{setDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{setDynamics()}{setDynamics()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::set\+Dynamics (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array }\end{DoxyParamCaption})}
+
+
+
+Set the dynamics array. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{propagator.setDynamics(aDynamicsArray);}
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+Array} & A dynamics array \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_abecfbaa1fe9f43e21984b9a8cd3f4e83}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_abecfbaa1fe9f43e21984b9a8cd3f4e83}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Undefined. 
+
+\begin{DoxyReturn}{Returns}
+An undefined propagator 
+\end{DoxyReturn}
 
 
 \doxysubsection{Friends And Related Function Documentation}

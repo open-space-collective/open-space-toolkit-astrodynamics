@@ -1,7 +1,6 @@
 var classostk_1_1astro_1_1flight_1_1_system =
 [
     [ "System", "classostk_1_1astro_1_1flight_1_1_system.html#afac17c0d5e2b1fb9416babf240a1aa65", null ],
-    [ "System", "classostk_1_1astro_1_1flight_1_1_system.html#a01f4e86fb2ffa95f70cd56b1ff1c80e7", null ],
     [ "~System", "classostk_1_1astro_1_1flight_1_1_system.html#a465eb91f18cbc10466b30694daab39fd", null ],
     [ "clone", "classostk_1_1astro_1_1flight_1_1_system.html#ade321754db6db7f635def34cb137d9c4", null ],
     [ "getGeometry", "classostk_1_1astro_1_1flight_1_1_system.html#ac50685f33e3442384ed41b3b8c2d6549", null ],

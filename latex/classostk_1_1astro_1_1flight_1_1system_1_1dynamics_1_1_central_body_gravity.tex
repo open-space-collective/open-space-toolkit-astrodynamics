@@ -1,0 +1,228 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}{}\doxysection{ostk\+::astro\+::flight\+::system\+::dynamics\+::Central\+Body\+Gravity Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+
+
+Define the acceleration experienced by a point mass due to gravity.  
+
+
+
+
+{\ttfamily \#include $<$Central\+Body\+Gravity.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::flight\+::system\+::dynamics\+::Central\+Body\+Gravity\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a6be1f209dacf6604a758ae8045fc7c5f}{Central\+Body\+Gravity}} (const Shared$<$ const Celestial $>$ \&a\+Celestial)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_aaba16b08934dbccf0dacbf88fad31013}{Central\+Body\+Gravity}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const String \&a\+Name)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a19d5163d6b3d0d9aedb789d9c9a92041}{$\sim$\+Central\+Body\+Gravity}} () override
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}{Central\+Body\+Gravity}} $\ast$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac31048251076f5c0e7bf575b7789a923}{clone}} () const override
+\begin{DoxyCompactList}\small\item\em Clone central body gravity dynamics. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac3c0f63c901827bdcff58359c2081c66}{is\+Defined}} () const override
+\begin{DoxyCompactList}\small\item\em Check if central body gravity dynamics is defined. \end{DoxyCompactList}\item 
+Shared$<$ const Celestial $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a75a51e71e513bac4ab6009ef40a09c15}{get\+Celestial}} () const
+\begin{DoxyCompactList}\small\item\em Get celestial. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a454d04592ea520a3d56000898093b1d1}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
+\begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a2fc0c0e4676244da1ff05a31ca632a7c}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print central body gravity dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_af189772468e7e8600ceaf4b333daa251}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}{Central\+Body\+Gravity}} \&a\+Central\+Body\+Gravity)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Define the acceleration experienced by a point mass due to gravity. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a6be1f209dacf6604a758ae8045fc7c5f}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a6be1f209dacf6604a758ae8045fc7c5f}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!CentralBodyGravity@{CentralBodyGravity}}
+\index{CentralBodyGravity@{CentralBodyGravity}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{CentralBodyGravity()}{CentralBodyGravity()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::\+Central\+Body\+Gravity (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{const} aCelestial = \{ ... \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a6be1f209dacf6604a758ae8045fc7c5f}{CentralBodyGravity}} centralBodyGravity = \{ aCelestial \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Celestial} & A Celestial Object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_aaba16b08934dbccf0dacbf88fad31013}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_aaba16b08934dbccf0dacbf88fad31013}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!CentralBodyGravity@{CentralBodyGravity}}
+\index{CentralBodyGravity@{CentralBodyGravity}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{CentralBodyGravity()}{CentralBodyGravity()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::\+Central\+Body\+Gravity (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{const} aCelestial = \{ ... \};}
+\DoxyCodeLine{\textcolor{keyword}{const} aName = \{ ... \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a6be1f209dacf6604a758ae8045fc7c5f}{CentralBodyGravity}} centralBodyGravity = \{ aCelestial, aName \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Celestial} & A celestial object \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a19d5163d6b3d0d9aedb789d9c9a92041}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a19d5163d6b3d0d9aedb789d9c9a92041}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!````~CentralBodyGravity@{$\sim$CentralBodyGravity}}
+\index{````~CentralBodyGravity@{$\sim$CentralBodyGravity}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{$\sim$CentralBodyGravity()}{~CentralBodyGravity()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::$\sim$\+Central\+Body\+Gravity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a454d04592ea520a3d56000898093b1d1}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a454d04592ea520a3d56000898093b1d1}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!applyContribution@{applyContribution}}
+\index{applyContribution@{applyContribution}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Apply contribution to the state derivative. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & A state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em dxdt} & A state derivative vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac31048251076f5c0e7bf575b7789a923}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac31048251076f5c0e7bf575b7789a923}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!clone@{clone}}
+\index{clone@{clone}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}{Central\+Body\+Gravity}} $\ast$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Clone central body gravity dynamics. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to cloned central body gravity dynamics 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a75a51e71e513bac4ab6009ef40a09c15}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a75a51e71e513bac4ab6009ef40a09c15}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!getCelestial@{getCelestial}}
+\index{getCelestial@{getCelestial}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{getCelestial()}{getCelestial()}}
+{\footnotesize\ttfamily Shared$<$ const Celestial $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::get\+Celestial (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get celestial. 
+
+\begin{DoxyReturn}{Returns}
+A celestial object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac3c0f63c901827bdcff58359c2081c66}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac3c0f63c901827bdcff58359c2081c66}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if central body gravity dynamics is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if central body gravity dynamics is defined 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a13160e001990a6ce8db807e39b8f97df}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a2fc0c0e4676244da1ff05a31ca632a7c}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a2fc0c0e4676244da1ff05a31ca632a7c}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!print@{print}}
+\index{print@{print}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print central body gravity dynamics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a01cf369daf419b0f9864f0e1d8d90e24}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_af189772468e7e8600ceaf4b333daa251}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_af189772468e7e8600ceaf4b333daa251}} 
+\index{ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system::dynamics::CentralBodyGravity@{ostk::astro::flight::system::dynamics::CentralBodyGravity}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity}{Central\+Body\+Gravity}} \&}]{a\+Central\+Body\+Gravity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Central\+Body\+Gravity} & A central body gravity dynamics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\mbox{\hyperlink{_central_body_gravity_8hpp}{Central\+Body\+Gravity.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\+Dynamics/\mbox{\hyperlink{_central_body_gravity_8cpp}{Central\+Body\+Gravity.\+cpp}}\end{DoxyCompactItemize}
