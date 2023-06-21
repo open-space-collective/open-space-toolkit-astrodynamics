@@ -346,7 +346,16 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 
 .PHONY: debug-python-release
 
-format: build-development-image ## Format all of the source code with the rules in .clang-format
+format: ## Run formatting
+
+	@ echo "Formatting..."
+
+	@ $(MAKE) format-cpp
+	@ $(MAKE) format-python
+
+.PHONY: format
+
+format-cpp: build-development-image ## Format all of the source code with the rules in .clang-format
 
 	docker run \
 		--rm \
@@ -358,28 +367,50 @@ format: build-development-image ## Format all of the source code with the rules 
 
 .PHONY: format
 
-format-check: build-development-image ## Runs the clang-format tool to check the code against rules and formatting
+format-python: build-development-image ## Run the black format tool against python code
+
+	docker run \
+		--rm \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+
+.PHONY: format-python
+
+format-check: ## Run format checking
+
+	@ echo "Checking format..."
+
+	@ $(MAKE) format-check-cpp
+	@ $(MAKE) format-check-python
+
+.PHONY: format-check
+
+format-check-cpp: build-development-image ## Run the clang-format tool to check the code against rules and formatting
 
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		--user="$(shell id -u):$(shell id -g)" \
-		$(docker_development_image_repository):$(docker_image_version) \
+		"$(docker_development_image_repository):$(docker_image_version)" \
 		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
-.PHONY: format-check
+.PHONY: format-check-cpp
 
-format-python: build-development-image  ## Runs the black format tool against python code
+format-check-python: build-development-image ## Run the black format tool against python code
 
 	docker run \
 		--rm \
-		--volume="$(CURDIR):/app" \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+		/bin/bash -c "python3.11 -m black --line-length=90 --check --diff bindings/python/"
 
-.PHONY: format-python
+.PHONY: format-check-python
 
 test: ## Run tests
 
