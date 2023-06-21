@@ -248,7 +248,7 @@ start-development-no-link: build-development-image ## Start development environm
 
 .PHONY: start-development-no-link
 
-start-development-link: ## Start linked development environment
+start-development-link: build-development-image ## Start linked development environment
 
 	$(if $(links), , $(error "You need to provide the links to the C++ dependency repositories you want to link with, separated by white spaces. For example: make start-development-link links="/home/OSTk/open-space-toolkit-io /home/OSTk/open-space-toolkit-core"))
 
