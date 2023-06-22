@@ -58,7 +58,8 @@ class TestDisplay:
         ground_station_trajectory: Trajectory = Trajectory.position(
             Position.meters(
                 ground_station_lla.to_cartesian(
-                    earth.equatorial_radius, earth.flattening
+                    earth.get_equatorial_radius(),
+                    earth.get_flattening(),
                 ),
                 Frame.ITRF(),
             ),
