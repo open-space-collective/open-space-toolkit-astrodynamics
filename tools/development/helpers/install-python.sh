@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Apache License 2.0 
+# Apache License 2.0
 
 PYTHON_VERSION="3.11"
 
@@ -9,6 +9,7 @@ python_directory="${project_directory}/build/bindings/python/OpenSpaceToolkitAst
 
 pushd "${python_directory}" > /dev/null
 
+python${PYTHON_VERSION} -m pip install plotly pandas
 python${PYTHON_VERSION} -m pip install . --force-reinstall
 
 popd > /dev/null
