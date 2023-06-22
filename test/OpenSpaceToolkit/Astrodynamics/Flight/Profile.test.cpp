@@ -183,7 +183,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     using ostk::astro::flight::profile::State;
 
     {
-
         const Array<Instant> referenceInstants = {
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 0), Scale::UTC),
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
@@ -192,23 +191,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
 
         const Array<State> referenceStates = {
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-            Position::Meters({7000000.000000000000, 0.000000000000, 0.000000000000}, Frame::GCRF()),
-            Velocity::MetersPerSecond({0.000000000000, 7546.053287267836, 0.000000000000}, Frame::GCRF()),
-            Quaternion::XYZS(-0.500000000000, -0.500000000000, 0.500000000000, 0.500000000000),
-            {0.000000000000, -0.001078007612, 0.000000000000},
-            Frame::GCRF()},
+             Position::Meters({7000000.000000000000, 0.000000000000, 0.000000000000}, Frame::GCRF()),
+             Velocity::MetersPerSecond({0.000000000000, 7546.053287267836, 0.000000000000}, Frame::GCRF()),
+             Quaternion::XYZS(-0.500000000000, -0.500000000000, 0.500000000000, 0.500000000000),
+             {0.000000000000, -0.001078007612, 0.000000000000},
+             Frame::GCRF()},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC),
-            Position::Meters({6999998.983162164688, 3773.026460940484, 0.000000000000}, Frame::GCRF()),
-            Velocity::MetersPerSecond({-4.067351246933, 7546.052191108910, 0.000000000000}, Frame::GCRF()),
-            Quaternion::XYZS(-0.499865230892, -0.500134732792, 0.500134732792, 0.499865230892),
-            {0.000000000000, -0.001078007612, 0.000000000000},
-            Frame::GCRF()},
+             Position::Meters({6999998.983162164688, 3773.026460940484, 0.000000000000}, Frame::GCRF()),
+             Velocity::MetersPerSecond({-4.067351246933, 7546.052191108910, 0.000000000000}, Frame::GCRF()),
+             Quaternion::XYZS(-0.499865230892, -0.500134732792, 0.500134732792, 0.499865230892),
+             {0.000000000000, -0.001078007612, 0.000000000000},
+             Frame::GCRF()},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
-            Position::Meters({6999995.932648953050, 7546.051825722679, 0.000000000000}, Frame::GCRF()),
-            Velocity::MetersPerSecond({-8.134701312198, 7546.048902632449, 0.000000000000}, Frame::GCRF()),
-            Quaternion::XYZS(-0.499730425479, -0.500269429259, 0.500269429259, 0.499730425479),
-            {0.000000000000, -0.001078007612, 0.000000000000},
-            Frame::GCRF()}};
+             Position::Meters({6999995.932648953050, 7546.051825722679, 0.000000000000}, Frame::GCRF()),
+             Velocity::MetersPerSecond({-8.134701312198, 7546.048902632449, 0.000000000000}, Frame::GCRF()),
+             Quaternion::XYZS(-0.499730425479, -0.500269429259, 0.500269429259, 0.499730425479),
+             {0.000000000000, -0.001078007612, 0.000000000000},
+             Frame::GCRF()}};
 
         const Array<State> states = profile_.getStatesAt(referenceInstants);
 
@@ -220,8 +219,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
             const State& state = std::get<1>(stateTuple);
 
             EXPECT_EQ(state.getInstant(), referenceState.getInstant());
-            EXPECT_TRUE(state.getPosition().getCoordinates().isNear(referenceState.getPosition().getCoordinates(), 1e-5));
-            EXPECT_TRUE(state.getVelocity().getCoordinates().isNear(referenceState.getVelocity().getCoordinates(), 1e-5));
+            EXPECT_TRUE(state.getPosition().getCoordinates().isNear(referenceState.getPosition().getCoordinates(), 1e-5)
+            );
+            EXPECT_TRUE(state.getVelocity().getCoordinates().isNear(referenceState.getVelocity().getCoordinates(), 1e-5)
+            );
             EXPECT_TRUE(state.getAttitude().isNear(referenceState.getAttitude().toNormalized(), Angle::Degrees(1e-3)));
             EXPECT_TRUE(state.getAngularVelocity().isNear(referenceState.getAngularVelocity(), 1e-5));
             EXPECT_EQ(state.getFrame(), referenceState.getFrame());
@@ -231,7 +232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
     {
         EXPECT_ANY_THROW(Profile::Undefined().getStatesAt(
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
+             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
         ));
     }
 }
