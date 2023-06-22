@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -35,6 +35,7 @@ class TestDisplay:
         duration: Duration = Duration.days(7.0)
         step: Duration = Duration.seconds(10.0)
         tolerance: Duration = Duration.seconds(1.0)
+
         ground_station_lla: LLA = LLA(
             Angle.degrees(70.),
             Angle.degrees(160.),
@@ -42,17 +43,18 @@ class TestDisplay:
         )
 
         tle_1 = TLE(
-            '1 55076U 23001BV  23146.17959645  .00004328  00000-0  23719-3 0  9993', 
-            '2 55076  97.4793 205.9529 0016244  89.9523 270.3571 15.14609100 21723'
+            '1 55076U 23001BV  23146.17959645  .00004328  00000-0  23719-3 0  9993',
+            '2 55076  97.4793 205.9529 0016244  89.9523 270.3571 15.14609100 21723',
         )
 
         tle_2 = TLE(
-            '1 48915U 21059AN  23146.32782040  .00004955  00000-0  24678-3 0  9999', 
-            '2 48915  97.5954 279.7041 0010303 354.9434   5.1694 15.18004448105867'
+            '1 48915U 21059AN  23146.32782040  .00004955  00000-0  24678-3 0  9999',
+            '2 48915  97.5954 279.7041 0010303 354.9434   5.1694 15.18004448105867',
         )
 
         environment: Environment = Environment.default()
         earth: Celestial = environment.access_celestial_object_with_name('Earth')
+
         ground_station_trajectory: Trajectory = Trajectory.position(
             Position.meters(
                 ground_station_lla.to_cartesian(
@@ -72,8 +74,8 @@ class TestDisplay:
             environment=environment,
             step=step,
             tolerance=tolerance,
-        
         )
+
         accesses_1 = generator.compute_accesses(
             interval=search_interval,
             from_trajectory=ground_station_trajectory,
@@ -86,25 +88,29 @@ class TestDisplay:
             interval=search_interval,
             from_trajectory=ground_station_trajectory,
             to_trajectory=orbit_2,
-        ) 
-        
+        )
+
         assert len(accesses_2) > 0
 
         accesses_plot = display.AccessesPlot(
+            earth=earth,
             interval=search_interval,
             trajectory_step=Duration.minutes(5.0),
             access_step=Duration.seconds(10.0),
             ground_station_lla=ground_station_lla,
-            color='green')
-        
+            color='green',
+        )
+
         accesses_plot.add_satellite(
             trajectory=orbit_1,
             accesses=accesses_1,
-            rgb=[180,0,0])
+            rgb=[180, 0, 0],
+        )
 
         accesses_plot.add_satellite(
             trajectory=orbit_2,
             accesses=accesses_2,
-            rgb = [0,0,180])
-        
+            rgb = [0, 0, 180],
+        )
+
         accesses_plot.show()
