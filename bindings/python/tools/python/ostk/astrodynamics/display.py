@@ -155,8 +155,8 @@ class AccessesPlot:
                 state.get_position()
                 .in_frame(Frame.ITRF(), state.get_instant())
                 .get_coordinates(),
-                self._earth.equatorial_radius,
-                self._earth.flattening,
+                self._earth.get_equatorial_radius(),
+                self._earth.get_flattening(),
             )
             data.append(
                 [
