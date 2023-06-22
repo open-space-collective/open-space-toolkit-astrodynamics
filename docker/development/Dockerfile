@@ -2,7 +2,7 @@
 
 ARG BASE_IMAGE_VERSION="latest"
 
-FROM docker.io/openspacecollective/open-space-toolkit-base:latest
+FROM openspacecollective/open-space-toolkit-base:${BASE_IMAGE_VERSION}
 
 LABEL maintainer="lucas@loftorbital.com"
 
