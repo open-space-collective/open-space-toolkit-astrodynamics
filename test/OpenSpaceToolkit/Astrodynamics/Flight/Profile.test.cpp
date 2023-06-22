@@ -755,24 +755,31 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
 
     {
         const Array<State> tabulatedStates = {
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
-             Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
-             {0.0, 0.0, 1.0},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
-             Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
-             {0.0, 0.0, 2.0},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
-             Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
-             {0.0, 0.0, 4.0},
-             Frame::GCRF()}};
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+                Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
+                {0.0, 0.0, 1.0},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
+                Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
+                {0.0, 0.0, 2.0},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
+                Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
+                {0.0, 0.0, 4.0},
+                Frame::GCRF(),
+            },
+        };
 
         const Tabulated tabulated = {tabulatedStates};
 
@@ -783,41 +790,53 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, Tabulated)
             Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
             Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
             Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
-            Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC)};
+            Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
+        };
 
         const Array<State> states = profile.getStatesAt(referenceInstants);
 
         const Array<State> referenceStates = {
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
-             Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
-             {0.0, 0.0, 1.0},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
-             Position::Meters({1.5, 2.5, 3.5}, Frame::GCRF()),
-             Velocity::MetersPerSecond({3.5, 4.5, 5.5}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(5.0))),
-             {0.0, 0.0, 1.5},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
-             Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
-             {0.0, 0.0, 2.0},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
-             Position::Meters({3.0, 4.0, 5.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({2.0, 3.0, 4.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(20.0))),
-             {0.0, 0.0, 3.0},
-             Frame::GCRF()},
-            {Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
-             Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
-             Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
-             Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
-             {0.0, 0.0, 4.0},
-             Frame::GCRF()}};
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 0), Scale::UTC),
+                Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(0.0))),
+                {0.0, 0.0, 1.0},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 0, 30), Scale::UTC),
+                Position::Meters({1.5, 2.5, 3.5}, Frame::GCRF()),
+                Velocity::MetersPerSecond({3.5, 4.5, 5.5}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(5.0))),
+                {0.0, 0.0, 1.5},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 0), Scale::UTC),
+                Position::Meters({2.0, 3.0, 4.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({3.0, 4.0, 5.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(10.0))),
+                {0.0, 0.0, 2.0},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 1, 30), Scale::UTC),
+                Position::Meters({3.0, 4.0, 5.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({2.0, 3.0, 4.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(20.0))),
+                {0.0, 0.0, 3.0},
+                Frame::GCRF(),
+            },
+            {
+                Instant::DateTime(DateTime(2020, 1, 1, 0, 2, 0), Scale::UTC),
+                Position::Meters({4.0, 5.0, 6.0}, Frame::GCRF()),
+                Velocity::MetersPerSecond({1.0, 2.0, 3.0}, Frame::GCRF()),
+                Quaternion::RotationVector(RotationVector::X(Angle::Degrees(30.0))),
+                {0.0, 0.0, 4.0},
+                Frame::GCRF(),
+            },
+        };
 
         EXPECT_EQ(referenceStates.getSize(), states.getSize());
 
