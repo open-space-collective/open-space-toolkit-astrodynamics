@@ -26,8 +26,8 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    return (this->instant_ == aState.instant_) && (this->position_ == aState.position_) &&
-           (this->velocity_ == aState.velocity_);
+    return (this->instant_ == aState.instant_) && (this->accessPosition() == aState.accessPosition()) &&
+           (this->accessVelocity() == aState.accessVelocity());
 }
 
 bool State::operator!=(const State& aState) const
@@ -136,7 +136,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
 
 bool State::isDefined() const
 {
-    return this->instant_.isDefined() && this->position_.isDefined() && this->velocity_.isDefined();
+    return this->instant_.isDefined() && this->accessPosition().isDefined() && this->accessVelocity().isDefined();
 }
 
 const Instant& State::accessInstant() const
@@ -211,8 +211,8 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    const Position position = position_.inFrame(aFrameSPtr, this->instant_);
-    const Velocity velocity = velocity_.inFrame(this->position_, aFrameSPtr, this->instant_);
+    const Position position = this->accessPosition().inFrame(aFrameSPtr, this->instant_);
+    const Velocity velocity = this->accessVelocity().inFrame(this->accessPosition(), aFrameSPtr, this->instant_);
 
     return {this->instant_, position, velocity};
 }
@@ -226,9 +226,9 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Position:" << (this->position_.isDefined() ? this->position_.toString(12) : "Undefined");
+        << "Position:" << (this->accessPosition().isDefined() ? this->accessPosition().toString(12) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Velocity:" << (this->velocity_.isDefined() ? this->velocity_.toString(12) : "Undefined");
+        << "Velocity:" << (this->accessVelocity().isDefined() ? this->accessVelocity().toString(12) : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
