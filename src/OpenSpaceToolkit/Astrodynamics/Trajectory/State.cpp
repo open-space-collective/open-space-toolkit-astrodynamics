@@ -163,6 +163,16 @@ const VectorXd& State::accessCoordinates() const
     return this->coordinates_;
 }
 
+const VectorXd& State::accessCoordinates() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->coordinates_;
+}
+
 Instant State::getInstant() const
 {
     return this->accessInstant();
