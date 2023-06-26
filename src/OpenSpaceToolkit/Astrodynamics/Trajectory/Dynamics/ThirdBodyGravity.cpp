@@ -3,15 +3,13 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/ThirdBodyGravity.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
@@ -115,7 +113,6 @@ void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator
 }
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

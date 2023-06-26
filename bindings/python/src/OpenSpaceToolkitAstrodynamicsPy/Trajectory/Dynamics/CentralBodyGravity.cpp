@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/CentralBodyGravity.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGravity(pybind11::module& aModule)
 {
@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGr
 
     using ostk::physics::env::obj::Celestial;
 
-    using ostk::astro::flight::system::Dynamics;
-    using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+    using ostk::astro::trajectory::Dynamics;
+    using ostk::astro::trajectory::dynamics::CentralBodyGravity;
 
     {
         class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(aModule, "CentralBodyGravity")

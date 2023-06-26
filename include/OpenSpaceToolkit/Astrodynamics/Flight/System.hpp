@@ -20,7 +20,7 @@ using ostk::math::obj::Vector3d;
 
 using ostk::physics::units::Mass;
 
-/// @brief                      Defines the generic physical system that has a mass and a certain geometry that can be
+/// @brief                      Define the generic physical system that has a mass and a certain geometry that can be
 /// composed of multiple subgeometries
 
 class System

@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Propagated(p
     using ostk::physics::time::Instant;
 
     using ostk::astro::NumericalSolver;
-    using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::trajectory::Dynamics;
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::Propagator;
     using ostk::astro::trajectory::orbit::models::Propagated;

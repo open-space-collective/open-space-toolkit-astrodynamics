@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_PositionDerivative(pybind11::module& aModule)
 {
@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_PositionDeriv
 
     using ostk::physics::env::obj::Celestial;
 
-    using ostk::astro::flight::system::Dynamics;
-    using ostk::astro::flight::system::dynamics::PositionDerivative;
+    using ostk::astro::trajectory::Dynamics;
+    using ostk::astro::trajectory::dynamics::PositionDerivative;
 
     {
         class_<PositionDerivative, Dynamics, Shared<PositionDerivative>>(aModule, "PositionDerivative")

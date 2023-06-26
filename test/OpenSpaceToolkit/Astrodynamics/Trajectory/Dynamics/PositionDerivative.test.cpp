@@ -1,14 +1,14 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::Dynamics;
+using ostk::astro::trajectory::dynamics::PositionDerivative;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative : public ::testing::Test
 {

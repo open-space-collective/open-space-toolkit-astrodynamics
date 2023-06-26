@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aModule)

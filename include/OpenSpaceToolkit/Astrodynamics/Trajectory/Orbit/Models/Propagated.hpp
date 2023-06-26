@@ -35,7 +35,7 @@ using ostk::astro::NumericalSolver;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::Dynamics;
 
 /// @brief                      Defines an orbit model that is propagated using numerical propagation
 

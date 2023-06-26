@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
 namespace ostk
@@ -23,10 +23,10 @@ using ostk::math::obj::VectorXd;
 
 using ostk::physics::env::obj::Celestial;
 
-using ostk::astro::flight::system::dynamics::PositionDerivative;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
-using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
-using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::trajectory::dynamics::PositionDerivative;
+using ostk::astro::trajectory::dynamics::CentralBodyGravity;
+using ostk::astro::trajectory::dynamics::ThirdBodyGravity;
+using ostk::astro::trajectory::dynamics::AtmosphericDrag;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 

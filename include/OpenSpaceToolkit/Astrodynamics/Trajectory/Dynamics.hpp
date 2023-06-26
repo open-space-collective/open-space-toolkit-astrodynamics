@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -15,9 +15,7 @@ namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 
 using ostk::core::types::Shared;
@@ -110,9 +108,8 @@ class Dynamics
     );
 };
 
-}  // namespace system
+}  // namespace trajectory
 }  // namespace flight
-}  // namespace astro
 }  // namespace ostk
 
 #endif

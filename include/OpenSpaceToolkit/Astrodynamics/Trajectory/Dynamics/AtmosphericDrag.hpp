@@ -1,32 +1,36 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics_AtmosphericDrag__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics_AtmosphericDrag__
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
 
 using ostk::core::types::String;
 
+using ostk::math::obj::Vector3d;
+
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
+using ostk::physics::units::Mass;
 
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::Dynamics;
 
 /// @brief                      Define the acceleration experienced by a point mass due to atmospheric drag
 
@@ -122,8 +126,7 @@ class AtmosphericDrag : public Dynamics
 };
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
 

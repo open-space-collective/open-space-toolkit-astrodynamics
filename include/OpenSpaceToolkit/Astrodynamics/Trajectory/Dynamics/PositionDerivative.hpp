@@ -1,26 +1,24 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics_PositionDerivative__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Dynamics_PositionDerivative__
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
 
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::Dynamics;
 
 /// @brief                  Define the contribution to the position due to velocity
 
@@ -79,8 +77,7 @@ class PositionDerivative : public Dynamics
 };
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
 

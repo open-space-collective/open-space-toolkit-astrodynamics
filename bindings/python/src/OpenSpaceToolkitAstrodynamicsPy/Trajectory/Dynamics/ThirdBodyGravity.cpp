@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/ThirdBodyGravity.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGravity(pybind11::module& aModule)
 {
@@ -10,8 +10,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGrav
 
     using ostk::physics::env::obj::Celestial;
 
-    using ostk::astro::flight::system::Dynamics;
-    using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+    using ostk::astro::trajectory::Dynamics;
+    using ostk::astro::trajectory::dynamics::ThirdBodyGravity;
 
     {
         class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(aModule, "ThirdBodyGravity")

@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/AtmosphericDrag.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDrag(pybind11::module& aModule)
 {
@@ -10,9 +10,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDr
 
     using ostk::physics::env::obj::Celestial;
 
-    using ostk::astro::flight::system::Dynamics;
-    using ostk::astro::flight::system::dynamics::SatelliteSystem;
-    using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+    using ostk::astro::trajectory::Dynamics;
+    using ostk::astro::trajectory::dynamics::SatelliteSystem;
+    using ostk::astro::trajectory::dynamics::AtmosphericDrag;
 
     {
         class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(aModule, "AtmosphericDrag")

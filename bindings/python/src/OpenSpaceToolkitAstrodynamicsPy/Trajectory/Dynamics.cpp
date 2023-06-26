@@ -1,11 +1,12 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/AtmosphericDrag.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/CentralBodyGravity.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/PositionDerivative.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/ThirdBodyGravity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics/AtmosphericDrag.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics/CentralBodyGravity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics/PositionDerivative.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics/ThirdBodyGravity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Dynamics/Thrust.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::module& aModule)
 {
@@ -13,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
 
     using ostk::core::types::Shared;
 
-    using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::trajectory::Dynamics;
 
     class_<Dynamics, Shared<Dynamics>>(aModule, "Dynamics")
         .def("get_name", &Dynamics::getName)
@@ -30,4 +31,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDrag(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thrust(dynamics);
 }

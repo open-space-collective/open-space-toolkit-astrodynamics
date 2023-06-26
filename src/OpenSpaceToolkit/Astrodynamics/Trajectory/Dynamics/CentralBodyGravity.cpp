@@ -3,15 +3,13 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/CentralBodyGravity.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
@@ -102,7 +100,6 @@ void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorat
 }
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

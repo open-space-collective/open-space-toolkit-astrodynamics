@@ -33,10 +33,10 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -85,12 +85,12 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::astro::NumericalSolver;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
-using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
-using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::trajectory::dynamics::PositionDerivative;
+using ostk::astro::trajectory::dynamics::CentralBodyGravity;
+using ostk::astro::trajectory::dynamics::ThirdBodyGravity;
+using ostk::astro::trajectory::dynamics::AtmosphericDrag;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);

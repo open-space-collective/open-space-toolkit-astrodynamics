@@ -5,15 +5,13 @@
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
@@ -62,7 +60,6 @@ void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorat
 }
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

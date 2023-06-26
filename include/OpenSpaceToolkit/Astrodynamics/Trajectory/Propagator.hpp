@@ -25,7 +25,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -50,7 +50,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
 using ostk::astro::trajectory::State;
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 
 /// @brief                      Define a propagator to be used for numerical propagation

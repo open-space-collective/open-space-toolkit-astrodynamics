@@ -5,15 +5,13 @@
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/AtmosphericDrag.hpp>
 
 namespace ostk
 {
 namespace astro
 {
-namespace flight
-{
-namespace system
+namespace trajectory
 {
 namespace dynamics
 {
@@ -142,7 +140,6 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
 }
 
 }  // namespace dynamics
-}  // namespace system
-}  // namespace flight
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

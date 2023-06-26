@@ -13,10 +13,10 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Dynamics/ThirdBodyGravity.hpp>
 
 #include <Global.test.hpp>
 
@@ -40,10 +40,10 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::Dynamics;
+using ostk::astro::trajectory::dynamics::ThirdBodyGravity;
+using ostk::astro::trajectory::dynamics::CentralBodyGravity;
+using ostk::astro::trajectory::dynamics::PositionDerivative;
 
 using namespace boost::numeric::odeint;
 
