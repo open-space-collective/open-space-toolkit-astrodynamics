@@ -12,11 +12,25 @@ namespace astro
 namespace trajectory
 {
 
-State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
-    : instant_(anInstant),
-      position_(aPosition),
-      velocity_(aVelocity)
+State::State(const Instant& anInstant, const Shared<const Frame> aFrameSPtr, const VectorXd& aCoordinates):
+    instant_(anInstant),
+    frameSPtr_(aFrameSPtr),
+    coordinates_(aCoordinates)
 {
+}
+
+State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity):
+    instant_(anInstant),
+    frameSPtr_(aPosition.accessFrame())
+{
+    if (aPosition.accessFrame() != aVelocity.accessFrame()) {
+        throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
+    }
+
+    VectorXd coordinates(6);
+    coordinates.segment(0, 3) = aPosition.accessCoordinates();
+    coordinates.segment(3, 3) = aVelocity.accessCoordinates();
+    this->coordinates_ = coordinates;
 }
 
 bool State::operator==(const State& aState) const
@@ -149,6 +163,16 @@ const Instant& State::accessInstant() const
     return this->instant_;
 }
 
+const Shared<const Frame> State::accessFrame() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->frameSPtr_;
+}
+
 const Position& State::accessPosition() const
 {
     if (!this->isDefined())
@@ -156,7 +180,11 @@ const Position& State::accessPosition() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return this->position_;
+    return Position(
+        this->coordinates_.segment(0, 3),
+        Position::Unit::Meter,
+        this->frameSPtr_
+    );
 }
 
 const Velocity& State::accessVelocity() const
@@ -166,7 +194,11 @@ const Velocity& State::accessVelocity() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return this->velocity_;
+    return Velocity(
+        this->coordinates_.segment(3, 3),
+        Velocity::Unit::MeterPerSecond,
+        this->frameSPtr_
+    );
 }
 
 const VectorXd& State::accessCoordinates() const
@@ -183,6 +215,12 @@ Instant State::getInstant() const
 {
     return this->accessInstant();
 }
+
+Shared<const Frame> State::getFrame() const
+{
+    return this->accessFrame();
+}
+
 
 Position State::getPosition() const
 {

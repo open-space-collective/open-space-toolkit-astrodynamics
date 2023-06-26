@@ -22,6 +22,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 
         EXPECT_NO_THROW(State state(instant, position, velocity););
     }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity););
+    }
+
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
