@@ -169,6 +169,16 @@ const Velocity& State::accessVelocity() const
     return this->velocity_;
 }
 
+const VectorXd& State::accessCoordinates() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->coordinates_;
+}
+
 Instant State::getInstant() const
 {
     return this->accessInstant();
@@ -186,16 +196,7 @@ Velocity State::getVelocity() const
 
 VectorXd State::getCoordinates() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
-    VectorXd coordinates(6);
-    coordinates.segment(0, 3) = this->accessPosition().accessCoordinates();
-    coordinates.segment(3, 3) = this->accessVelocity().accessCoordinates();
-
-    return coordinates;
+    return this->accessCoordinates();
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const

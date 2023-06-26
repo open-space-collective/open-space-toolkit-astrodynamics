@@ -32,7 +32,7 @@ using ostk::physics::time::Instant;
 
 class State
 {
-   public:
+   public:    
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
     bool operator==(const State& aState) const;
@@ -48,6 +48,8 @@ class State
     bool isDefined() const;
 
     const Instant& accessInstant() const;
+
+    const VectorXd& accessCoordinates() const;
 
     const Position& accessPosition() const;
 
@@ -71,6 +73,8 @@ class State
     Instant instant_;
     Position position_;
     Velocity velocity_;
+    Shared<const Frame> frameSPtr_;
+    VectorXd coordinates_;
 };
 
 }  // namespace trajectory
