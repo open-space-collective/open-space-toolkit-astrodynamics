@@ -32,7 +32,7 @@ using ostk::physics::time::Instant;
 
 class State
 {
-   public:    
+   public:
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
     bool operator==(const State& aState) const;
