@@ -44,6 +44,20 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     this->coordinates_ = coordinates;
 }
 
+State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity):
+    instant_(anInstant),
+    frameSPtr_(aPosition.accessFrame())
+{
+    if (aPosition.accessFrame() != aVelocity.accessFrame()) {
+        throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
+    }
+
+    VectorXd coordinates(6);
+    coordinates.segment(0, 3) = aPosition.accessCoordinates();
+    coordinates.segment(3, 3) = aVelocity.accessCoordinates();
+    this->coordinates_ = coordinates;
+}
+
 bool State::operator==(const State& aState) const
 {
     if ((!this->isDefined()) || (!aState.isDefined()))
