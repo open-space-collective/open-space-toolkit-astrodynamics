@@ -18,19 +18,10 @@ RUN apt-get update \
  && apt-get install -y curl \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --quiet numpy pandas plotly \
- && conda install ipympl=0.4.0
-
-# Install JupyterLab extensions
+RUN pip install --quiet "numpy" "pandas" "plotly" "ipywidgets>=7.6" "ipympl>=0.9.0"
 
 RUN jupyter labextension install --no-build \
-        @jupyterlab/shortcuts-extension \
-        @jupyter-widgets/jupyterlab-manager \
-        jupyter-matplotlib \
-        plotlywidget \
-        jupyterlab-plotly \
- && jupyter lab build \
- && jupyter labextension update --all
+        @jupyterlab/shortcuts-extension
 
 COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
 
