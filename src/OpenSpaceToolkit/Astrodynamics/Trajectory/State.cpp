@@ -25,6 +25,7 @@ State::State(const Instant& anInstant, const Shared<const Frame>& aFrameSPtr, co
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
+<<<<<<< HEAD
 {
     if (!aPosition.isDefined() || !aVelocity.isDefined())
     {
@@ -47,8 +48,10 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant),
       frameSPtr_(aPosition.accessFrame())
+=======
+>>>>>>> refactor: update State isDefined implementation
 {
-    if (!anInstant.isDefined() || !aPosition.isDefined() || !aVelocity.isDefined())
+    if (!aPosition.isDefined() || !aVelocity.isDefined())
     {
         throw ostk::core::error::runtime::Wrong("Argument undefined");
     }
@@ -61,6 +64,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     VectorXd coordinates(6);
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+
+    this->frameSPtr_ = aPosition.accessFrame();
     this->coordinates_ = coordinates;
 }
 
