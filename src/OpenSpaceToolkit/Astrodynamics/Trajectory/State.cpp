@@ -44,17 +44,23 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     this->coordinates_ = coordinates;
 }
 
-State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity):
-    instant_(anInstant),
-    frameSPtr_(aPosition.accessFrame())
+State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
+    : instant_(anInstant),
+      frameSPtr_(aPosition.accessFrame())
 {
-    if (aPosition.accessFrame() != aVelocity.accessFrame()) {
+    if (!anInstant.isDefined() || !aPosition.isDefined() || !aVelocity.isDefined())
+    {
+        throw ostk::core::error::runtime::Wrong("Argument undefined");
+    }
+
+    if (aPosition.accessFrame() != aVelocity.accessFrame())
+    {
         throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
     }
 
     VectorXd coordinates(6);
-    coordinates.segment(0, 3) = aPosition.accessCoordinates();
-    coordinates.segment(3, 3) = aVelocity.accessCoordinates();
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
     this->coordinates_ = coordinates;
 }
 
