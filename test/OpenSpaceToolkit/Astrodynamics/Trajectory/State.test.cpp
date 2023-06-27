@@ -127,15 +127,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
@@ -176,15 +167,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
@@ -278,15 +260,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
@@ -380,15 +353,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -414,15 +378,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -450,17 +405,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 {
-    using ostk::math::obj::VectorXd;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -482,17 +426,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
 {
-    using ostk::math::obj::VectorXd;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -518,15 +451,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -575,8 +499,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Undefined)
 {
-    using ostk::astro::trajectory::State;
-
     {
         EXPECT_NO_THROW(State::Undefined());
     }
