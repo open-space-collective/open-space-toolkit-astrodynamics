@@ -24,10 +24,9 @@ State::State(const Instant& anInstant, const Shared<const Frame>& aFrameSPtr, co
 }
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
-    : instant_(anInstant),
-      frameSPtr_(aPosition.accessFrame())
+    : instant_(anInstant)
 {
-    if (!anInstant.isDefined() || !aPosition.isDefined() || !aVelocity.isDefined())
+    if (!aPosition.isDefined() || !aVelocity.isDefined())
     {
         throw ostk::core::error::runtime::Wrong("Argument undefined");
     }
@@ -40,6 +39,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     VectorXd coordinates(6);
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+
+    this->frameSPtr_ = aPosition.accessFrame();
     this->coordinates_ = coordinates;
 }
 
@@ -50,8 +51,8 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    return (this->instant_ == aState.instant_) && (this->accessPosition() == aState.accessPosition()) &&
-           (this->accessVelocity() == aState.accessVelocity());
+    return (this->instant_ == aState.instant_) && (this->frameSPtr_ == aState.frameSPtr_) &&
+           (this->coordinates_ == aState.coordinates_);
 }
 
 bool State::operator!=(const State& aState) const
@@ -223,7 +224,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 State State::Undefined()
 {
-    return {Instant::Undefined(), Position::Undefined(), Velocity::Undefined()};
+    return {Instant::Undefined(), Frame::Undefined(), VectorXd(6)};
 }
 
 }  // namespace trajectory
