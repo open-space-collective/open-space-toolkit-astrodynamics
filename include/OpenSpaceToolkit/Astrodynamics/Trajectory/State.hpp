@@ -33,7 +33,7 @@ using ostk::physics::time::Instant;
 class State
 {
    public:
-    State(const Instant& anInstant, const Shared<const Frame> aFrameSPtr, const VectorXd& aCoordinates);
+    State(const Instant& anInstant, const Shared<const Frame>& aFrameSPtr, const VectorXd& aCoordinates);
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
