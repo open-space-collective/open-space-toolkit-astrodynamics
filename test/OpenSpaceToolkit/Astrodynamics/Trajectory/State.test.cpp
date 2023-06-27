@@ -4,16 +4,45 @@
 
 #include <Global.test.hpp>
 
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Scale;
+
+using ostk::astro::trajectory::State;
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(6);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        EXPECT_NO_THROW(State state(instant, Frame::GCRF(), v));
+    }
 
-    using ostk::astro::trajectory::State;
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v;
+        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(5);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0;
+        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(7);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0;
+        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+    }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
@@ -31,19 +60,33 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         EXPECT_ANY_THROW(State state(instant, position, velocity););
     }
 
+    {
+        const Instant instant = Instant::Undefined();
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity););
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Undefined();
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity););
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::Undefined();
+
+        EXPECT_ANY_THROW(State state(instant, position, velocity););
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
 {
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Scale;
-
-    using ostk::astro::trajectory::State;
-
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
