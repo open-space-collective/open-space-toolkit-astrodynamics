@@ -157,7 +157,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
-                    EXPECT_EQ(expectedString, e.what());
+                    EXPECT_EQ(expectedString, e.getMessage());
                     throw;
                 }
             },

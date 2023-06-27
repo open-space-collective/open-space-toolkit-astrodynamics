@@ -117,7 +117,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
-                    EXPECT_EQ(expectedString, e.what());
+                    EXPECT_EQ(expectedString, e.getMessage());
                     throw;
                 }
             },
@@ -137,7 +137,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, C
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ(expectedString, e.what());
+                    EXPECT_EQ(expectedString, e.getMessage());
                     throw;
                 }
             },
