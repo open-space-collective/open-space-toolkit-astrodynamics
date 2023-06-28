@@ -254,7 +254,7 @@ start-development-link: build-development-image ## Start linked development envi
 
 	@ echo "Starting development environment (linked)..."
 
-	@ project_directory="$(CURDIR)" docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
+	@ docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
 
 .PHONY: start-development-link
 

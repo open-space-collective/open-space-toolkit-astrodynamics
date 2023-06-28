@@ -175,7 +175,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Constr
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ(e.what(), String("{Propagated} is undefined."));
+                    EXPECT_EQ(e.getMessage(), String("{Propagated} is undefined."));
                     throw;
                 }
             },
@@ -930,7 +930,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
                 }
                 catch (const ostk::core::error::RuntimeError& e)
                 {
-                    EXPECT_EQ(e.what(), String("{Propagated} is undefined."));
+                    EXPECT_EQ(e.getMessage(), String("{Propagated} is undefined."));
                     throw;
                 }
             },

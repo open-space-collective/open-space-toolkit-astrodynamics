@@ -89,7 +89,7 @@ RUN echo "VERSION_REGEX='^'\$2'\\.'\$3'\\.[0-9]*$'; curl https://api.github.com/
 ## Open Space Toolkit ▸ Core
 
 ARG OSTK_CORE_MAJOR="0"
-ARG OSTK_CORE_MINOR="6"
+ARG OSTK_CORE_MINOR="7"
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
