@@ -158,7 +158,7 @@ const Shared<const Frame> State::accessFrame() const
     return this->frameSPtr_;
 }
 
-const Position& State::accessPosition() const
+const Position State::accessPosition() const
 {
     if (!this->isDefined())
     {
@@ -168,7 +168,7 @@ const Position& State::accessPosition() const
     return Position(this->coordinates_.segment(0, 3), Position::Unit::Meter, this->frameSPtr_);
 }
 
-const Velocity& State::accessVelocity() const
+const Velocity State::accessVelocity() const
 {
     if (!this->isDefined())
     {
