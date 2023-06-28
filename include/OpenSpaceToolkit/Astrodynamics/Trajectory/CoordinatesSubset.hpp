@@ -1,3 +1,5 @@
+/// Apache License 2.0
+
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
 
@@ -19,12 +21,6 @@ using ostk::core::types::String;
 class CoordinatesSubset
 {
    public:
-    //     enum class Type
-    //     {
-    //         Position,  ///< Position vector
-    //         Velocity   ///< Velocity vector
-    //     };
-
     /// @brief              Constructor
     ///
     /// @code
