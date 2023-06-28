@@ -21,11 +21,6 @@ CoordinatesSubset::CoordinatesSubset(const String& anId, const Integer& aSize)
     }
 }
 
-bool CoordinatesSubset::isDefined() const
-{
-    return !this->id_.isEmpty() && this->size_.isDefined();
-}
-
 CoordinatesSubset CoordinatesSubset::Undefined()
 {
     return {String::Empty(), Integer::Undefined()};
@@ -33,7 +28,7 @@ CoordinatesSubset CoordinatesSubset::Undefined()
 
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
 {
-    if (!this->isDefined() || aCoordinatesSubset.isDefined())
+    if (!this->isDefined() || !aCoordinatesSubset.isDefined())
     {
         return false;
     }
@@ -44,6 +39,36 @@ bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) 
 bool CoordinatesSubset::operator!=(const CoordinatesSubset& aCoordinatesSubset) const
 {
     return !((*this) == aCoordinatesSubset);
+}
+
+bool CoordinatesSubset::isDefined() const
+{
+    return !this->id_.isEmpty() && this->size_.isDefined();
+}
+
+String CoordinatesSubset::getId() const
+{
+    return id_;
+}
+
+Integer CoordinatesSubset::getSize() const
+{
+    return size_;
+}
+
+CoordinatesSubset CoordinatesSubset::Position()
+{
+    return {"POSITION", 3};
+}
+
+CoordinatesSubset CoordinatesSubset::Velocity()
+{
+    return {"VELOCITY", 3};
+}
+
+CoordinatesSubset CoordinatesSubset::Mass()
+{
+    return {"MASS", 1};
 }
 
 }  // namespace trajectory

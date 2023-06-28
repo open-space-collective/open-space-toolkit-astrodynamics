@@ -35,13 +35,23 @@ class CoordinatesSubset
     /// @param              [in] aSize The coordinate subset size
     CoordinatesSubset(const String& anId, const Integer& aSize);
 
-    bool isDefined() const;
-
     bool operator==(const CoordinatesSubset& aCoordinatesSubset) const;
 
     bool operator!=(const CoordinatesSubset& aCoordinatesSubset) const;
 
+    bool isDefined() const;
+
+    String getId() const;
+
+    Integer getSize() const;
+
     static CoordinatesSubset Undefined();
+
+    static CoordinatesSubset Position();
+
+    static CoordinatesSubset Velocity();
+
+    static CoordinatesSubset Mass();
 
    private:
     String id_;

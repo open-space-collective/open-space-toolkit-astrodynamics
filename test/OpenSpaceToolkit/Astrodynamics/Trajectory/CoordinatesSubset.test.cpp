@@ -5,6 +5,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::types::Integer;
+using ostk::core::types::String;
 
 using ostk::astro::trajectory::CoordinatesSubset;
 
@@ -34,11 +35,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, IsDefined)
     }
 
     {
-        EXPECT_TRUE(CoordinatesSubset("ID", 10).isDefined());
+        EXPECT_FALSE(CoordinatesSubset("", 1).isDefined());
     }
 
     {
-        EXPECT_FALSE(CoordinatesSubset("", 1).isDefined());
+        EXPECT_FALSE(CoordinatesSubset(String::Empty(), 1).isDefined());
     }
 
     {
@@ -93,5 +94,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, NotEqualToOper
 
     {
         EXPECT_TRUE(CoordinatesSubset::Undefined() != CoordinatesSubset::Undefined());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Getters)
+{
+    {
+        CoordinatesSubset subset = CoordinatesSubset("ID", 3);
+        EXPECT_EQ("ID", subset.getId());
+        EXPECT_EQ(3, subset.getSize());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Predefined)
+{
+    {
+        CoordinatesSubset position = CoordinatesSubset::Position();
+        EXPECT_EQ(3, position.getSize());
+    }
+
+    {
+        CoordinatesSubset velocity = CoordinatesSubset::Velocity();
+        EXPECT_EQ(3, velocity.getSize());
+    }
+
+    {
+        CoordinatesSubset mass = CoordinatesSubset::Mass();
+        EXPECT_EQ(1, mass.getSize());
     }
 }
