@@ -250,9 +250,9 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Position:" << (this->accessPosition().isDefined() ? this->accessPosition().toString(12) : "Undefined");
+        << "Position:" << (this->isDefined() ? this->accessPosition().toString(12) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Velocity:" << (this->accessVelocity().isDefined() ? this->accessVelocity().toString(12) : "Undefined");
+        << "Velocity:" << (this->isDefined() ? this->accessVelocity().toString(12) : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
