@@ -58,4 +58,22 @@ class CoordinatesSubset
 }  // namespace astro
 }  // namespace ostk
 
+namespace std
+{
+
+using ostk::core::types::String;
+
+using ostk::astro::trajectory::CoordinatesSubset;
+
+template <>
+struct hash<CoordinatesSubset>
+{
+    size_t operator()(const CoordinatesSubset& aCoordinatesSubset) const
+    {
+        return hash<String>()(aCoordinatesSubset.getId());
+    }
+};
+
+}  // namespace std
+
 #endif
