@@ -55,9 +55,9 @@ class State
 
     const VectorXd& accessCoordinates() const;
 
-    const Position& accessPosition() const;
+    const Position accessPosition() const;
 
-    const Velocity& accessVelocity() const;
+    const Velocity accessVelocity() const;
 
     Instant getInstant() const;
 
