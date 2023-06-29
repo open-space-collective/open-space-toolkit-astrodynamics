@@ -17,15 +17,10 @@ State::State(const Instant& anInstant, const Shared<const Frame>& aFrameSPtr, co
       frameSPtr_(aFrameSPtr),
       coordinates_(aCoordinates)
 {
-    if (aCoordinates.size() != 6)
-    {
-        throw ostk::core::error::runtime::Wrong("Coordinates size");
-    }
 }
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
-<<<<<<< HEAD
 {
     if (!aPosition.isDefined() || !aVelocity.isDefined())
     {
@@ -48,8 +43,6 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant),
       frameSPtr_(aPosition.accessFrame())
-=======
->>>>>>> refactor: update State isDefined implementation
 {
     if (!aPosition.isDefined() || !aVelocity.isDefined())
     {

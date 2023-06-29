@@ -446,14 +446,18 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
 
-        const State state = {instant, position, velocity};
+        const State state = {instant, v, Frame::GCRF()};
 
         EXPECT_EQ(instant, state.accessInstant());
+        EXPECT_EQ(coordinates, state.accessCoordinates());
         EXPECT_EQ(position, state.accessPosition());
         EXPECT_EQ(velocity, state.accessVelocity());
+        EXPECT_EQ(Frame::GCRF(), state.accessFrame());
     }
 
     {
@@ -463,13 +467,14 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
 
-        EXPECT_TRUE(position.accessCoordinates().isApprox(state.accessPosition().accessCoordinates(), 1e-12));
+        EXPECT_TRUE(position.accessCoordinates().isApprox(state.accessPosition().accessCoordinates(), 1e-16));
     }
 
     {
         EXPECT_ANY_THROW(State::Undefined().accessInstant());
         EXPECT_ANY_THROW(State::Undefined().accessPosition());
         EXPECT_ANY_THROW(State::Undefined().accessVelocity());
+        EXPECT_ANY_THROW(State::Undefined().accessFrame());
     }
 }
 
@@ -488,6 +493,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
     {
@@ -503,6 +509,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_TRUE(position.getCoordinates().isApprox(state.getPosition().getCoordinates(), 1e-16));
         EXPECT_EQ(velocity, state.getVelocity());
         EXPECT_TRUE(coordinates.isApprox(state.getCoordinates(), 1e-16));
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
     {
@@ -518,6 +525,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
     {
@@ -525,6 +533,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getPosition());
         EXPECT_ANY_THROW(State::Undefined().getVelocity());
         EXPECT_ANY_THROW(State::Undefined().getCoordinates());
+        EXPECT_ANY_THROW(State::Undefined().getFrame());
     }
 }
 
