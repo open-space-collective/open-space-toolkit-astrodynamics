@@ -17,10 +17,6 @@ State::State(const Instant& anInstant, const VectorXd& aCoordinates, const Share
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr)
 {
-    if (aCoordinates.size() != 6)
-    {
-        throw ostk::core::error::runtime::Wrong("Coordinates size");
-    }
 }
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
@@ -224,7 +220,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 State State::Undefined()
 {
-    return {Instant::Undefined(), VectorXd(6), Frame::Undefined()};
+    return {Instant::Undefined(), VectorXd(0), Frame::Undefined()};
 }
 
 }  // namespace trajectory
