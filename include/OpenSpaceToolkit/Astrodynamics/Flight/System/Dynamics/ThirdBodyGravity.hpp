@@ -85,6 +85,8 @@ class ThirdBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) override;
+
     /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector

@@ -42,6 +42,12 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
+void PositionDerivative::declareCoordinates(CoordinatesBroker& coordinatesBroker)
+{
+    coordinatesBroker.addSubset(CoordinatesSubset::Position());
+    coordinatesBroker.addSubset(CoordinatesSubset::Velocity());
+}
+
 void PositionDerivative::applyContribution(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 ) const

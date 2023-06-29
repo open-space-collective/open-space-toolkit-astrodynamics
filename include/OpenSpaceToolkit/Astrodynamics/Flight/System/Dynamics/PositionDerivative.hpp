@@ -60,6 +60,8 @@ class PositionDerivative : public Dynamics
 
     virtual bool isDefined() const override;
 
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) override;
+
     /// @brief              Apply contribution to the state derivative
     ///
     /// @param              [in] x A state vector

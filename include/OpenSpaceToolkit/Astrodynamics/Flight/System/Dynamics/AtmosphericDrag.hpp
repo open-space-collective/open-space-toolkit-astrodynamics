@@ -23,7 +23,6 @@ namespace dynamics
 using ostk::core::types::Integer;
 using ostk::core::types::String;
 
-
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
 
@@ -101,7 +100,7 @@ class AtmosphericDrag : public Dynamics
 
     SatelliteSystem getSatelliteSystem() const;
 
-    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) const override;
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) override;
 
     /// @brief              Apply contribution to the state derivative
     ///

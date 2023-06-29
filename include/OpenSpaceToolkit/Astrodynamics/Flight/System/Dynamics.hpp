@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -68,7 +69,7 @@ class Dynamics
 
     String getName() const;
 
-    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) const;
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) = 0;
 
     /// @brief              Apply contribution to the state derivative (pure virtual)
     ///

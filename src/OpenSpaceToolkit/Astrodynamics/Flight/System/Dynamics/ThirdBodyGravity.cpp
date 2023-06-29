@@ -79,6 +79,12 @@ Shared<const Celestial> ThirdBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
+void ThirdBodyGravity::declareCoordinates(CoordinatesBroker& coordinatesBroker)
+{
+    coordinatesBroker.addSubset(CoordinatesSubset::Position());
+    coordinatesBroker.addSubset(CoordinatesSubset::Velocity());
+}
+
 void ThirdBodyGravity::applyContribution(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 ) const
