@@ -22,27 +22,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v(6);
         v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-        EXPECT_NO_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_NO_THROW(State state(instant, v, Frame::GCRF()));
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_ANY_THROW(State state(instant, v, Frame::GCRF()));
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v(5);
         v << 1.0, 2.0, 3.0, 4.0, 5.0;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_ANY_THROW(State state(instant, v, Frame::GCRF()));
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v(7);
         v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_ANY_THROW(State state(instant, v, Frame::GCRF()));
     }
 
     {
@@ -463,7 +463,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
 
-        EXPECT_EQ(position, state.accessPosition());
+        EXPECT_TRUE(position.accessCoordinates().isApprox(state.accessPosition().accessCoordinates(), 1e-12));
     }
 
     {
@@ -500,9 +500,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
 
         EXPECT_EQ(instant, state.getInstant());
-        EXPECT_EQ(position, state.getPosition());
+        EXPECT_TRUE(position.getCoordinates().isApprox(state.getPosition().getCoordinates(), 1e-16));
         EXPECT_EQ(velocity, state.getVelocity());
-        EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_TRUE(coordinates.isApprox(state.getCoordinates(), 1e-16));
     }
 
     {

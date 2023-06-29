@@ -12,10 +12,10 @@ namespace astro
 namespace trajectory
 {
 
-State::State(const Instant& anInstant, const Shared<const Frame>& aFrameSPtr, const VectorXd& aCoordinates)
+State::State(const Instant& anInstant, const VectorXd& aCoordinates, const Shared<const Frame>& aFrameSPtr)
     : instant_(anInstant),
-      frameSPtr_(aFrameSPtr),
-      coordinates_(aCoordinates)
+      coordinates_(aCoordinates),
+      frameSPtr_(aFrameSPtr)
 {
     if (aCoordinates.size() != 6)
     {
@@ -28,7 +28,7 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 {
     if (!aPosition.isDefined() || !aVelocity.isDefined())
     {
-        throw ostk::core::error::runtime::Wrong("Argument undefined");
+        throw ostk::core::error::runtime::Undefined("Position/Velocity");
     }
 
     if (aPosition.accessFrame() != aVelocity.accessFrame())
@@ -77,7 +77,7 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->frameSPtr_, this->coordinates_ + aState.coordinates_};
+    return {this->instant_, this->coordinates_ + aState.coordinates_, this->frameSPtr_};
 }
 
 State State::operator-(const State& aState) const
@@ -97,7 +97,7 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->frameSPtr_, this->coordinates_ - aState.coordinates_};
+    return {this->instant_, this->coordinates_ - aState.coordinates_, this->frameSPtr_};
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
@@ -133,24 +133,24 @@ const Shared<const Frame> State::accessFrame() const
     return this->frameSPtr_;
 }
 
-const Position& State::accessPosition() const
+const Position State::accessPosition() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Position(this->coordinates_.segment(0, 3), Position::Unit::Meter, this->frameSPtr_);
+    return Position::Meters(this->coordinates_.segment(0, 3), this->frameSPtr_);
 }
 
-const Velocity& State::accessVelocity() const
+const Velocity State::accessVelocity() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Velocity(this->coordinates_.segment(3, 3), Velocity::Unit::MeterPerSecond, this->frameSPtr_);
+    return Velocity::MetersPerSecond(this->coordinates_.segment(3, 3), this->frameSPtr_);
 }
 
 const VectorXd& State::accessCoordinates() const
@@ -201,7 +201,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
     }
 
     const Position position = this->accessPosition().inFrame(aFrameSPtr, this->instant_);
-    const Velocity velocity = this->accessVelocity().inFrame(this->accessPosition(), aFrameSPtr, this->instant_);
+    const Velocity velocity = this->accessVelocity().inFrame(position, aFrameSPtr, this->instant_);
 
     return {this->instant_, position, velocity};
 }
@@ -215,16 +215,16 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Position:" << (this->accessPosition().isDefined() ? this->accessPosition().toString(12) : "Undefined");
+        << "Position:" << (this->isDefined() ? this->accessPosition().toString(12) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Velocity:" << (this->accessVelocity().isDefined() ? this->accessVelocity().toString(12) : "Undefined");
+        << "Velocity:" << (this->isDefined() ? this->accessVelocity().toString(12) : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 State State::Undefined()
 {
-    return {Instant::Undefined(), Frame::Undefined(), VectorXd(6)};
+    return {Instant::Undefined(), VectorXd(6), Frame::Undefined()};
 }
 
 }  // namespace trajectory
