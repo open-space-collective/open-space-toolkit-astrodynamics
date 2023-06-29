@@ -189,6 +189,7 @@ class Propagator
     );
 
    private:
+    CoordinatesBroker coordinatesBroker_ = CoordinatesBroker();
     Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
 };

@@ -24,15 +24,49 @@ using ostk::astro::trajectory::CoordinatesSubset;
 class CoordinatesBroker
 {
    public:
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     CoordinatesBroker coordinatesSubset() ;
+    /// @endcode
+
     CoordinatesBroker();
+
+    /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
+    /// that it occupies if it was already added) in the state coordinates
+    ///
+    /// @param              [in] aCoordinatesSubset a coordinate subset to be considered
+    ///
+    /// @return             The starting index of the subset in the state coordinates
 
     Integer addSubset(const CoordinatesSubset& aCoordinatesSubset);
 
+    /// @brief              Checks if a coordinates subset has already been considered
+    ///
+    /// @param              [in] aCoordinatesSubset the coordinates subset to be checked
+    ///
+    /// @return             True if the coordinates subset is already considered
+
     bool hasSubset(const CoordinatesSubset& aCoordinatesSubset) const;
+
+    /// @brief              Returns the starting index of a coordinates subset in the state coordinates
+    ///
+    /// @param              [in] aCoordinatesSubset the coordinates subset
+    ///
+    /// @return             The starting index of the subset int the state coordinates, throwing an exception if the
+    /// coordinates subset is not present
 
     Integer getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
 
+    /// @brief              Returns the total number of coordinates
+    ///
+    /// @return             The total number of coordinates
+
     Integer getNumberOfCoordinates() const;
+
+    /// @brief              Returns the total number of coordinate subsets
+    ///
+    /// @return             The total number of coordinate subsets
 
     Integer getNumberOfSubsets() const;
 

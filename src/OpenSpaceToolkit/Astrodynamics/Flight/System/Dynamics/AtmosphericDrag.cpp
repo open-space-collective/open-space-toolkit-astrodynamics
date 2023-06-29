@@ -97,8 +97,8 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 
 void AtmosphericDrag::declareCoordinates(CoordinatesBroker& coordinatesBroker)
 {
-    coordinatesBroker.addSubset(CoordinatesSubset::Position());
-    coordinatesBroker.addSubset(CoordinatesSubset::Velocity());
+    this->positionIndex_ = coordinatesBroker.addSubset(CoordinatesSubset::Position());
+    this->velocityIndex_ = coordinatesBroker.addSubset(CoordinatesSubset::Velocity());
 }
 
 void AtmosphericDrag::applyContribution(
@@ -107,17 +107,19 @@ void AtmosphericDrag::applyContribution(
 {
     (void)anInstant;
 
+    Vector3d positionCoordinates = Vector3d(x[positionIndex_], x[positionIndex_ + 1], x[positionIndex_ + 2]);
+    Vector3d velocityCoordinates = Vector3d(x[velocityIndex_], x[velocityIndex_ + 1], x[velocityIndex_ + 2]);
+
     // Get atmospheric density
     const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
+        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, gcrfSPtr_), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
     const Vector3d earthAngularVelocity =
         gcrfSPtr_->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
-    const Vector3d relativeVelocity =
-        Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
+    const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
     const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
@@ -128,9 +130,9 @@ void AtmosphericDrag::applyContribution(
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
     // Integrate velocity states
-    dxdt[3] += dragAccelerationSI[0];
-    dxdt[4] += dragAccelerationSI[1];
-    dxdt[5] += dragAccelerationSI[2];
+    dxdt[velocityIndex_] += dragAccelerationSI[0];
+    dxdt[velocityIndex_ + 1] += dragAccelerationSI[1];
+    dxdt[velocityIndex_ + 2] += dragAccelerationSI[2];
 }
 
 void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const

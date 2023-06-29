@@ -29,6 +29,7 @@ class CoordinatesSubset
     ///
     /// @param              [in] anId The coordinate subset unique identifier
     /// @param              [in] aSize The coordinate subset size
+
     CoordinatesSubset(const String& anId, const Integer& aSize);
 
     bool operator==(const CoordinatesSubset& aCoordinatesSubset) const;

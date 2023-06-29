@@ -66,6 +66,8 @@ using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::CoordinatesSubset;
 
 using namespace boost::numeric::odeint;
 
@@ -230,7 +232,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ap
 {
     Dynamics::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    CoordinatesBroker broker = CoordinatesBroker();
+    broker.addSubset(CoordinatesSubset::Position());
+    broker.addSubset(CoordinatesSubset::Velocity());
+    atmosphericDrag.declareCoordinates(broker);
+
     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
+
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
@@ -245,6 +253,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     // Setup dynamics
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
+
+    // Setup coordinates
+    CoordinatesBroker broker = CoordinatesBroker();
+    broker.addSubset(CoordinatesSubset::Position());
+    broker.addSubset(CoordinatesSubset::Velocity());
+
+    dynamics[0]->declareCoordinates(broker);
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -298,6 +313,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
         std::make_shared<CentralBodyGravity>(earthSPtr),
         std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
     };
+
+    // Setup coordinates
+    CoordinatesBroker broker = CoordinatesBroker();
+    broker.addSubset(CoordinatesSubset::Position());
+    broker.addSubset(CoordinatesSubset::Velocity());
+
+    for (Shared<Dynamics> aDynamics : dynamics)
+    {
+        aDynamics->declareCoordinates(broker);
+    }
 
     // Setup initial conditions
     const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);

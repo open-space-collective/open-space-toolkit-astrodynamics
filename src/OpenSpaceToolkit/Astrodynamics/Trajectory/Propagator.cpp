@@ -34,6 +34,10 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
     : dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
 {
+    for (Shared<Dynamics> aDynamics : this->dynamics_)
+    {
+        aDynamics->declareCoordinates(coordinatesBroker_);
+    }
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const
@@ -80,12 +84,14 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
+    aDynamics->declareCoordinates(coordinatesBroker_);
     this->dynamics_.add(aDynamics);
 }
 
 void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
+    this->coordinatesBroker_ = CoordinatesBroker();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
