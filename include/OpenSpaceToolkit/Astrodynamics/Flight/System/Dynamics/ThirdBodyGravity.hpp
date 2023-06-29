@@ -89,7 +89,7 @@ class ThirdBodyGravity : public Dynamics
     ///
     /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes
 
-    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) = 0;
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) override;
 
     /// @brief              Apply contribution to the state derivative
     ///
