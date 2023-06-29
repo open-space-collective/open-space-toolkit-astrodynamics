@@ -95,6 +95,11 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
+void AtmosphericDrag::declareCoordinates(CoordinatesBroker& coordinatesBroker) const
+{
+    coordinatesBroker.addSubset(CoordinatesSubset::Position());
+}
+
 void AtmosphericDrag::applyContribution(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 ) const

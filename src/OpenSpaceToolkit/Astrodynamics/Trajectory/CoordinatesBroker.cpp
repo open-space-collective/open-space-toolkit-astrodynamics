@@ -16,7 +16,7 @@ CoordinatesBroker::CoordinatesBroker()
 {
 }
 
-Integer CoordinatesBroker::addSubset(CoordinatesSubset& aCoordinatesSubset)
+Integer CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
 {
     auto search = this->map_.find(aCoordinatesSubset);
 
@@ -32,14 +32,14 @@ Integer CoordinatesBroker::addSubset(CoordinatesSubset& aCoordinatesSubset)
     return preAdditionNextIndex;
 }
 
-bool CoordinatesBroker::hasSubset(CoordinatesSubset& aCoordinatesSubset) const
+bool CoordinatesBroker::hasSubset(const CoordinatesSubset& aCoordinatesSubset) const
 {
     auto search = this->map_.find(aCoordinatesSubset);
 
     return search != this->map_.end();
 }
 
-Integer CoordinatesBroker::getSubsetIndex(CoordinatesSubset& aCoordinatesSubset) const
+Integer CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const
 {
     auto search = this->map_.find(aCoordinatesSubset);
 

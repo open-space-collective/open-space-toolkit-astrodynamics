@@ -11,6 +11,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -26,6 +28,9 @@ using ostk::core::ctnr::Array;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
+
+using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::CoordinatesSubset;
 
 /// @brief                      Define a dynamical system subject to equations of motion
 
@@ -62,6 +67,8 @@ class Dynamics
     /// @return             Name of Dynamics
 
     String getName() const;
+
+    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) const;
 
     /// @brief              Apply contribution to the state derivative (pure virtual)
     ///

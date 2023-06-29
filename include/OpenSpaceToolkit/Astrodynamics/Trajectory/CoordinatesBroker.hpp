@@ -26,11 +26,11 @@ class CoordinatesBroker
    public:
     CoordinatesBroker();
 
-    Integer addSubset(CoordinatesSubset& aCoordinatesSubset);
+    Integer addSubset(const CoordinatesSubset& aCoordinatesSubset);
 
-    bool hasSubset(CoordinatesSubset& aCoordinatesSubset) const;
+    bool hasSubset(const CoordinatesSubset& aCoordinatesSubset) const;
 
-    Integer getSubsetIndex(CoordinatesSubset& aCoordinatesSubset) const;
+    Integer getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
 
     Integer getNumberOfCoordinates() const;
 
