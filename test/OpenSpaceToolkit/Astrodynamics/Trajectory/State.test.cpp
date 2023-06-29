@@ -431,7 +431,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
 
-        const State state = {instant, v, Frame::GCRF()};
+        const State state = {instant, coordinates, Frame::GCRF()};
 
         EXPECT_EQ(instant, state.accessInstant());
         EXPECT_EQ(coordinates, state.accessCoordinates());
