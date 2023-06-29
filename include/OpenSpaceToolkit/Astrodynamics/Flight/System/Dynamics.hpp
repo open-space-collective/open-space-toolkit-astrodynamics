@@ -73,7 +73,7 @@ class Dynamics
     ///
     /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes
 
-    virtual void declareCoordinates(CoordinatesBroker& coordinatesBroker) = 0;
+    virtual void declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker) = 0;
 
     /// @brief              Apply contribution to the state derivative (pure virtual)
     ///

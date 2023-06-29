@@ -91,7 +91,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
 void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
-    this->coordinatesBroker_ = CoordinatesBroker();
+    this->coordinatesBroker_ = std::make_shared<CoordinatesBroker>();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const

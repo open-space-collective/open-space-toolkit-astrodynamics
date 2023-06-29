@@ -232,9 +232,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ap
 {
     Dynamics::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
-    CoordinatesBroker broker = CoordinatesBroker();
-    broker.addSubset(CoordinatesSubset::Position());
-    broker.addSubset(CoordinatesSubset::Velocity());
+    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    broker->addSubset(CoordinatesSubset::Position());
+    broker->addSubset(CoordinatesSubset::Velocity());
     atmosphericDrag.declareCoordinates(broker);
 
     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
@@ -255,9 +255,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
         std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
 
     // Setup coordinates
-    CoordinatesBroker broker = CoordinatesBroker();
-    broker.addSubset(CoordinatesSubset::Position());
-    broker.addSubset(CoordinatesSubset::Velocity());
+    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    broker->addSubset(CoordinatesSubset::Position());
+    broker->addSubset(CoordinatesSubset::Velocity());
 
     dynamics[0]->declareCoordinates(broker);
 
@@ -315,9 +315,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     };
 
     // Setup coordinates
-    CoordinatesBroker broker = CoordinatesBroker();
-    broker.addSubset(CoordinatesSubset::Position());
-    broker.addSubset(CoordinatesSubset::Velocity());
+    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    broker->addSubset(CoordinatesSubset::Position());
+    broker->addSubset(CoordinatesSubset::Velocity());
 
     for (Shared<Dynamics> aDynamics : dynamics)
     {

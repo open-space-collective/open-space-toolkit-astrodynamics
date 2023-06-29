@@ -42,10 +42,10 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
-void PositionDerivative::declareCoordinates(CoordinatesBroker& coordinatesBroker)
+void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    coordinatesBroker.addSubset(CoordinatesSubset::Position());
-    coordinatesBroker.addSubset(CoordinatesSubset::Velocity());
+    coordinatesBroker->addSubset(CoordinatesSubset::Position());
+    coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
 }
 
 void PositionDerivative::applyContribution(
