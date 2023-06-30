@@ -4,6 +4,8 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::types::Shared;
+
 using ostk::math::obj::VectorXd;
 
 using ostk::physics::coord::Frame;
@@ -14,15 +16,21 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::units::Length;
 
+using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::CoordinatesSubset;
 using ostk::astro::trajectory::State;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 {
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd v(6);
-        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-        EXPECT_NO_THROW(State state(instant, v, Frame::GCRF()));
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
+            CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+        );
+
+        EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), broker));
     }
 
     {
@@ -430,8 +438,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+        const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
+            CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+        );
 
-        const State state = {instant, coordinates, Frame::GCRF()};
+        const State state = {instant, coordinates, Frame::GCRF(), broker};
 
         EXPECT_EQ(instant, state.accessInstant());
         EXPECT_EQ(coordinates, state.accessCoordinates());

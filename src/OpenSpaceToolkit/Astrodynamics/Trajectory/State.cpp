@@ -12,10 +12,16 @@ namespace astro
 namespace trajectory
 {
 
-State::State(const Instant& anInstant, const VectorXd& aCoordinates, const Shared<const Frame>& aFrameSPtr)
+State::State(
+    const Instant& anInstant,
+    const VectorXd& aCoordinates,
+    const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker> aCoordinatesBroker
+)
     : instant_(anInstant),
       coordinates_(aCoordinates),
-      frameSPtr_(aFrameSPtr)
+      frameSPtr_(aFrameSPtr),
+      broker_(aCoordinatesBroker)
 {
 }
 
@@ -36,8 +42,11 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    this->frameSPtr_ = aPosition.accessFrame();
     this->coordinates_ = coordinates;
+    this->frameSPtr_ = aPosition.accessFrame();
+    this->broker_ = std::make_shared<const CoordinatesBroker>(
+        CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+    );
 }
 
 bool State::operator==(const State& aState) const
@@ -73,7 +82,7 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->coordinates_ + aState.coordinates_, this->frameSPtr_};
+    return {this->instant_, this->coordinates_ + aState.coordinates_, this->frameSPtr_, this->broker_};
 }
 
 State State::operator-(const State& aState) const
@@ -93,7 +102,7 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->coordinates_ - aState.coordinates_, this->frameSPtr_};
+    return {this->instant_, this->coordinates_ - aState.coordinates_, this->frameSPtr_, this->broker_};
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
@@ -105,8 +114,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
 
 bool State::isDefined() const
 {
-    return this->instant_.isDefined() && (frameSPtr_ != nullptr) && frameSPtr_->isDefined() &&
-           this->coordinates_.isDefined();
+    return this->instant_.isDefined() && this->coordinates_.isDefined() && (this->frameSPtr_ != nullptr) &&
+           this->frameSPtr_->isDefined() && (this->broker_ != nullptr);
 }
 
 const Instant& State::accessInstant() const
@@ -136,7 +145,11 @@ const Position State::accessPosition() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Position::Meters(this->coordinates_.segment(0, 3), this->frameSPtr_);
+    return Position::Meters(
+        // TBI: optimize
+        this->coordinates_.segment(this->broker_->getSubsetIndex(CoordinatesSubset::Position()), 3),
+        this->frameSPtr_
+    );
 }
 
 const Velocity State::accessVelocity() const
@@ -146,7 +159,11 @@ const Velocity State::accessVelocity() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Velocity::MetersPerSecond(this->coordinates_.segment(3, 3), this->frameSPtr_);
+    return Velocity::MetersPerSecond(
+        // TBI: optimize
+        this->coordinates_.segment(this->broker_->getSubsetIndex(CoordinatesSubset::Velocity()), 3),
+        this->frameSPtr_
+    );
 }
 
 const VectorXd& State::accessCoordinates() const
@@ -220,7 +237,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 State State::Undefined()
 {
-    return {Instant::Undefined(), VectorXd(0), Frame::Undefined()};
+    return {Instant::Undefined(), VectorXd(0), Frame::Undefined(), nullptr};
 }
 
 }  // namespace trajectory

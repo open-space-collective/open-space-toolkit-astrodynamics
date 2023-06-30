@@ -12,6 +12,9 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -28,12 +31,20 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
+using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::CoordinatesSubset;
+
 /// @brief                      Trajectory state
 
 class State
 {
    public:
-    State(const Instant& anInstant, const VectorXd& aCoordinates, const Shared<const Frame>& aFrameSPtr);
+    State(
+        const Instant& anInstant,
+        const VectorXd& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker> aCoordinatesBroker
+    );
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
@@ -77,8 +88,9 @@ class State
 
    private:
     Instant instant_;
-    Shared<const Frame> frameSPtr_;
     VectorXd coordinates_;
+    Shared<const Frame> frameSPtr_;
+    Shared<const CoordinatesBroker> broker_;
 };
 
 }  // namespace trajectory
