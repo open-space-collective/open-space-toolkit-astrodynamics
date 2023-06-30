@@ -13,7 +13,21 @@ using ostk::astro::trajectory::CoordinatesSubset;
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Constructor)
 {
     {
-        EXPECT_NO_THROW(CoordinatesBroker());
+        CoordinatesBroker broker = CoordinatesBroker();
+
+        EXPECT_EQ(0, broker.getNumberOfCoordinates());
+        EXPECT_EQ(0, broker.getNumberOfSubsets());
+    }
+
+    {
+        CoordinatesSubset subset1 = CoordinatesSubset("S1", 1);
+        CoordinatesSubset subset2 = CoordinatesSubset("S2", 2);
+        CoordinatesBroker broker = CoordinatesBroker({subset1, subset2});
+
+        EXPECT_EQ(3, broker.getNumberOfCoordinates());
+        EXPECT_EQ(2, broker.getNumberOfSubsets());
+        EXPECT_TRUE(broker.hasSubset(subset1));
+        EXPECT_TRUE(broker.hasSubset(subset2));
     }
 }
 

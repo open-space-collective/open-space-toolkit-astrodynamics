@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -14,7 +15,7 @@ namespace astro
 {
 namespace trajectory
 {
-
+using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 
 using ostk::astro::trajectory::CoordinatesSubset;
@@ -32,10 +33,16 @@ class CoordinatesBroker
 
     CoordinatesBroker();
 
+    /// @brief              Constructor
+    ///
+    /// @param              [in] aCoordinatesSubsetArray A coordinates subset array
+
+    CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinatesSubsetArray);
+
     /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
     /// that it occupies if it was already added) in the state coordinates
     ///
-    /// @param              [in] aCoordinatesSubset a coordinate subset to be considered
+    /// @param              [in] aCoordinatesSubset a coordinates subset to be considered
     ///
     /// @return             The starting index of the subset in the state coordinates
 

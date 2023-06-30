@@ -10,10 +10,21 @@ namespace astro
 {
 namespace trajectory
 {
+
 CoordinatesBroker::CoordinatesBroker()
     : nextIndex_(0),
       map_({})
 {
+}
+
+CoordinatesBroker::CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinatesSubsetArray)
+    : nextIndex_(0),
+      map_({})
+{
+    for (CoordinatesSubset coordinatesSubset : aCoordinatesSubsetArray)
+    {
+        this->addSubset(coordinatesSubset);
+    }
 }
 
 Integer CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
