@@ -44,8 +44,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
 
 void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    coordinatesBroker->addSubset(CoordinatesSubset::Position());
-    coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Position());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
 }
 
 void PositionDerivative::applyContribution(
@@ -55,9 +55,9 @@ void PositionDerivative::applyContribution(
     (void)anInstant;
 
     // Integrate position states
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
+    dxdt[positionIndex_] += x[velocityIndex_];
+    dxdt[positionIndex_ + 1] += x[velocityIndex_ + 1];
+    dxdt[positionIndex_ + 2] += x[velocityIndex_ + 2];
 }
 
 void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorator) const

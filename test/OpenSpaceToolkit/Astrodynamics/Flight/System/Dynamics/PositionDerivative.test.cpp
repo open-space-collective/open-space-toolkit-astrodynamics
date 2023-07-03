@@ -1,14 +1,20 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
 
 #include <Global.test.hpp>
+
+using ostk::core::types::Shared;
 
 using ostk::physics::time::Instant;
 
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::CoordinatesBroker;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative : public ::testing::Test
 {
@@ -67,7 +73,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, ApplyContribution)
 {
     Dynamics::StateVector dxdt(6, 0.0);
-    positionDerivative_.applyContribution(startStateVector_, dxdt, startInstant_);
+    PositionDerivative positionDerivative = PositionDerivative();
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    positionDerivative.declareCoordinates(broker);
+
+    positionDerivative.applyContribution(startStateVector_, dxdt, startInstant_);
+
     EXPECT_GT(1e-15, startStateVector_[3] - dxdt[0]);
     EXPECT_GT(1e-15, startStateVector_[4] - dxdt[1]);
     EXPECT_GT(1e-15, startStateVector_[5] - dxdt[2]);

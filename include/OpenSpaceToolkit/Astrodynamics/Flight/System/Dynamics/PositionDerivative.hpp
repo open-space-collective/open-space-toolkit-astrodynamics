@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative__
 
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -19,6 +21,8 @@ namespace system
 {
 namespace dynamics
 {
+
+using ostk::core::types::Integer;
 
 using ostk::astro::flight::system::Dynamics;
 
@@ -82,6 +86,10 @@ class PositionDerivative : public Dynamics
     /// @param              [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+
+   private:
+    Integer positionIndex_ = Integer::Undefined();
+    Integer velocityIndex_ = Integer::Undefined();
 };
 
 }  // namespace dynamics
