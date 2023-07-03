@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
 
-#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -22,7 +22,7 @@ namespace system
 namespace dynamics
 {
 
-using ostk::core::types::Index;
+using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::physics::env::obj::Celestial;
@@ -128,8 +128,8 @@ class AtmosphericDrag : public Dynamics
    private:
     Shared<const Celestial> celestialObjectSPtr_;
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-    Index positionIndex_ = -1;
-    Index velocityIndex_ = -1;
+    Integer positionIndex_ = Integer::Undefined();
+    Integer velocityIndex_ = Integer::Undefined();
 };
 
 }  // namespace dynamics
