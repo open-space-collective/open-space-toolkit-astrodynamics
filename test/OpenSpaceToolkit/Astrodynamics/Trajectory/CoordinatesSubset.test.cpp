@@ -4,7 +4,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::astro::trajectory::CoordinatesSubset;
@@ -20,11 +19,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Constructor)
     }
 
     {
-        EXPECT_ANY_THROW(CoordinatesSubset("ID", 0));
-    }
-
-    {
-        EXPECT_ANY_THROW(CoordinatesSubset("ID", -1));
+        EXPECT_NO_THROW(CoordinatesSubset("ID", -1));
     }
 }
 
@@ -43,7 +38,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, IsDefined)
     }
 
     {
-        EXPECT_FALSE(CoordinatesSubset("ID", Integer::Undefined()).isDefined());
+        EXPECT_FALSE(CoordinatesSubset("ID", 0).isDefined());
     }
 
     {

@@ -11,19 +11,15 @@ namespace astro
 namespace trajectory
 {
 
-CoordinatesSubset::CoordinatesSubset(const String& anId, const Integer& aSize)
+CoordinatesSubset::CoordinatesSubset(const String& anId, const Size& aSize)
     : id_(anId),
       size_(aSize)
 {
-    if (aSize <= 0)
-    {
-        throw ostk::core::error::runtime::Wrong("Size");
-    }
 }
 
 CoordinatesSubset CoordinatesSubset::Undefined()
 {
-    return {String::Empty(), Integer::Undefined()};
+    return {String::Empty(), 0};
 }
 
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
@@ -43,7 +39,7 @@ bool CoordinatesSubset::operator!=(const CoordinatesSubset& aCoordinatesSubset) 
 
 bool CoordinatesSubset::isDefined() const
 {
-    return !this->id_.isEmpty() && this->size_.isDefined();
+    return !this->id_.isEmpty() && (this->size_ != 0);
 }
 
 String CoordinatesSubset::getId() const
@@ -51,7 +47,7 @@ String CoordinatesSubset::getId() const
     return id_;
 }
 
-Integer CoordinatesSubset::getSize() const
+Size CoordinatesSubset::getSize() const
 {
     return size_;
 }
