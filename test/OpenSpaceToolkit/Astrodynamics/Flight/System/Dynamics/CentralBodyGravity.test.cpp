@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
 
 #include <Global.test.hpp>
 
@@ -42,6 +43,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::CoordinatesBroker;
 
 using namespace boost::numeric::odeint;
 
@@ -190,6 +192,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 {
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
+    // Setup coordinates
+    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    centralBodyGravity.declareCoordinates(broker);
+
     Dynamics::StateVector dxdt(6, 0.0);
     centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
@@ -210,6 +216,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
         std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth)),
         std::make_shared<PositionDerivative>(PositionDerivative()),
     };
+
+    // Setup coordinates
+    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    for (Shared<Dynamics> dynamic : dynamics)
+    {
+        dynamic->declareCoordinates(broker);
+    }
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;

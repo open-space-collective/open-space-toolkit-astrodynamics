@@ -75,24 +75,26 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
 
 void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    coordinatesBroker->addSubset(CoordinatesSubset::Position());
-    coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Position());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
 }
 
 void CentralBodyGravity::applyContribution(
     const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
 ) const
 {
+    Vector3d positionCoordinates = Vector3d(x[positionIndex_], x[positionIndex_ + 1], x[positionIndex_ + 2]);
+
     // Obtain gravitational acceleration from current object
     const Vector3d gravitationalAccelerationSI =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, gcrfSPtr_), anInstant)
             .inFrame(gcrfSPtr_, anInstant)
             .getValue();
 
     // Integrate velocity states
-    dxdt[3] += gravitationalAccelerationSI[0];
-    dxdt[4] += gravitationalAccelerationSI[1];
-    dxdt[5] += gravitationalAccelerationSI[2];
+    dxdt[velocityIndex_] += gravitationalAccelerationSI[0];
+    dxdt[velocityIndex_ + 1] += gravitationalAccelerationSI[1];
+    dxdt[velocityIndex_ + 2] += gravitationalAccelerationSI[2];
 }
 
 void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
