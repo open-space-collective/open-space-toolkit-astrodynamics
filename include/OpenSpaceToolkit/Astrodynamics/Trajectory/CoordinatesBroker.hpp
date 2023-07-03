@@ -80,8 +80,8 @@ class CoordinatesBroker
     Size getNumberOfSubsets() const;
 
    private:
-    Index nextIndex_;
-    std::unordered_map<CoordinatesSubset, Index> map_;
+    Index nextCoordinatesSubsetIndex_;
+    std::unordered_map<CoordinatesSubset, Index> coordinatesSubsetIndexMap_;
 };
 
 }  // namespace trajectory

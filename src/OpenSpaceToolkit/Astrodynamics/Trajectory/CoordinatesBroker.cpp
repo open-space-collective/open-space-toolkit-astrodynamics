@@ -12,14 +12,14 @@ namespace trajectory
 {
 
 CoordinatesBroker::CoordinatesBroker()
-    : nextIndex_(0),
-      map_({})
+    : nextCoordinatesSubsetIndex_(0),
+      coordinatesSubsetIndexMap_({})
 {
 }
 
 CoordinatesBroker::CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinatesSubsetArray)
-    : nextIndex_(0),
-      map_({})
+    : nextCoordinatesSubsetIndex_(0),
+      coordinatesSubsetIndexMap_({})
 {
     for (CoordinatesSubset coordinatesSubset : aCoordinatesSubsetArray)
     {
@@ -29,32 +29,32 @@ CoordinatesBroker::CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinate
 
 Index CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
 {
-    auto search = this->map_.find(aCoordinatesSubset);
+    auto search = this->coordinatesSubsetIndexMap_.find(aCoordinatesSubset);
 
-    if (search != this->map_.end())
+    if (search != this->coordinatesSubsetIndexMap_.end())
     {
         return search->second;
     }
 
-    Index preAdditionNextIndex = this->nextIndex_;
-    this->map_.insert({aCoordinatesSubset, this->nextIndex_});
-    this->nextIndex_ += aCoordinatesSubset.getSize();
+    Index preAdditionNextCoordinatesSubsetIndex = this->nextCoordinatesSubsetIndex_;
+    this->coordinatesSubsetIndexMap_.insert({aCoordinatesSubset, this->nextCoordinatesSubsetIndex_});
+    this->nextCoordinatesSubsetIndex_ += aCoordinatesSubset.getSize();
 
-    return preAdditionNextIndex;
+    return preAdditionNextCoordinatesSubsetIndex;
 }
 
 bool CoordinatesBroker::hasSubset(const CoordinatesSubset& aCoordinatesSubset) const
 {
-    auto search = this->map_.find(aCoordinatesSubset);
+    auto search = this->coordinatesSubsetIndexMap_.find(aCoordinatesSubset);
 
-    return search != this->map_.end();
+    return search != this->coordinatesSubsetIndexMap_.end();
 }
 
 Index CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const
 {
-    auto search = this->map_.find(aCoordinatesSubset);
+    auto search = this->coordinatesSubsetIndexMap_.find(aCoordinatesSubset);
 
-    if (search == this->map_.end())
+    if (search == this->coordinatesSubsetIndexMap_.end())
     {
         throw ostk::core::error::runtime::Wrong("Coordinates subset not found");
     }
@@ -64,12 +64,12 @@ Index CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesSub
 
 Size CoordinatesBroker::getNumberOfCoordinates() const
 {
-    return this->nextIndex_;
+    return this->nextCoordinatesSubsetIndex_;
 }
 
 Size CoordinatesBroker::getNumberOfSubsets() const
 {
-    return (size_t)this->map_.size();
+    return (size_t)this->coordinatesSubsetIndexMap_.size();
 }
 
 }  // namespace trajectory
