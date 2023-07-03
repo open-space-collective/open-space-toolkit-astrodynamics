@@ -46,6 +46,13 @@ class State
         const Shared<const CoordinatesBroker> aCoordinatesBroker
     );
 
+    State(
+        const Instant& anInstant,
+        const std::vector<double>& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker> aCoordinatesBroker
+    );
+
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
     bool operator==(const State& aState) const;

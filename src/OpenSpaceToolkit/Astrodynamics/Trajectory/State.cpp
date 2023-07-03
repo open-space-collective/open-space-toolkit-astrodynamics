@@ -25,6 +25,19 @@ State::State(
 {
 }
 
+State::State(
+    const Instant& anInstant,
+    const std::vector<double>& aCoordinates,
+    const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker> aCoordinatesBroker
+)
+    : instant_(anInstant),
+      coordinates_(Eigen::VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size()))),
+      frameSPtr_(aFrameSPtr),
+      broker_(aCoordinatesBroker)
+{
+}
+
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
 {

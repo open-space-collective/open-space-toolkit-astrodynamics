@@ -36,7 +36,7 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
 {
     for (Shared<Dynamics> aDynamics : this->dynamics_)
     {
-        aDynamics->declareCoordinates(coordinatesBroker_);
+        aDynamics->declareCoordinates(coordinatesBrokerSPtr_);
     }
 }
 
@@ -84,14 +84,14 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    aDynamics->declareCoordinates(coordinatesBroker_);
+    aDynamics->declareCoordinates(coordinatesBrokerSPtr_);
     this->dynamics_.add(aDynamics);
 }
 
 void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
-    this->coordinatesBroker_ = std::make_shared<CoordinatesBroker>();
+    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -112,10 +112,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
-    return {
-        anInstant,
-        Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
-        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr)};
+    return {anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_};
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -196,10 +193,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     for (const Dynamics::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
-        State propagatedState = {
-            anInstantArray[k],
-            Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
+        State propagatedState = {anInstantArray[k], stateVector, gcrfSPtr, coordinatesBrokerSPtr_};
 
         propagatedStates.add(propagatedState);
 

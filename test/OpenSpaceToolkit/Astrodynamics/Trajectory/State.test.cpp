@@ -33,6 +33,16 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), broker));
     }
 
+    // {
+    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    //     std::vector<double> coordinates = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    //     const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
+    //         CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+    //     );
+
+    //     EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), broker));
+    // }
+
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -451,6 +461,24 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         EXPECT_EQ(Frame::GCRF(), state.accessFrame());
     }
 
+    // {
+    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    //     std::vector<double> coordinates = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+    //     const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
+    //     const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
+    //     const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
+    //         CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+    //     );
+
+    //     const State state = {instant, coordinates, Frame::GCRF(), broker};
+
+    //     EXPECT_EQ(instant, state.accessInstant());
+    //     EXPECT_EQ(coordinates, state.accessCoordinates());
+    //     EXPECT_EQ(position, state.accessPosition());
+    //     EXPECT_EQ(velocity, state.accessVelocity());
+    //     EXPECT_EQ(Frame::GCRF(), state.accessFrame());
+    // }
+
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
@@ -486,6 +514,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(coordinates, state.getCoordinates());
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
+
+    // {
+    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    //     const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+    //     const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+    //     std::vector<double> coordinates = {1.2, 3.4, 5.6, 7.8, 9.0, 1.2};
+
+    //     const State state = {instant, position, velocity};
+
+    //     EXPECT_EQ(instant, state.getInstant());
+    //     EXPECT_EQ(position, state.getPosition());
+    //     EXPECT_EQ(velocity, state.getVelocity());
+    //     EXPECT_EQ(coordinates, state.getCoordinates());
+    //     EXPECT_EQ(Frame::GCRF(), state.getFrame());
+    // }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);

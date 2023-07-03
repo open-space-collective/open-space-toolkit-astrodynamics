@@ -193,7 +193,7 @@ class Propagator
     );
 
    private:
-    Shared<CoordinatesBroker> coordinatesBroker_ = std::make_shared<CoordinatesBroker>();
+    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
     Array<Shared<Dynamics>> dynamics_;
     mutable NumericalSolver numericalSolver_;
 };
