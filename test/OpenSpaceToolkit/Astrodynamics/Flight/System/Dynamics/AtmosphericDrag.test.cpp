@@ -28,7 +28,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
 
 #include <Global.test.hpp>
 
@@ -67,7 +66,6 @@ using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 using ostk::astro::trajectory::CoordinatesBroker;
-using ostk::astro::trajectory::CoordinatesSubset;
 
 using namespace boost::numeric::odeint;
 
@@ -233,8 +231,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ap
     Dynamics::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
     Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
-    broker->addSubset(CoordinatesSubset::Position());
-    broker->addSubset(CoordinatesSubset::Velocity());
     atmosphericDrag.declareCoordinates(broker);
 
     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
@@ -256,10 +252,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 
     // Setup coordinates
     Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
-    broker->addSubset(CoordinatesSubset::Position());
-    broker->addSubset(CoordinatesSubset::Velocity());
-
-    dynamics[0]->declareCoordinates(broker);
+    for (Shared<Dynamics> aDynamics: dynamics) {
+        aDynamics->declareCoordinates(broker);
+    }
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -316,9 +311,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 
     // Setup coordinates
     Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
-    broker->addSubset(CoordinatesSubset::Position());
-    broker->addSubset(CoordinatesSubset::Velocity());
-
     for (Shared<Dynamics> aDynamics : dynamics)
     {
         aDynamics->declareCoordinates(broker);
