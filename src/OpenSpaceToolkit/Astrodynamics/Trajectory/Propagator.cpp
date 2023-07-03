@@ -112,7 +112,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
-    return {anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_};
+    return State::fromStdVector(anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_);
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -193,7 +193,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     for (const Dynamics::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
-        State propagatedState = {anInstantArray[k], stateVector, gcrfSPtr, coordinatesBrokerSPtr_};
+        State propagatedState = State::fromStdVector(anInstantArray[k], stateVector, gcrfSPtr, coordinatesBrokerSPtr_);
 
         propagatedStates.add(propagatedState);
 

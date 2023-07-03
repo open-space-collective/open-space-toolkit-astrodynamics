@@ -16,25 +16,12 @@ State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker> aCoordinatesBroker
+    const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
 )
     : instant_(anInstant),
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr),
-      broker_(aCoordinatesBroker)
-{
-}
-
-State::State(
-    const Instant& anInstant,
-    const std::vector<double>& aCoordinates,
-    const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker> aCoordinatesBroker
-)
-    : instant_(anInstant),
-      coordinates_(Eigen::VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size()))),
-      frameSPtr_(aFrameSPtr),
-      broker_(aCoordinatesBroker)
+      coordinatesBrokerSPtr_(aCoordinatesBrokerSPtr)
 {
 }
 
@@ -57,9 +44,23 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
-    this->broker_ = std::make_shared<const CoordinatesBroker>(
+    this->coordinatesBrokerSPtr_ = std::make_shared<const CoordinatesBroker>(
         CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
     );
+}
+
+State State::fromStdVector(
+    const Instant& anInstant,
+    const std::vector<double>& aCoordinates,
+    const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+)
+{
+    return {
+        anInstant,
+        Eigen::VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size())),
+        aFrameSPtr,
+        aCoordinatesBrokerSPtr};
 }
 
 bool State::operator==(const State& aState) const
@@ -95,7 +96,12 @@ State State::operator+(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->coordinates_ + aState.coordinates_, this->frameSPtr_, this->broker_};
+    if (this->coordinates_.size() != aState.coordinates_.size())
+    {
+        throw ostk::core::error::runtime::Wrong("Coordinates size");
+    }
+
+    return {this->instant_, this->coordinates_ + aState.coordinates_, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
 State State::operator-(const State& aState) const
@@ -115,7 +121,12 @@ State State::operator-(const State& aState) const
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    return {this->instant_, this->coordinates_ - aState.coordinates_, this->frameSPtr_, this->broker_};
+    if (this->coordinates_.size() != aState.coordinates_.size())
+    {
+        throw ostk::core::error::runtime::Wrong("Coordinates size");
+    }
+
+    return {this->instant_, this->coordinates_ - aState.coordinates_, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
@@ -128,7 +139,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
 bool State::isDefined() const
 {
     return this->instant_.isDefined() && this->coordinates_.isDefined() && (this->frameSPtr_ != nullptr) &&
-           this->frameSPtr_->isDefined() && (this->broker_ != nullptr);
+           this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
 }
 
 const Instant& State::accessInstant() const
@@ -160,7 +171,7 @@ const Position State::accessPosition() const
 
     return Position::Meters(
         // TBI: optimize
-        this->coordinates_.segment(this->broker_->getSubsetIndex(CoordinatesSubset::Position()), 3),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CoordinatesSubset::Position()), 3),
         this->frameSPtr_
     );
 }
@@ -174,7 +185,7 @@ const Velocity State::accessVelocity() const
 
     return Velocity::MetersPerSecond(
         // TBI: optimize
-        this->coordinates_.segment(this->broker_->getSubsetIndex(CoordinatesSubset::Velocity()), 3),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CoordinatesSubset::Velocity()), 3),
         this->frameSPtr_
     );
 }

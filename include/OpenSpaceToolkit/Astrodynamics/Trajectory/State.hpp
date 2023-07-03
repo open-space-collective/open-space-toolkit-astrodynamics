@@ -43,17 +43,17 @@ class State
         const Instant& anInstant,
         const VectorXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker> aCoordinatesBroker
-    );
-
-    State(
-        const Instant& anInstant,
-        const std::vector<double>& aCoordinates,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker> aCoordinatesBroker
+        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
     );
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
+
+    static State fromStdVector(
+        const Instant& anInstant,
+        const std::vector<double>& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+    );
 
     bool operator==(const State& aState) const;
 
@@ -97,7 +97,7 @@ class State
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
-    Shared<const CoordinatesBroker> broker_;
+    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory
