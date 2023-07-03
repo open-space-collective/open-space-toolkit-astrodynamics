@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity__
 
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -19,6 +21,7 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::physics::env::obj::Celestial;
@@ -110,6 +113,8 @@ class ThirdBodyGravity : public Dynamics
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;
+    Integer positionIndex_ = Integer::Undefined();
+    Integer velocityIndex_ = Integer::Undefined();
 };
 
 }  // namespace dynamics

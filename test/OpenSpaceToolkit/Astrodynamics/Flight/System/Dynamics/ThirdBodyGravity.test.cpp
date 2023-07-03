@@ -17,6 +17,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
 
 #include <Global.test.hpp>
 
@@ -44,6 +45,7 @@ using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::CoordinatesBroker;
 
 using namespace boost::numeric::odeint;
 
@@ -205,10 +207,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, G
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, ApplyContribution)
 {
+    Dynamics::StateVector dxdt(6, 0.0);
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
     ThirdBodyGravity thirdBodyGravity(earthSPtr);
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    thirdBodyGravity.declareCoordinates(broker);
 
-    Dynamics::StateVector dxdt(6, 0.0);
     thirdBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
 
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
@@ -228,6 +232,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
         std::make_shared<PositionDerivative>(),
         std::make_shared<ThirdBodyGravity>(sun),
     };
+
+    // Setup coordinates
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    for (Shared<Dynamics> aDynamics : dynamics)
+    {
+        aDynamics->declareCoordinates(broker);
+    }
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -259,6 +270,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
         std::make_shared<PositionDerivative>(),
         std::make_shared<ThirdBodyGravity>(moon),
     };
+
+    // Setup coordinates
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    for (Shared<Dynamics> aDynamics : dynamics)
+    {
+        aDynamics->declareCoordinates(broker);
+    }
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
@@ -294,6 +312,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
         std::make_shared<ThirdBodyGravity>(sun),
         std::make_shared<ThirdBodyGravity>(moon),
     };
+
+    // Setup coordinates
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    for (Shared<Dynamics> aDynamics : dynamics)
+    {
+        aDynamics->declareCoordinates(broker);
+    }
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
