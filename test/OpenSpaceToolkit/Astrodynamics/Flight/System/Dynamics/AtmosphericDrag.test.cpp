@@ -252,7 +252,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 
     // Setup coordinates
     Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
-    for (Shared<Dynamics> aDynamics: dynamics) {
+    for (Shared<Dynamics> aDynamics : dynamics)
+    {
         aDynamics->declareCoordinates(broker);
     }
 
