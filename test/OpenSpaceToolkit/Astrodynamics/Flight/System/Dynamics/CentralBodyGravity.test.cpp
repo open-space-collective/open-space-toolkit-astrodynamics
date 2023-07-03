@@ -193,7 +193,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
     // Setup coordinates
-    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
     centralBodyGravity.declareCoordinates(broker);
 
     Dynamics::StateVector dxdt(6, 0.0);
@@ -218,7 +218,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     };
 
     // Setup coordinates
-    Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
+    const Shared<CoordinatesBroker> broker = std::make_shared<CoordinatesBroker>();
     for (Shared<Dynamics> dynamic : dynamics)
     {
         dynamic->declareCoordinates(broker);
