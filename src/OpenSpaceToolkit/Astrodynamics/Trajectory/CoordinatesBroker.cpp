@@ -27,7 +27,7 @@ CoordinatesBroker::CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinate
     }
 }
 
-Integer CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
+Index CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
 {
     auto search = this->map_.find(aCoordinatesSubset);
 
@@ -36,7 +36,7 @@ Integer CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset
         return search->second;
     }
 
-    Integer preAdditionNextIndex = this->nextIndex_;
+    Index preAdditionNextIndex = this->nextIndex_;
     this->map_.insert({aCoordinatesSubset, this->nextIndex_});
     this->nextIndex_ += aCoordinatesSubset.getSize();
 
@@ -50,7 +50,7 @@ bool CoordinatesBroker::hasSubset(const CoordinatesSubset& aCoordinatesSubset) c
     return search != this->map_.end();
 }
 
-Integer CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const
+Index CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const
 {
     auto search = this->map_.find(aCoordinatesSubset);
 
@@ -62,14 +62,14 @@ Integer CoordinatesBroker::getSubsetIndex(const CoordinatesSubset& aCoordinatesS
     return search->second;
 }
 
-Integer CoordinatesBroker::getNumberOfCoordinates() const
+Size CoordinatesBroker::getNumberOfCoordinates() const
 {
     return this->nextIndex_;
 }
 
-Integer CoordinatesBroker::getNumberOfSubsets() const
+Size CoordinatesBroker::getNumberOfSubsets() const
 {
-    return (int)this->map_.size();
+    return (size_t)this->map_.size();
 }
 
 }  // namespace trajectory

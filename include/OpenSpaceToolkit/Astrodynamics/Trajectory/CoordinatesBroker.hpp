@@ -4,7 +4,8 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
@@ -16,7 +17,8 @@ namespace astro
 namespace trajectory
 {
 using ostk::core::ctnr::Array;
-using ostk::core::types::Integer;
+using ostk::core::types::Index;
+using ostk::core::types::Size;
 
 using ostk::astro::trajectory::CoordinatesSubset;
 
@@ -46,7 +48,7 @@ class CoordinatesBroker
     ///
     /// @return             The starting index of the subset in the state coordinates
 
-    Integer addSubset(const CoordinatesSubset& aCoordinatesSubset);
+    Index addSubset(const CoordinatesSubset& aCoordinatesSubset);
 
     /// @brief              Checks if a coordinates subset has already been considered
     ///
@@ -63,23 +65,23 @@ class CoordinatesBroker
     /// @return             The starting index of the subset int the state coordinates, throwing an exception if the
     /// coordinates subset is not present
 
-    Integer getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
+    Index getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
 
     /// @brief              Returns the total number of coordinates
     ///
     /// @return             The total number of coordinates
 
-    Integer getNumberOfCoordinates() const;
+    Size getNumberOfCoordinates() const;
 
     /// @brief              Returns the total number of coordinate subsets
     ///
     /// @return             The total number of coordinate subsets
 
-    Integer getNumberOfSubsets() const;
+    Size getNumberOfSubsets() const;
 
    private:
-    Integer nextIndex_;
-    std::unordered_map<CoordinatesSubset, Integer> map_;
+    Index nextIndex_;
+    std::unordered_map<CoordinatesSubset, Index> map_;
 };
 
 }  // namespace trajectory

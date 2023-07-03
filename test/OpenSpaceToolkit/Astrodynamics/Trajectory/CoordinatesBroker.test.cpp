@@ -4,9 +4,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::types::Integer;
-using ostk::core::types::String;
-
 using ostk::astro::trajectory::CoordinatesBroker;
 using ostk::astro::trajectory::CoordinatesSubset;
 
