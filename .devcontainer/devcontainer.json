@@ -1,13 +1,41 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
-    "extensions": [
-        "ms-vscode.cpptools",
-        "ms-python.python",
-        "mhutchie.git-graph"
+    "mounts": [
+        "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
+        "source=${localWorkspaceFolder}/tools/development/helpers,target=/app/build/helpers,type=bind"
     ],
+    "runArgs": [
+        "--name",
+        "open-space-toolkit-astrodynamics-dev",
+        "--privileged"
+    ],
+    "containerEnv": {
+        "PACKAGE_DEPLOY_TOKEN": "${localEnv:PACKAGE_DEPLOY_TOKEN}"
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+    "workspaceFolder": "/app",
+    "updateRemoteUserUID": true,
     "image": "openspacecollective/open-space-toolkit-astrodynamics-development:latest",
-	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
-	},
-    "shutdownAction": "stopContainer"
+    "initializeCommand": "make build-development-image",
+    "shutdownAction": "stopContainer",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "C_Cpp.clang_format_style": "file:/app/thirdparty/clang/.clang-format",
+                "terminal.integrated.cwd": "/app/build",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash",
+                        "icon": "terminal-bash"
+                    }
+                }
+            },
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-python.python",
+                "mhutchie.git-graph",
+                "ms-vscode.cpptools-extension-pack"
+            ]
+        }
+    }
 }
