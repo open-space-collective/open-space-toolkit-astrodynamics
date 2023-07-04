@@ -58,7 +58,7 @@ State State::fromStdVector(
 {
     return {
         anInstant,
-        Eigen::VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size())),
+        VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size())),
         aFrameSPtr,
         aCoordinatesBrokerSPtr};
 }
