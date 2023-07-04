@@ -28,21 +28,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_NO_THROW(State state(instant, Frame::GCRF(), v));
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v(5);
         v << 1.0, 2.0, 3.0, 4.0, 5.0;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_NO_THROW(State state(instant, Frame::GCRF(), v));
     }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd v(7);
         v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0;
-        EXPECT_ANY_THROW(State state(instant, Frame::GCRF(), v));
+        EXPECT_NO_THROW(State state(instant, Frame::GCRF(), v));
     }
 
     {
@@ -451,7 +451,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
 
-        const State state = {instant, coordinates, Frame::GCRF()};
+        const State state = {instant, Frame::GCRF(), coordinates};
 
         EXPECT_EQ(instant, state.accessInstant());
         EXPECT_EQ(coordinates, state.accessCoordinates());
