@@ -33,15 +33,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), broker));
     }
 
-    // {
-    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-    //     std::vector<double> coordinates = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-    //     const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
-    //         CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
-    //     );
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        std::vector<double> coordinates = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+        const Shared<const CoordinatesBroker> broker = std::make_shared<const CoordinatesBroker>(
+            CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()})
+        );
 
-    //     EXPECT_NO_THROW(State::fromStdVector(instant, coordinates, Frame::GCRF(), broker));
-    // }
+        EXPECT_NO_THROW(State::fromStdVector(instant, coordinates, Frame::GCRF(), broker));
+    }
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
