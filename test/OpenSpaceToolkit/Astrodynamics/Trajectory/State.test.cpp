@@ -305,21 +305,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, AdditionOperator)
         EXPECT_TRUE(stateExpected.getCoordinates().isNear(stateCalculated.getCoordinates(), 1e-12));
     }
 
-    // {
-    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-    //     const std::vector<double> coordinates_1 = {0, 0, 0};
-    //     const Shared<const CoordinatesBroker> broker_1 =
-    //         std::make_shared<CoordinatesBroker>({CoordinatesSubset::Position()});
-    //     const State state_1 = State::fromStdVector(instant, coordinates_1, Frame::GCRF(), broker_1);
+        const std::vector<double> coordinates_1 = {0, 0, 0};
+        const CoordinatesBroker broker_1 = CoordinatesBroker({CoordinatesSubset::Position()});
+        const Shared<const CoordinatesBroker> broker_1SPtr = std::make_shared<CoordinatesBroker>(broker_1);
+        const State state_1 = State::fromStdVector(instant, coordinates_1, Frame::GCRF(), broker_1SPtr);
 
-    //     const std::vector<double> coordinates_2 = {0, 0, 0, 0, 0, 0};
-    //     const Shared<const CoordinatesBroker> broker_2 =
-    //         std::make_shared<CoordinatesBroker>({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()});
-    //     const State state_2 = State::fromStdVector(instant, coordinates_2, Frame::GCRF(), broker_2);
+        const std::vector<double> coordinates_2 = {0, 0, 0, 0, 0, 0};
+        const CoordinatesBroker broker_2 =
+            CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()});
+        const Shared<const CoordinatesBroker> broker_2SPtr = std::make_shared<CoordinatesBroker>(broker_2);
+        const State state_2 = State::fromStdVector(instant, coordinates_2, Frame::GCRF(), broker_2SPtr);
 
-    //     EXPECT_ANY_THROW(state_1 + state_2);
-    // }
+        EXPECT_ANY_THROW(state_1 + state_2);
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
@@ -403,21 +404,22 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, SubtractionOperator)
         EXPECT_TRUE(stateExpected.getCoordinates().isNear(stateCalculated.getCoordinates(), 1e-12));
     }
 
-    //  {
-    //     const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-    //     const std::vector<double> coordinates_1 = {0, 0, 0};
-    //     const Shared<const CoordinatesBroker> broker_1 =
-    //         std::make_shared<CoordinatesBroker>({CoordinatesSubset::Position()});
-    //     const State state_1 = State::fromStdVector(instant, coordinates_1, Frame::GCRF(), broker_1);
+        const std::vector<double> coordinates_1 = {0, 0, 0};
+        const CoordinatesBroker broker_1 = CoordinatesBroker({CoordinatesSubset::Position()});
+        const Shared<const CoordinatesBroker> broker_1SPtr = std::make_shared<CoordinatesBroker>(broker_1);
+        const State state_1 = State::fromStdVector(instant, coordinates_1, Frame::GCRF(), broker_1SPtr);
 
-    //     const std::vector<double> coordinates_2 = {0, 0, 0, 0, 0, 0};
-    //     const Shared<const CoordinatesBroker> broker_2 =
-    //         std::make_shared<CoordinatesBroker>({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()});
-    //     const State state_2 = State::fromStdVector(instant, coordinates_2, Frame::GCRF(), broker_2);
+        const std::vector<double> coordinates_2 = {0, 0, 0, 0, 0, 0};
+        const CoordinatesBroker broker_2 =
+            CoordinatesBroker({CoordinatesSubset::Position(), CoordinatesSubset::Velocity()});
+        const Shared<const CoordinatesBroker> broker_2SPtr = std::make_shared<CoordinatesBroker>(broker_2);
+        const State state_2 = State::fromStdVector(instant, coordinates_2, Frame::GCRF(), broker_2SPtr);
 
-    //     EXPECT_ANY_THROW(state_1 - state_2);
-    // }
+        EXPECT_ANY_THROW(state_1 - state_2);
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
