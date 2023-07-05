@@ -22,9 +22,14 @@ State::State(const Instant& anInstant, const VectorXd& aCoordinates, const Share
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
 {
-    if (!aPosition.isDefined() || !aVelocity.isDefined())
+    if (!aPosition.isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Position/Velocity");
+        throw ostk::core::error::runtime::Undefined("Position");
+    }
+
+    if (!aVelocity.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Velocity");
     }
 
     if (aPosition.accessFrame() != aVelocity.accessFrame())
