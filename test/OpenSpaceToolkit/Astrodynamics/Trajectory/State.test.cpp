@@ -27,6 +27,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
 
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(7);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0;
+        EXPECT_ANY_THROW(State state(instant, v, Frame::GCRF()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
 
@@ -42,7 +49,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
     }
 
     {
-        const Instant instant = Instant::Undefined();
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::ITRF());
 
@@ -397,6 +404,45 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
 {
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(6);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state = State(instant, v, Frame::GCRF());
+
+        EXPECT_TRUE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(0);
+
+        const State state = State(instant, v, Frame::GCRF());
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(6);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state = State(instant, v, nullptr);
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd v(6);
+        v << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state = State(instant, v, Frame::Undefined());
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
     {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());

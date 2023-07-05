@@ -17,6 +17,10 @@ State::State(const Instant& anInstant, const VectorXd& aCoordinates, const Share
       coordinates_(aCoordinates),
       frameSPtr_(aFrameSPtr)
 {
+    if (!(aCoordinates.size() == 0 || aCoordinates.size() == 6))
+    {
+        throw ostk::core::error::runtime::Wrong("Coordinates size");
+    }
 }
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
@@ -111,7 +115,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
 bool State::isDefined() const
 {
     return this->instant_.isDefined() && (frameSPtr_ != nullptr) && frameSPtr_->isDefined() &&
-           this->coordinates_.isDefined();
+           this->coordinates_.isDefined() && (this->coordinates_.size() == 6);
 }
 
 const Instant& State::accessInstant() const
