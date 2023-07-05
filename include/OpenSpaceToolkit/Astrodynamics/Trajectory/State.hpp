@@ -77,8 +77,8 @@ class State
 
    private:
     Instant instant_;
-    Shared<const Frame> frameSPtr_;
     VectorXd coordinates_;
+    Shared<const Frame> frameSPtr_;
 };
 
 }  // namespace trajectory

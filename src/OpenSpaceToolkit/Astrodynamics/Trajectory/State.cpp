@@ -36,8 +36,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
-    this->frameSPtr_ = aPosition.accessFrame();
     this->coordinates_ = coordinates;
+    this->frameSPtr_ = aPosition.accessFrame();
 }
 
 bool State::operator==(const State& aState) const
