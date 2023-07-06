@@ -65,8 +65,6 @@ class State
 
     const VectorXd& accessCoordinates() const;
 
-    const Velocity accessVelocity() const;
-
     Instant getInstant() const;
 
     Shared<const Frame> getFrame() const;

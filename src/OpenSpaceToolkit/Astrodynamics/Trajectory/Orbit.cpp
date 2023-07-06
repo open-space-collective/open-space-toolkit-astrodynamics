@@ -400,7 +400,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                 const State state = this->getStateAt(anInstant).inFrame(aReferenceFrame);
 
                 const Vector3d x_GCRF = state.getPosition().accessCoordinates();
-                const Vector3d v_GCRF_in_GCRF = state.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF_in_GCRF = state.getVelocity().accessCoordinates();
 
                 const Vector3d x_VVLH_GCRF_in_GCRF = -x_GCRF;          // [m]
                 const Vector3d v_VVLH_GCRF_in_GCRF = -v_GCRF_in_GCRF;  // [m/s]
@@ -485,7 +485,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
                 const Vector3d xAxis = x_GCRF.normalized();
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -513,7 +513,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
                 const Vector3d zAxis = -x_GCRF.normalized();
                 const Vector3d yAxis = -x_GCRF.cross(v_GCRF).normalized();
@@ -540,7 +540,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
                 const Vector3d xAxis = x_GCRF.normalized();
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -567,7 +567,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
                 const Vector3d xAxis = v_GCRF.normalized();
                 const Vector3d zAxis = x_GCRF.cross(v_GCRF).normalized();
@@ -594,7 +594,7 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
             const auto calculateAttitude = [](const State& aState) -> Quaternion
             {
                 const Vector3d x_GCRF = aState.getPosition().accessCoordinates();
-                const Vector3d v_GCRF = aState.accessVelocity().accessCoordinates();
+                const Vector3d v_GCRF = aState.getVelocity().accessCoordinates();
 
                 const Vector3d xAxis = v_GCRF.normalized();
                 const Vector3d yAxis = x_GCRF.cross(v_GCRF).normalized();

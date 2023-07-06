@@ -49,7 +49,7 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
         timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds();
 
         coordinates.row(i).segment<3>(0) = stateArray[i].getPosition().accessCoordinates();
-        coordinates.row(i).segment<3>(3) = stateArray[i].accessVelocity().accessCoordinates();
+        coordinates.row(i).segment<3>(3) = stateArray[i].getVelocity().accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -225,7 +225,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
                                              "{} - {} - {}",
                                              firstState.accessInstant().toString(),
                                              firstState.getPosition().toString(),
-                                             firstState.accessVelocity().toString()
+                                             firstState.getVelocity().toString()
                                          )
                                        : "Undefined");
     }
@@ -240,7 +240,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
                                             "{} - {} - {}",
                                             lastState.accessInstant().toString(),
                                             lastState.getPosition().toString(),
-                                            lastState.accessVelocity().toString()
+                                            lastState.getVelocity().toString()
                                         )
                                       : "Undefined");
     }

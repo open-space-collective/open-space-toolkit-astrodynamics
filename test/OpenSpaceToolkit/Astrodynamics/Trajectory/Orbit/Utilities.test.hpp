@@ -89,7 +89,7 @@ void testOrbit(
         const State state_GCRF = anOrbit.getStateAt(instant);
 
         const Position position_GCRF = state_GCRF.getPosition();
-        const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+        const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
         ASSERT_EQ(Frame::GCRF(), position_GCRF.accessFrame());
         ASSERT_EQ(Frame::GCRF(), velocity_GCRF.accessFrame());
@@ -120,7 +120,7 @@ void testOrbit(
         const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
         const Position position_ITRF = state_ITRF.getPosition();
-        const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+        const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
         ASSERT_EQ(Frame::ITRF(), position_ITRF.accessFrame());
         ASSERT_EQ(Frame::ITRF(), velocity_ITRF.accessFrame());

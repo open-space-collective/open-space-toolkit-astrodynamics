@@ -375,7 +375,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
         {
             const Position position = propagatedStateArray[i].getPosition();
-            const Velocity velocity = propagatedStateArray[i].accessVelocity();
+            const Velocity velocity = propagatedStateArray[i].getVelocity();
 
             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
@@ -411,7 +411,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
         {
             const Position position = propagatedStateArray[i].getPosition();
-            const Velocity velocity = propagatedStateArray[i].accessVelocity();
+            const Velocity velocity = propagatedStateArray[i].getVelocity();
 
             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
@@ -447,7 +447,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         for (size_t i = 0; i < propagatedStateArray.getSize(); i++)
         {
             const Position position = propagatedStateArray[i].getPosition();
-            const Velocity velocity = propagatedStateArray[i].accessVelocity();
+            const Velocity velocity = propagatedStateArray[i].getVelocity();
 
             const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
             const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
@@ -569,7 +569,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -655,7 +655,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -668,7 +668,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
             // ITRF Compare
             const Position position_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).getPosition();
-            const Velocity velocity_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).accessVelocity();
+            const Velocity velocity_ITRF = (propagatedStateArray[i].inFrame(itrfSPtr)).getVelocity();
 
             const double positionError_ITRF =
                 (position_ITRF.accessCoordinates() - referencePositionArray_ITRF[i]).norm();
@@ -756,7 +756,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -853,13 +853,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF_360 = propagatedStateArray_360[i].getPosition();
-            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].accessVelocity();
+            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].getVelocity();
             const Position positionGCRF_100 = propagatedStateArray_100[i].getPosition();
-            const Velocity velocityGCRF_100 = propagatedStateArray_100[i].accessVelocity();
+            const Velocity velocityGCRF_100 = propagatedStateArray_100[i].getVelocity();
             const Position positionGCRF_70 = propagatedStateArray_70[i].getPosition();
-            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].accessVelocity();
+            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].getVelocity();
             const Position positionGCRF_45 = propagatedStateArray_45[i].getPosition();
-            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].getVelocity();
 
             // 360 vs 100
             const double positionErrorGCRF_360_100 =
@@ -968,7 +968,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1044,7 +1044,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1142,13 +1142,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF_360 = propagatedStateArray_360[i].getPosition();
-            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].accessVelocity();
+            const Velocity velocityGCRF_360 = propagatedStateArray_360[i].getVelocity();
             const Position positionGCRF_180 = propagatedStateArray_180[i].getPosition();
-            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].accessVelocity();
+            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].getVelocity();
             const Position positionGCRF_90 = propagatedStateArray_90[i].getPosition();
-            const Velocity velocityGCRF_90 = propagatedStateArray_90[i].accessVelocity();
+            const Velocity velocityGCRF_90 = propagatedStateArray_90[i].getVelocity();
             const Position positionGCRF_45 = propagatedStateArray_45[i].getPosition();
-            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].getVelocity();
 
             // 360 vs 180
             const double positionErrorGCRF_360_180 =
@@ -1257,7 +1257,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1348,11 +1348,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF_180 = propagatedStateArray_180[i].getPosition();
-            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].accessVelocity();
+            const Velocity velocityGCRF_180 = propagatedStateArray_180[i].getVelocity();
             const Position positionGCRF_70 = propagatedStateArray_70[i].getPosition();
-            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].accessVelocity();
+            const Velocity velocityGCRF_70 = propagatedStateArray_70[i].getVelocity();
             const Position positionGCRF_45 = propagatedStateArray_45[i].getPosition();
-            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].accessVelocity();
+            const Velocity velocityGCRF_45 = propagatedStateArray_45[i].getVelocity();
 
             // 180 vs 70
             const double positionErrorGCRF_180_70 =
@@ -1447,7 +1447,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1527,7 +1527,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1607,7 +1607,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1694,7 +1694,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1781,7 +1781,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].accessVelocity();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
 
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
@@ -1850,9 +1850,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             {
                 // GCRF Compare
                 const Position positionShort = propagatedStateArray_short[i].getPosition();
-                const Velocity velocityShort = propagatedStateArray_short[i].accessVelocity();
+                const Velocity velocityShort = propagatedStateArray_short[i].getVelocity();
                 const Position positionLong = propagatedStateArray_long[i / indexIncrement].getPosition();
-                const Velocity velocityLong = propagatedStateArray_long[i / indexIncrement].accessVelocity();
+                const Velocity velocityLong = propagatedStateArray_long[i / indexIncrement].getVelocity();
 
                 const double positionErrorGCRF =
                     (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
@@ -1916,9 +1916,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
                 // GCRF Compare
                 const Position positionShort = stateShort.getPosition();
-                const Velocity velocityShort = stateShort.accessVelocity();
+                const Velocity velocityShort = stateShort.getVelocity();
                 const Position positionLong = stateLong.getPosition();
-                const Velocity velocityLong = stateLong.accessVelocity();
+                const Velocity velocityLong = stateLong.getVelocity();
 
                 const double positionErrorGCRF =
                     (positionShort.accessCoordinates() - positionLong.accessCoordinates()).norm();
@@ -1985,9 +1985,9 @@ TEST_F(
         {
             // GCRF Compare
             const Position position54 = propagatedStateArray54[i].getPosition();
-            const Velocity velocity54 = propagatedStateArray54[i].accessVelocity();
+            const Velocity velocity54 = propagatedStateArray54[i].getVelocity();
             const Position position78 = propagatedStateArray78[i].getPosition();
-            const Velocity velocity78 = propagatedStateArray78[i].accessVelocity();
+            const Velocity velocity78 = propagatedStateArray78[i].getVelocity();
 
             const double positionErrorGCRF = (position54.accessCoordinates() - position78.accessCoordinates()).norm();
             const double velocityErrorGCRF = (velocity54.accessCoordinates() - velocity78.accessCoordinates()).norm();

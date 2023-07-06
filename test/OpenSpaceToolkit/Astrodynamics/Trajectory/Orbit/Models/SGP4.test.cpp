@@ -111,7 +111,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
             const State state_GCRF = orbit.getStateAt(instant);
 
             const Position position_GCRF = state_GCRF.getPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -124,7 +124,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
             const State state_TEME = state_GCRF.inFrame(temeOfEpochFrame);
 
             const Position position_TEME = state_TEME.getPosition();
-            const Velocity velocity_TEME = state_TEME.accessVelocity();
+            const Velocity velocity_TEME = state_TEME.getVelocity();
 
             // STK
 
@@ -175,7 +175,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
             const Position position_ITRF = state_ITRF.getPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
