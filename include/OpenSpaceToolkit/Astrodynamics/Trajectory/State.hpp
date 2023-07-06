@@ -38,7 +38,7 @@ class State
     /// @brief              Constructor.
     ///
     /// @param              [in] anInstant An instant
-    /// @param              [in] aCoordinates The {cartesian-position, caratesian-velocity} coordinates at the instant
+    /// @param              [in] aCoordinates The {cartesian-position, cartesian-velocity} coordinates at the instant
     /// in International System of Units
     /// @param              [in] aFrameSPtr The reference frame in which the coordinates are referenced to and resolved
     /// in
