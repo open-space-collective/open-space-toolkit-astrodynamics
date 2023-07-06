@@ -171,10 +171,12 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
     }
 
+    const Shared<const Frame> frame = firstState_.getPosition().accessFrame();
+
     return State(
         anInstant,
-        Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.getPosition().accessFrame()),
-        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.getPosition().accessFrame())
+        Position::Meters(interpolatedCoordinates.segment<3>(0), frame),
+        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), frame)
     );
 }
 
