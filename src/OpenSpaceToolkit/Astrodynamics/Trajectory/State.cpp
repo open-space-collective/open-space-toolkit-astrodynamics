@@ -138,16 +138,6 @@ const Shared<const Frame> State::accessFrame() const
     return this->frameSPtr_;
 }
 
-const Position State::accessPosition() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
-    return Position::Meters(this->coordinates_.segment(0, 3), this->frameSPtr_);
-}
-
 const Velocity State::accessVelocity() const
 {
     if (!this->isDefined())
@@ -180,7 +170,12 @@ Shared<const Frame> State::getFrame() const
 
 Position State::getPosition() const
 {
-    return this->accessPosition();
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return Position::Meters(this->coordinates_.segment(0, 3), this->frameSPtr_);
 }
 
 Velocity State::getVelocity() const
@@ -205,7 +200,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    const Position position = this->accessPosition().inFrame(aFrameSPtr, this->instant_);
+    const Position position = this->getPosition().inFrame(aFrameSPtr, this->instant_);
     const Velocity velocity = this->accessVelocity().inFrame(position, aFrameSPtr, this->instant_);
 
     return {this->instant_, position, velocity};
@@ -220,7 +215,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Position:" << (this->isDefined() ? this->accessPosition().toString(12) : "Undefined");
+        << "Position:" << (this->isDefined() ? this->getPosition().toString(12) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Velocity:" << (this->isDefined() ? this->accessVelocity().toString(12) : "Undefined");
 

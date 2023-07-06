@@ -146,8 +146,8 @@ Array<Access> Generator::computeAccesses(
             // TBI: Throw
         }
 
-        const Position fromPosition = aFromState.accessPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
-        const Position toPosition = aToState.accessPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
+        const Position fromPosition = aFromState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
+        const Position toPosition = aToState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
 
         return {fromPosition, toPosition};
     };

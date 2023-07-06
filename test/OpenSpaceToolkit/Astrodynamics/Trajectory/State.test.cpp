@@ -481,7 +481,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
         EXPECT_EQ(instant, state.accessInstant());
         EXPECT_EQ(coordinates, state.accessCoordinates());
-        EXPECT_EQ(position, state.accessPosition());
         EXPECT_EQ(velocity, state.accessVelocity());
         EXPECT_EQ(Frame::GCRF(), state.accessFrame());
     }
@@ -493,12 +492,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 
         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
 
-        EXPECT_TRUE(position.accessCoordinates().isApprox(state.accessPosition().accessCoordinates(), 1e-16));
+        EXPECT_TRUE(position.accessCoordinates().isApprox(state.getPosition().accessCoordinates(), 1e-16));
     }
 
     {
         EXPECT_ANY_THROW(State::Undefined().accessInstant());
-        EXPECT_ANY_THROW(State::Undefined().accessPosition());
         EXPECT_ANY_THROW(State::Undefined().accessVelocity());
         EXPECT_ANY_THROW(State::Undefined().accessFrame());
     }

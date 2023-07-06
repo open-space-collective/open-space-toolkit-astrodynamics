@@ -48,7 +48,7 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
     {
         timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds();
 
-        coordinates.row(i).segment<3>(0) = stateArray[i].accessPosition().accessCoordinates();
+        coordinates.row(i).segment<3>(0) = stateArray[i].getPosition().accessCoordinates();
         coordinates.row(i).segment<3>(3) = stateArray[i].accessVelocity().accessCoordinates();
     }
 
@@ -173,8 +173,8 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     return State(
         anInstant,
-        Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()),
-        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.accessPosition().accessFrame())
+        Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.getPosition().accessFrame()),
+        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.getPosition().accessFrame())
     );
 }
 
@@ -224,7 +224,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (firstState.isDefined() ? String::Format(
                                              "{} - {} - {}",
                                              firstState.accessInstant().toString(),
-                                             firstState.accessPosition().toString(),
+                                             firstState.getPosition().toString(),
                                              firstState.accessVelocity().toString()
                                          )
                                        : "Undefined");
@@ -239,7 +239,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (lastState.isDefined() ? String::Format(
                                             "{} - {} - {}",
                                             lastState.accessInstant().toString(),
-                                            lastState.accessPosition().toString(),
+                                            lastState.getPosition().toString(),
                                             lastState.accessVelocity().toString()
                                         )
                                       : "Undefined");
