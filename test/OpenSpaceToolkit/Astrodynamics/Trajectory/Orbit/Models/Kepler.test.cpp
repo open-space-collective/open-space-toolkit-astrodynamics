@@ -207,8 +207,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -220,8 +220,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -313,8 +313,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -326,8 +326,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -424,8 +424,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -437,8 +437,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -526,8 +526,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -539,8 +539,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -628,8 +628,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -641,8 +641,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -730,8 +730,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -743,8 +743,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
