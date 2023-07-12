@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -23,6 +24,7 @@ namespace trajectory
 {
 
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 
 using ostk::math::obj::VectorXd;
 
@@ -39,6 +41,15 @@ using ostk::astro::trajectory::CoordinatesSubset;
 class State
 {
    public:
+    /// @brief              Constructor.
+    ///
+    /// @param              [in] anInstant An instant
+    /// @param              [in] aCoordinates The {cartesian-position, cartesian-velocity} coordinates at the instant
+    /// in International System of Units
+    /// @param              [in] aFrameSPtr The reference frame in which the coordinates are referenced to and resolved
+    /// in
+    /// @param              [in] aCoordinatesBrokerSPtr The coordinates broker associated to the coordinates vector
+
     State(
         const Instant& anInstant,
         const VectorXd& aCoordinates,
@@ -72,10 +83,6 @@ class State
     const Shared<const Frame> accessFrame() const;
 
     const VectorXd& accessCoordinates() const;
-
-    const Position accessPosition() const;
-
-    const Velocity accessVelocity() const;
 
     Instant getInstant() const;
 
