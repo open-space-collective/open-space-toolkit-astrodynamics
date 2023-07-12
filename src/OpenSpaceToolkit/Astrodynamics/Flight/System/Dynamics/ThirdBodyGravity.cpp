@@ -81,8 +81,8 @@ Shared<const Celestial> ThirdBodyGravity::getCelestial() const
 
 void ThirdBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Position());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::Velocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::PositionCartesian());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::VelocityCartesian());
 }
 
 void ThirdBodyGravity::applyContribution(

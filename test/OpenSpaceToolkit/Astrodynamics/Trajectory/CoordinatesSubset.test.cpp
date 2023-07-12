@@ -104,12 +104,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Getters)
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Predefined)
 {
     {
-        CoordinatesSubset position = CoordinatesSubset::Position();
+        CoordinatesSubset position = CoordinatesSubset::PositionCartesian();
         EXPECT_EQ(3, position.getSize());
     }
 
     {
-        CoordinatesSubset velocity = CoordinatesSubset::Velocity();
+        CoordinatesSubset velocity = CoordinatesSubset::VelocityCartesian();
         EXPECT_EQ(3, velocity.getSize());
     }
 

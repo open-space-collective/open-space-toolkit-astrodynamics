@@ -52,12 +52,12 @@ Size CoordinatesSubset::getSize() const
     return size_;
 }
 
-CoordinatesSubset CoordinatesSubset::Position()
+CoordinatesSubset CoordinatesSubset::PositionCartesian()
 {
-    return {"POSITION", 3};
+    return {"POSITION_CARTESIAN", 3};
 }
 
-CoordinatesSubset CoordinatesSubset::Velocity()
+CoordinatesSubset CoordinatesSubset::VelocityCartesian()
 {
     return {"VELOCITY", 3};
 }

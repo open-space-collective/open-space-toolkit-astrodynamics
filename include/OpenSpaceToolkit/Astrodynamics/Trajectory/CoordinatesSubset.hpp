@@ -44,9 +44,9 @@ class CoordinatesSubset
 
     static CoordinatesSubset Undefined();
 
-    static CoordinatesSubset Position();
+    static CoordinatesSubset PositionCartesian();
 
-    static CoordinatesSubset Velocity();
+    static CoordinatesSubset VelocityCartesian();
 
     static CoordinatesSubset Mass();
 
