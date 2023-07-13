@@ -41,6 +41,22 @@ class CoordinatesBroker
 
     CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinatesSubsetArray);
 
+    /// @brief              Equals to operator
+    ///
+    /// @param              [in] aCoordinatesBroker The instance to compare to
+    ///
+    /// @return             True if both instances are considered equal
+
+    bool operator==(const CoordinatesBroker& aCoordinatesBroker) const;
+
+    /// @brief              Not equals to operator
+    ///
+    /// @param              [in] aCoordinatesBroker The instance to compare to
+    ///
+    /// @return             True if both instances are not considered equal
+
+    bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
+
     /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
     /// that it occupies if it was already added) in the state coordinates
     ///

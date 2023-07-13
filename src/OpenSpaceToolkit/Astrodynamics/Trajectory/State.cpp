@@ -75,8 +75,32 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    return (this->instant_ == aState.instant_) && (this->frameSPtr_ == aState.frameSPtr_) &&
-           (this->coordinates_ == aState.coordinates_);
+    if (this->instant_ != aState.instant_)
+    {
+        return false;
+    }
+
+    if (this->frameSPtr_ != aState.frameSPtr_)
+    {
+        return false;
+    }
+
+    if (this->coordinates_ != aState.coordinates_)
+    {
+        return false;
+    }
+
+    if (this->coordinatesBrokerSPtr_ == aState.coordinatesBrokerSPtr_)
+    {
+        return true;
+    }
+
+    if (*this->coordinatesBrokerSPtr_ != *aState.coordinatesBrokerSPtr_)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 bool State::operator!=(const State& aState) const

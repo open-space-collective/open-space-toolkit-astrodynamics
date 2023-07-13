@@ -27,6 +27,40 @@ CoordinatesBroker::CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinate
     }
 }
 
+bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) const
+{
+    if (this->getNumberOfCoordinates() != aCoordinatesBroker.getNumberOfCoordinates())
+    {
+        return false;
+    }
+
+    if (this->getNumberOfSubsets() != aCoordinatesBroker.getNumberOfSubsets())
+    {
+        return false;
+    }
+
+    for (const auto& element : this->coordinatesSubsetIndexMap_)
+    {
+        const CoordinatesSubset subset = element.first;
+        if (!aCoordinatesBroker.hasSubset(subset))
+        {
+            return false;
+        }
+
+        if (element.second != aCoordinatesBroker.getSubsetIndex(subset))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool CoordinatesBroker::operator!=(const CoordinatesBroker& aCoordinatesBroker) const
+{
+    return !((*this) == aCoordinatesBroker);
+}
+
 Index CoordinatesBroker::addSubset(const CoordinatesSubset& aCoordinatesSubset)
 {
     auto search = this->coordinatesSubsetIndexMap_.find(aCoordinatesSubset);
