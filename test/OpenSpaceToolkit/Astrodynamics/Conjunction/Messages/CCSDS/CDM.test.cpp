@@ -273,7 +273,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM, GetObjectM
         EXPECT_EQ("MOON, SUN", objectMetadata.nBodyPerturbations);
         EXPECT_EQ(false, objectMetadata.solarRadiationPressure);
         EXPECT_EQ(false, objectMetadata.earthTides);
-        EXPECT_EQ(false, objectMetadata.inTrackThrust);
+        EXPECT_EQ(false, objectMetadata.inTrackThruster);
     }
 
     {

@@ -146,7 +146,7 @@ class CDM
         String nBodyPerturbations = String::Empty();
         bool solarRadiationPressure = false;
         bool earthTides = false;
-        bool inTrackThrust = false;
+        bool inTrackThruster = false;
     };
 
     // The CDM Data section shall be formed as logical blocks:

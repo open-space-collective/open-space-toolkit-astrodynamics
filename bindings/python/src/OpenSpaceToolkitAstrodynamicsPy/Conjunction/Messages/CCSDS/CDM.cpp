@@ -226,7 +226,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Messages_CCSDS_CDM(pybin
         .def_readonly("n_body_perturbations", &CDM::Metadata::nBodyPerturbations)
         .def_readonly("solar_radiation_pressure", &CDM::Metadata::solarRadiationPressure)
         .def_readonly("earth_tides", &CDM::Metadata::earthTides)
-        .def_readonly("in_track_thrust", &CDM::Metadata::inTrackThrust)
+        .def_readonly("in_track_thrust", &CDM::Metadata::inTrackThruster)
 
         ;
 
