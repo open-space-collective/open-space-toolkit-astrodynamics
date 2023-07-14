@@ -95,11 +95,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const VectorXd stateCoordinates = aState.getCoordinates();
-
-    NumericalSolver::StateVector startStateVector(
-        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
-    );
+    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
 
     const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
         startStateVector,
@@ -111,7 +107,8 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     return {
         anInstant,
         Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
-        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr)};
+        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr),
+    };
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -139,13 +136,12 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const VectorXd stateCoordinates = aState.getCoordinates();
-    NumericalSolver::StateVector startStateVector(
-        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
-    );
+    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
 
     Array<Instant> forwardInstants;
+    forwardInstants.reserve(anInstantArray.getSize());
     Array<Instant> backwardInstants;
+    backwardInstants.reserve(anInstantArray.getSize());
 
     for (const Instant& anInstant : anInstantArray)
     {
@@ -197,7 +193,8 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         State propagatedState = {
             anInstantArray[k],
             Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
+            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr),
+        };
 
         propagatedStates.add(propagatedState);
 

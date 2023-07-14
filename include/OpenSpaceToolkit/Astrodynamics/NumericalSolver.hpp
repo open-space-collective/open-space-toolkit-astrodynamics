@@ -8,6 +8,8 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -21,6 +23,8 @@ using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Size;
 using ostk::core::types::String;
+
+using ostk::math::obj::VectorXd;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -45,7 +49,7 @@ class NumericalSolver
         LogAdaptive
     };
 
-    typedef std::vector<double> StateVector;  // Container used to hold the state vector
+    typedef VectorXd StateVector;  // Container used to hold the state vector
     typedef std::function<void(const StateVector&, StateVector&, const double)>
         SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
 
