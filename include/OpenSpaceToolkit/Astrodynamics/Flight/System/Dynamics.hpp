@@ -11,6 +11,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -27,14 +29,13 @@ using ostk::core::ctnr::Array;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
+using ostk::astro::NumericalSolver;
+
 /// @brief                      Define a dynamical system subject to equations of motion
 
 class Dynamics
 {
    public:
-    typedef std::vector<double> StateVector;  // Container used to hold the state vector
-    typedef std::function<void(const StateVector&, StateVector&, const double)> DynamicalEquationWrapper;
-
     /// @brief              Constructor
     ///
     /// @param              [in] aName A name
@@ -69,7 +70,9 @@ class Dynamics
     /// @param              [out] dxdt A state derivative vector
     /// @param              [in] anInstant An instant
 
-    virtual void applyContribution(const StateVector& x, StateVector& dxdt, const Instant& anInstant) const = 0;
+    virtual void applyContribution(
+        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+    ) const = 0;
 
     /// @brief              Print dynamics
     ///
@@ -84,7 +87,7 @@ class Dynamics
     /// @param              [in] anInstant An instant
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    static DynamicalEquationWrapper GetDynamicalEquations(
+    static NumericalSolver::SystemOfEquationsWrapper GetDynamicalEquations(
         const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
     );
 
@@ -102,8 +105,8 @@ class Dynamics
     /// @param              [in] anInstant An instant
 
     static void DynamicalEquations(
-        const StateVector& x,
-        StateVector& dxdt,
+        const NumericalSolver::StateVector& x,
+        NumericalSolver::StateVector& dxdt,
         const double& t,
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const Instant& anInstant

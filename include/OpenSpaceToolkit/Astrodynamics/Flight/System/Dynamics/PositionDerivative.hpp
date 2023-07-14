@@ -8,6 +8,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -21,6 +22,7 @@ namespace dynamics
 {
 
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::NumericalSolver;
 
 /// @brief                  Define the contribution to the position due to velocity
 
@@ -67,7 +69,7 @@ class PositionDerivative : public Dynamics
     /// @param              [in] anInstant An instant
 
     virtual void applyContribution(
-        const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
     ) const override;
 
     /// @brief              Print

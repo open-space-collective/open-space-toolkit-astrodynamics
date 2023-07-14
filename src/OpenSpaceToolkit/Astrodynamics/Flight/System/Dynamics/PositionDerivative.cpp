@@ -43,7 +43,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
 }
 
 void PositionDerivative::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
 ) const
 {
     (void)anInstant;

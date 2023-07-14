@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
 
@@ -39,6 +40,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
@@ -69,7 +71,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity :
 
     const Shared<Celestial> sphericalEarthSPtr_ = std::make_shared<Celestial>(Earth::Spherical());
 
-    Dynamics::StateVector startStateVector_;
+    NumericalSolver::StateVector startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, Constructor)
@@ -190,7 +192,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 {
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
-    Dynamics::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6, 0.0);
     centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
@@ -202,7 +204,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
 {
-    Dynamics::StateVector Earth_ReferencePull(6);
+    NumericalSolver::StateVector Earth_ReferencePull(6);
 
     // Setup dynamics
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
@@ -212,7 +214,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     };
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth

@@ -27,6 +27,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
 
@@ -59,6 +60,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
@@ -118,7 +120,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
 
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 
-    Dynamics::StateVector startStateVector_;
+    NumericalSolver::StateVector startStateVector_;
 
     Shared<Celestial> earthSPtr_ = nullptr;
 };
@@ -226,7 +228,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ApplyContribution)
 {
-    Dynamics::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6, 0.0);
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
@@ -245,11 +247,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
         std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    Dynamics::StateVector Earth_ReferencePull = {
+    NumericalSolver::StateVector Earth_ReferencePull = {
         7000000.0000000000000000,
         0.0,
         0.0,
@@ -300,7 +302,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     // Setup initial conditions
     const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
 
-    Dynamics::StateVector startStateVector = {
+    NumericalSolver::StateVector startStateVector = {
         6878137.0,
         0.0,
         0.0,
@@ -310,11 +312,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     };
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant), startStateVector, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    Dynamics::StateVector referenceValues = {
+    NumericalSolver::StateVector referenceValues = {
         6878132.787246078000000,
         7612.606615971900000,
         -0.000000000000330,

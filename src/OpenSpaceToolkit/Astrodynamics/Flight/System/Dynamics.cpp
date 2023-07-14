@@ -36,7 +36,7 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
+NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
     const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
 )
 {
@@ -51,8 +51,8 @@ Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
 }
 
 void Dynamics::DynamicalEquations(
-    const Dynamics::StateVector& x,
-    Dynamics::StateVector& dxdt,
+    const NumericalSolver::StateVector& x,
+    NumericalSolver::StateVector& dxdt,
     const double& t,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Instant& anInstant
