@@ -9,6 +9,8 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -21,9 +23,10 @@ using ostk::core::types::Real;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
+using ostk::math::obj::VectorXd;
+
 /// @brief                      Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be
 /// moved into OSTk-math in the future.
-
 class NumericalSolver
 {
    public:
@@ -41,7 +44,7 @@ class NumericalSolver
         LogAdaptive
     };
 
-    typedef std::vector<double> StateVector;  // Container used to hold the state vector
+    typedef VectorXd StateVector;                // Container used to hold the state vector
     typedef std::function<void(const StateVector&, StateVector&, const double)>
         SystemOfEquationsWrapper;                // Function pointer type for returning dynamical equation's pointers
     typedef Pair<StateVector, double> Solution;  // Container used to hold the state vector and time

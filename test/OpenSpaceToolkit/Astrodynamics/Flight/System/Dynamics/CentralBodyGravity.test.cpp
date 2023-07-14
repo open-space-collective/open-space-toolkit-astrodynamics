@@ -192,7 +192,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
 {
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
-    NumericalSolver::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6);
+    dxdt.setZero();
     centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
     EXPECT_GT(1e-15, 0.0 - dxdt[1]);

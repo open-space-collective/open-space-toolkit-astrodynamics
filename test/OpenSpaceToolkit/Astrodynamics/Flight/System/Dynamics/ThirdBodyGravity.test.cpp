@@ -210,7 +210,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, A
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
     ThirdBodyGravity thirdBodyGravity(earthSPtr);
 
-    NumericalSolver::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6);
+    dxdt.setZero();
     thirdBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
 
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
