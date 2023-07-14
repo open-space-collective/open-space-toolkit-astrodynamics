@@ -3,8 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
 
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 
 namespace ostk
 {
@@ -13,8 +18,15 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
+
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::coord::Frame;
+
+class CoordinatesBroker;
 
 /// @brief  State coordinates subset.
 
@@ -23,14 +35,10 @@ class CoordinatesSubset
    public:
     /// @brief              Constructor
     ///
-    /// @code
-    ///                     CoordinatesSubset coordinatesSubset("POSITION", 3) ;
-    /// @endcode
-    ///
-    /// @param              [in] anId The coordinate subset unique identifier
+    /// @param              [in] aName The coordinate subset name
     /// @param              [in] aSize The coordinate subset size
 
-    CoordinatesSubset(const String& anId, const Size& aSize);
+    CoordinatesSubset(const String& aName, const Size& aSize);
 
     bool operator==(const CoordinatesSubset& aCoordinatesSubset) const;
 
@@ -40,18 +48,23 @@ class CoordinatesSubset
 
     String getId() const;
 
+    String getName() const;
+
     Size getSize() const;
 
-    static CoordinatesSubset Undefined();
+    virtual VectorXd inFrame(
+        const VectorXd& allCoordinates,
+        const Shared<const Frame>& fromFrame,
+        const Shared<const CoordinatesBroker>& aCoordinatesBroker,
+        const Shared<const Frame>& toFrame
+    ) const = 0;
 
-    static CoordinatesSubset PositionCartesian();
-
-    static CoordinatesSubset VelocityCartesian();
-
-    static CoordinatesSubset Mass();
+    // virtual VectorXd operator+(const CoordinatesSubset& aCoordinatesSbuset) const = 0;
+    // static CoordinatesSubset Undefined();
 
    private:
     String id_;
+    String name_;
     Size size_;
 };
 

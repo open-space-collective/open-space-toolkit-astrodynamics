@@ -19,6 +19,7 @@ namespace trajectory
 using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
 using ostk::core::types::Size;
+using ostk::core::types::String;
 
 using ostk::astro::trajectory::CoordinatesSubset;
 
@@ -34,12 +35,6 @@ class CoordinatesBroker
     /// @endcode
 
     CoordinatesBroker();
-
-    /// @brief              Constructor
-    ///
-    /// @param              [in] aCoordinatesSubsetArray A coordinates subset array
-
-    CoordinatesBroker(const Array<CoordinatesSubset>& aCoordinatesSubsetArray);
 
     /// @brief              Equals to operator
     ///
@@ -66,6 +61,14 @@ class CoordinatesBroker
 
     Index addSubset(const CoordinatesSubset& aCoordinatesSubset);
 
+    /// @brief              Checks if a coordinates subset ID has already been considered
+    ///
+    /// @param              [in] anId the coordinates subset ID to be checked
+    ///
+    /// @return             True if the coordinates subset ID is already considered
+
+    bool hasSubset(const String& anId) const;
+
     /// @brief              Checks if a coordinates subset has already been considered
     ///
     /// @param              [in] aCoordinatesSubset the coordinates subset to be checked
@@ -74,11 +77,20 @@ class CoordinatesBroker
 
     bool hasSubset(const CoordinatesSubset& aCoordinatesSubset) const;
 
+    /// @brief              Returns the starting index of a coordinates subset ID in the state coordinates
+    ///
+    /// @param              [in] anId the coordinates subset ID
+    ///
+    /// @return             The starting index of the subset ID in the state coordinates, throwing an exception if the
+    /// coordinates subset is not present
+
+    Index getSubsetIndex(const String& anId) const;
+
     /// @brief              Returns the starting index of a coordinates subset in the state coordinates
     ///
     /// @param              [in] aCoordinatesSubset the coordinates subset
     ///
-    /// @return             The starting index of the subset int the state coordinates, throwing an exception if the
+    /// @return             The starting index of the subset in the state coordinates, throwing an exception if the
     /// coordinates subset is not present
 
     Index getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
@@ -97,7 +109,7 @@ class CoordinatesBroker
 
    private:
     Index nextCoordinatesSubsetIndex_;
-    std::unordered_map<CoordinatesSubset, Index> coordinatesSubsetIndexMap_;
+    std::unordered_map<String, Index> coordinatesSubsetIndexMap_;
 };
 
 }  // namespace trajectory

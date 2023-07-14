@@ -15,6 +15,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -35,6 +37,8 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::CoordinatesBroker;
 using ostk::astro::trajectory::CoordinatesSubset;
+using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::coordinatessubsets::CartesianVelocity;
 
 /// @brief                      Trajectory state
 

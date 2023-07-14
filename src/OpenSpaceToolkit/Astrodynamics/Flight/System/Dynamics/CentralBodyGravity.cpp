@@ -75,8 +75,8 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
 
 void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::PositionCartesian());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::VelocityCartesian());
+    // this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianPosition());
+    // this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianVelocity());
 }
 
 void CentralBodyGravity::applyContribution(

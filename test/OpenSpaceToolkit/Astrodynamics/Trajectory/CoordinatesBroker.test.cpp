@@ -40,32 +40,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, EqualToOperato
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
 
         EXPECT_TRUE(broker_1 == broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
 
         EXPECT_FALSE(broker_1 == broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
 
@@ -76,19 +76,19 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, EqualToOperato
         CoordinatesBroker broker_1 = CoordinatesBroker();
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
 
         EXPECT_FALSE(broker_1 == broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
 
         EXPECT_FALSE(broker_1 == broker_2);
     }
@@ -106,32 +106,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, NotEqualToOper
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
 
         EXPECT_FALSE(broker_1 != broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
 
         EXPECT_TRUE(broker_1 != broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
 
@@ -142,19 +142,19 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, NotEqualToOper
         CoordinatesBroker broker_1 = CoordinatesBroker();
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_2.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_2.addSubset(CoordinatesSubset::CartesianVelocity());
 
         EXPECT_TRUE(broker_1 != broker_2);
     }
 
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(CoordinatesSubset::PositionCartesian());
-        broker_1.addSubset(CoordinatesSubset::VelocityCartesian());
+        broker_1.addSubset(CoordinatesSubset::CartesianPosition());
+        broker_1.addSubset(CoordinatesSubset::CartesianVelocity());
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(CoordinatesSubset::PositionCartesian());
+        broker_2.addSubset(CoordinatesSubset::CartesianPosition());
 
         EXPECT_TRUE(broker_1 != broker_2);
     }

@@ -49,9 +49,12 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
-    this->coordinatesBrokerSPtr_ = std::make_shared<const CoordinatesBroker>(
-        CoordinatesBroker({CoordinatesSubset::PositionCartesian(), CoordinatesSubset::VelocityCartesian()})
-    );
+
+    CoordinatesBroker broker = CoordinatesBroker();
+    broker.addSubset(CartesianPosition());
+    broker.addSubset(CartesianVelocity());
+
+    this->coordinatesBrokerSPtr_ = std::make_shared<const CoordinatesBroker>(broker);
 }
 
 State State::fromStdVector(
@@ -219,9 +222,7 @@ Position State::getPosition() const
     }
 
     return Position::Meters(
-        this->coordinates_.segment(
-            this->coordinatesBrokerSPtr_->getSubsetIndex(CoordinatesSubset::PositionCartesian()), 3
-        ),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianPosition()), 3),
         this->frameSPtr_
     );
 }
@@ -234,9 +235,7 @@ Velocity State::getVelocity() const
     }
 
     return Velocity::MetersPerSecond(
-        this->coordinates_.segment(
-            this->coordinatesBrokerSPtr_->getSubsetIndex(CoordinatesSubset::VelocityCartesian()), 3
-        ),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianVelocity()), 3),
         this->frameSPtr_
     );
 }

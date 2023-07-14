@@ -11,16 +11,17 @@ namespace astro
 namespace trajectory
 {
 
-CoordinatesSubset::CoordinatesSubset(const String& anId, const Size& aSize)
-    : id_(anId),
+CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
+    : name_(aName),
       size_(aSize)
 {
+    this->id_ = aName + " | " + std::to_string(aSize);
 }
 
-CoordinatesSubset CoordinatesSubset::Undefined()
-{
-    return {String::Empty(), 0};
-}
+// CoordinatesSubset CoordinatesSubset::Undefined()
+// {
+//     return {String::Empty(), 0};
+// }
 
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
 {
@@ -47,24 +48,14 @@ String CoordinatesSubset::getId() const
     return id_;
 }
 
+String CoordinatesSubset::getName() const
+{
+    return name_;
+}
+
 Size CoordinatesSubset::getSize() const
 {
     return size_;
-}
-
-CoordinatesSubset CoordinatesSubset::PositionCartesian()
-{
-    return {"POSITION_CARTESIAN", 3};
-}
-
-CoordinatesSubset CoordinatesSubset::VelocityCartesian()
-{
-    return {"VELOCITY", 3};
-}
-
-CoordinatesSubset CoordinatesSubset::Mass()
-{
-    return {"MASS", 1};
 }
 
 }  // namespace trajectory
