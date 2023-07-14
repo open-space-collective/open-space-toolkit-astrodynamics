@@ -97,7 +97,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const VectorXd stateCoordinates = aState.getCoordinates();
 
-    NumericalSolver::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
+    NumericalSolver::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
     const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
         startStateVector,
@@ -138,7 +140,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     const VectorXd stateCoordinates = aState.getCoordinates();
-    NumericalSolver::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
+    NumericalSolver::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
     Array<Instant> forwardInstants;
     Array<Instant> backwardInstants;
