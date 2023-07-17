@@ -64,6 +64,7 @@ using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
+using ostk::physics::env::Object;
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::env::obj::celest::Earth;
 using ostk::physics::env::obj::celest::Moon;
@@ -2033,8 +2034,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEn
         // and 1 default dynamics of integrating the Position Derivative
         EXPECT_TRUE(propagator.getDynamics().getSize() == 4);
 
-        EXPECT_TRUE(dynamic_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
-        EXPECT_TRUE(dynamic_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[1]).isDefined());
-        EXPECT_TRUE(dynamic_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
+        EXPECT_TRUE(static_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
+        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[1]).isDefined());
+        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
+    }
+
+    {
+        const Array<Shared<Object>> celestials = {
+            std::make_shared<Earth>(Earth::FromModels(
+                std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+                std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+            )),
+            std::make_shared<Moon>(Moon::Default()),
+            std::make_shared<Sun>(Sun::Default()),
+        };
+        Environment environment = Environment(Instant::J2000(), celestials);
+        const Propagator propagator =
+            Propagator::FromEnvironment(defaultNumericalSolver_, environment, satelliteSystem_);
+
+        EXPECT_TRUE(propagator.getDynamics().getSize() == 5);
+
+        EXPECT_TRUE(static_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
+        EXPECT_TRUE(static_cast<const AtmosphericDrag&>(*propagator.getDynamics()[1]).isDefined());
+        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
+        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[3]).isDefined());
     }
 }
