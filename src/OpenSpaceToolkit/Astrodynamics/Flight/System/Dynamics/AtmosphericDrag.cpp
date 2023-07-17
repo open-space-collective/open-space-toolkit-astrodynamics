@@ -96,7 +96,7 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 }
 
 void AtmosphericDrag::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
 ) const
 {
     (void)anInstant;

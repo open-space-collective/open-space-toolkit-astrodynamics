@@ -74,7 +74,7 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
 }
 
 void CentralBodyGravity::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
 ) const
 {
     // Obtain gravitational acceleration from current object

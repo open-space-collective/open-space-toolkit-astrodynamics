@@ -17,6 +17,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
 
@@ -40,6 +41,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
@@ -70,7 +72,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity : p
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
     const Shared<Celestial> sphericalMoonSPtr_ = std::make_shared<Celestial>(Moon::Spherical());
 
-    Dynamics::StateVector startStateVector_;
+    NumericalSolver::StateVector startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, Constructor)
@@ -208,7 +210,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, A
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
     ThirdBodyGravity thirdBodyGravity(earthSPtr);
 
-    Dynamics::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6, 0.0);
     thirdBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
 
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
@@ -221,7 +223,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, A
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunOnly)
 {
-    Dynamics::StateVector Sun_ReferencePull(6);
+    NumericalSolver::StateVector Sun_ReferencePull(6);
     // Setup dynamics
     const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
     const Array<Shared<Dynamics>> dynamics = {
@@ -230,7 +232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     };
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
@@ -251,7 +253,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepMoonOnly)
 {
-    Dynamics::StateVector Moon_ReferencePull(6);
+    NumericalSolver::StateVector Moon_ReferencePull(6);
 
     // Setup dynamics
     const Shared<Celestial> moon = std::make_shared<Celestial>(Moon::Spherical());
@@ -261,7 +263,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     };
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
@@ -282,7 +284,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, OneStepSunMoonEarth)
 {
-    Dynamics::StateVector Earth_Sun_Moon_ReferencePull(6);
+    NumericalSolver::StateVector Earth_Sun_Moon_ReferencePull(6);
 
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
     const Shared<Celestial> sun = std::make_shared<Celestial>(Sun::Spherical());
@@ -296,7 +298,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     };
 
     // Perform 1.0s integration step
-    runge_kutta4<Dynamics::StateVector> stepper;
+    runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth

@@ -97,9 +97,11 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const VectorXd stateCoordinates = aState.getCoordinates();
 
-    Dynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
+    NumericalSolver::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
-    const Dynamics::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
+    const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
         startStateVector,
         aState.getInstant(),
         anInstant,
@@ -138,7 +140,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     const VectorXd stateCoordinates = aState.getCoordinates();
-    Dynamics::StateVector startStateVector(stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size());
+    NumericalSolver::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
 
     Array<Instant> forwardInstants;
     Array<Instant> backwardInstants;
@@ -156,7 +160,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // forward propagation only
-    Array<Dynamics::StateVector> propagatedForwardStateVectorArray;
+    Array<NumericalSolver::StateVector> propagatedForwardStateVectorArray;
     if (!forwardInstants.isEmpty())
     {
         propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
@@ -168,7 +172,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // backward propagation only
-    Array<Dynamics::StateVector> propagatedBackwardStateVectorArray;
+    Array<NumericalSolver::StateVector> propagatedBackwardStateVectorArray;
     if (!backwardInstants.isEmpty())
     {
         std::reverse(backwardInstants.begin(), backwardInstants.end());
@@ -187,7 +191,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     propagatedStates.reserve(anInstantArray.getSize());
 
     Size k = 0;
-    for (const Dynamics::StateVector& stateVector :
+    for (const NumericalSolver::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
         State propagatedState = {

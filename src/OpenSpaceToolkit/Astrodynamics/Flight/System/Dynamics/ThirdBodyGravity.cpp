@@ -80,7 +80,7 @@ Shared<const Celestial> ThirdBodyGravity::getCelestial() const
 }
 
 void ThirdBodyGravity::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
 ) const
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction

@@ -7,6 +7,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -25,6 +26,7 @@ using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
 
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::NumericalSolver;
 
 /// @brief                      Define the acceleration experienced by a point mass due to gravity
 
@@ -92,7 +94,7 @@ class ThirdBodyGravity : public Dynamics
     /// @param              [in] anInstant An instant
 
     virtual void applyContribution(
-        const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
+        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
     ) const override;
 
     /// @brief              Print third body gravity dynamics

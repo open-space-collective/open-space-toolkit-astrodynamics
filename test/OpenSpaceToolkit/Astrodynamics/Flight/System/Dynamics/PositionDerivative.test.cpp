@@ -2,11 +2,13 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::physics::time::Instant;
 
+using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 
@@ -27,7 +29,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
     const PositionDerivative positionDerivative_;
     const Instant startInstant_ = Instant::J2000();
 
-    Dynamics::StateVector startStateVector_;
+    NumericalSolver::StateVector startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, Constructor)
@@ -66,7 +68,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, ApplyContribution)
 {
-    Dynamics::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6, 0.0);
     positionDerivative_.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, startStateVector_[3] - dxdt[0]);
     EXPECT_GT(1e-15, startStateVector_[4] - dxdt[1]);
