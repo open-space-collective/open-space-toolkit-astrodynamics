@@ -3,7 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 
-#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -16,7 +15,6 @@ namespace astro
 {
 namespace trajectory
 {
-using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
 using ostk::core::types::Size;
 using ostk::core::types::String;
@@ -106,6 +104,15 @@ class CoordinatesBroker
     /// @return             The total number of coordinate subsets
 
     Size getNumberOfSubsets() const;
+
+    /// @brief              Extracts the coordinates of a given subset from the full coordinates vector
+    ///
+    /// @param              [in] allCoordinates the full coordinates vecctor
+    /// @param              [in] aCoordinatesSubset the coordinates subsets of interest
+    ///
+    /// @return             The coordinates of the subset
+    
+    VectorXd extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
 
    private:
     Index nextCoordinatesSubsetIndex_;

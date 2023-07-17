@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
 {
@@ -25,6 +26,7 @@ using ostk::core::types::String;
 using ostk::math::obj::VectorXd;
 
 using ostk::physics::coord::Frame;
+using ostk::physics::time::Instant;
 
 class CoordinatesBroker;
 
@@ -44,8 +46,6 @@ class CoordinatesSubset
 
     bool operator!=(const CoordinatesSubset& aCoordinatesSubset) const;
 
-    bool isDefined() const;
-
     String getId() const;
 
     String getName() const;
@@ -53,6 +53,7 @@ class CoordinatesSubset
     Size getSize() const;
 
     virtual VectorXd inFrame(
+        const Instant& anInstant,
         const VectorXd& allCoordinates,
         const Shared<const Frame>& fromFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker,

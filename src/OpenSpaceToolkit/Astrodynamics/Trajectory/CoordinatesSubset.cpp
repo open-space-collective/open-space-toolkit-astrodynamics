@@ -15,20 +15,20 @@ CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
     : name_(aName),
       size_(aSize)
 {
+    if (aName.isEmpty()) {
+        throw ostk::core::error::runtime::Wrong("Name");
+    }
+
+    if (aSize == 0)
+    {
+        throw ostk::core::error::runtime::Wrong("Size");
+    }
+
     this->id_ = aName + " | " + std::to_string(aSize);
 }
 
-// CoordinatesSubset CoordinatesSubset::Undefined()
-// {
-//     return {String::Empty(), 0};
-// }
-
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
 {
-    if (!this->isDefined() || !aCoordinatesSubset.isDefined())
-    {
-        return false;
-    }
 
     return this->id_ == aCoordinatesSubset.id_;
 }
@@ -36,11 +36,6 @@ bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) 
 bool CoordinatesSubset::operator!=(const CoordinatesSubset& aCoordinatesSubset) const
 {
     return !((*this) == aCoordinatesSubset);
-}
-
-bool CoordinatesSubset::isDefined() const
-{
-    return !this->id_.isEmpty() && (this->size_ != 0);
 }
 
 String CoordinatesSubset::getId() const

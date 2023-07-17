@@ -12,6 +12,9 @@ namespace astro
 namespace trajectory
 {
 
+static const CartesianPosition cartesianPosition = CartesianPosition::ThreeDimensional();
+static const CartesianVelocity cartesianVelocity = CartesianVelocity::FromPosition(cartesianPosition);
+
 State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
@@ -51,8 +54,8 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     this->frameSPtr_ = aPosition.accessFrame();
 
     CoordinatesBroker broker = CoordinatesBroker();
-    broker.addSubset(CartesianPosition());
-    broker.addSubset(CartesianVelocity());
+    broker.addSubset(cartesianPosition);
+    broker.addSubset(cartesianVelocity);
 
     this->coordinatesBrokerSPtr_ = std::make_shared<const CoordinatesBroker>(broker);
 }
@@ -222,7 +225,7 @@ Position State::getPosition() const
     }
 
     return Position::Meters(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianPosition()), 3),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianPosition), 3),
         this->frameSPtr_
     );
 }
@@ -235,7 +238,7 @@ Velocity State::getVelocity() const
     }
 
     return Velocity::MetersPerSecond(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianVelocity()), 3),
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianVelocity), 3),
         this->frameSPtr_
     );
 }
