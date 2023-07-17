@@ -80,9 +80,50 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
  && make install \
  && rm -rf /tmp/nlopt
 
+## Script to get the latest patch version of an Open Space Toolkit repository
+## args: $1:project name, $2:major version, $3:minor version
+RUN echo "VERSION_REGEX='^'\$2'\\.'\$3'\\.[0-9]*$'; curl https://api.github.com/repos/open-space-collective/\$1/releases -s | jq -r .[].tag_name | grep -m1 \$VERSION_REGEX" \
+    > "/tmp/latest_ostk_patch_version.sh" \
+    && chmod +x "/tmp/latest_ostk_patch_version.sh"
+
+## Open Space Toolkit ▸ Physics
+
+ARG OSTK_PHYSICS_MAJOR="1"
+ARG OSTK_PHYSICS_MINOR="1"
+
+## Bust the cache when new patch tags for Physics are created
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
+
+RUN mkdir -p /tmp/open-space-toolkit-physics \
+ && cd /tmp/open-space-toolkit-physics \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-physics ${OSTK_PHYSICS_MAJOR} ${OSTK_PHYSICS_MINOR}) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${FETCH_VERSION}/open-space-toolkit-physics-${FETCH_VERSION}-1.x86_64-devel.deb \
+ && apt-get install -y ./*.deb \
+ && rm -rf /tmp/open-space-toolkit-physics
+
+## Open Space Toolkit ▸ Mathematics
+
+ARG OSTK_MATHEMATICS_MAJOR="0"
+ARG OSTK_MATHEMATICS_MINOR="7"
+
+## Bust the cache when new patch tags for Math are created
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR}.${OSTK_MATHEMATICS_MINOR} /tmp/open-space-toolkit-mathematics/versions.json
+
+RUN mkdir -p /tmp/open-space-toolkit-mathematics \
+ && cd /tmp/open-space-toolkit-mathematics \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-mathematics ${OSTK_MATHEMATICS_MAJOR} ${OSTK_MATHEMATICS_MINOR}) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${FETCH_VERSION}/open-space-toolkit-mathematics-${FETCH_VERSION}-1.x86_64-devel.deb \
+ && apt-get install -y ./*.deb \
+ && rm -rf /tmp/open-space-toolkit-mathematics
+
 ## Open Space Toolkit ▸ Core
 
 ARG OSTK_CORE_VERSION="0.7.2"
+
+## Bust the cache when new patch tags for Core are created
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR}.${OSTK_CORE_MINOR} /tmp/open-space-toolkit-core/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
@@ -95,34 +136,15 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 
 ARG OSTK_IO_VERSION="0.6.1"
 
+## Bust the cache when new patch tags for IO are created
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git/matching-refs/tags/${OSTK_IO_MAJOR}.${OSTK_IO_MINOR} /tmp/open-space-toolkit-io/versions.json
+
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-runtime.deb \
  && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-io
-
-## Open Space Toolkit ▸ Mathematics
-
-ARG OSTK_MATHEMATICS_VERSION="0.7.4"
-
-RUN mkdir -p /tmp/open-space-toolkit-mathematics \
- && cd /tmp/open-space-toolkit-mathematics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${OSTK_MATHEMATICS_VERSION}/open-space-toolkit-mathematics-${OSTK_MATHEMATICS_VERSION}-1.x86_64-devel.deb \
- && apt-get install -y ./*.deb \
- && rm -rf /tmp/open-space-toolkit-mathematics
-
-## Open Space Toolkit ▸ Physics
-
-ARG OSTK_PHYSICS_VERSION="1.1.4"
-
-RUN mkdir -p /tmp/open-space-toolkit-physics \
- && cd /tmp/open-space-toolkit-physics \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${OSTK_PHYSICS_VERSION}/open-space-toolkit-physics-${OSTK_PHYSICS_VERSION}-1.x86_64-devel.deb \
- && apt-get install -y ./*.deb \
- && rm -rf /tmp/open-space-toolkit-physics
 
 # Install data
 
