@@ -299,6 +299,7 @@ debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 	docker run \
 		-it \
 		--rm \
+		--user=root \
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
@@ -306,7 +307,9 @@ debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 		--volume="$(CURDIR)/lib/$(jupyter_project_name_python_shared_object).so:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/$(jupyter_project_name_python_shared_object).so:ro" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
-		bash -c "start-notebook.sh --ServerApp.token=''"
+		bash -c "chown -R jovyan:users /home/jovyan ; start-notebook.sh --ServerApp.token=''"
+
+	bash -c "sudo chown -R $(shell id -u):$(shell id -g) $(CURDIR)/bindings/python/docs"
 
 .PHONY: debug-jupyter-notebook
 
