@@ -91,7 +91,7 @@ RUN echo "VERSION_REGEX='^'\$2'\\.'\$3'\\.[0-9]*$'; curl https://api.github.com/
 ARG OSTK_PHYSICS_MAJOR="1"
 ARG OSTK_PHYSICS_MINOR="1"
 
-## Bust the cache when new patch tags for Physics are created
+## Force an image rebuild when new Physics patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-physics \
@@ -107,7 +107,7 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
 ARG OSTK_MATHEMATICS_MAJOR="0"
 ARG OSTK_MATHEMATICS_MINOR="7"
 
-## Bust the cache when new patch tags for Math are created
+## Force an image rebuild when new Mathematics patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR}.${OSTK_MATHEMATICS_MINOR} /tmp/open-space-toolkit-mathematics/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-mathematics \
@@ -120,29 +120,33 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Core
 
-ARG OSTK_CORE_VERSION="0.7.2"
+ARG OSTK_CORE_MAJOR="0"
+ARG OSTK_CORE_MINOR="7"
 
-## Bust the cache when new patch tags for Core are created
+## Force an image rebuild when new Core patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-core/git/matching-refs/tags/${OSTK_CORE_MAJOR}.${OSTK_CORE_MINOR} /tmp/open-space-toolkit-core/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-core \
  && cd /tmp/open-space-toolkit-core \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${OSTK_CORE_VERSION}/open-space-toolkit-core-${OSTK_CORE_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-core ${OSTK_CORE_MAJOR} ${OSTK_CORE_MINOR}) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-core/releases/download/${FETCH_VERSION}/open-space-toolkit-core-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-core
 
 ## Open Space Toolkit ▸ I/O
 
-ARG OSTK_IO_VERSION="0.6.1"
+ARG OSTK_IO_MAJOR="0"
+ARG OSTK_IO_MINOR="6"
 
-## Bust the cache when new patch tags for IO are created
+## Force an image rebuild when new IO patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git/matching-refs/tags/${OSTK_IO_MAJOR}.${OSTK_IO_MINOR} /tmp/open-space-toolkit-io/versions.json
 
 RUN mkdir -p /tmp/open-space-toolkit-io \
  && cd /tmp/open-space-toolkit-io \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${OSTK_IO_VERSION}/open-space-toolkit-io-${OSTK_IO_VERSION}-1.x86_64-devel.deb \
+ && export FETCH_VERSION=$(/tmp/latest_ostk_patch_version.sh open-space-toolkit-io ${OSTK_IO_MAJOR} ${OSTK_IO_MINOR}) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-io/releases/download/${FETCH_VERSION}/open-space-toolkit-io-${FETCH_VERSION}-1.x86_64-devel.deb \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-io
 
