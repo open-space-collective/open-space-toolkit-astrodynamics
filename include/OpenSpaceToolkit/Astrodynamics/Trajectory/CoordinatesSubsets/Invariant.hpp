@@ -21,7 +21,6 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::CoordinatesSubset;
 using ostk::astro::trajectory::CoordinatesBroker;
 
-
 /// @brief  Invariant (frame-indepdentent) coordinate subset.
 
 class Invariant : public CoordinatesSubset
@@ -31,12 +30,18 @@ class Invariant : public CoordinatesSubset
 
     /// @brief              Constructor
     ///
-    /// @param              [in] aName a name 
+    /// @param              [in] aName a name
     /// @param              [in] aSize a size
 
     Invariant(const String& aName, const Size& aSize);
 
-    virtual VectorXd inFrame(const Instant& anInstant, const VectorXd& allCoordinates, const Shared<const Frame>& fromFrame, const Shared<const CoordinatesBroker>& aCoordinatesBroker, const Shared<const Frame>& toFrame) const override;
+    virtual VectorXd inFrame(
+        const Instant& anInstant,
+        const VectorXd& allCoordinates,
+        const Shared<const Frame>& fromFrame,
+        const Shared<const CoordinatesBroker>& aCoordinatesBroker,
+        const Shared<const Frame>& toFrame
+    ) const override;
 
     static Invariant Mass();
 };

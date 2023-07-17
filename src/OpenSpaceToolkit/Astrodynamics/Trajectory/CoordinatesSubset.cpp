@@ -15,7 +15,8 @@ CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
     : name_(aName),
       size_(aSize)
 {
-    if (aName.isEmpty()) {
+    if (aName.isEmpty())
+    {
         throw ostk::core::error::runtime::Wrong("Name");
     }
 
@@ -29,7 +30,6 @@ CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
 
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
 {
-
     return this->id_ == aCoordinatesSubset.id_;
 }
 

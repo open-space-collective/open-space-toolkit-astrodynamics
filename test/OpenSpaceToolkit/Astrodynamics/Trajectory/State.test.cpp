@@ -304,7 +304,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
 {
-        {
+    {
         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
         VectorXd coordinates(6);
         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;

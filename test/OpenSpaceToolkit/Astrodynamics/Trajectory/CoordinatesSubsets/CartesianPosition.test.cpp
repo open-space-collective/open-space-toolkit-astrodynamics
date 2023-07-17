@@ -66,7 +66,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
 
     EXPECT_EQ("NAME", cartesianPosition.getName());
     EXPECT_EQ(2, cartesianPosition.getSize());
-   
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, OneDimensional)

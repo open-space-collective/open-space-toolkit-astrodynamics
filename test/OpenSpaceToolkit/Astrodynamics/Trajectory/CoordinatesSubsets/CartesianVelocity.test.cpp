@@ -39,24 +39,42 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVeloc
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVelocity, EqualToOperator)
 {
     {
-        EXPECT_TRUE(CartesianVelocity("NAME", twoDimensionalCartesianPosition) == CartesianVelocity("NAME", twoDimensionalCartesianPosition));
+        EXPECT_TRUE(
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition) ==
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition)
+        );
     }
 
     {
-        EXPECT_FALSE(CartesianVelocity("NAME", twoDimensionalCartesianPosition) == CartesianVelocity("OTHER", twoDimensionalCartesianPosition));
-        EXPECT_FALSE(CartesianVelocity("NAME", oneDimensionalCartesianPosition) == CartesianVelocity("NAME", twoDimensionalCartesianPosition));
+        EXPECT_FALSE(
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition) ==
+            CartesianVelocity("OTHER", twoDimensionalCartesianPosition)
+        );
+        EXPECT_FALSE(
+            CartesianVelocity("NAME", oneDimensionalCartesianPosition) ==
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition)
+        );
     }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVelocity, NotEqualToOperator)
 {
     {
-        EXPECT_FALSE(CartesianVelocity("NAME", twoDimensionalCartesianPosition) != CartesianVelocity("NAME", twoDimensionalCartesianPosition));
+        EXPECT_FALSE(
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition) !=
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition)
+        );
     }
 
     {
-        EXPECT_TRUE(CartesianVelocity("NAME", twoDimensionalCartesianPosition) != CartesianVelocity("OTHER", twoDimensionalCartesianPosition));
-        EXPECT_TRUE(CartesianVelocity("NAME", oneDimensionalCartesianPosition) != CartesianVelocity("NAME", twoDimensionalCartesianPosition));
+        EXPECT_TRUE(
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition) !=
+            CartesianVelocity("OTHER", twoDimensionalCartesianPosition)
+        );
+        EXPECT_TRUE(
+            CartesianVelocity("NAME", oneDimensionalCartesianPosition) !=
+            CartesianVelocity("NAME", twoDimensionalCartesianPosition)
+        );
     }
 }
 
@@ -66,13 +84,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVeloc
 
     EXPECT_EQ("NAME", cartesianVelocity.getName());
     EXPECT_EQ(2, cartesianVelocity.getSize());
-   
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVelocity, FromPosition)
 {
     {
-        const CartesianVelocity oneDimensionalCartesianVelocity = CartesianVelocity::FromPosition(oneDimensionalCartesianPosition);
+        const CartesianVelocity oneDimensionalCartesianVelocity =
+            CartesianVelocity::FromPosition(oneDimensionalCartesianPosition);
 
         EXPECT_EQ(CartesianVelocity::DEFAULT_NAME, oneDimensionalCartesianVelocity.getName());
         EXPECT_EQ(1, oneDimensionalCartesianVelocity.getSize());
@@ -84,11 +102,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVeloc
         broker.addSubset(oneDimensionalCartesianVelocity);
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(broker);
 
-        EXPECT_ANY_THROW(oneDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2));
+        EXPECT_ANY_THROW(oneDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2)
+        );
     }
 
     {
-        const CartesianVelocity twoDimensionalCartesianVelocity = CartesianVelocity::FromPosition(twoDimensionalCartesianPosition);
+        const CartesianVelocity twoDimensionalCartesianVelocity =
+            CartesianVelocity::FromPosition(twoDimensionalCartesianPosition);
 
         EXPECT_EQ(CartesianVelocity::DEFAULT_NAME, twoDimensionalCartesianVelocity.getName());
         EXPECT_EQ(2, twoDimensionalCartesianVelocity.getSize());
@@ -100,11 +120,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVeloc
         broker.addSubset(twoDimensionalCartesianVelocity);
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(broker);
 
-        EXPECT_ANY_THROW(twoDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2));
+        EXPECT_ANY_THROW(twoDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2)
+        );
     }
 
     {
-        const CartesianVelocity threeDimensionalCartesianVelocity = CartesianVelocity::FromPosition(threeDimensionalCartesianPosition);
+        const CartesianVelocity threeDimensionalCartesianVelocity =
+            CartesianVelocity::FromPosition(threeDimensionalCartesianPosition);
 
         EXPECT_EQ(CartesianVelocity::DEFAULT_NAME, threeDimensionalCartesianVelocity.getName());
         EXPECT_EQ(3, threeDimensionalCartesianVelocity.getSize());
@@ -116,8 +138,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVeloc
         broker.addSubset(threeDimensionalCartesianVelocity);
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(broker);
 
-        Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, frame_1).inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, frame_1), frame_2, instant).getCoordinates();
-        VectorXd actual = threeDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
+        Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, frame_1)
+                                .inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, frame_1), frame_2, instant)
+                                .getCoordinates();
+        VectorXd actual =
+            threeDimensionalCartesianVelocity.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
 
         EXPECT_EQ(3, actual.size());
         EXPECT_EQ(expected(0), actual(0));

@@ -23,7 +23,6 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::CoordinatesSubset;
 using ostk::astro::trajectory::CoordinatesBroker;
 
-
 /// @brief  Cartesian Position.
 
 class CartesianPosition : public CoordinatesSubset
@@ -33,19 +32,25 @@ class CartesianPosition : public CoordinatesSubset
 
     /// @brief              Constructor
     ///
-    /// @param              [in] aName a name 
+    /// @param              [in] aName a name
     /// @param              [in] aSize a size [1, 3]
 
     CartesianPosition(const String& aName, const Size& aSize);
 
-    virtual VectorXd inFrame(const Instant& anInstant, const VectorXd& allCoordinates, const Shared<const Frame>& fromFrame, const Shared<const CoordinatesBroker>& aCoordinatesBroker, const Shared<const Frame>& toFrame) const override;
+    virtual VectorXd inFrame(
+        const Instant& anInstant,
+        const VectorXd& allCoordinates,
+        const Shared<const Frame>& fromFrame,
+        const Shared<const CoordinatesBroker>& aCoordinatesBroker,
+        const Shared<const Frame>& toFrame
+    ) const override;
 
     static CartesianPosition OneDimensional();
 
     static CartesianPosition TwoDimensional();
 
     static CartesianPosition ThreeDimensional();
-   
+
    private:
     CartesianPosition(const Size& aSize);
 };

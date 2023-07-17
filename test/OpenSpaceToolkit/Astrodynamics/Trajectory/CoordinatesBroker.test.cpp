@@ -16,7 +16,6 @@ static const Invariant subset_3 = Invariant("S3", 3);
 static const Invariant subset_1_duplicate = Invariant("S1", 1);
 static const Invariant subset_4 = Invariant("S4", 1);
 
-
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Constructor)
 {
     {
@@ -272,5 +271,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Extract)
         EXPECT_EQ(5.0, subset_3_coordinates(2));
 
         EXPECT_ANY_THROW(broker.extract(allCoordinates, subset_4));
-    }   
+    }
 }

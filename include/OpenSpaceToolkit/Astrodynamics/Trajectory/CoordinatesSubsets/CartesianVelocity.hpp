@@ -32,16 +32,22 @@ class CartesianVelocity : public CoordinatesSubset
 
     /// @brief              Constructor
     ///
-    /// @param              [in] aName a name 
+    /// @param              [in] aName a name
     /// @param              [in] aCartesianPosition the Cartesian Position subset used in frame transformation
-     
+
     CartesianVelocity(const String& aName, const CartesianPosition& aCartesianPosition);
 
-    virtual VectorXd inFrame(const Instant& anInstant, const VectorXd& allCoordinates, const Shared<const Frame>& fromFrame, const Shared<const CoordinatesBroker>& aCoordinatesBroker, const Shared<const Frame>& toFrame) const override;
+    virtual VectorXd inFrame(
+        const Instant& anInstant,
+        const VectorXd& allCoordinates,
+        const Shared<const Frame>& fromFrame,
+        const Shared<const CoordinatesBroker>& aCoordinatesBroker,
+        const Shared<const Frame>& toFrame
+    ) const override;
 
     static CartesianVelocity FromPosition(const CartesianPosition& aCartesianPosition);
 
-  private:
+   private:
     CartesianPosition cartesianPosition_;
 };
 

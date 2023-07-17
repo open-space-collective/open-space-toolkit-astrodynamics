@@ -15,7 +15,6 @@ CoordinatesBroker::CoordinatesBroker()
     : nextCoordinatesSubsetIndex_(0),
       coordinatesSubsetIndexMap_({})
 {
-
 }
 
 bool CoordinatesBroker::operator==(const CoordinatesBroker& aCoordinatesBroker) const
@@ -107,17 +106,18 @@ Size CoordinatesBroker::getNumberOfSubsets() const
     return (size_t)this->coordinatesSubsetIndexMap_.size();
 }
 
-VectorXd CoordinatesBroker::extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const {
+VectorXd CoordinatesBroker::extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const
+{
     VectorXd subsetCoordinates = VectorXd(aCoordinatesSubset.getSize());
     Index indexOffset = this->getSubsetIndex(aCoordinatesSubset);
 
-    for (Index i = 0; i < aCoordinatesSubset.getSize(); i++) {
+    for (Index i = 0; i < aCoordinatesSubset.getSize(); i++)
+    {
         subsetCoordinates(i) = allCoordinates(i + indexOffset);
     }
 
     return subsetCoordinates;
 }
-
 
 }  // namespace trajectory
 }  // namespace astro

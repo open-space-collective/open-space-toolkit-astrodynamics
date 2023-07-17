@@ -27,14 +27,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, Con
     }
 }
 
-
-
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, EqualToOperator)
 {
     {
         EXPECT_TRUE(Invariant("NAME", 1) == Invariant("NAME", 1));
     }
-    
+
     {
         EXPECT_FALSE(Invariant("NAME", 1) == Invariant("OTHER", 1));
         EXPECT_FALSE(Invariant("NAME", 1) == Invariant("NAME", 2));
@@ -46,12 +44,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, Not
     {
         EXPECT_FALSE(Invariant("NAME", 1) != Invariant("NAME", 1));
     }
-    
+
     {
         EXPECT_TRUE(Invariant("NAME", 1) != Invariant("OTHER", 1));
         EXPECT_TRUE(Invariant("NAME", 1) != Invariant("NAME", 2));
     }
-    
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, Getters)
@@ -103,4 +100,3 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, Mas
         EXPECT_EQ(1, mass.getSize());
     }
 }
-

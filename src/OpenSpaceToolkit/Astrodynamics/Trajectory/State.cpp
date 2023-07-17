@@ -225,8 +225,7 @@ Position State::getPosition() const
     }
 
     return Position::Meters(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianPosition), 3),
-        this->frameSPtr_
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianPosition), 3), this->frameSPtr_
     );
 }
 
@@ -238,8 +237,7 @@ Velocity State::getVelocity() const
     }
 
     return Velocity::MetersPerSecond(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianVelocity), 3),
-        this->frameSPtr_
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianVelocity), 3), this->frameSPtr_
     );
 }
 

@@ -111,7 +111,7 @@ class CoordinatesBroker
     /// @param              [in] aCoordinatesSubset the coordinates subsets of interest
     ///
     /// @return             The coordinates of the subset
-    
+
     VectorXd extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
 
    private:
