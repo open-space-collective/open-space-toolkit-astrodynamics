@@ -163,41 +163,25 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateTimes(
         return states_;
     }
 
-    // Add start instant to the start of array and convert to integration seconds
-    Array<double> anIntegrationDurationInSecsArray = {0};
-    Size stopCounter = 0;
-    Integer durationSign = Integer::Undefined();
-
-    for (const Real& time : aTimeArray)
-    {
-        const double durationInSecs = (time - aStartTime);
-        anIntegrationDurationInSecsArray.add(durationInSecs);
-
-        if (durationInSecs != 0 && stopCounter == 0)
-        {
-            durationSign = (durationInSecs > 0) - (durationInSecs < 0);
-            stopCounter++;
-        }
-    }
-
     // Ensure integration starts in the correct direction with the initial time step guess
+    Integer durationSign = (aTimeArray[0] > 0.0) - (aTimeArray[0] < 0.0);
     const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+
+    // Add start instant to the start of array and convert to integration seconds
+    Array<double> durationArray(aTimeArray.begin(), aTimeArray.end());
+    durationArray.insert(durationArray.begin(), aStartTime);
+
+    const auto observer = [&](const NumericalSolver::StateVector& x, double t) -> void
+    {
+        this->observeNumericalIntegration(x, t);
+    };
 
     switch (stepperType_)
     {
         case NumericalSolver::StepperType::RungeKutta4:
         {
             integrate_times(
-                stepper_type_4(),
-                aSystemOfEquations,
-                aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
-                adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                stepper_type_4(), aSystemOfEquations, aStateVector, durationArray, adjustedTimeStep, observer
             );
             break;
         }
@@ -208,13 +192,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateTimes(
                 make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()),
                 aSystemOfEquations,
                 aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
+                durationArray,
                 adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                observer
             );
             break;
         }
@@ -225,13 +205,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateTimes(
                 make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()),
                 aSystemOfEquations,
                 aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
+                durationArray,
                 adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                observer
             );
             break;
         }
@@ -261,8 +237,13 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    Integer durationSign = (aDurationInSeconds > 0.0) - (aDurationInSeconds < 0.0);
+    const Integer durationSign = (aDurationInSeconds > 0.0) - (aDurationInSeconds < 0.0);
     const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+
+    const auto observer = [&](const NumericalSolver::StateVector& x, double t) -> void
+    {
+        this->observeNumericalIntegration(x, t);
+    };
 
     switch (stepperType_)
     {
@@ -284,10 +265,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
                         (0.0),
                         (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
                     return aStateVector;
                 }
@@ -310,10 +288,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
                         (0.0),
                         (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
                     return aStateVector;
                 }
@@ -327,10 +302,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
                         (0.0),
                         (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
                     return aStateVector;
                 }
@@ -353,10 +325,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
                         (0.0),
                         (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
                     return aStateVector;
                 }
@@ -370,10 +339,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
                         (0.0),
                         (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
                     return aStateVector;
                 }
