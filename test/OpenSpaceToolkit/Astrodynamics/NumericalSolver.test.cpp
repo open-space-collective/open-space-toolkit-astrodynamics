@@ -893,6 +893,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(100);
 
@@ -921,6 +922,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-100);
 
@@ -949,6 +951,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
@@ -976,6 +979,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
@@ -1003,6 +1007,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
@@ -1030,6 +1035,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
@@ -1057,6 +1063,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
@@ -1113,6 +1120,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
     {
         NumericalSolver::StateVector currentStateVector(2);
         currentStateVector << 0.0, 1.0;
+
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
