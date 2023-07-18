@@ -167,8 +167,8 @@ class NumericalSolver
     ///
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aStartTime A time to begin integrating from
-    /// @param              [in] aTimeArray An time array to integrate to
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// @param              [in] aTimeArray A array of times to integrate to
+    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<std::vector<double>>
 
@@ -187,8 +187,8 @@ class NumericalSolver
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aStartTime A time to begin integrating from
-    /// @param              [in] anEndTime An time to finish integrating at
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// @param              [in] anEndTime An time to integrate to
+    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
@@ -206,8 +206,8 @@ class NumericalSolver
     ///                     SystemofEquations) ;
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aDurationInSeconds A duration over which to integration
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// @param              [in] aDurationInSeconds A duration over which to integrate
+    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
@@ -224,8 +224,8 @@ class NumericalSolver
     ///                     SystemofEquations);
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aDurationArray A duration over which to integration
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// @param              [in] aDurationArray An array of durations over which to integrate
+    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
