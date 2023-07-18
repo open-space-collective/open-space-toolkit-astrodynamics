@@ -19,18 +19,16 @@ using ostk::physics::coord::Position;
 
 const String CartesianPosition::DEFAULT_NAME = "CARTESIAN_POSITION";
 
+const Shared<const CartesianPosition> CartesianPosition::THREE_DIMENSIONAL =
+    std::make_shared<CartesianPosition>(CartesianPosition::DEFAULT_NAME, 3);
+
 CartesianPosition::CartesianPosition(const String& aName, const Size& aSize)
     : CoordinatesSubset(aName, aSize)
 {
-    if (aSize > 3)
+    if (aSize != 3)
     {
         throw ostk::core::error::runtime::Wrong("Size");
     }
-}
-
-CartesianPosition::CartesianPosition(const Size& aSize)
-    : CartesianPosition(CartesianPosition::DEFAULT_NAME, aSize)
-{
 }
 
 VectorXd CartesianPosition::inFrame(
@@ -41,11 +39,6 @@ VectorXd CartesianPosition::inFrame(
     const Shared<const Frame>& toFrame
 ) const
 {
-    if (this->getSize() != 3)
-    {
-        throw ostk::core::error::runtime::ToBeImplemented("Frame Transformation");
-    }
-
     VectorXd positionCoordinates = aCoordinatesBroker->extract(allCoordinates, *this);
 
     Vector3d toFrameCoordinates =
@@ -56,19 +49,9 @@ VectorXd CartesianPosition::inFrame(
     return VectorXd::Map(toFrameCoordinates.data(), static_cast<Eigen::Index>(3));
 }
 
-CartesianPosition CartesianPosition::OneDimensional()
+Shared<const CartesianPosition> CartesianPosition::ThreeDimensional()
 {
-    return {1};
-}
-
-CartesianPosition CartesianPosition::TwoDimensional()
-{
-    return {2};
-}
-
-CartesianPosition CartesianPosition::ThreeDimensional()
-{
-    return {3};
+    return CartesianPosition::THREE_DIMENSIONAL;
 }
 
 }  // namespace coordinatessubsets

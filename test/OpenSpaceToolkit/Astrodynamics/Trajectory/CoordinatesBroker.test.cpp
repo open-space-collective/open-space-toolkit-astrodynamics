@@ -5,24 +5,27 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::types::Shared;
+
 using ostk::math::obj::VectorXd;
 
 using ostk::astro::trajectory::CoordinatesBroker;
 using ostk::astro::trajectory::coordinatessubsets::Invariant;
 
-static const Invariant subset_1 = Invariant("S1", 1);
-static const Invariant subset_2 = Invariant("S2", 2);
-static const Invariant subset_3 = Invariant("S3", 3);
-static const Invariant subset_1_duplicate = Invariant("S1", 1);
-static const Invariant subset_4 = Invariant("S4", 1);
+static const Shared<Invariant> subset_1 = std::make_shared<Invariant>("S1", 1);
+static const Shared<Invariant> subset_2 = std::make_shared<Invariant>("S2", 2);
+static const Shared<Invariant> subset_3 = std::make_shared<Invariant>("S3", 3);
+static const Shared<Invariant> subset_4 = std::make_shared<Invariant>("S4", 1);
+static const Shared<Invariant> subset_1_duplicate = std::make_shared<Invariant>("S1", 1);
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Constructor)
 {
     {
-        CoordinatesBroker broker = CoordinatesBroker();
+        EXPECT_NO_THROW(CoordinatesBroker());
+    }
 
-        EXPECT_EQ(0, broker.getNumberOfCoordinates());
-        EXPECT_EQ(0, broker.getNumberOfSubsets());
+    {
+        EXPECT_NO_THROW(CoordinatesBroker({subset_1, subset_2, subset_1_duplicate}));
     }
 }
 
@@ -155,6 +158,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, NotEqualToOper
         broker_2.addSubset(subset_1);
 
         EXPECT_TRUE(broker_1 != broker_2);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Getters)
+{
+    {
+        CoordinatesBroker broker = CoordinatesBroker();
+
+        EXPECT_EQ(0, broker.getNumberOfCoordinates());
+        EXPECT_EQ(0, broker.getNumberOfSubsets());
+        EXPECT_EQ(0, broker.getSubsets().size());
+    }
+
+    {
+        CoordinatesBroker broker = CoordinatesBroker({subset_1, subset_2, subset_1_duplicate});
+
+        EXPECT_EQ(3, broker.getNumberOfCoordinates());
+        EXPECT_EQ(2, broker.getNumberOfSubsets());
+        EXPECT_EQ(2, broker.getSubsets().size());
+        EXPECT_EQ(subset_1, broker.getSubsets()[0]);
+        EXPECT_EQ(subset_2, broker.getSubsets()[1]);
     }
 }
 

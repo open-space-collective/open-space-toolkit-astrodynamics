@@ -12,8 +12,9 @@ namespace astro
 namespace trajectory
 {
 
-static const CartesianPosition cartesianPosition = CartesianPosition::ThreeDimensional();
-static const CartesianVelocity cartesianVelocity = CartesianVelocity::FromPosition(cartesianPosition);
+static const Shared<const CartesianPosition> cartesianPositionSPtr = CartesianPosition::ThreeDimensional();
+static const Shared<const CartesianVelocity> cartesianVelocitySPtr =
+    CartesianVelocity::FromPosition(cartesianPositionSPtr);
 
 State::State(
     const Instant& anInstant,
@@ -52,12 +53,9 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
 
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
-
-    CoordinatesBroker broker = CoordinatesBroker();
-    broker.addSubset(cartesianPosition);
-    broker.addSubset(cartesianVelocity);
-
-    this->coordinatesBrokerSPtr_ = std::make_shared<const CoordinatesBroker>(broker);
+    // const Array<Shared<CoordinatesSubset> subsets = {cartesianPositionSPtr, cartesianVelocitySPtr};
+    //  TODO fix this
+    this->coordinatesBrokerSPtr_ = CoordinatesBroker::FromSubsets({});
 }
 
 State State::fromStdVector(
@@ -225,7 +223,8 @@ Position State::getPosition() const
     }
 
     return Position::Meters(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianPosition), 3), this->frameSPtr_
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianPositionSPtr), 3),
+        this->frameSPtr_
     );
 }
 
@@ -237,7 +236,8 @@ Velocity State::getVelocity() const
     }
 
     return Velocity::MetersPerSecond(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianVelocity), 3), this->frameSPtr_
+        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(cartesianVelocitySPtr), 3),
+        this->frameSPtr_
     );
 }
 

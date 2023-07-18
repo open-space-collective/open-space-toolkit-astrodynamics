@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
@@ -25,6 +26,7 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::ctnr::Array;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
 

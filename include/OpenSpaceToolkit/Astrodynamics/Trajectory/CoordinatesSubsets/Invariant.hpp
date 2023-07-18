@@ -14,6 +14,7 @@ namespace trajectory
 namespace coordinatessubsets
 {
 
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
@@ -43,7 +44,13 @@ class Invariant : public CoordinatesSubset
         const Shared<const Frame>& toFrame
     ) const override;
 
-    static Invariant Mass();
+    /// @brief              Returns the default mass instance
+    ///
+    /// @return             The defaul mass instance
+    static Shared<const Invariant> Mass();
+
+   private:
+    static const Shared<const Invariant> MASS;
 };
 
 }  // namespace coordinatessubsets

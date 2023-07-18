@@ -69,18 +69,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, InF
         const Shared<const Frame> frame_2 = Frame::TEME();
         VectorXd allCoordinates(3);
         allCoordinates << 0.0, 1.0, 2.0;
-        const Invariant invariant_1 = Invariant("S1", 1);
-        const Invariant invariant_2 = Invariant("S2", 2);
-        CoordinatesBroker broker = CoordinatesBroker();
-        broker.addSubset(invariant_1);
-        broker.addSubset(invariant_2);
-        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(broker);
+        const Shared<Invariant> invariant_1 = std::make_shared<Invariant>(Invariant("S1", 1));
+        const Shared<Invariant> invariant_2 = std::make_shared<Invariant>(Invariant("S2", 2));
+        const Shared<const CoordinatesBroker> brokerSPtr = CoordinatesBroker::FromSubsets({invariant_1, invariant_2});
 
-        const VectorXd inFrame_1 = invariant_1.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
+        const VectorXd inFrame_1 = invariant_1->inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
         EXPECT_EQ(1, inFrame_1.size());
         EXPECT_EQ(0.0, inFrame_1(0));
 
-        const VectorXd inFrame_2 = invariant_2.inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
+        const VectorXd inFrame_2 = invariant_2->inFrame(instant, allCoordinates, frame_1, brokerSPtr, frame_2);
         EXPECT_EQ(2, inFrame_2.size());
         EXPECT_EQ(1.0, inFrame_2(0));
         EXPECT_EQ(2.0, inFrame_2(1));
@@ -94,9 +91,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_Invariant, Mas
     }
 
     {
-        const Invariant mass = Invariant::Mass();
+        const Shared<const Invariant> mass = Invariant::Mass();
 
-        EXPECT_EQ(Invariant::MASS_DEFAULT_NAME, mass.getName());
-        EXPECT_EQ(1, mass.getSize());
+        EXPECT_EQ(Invariant::MASS_DEFAULT_NAME, mass->getName());
+        EXPECT_EQ(1, mass->getSize());
     }
 }

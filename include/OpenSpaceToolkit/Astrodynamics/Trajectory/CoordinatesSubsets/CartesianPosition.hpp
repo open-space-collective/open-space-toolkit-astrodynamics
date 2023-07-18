@@ -16,6 +16,7 @@ namespace trajectory
 namespace coordinatessubsets
 {
 
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
@@ -45,14 +46,13 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const Frame>& toFrame
     ) const override;
 
-    static CartesianPosition OneDimensional();
-
-    static CartesianPosition TwoDimensional();
-
-    static CartesianPosition ThreeDimensional();
+    /// @brief              Returns the default three-dimensional instance
+    ///
+    /// @return             The defaul three-dimensional instance
+    static Shared<const CartesianPosition> ThreeDimensional();
 
    private:
-    CartesianPosition(const Size& aSize);
+    static const Shared<const CartesianPosition> THREE_DIMENSIONAL;
 };
 
 }  // namespace coordinatessubsets

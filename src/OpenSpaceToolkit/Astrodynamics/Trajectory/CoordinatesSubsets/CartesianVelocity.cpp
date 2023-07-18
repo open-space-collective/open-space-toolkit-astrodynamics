@@ -20,9 +20,12 @@ using ostk::physics::coord::Velocity;
 
 const String CartesianVelocity::DEFAULT_NAME = "CARTESIAN_VELOCITY";
 
-CartesianVelocity::CartesianVelocity(const String& aName, const CartesianPosition& aCartesianPosition)
-    : CoordinatesSubset(aName, aCartesianPosition.getSize()),
-      cartesianPosition_(aCartesianPosition)
+const Shared<const CartesianVelocity> CartesianVelocity::THREE_DIMENSIONAL =
+    CartesianVelocity::FromPosition(CartesianPosition::ThreeDimensional());
+
+CartesianVelocity::CartesianVelocity(const String& aName, const Shared<const CartesianPosition>& aCartesianPositionSPtr)
+    : CoordinatesSubset(aName, aCartesianPositionSPtr->getSize()),
+      cartesianPositionSPtr_(aCartesianPositionSPtr)
 {
 }
 
@@ -39,7 +42,7 @@ VectorXd CartesianVelocity::inFrame(
         throw ostk::core::error::runtime::ToBeImplemented("Frame Transformation");
     }
 
-    const VectorXd positionCoordinates = aCoordinatesBroker->extract(allCoordinates, this->cartesianPosition_);
+    const VectorXd positionCoordinates = aCoordinatesBroker->extract(allCoordinates, this->cartesianPositionSPtr_);
     const VectorXd velocityCoordinates = aCoordinatesBroker->extract(allCoordinates, *this);
 
     Vector3d toFrameCoordinates =
@@ -54,9 +57,17 @@ VectorXd CartesianVelocity::inFrame(
     return VectorXd::Map(toFrameCoordinates.data(), static_cast<Eigen::Index>(3));
 }
 
-CartesianVelocity CartesianVelocity::FromPosition(const CartesianPosition& aCartesianPosition)
+Shared<const CartesianVelocity> CartesianVelocity::FromPosition(
+    const Shared<const CartesianPosition>& aCartesianPositionSPtr
+)
 {
-    return {CartesianVelocity::DEFAULT_NAME, aCartesianPosition};
+    const CartesianVelocity cartesianVelocity = CartesianVelocity(DEFAULT_NAME, aCartesianPositionSPtr);
+    return std::make_shared<CartesianVelocity>(cartesianVelocity);
+}
+
+Shared<const CartesianVelocity> CartesianVelocity::ThreeDimensional()
+{
+    return CartesianVelocity::THREE_DIMENSIONAL;
 }
 
 }  // namespace coordinatessubsets

@@ -15,6 +15,7 @@ namespace trajectory
 namespace coordinatessubsets
 {
 
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
@@ -33,9 +34,9 @@ class CartesianVelocity : public CoordinatesSubset
     /// @brief              Constructor
     ///
     /// @param              [in] aName a name
-    /// @param              [in] aCartesianPosition the Cartesian Position subset used in frame transformation
+    /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
 
-    CartesianVelocity(const String& aName, const CartesianPosition& aCartesianPosition);
+    CartesianVelocity(const String& aName, const Shared<const CartesianPosition>& aCartesianPositionSPtr);
 
     virtual VectorXd inFrame(
         const Instant& anInstant,
@@ -45,10 +46,22 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const Frame>& toFrame
     ) const override;
 
-    static CartesianVelocity FromPosition(const CartesianPosition& aCartesianPosition);
+    /// @brief              Returns a new instance associated with the given position.
+    ///
+    /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
+    ///
+    /// @return             A new shared pointer
+
+    static Shared<const CartesianVelocity> FromPosition(const Shared<const CartesianPosition>& aCartesianPositionSPtr);
+
+    /// @brief              Returns the default three-dimensional instance
+    ///
+    /// @return             The defaul three-dimensional instance
+    static Shared<const CartesianVelocity> ThreeDimensional();
 
    private:
-    CartesianPosition cartesianPosition_;
+    static const Shared<const CartesianVelocity> THREE_DIMENSIONAL;
+    Shared<const CartesianPosition> cartesianPositionSPtr_;
 };
 
 }  // namespace coordinatessubsets

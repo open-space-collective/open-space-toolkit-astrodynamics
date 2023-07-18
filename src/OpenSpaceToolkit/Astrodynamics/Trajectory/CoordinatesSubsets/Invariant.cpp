@@ -15,6 +15,8 @@ namespace coordinatessubsets
 
 const String Invariant::MASS_DEFAULT_NAME = "MASS";
 
+const Shared<const Invariant> Invariant::MASS = std::make_shared<Invariant>(Invariant::MASS_DEFAULT_NAME, 1);
+
 Invariant::Invariant(const String& aName, const Size& aSize)
     : CoordinatesSubset(aName, aSize)
 {
@@ -31,9 +33,9 @@ VectorXd Invariant::inFrame(
     return aCoordinatesBroker->extract(allCoordinates, *this);
 }
 
-Invariant Invariant::Mass()
+Shared<const Invariant> Invariant::Mass()
 {
-    return {Invariant::MASS_DEFAULT_NAME, 1};
+    return Invariant::MASS;
 }
 
 }  // namespace coordinatessubsets

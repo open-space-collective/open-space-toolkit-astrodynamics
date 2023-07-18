@@ -3,7 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -15,7 +17,10 @@ namespace astro
 {
 namespace trajectory
 {
+
+using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
+using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
@@ -34,6 +39,12 @@ class CoordinatesBroker
 
     CoordinatesBroker();
 
+    /// @brief              Constructor
+    ///
+    /// @param              [in] aCoordinatesSubsetsArray the coordinates subsets to consider
+
+    CoordinatesBroker(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray);
+
     /// @brief              Equals to operator
     ///
     /// @param              [in] aCoordinatesBroker The instance to compare to
@@ -50,49 +61,6 @@ class CoordinatesBroker
 
     bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
 
-    /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
-    /// that it occupies if it was already added) in the state coordinates
-    ///
-    /// @param              [in] aCoordinatesSubset a coordinates subset to be considered
-    ///
-    /// @return             The starting index of the subset in the state coordinates
-
-    Index addSubset(const CoordinatesSubset& aCoordinatesSubset);
-
-    /// @brief              Checks if a coordinates subset ID has already been considered
-    ///
-    /// @param              [in] anId the coordinates subset ID to be checked
-    ///
-    /// @return             True if the coordinates subset ID is already considered
-
-    bool hasSubset(const String& anId) const;
-
-    /// @brief              Checks if a coordinates subset has already been considered
-    ///
-    /// @param              [in] aCoordinatesSubset the coordinates subset to be checked
-    ///
-    /// @return             True if the coordinates subset is already considered
-
-    bool hasSubset(const CoordinatesSubset& aCoordinatesSubset) const;
-
-    /// @brief              Returns the starting index of a coordinates subset ID in the state coordinates
-    ///
-    /// @param              [in] anId the coordinates subset ID
-    ///
-    /// @return             The starting index of the subset ID in the state coordinates, throwing an exception if the
-    /// coordinates subset is not present
-
-    Index getSubsetIndex(const String& anId) const;
-
-    /// @brief              Returns the starting index of a coordinates subset in the state coordinates
-    ///
-    /// @param              [in] aCoordinatesSubset the coordinates subset
-    ///
-    /// @return             The starting index of the subset in the state coordinates, throwing an exception if the
-    /// coordinates subset is not present
-
-    Index getSubsetIndex(const CoordinatesSubset& aCoordinatesSubset) const;
-
     /// @brief              Returns the total number of coordinates
     ///
     /// @return             The total number of coordinates
@@ -105,6 +73,38 @@ class CoordinatesBroker
 
     Size getNumberOfSubsets() const;
 
+    /// @brief              Returns the considered coordinate subsets
+    ///
+    /// @return             The considered coordinate subsets
+
+    Array<Shared<const CoordinatesSubset>> getSubsets() const;
+
+    /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
+    /// that it occupies if it was already added) in the state coordinates
+    ///
+    /// @param              [in] aCoordinatesSubsetSPtr a coordinates subset to be considered
+    ///
+    /// @return             The starting index of the subset in the state coordinates
+
+    Index addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr);
+
+    /// @brief              Checks if a coordinates subset has already been considered
+    ///
+    /// @param              [in] aCoordinatesSubsetSPtr the coordinates subset to be checked
+    ///
+    /// @return             True if the coordinates subset is already considered
+
+    bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief              Returns the starting index of a coordinates subset in the state coordinates
+    ///
+    /// @param              [in] aCoordinatesSubsetSPtr the coordinates subset
+    ///
+    /// @return             The starting index of the subset in the state coordinates, throwing an exception if the
+    /// coordinates subset is not present
+
+    Index getSubsetIndex(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
     /// @brief              Extracts the coordinates of a given subset from the full coordinates vector
     ///
     /// @param              [in] allCoordinates the full coordinates vecctor
@@ -114,9 +114,33 @@ class CoordinatesBroker
 
     VectorXd extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
 
+    /// @brief              Extracts the coordinates of a given subset from the full coordinates vector
+    ///
+    /// @param              [in] allCoordinates the full coordinates vecctor
+    /// @param              [in] aCoordinatesSubsetSPtr the coordinates subsets of interest
+    ///
+    /// @return             The coordinates of the subset
+
+    VectorXd extract(const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+        const;
+
+    /// @brief              Creates a shared pointer wiht the given coordinates subsets.
+    ///
+    /// @param              [in] aCoordinatesSubsetsArray the coordinates subsets to consider
+    ///
+    /// @return             A new instance
+
+    static Shared<const CoordinatesBroker> FromSubsets(
+        const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    );
+
    private:
     Index nextCoordinatesSubsetIndex_;
-    std::unordered_map<String, Index> coordinatesSubsetIndexMap_;
+    Array<Shared<const CoordinatesSubset>> coordinateSubsets_;
+    std::unordered_map<String, Index> coordinateSubsetsIndexMap_;
+
+    bool hasSubset(const String& anId) const;
+    Index getSubsetIndex(const String& anId) const;
 };
 
 }  // namespace trajectory
