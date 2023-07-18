@@ -350,7 +350,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKutta4 in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -392,7 +393,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKutta4 in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -434,7 +436,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKuttaCashKarp54 and integrateStatesAtSortedInstants in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -476,7 +479,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -518,7 +522,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKuttaFehlberg78 in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -560,7 +565,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStatesAtSortedInst
 
     // Performance test with RungeKuttaFehlberg78 in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Instant startInstant = Instant::J2000();
 
@@ -615,7 +621,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKutta4 in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(10);
 
         // needs very small step size
@@ -640,7 +647,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKutta4 in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(-10);
 
         // needs very small step size
@@ -665,7 +673,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
 
         const Duration propDuration = Duration::Seconds(10000);
 
@@ -690,7 +699,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKuttaCashKarp54 and integrateStateForDuration in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(-10000);
 
         NumericalSolver numericalSolver = {
@@ -714,7 +724,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKuttaFehlberg78 in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(10000);
 
         NumericalSolver numericalSolver = {
@@ -738,7 +749,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test with RungeKuttaFehlberg78 in backward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(-10000);
 
         NumericalSolver numericalSolver = {
@@ -762,7 +774,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(1000);
 
         NumericalSolver numericalSolver_1 = {
@@ -814,7 +827,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateForDuration)
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Duration propDuration = Duration::Seconds(1000);
 
         NumericalSolver numericalSolver_1 = {
@@ -877,7 +891,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKutta4 in forwards time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(100);
 
@@ -904,7 +919,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKutta4 in backwards time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-100);
 
@@ -931,7 +947,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKuttaCashKarp54 in forward time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
@@ -957,7 +974,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKuttaCashKarp54 in backwards time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
@@ -983,7 +1001,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKuttaFehlberg78 in forwards time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(10000);
 
@@ -1009,7 +1028,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test with RungeKuttaFehlberg78 in backwards time
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(-10000);
 
@@ -1035,7 +1055,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
@@ -1090,7 +1111,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateStateFromInstantTo
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
     {
-        const NumericalSolver::StateVector currentStateVector = {0, 1};
+        NumericalSolver::StateVector currentStateVector(2);
+        currentStateVector << 0.0, 1.0;
         const Instant instant = Instant::J2000();
         const Duration propDuration = Duration::Seconds(1000);
 
