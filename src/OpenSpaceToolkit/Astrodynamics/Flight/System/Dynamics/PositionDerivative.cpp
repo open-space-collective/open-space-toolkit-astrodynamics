@@ -47,6 +47,16 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
+Array<Shared<const CoordinatesSubset>> PositionDerivative::getReadCoordinateSubsets() const
+{
+    return {CartesianPosition::ThreeDimensional()};
+}
+
+Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinateSubsets() const
+{
+    return {CartesianVelocity::ThreeDimensional()};
+}
+
 void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

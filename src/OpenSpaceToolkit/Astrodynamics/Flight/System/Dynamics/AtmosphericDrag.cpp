@@ -100,6 +100,16 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
+Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinateSubsets() const
+{
+    return {CartesianPosition::ThreeDimensional(), CartesianVelocity::ThreeDimensional()};
+}
+
+Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinateSubsets() const
+{
+    return {CartesianVelocity::ThreeDimensional()};
+}
+
 void AtmosphericDrag::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

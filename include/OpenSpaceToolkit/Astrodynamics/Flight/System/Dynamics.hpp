@@ -69,6 +69,18 @@ class Dynamics
 
     String getName() const;
 
+    /// @brief              Returns the coordinates subsets that the instance reads from
+    ///
+    /// @return             The coordinates subsets that the instance reads from
+
+    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinateSubsets() const = 0;
+
+    /// @brief              Returns the coordinates subsets that the instance writes to
+    ///
+    /// @return             The coordinates subsets that the instance writes to
+
+    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinateSubsets() const = 0;
+
     /// @brief              Declares the coordinates involved in the contribution calculation
     ///
     /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes

@@ -78,6 +78,16 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
+Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getReadCoordinateSubsets() const
+{
+    return {CartesianPosition::ThreeDimensional()};
+}
+
+Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getWriteCoordinateSubsets() const
+{
+    return {CartesianVelocity::ThreeDimensional()};
+}
+
 void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

@@ -88,6 +88,10 @@ class ThirdBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
+    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinateSubsets() const override;
+
+    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinateSubsets() const override;
+
     /// @brief              Declares the coordinates involved in the contribution calculation
     ///
     /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes
