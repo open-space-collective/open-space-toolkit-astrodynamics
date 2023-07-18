@@ -65,13 +65,6 @@ class State
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
-    static State fromStdVector(
-        const Instant& anInstant,
-        const std::vector<double>& aCoordinates,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
-    );
-
     bool operator==(const State& aState) const;
 
     bool operator!=(const State& aState) const;
@@ -81,8 +74,6 @@ class State
     State operator-(const State& aState) const;
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const State& aState);
-
-    bool isDefined() const;
 
     const Instant& accessInstant() const;
 
@@ -100,13 +91,25 @@ class State
 
     VectorXd getCoordinates() const;
 
+    bool isDefined() const;
+
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     static State Undefined();
 
+    static State fromStdVector(
+        const Instant& anInstant,
+        const std::vector<double>& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+    );
+
    private:
+    static const Shared<const CartesianPosition> CARTESIAN_POSITION;
+    static const Shared<const CartesianVelocity> CARTESIAN_VELOCITY;
+    static const Shared<const CoordinatesBroker> CARTESIAN_POSVEL_COORDINATES_BROKER;
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;

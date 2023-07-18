@@ -739,78 +739,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, StreamOperator)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
-{
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(6);
-        const Shared<const CoordinatesBroker> brokerSPtr =
-            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
-
-        const State state = State(instant, coordinates, Frame::GCRF(), brokerSPtr);
-
-        EXPECT_TRUE(state.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(6);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-        const Shared<const CoordinatesBroker> brokerSPtr =
-            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
-
-        const State state = State(instant, coordinates, nullptr, brokerSPtr);
-
-        EXPECT_FALSE(state.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(6);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-        const Shared<const CoordinatesBroker> brokerSPtr =
-            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
-
-        const State state = State(instant, coordinates, Frame::Undefined(), brokerSPtr);
-
-        EXPECT_FALSE(state.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(6);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-        const State state = State(instant, coordinates, Frame::GCRF(), nullptr);
-
-        EXPECT_FALSE(state.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-        const State state = {instant, position, velocity};
-
-        EXPECT_TRUE(state.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::Undefined();
-        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-        const State state = {instant, position, velocity};
-
-        EXPECT_FALSE(state.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(State::Undefined().isDefined());
-    }
-}
-
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
 {
     {
@@ -939,6 +867,78 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        const Shared<const CoordinatesBroker> brokerSPtr =
+            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
+
+        const State state = State(instant, coordinates, Frame::GCRF(), brokerSPtr);
+
+        EXPECT_TRUE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> brokerSPtr =
+            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
+
+        const State state = State(instant, coordinates, nullptr, brokerSPtr);
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> brokerSPtr =
+            CoordinatesBroker::FromSubsets({cartesianPositionSPtr, cartesianVelocitySPtr});
+
+        const State state = State(instant, coordinates, Frame::Undefined(), brokerSPtr);
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state = State(instant, coordinates, Frame::GCRF(), nullptr);
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+
+        const State state = {instant, position, velocity};
+
+        EXPECT_TRUE(state.isDefined());
+    }
+
+    {
+        const Instant instant = Instant::Undefined();
+        const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+
+        const State state = {instant, position, velocity};
+
+        EXPECT_FALSE(state.isDefined());
+    }
+
+    {
+        EXPECT_FALSE(State::Undefined().isDefined());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 {
     {
@@ -963,6 +963,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
         const State state_GCRF_2 = state_GCRF_1.inFrame(Frame::ITRF());
 
         EXPECT_EQ(state_GCRF_2.getInstant(), state_GCRF_1.getInstant());
+        EXPECT_EQ(Frame::ITRF(), state_GCRF_2.getFrame());
 
         EXPECT_TRUE(
             state_GCRF_2.getPosition().getCoordinates().isNear({3.130432245445, -1.782920894026, 5.601927082917}, 1e-12)
