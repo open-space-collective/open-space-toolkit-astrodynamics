@@ -101,10 +101,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
 
-    const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
+    const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateDurations(
         startStateVector,
-        aState.getInstant(),
-        anInstant,
+        (anInstant - aState.getInstant()).inSeconds(),
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
 
@@ -143,45 +142,44 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     NumericalSolver::StateVector startStateVector(
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
+    const Instant startInstant = aState.accessInstant();
 
-    Array<Instant> forwardInstants;
-    Array<Instant> backwardInstants;
+    Array<Real> forwardDurations;
+    forwardDurations.reserve(anInstantArray.getSize());
+    Array<Real> backwardDurations;
+    backwardDurations.reserve(anInstantArray.getSize());
 
     for (const Instant& anInstant : anInstantArray)
     {
-        if (anInstant <= aState.getInstant())
+        const Real durationInSeconds = (anInstant - startInstant).inSeconds();
+
+        if (anInstant <= startInstant)
         {
-            backwardInstants.add(anInstant);
+            backwardDurations.add(durationInSeconds);
         }
         else
         {
-            forwardInstants.add(anInstant);
+            forwardDurations.add(durationInSeconds);
         }
     }
 
     // forward propagation only
     Array<NumericalSolver::StateVector> propagatedForwardStateVectorArray;
-    if (!forwardInstants.isEmpty())
+    if (!forwardDurations.isEmpty())
     {
-        propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector,
-            aState.getInstant(),
-            forwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        propagatedForwardStateVectorArray = numericalSolver_.integrateDurations(
+            startStateVector, forwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
     }
 
     // backward propagation only
     Array<NumericalSolver::StateVector> propagatedBackwardStateVectorArray;
-    if (!backwardInstants.isEmpty())
+    if (!backwardDurations.isEmpty())
     {
-        std::reverse(backwardInstants.begin(), backwardInstants.end());
+        std::reverse(backwardDurations.begin(), backwardDurations.end());
 
-        propagatedBackwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector,
-            aState.getInstant(),
-            backwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        propagatedBackwardStateVectorArray = numericalSolver_.integrateDurations(
+            startStateVector, backwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());

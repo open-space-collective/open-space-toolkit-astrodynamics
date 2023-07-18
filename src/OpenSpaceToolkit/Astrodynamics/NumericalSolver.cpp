@@ -139,10 +139,10 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return absoluteTolerance_;
 }
 
-Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInstants(
+Array<NumericalSolver::StateVector> NumericalSolver::integrateTimes(
     const StateVector& anInitialStateVector,
-    const Instant& aStartInstant,
-    const Array<Instant>& anInstantArray,
+    const Real& aStartTime,
+    const Array<Real>& aTimeArray,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
@@ -151,13 +151,13 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
     instants_.clear();
 
     // Check if instant array has zero length
-    if (anInstantArray.size() == 0)
+    if (aTimeArray.size() == 0)
     {
-        throw ostk::core::error::RuntimeError("Instant Array is empty");
+        throw ostk::core::error::RuntimeError("Time Array is empty");
     }
 
     // Check if the incoming instant array is the same as the start state if it has length 1
-    if ((anInstantArray.size() == 1) && (anInstantArray[0] == aStartInstant))
+    if ((aTimeArray.size() == 1) && (aTimeArray[0] == aStartTime))
     {
         states_.push_back(anInitialStateVector);
         return states_;
@@ -168,9 +168,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
     Size stopCounter = 0;
     Integer durationSign = Integer::Undefined();
 
-    for (const auto& instant : anInstantArray)
+    for (const Real& time : aTimeArray)
     {
-        const double durationInSecs = (instant - aStartInstant).inSeconds();
+        const double durationInSecs = (time - aStartTime);
         anIntegrationDurationInSecsArray.add(durationInSecs);
 
         if (durationInSecs != 0 && stopCounter == 0)
@@ -244,9 +244,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
     return Array<NumericalSolver::StateVector>(states_.begin() + 1, states_.end());
 }
 
-NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
+NumericalSolver::StateVector NumericalSolver::integrateDurations(
     const StateVector& anInitialStateVector,
-    const Duration& anIntegrationDuration,
+    const Real& aDurationInSeconds,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
@@ -255,15 +255,13 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
     states_.clear();
     instants_.clear();
 
-    if ((anIntegrationDuration.inSeconds()).isZero())  // If integration duration is zero seconds long, skip integration
+    if (aDurationInSeconds.isZero())  // If integration duration is zero seconds long, skip integration
     {
         return anInitialStateVector;
     }
 
-    const double integrationDurationInSecs = anIntegrationDuration.inSeconds();
-
     // Ensure integration starts in the correct direction with the initial time step guess
-    Integer durationSign = (integrationDurationInSecs > 0) - (integrationDurationInSecs < 0);
+    Integer durationSign = (aDurationInSeconds > 0.0) - (aDurationInSeconds < 0.0);
     const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
 
     switch (stepperType_)
@@ -284,7 +282,7 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
                         [&](const NumericalSolver::StateVector& x, double t) -> void
                         {
@@ -310,7 +308,7 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
                         [&](const NumericalSolver::StateVector& x, double t) -> void
                         {
@@ -327,7 +325,7 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
                         [&](const NumericalSolver::StateVector& x, double t) -> void
                         {
@@ -353,7 +351,7 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
                         [&](const NumericalSolver::StateVector& x, double t) -> void
                         {
@@ -370,7 +368,7 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
                         [&](const NumericalSolver::StateVector& x, double t) -> void
                         {
@@ -393,14 +391,23 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
     return NumericalSolver::StateVector(anInitialStateVector.size());
 }
 
-NumericalSolver::StateVector NumericalSolver::integrateStateFromInstantToInstant(
+NumericalSolver::StateVector NumericalSolver::integrateTimes(
     const StateVector& anInitialStateVector,
-    const Instant& aStartInstant,
-    const Instant& anEndInstant,
+    const Real& aStartTime,
+    const Real& anEndTime,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    return this->integrateStateForDuration(anInitialStateVector, (anEndInstant - aStartInstant), aSystemOfEquations);
+    return this->integrateDurations(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
+}
+
+Array<NumericalSolver::StateVector> NumericalSolver::integrateDurations(
+    const NumericalSolver::StateVector& anInitialStateVector,
+    const Array<Real>& aDurationArray,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
+)
+{
+    return integrateTimes(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
