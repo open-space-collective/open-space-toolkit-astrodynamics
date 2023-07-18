@@ -18,6 +18,11 @@ using ostk::astro::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
 {
+    void SetUp() override
+    {
+        defaultStateVector_ << 0.0, 1.0;
+    }
+
    protected:
     NumericalSolver defaultRK54_ = {
         NumericalSolver::LogType::NoLog,
@@ -43,7 +48,7 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
         1.0e-15,
     };
 
-    const NumericalSolver::StateVector defaultStateVector_ = {0, 1};
+    NumericalSolver::StateVector defaultStateVector_;
     const Real defaultDuration_ = 10.0;
     const Real defaultStartTime_ = 0.0;
 
