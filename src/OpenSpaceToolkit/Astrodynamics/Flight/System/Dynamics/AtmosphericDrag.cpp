@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -27,6 +29,9 @@ using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using ostk::physics::coord::Position;
 using ostk::physics::data::Scalar;
+
+using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::coordinatessubsets::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -97,8 +102,8 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 
 void AtmosphericDrag::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    // this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianPosition());
-    // this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianVelocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
 }
 
 void AtmosphericDrag::applyContribution(

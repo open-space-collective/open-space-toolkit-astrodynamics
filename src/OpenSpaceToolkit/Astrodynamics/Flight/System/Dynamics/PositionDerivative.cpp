@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -17,6 +19,9 @@ namespace system
 {
 namespace dynamics
 {
+
+using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::coordinatessubsets::CartesianVelocity;
 
 PositionDerivative::PositionDerivative()
     : Dynamics("Position Derivative")
@@ -44,8 +49,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
 
 void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    // this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianPosition());
-    // this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianVelocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
 }
 
 void PositionDerivative::applyContribution(

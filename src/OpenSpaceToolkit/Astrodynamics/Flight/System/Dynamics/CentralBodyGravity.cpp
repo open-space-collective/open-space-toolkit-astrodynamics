@@ -4,6 +4,8 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -23,6 +25,9 @@ using ostk::physics::data::Vector;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+
+using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::coordinatessubsets::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -75,8 +80,8 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
 
 void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
-    // this->positionIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianPosition());
-    // this->velocityIndex_ = coordinatesBroker->addSubset(CoordinatesSubset::CartesianVelocity());
+    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
+    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
 }
 
 void CentralBodyGravity::applyContribution(
