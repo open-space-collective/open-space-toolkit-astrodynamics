@@ -165,40 +165,40 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // forward propagation only
-    Array<NumericalSolver::Solution> propagatedForwardStateVectorArray;
+    Array<NumericalSolver::Solution> forwardPropagatedSolutions;
     if (!forwardDurations.isEmpty())
     {
-        propagatedForwardStateVectorArray = numericalSolver_.integrateDurations(
+        forwardPropagatedSolutions = numericalSolver_.integrateDurations(
             startStateVector, forwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
     }
 
     // backward propagation only
-    Array<NumericalSolver::Solution> propagatedBackwardStateVectorArray;
+    Array<NumericalSolver::Solution> backwardPropagatedSolutions;
     if (!backwardDurations.isEmpty())
     {
         std::reverse(backwardDurations.begin(), backwardDurations.end());
 
-        propagatedBackwardStateVectorArray = numericalSolver_.integrateDurations(
+        backwardPropagatedSolutions = numericalSolver_.integrateDurations(
             startStateVector, backwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
 
-        std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
+        std::reverse(backwardPropagatedSolutions.begin(), backwardPropagatedSolutions.end());
     }
 
     Array<State> propagatedStates;
     propagatedStates.reserve(anInstantArray.getSize());
 
     Size k = 0;
-    for (const NumericalSolver::Solution& solution :
-         (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
+    for (const NumericalSolver::Solution& solution : (backwardPropagatedSolutions + forwardPropagatedSolutions))
     {
         const NumericalSolver::StateVector stateVector = solution.first;
 
         State propagatedState = {
             anInstantArray[k],
             Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
+            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr),
+        };
 
         propagatedStates.add(propagatedState);
 
