@@ -101,11 +101,12 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
 
-    const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateDurations(
+    const NumericalSolver::Solution solution = numericalSolver_.integrateDurations(
         startStateVector,
         (anInstant - aState.getInstant()).inSeconds(),
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
+    const NumericalSolver::StateVector endStateVector = solution.first;
 
     return {
         anInstant,
@@ -164,7 +165,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // forward propagation only
-    Array<NumericalSolver::StateVector> propagatedForwardStateVectorArray;
+    Array<NumericalSolver::Solution> propagatedForwardStateVectorArray;
     if (!forwardDurations.isEmpty())
     {
         propagatedForwardStateVectorArray = numericalSolver_.integrateDurations(
@@ -173,7 +174,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     }
 
     // backward propagation only
-    Array<NumericalSolver::StateVector> propagatedBackwardStateVectorArray;
+    Array<NumericalSolver::Solution> propagatedBackwardStateVectorArray;
     if (!backwardDurations.isEmpty())
     {
         std::reverse(backwardDurations.begin(), backwardDurations.end());
@@ -189,9 +190,11 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     propagatedStates.reserve(anInstantArray.getSize());
 
     Size k = 0;
-    for (const NumericalSolver::StateVector& stateVector :
+    for (const NumericalSolver::Solution& solution :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
+        const NumericalSolver::StateVector stateVector = solution.first;
+
         State propagatedState = {
             anInstantArray[k],
             Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
