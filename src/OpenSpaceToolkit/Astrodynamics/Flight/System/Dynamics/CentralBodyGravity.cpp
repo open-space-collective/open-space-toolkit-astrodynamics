@@ -88,6 +88,25 @@ Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getWriteCoordinateSub
     return {CartesianVelocity::ThreeDimensional()};
 }
 
+VectorXd CentralBodyGravity::computeContribution(
+    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+) const
+{
+    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+
+    // Obtain gravitational acceleration from current object
+    const Vector3d gravitationalAccelerationSI =
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrame), anInstant)
+            .inFrame(aFrame, anInstant)
+            .getValue();
+
+    // Compute contribution
+    VectorXd contribution(3);
+    contribution << gravitationalAccelerationSI[0], gravitationalAccelerationSI[1], gravitationalAccelerationSI[2];
+
+    return contribution;
+}
+
 void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

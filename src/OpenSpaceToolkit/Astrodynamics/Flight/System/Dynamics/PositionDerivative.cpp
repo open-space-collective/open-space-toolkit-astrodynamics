@@ -49,12 +49,22 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
 
 Array<Shared<const CoordinatesSubset>> PositionDerivative::getReadCoordinateSubsets() const
 {
-    return {CartesianPosition::ThreeDimensional()};
+    return {CartesianVelocity::ThreeDimensional()};
 }
 
 Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinateSubsets() const
 {
-    return {CartesianVelocity::ThreeDimensional()};
+    return {CartesianPosition::ThreeDimensional()};
+}
+
+VectorXd PositionDerivative::computeContribution(
+    [[maybe_unused]] const Instant& anInstant, const VectorXd x, [[maybe_unused]] const Shared<const Frame> aFrame
+) const
+{
+    VectorXd contribution(3);
+    contribution << x[0], x[1], x[2];
+
+    return contribution;
 }
 
 void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)

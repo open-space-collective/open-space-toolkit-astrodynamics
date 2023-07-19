@@ -68,6 +68,9 @@ class PositionDerivative : public Dynamics
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinateSubsets() const override;
 
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame)
+        const override;
+
     /// @brief              Declares the coordinates involved in the contribution calculation
     ///
     /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes

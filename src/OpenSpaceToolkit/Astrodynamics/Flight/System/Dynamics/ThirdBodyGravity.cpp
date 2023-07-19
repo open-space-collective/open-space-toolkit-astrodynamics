@@ -94,6 +94,32 @@ Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getWriteCoordinateSubse
     return {CartesianVelocity::ThreeDimensional()};
 }
 
+VectorXd ThirdBodyGravity::computeContribution(
+    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+) const
+{
+    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
+    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
+    Vector3d gravitationalAccelerationSI =
+        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, aFrame), anInstant)
+             .inFrame(aFrame, anInstant)
+             .getValue();
+
+    // Add celestial's gravity to total gravitational acceleration
+    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+
+    gravitationalAccelerationSI +=
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrame), anInstant)
+            .inFrame(aFrame, anInstant)
+            .getValue();
+
+    // Compute contribution
+    VectorXd contribution(3);
+    contribution << gravitationalAccelerationSI[0], gravitationalAccelerationSI[1], gravitationalAccelerationSI[2];
+
+    return contribution;
+}
+
 void ThirdBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

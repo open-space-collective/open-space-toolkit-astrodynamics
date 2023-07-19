@@ -110,6 +110,41 @@ Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinateSubset
     return {CartesianVelocity::ThreeDimensional()};
 }
 
+VectorXd AtmosphericDrag::computeContribution(
+    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+) const
+{
+    (void)anInstant;
+
+    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+    Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
+
+    // Get atmospheric density
+    const Real atmosphericDensity =
+        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrame), anInstant)
+            .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
+            .getValue();
+
+    const Vector3d earthAngularVelocity =
+        aFrame->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
+
+    const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
+
+    const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+
+    // Add object's gravity to total gravitational acceleration
+    const Vector3d dragAccelerationSI =
+        -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
+
+    // Compute contribution
+    VectorXd contribution(3);
+    contribution << dragAccelerationSI[0], dragAccelerationSI[1], dragAccelerationSI[2];
+
+    return contribution;
+}
+
 void AtmosphericDrag::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
 {
     this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());

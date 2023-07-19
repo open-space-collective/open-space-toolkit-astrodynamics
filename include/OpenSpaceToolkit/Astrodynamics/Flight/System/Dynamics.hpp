@@ -8,6 +8,8 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -26,6 +28,8 @@ namespace system
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::ctnr::Array;
+
+using ostk::math::obj::VectorXd;
 
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
@@ -80,6 +84,19 @@ class Dynamics
     /// @return             The coordinates subsets that the instance writes to
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinateSubsets() const = 0;
+
+    /// @brief              Computes the contribution to the state derivative.
+    ///
+    /// @param anInstant    An instant
+    /// @param x            The 'reduced' state vector (this vector will follow the structure determined by the 'read'
+    /// coordinate subsets)
+    /// @param aFrame       The 'frame' in which the state vector is expressed
+    ///
+    /// @return             The 'reduced' derivative state vector (this vector must follow the structure determined by
+    /// the 'write' coordinate subsets) expressed in the given frame
+
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame)
+        const = 0;
 
     /// @brief              Declares the coordinates involved in the contribution calculation
     ///
