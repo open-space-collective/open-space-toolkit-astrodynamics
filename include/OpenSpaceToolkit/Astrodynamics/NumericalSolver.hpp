@@ -211,7 +211,7 @@ class NumericalSolver
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aDurationInSeconds A duration over which to integrate
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    /// boost::odeint accepts to perform numerical integration
+    ///                              boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
     Solution integrateDurations(
@@ -229,7 +229,7 @@ class NumericalSolver
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aDurationArray An array of durations over which to integrate
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    /// boost::odeint accepts to perform numerical integration
+    ///                              boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
     Array<Solution> integrateDurations(

@@ -155,7 +155,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
         throw ostk::core::error::RuntimeError("Time Array is empty");
     }
 
-    // Check if the incoming instant array is the same as the start state if it has length 1
+    // Check if the incoming time array is the same as the start time if it has length 1
     if ((aTimeArray.size() == 1) && (aTimeArray[0] == aStartTime))
     {
         return {
