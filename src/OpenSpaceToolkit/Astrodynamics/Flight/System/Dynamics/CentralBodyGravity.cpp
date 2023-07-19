@@ -89,7 +89,7 @@ Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getWriteCoordinateSub
 }
 
 VectorXd CentralBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
 ) const
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);

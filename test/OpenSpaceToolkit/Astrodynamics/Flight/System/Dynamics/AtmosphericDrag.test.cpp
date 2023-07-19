@@ -259,7 +259,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    stepper.do_step(
+        Dynamics::GetDynamicalEquations(
+            dynamics, startInstant_, Array<Array<Pair<Index, Size>>>::Empty(), Array<Array<Pair<Index, Size>>>::Empty()
+        ),
+        startStateVector_,
+        (0.0),
+        1.0
+    );
 
     // Set reference pull values for the Earth
     Dynamics::StateVector Earth_ReferencePull = {

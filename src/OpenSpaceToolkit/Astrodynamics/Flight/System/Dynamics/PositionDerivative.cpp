@@ -58,7 +58,7 @@ Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinateSub
 }
 
 VectorXd PositionDerivative::computeContribution(
-    [[maybe_unused]] const Instant& anInstant, const VectorXd x, [[maybe_unused]] const Shared<const Frame> aFrame
+    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrame
 ) const
 {
     VectorXd contribution(3);

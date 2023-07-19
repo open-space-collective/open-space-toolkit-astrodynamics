@@ -4,8 +4,11 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
@@ -41,8 +44,12 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
+using ostk::core::types::Size;
+using ostk::core::types::String;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;
@@ -195,6 +202,8 @@ class Propagator
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
     Array<Shared<Dynamics>> dynamics_;
+    Array<Array<Pair<Index, Size>>> readIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
+    Array<Array<Pair<Index, Size>>> writeIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
     mutable NumericalSolver numericalSolver_;
 };
 

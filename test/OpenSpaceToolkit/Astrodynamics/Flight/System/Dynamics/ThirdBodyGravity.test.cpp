@@ -242,7 +242,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    stepper.do_step(
+        Dynamics::GetDynamicalEquations(
+            dynamics, startInstant_, Array<Array<Pair<Index, Size>>>::Empty(), Array<Array<Pair<Index, Size>>>::Empty()
+        ),
+        startStateVector_,
+        (0.0),
+        1.0
+    );
 
     // Set reference pull values for the Earth
     Sun_ReferencePull[0] = 7.000000000000282e+06;
@@ -280,7 +287,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    stepper.do_step(
+        Dynamics::GetDynamicalEquations(
+            dynamics, startInstant_, Array<Array<Pair<Index, Size>>>::Empty(), Array<Array<Pair<Index, Size>>>::Empty()
+        ),
+        startStateVector_,
+        (0.0),
+        1.0
+    );
 
     // Set reference pull values for the Earth
     Moon_ReferencePull[0] = 6.999999999999768e+06;
@@ -322,7 +336,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
 
     // Perform 1.0s integration step
     runge_kutta4<Dynamics::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    stepper.do_step(
+        Dynamics::GetDynamicalEquations(
+            dynamics, startInstant_, Array<Array<Pair<Index, Size>>>::Empty(), Array<Array<Pair<Index, Size>>>::Empty()
+        ),
+        startStateVector_,
+        (0.0),
+        1.0
+    );
 
     // Set reference pull values for the Earth
     Earth_Sun_Moon_ReferencePull[0] = 6.999995932647768e+06 + 6.999999999999768e+06 + 7.000000000000282e+06;
@@ -330,7 +351,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, O
     Earth_Sun_Moon_ReferencePull[2] = 0.000000000000000e+00 + 6.508220913373722e-08 + -5.501324277544413e-10;
     Earth_Sun_Moon_ReferencePull[3] = -8.134706038871020e+00 + -4.620551958115301e-07 + 5.618209329643997e-07;
     Earth_Sun_Moon_ReferencePull[4] = -4.625929269271485e-17 + 2.948701962648114e-07 + -2.532321435973975e-09;
-    Earth_Sun_Moon_ReferencePull[5] = 0.000000000000000e+00 + 1.301641965195380e-07 + -1.100253640019350e-09;
+    Earth_Sun_M oon_ReferencePull[5] = 0.000000000000000e+00 + 1.301641965195380e-07 + -1.100253640019350e-09;
 
     // [0] = 6.999995935640380e+06 ; Earth_Sun_Moon_ReferencePull[1] = 4.700487584518332e-06 ;
     // Earth_Sun_Moon_ReferencePull[2] = 2.137317833766671e-06 ; Earth_Sun_Moon_ReferencePull[3] =

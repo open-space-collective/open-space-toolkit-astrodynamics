@@ -4,8 +4,11 @@
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
@@ -25,9 +28,12 @@ namespace flight
 namespace system
 {
 
-using ostk::core::types::Shared;
-using ostk::core::types::String;
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Index;
+using ostk::core::types::Shared;
+using ostk::core::types::Size;
+using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
@@ -95,7 +101,7 @@ class Dynamics
     /// @return             The 'reduced' derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
-    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame)
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
         const = 0;
 
     /// @brief              Declares the coordinates involved in the contribution calculation
@@ -123,10 +129,18 @@ class Dynamics
     ///
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
+    /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
+    /// @param              [in] readIndexes An array containing read coordinates subsets indexes and sizes
+    /// @param              [in] writeIndexes An array containing write coordinates subsets indexes and sizes
+    ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
     static DynamicalEquationWrapper GetDynamicalEquations(
-        const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Instant& anInstant,
+        const Shared<const Frame>& aFrame,
+        const Array<Array<Pair<Index, Size>>>& readIndexes,
+        const Array<Array<Pair<Index, Size>>>& writeIndexes
     );
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
@@ -141,13 +155,28 @@ class Dynamics
     /// @param              [in] t A step duration from anInstant to the next in seconds
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
+    /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
+    /// @param              [in] readIndexes An array containing read coordinates subsets indexes and sizes
+    /// @param              [in] writeIndexes An array containing write coordinates subsets indexes and sizes
 
     static void DynamicalEquations(
         const StateVector& x,
         StateVector& dxdt,
         const double& t,
         const Array<Shared<Dynamics>>& aDynamicsArray,
-        const Instant& anInstant
+        const Instant& anInstant,
+        const Shared<const Frame>& aFrame,
+        const Array<Array<Pair<Index, Size>>>& readIndexes,
+        const Array<Array<Pair<Index, Size>>>& writeIndexes,
+        const Array<Size>& reducedStateSizes
+    );
+
+    static VectorXd ReduceFullStateToReadState(
+        const StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+    );
+
+    static void AddContributionToFullState(
+        StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
     );
 };
 

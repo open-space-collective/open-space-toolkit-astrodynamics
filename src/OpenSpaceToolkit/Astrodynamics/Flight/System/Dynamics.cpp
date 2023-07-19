@@ -11,7 +11,9 @@ namespace flight
 namespace system
 {
 
+using ostk::core::ctnr::Pair;
 using ostk::core::types::Index;
+using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
 
@@ -37,16 +39,37 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 Dynamics::DynamicalEquationWrapper Dynamics::GetDynamicalEquations(
-    const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrame,
+    const Array<Array<Pair<Index, Size>>>& readIndexes,
+    const Array<Array<Pair<Index, Size>>>& writeIndexes
 )
 {
+    // Compute reduced state sizes only once
+    Array<Size> reducedStateSizes = Array<Size>::Empty();
+    for (const Array<Pair<Index, Size>> readInfo : readIndexes)
+    {
+        Size size = 0;
+        for (const Pair<Index, Size> pair : readInfo)
+        {
+            size += pair.second;
+        }
+
+        reducedStateSizes.add(size);
+    }
+
     return std::bind(
         Dynamics::DynamicalEquations,
         std::placeholders::_1,
         std::placeholders::_2,
         std::placeholders::_3,
         aDynamicsArray,
-        anInstant
+        anInstant,
+        aFrame,
+        readIndexes,
+        writeIndexes,
+        reducedStateSizes
     );
 }
 
@@ -55,7 +78,11 @@ void Dynamics::DynamicalEquations(
     Dynamics::StateVector& dxdt,
     const double& t,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Instant& anInstant
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrame,
+    const Array<Array<Pair<Index, Size>>>& readIndexes,
+    const Array<Array<Pair<Index, Size>>>& writeIndexes,
+    const Array<Size>& reducedStateSizes
 )
 {
     for (Index i = 0; i < dxdt.size(); ++i)
@@ -65,9 +92,46 @@ void Dynamics::DynamicalEquations(
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Shared<Dynamics>& dynamics : aDynamicsArray)
+    for (Index i = 0; i < aDynamicsArray.size(); i++)
     {
-        dynamics->applyContribution(x, dxdt, nextInstant);
+        const VectorXd contribution = aDynamicsArray[i]->computeContribution(
+            nextInstant, Dynamics::ReduceFullStateToReadState(x, readIndexes[i], reducedStateSizes[i]), aFrame
+        );
+        Dynamics::AddContributionsToFullState(dxdt, contribution, writeIndexes[i]);
+    }
+}
+
+VectorXd Dynamics::ReduceFullStateToReadState(
+    const Dynamics::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+)
+{
+    VectorXd reduced = VectorXd(readSize);
+
+    for (Pair<Index, Size> pair : readInfo)
+    {
+        const Index offset = pair.first;
+        for (Index i = 0; i < pair.second; i++)
+        {
+            reduced[i] = x[offset + i];
+        }
+    }
+
+    return reduced;
+}
+
+void Dynamics::AddContributionToFullState(
+    Dynamics::StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
+)
+{
+    Index i = 0;
+    for (Pair<Index, Size> pair : writeInfo)
+    {
+        const Index offset = pair.first;
+        for (Index j = 0; j < pair.second; j++)
+        {
+            dxdt[offset + j] += contribution[i];
+            i++;
+        }
     }
 }
 

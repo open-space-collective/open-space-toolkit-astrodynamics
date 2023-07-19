@@ -111,7 +111,7 @@ Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinateSubset
 }
 
 VectorXd AtmosphericDrag::computeContribution(
-    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
 ) const
 {
     (void)anInstant;

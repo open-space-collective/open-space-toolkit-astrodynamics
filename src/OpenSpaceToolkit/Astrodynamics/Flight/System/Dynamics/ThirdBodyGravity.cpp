@@ -95,7 +95,7 @@ Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getWriteCoordinateSubse
 }
 
 VectorXd ThirdBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd x, const Shared<const Frame> aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
 ) const
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction

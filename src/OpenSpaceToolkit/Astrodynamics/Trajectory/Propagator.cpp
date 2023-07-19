@@ -84,7 +84,25 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    aDynamics->declareCoordinates(coordinatesBrokerSPtr_);
+    // Store read coordinate subsets information
+    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
+    for (const Shared<const CoordinatesSubset> subset : aDynamics->getReadCoordinateSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        readInfo.add(indexAndSize);
+    }
+    this->readIndexes_.add(readInfo);
+
+    // Store write coordinate subsets information
+    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
+    for (const Shared<const CoordinatesSubset> subset : aDynamics->getWriteCoordinateSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        writeInfo.add(indexAndSize);
+    }
+    this->writeIndexes_.add(writeInfo);
+
+    // Add it to the dynamics list
     this->dynamics_.add(aDynamics);
 }
 
@@ -92,6 +110,8 @@ void Propagator::clearDynamics()
 {
     this->dynamics_.clear();
     this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    this->readIndexes_.clear();
+    this->writeIndexes_.clear();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -109,7 +129,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        Dynamics::GetDynamicalEquations(
+            this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
+        )
     );
 
     return State::fromStdVector(anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_);
@@ -166,7 +188,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+            Dynamics::GetDynamicalEquations(
+                this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
+            )
         );
     }
 
@@ -180,7 +204,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+            Dynamics::GetDynamicalEquations(
+                this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
+            )
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
