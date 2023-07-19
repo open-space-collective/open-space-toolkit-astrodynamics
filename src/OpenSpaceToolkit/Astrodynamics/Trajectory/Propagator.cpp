@@ -101,7 +101,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
 
-    const NumericalSolver::Solution solution = numericalSolver_.integrateDurations(
+    const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
         startStateVector,
         (anInstant - aState.getInstant()).inSeconds(),
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
@@ -168,7 +168,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     Array<NumericalSolver::Solution> forwardPropagatedSolutions;
     if (!forwardDurations.isEmpty())
     {
-        forwardPropagatedSolutions = numericalSolver_.integrateDurations(
+        forwardPropagatedSolutions = numericalSolver_.integrateDuration(
             startStateVector, forwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
     }
@@ -179,7 +179,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     {
         std::reverse(backwardDurations.begin(), backwardDurations.end());
 
-        backwardPropagatedSolutions = numericalSolver_.integrateDurations(
+        backwardPropagatedSolutions = numericalSolver_.integrateDuration(
             startStateVector, backwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
 

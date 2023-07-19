@@ -111,12 +111,12 @@ class TestNumericalSolver:
             == "LogAdaptive"
         )
 
-    def test_integrate_state_for_durations(
+    def test_integrate_duration(
         self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
     ):
         integration_duration: float = 100.0
 
-        state_vector, _ = numerical_solver.integrate_state_for_durations(
+        state_vector, _ = numerical_solver.integrate_duration(
             initial_state_vec, integration_duration, oscillator
         )
 
@@ -124,7 +124,7 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
 
         integration_durations = np.arange(100.0, 1000.0, 50.0)
-        solutions = numerical_solver.integrate_state_for_durations(
+        solutions = numerical_solver.integrate_duration(
             initial_state_vec, integration_durations, oscillator
         )
 
@@ -134,13 +134,13 @@ class TestNumericalSolver:
             assert 5e-9 >= abs(state_vector[0] - math.sin(integration_duration))
             assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
 
-    def test_integrate_state_to_times(
+    def test_integrate_time(
         self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
 
-        state_vector, _ = numerical_solver.integrate_state_to_times(
+        state_vector, _ = numerical_solver.integrate_time(
             initial_state_vec, start_time, end_time, oscillator
         )
 
@@ -148,7 +148,7 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[1] - math.cos(end_time - start_time))
 
         end_times = np.arange(600.0, 1000.0, 50.0)
-        solutions = numerical_solver.integrate_state_to_times(
+        solutions = numerical_solver.integrate_time(
             initial_state_vec, start_time, end_times, oscillator
         )
 

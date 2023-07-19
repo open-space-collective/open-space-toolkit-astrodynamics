@@ -165,7 +165,7 @@ class NumericalSolver
     ///
     /// @code
     ///                     Array<Solution> solutions =
-    ///                     numericalSolver.integrateTimes(stateVector, startTime, timeArray, systemOfEquations);
+    ///                     numericalSolver.integrateTime(stateVector, startTime, timeArray, systemOfEquations);
     /// @endcode
     ///
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
@@ -175,7 +175,7 @@ class NumericalSolver
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<std::vector<double>>
 
-    Array<Solution> integrateTimes(
+    Array<Solution> integrateTime(
         const StateVector& anInitialStateVector,
         const Real& aStartTime,
         const Array<Real>& aTimeArray,
@@ -185,7 +185,7 @@ class NumericalSolver
     /// @brief              Perform numerical integration from a start time to an end time
     ///
     /// @code
-    ///                     Solution solution = numericalSolver.integrateTimes(stateVector, startTime, endTime,
+    ///                     Solution solution = numericalSolver.integrateTime(stateVector, startTime, endTime,
     ///                     systemOfEquations);
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
@@ -195,7 +195,7 @@ class NumericalSolver
     /// boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
-    Solution integrateTimes(
+    Solution integrateTime(
         const StateVector& anInitialStateVector,
         const Real& aStartTime,
         const Real& anEndTime,
@@ -205,7 +205,7 @@ class NumericalSolver
     /// @brief              Perform numerical integration for a certain duration
     ///
     /// @code
-    ///                     Solution solution = numericalsolver.integrateTimes(stateVector, durationSeconds,
+    ///                     Solution solution = numericalsolver.integrateTime(stateVector, durationSeconds,
     ///                     SystemofEquations) ;
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
@@ -214,7 +214,7 @@ class NumericalSolver
     ///                              boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
-    Solution integrateDurations(
+    Solution integrateDuration(
         const StateVector& anInitialStateVector,
         const Real& aDurationInSeconds,
         const SystemOfEquationsWrapper& aSystemOfEquations
@@ -223,7 +223,7 @@ class NumericalSolver
     /// @brief              Perform numerical integration for an array of durations
     ///
     /// @code
-    ///                     Array<Solution> solutions = numericalsolver.integrateTimes(stateVector, durationArray,
+    ///                     Array<Solution> solutions = numericalsolver.integrateTime(stateVector, durationArray,
     ///                     SystemofEquations);
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
@@ -232,7 +232,7 @@ class NumericalSolver
     ///                              boost::odeint accepts to perform numerical integration
     /// @return             std::vector<double>
 
-    Array<Solution> integrateDurations(
+    Array<Solution> integrateDuration(
         const StateVector& anInitialStateVector,
         const Array<Real>& aDurationArray,
         const SystemOfEquationsWrapper& aSystemOfEquations

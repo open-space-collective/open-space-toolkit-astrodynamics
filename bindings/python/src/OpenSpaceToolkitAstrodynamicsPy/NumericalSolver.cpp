@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
             .def("get_absolute_tolerance", &NumericalSolver::getAbsoluteTolerance)
 
             .def(
-                "integrate_state_for_durations",
+                "integrate_duration",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
                     const Real& aDurationInSeconds,
@@ -69,12 +69,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateDurations(aStateVector, aDurationInSeconds, systemOfEquations);
+                    return aNumericalSolver.integrateDuration(aStateVector, aDurationInSeconds, systemOfEquations);
                 }
             )
 
             .def(
-                "integrate_state_for_durations",
+                "integrate_duration",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
                     const Array<Real>& aDurationArray,
@@ -90,12 +90,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateDurations(aStateVector, aDurationArray, systemOfEquations);
+                    return aNumericalSolver.integrateDuration(aStateVector, aDurationArray, systemOfEquations);
                 }
             )
 
             .def(
-                "integrate_state_to_times",
+                "integrate_time",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
                     const Real& aStartTime,
@@ -112,12 +112,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateTimes(aStateVector, aStartTime, anEndTime, systemOfEquations);
+                    return aNumericalSolver.integrateTime(aStateVector, aStartTime, anEndTime, systemOfEquations);
                 }
             )
 
             .def(
-                "integrate_state_to_times",
+                "integrate_time",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
                     const Real& aStartTime,
@@ -134,7 +134,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                         dxdt = pythonDynamicsEquation(x, dxdt, t);
                     };
 
-                    return aNumericalSolver.integrateTimes(aStateVector, aStartTime, aTimeArray, systemOfEquations);
+                    return aNumericalSolver.integrateTime(aStateVector, aStartTime, aTimeArray, systemOfEquations);
                 }
             )
 

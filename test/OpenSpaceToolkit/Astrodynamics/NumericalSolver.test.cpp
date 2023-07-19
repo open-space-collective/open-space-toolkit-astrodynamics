@@ -301,7 +301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
 {
     // Performance test with RungeKutta4 in forward time
     {
@@ -312,7 +312,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
@@ -326,12 +326,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateTimes in forward time
+    // Performance test with RungeKuttaCashKarp54 and integrateTime in forward time
     {
         const Array<Real> aTimeArray = {
             100.0,
@@ -341,12 +341,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRK54_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateDurations in backward time
+    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
     {
         const Array<Real> aTimeArray = {
             -100.0,
@@ -356,7 +356,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRK54_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
@@ -371,7 +371,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRKF78_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
@@ -386,7 +386,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTimes)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateTimes(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+            defaultRKF78_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
@@ -397,7 +397,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
     // Performance test with RungeKutta4 in forward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -408,7 +408,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
     // Performance test with RungeKutta4 in backward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_.integrateDurations(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
+            defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -416,10 +416,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateDurations in forward time
+    // Performance test with RungeKuttaCashKarp54 and integrateDuration in forward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            defaultRK54_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -427,10 +427,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
         EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateDurations in backward time
+    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_.integrateDurations(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
+            defaultRK54_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -441,7 +441,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
     // Performance test with RungeKuttaFehlberg78 in forward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            defaultRKF78_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -452,7 +452,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
     // Performance test with RungeKuttaFehlberg78 in backward time
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_.integrateDurations(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
+            defaultRKF78_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
@@ -477,9 +477,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
-            numericalSolver_1.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            numericalSolver_1.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
         const NumericalSolver::StateVector propagatedStateVector_2 =
-            numericalSolver_2.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            numericalSolver_2.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
@@ -512,9 +512,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
-            numericalSolver_1.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            numericalSolver_1.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
         const NumericalSolver::StateVector propagatedStateVector_2 =
-            numericalSolver_2.integrateDurations(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
+            numericalSolver_2.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
         String output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
@@ -535,7 +535,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRK4_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -550,7 +550,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRK4_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -565,7 +565,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRK54_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -580,7 +580,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRK54_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -595,7 +595,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRKF78_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -610,7 +610,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     {
         const NumericalSolver::StateVector propagatedStateVector =
             defaultRKF78_
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
                 )
                 .first;
@@ -639,7 +639,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
             numericalSolver_1
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_,
                     defaultStartTime_,
                     defaultStartTime_ + defaultDuration_,
@@ -652,7 +652,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
                 .first;
         const NumericalSolver::StateVector propagatedStateVector_2 =
             numericalSolver_2
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_,
                     defaultStartTime_,
                     defaultStartTime_ + defaultDuration_,
@@ -694,7 +694,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
             numericalSolver_1
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_,
                     defaultStartTime_,
                     defaultStartTime_ + defaultDuration_,
@@ -707,7 +707,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
                 .first;
         const NumericalSolver::StateVector propagatedStateVector_2 =
             numericalSolver_2
-                .integrateTimes(
+                .integrateTime(
                     defaultStateVector_,
                     defaultStartTime_,
                     defaultStartTime_ + defaultDuration_,
@@ -732,7 +732,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
 {
     // Performance test with RungeKutta4 in forward time
     {
@@ -743,7 +743,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRK4_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
@@ -757,12 +757,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRK4_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateDurations in forward time
+    // Performance test with RungeKuttaCashKarp54 and integrateDuration in forward time
     {
         const Array<Real> aTimeArray = {
             100.0,
@@ -772,12 +772,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRK54_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
 
-    // Performance test with RungeKuttaCashKarp54 and integrateDurations in backward time
+    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
     {
         const Array<Real> aTimeArray = {
             -100.0,
@@ -787,7 +787,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRK54_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
@@ -802,7 +802,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRKF78_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
@@ -817,7 +817,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDurations)
         };
 
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateDurations(defaultStateVector_, aTimeArray, systemOfEquations_);
+            defaultRKF78_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }

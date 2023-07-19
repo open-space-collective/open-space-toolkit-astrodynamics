@@ -138,7 +138,7 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return absoluteTolerance_;
 }
 
-Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
+Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
     const Real& aStartTime,
     const Array<Real>& aTimeArray,
@@ -164,7 +164,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = getAdjustedTimeStep(aTimeArray.accessLast());
+    const double adjustedTimeStep = getSignedTimeStep(aTimeArray.accessLast());
 
     // Add start time to the start of array
     Array<double> durationArray(aTimeArray.begin(), aTimeArray.end());
@@ -219,7 +219,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
     return Array<NumericalSolver::Solution>(observedStates_.begin() + 1, observedStates_.end());
 }
 
-NumericalSolver::Solution NumericalSolver::integrateDurations(
+NumericalSolver::Solution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
@@ -235,7 +235,7 @@ NumericalSolver::Solution NumericalSolver::integrateDurations(
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = getAdjustedTimeStep(aDurationInSeconds);
+    const double adjustedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
     const auto observer = [this](const NumericalSolver::StateVector& x, double t) -> void
     {
@@ -354,23 +354,23 @@ NumericalSolver::Solution NumericalSolver::integrateDurations(
     return {anInitialStateVector, 0.0};
 }
 
-NumericalSolver::Solution NumericalSolver::integrateTimes(
+NumericalSolver::Solution NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
     const Real& aStartTime,
     const Real& anEndTime,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    return this->integrateDurations(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
+    return this->integrateDuration(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
 }
 
-Array<NumericalSolver::Solution> NumericalSolver::integrateDurations(
+Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
     const NumericalSolver::StateVector& anInitialStateVector,
     const Array<Real>& aDurationArray,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    return integrateTimes(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
+    return integrateTime(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
