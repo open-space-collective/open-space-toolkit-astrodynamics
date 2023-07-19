@@ -166,11 +166,11 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
     // Ensure integration starts in the correct direction with the initial time step guess
     const double adjustedTimeStep = getAdjustedTimeStep(aTimeArray.accessLast());
 
-    // Add start instant to the start of array and convert to integration seconds
+    // Add start time to the start of array
     Array<double> durationArray(aTimeArray.begin(), aTimeArray.end());
     durationArray.insert(durationArray.begin(), aStartTime);
 
-    const auto observer = [&](const NumericalSolver::StateVector& x, double t) -> void
+    const auto observer = [this](const NumericalSolver::StateVector& x, double t) -> void
     {
         this->observeNumericalIntegration(x, t);
     };
@@ -237,7 +237,7 @@ NumericalSolver::Solution NumericalSolver::integrateDurations(
     // Ensure integration starts in the correct direction with the initial time step guess
     const double adjustedTimeStep = getAdjustedTimeStep(aDurationInSeconds);
 
-    const auto observer = [&](const NumericalSolver::StateVector& x, double t) -> void
+    const auto observer = [this](const NumericalSolver::StateVector& x, double t) -> void
     {
         this->observeNumericalIntegration(x, t);
     };
@@ -457,10 +457,10 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
     }
 }
 
-double NumericalSolver::getAdjustedTimeStep(const Real& aReal) const
+double NumericalSolver::getSignedTimeStep(const Real& aReal) const
 {
-    const Integer durationSign = (aReal > 0.0) - (aReal < 0.0);
-    return timeStep_ * static_cast<double>(durationSign);
+    const Real durationSign = (aReal > 0.0) - (aReal < 0.0);
+    return timeStep_ * durationSign;
 }
 
 }  // namespace astro
