@@ -277,6 +277,8 @@ class NumericalSolver
     std::vector<double> instants_;
 
     void observeNumericalIntegration(const StateVector& x, const double t);
+
+    double getAdjustedTimeStep(const Real& aReal) const;
 };
 
 }  // namespace astro

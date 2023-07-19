@@ -164,8 +164,7 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateTimes(
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    Integer durationSign = (aTimeArray[0] > 0.0) - (aTimeArray[0] < 0.0);
-    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+    const double adjustedTimeStep = getAdjustedTimeStep(aTimeArray.accessLast());
 
     // Add start instant to the start of array and convert to integration seconds
     Array<double> durationArray(aTimeArray.begin(), aTimeArray.end());
@@ -237,8 +236,7 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const Integer durationSign = (aDurationInSeconds > 0.0) - (aDurationInSeconds < 0.0);
-    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+    const double adjustedTimeStep = getAdjustedTimeStep(aDurationInSeconds);
 
     const auto observer = [&](const NumericalSolver::StateVector& x, double t) -> void
     {
@@ -412,6 +410,20 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
     }
 }
 
+NumericalSolver NumericalSolver::Undefined()
+{
+    return NumericalSolver(
+        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
+    );
+}
+
+NumericalSolver NumericalSolver::Default()
+{
+    return NumericalSolver(
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+    );
+}
+
 void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVector& x, const double t)
 {
     states_.push_back(x);
@@ -447,18 +459,10 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
     }
 }
 
-NumericalSolver NumericalSolver::Undefined()
+double NumericalSolver::getAdjustedTimeStep(const Real& aReal) const
 {
-    return NumericalSolver(
-        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
-    );
-}
-
-NumericalSolver NumericalSolver::Default()
-{
-    return NumericalSolver(
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
-    );
+    const Integer durationSign = (aReal > 0.0) - (aReal < 0.0);
+    return timeStep_ * static_cast<double>(durationSign);
 }
 
 }  // namespace astro
