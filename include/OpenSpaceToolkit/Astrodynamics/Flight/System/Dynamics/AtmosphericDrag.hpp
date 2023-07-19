@@ -109,22 +109,6 @@ class AtmosphericDrag : public Dynamics
     virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
         const override;
 
-    /// @brief              Declares the coordinates involved in the contribution calculation
-    ///
-    /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes
-
-    virtual void declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker) override;
-
-    /// @brief              Apply contribution to the state derivative
-    ///
-    /// @param              [in] x A state vector
-    /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
-
-    virtual void applyContribution(
-        const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-    ) const override;
-
     /// @brief              Print atmospheric drag dynamics
     ///
     /// @param              [in] anOutputStream An output stream

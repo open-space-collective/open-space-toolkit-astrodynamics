@@ -205,6 +205,8 @@ class Propagator
     Array<Array<Pair<Index, Size>>> readIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
     Array<Array<Pair<Index, Size>>> writeIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
     mutable NumericalSolver numericalSolver_;
+
+    void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);
 };
 
 }  // namespace trajectory

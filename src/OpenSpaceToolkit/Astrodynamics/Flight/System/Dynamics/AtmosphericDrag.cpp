@@ -145,46 +145,6 @@ VectorXd AtmosphericDrag::computeContribution(
     return contribution;
 }
 
-void AtmosphericDrag::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
-{
-    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
-}
-
-void AtmosphericDrag::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-) const
-{
-    (void)anInstant;
-
-    Vector3d positionCoordinates = Vector3d(x[positionIndex_], x[positionIndex_ + 1], x[positionIndex_ + 2]);
-    Vector3d velocityCoordinates = Vector3d(x[velocityIndex_], x[velocityIndex_ + 1], x[velocityIndex_ + 2]);
-
-    // Get atmospheric density
-    const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, gcrfSPtr_), anInstant)
-            .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
-            .getValue();
-
-    const Vector3d earthAngularVelocity =
-        gcrfSPtr_->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
-
-    const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
-
-    const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-
-    // Add object's gravity to total gravitational acceleration
-    const Vector3d dragAccelerationSI =
-        -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
-
-    // Integrate velocity states
-    dxdt[velocityIndex_] += dragAccelerationSI[0];
-    dxdt[velocityIndex_ + 1] += dragAccelerationSI[1];
-    dxdt[velocityIndex_ + 2] += dragAccelerationSI[2];
-}
-
 void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Atmospheric Drag Dynamics") : void();

@@ -67,24 +67,6 @@ VectorXd PositionDerivative::computeContribution(
     return contribution;
 }
 
-void PositionDerivative::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
-{
-    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
-}
-
-void PositionDerivative::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-) const
-{
-    (void)anInstant;
-
-    // Integrate position states
-    dxdt[positionIndex_] += x[velocityIndex_];
-    dxdt[positionIndex_ + 1] += x[velocityIndex_ + 1];
-    dxdt[positionIndex_ + 2] += x[velocityIndex_ + 2];
-}
-
 void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Position Derivative Dynamics") : void();

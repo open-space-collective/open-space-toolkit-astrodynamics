@@ -23,11 +23,11 @@ Invariant::Invariant(const String& aName, const Size& aSize)
 }
 
 VectorXd Invariant::inFrame(
-    const Instant& anInstant,
+    [[maybe_unused]] const Instant& anInstant,
     const VectorXd& allCoordinates,
-    const Shared<const Frame>& fromFrame,
+    [[maybe_unused]] const Shared<const Frame>& fromFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker,
-    const Shared<const Frame>& toFrame
+    [[maybe_unused]] const Shared<const Frame>& toFrame
 ) const
 {
     return aCoordinatesBroker->extract(allCoordinates, *this);

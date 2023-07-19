@@ -97,7 +97,8 @@ void Dynamics::DynamicalEquations(
         const VectorXd contribution = aDynamicsArray[i]->computeContribution(
             nextInstant, Dynamics::ReduceFullStateToReadState(x, readIndexes[i], reducedStateSizes[i]), aFrame
         );
-        Dynamics::AddContributionsToFullState(dxdt, contribution, writeIndexes[i]);
+
+        Dynamics::AddContributionToFullState(dxdt, contribution, writeIndexes[i]);
     }
 }
 

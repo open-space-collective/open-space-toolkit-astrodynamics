@@ -120,37 +120,6 @@ VectorXd ThirdBodyGravity::computeContribution(
     return contribution;
 }
 
-void ThirdBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
-{
-    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
-}
-
-void ThirdBodyGravity::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-) const
-{
-    // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
-    // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
-    Vector3d gravitationalAccelerationSI =
-        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant)
-             .inFrame(gcrfSPtr_, anInstant)
-             .getValue();
-
-    // Add celestial's gravity to total gravitational acceleration
-    Vector3d positionCoordinates = Vector3d(x[positionIndex_], x[positionIndex_ + 1], x[positionIndex_ + 2]);
-
-    gravitationalAccelerationSI +=
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, gcrfSPtr_), anInstant)
-            .inFrame(gcrfSPtr_, anInstant)
-            .getValue();
-
-    // Integrate velocity states
-    dxdt[velocityIndex_] += gravitationalAccelerationSI[0];
-    dxdt[velocityIndex_ + 1] += gravitationalAccelerationSI[1];
-    dxdt[velocityIndex_ + 2] += gravitationalAccelerationSI[2];
-}
-
 void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Third Body Gravitational Dynamics") : void();

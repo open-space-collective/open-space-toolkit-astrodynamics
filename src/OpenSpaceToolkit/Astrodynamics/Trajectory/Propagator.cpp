@@ -36,7 +36,7 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
 {
     for (Shared<Dynamics> aDynamics : this->dynamics_)
     {
-        aDynamics->declareCoordinates(coordinatesBrokerSPtr_);
+        this->registerDynamicsInformation(aDynamics);
     }
 }
 
@@ -84,25 +84,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    // Store read coordinate subsets information
-    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
-    for (const Shared<const CoordinatesSubset> subset : aDynamics->getReadCoordinateSubsets())
-    {
-        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
-        readInfo.add(indexAndSize);
-    }
-    this->readIndexes_.add(readInfo);
-
-    // Store write coordinate subsets information
-    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
-    for (const Shared<const CoordinatesSubset> subset : aDynamics->getWriteCoordinateSubsets())
-    {
-        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
-        writeInfo.add(indexAndSize);
-    }
-    this->writeIndexes_.add(writeInfo);
-
-    // Add it to the dynamics list
+    this->registerDynamicsInformation(aDynamics);
     this->dynamics_.add(aDynamics);
 }
 
@@ -303,6 +285,27 @@ Propagator Propagator::FromEnvironment(
         aNumericalSolver,
         dynamicsArray,
     };
+}
+
+void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
+{
+    // Store read coordinate subsets information
+    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
+    for (const Shared<const CoordinatesSubset> subset : aDynamics->getReadCoordinateSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        readInfo.add(indexAndSize);
+    }
+    this->readIndexes_.add(readInfo);
+
+    // Store write coordinate subsets information
+    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
+    for (const Shared<const CoordinatesSubset> subset : aDynamics->getWriteCoordinateSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        writeInfo.add(indexAndSize);
+    }
+    this->writeIndexes_.add(writeInfo);
 }
 
 }  // namespace trajectory

@@ -107,30 +107,6 @@ VectorXd CentralBodyGravity::computeContribution(
     return contribution;
 }
 
-void CentralBodyGravity::declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker)
-{
-    this->positionIndex_ = coordinatesBroker->addSubset(CartesianPosition::ThreeDimensional());
-    this->velocityIndex_ = coordinatesBroker->addSubset(CartesianVelocity::ThreeDimensional());
-}
-
-void CentralBodyGravity::applyContribution(
-    const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant
-) const
-{
-    Vector3d positionCoordinates = Vector3d(x[positionIndex_], x[positionIndex_ + 1], x[positionIndex_ + 2]);
-
-    // Obtain gravitational acceleration from current object
-    const Vector3d gravitationalAccelerationSI =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, gcrfSPtr_), anInstant)
-            .inFrame(gcrfSPtr_, anInstant)
-            .getValue();
-
-    // Integrate velocity states
-    dxdt[velocityIndex_] += gravitationalAccelerationSI[0];
-    dxdt[velocityIndex_ + 1] += gravitationalAccelerationSI[1];
-    dxdt[velocityIndex_ + 2] += gravitationalAccelerationSI[2];
-}
-
 void CentralBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Central Body Gravitational Dynamics") : void();

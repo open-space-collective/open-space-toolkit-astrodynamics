@@ -104,20 +104,6 @@ class Dynamics
     virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
         const = 0;
 
-    /// @brief              Declares the coordinates involved in the contribution calculation
-    ///
-    /// @param              [in] coordinatesBroker The coordinate broker mapping state coordinates and indexes
-
-    virtual void declareCoordinates(const Shared<CoordinatesBroker>& coordinatesBroker) = 0;
-
-    /// @brief              Apply contribution to the state derivative (pure virtual)
-    ///
-    /// @param              [in] x A state vector
-    /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
-
-    virtual void applyContribution(const StateVector& x, StateVector& dxdt, const Instant& anInstant) const = 0;
-
     /// @brief              Print dynamics
     ///
     /// @param              [in] anOutputStream An output stream
