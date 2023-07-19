@@ -823,6 +823,46 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithConditions)
+{
+    // Simple duration based struct
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                std::cout << "INSIDE: " << currentValue << std::endl;
+                return currentValue > 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const double &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        Condition condition(5.0);
+
+        const NumericalSolver::StateVector propagatedStateVector = defaultRK4_.integrateDurations(
+            defaultStateVector_, defaultDuration_.inSeconds(), systemOfEquations_, condition
+        );
+
+        // Validate the output against an analytical function
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_.inSeconds())));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_.inSeconds())));
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Undefined)
 {
     {

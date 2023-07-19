@@ -238,6 +238,35 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
+    /// @brief              Perform numerical integration for a certain duration
+    ///
+    /// @code
+    ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector,
+    ///                     instant, otherInstant, SystemofEquations) ;
+    /// @endcode
+    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param              [in] anIntegrationDuration A duration over which to integration
+    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    /// boost::odeint accepts to perform numerical integration
+    /// @return             std::vector<double>
+
+    template <typename ConditionFunction>
+    StateVector integrateTimes(
+        const StateVector& anInitialStateVector,
+        const Real& aStartTime,
+        const Real& anEndTime,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const ConditionFunction& anEventCondition
+    );
+
+    template <typename ConditionFunction>
+    StateVector integrateDurations(
+        const StateVector& anInitialStateVector,
+        const Real& aDurationInSeconds,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const ConditionFunction& anEventCondition
+    );
+
     /// @brief              Get string from the integration stepper type
     ///
     /// @code
@@ -285,5 +314,7 @@ class NumericalSolver
 
 }  // namespace astro
 }  // namespace ostk
+
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.tpp>
 
 #endif
