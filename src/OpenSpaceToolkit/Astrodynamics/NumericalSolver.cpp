@@ -149,7 +149,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTimes(
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
-    // Check if instant array has zero length
+    // Check if time array has zero length
     if (aTimeArray.size() == 0)
     {
         throw ostk::core::error::RuntimeError("Time Array is empty");
