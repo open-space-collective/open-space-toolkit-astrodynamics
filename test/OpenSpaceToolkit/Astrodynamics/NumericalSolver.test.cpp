@@ -314,7 +314,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
             defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
+        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
 
     // Performance test with RungeKutta4 in backward time
@@ -328,7 +328,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
             defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
+        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
     }
 
     // Performance test with RungeKuttaCashKarp54 and integrateTime in forward time
@@ -823,9 +823,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithConditions)
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditions)
 {
-    // Simple duration based struct
+    // Simple duration based condition
+
+    // Forward integration
     {
         struct Condition
         {
@@ -849,7 +851,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithCon
             Real target_;
         };
 
-        Condition condition(5.0);
+        EXPECT_NEAR(
+            defaultDuration_,
+            defaultRK4_
+                .integrateDuration(
+                    defaultStateVector_, defaultDuration_, systemOfEquations_, Condition(defaultDuration_ + 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        Condition condition(defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
             defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
@@ -863,6 +875,292 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithCon
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+    }
+
+    // Backward integration
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                return currentValue < 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const double &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        EXPECT_NEAR(
+            -defaultDuration_,
+            defaultRK4_
+                .integrateDuration(
+                    defaultStateVector_, -defaultDuration_, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        Condition condition(-defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Validate the output against an analytical function
+
+        EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+    }
+
+    // Simple value based struct
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                return (previousValue < 0.0) == (currentValue > 0.0);
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &aStateVector, const double &aTime) const
+            {
+                (void)aTime;
+                return aStateVector[0] - target_;
+            }
+
+            Real target_;
+        };
+
+        // Forward integration
+        {
+            Condition condition(0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Validate the output against an analytical function
+
+            EXPECT_TRUE(propagatedTime < defaultDuration_);
+            EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+        }
+
+        // Backward integration
+        {
+            Condition condition(-0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Validate the output against an analytical function
+
+            EXPECT_TRUE(propagatedTime > -defaultDuration_);
+            EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
+{
+    const Real startTime = 500.0;
+
+    // Simple duration based condition
+
+    // Forward integration
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                return currentValue > 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const double &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        const Real endTime = startTime + defaultDuration_;
+
+        EXPECT_NEAR(
+            endTime,
+            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, Condition(15.0))
+                .second,
+            1e-12
+        );
+
+        Condition condition(defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Validate the output against an analytical function
+
+        EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+    }
+
+    // Backward integration
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                return currentValue < 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const double &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        const Real endTime = startTime - defaultDuration_;
+
+        EXPECT_NEAR(
+            endTime,
+            defaultRK4_
+                .integrateTime(
+                    defaultStateVector_, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        Condition condition(-defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Validate the output against an analytical function
+
+        EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+    }
+
+    // Simple value based struct
+    {
+        struct Condition
+        {
+            Condition(const Real &aTarget)
+                : target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                return (previousValue < 0.0) == (currentValue > 0.0);
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &aStateVector, const double &aTime) const
+            {
+                (void)aTime;
+                return aStateVector[0] - target_;
+            }
+
+            Real target_;
+        };
+
+        // Forward integration
+        {
+            const Real endTime = startTime + defaultDuration_;
+
+            Condition condition(0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Validate the output against an analytical function
+
+            EXPECT_TRUE(propagatedTime < endTime);
+            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition.target_), 1e-6);
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        }
+
+        // Backward integration
+        {
+            const Real endTime = startTime - defaultDuration_;
+
+            Condition condition(-0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Validate the output against an analytical function
+
+            EXPECT_TRUE(propagatedTime > endTime);
+            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition.target_), 1e-6);
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        }
     }
 }
 

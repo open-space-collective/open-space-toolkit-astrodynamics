@@ -23,6 +23,11 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     const ConditionFunction& aCondition
 )
 {
+    if (aDurationInSeconds.isZero())
+    {
+        return {anInitialStateVector, 0.0};
+    }
+
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
     // Ensure that the time step is the correct sign
@@ -33,26 +38,35 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         make_dense_output(absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>());
 
     // initialize stepper
-    double previousTime = 0.0;
     double currentTime = 0.0;
     stepper.initialize(aStateVector, currentTime, signedTimeStep);
 
     // do first step
+    double previousTime;
     std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
     observeNumericalIntegration(stepper.current_state(), stepper.current_time());
 
     bool conditionSatisfied = false;
+    Real currentValue = Real::Undefined();
     Real previousValue = aCondition.evaluate(stepper.current_state(), stepper.current_time());
     NumericalSolver::StateVector currentState;
 
-    while (currentTime < aDurationInSeconds)
+    // account for integration direction
+    const auto checkTimeLimit = [&currentTime, &aDurationInSeconds]()
+    {
+        if (aDurationInSeconds > 0.0)
+        {
+            return currentTime < aDurationInSeconds;
+        }
+        return currentTime > aDurationInSeconds;
+    };
+
+    while (checkTimeLimit())
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
 
-        observeNumericalIntegration(currentState, currentTime);
-
-        const Real currentValue = aCondition.evaluate(currentState, currentTime);
+        currentValue = aCondition.evaluate(currentState, currentTime);
 
         conditionSatisfied = aCondition(currentValue, previousValue);
 
@@ -61,39 +75,60 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
             break;
         }
 
+        observeNumericalIntegration(currentState, currentTime);
+
         previousValue = currentValue;
     }
 
+    // TBI: Share information upstream on if the condition was satisfied
     if (!conditionSatisfied)
     {
-        return {currentState, currentTime};
+        stepper.calc_state(aDurationInSeconds, currentState);
+        return {currentState, aDurationInSeconds};
     }
 
-    // do bisection method
-    NumericalSolver::StateVector midState(stepper.current_state());
+    // Search for the exact time of the condition change
+    NumericalSolver::StateVector midState(currentState);
+    double midTime;
 
-    while (std::abs(currentTime - previousTime) > 1e-6)
+    // TBI: Make this a parameter
+    const Index maxIterationCount = 100;
+
+    for (Index iterationCount = 0; iterationCount < maxIterationCount; ++iterationCount)
     {
-        const double midTime = 0.5 * (previousTime + currentTime);
+        midTime = 0.5 * (previousTime + currentTime);
         stepper.calc_state(midTime, midState);
 
-        const Real currentValue = aCondition.evaluate(midState, midTime);
+        const Real midValue = aCondition.evaluate(midState, midTime);
 
-        if (aCondition(currentValue, previousValue))
+        if (aCondition(midValue, previousValue))
         {
-            currentTime = midTime;  // condition changer lies before midpoint
+            // root lies between previousTime and midTime
+            // update current -> mid
+            currentTime = midTime;
+            currentValue = midValue;
         }
         else
         {
+            // root lies between midTime and currentTime
+            // update previous -> mid
             previousTime = midTime;  // condition changer lies after midpoint
+            previousValue = midValue;
         }
 
-        previousValue = currentValue;
+        // TBI: Make tolerance a parameter
+        if (std::abs(midValue) < 1e-6)
+        {
+            break;
+        }
     }
 
-    // we found the interval of size eps, take it's midpoint as final guess
-    const double midTime = 0.5 * (previousTime + currentTime);
-    stepper.calc_state(midTime, midState);
+    // TBI: Share information upstream on the number of iterations + success
+    // if (iterationCount == maxIterationCount)
+    // {
+    //   do thing
+    // }
+
     observeNumericalIntegration(midState, midTime);
 
     return {midState, midTime};
@@ -108,7 +143,11 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     const ConditionFunction& aCondition
 )
 {
-    return integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, aCondition);
+    NumericalSolver::Solution solution =
+        integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, aCondition);
+    solution.second += aStartTime;
+
+    return solution;
 }
 
 }  // namespace astro

@@ -42,9 +42,9 @@ class NumericalSolver
     };
 
     typedef std::vector<double> StateVector;     // Container used to hold the state vector
-    typedef std::function<void(const StateVector&, StateVector&, const double)>
-        SystemOfEquationsWrapper;                // Function pointer type for returning dynamical equation's pointers
     typedef Pair<StateVector, double> Solution;  // Container used to hold the state vector and time
+    typedef std::function<void(const StateVector&, StateVector&, const double)>
+        SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
 
     /// @brief              Constructor
     ///
@@ -161,7 +161,7 @@ class NumericalSolver
 
     Real getAbsoluteTolerance() const;
 
-    /// @brief              Perform numerical integration from a starting time to an array of states
+    /// @brief              Perform numerical integration from a start time to an array of times
     ///
     /// @code
     ///                     Array<Solution> solutions =
@@ -173,7 +173,7 @@ class NumericalSolver
     /// @param              [in] aTimeArray A array of times to integrate to
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
-    /// @return             std::vector<std::vector<double>>
+    /// @return             Array<Solution>
 
     Array<Solution> integrateTime(
         const StateVector& anInitialStateVector,
@@ -193,7 +193,7 @@ class NumericalSolver
     /// @param              [in] anEndTime An time to integrate to
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     /// boost::odeint accepts to perform numerical integration
-    /// @return             std::vector<double>
+    /// @return             Solution
 
     Solution integrateTime(
         const StateVector& anInitialStateVector,
@@ -202,7 +202,7 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration for a certain duration
+    /// @brief              Perform numerical integration for a specified duration
     ///
     /// @code
     ///                     Solution solution = numericalsolver.integrateTime(stateVector, durationSeconds,
@@ -212,7 +212,7 @@ class NumericalSolver
     /// @param              [in] aDurationInSeconds A duration over which to integrate
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     ///                              boost::odeint accepts to perform numerical integration
-    /// @return             std::vector<double>
+    /// @return             Solution
 
     Solution integrateDuration(
         const StateVector& anInitialStateVector,
@@ -230,7 +230,7 @@ class NumericalSolver
     /// @param              [in] aDurationArray An array of durations over which to integrate
     /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
     ///                              boost::odeint accepts to perform numerical integration
-    /// @return             std::vector<double>
+    /// @return             Array<Solution>
 
     Array<Solution> integrateDuration(
         const StateVector& anInitialStateVector,
@@ -238,17 +238,21 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration for a certain duration
+    /// @brief              Perform numerical integration from a start time till a condition is met, or end time is
+    /// reached
     ///
     /// @code
-    ///                     StateVector stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector,
-    ///                     instant, otherInstant, SystemofEquations) ;
+    ///                     StateVector stateVector = numericalsolver.integrateTime(stateVector,
+    ///                     aStartTime, anEndTime, SystemofEquations, anEventCondition) ;
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] anIntegrationDuration A duration over which to integration
+    /// @param              [in] aStartTime A time to begin integrating from
+    /// @param              [in] anEndTime A maximum time to to integrate to
     /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
-    /// boost::odeint accepts to perform numerical integration
-    /// @return             std::vector<double>
+    ///                     boost::odeint accepts to perform numerical integration
+    /// @param              [in] aCondition A template type that evaluates the state vector and time to a real, and the
+    ///                     value to a boolean
+    /// @return             Solution
 
     template <typename ConditionFunction>
     Solution integrateTime(
@@ -256,15 +260,30 @@ class NumericalSolver
         const Real& aStartTime,
         const Real& anEndTime,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const ConditionFunction& anEventCondition
+        const ConditionFunction& aCondition
     );
+
+    /// @brief              Perform numerical integration from a start time till a condition is met, or end time is
+    /// reached
+    ///
+    /// @code
+    ///                     StateVector stateVector = numericalsolver.integrateDuration(stateVector,
+    ///                     aStartTime, aDurationInSeconds, SystemofEquations, anEventCondition) ;
+    /// @endcode
+    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param              [in] aDurationInSeconds A duration to integrate for
+    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    ///                     boost::odeint accepts to perform numerical integration
+    /// @param              [in] aCondition A template type that evaluates the state vector and time to a real, and the
+    ///                     value to a boolean
+    /// @return             Solution
 
     template <typename ConditionFunction>
     Solution integrateDuration(
         const StateVector& anInitialStateVector,
         const Real& aDurationInSeconds,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const ConditionFunction& anEventCondition
+        const ConditionFunction& aCondition
     );
 
     /// @brief              Get string from the integration stepper type
