@@ -1,6 +1,6 @@
-# Apache License 2.0 
+# Apache License 2.0
 
-ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:python-3.8.8
+ARG JUPYTER_NOTEBOOK_IMAGE_REPOSITORY=jupyter/scipy-notebook:x86_64-python-3.11.3
 
 FROM ${JUPYTER_NOTEBOOK_IMAGE_REPOSITORY}
 
@@ -25,7 +25,7 @@ RUN jupyter labextension install --no-build \
 
 COPY ./shortcuts-extension /home/jovyan/.jupyter/lab/user-settings/@jupyterlab/shortcuts-extension
 
-RUN chown -R ${NB_UID}:${NB_UID} /home/jovyan/.jupyter
+RUN chown -R ${NB_UID}:${NB_GID} /home/jovyan
 
 # Add OSTk Data Settings
 
