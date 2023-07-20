@@ -30,8 +30,7 @@ NumericalSolver::NumericalSolver(
       timeStep_(aTimeStep),
       relativeTolerance_(aRelativeTolerance),
       absoluteTolerance_(anAbsoluteTolerance),
-      states_(),
-      instants_()
+      observedStates_()
 {
 }
 
@@ -139,65 +138,49 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return absoluteTolerance_;
 }
 
-Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInstants(
+Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
-    const Instant& aStartInstant,
-    const Array<Instant>& anInstantArray,
+    const Real& aStartTime,
+    const Array<Real>& aTimeArray,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
+    observedStates_.clear();
+
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
-    states_.clear();
-    instants_.clear();
 
-    // Check if instant array has zero length
-    if (anInstantArray.size() == 0)
+    // Check if time array has zero length
+    if (aTimeArray.size() == 0)
     {
-        throw ostk::core::error::RuntimeError("Instant Array is empty");
+        throw ostk::core::error::RuntimeError("Time Array is empty");
     }
 
-    // Check if the incoming instant array is the same as the start state if it has length 1
-    if ((anInstantArray.size() == 1) && (anInstantArray[0] == aStartInstant))
+    // Check if the incoming time array is the same as the start time if it has length 1
+    if ((aTimeArray.size() == 1) && (aTimeArray[0] == aStartTime))
     {
-        states_.push_back(anInitialStateVector);
-        return states_;
-    }
-
-    // Add start instant to the start of array and convert to integration seconds
-    Array<double> anIntegrationDurationInSecsArray = {0};
-    Size stopCounter = 0;
-    Integer durationSign = Integer::Undefined();
-
-    for (const auto& instant : anInstantArray)
-    {
-        const double durationInSecs = (instant - aStartInstant).inSeconds();
-        anIntegrationDurationInSecsArray.add(durationInSecs);
-
-        if (durationInSecs != 0 && stopCounter == 0)
-        {
-            durationSign = (durationInSecs > 0) - (durationInSecs < 0);
-            stopCounter++;
-        }
+        return {
+            {anInitialStateVector, aStartTime},
+        };
     }
 
     // Ensure integration starts in the correct direction with the initial time step guess
-    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+    const double adjustedTimeStep = getSignedTimeStep(aTimeArray.accessLast());
+
+    // Add start time to the start of array
+    Array<double> durationArray(aTimeArray.begin(), aTimeArray.end());
+    durationArray.insert(durationArray.begin(), aStartTime);
+
+    const auto observer = [this](const NumericalSolver::StateVector& x, double t) -> void
+    {
+        this->observeNumericalIntegration(x, t);
+    };
 
     switch (stepperType_)
     {
         case NumericalSolver::StepperType::RungeKutta4:
         {
             integrate_times(
-                stepper_type_4(),
-                aSystemOfEquations,
-                aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
-                adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                stepper_type_4(), aSystemOfEquations, aStateVector, durationArray, adjustedTimeStep, observer
             );
             break;
         }
@@ -208,13 +191,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
                 make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_54()),
                 aSystemOfEquations,
                 aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
+                durationArray,
                 adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                observer
             );
             break;
         }
@@ -225,13 +204,9 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
                 make_controlled(absoluteTolerance_, relativeTolerance_, error_stepper_type_78()),
                 aSystemOfEquations,
                 aStateVector,
-                anIntegrationDurationInSecsArray.begin(),
-                anIntegrationDurationInSecsArray.end(),
+                durationArray,
                 adjustedTimeStep,
-                [&](const NumericalSolver::StateVector& x, double t) -> void
-                {
-                    this->observeNumericalIntegration(x, t);
-                }
+                observer
             );
             break;
         }
@@ -241,30 +216,31 @@ Array<NumericalSolver::StateVector> NumericalSolver::integrateStatesAtSortedInst
     }
 
     // Return array of StateVectors excluding first element which is a repeat of the startState
-    return Array<NumericalSolver::StateVector>(states_.begin() + 1, states_.end());
+    return Array<NumericalSolver::Solution>(observedStates_.begin() + 1, observedStates_.end());
 }
 
-NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
+NumericalSolver::Solution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
-    const Duration& anIntegrationDuration,
+    const Real& aDurationInSeconds,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
-    states_.clear();
-    instants_.clear();
+    observedStates_.clear();
 
-    if ((anIntegrationDuration.inSeconds()).isZero())  // If integration duration is zero seconds long, skip integration
+    if (aDurationInSeconds.isZero())  // If integration duration is zero seconds long, skip integration
     {
-        return anInitialStateVector;
+        return {anInitialStateVector, 0.0};
     }
 
-    const double integrationDurationInSecs = anIntegrationDuration.inSeconds();
-
     // Ensure integration starts in the correct direction with the initial time step guess
-    Integer durationSign = (integrationDurationInSecs > 0) - (integrationDurationInSecs < 0);
-    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+    const double adjustedTimeStep = getSignedTimeStep(aDurationInSeconds);
+
+    const auto observer = [this](const NumericalSolver::StateVector& x, double t) -> void
+    {
+        this->observeNumericalIntegration(x, t);
+    };
 
     switch (stepperType_)
     {
@@ -284,14 +260,11 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
-                    return aStateVector;
+                    return {aStateVector, aDurationInSeconds};
                 }
                 default:
                     throw ostk::core::error::runtime::Wrong("Log type");
@@ -310,14 +283,11 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
-                    return aStateVector;
+                    return {aStateVector, aDurationInSeconds};
                 }
 
                 case NumericalSolver::LogType::LogConstant:
@@ -327,14 +297,11 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
-                    return aStateVector;
+                    return {aStateVector, aDurationInSeconds};
                 }
                 default:
                     throw ostk::core::error::runtime::Wrong("Log type");
@@ -353,14 +320,11 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
-                    return aStateVector;
+                    return {aStateVector, aDurationInSeconds};
                 }
 
                 case NumericalSolver::LogType::LogConstant:
@@ -370,14 +334,11 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
                         aSystemOfEquations,
                         aStateVector,
                         (0.0),
-                        integrationDurationInSecs,
+                        (double)aDurationInSeconds,
                         adjustedTimeStep,
-                        [&](const NumericalSolver::StateVector& x, double t) -> void
-                        {
-                            this->observeNumericalIntegration(x, t);
-                        }
+                        observer
                     );
-                    return aStateVector;
+                    return {aStateVector, aDurationInSeconds};
                 }
                 default:
                     throw ostk::core::error::runtime::Wrong("Log type");
@@ -390,17 +351,26 @@ NumericalSolver::StateVector NumericalSolver::integrateStateForDuration(
 
     throw ostk::core::error::RuntimeError("No State Vector returned from Odeint.");
 
-    return NumericalSolver::StateVector(anInitialStateVector.size());
+    return {anInitialStateVector, 0.0};
 }
 
-NumericalSolver::StateVector NumericalSolver::integrateStateFromInstantToInstant(
+NumericalSolver::Solution NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
-    const Instant& aStartInstant,
-    const Instant& anEndInstant,
+    const Real& aStartTime,
+    const Real& anEndTime,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    return this->integrateStateForDuration(anInitialStateVector, (anEndInstant - aStartInstant), aSystemOfEquations);
+    return this->integrateDuration(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
+}
+
+Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
+    const NumericalSolver::StateVector& anInitialStateVector,
+    const Array<Real>& aDurationArray,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
+)
+{
+    return integrateTime(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
@@ -439,10 +409,23 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
     }
 }
 
+NumericalSolver NumericalSolver::Undefined()
+{
+    return NumericalSolver(
+        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
+    );
+}
+
+NumericalSolver NumericalSolver::Default()
+{
+    return NumericalSolver(
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
+    );
+}
+
 void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVector& x, const double t)
 {
-    states_.push_back(x);
-    instants_.push_back(t);
+    observedStates_.push_back({x, t});
 
     switch (logType_)
     {
@@ -474,18 +457,10 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
     }
 }
 
-NumericalSolver NumericalSolver::Undefined()
+double NumericalSolver::getSignedTimeStep(const Real& aReal) const
 {
-    return NumericalSolver(
-        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
-    );
-}
-
-NumericalSolver NumericalSolver::Default()
-{
-    return NumericalSolver(
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
-    );
+    const Real durationSign = (aReal > 0.0) - (aReal < 0.0);
+    return timeStep_ * durationSign;
 }
 
 }  // namespace astro

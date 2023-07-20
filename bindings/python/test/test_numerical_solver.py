@@ -5,17 +5,18 @@ import pytest
 import numpy as np
 import math
 
-import ostk.physics as physics
+from ostk.astrodynamics import NumericalSolver
 
-import ostk.astrodynamics as astrodynamics
 
-Length = physics.units.Length
-DateTime = physics.time.DateTime
-Scale = physics.time.Scale
-Duration = physics.time.Duration
-Instant = physics.time.Instant
+def oscillator(x, dxdt, _):
+    dxdt[0] = x[1]
+    dxdt[1] = -x[0]
+    return dxdt
 
-NumericalSolver = astrodynamics.NumericalSolver
+
+@pytest.fixture
+def initial_state_vec() -> np.ndarray:
+    return np.array([0.0, 1.0])
 
 
 @pytest.fixture
@@ -110,50 +111,56 @@ class TestNumericalSolver:
             == "LogAdaptive"
         )
 
-    def test_integrate_state_for_duration(self, numerical_solver: NumericalSolver):
-        initial_state_vec = np.array([0.0, 1.0])
+    def test_integrate_duration(
+        self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
+    ):
+        integration_duration: float = 100.0
 
-        integration_duration: Duration = Duration.seconds(100.0)
-
-        def oscillator(x, dxdt, t):
-            dxdt[0] = x[1]
-            dxdt[1] = -x[0]
-            return dxdt
-
-        prop_state_vector = numerical_solver.integrate_state_for_duration(
+        state_vector, _ = numerical_solver.integrate_duration(
             initial_state_vec, integration_duration, oscillator
         )
 
-        assert 5e-9 >= abs(
-            prop_state_vector[0] - math.sin(integration_duration.in_seconds())
-        )
-        assert 5e-9 >= abs(
-            prop_state_vector[1] - math.cos(integration_duration.in_seconds())
+        assert 5e-9 >= abs(state_vector[0] - math.sin(integration_duration))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
+
+        integration_durations = np.arange(100.0, 1000.0, 50.0)
+        solutions = numerical_solver.integrate_duration(
+            initial_state_vec, integration_durations, oscillator
         )
 
-    def test_integrate_state_from_instant_to_instant(
-        self, numerical_solver: NumericalSolver
+        for solution, integration_duration in zip(solutions, integration_durations):
+            state_vector, _ = solution
+
+            assert 5e-9 >= abs(state_vector[0] - math.sin(integration_duration))
+            assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
+
+    def test_integrate_time(
+        self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
     ):
-        initial_state_vec = np.array([0.0, 1.0])
+        start_time: float = 500.0
+        end_time: float = start_time + 100.0
 
-        start_instant: Instant = Instant.J2000()
-        end_instant: Instant = start_instant + Duration.seconds(100.0)
-
-        def oscillator(x, dxdt, t):
-            dxdt[0] = x[1]
-            dxdt[1] = -x[0]
-            return dxdt
-
-        prop_state_vector = numerical_solver.integrate_state_from_instant_to_instant(
-            initial_state_vec, start_instant, end_instant, oscillator
+        state_vector, _ = numerical_solver.integrate_time(
+            initial_state_vec, start_time, end_time, oscillator
         )
 
-        assert 5e-9 >= abs(
-            prop_state_vector[0] - math.sin((end_instant - start_instant).in_seconds())
+        assert 5e-9 >= abs(state_vector[0] - math.sin(end_time - start_time))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(end_time - start_time))
+
+        end_times = np.arange(600.0, 1000.0, 50.0)
+        solutions = numerical_solver.integrate_time(
+            initial_state_vec, start_time, end_times, oscillator
         )
-        assert 5e-9 >= abs(
-            prop_state_vector[1] - math.cos((end_instant - start_instant).in_seconds())
-        )
+
+        for solution, end_time in zip(solutions, end_times):
+            state_vector, _ = solution
+
+            assert 5e-9 >= abs(state_vector[0] - math.sin(end_time - start_time))
+            assert 5e-9 >= abs(state_vector[1] - math.cos(end_time - start_time))
 
     def test_default(self):
         assert NumericalSolver.default() is not None
+
+    def test_undefined(self):
+        assert NumericalSolver.undefined() is not None
+        assert NumericalSolver.undefined().is_defined() is False
