@@ -101,12 +101,12 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
 
-    const NumericalSolver::StateVector endStateVector = numericalSolver_.integrateStateFromInstantToInstant(
+    const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
         startStateVector,
-        aState.getInstant(),
-        anInstant,
+        (anInstant - aState.getInstant()).inSeconds(),
         Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
     );
+    const NumericalSolver::StateVector endStateVector = solution.first;
 
     return {
         anInstant,
@@ -143,61 +143,62 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     NumericalSolver::StateVector startStateVector(
         stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
     );
+    const Instant startInstant = aState.accessInstant();
 
-    Array<Instant> forwardInstants;
-    Array<Instant> backwardInstants;
+    Array<Real> forwardDurations;
+    forwardDurations.reserve(anInstantArray.getSize());
+    Array<Real> backwardDurations;
+    backwardDurations.reserve(anInstantArray.getSize());
 
     for (const Instant& anInstant : anInstantArray)
     {
-        if (anInstant <= aState.getInstant())
+        const Real durationInSeconds = (anInstant - startInstant).inSeconds();
+
+        if (anInstant <= startInstant)
         {
-            backwardInstants.add(anInstant);
+            backwardDurations.add(durationInSeconds);
         }
         else
         {
-            forwardInstants.add(anInstant);
+            forwardDurations.add(durationInSeconds);
         }
     }
 
     // forward propagation only
-    Array<NumericalSolver::StateVector> propagatedForwardStateVectorArray;
-    if (!forwardInstants.isEmpty())
+    Array<NumericalSolver::Solution> forwardPropagatedSolutions;
+    if (!forwardDurations.isEmpty())
     {
-        propagatedForwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector,
-            aState.getInstant(),
-            forwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        forwardPropagatedSolutions = numericalSolver_.integrateDuration(
+            startStateVector, forwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
     }
 
     // backward propagation only
-    Array<NumericalSolver::StateVector> propagatedBackwardStateVectorArray;
-    if (!backwardInstants.isEmpty())
+    Array<NumericalSolver::Solution> backwardPropagatedSolutions;
+    if (!backwardDurations.isEmpty())
     {
-        std::reverse(backwardInstants.begin(), backwardInstants.end());
+        std::reverse(backwardDurations.begin(), backwardDurations.end());
 
-        propagatedBackwardStateVectorArray = numericalSolver_.integrateStatesAtSortedInstants(
-            startStateVector,
-            aState.getInstant(),
-            backwardInstants,
-            Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        backwardPropagatedSolutions = numericalSolver_.integrateDuration(
+            startStateVector, backwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
         );
 
-        std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
+        std::reverse(backwardPropagatedSolutions.begin(), backwardPropagatedSolutions.end());
     }
 
     Array<State> propagatedStates;
     propagatedStates.reserve(anInstantArray.getSize());
 
     Size k = 0;
-    for (const NumericalSolver::StateVector& stateVector :
-         (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
+    for (const NumericalSolver::Solution& solution : (backwardPropagatedSolutions + forwardPropagatedSolutions))
     {
+        const NumericalSolver::StateVector stateVector = solution.first;
+
         State propagatedState = {
             anInstantArray[k],
             Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr)};
+            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr),
+        };
 
         propagatedStates.add(propagatedState);
 
