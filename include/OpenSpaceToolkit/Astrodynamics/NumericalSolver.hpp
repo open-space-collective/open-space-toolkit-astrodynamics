@@ -41,7 +41,7 @@ class NumericalSolver
         LogAdaptive
     };
 
-    typedef std::vector<double> StateVector;  // Container used to hold the state vector
+    typedef std::vector<double> StateVector;     // Container used to hold the state vector
     typedef std::function<void(const StateVector&, StateVector&, const double)>
         SystemOfEquationsWrapper;                // Function pointer type for returning dynamical equation's pointers
     typedef Pair<StateVector, double> Solution;  // Container used to hold the state vector and time
@@ -251,7 +251,7 @@ class NumericalSolver
     /// @return             std::vector<double>
 
     template <typename ConditionFunction>
-    StateVector integrateTimes(
+    Solution integrateTime(
         const StateVector& anInitialStateVector,
         const Real& aStartTime,
         const Real& anEndTime,
@@ -260,7 +260,7 @@ class NumericalSolver
     );
 
     template <typename ConditionFunction>
-    StateVector integrateDurations(
+    Solution integrateDuration(
         const StateVector& anInitialStateVector,
         const Real& aDurationInSeconds,
         const SystemOfEquationsWrapper& aSystemOfEquations,

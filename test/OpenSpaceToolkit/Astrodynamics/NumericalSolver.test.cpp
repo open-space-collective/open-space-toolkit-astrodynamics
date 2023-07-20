@@ -837,7 +837,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithCon
             bool operator()(const Real &currentValue, const Real &previousValue) const
             {
                 (void)previousValue;
-                std::cout << "INSIDE: " << currentValue << std::endl;
                 return currentValue > 0.0;
             }
 
@@ -852,14 +851,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDurationsWithCon
 
         Condition condition(5.0);
 
-        const NumericalSolver::StateVector propagatedStateVector = defaultRK4_.integrateDurations(
-            defaultStateVector_, defaultDuration_.inSeconds(), systemOfEquations_, condition
-        );
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
 
         // Validate the output against an analytical function
 
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_.inSeconds())));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_.inSeconds())));
+        EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
 }
 

@@ -16,7 +16,7 @@ using namespace boost::numeric::odeint;
 using ostk::core::types::Index;
 
 template <typename ConditionFunction>
-NumericalSolver::StateVector NumericalSolver::integrateDurations(
+NumericalSolver::Solution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
     const SystemOfEquationsWrapper& aSystemOfEquations,
@@ -26,63 +26,62 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
     // Ensure that the time step is the correct sign
-    Integer durationSign = (aDurationInSeconds > 0.0) - (aDurationInSeconds < 0.0);
-    const double adjustedTimeStep = timeStep_ * static_cast<double>(durationSign);
+    const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
     // TBI: Adapt this to any dense stepper type
     auto stepper =
         make_dense_output(absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>());
 
     // initialize stepper
-    double t = 0.0;
-    stepper.initialize(aStateVector, t, adjustedTimeStep);
+    double previousTime = 0.0;
+    double currentTime = 0.0;
+    stepper.initialize(aStateVector, currentTime, signedTimeStep);
+
+    // do first step
+    std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
+    observeNumericalIntegration(stepper.current_state(), stepper.current_time());
 
     bool conditionSatisfied = false;
-    Index count = 0;
-    Real previousValue = Real::Undefined();
+    Real previousValue = aCondition.evaluate(stepper.current_state(), stepper.current_time());
+    NumericalSolver::StateVector currentState;
 
-    while (t < aDurationInSeconds && conditionSatisfied)
+    while (currentTime < aDurationInSeconds)
     {
-        observeNumericalIntegration(stepper.current_state(), stepper.current_time());
+        std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
+        currentState = stepper.current_state();
 
-        stepper.do_step(aSystemOfEquations);
+        observeNumericalIntegration(currentState, currentTime);
 
-        const Real currentValue = aCondition.evaluate(stepper.current_state(), stepper.current_time());
+        const Real currentValue = aCondition.evaluate(currentState, currentTime);
 
-        if (count > 0)
+        conditionSatisfied = aCondition(currentValue, previousValue);
+
+        if (conditionSatisfied)
         {
-            conditionSatisfied = aCondition(currentValue, previousValue);
+            break;
         }
 
-        // update time, previous value and count
-        t = stepper.current_time();
         previousValue = currentValue;
-        ++count;
     }
 
     if (!conditionSatisfied)
     {
-        return stepper.current_state();
+        return {currentState, currentTime};
     }
 
     // do bisection method
-    double previousTime = stepper.previous_time();
-    double nextTime = stepper.current_time();
-
-    double midTime;
     NumericalSolver::StateVector midState(stepper.current_state());
-    previousValue = aCondition.evaluate(stepper.previous_state(), stepper.previous_time());
 
-    while (std::abs(nextTime - previousTime) > 1e-6)
+    while (std::abs(currentTime - previousTime) > 1e-6)
     {
-        midTime = 0.5 * (previousTime + nextTime);
+        const double midTime = 0.5 * (previousTime + currentTime);
         stepper.calc_state(midTime, midState);
 
         const Real currentValue = aCondition.evaluate(midState, midTime);
 
         if (aCondition(currentValue, previousValue))
         {
-            nextTime = midTime;  // condition changer lies before midpoint
+            currentTime = midTime;  // condition changer lies before midpoint
         }
         else
         {
@@ -93,15 +92,15 @@ NumericalSolver::StateVector NumericalSolver::integrateDurations(
     }
 
     // we found the interval of size eps, take it's midpoint as final guess
-    midTime = 0.5 * (previousTime + nextTime);
+    const double midTime = 0.5 * (previousTime + currentTime);
     stepper.calc_state(midTime, midState);
     observeNumericalIntegration(midState, midTime);
 
-    return midState;
+    return {midState, midTime};
 }
 
 template <typename ConditionFunction>
-NumericalSolver::StateVector NumericalSolver::integrateTimes(
+NumericalSolver::Solution NumericalSolver::integrateTime(
     const NumericalSolver::StateVector& anInitialStateVector,
     const Real& aStartTime,
     const Real& anEndTime,
@@ -109,7 +108,7 @@ NumericalSolver::StateVector NumericalSolver::integrateTimes(
     const ConditionFunction& aCondition
 )
 {
-    return integrateDurations(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, aCondition);
+    return integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, aCondition);
 }
 
 }  // namespace astro
