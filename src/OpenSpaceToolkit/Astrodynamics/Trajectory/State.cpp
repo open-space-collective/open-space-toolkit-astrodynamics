@@ -283,7 +283,7 @@ State State::Undefined()
     return {Instant::Undefined(), VectorXd(0), Frame::Undefined(), nullptr};
 }
 
-State State::fromStdVector(
+State State::FromStdVector(
     const Instant& anInstant,
     const std::vector<double>& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
@@ -294,7 +294,8 @@ State State::fromStdVector(
         anInstant,
         VectorXd::Map(aCoordinates.data(), static_cast<Eigen::Index>(aCoordinates.size())),
         aFrameSPtr,
-        aCoordinatesBrokerSPtr};
+        aCoordinatesBrokerSPtr,
+    };
 }
 
 }  // namespace trajectory

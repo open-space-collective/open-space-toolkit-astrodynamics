@@ -201,9 +201,7 @@ class Propagator
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
-    Array<Shared<Dynamics>> dynamics_;
-    Array<Array<Pair<Index, Size>>> readIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
-    Array<Array<Pair<Index, Size>>> writeIndexes_ = Array<Array<Pair<Index, Size>>>::Empty();
+    Array<Dynamics::DynamicsInformation> dynamicsInformation_ = Array<Dynamics::DynamicsInformation>::Empty();
     mutable NumericalSolver numericalSolver_;
 
     void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);

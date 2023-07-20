@@ -31,10 +31,10 @@ using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
-    : dynamics_(aDynamicsArray),
+    : dynamicsInformation_(),
       numericalSolver_(aNumericalSolver)
 {
-    for (Shared<Dynamics> aDynamics : this->dynamics_)
+    for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
     {
         this->registerDynamicsInformation(aDynamics);
     }
@@ -47,7 +47,9 @@ bool Propagator::operator==(const Propagator& aPropagator) const
         return false;
     }
 
-    return (numericalSolver_ == aPropagator.numericalSolver_ && dynamics_ == aPropagator.dynamics_);
+    return (
+        numericalSolver_ == aPropagator.numericalSolver_  // && dynamicsInformation_ == aPropagator.dynamicsInformation_
+    );
 }
 
 bool Propagator::operator!=(const Propagator& aPropagator) const
@@ -69,12 +71,22 @@ bool Propagator::isDefined() const
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
 {
-    return this->dynamics_;
+    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
+
+    for (const Dynamics::DynamicsInformation& dynamicsInformation : this->dynamicsInformation_)
+    {
+        dynamicsArray.add(dynamicsInformation.dynamics);
+    }
+
+    return dynamicsArray;
 }
 
 void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 {
-    this->dynamics_ = aDynamicsArray;
+    for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
+    {
+        this->registerDynamicsInformation(aDynamics);
+    }
 }
 
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
@@ -85,15 +97,12 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
     }
 
     this->registerDynamicsInformation(aDynamics);
-    this->dynamics_.add(aDynamics);
 }
 
 void Propagator::clearDynamics()
 {
-    this->dynamics_.clear();
+    this->dynamicsInformation_.clear();
     this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
-    this->readIndexes_.clear();
-    this->writeIndexes_.clear();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -111,12 +120,10 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         startStateVector,
         aState.getInstant(),
         anInstant,
-        Dynamics::GetDynamicalEquations(
-            this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
-        )
+        Dynamics::GetDynamicalEquations(this->dynamicsInformation_, aState.getInstant(), gcrfSPtr)
     );
 
-    return State::fromStdVector(anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_);
+    return State::FromStdVector(anInstant, endStateVector, gcrfSPtr, coordinatesBrokerSPtr_);
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -170,9 +177,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             forwardInstants,
-            Dynamics::GetDynamicalEquations(
-                this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
-            )
+            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, aState.getInstant(), gcrfSPtr)
         );
     }
 
@@ -186,9 +191,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
             startStateVector,
             aState.getInstant(),
             backwardInstants,
-            Dynamics::GetDynamicalEquations(
-                this->dynamics_, aState.getInstant(), gcrfSPtr, this->readIndexes_, this->writeIndexes_
-            )
+            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, aState.getInstant(), gcrfSPtr)
         );
 
         std::reverse(propagatedBackwardStateVectorArray.begin(), propagatedBackwardStateVectorArray.end());
@@ -201,7 +204,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     for (const Dynamics::StateVector& stateVector :
          (propagatedBackwardStateVectorArray + propagatedForwardStateVectorArray))
     {
-        State propagatedState = State::fromStdVector(anInstantArray[k], stateVector, gcrfSPtr, coordinatesBrokerSPtr_);
+        State propagatedState = State::FromStdVector(anInstantArray[k], stateVector, gcrfSPtr, coordinatesBrokerSPtr_);
 
         propagatedStates.add(propagatedState);
 
@@ -291,21 +294,25 @@ void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
 {
     // Store read coordinate subsets information
     Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
-    for (const Shared<const CoordinatesSubset> subset : aDynamics->getReadCoordinateSubsets())
+
+    Size reducedStateSize = 0;
+    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getReadCoordinateSubsets())
     {
         Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         readInfo.add(indexAndSize);
+
+        reducedStateSize += indexAndSize.second;
     }
-    this->readIndexes_.add(readInfo);
 
     // Store write coordinate subsets information
     Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
-    for (const Shared<const CoordinatesSubset> subset : aDynamics->getWriteCoordinateSubsets())
+    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getWriteCoordinateSubsets())
     {
         Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         writeInfo.add(indexAndSize);
     }
-    this->writeIndexes_.add(writeInfo);
+
+    this->dynamicsInformation_.add({aDynamics, readInfo, writeInfo, reducedStateSize});
 }
 
 }  // namespace trajectory

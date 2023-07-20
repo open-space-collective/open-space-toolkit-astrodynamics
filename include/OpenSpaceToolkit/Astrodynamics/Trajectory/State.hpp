@@ -99,7 +99,7 @@ class State
 
     static State Undefined();
 
-    static State fromStdVector(
+    static State FromStdVector(
         const Instant& anInstant,
         const std::vector<double>& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,

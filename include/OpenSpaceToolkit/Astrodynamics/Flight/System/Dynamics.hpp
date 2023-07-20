@@ -51,6 +51,14 @@ class Dynamics
     typedef std::vector<double> StateVector;  // Container used to hold the state vector
     typedef std::function<void(const StateVector&, StateVector&, const double)> DynamicalEquationWrapper;
 
+    struct DynamicsInformation
+    {
+        Shared<Dynamics> dynamics;
+        Array<Pair<Index, Size>> readIndices;
+        Array<Pair<Index, Size>> writeIndices;
+        Size reducedStateSize;
+    };
+
     /// @brief              Constructor
     ///
     /// @param              [in] aName A name
@@ -122,11 +130,9 @@ class Dynamics
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
     static DynamicalEquationWrapper GetDynamicalEquations(
-        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Array<DynamicsInformation>& aDynamicsInformationArray,
         const Instant& anInstant,
-        const Shared<const Frame>& aFrame,
-        const Array<Array<Pair<Index, Size>>>& readIndexes,
-        const Array<Array<Pair<Index, Size>>>& writeIndexes
+        const Shared<const Frame>& aFrame
     );
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
@@ -149,12 +155,9 @@ class Dynamics
         const StateVector& x,
         StateVector& dxdt,
         const double& t,
-        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const Array<DynamicsInformation>& aDynamicsInformationArray,
         const Instant& anInstant,
-        const Shared<const Frame>& aFrame,
-        const Array<Array<Pair<Index, Size>>>& readIndexes,
-        const Array<Array<Pair<Index, Size>>>& writeIndexes,
-        const Array<Size>& reducedStateSizes
+        const Shared<const Frame>& aFrame
     );
 
     static VectorXd ReduceFullStateToReadState(
