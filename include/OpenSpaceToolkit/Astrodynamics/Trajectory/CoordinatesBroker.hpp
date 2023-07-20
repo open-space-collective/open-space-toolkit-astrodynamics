@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
@@ -19,6 +20,7 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 using ostk::core::types::Index;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
@@ -137,7 +139,7 @@ class CoordinatesBroker
    private:
     Index nextCoordinatesSubsetIndex_;
     Array<Shared<const CoordinatesSubset>> coordinateSubsets_;
-    std::unordered_map<String, Index> coordinateSubsetsIndexMap_;
+    Map<String, Index> coordinateSubsetsIndexMap_;
 
     bool hasSubset(const String& anId) const;
     Index getSubsetIndex(const String& anId) const;

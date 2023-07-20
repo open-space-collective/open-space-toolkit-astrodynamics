@@ -78,7 +78,7 @@ Array<Shared<const CoordinatesSubset>> CoordinatesBroker::getSubsets() const
 
 Index CoordinatesBroker::addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
 {
-    auto search = this->coordinateSubsetsIndexMap_.find(aCoordinatesSubsetSPtr->getId());
+    const auto search = this->coordinateSubsetsIndexMap_.find(aCoordinatesSubsetSPtr->getId());
 
     if (search != this->coordinateSubsetsIndexMap_.end())
     {
@@ -86,6 +86,7 @@ Index CoordinatesBroker::addSubset(const Shared<const CoordinatesSubset>& aCoord
     }
 
     Index preAdditionNextCoordinatesSubsetIndex = this->nextCoordinatesSubsetIndex_;
+
     this->coordinateSubsets_.add(aCoordinatesSubsetSPtr);
     this->coordinateSubsetsIndexMap_.insert({aCoordinatesSubsetSPtr->getId(), this->nextCoordinatesSubsetIndex_});
     this->nextCoordinatesSubsetIndex_ += aCoordinatesSubsetSPtr->getSize();
@@ -105,9 +106,9 @@ Index CoordinatesBroker::getSubsetIndex(const Shared<const CoordinatesSubset>& a
 
 VectorXd CoordinatesBroker::extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const
 {
-    Size size = aCoordinatesSubset.getSize();
+    const Size size = aCoordinatesSubset.getSize();
     VectorXd subsetCoordinates = VectorXd(size);
-    Index indexOffset = this->getSubsetIndex(aCoordinatesSubset.getId());
+    const Index indexOffset = this->getSubsetIndex(aCoordinatesSubset.getId());
 
     for (Index i = 0; i < size; i++)
     {
