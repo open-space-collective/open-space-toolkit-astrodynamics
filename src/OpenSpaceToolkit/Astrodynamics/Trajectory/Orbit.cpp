@@ -763,6 +763,73 @@ Orbit Orbit::CircularEquatorial(
     return Orbit::Circular(anEpoch, anAltitude, Angle::Zero(), aCelestialObjectSPtr);
 }
 
+Orbit Orbit::GeoSynchronous(
+    const Instant& anEpoch,
+    const Angle& anInclination,
+    const Angle& aLongitude,
+    const Shared<const Celestial>& aCelestialObjectSPtr
+)
+{
+    using ostk::math::obj::Vector3d;
+
+    using ostk::physics::coord::spherical::LLA;
+    using ostk::physics::coord::Position;
+
+    using orbit::models::Kepler;
+    using orbit::models::kepler::COE;
+
+    if (!anEpoch.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Epoch");
+    }
+
+    if (!anInclination.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Inclination");
+    }
+
+    if (!aLongitude.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Longitude");
+    }
+
+    if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
+    {
+        throw ostk::core::error::runtime::Undefined("Celestial object");
+    }
+
+    if (aCelestialObjectSPtr->getType() != Celestial::Type::Earth)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Geosynchronous orbits currently not suppported for celestial bodies other than Earth"
+        );
+    }
+
+    // [TBI] Add a way to calculate the sidereal period of each planet to generalize this
+    const Length geosynchronousAltitude = Length::Meters(35786000.0);
+
+    // Convert the given longitude (earth referenced) into a usable raan (inertial referenced)
+    const LLA lla = {Angle::Zero(), aLongitude, geosynchronousAltitude};
+    const Vector3d ascendingNodeVectorITRF =
+        lla.toCartesian(aCelestialObjectSPtr->getEquatorialRadius(), aCelestialObjectSPtr->getFlattening());
+    const Position ascendingNodePositionITRF = Position::Meters(ascendingNodeVectorITRF, Frame::ITRF());
+    const Vector3d ascendingNodeVectorGCRF = ascendingNodePositionITRF.inFrame(Frame::GCRF(), anEpoch).getCoordinates();
+
+    // Define COEs that make up this orbit
+    const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
+    const Real eccentricity = Real::Epsilon();
+    const Angle inclination = anInclination;
+    const Angle raan = Angle::Radians(std::atan2(ascendingNodeVectorGCRF[1], ascendingNodeVectorGCRF[0]));
+    const Angle aop = Angle::Zero();
+    const Angle trueAnomaly = Angle::Zero();
+
+    const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+    const Kepler orbitalModel = {coe, anEpoch, (*aCelestialObjectSPtr), Kepler::PerturbationType::J2, false};
+
+    return {orbitalModel, aCelestialObjectSPtr};
+}
+
 Orbit Orbit::SunSynchronous(
     const Instant& anEpoch,
     const Length& anAltitude,
