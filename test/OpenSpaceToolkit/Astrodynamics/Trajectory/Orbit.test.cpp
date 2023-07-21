@@ -35,6 +35,7 @@ using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
 using ostk::math::obj::Vector3d;
+using ostk::math::obj::VectorXd;
 using ostk::math::geom::d3::trf::rot::Quaternion;
 
 using ostk::physics::Environment;
@@ -1117,6 +1118,90 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
                 scenario.velocityTolerance_ITRF_mps
             );
         }
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GeoSynchronous)
+{
+    // Test longitude alignement for a certain longitude
+    {
+        // Environment setup
+        const Environment environment = Environment::Default();
+
+        // Set up epoch
+        const Instant epoch = Instant::J2000();
+
+        // Set up inclination and longitude
+        const Angle inclination = Angle::Degrees(0.01);
+        const Angle longitude = Angle::Degrees(0.0);
+
+        // Orbit setup
+        const Orbit orbit =
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+
+        // Test
+        const State state = orbit.getStateAt(epoch);
+        const VectorXd ascendingNodeVector = state.getCoordinates();
+        VectorXd comparisonVector(6);
+        comparisonVector << 7462233.829725, -41498548.350819, 0.000000, 3026.125690, 544.155360, 0.536630;
+
+        const double positionError = (comparisonVector - ascendingNodeVector).norm();
+
+        EXPECT_GT(1e-6, positionError);
+    }
+
+    // Test longitude alignement for a certain longitude
+    {
+        // Environment setup
+        const Environment environment = Environment::Default();
+
+        // Set up epoch
+        const Instant epoch = Instant::J2000();
+
+        // Set up inclination and longitude
+        const Angle inclination = Angle::Degrees(0.01);
+        const Angle longitude = Angle::Degrees(180.0);
+
+        // Orbit setup
+        const Orbit orbit =
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+
+        // Test
+        const State state = orbit.getStateAt(epoch);
+        const VectorXd ascendingNodeVector = state.getCoordinates();
+        VectorXd comparisonVector(6);
+        comparisonVector << -7462233.829725, 41498548.350819, 0.000000, -3026.125690, -544.155360, 0.536630;
+
+        const double positionError = (comparisonVector - ascendingNodeVector).norm();
+
+        EXPECT_GT(1e-6, positionError);
+    }
+
+    // Test longitude alignement for a certain longitude
+    {
+        // Environment setup
+        const Environment environment = Environment::Default();
+
+        // Set up epoch
+        const Instant epoch = Instant::J2000();
+
+        // Set up inclination and longitude
+        const Angle inclination = Angle::Degrees(0.01);
+        const Angle longitude = Angle::Degrees(90.0);
+
+        // Orbit setup
+        const Orbit orbit =
+            Orbit::GeoSynchronous(epoch, inclination, longitude, environment.accessCelestialObjectWithName("Earth"));
+
+        // Test
+        const State state = orbit.getStateAt(epoch);
+        const VectorXd ascendingNodeVector = state.getCoordinates();
+        VectorXd comparisonVector(6);
+        comparisonVector << 41498548.355815, 7462233.801941, 0.000000, -544.155357, 3026.125690, 0.536630;
+
+        const double positionError = (comparisonVector - ascendingNodeVector).norm();
+
+        EXPECT_GT(1e-6, positionError);
     }
 }
 

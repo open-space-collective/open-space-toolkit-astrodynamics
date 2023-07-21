@@ -160,6 +160,23 @@ class Orbit : public Trajectory
         const Instant& anEpoch, const Length& anAltitude, const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
+    /// @brief              Constructs a geosynchronous orbit
+    ///
+    ///                     Model: Kepler (J2 Perturbation).
+    ///
+    /// @param              [in] anEpoch An orbit epoch
+    /// @param              [in] anInclination An orbit inclination
+    /// @param              [in] aLongitude A longitude above the surface
+    /// @param              [in] aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @return             Circular orbit
+
+    static Orbit GeoSynchronous(
+        const Instant& anEpoch,
+        const Angle& anInclination,
+        const Angle& aLongitude,
+        const Shared<const Celestial>& aCelestialObjectSPtr
+    );
+
     /// @brief              Constructs a Sun-synchronous orbit
     ///
     ///                     Model: Kepler (J2 Perturbation).

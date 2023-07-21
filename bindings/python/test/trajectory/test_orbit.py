@@ -4,7 +4,7 @@ import pytest
 
 from ostk.physics import Environment
 from ostk.physics.units import Length, Angle
-from ostk.physics.time import Scale, Instant, DateTime
+from ostk.physics.time import Scale, Instant, DateTime, Time
 
 from ostk.astrodynamics.trajectory import Orbit, State
 from ostk.astrodynamics.trajectory.orbit.models import SGP4
@@ -44,19 +44,19 @@ class TestOrbit:
 
         orbit: Orbit = Orbit.circular(epoch, altitude, inclination, earth)
 
-    @pytest.mark.skip
     def test_trajectory_orbit_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-        altitude = Length.kilometers(500.0)
-        eccentricity = 0.1
+        apoapsis_altitude = Length.kilometers(500.1)
+        periapsis_altitude = Length.kilometers(499.9)
 
-        orbit: Orbit = Orbit.equatorial(epoch, altitude, eccentricity, earth)
+        orbit: Orbit = Orbit.equatorial(
+            epoch, apoapsis_altitude, periapsis_altitude, earth
+        )
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    @pytest.mark.skip
     def test_trajectory_orbit_circular_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
@@ -67,12 +67,25 @@ class TestOrbit:
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
 
-    @pytest.mark.skip
+    def test_trajectory_orbit_geo_synchronous(self, earth):
+        epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+        inclination = Angle.degrees(45.0)
+        longitude = Angle.degrees(45.0)
+
+        orbit: Orbit = Orbit.geo_synchronous(epoch, inclination, longitude, earth)
+
+        assert orbit is not None
+        assert isinstance(orbit, Orbit)
+        assert orbit.is_defined()
+
     def test_trajectory_orbit_sun_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
+        local_time_at_descending_node = Time.midnight()
 
-        orbit: Orbit = Orbit.sun_synchronous(epoch, altitude, earth)
+        orbit: Orbit = Orbit.sun_synchronous(
+            epoch, altitude, local_time_at_descending_node, earth
+        )
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
