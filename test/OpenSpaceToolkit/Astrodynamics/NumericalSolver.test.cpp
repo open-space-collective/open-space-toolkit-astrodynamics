@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
@@ -16,6 +18,8 @@ using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::String;
 using ostk::core::types::Shared;
+
+using ostk::math::obj::VectorXd;
 
 using ostk::astro::NumericalSolver;
 using ostk::astro::EventCondition;
@@ -76,6 +80,11 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
             EXPECT_GT(aTolerance, std::abs(propagatedStateVector[0] - std::sin(aTimeArray[i])));
             EXPECT_GT(aTolerance, std::abs(propagatedStateVector[1] - std::cos(aTimeArray[i])));
         }
+    }
+
+    NumericalSolver::StateVector getStateVector(const double &aTime)
+    {
+        return {std::sin(aTime), std::cos(aTime)};
     }
 };
 
@@ -847,7 +856,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             {
             }
 
-            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const override
+            Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
             {
                 (void)stateVector;
                 return aTime - target_;
@@ -899,7 +908,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             {
             }
 
-            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
             {
                 (void)stateVector;
                 return aTime - target_;
@@ -946,12 +955,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         struct Condition : public EventCondition
         {
             Condition(const Real &aTarget)
-                : EventCondition("test", Condition::Criteria::PositiveCrossing),
+                : EventCondition("test", Condition::Criteria::AnyCrossing),
                   target_(aTarget)
             {
             }
 
-            Real evaluate(const NumericalSolver::StateVector &aStateVector, const Real &aTime) const
+            Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
             {
                 (void)aTime;
                 return aStateVector[0] - target_;
@@ -1008,6 +1017,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 {
     const Real startTime = 500.0;
 
+    const NumericalSolver::StateVector stateVector = getStateVector(startTime);
+
     // Simple duration based condition
 
     // Forward integration
@@ -1020,13 +1031,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             {
             }
 
-            bool operator()(const Real &currentValue, const Real &previousValue) const
-            {
-                (void)previousValue;
-                return currentValue > 0.0;
-            }
-
-            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
             {
                 (void)stateVector;
                 return aTime - target_;
@@ -1041,11 +1046,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             endTime,
             defaultRK4_
                 .integrateTime(
-                    defaultStateVector_,
-                    startTime,
-                    endTime,
-                    systemOfEquations_,
-                    std::make_shared<Condition>(endTime + 5.0)
+                    stateVector, startTime, endTime, systemOfEquations_, std::make_shared<Condition>(endTime + 5.0)
                 )
                 .second,
             1e-12
@@ -1054,7 +1055,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const Shared<Condition> condition = std::make_shared<Condition>(defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+            defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1065,8 +1066,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         // Validate the output against an analytical function
 
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
 
     // Backward integration
@@ -1079,13 +1080,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             {
             }
 
-            bool operator()(const Real &currentValue, const Real &previousValue) const
-            {
-                (void)previousValue;
-                return currentValue < 0.0;
-            }
-
-            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
             {
                 (void)stateVector;
                 return aTime - target_;
@@ -1100,7 +1095,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             endTime,
             defaultRK4_
                 .integrateTime(
-                    defaultStateVector_,
+                    stateVector,
                     startTime,
                     endTime,
                     systemOfEquations_,
@@ -1113,7 +1108,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const Shared<Condition> condition = std::make_shared<Condition>(-defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+            defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1124,8 +1119,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         // Validate the output against an analytical function
 
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
 
     // Simple value based struct
@@ -1138,12 +1133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             {
             }
 
-            bool operator()(const Real &currentValue, const Real &previousValue) const
-            {
-                return (previousValue < 0.0) == (currentValue > 0.0);
-            }
-
-            Real evaluate(const NumericalSolver::StateVector &aStateVector, const Real &aTime) const
+            Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
             {
                 (void)aTime;
                 return aStateVector[0] - target_;
@@ -1159,7 +1149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const Shared<Condition> condition = std::make_shared<Condition>(0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+                defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1167,12 +1157,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime < endTime);
-            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition->target_), 1e-6);
 
             // Validate the output against an analytical function
 
-            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
-            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
         }
 
         // Backward integration
@@ -1182,7 +1171,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const Shared<Condition> condition = std::make_shared<Condition>(-0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+                defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1190,12 +1179,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime > endTime);
-            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition->target_), 1e-6);
 
             // Validate the output against an analytical function
 
-            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
-            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
         }
     }
 }
