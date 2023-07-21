@@ -12,6 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
     using ostk::core::types::String;
 
     using ostk::astro::NumericalSolver;
+    using ostk::astro::EventCondition;
 
     typedef std::function<NumericalSolver::StateVector(
         const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
@@ -95,6 +96,30 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
             )
 
             .def(
+                "integrate_duration",
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Real& aDurationInSeconds,
+                    const object& aSystemOfEquationsObject,
+                    const Shared<EventCondition>& anEventCondition)
+                {
+                    const auto pythonDynamicsEquation =
+                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+
+                    const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
+                    {
+                        dxdt = pythonDynamicsEquation(x, dxdt, t);
+                    };
+
+                    return aNumericalSolver.integrateDuration(
+                        aStateVector, aDurationInSeconds, systemOfEquations, anEventCondition
+                    );
+                }
+            )
+
+            .def(
                 "integrate_time",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
@@ -135,6 +160,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                     };
 
                     return aNumericalSolver.integrateTime(aStateVector, aStartTime, aTimeArray, systemOfEquations);
+                }
+            )
+
+            .def(
+                "integrate_time",
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Real& aStartTime,
+                    const Real& anEndTime,
+                    const object& aSystemOfEquationsObject,
+                    const Shared<EventCondition>& anEventCondition)
+                {
+                    const auto pythonDynamicsEquation =
+                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+
+                    const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
+                    {
+                        dxdt = pythonDynamicsEquation(x, dxdt, t);
+                    };
+
+                    return aNumericalSolver.integrateTime(
+                        aStateVector, aStartTime, anEndTime, systemOfEquations, anEventCondition
+                    );
                 }
             )
 

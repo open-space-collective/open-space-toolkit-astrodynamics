@@ -5,7 +5,7 @@ import pytest
 import numpy as np
 import math
 
-from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics import NumericalSolver, EventCondition
 
 
 def oscillator(x, dxdt, _):
@@ -16,8 +16,22 @@ def oscillator(x, dxdt, _):
 
 @pytest.fixture
 def initial_state_vec() -> np.ndarray:
-    return np.array([0.0, 1.0])
+    return get_state_vec(0.0)
 
+def get_state_vec(time: float) -> np.ndarray:
+    return np.array([math.sin(time), math.cos(time)])
+
+@pytest.fixture
+def duration_condition() -> EventCondition:
+    class DurationCondition(EventCondition):
+        def __init__(self, duration: float, criteria: EventCondition.Criteria):
+            super().__init__("Duration", criteria)
+            self._duration = duration
+
+        def evaluate(self, state_vector, time: float) -> bool:
+            return time - self._duration
+
+    return DurationCondition(5.0, EventCondition.Criteria.PositiveOnly)
 
 @pytest.fixture
 def numerical_solver_default_inputs() -> (
@@ -135,17 +149,19 @@ class TestNumericalSolver:
             assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
 
     def test_integrate_time(
-        self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
+        self, numerical_solver: NumericalSolver
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
+        
+        initial_state_vec = get_state_vec(start_time)
 
         state_vector, _ = numerical_solver.integrate_time(
             initial_state_vec, start_time, end_time, oscillator
         )
 
-        assert 5e-9 >= abs(state_vector[0] - math.sin(end_time - start_time))
-        assert 5e-9 >= abs(state_vector[1] - math.cos(end_time - start_time))
+        assert 5e-9 >= abs(state_vector[0] - math.sin(end_time))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(end_time))
 
         end_times = np.arange(600.0, 1000.0, 50.0)
         solutions = numerical_solver.integrate_time(
@@ -155,8 +171,39 @@ class TestNumericalSolver:
         for solution, end_time in zip(solutions, end_times):
             state_vector, _ = solution
 
-            assert 5e-9 >= abs(state_vector[0] - math.sin(end_time - start_time))
-            assert 5e-9 >= abs(state_vector[1] - math.cos(end_time - start_time))
+            assert 5e-9 >= abs(state_vector[0] - math.sin(end_time))
+            assert 5e-9 >= abs(state_vector[1] - math.cos(end_time))
+
+    def test_integrate_duration_with_condition(
+        self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray, duration_condition: EventCondition
+    ):
+        integration_duration: float = 100.0
+
+        state_vector, time = numerical_solver.integrate_duration(
+            initial_state_vec, integration_duration, oscillator, duration_condition
+        )
+        
+        assert abs(time - duration_condition._duration) < 1e-6
+
+        assert 5e-9 >= abs(state_vector[0] - math.sin(time))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(time))
+
+    def test_integrate_time_with_condition(
+        self, numerical_solver: NumericalSolver, duration_condition: EventCondition
+    ):
+        start_time: float = 500.0
+        end_time: float = start_time + 100.0
+        
+        initial_state_vec = get_state_vec(start_time)
+
+        state_vector, time = numerical_solver.integrate_time(
+            initial_state_vec, start_time, end_time, oscillator, duration_condition
+        )
+
+        assert abs(time - start_time - duration_condition._duration) < 1e-6
+
+        assert 5e-9 >= abs(state_vector[0] - math.sin(time))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
     def test_default(self):
         assert NumericalSolver.default() is not None
