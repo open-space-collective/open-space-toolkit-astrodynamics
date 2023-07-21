@@ -35,6 +35,20 @@ def custom_condition() -> EventCondition:
 
     return CustomCondition(5.0, EventCondition.Criteria.StrictlyPositive)
 
+def get_state_vec(time: float) -> np.ndarray:
+    return np.array([math.sin(time), math.cos(time)])
+
+@pytest.fixture
+def duration_condition() -> EventCondition:
+    class DurationCondition(EventCondition):
+        def __init__(self, duration: float, criteria: EventCondition.Criteria):
+            super().__init__("Duration", criteria)
+            self._duration = duration
+
+        def evaluate(self, state_vector, time: float) -> bool:
+            return time - self._duration
+
+    return DurationCondition(5.0, EventCondition.Criteria.PositiveOnly)
 
 @pytest.fixture
 def numerical_solver_default_inputs() -> (
@@ -165,6 +179,8 @@ class TestNumericalSolver:
     def test_integrate_time(self, numerical_solver: NumericalSolver):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
+        
+        initial_state_vec = get_state_vec(start_time)
 
         initial_state_vec = get_state_vec(start_time)
 
