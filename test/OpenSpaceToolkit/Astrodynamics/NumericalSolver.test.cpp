@@ -3,8 +3,10 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -13,8 +15,10 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::String;
+using ostk::core::types::Shared;
 
 using ostk::astro::NumericalSolver;
+using ostk::astro::EventCondition;
 
 class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
 {
@@ -826,6 +830,373 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
             defaultRKF78_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
 
         validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditions)
+{
+    // Simple duration based condition
+
+    // Forward integration
+    {
+        struct Condition : public EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", EventCondition::Criteria::PositiveOnly),
+                  target_(aTarget)
+            {
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const override
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        // Ensure that integration terminates at maximum duration if condition is not met
+
+        EXPECT_NEAR(
+            defaultDuration_,
+            defaultRK4_
+                .integrateDuration(
+                    defaultStateVector_,
+                    defaultDuration_,
+                    systemOfEquations_,
+                    std::make_shared<Condition>(defaultDuration_ + 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        const Shared<Condition> condition = std::make_shared<Condition>(defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+
+        EXPECT_NEAR(propagatedTime, condition->target_, 1e-6);
+
+        // Validate the output against an analytical function
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+    }
+
+    // Backward integration
+    {
+        struct Condition : public EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", EventCondition::Criteria::NegativeOnly),
+                  target_(aTarget)
+            {
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        // Ensure that integration terminates at maximum duration if condition is not met
+
+        EXPECT_NEAR(
+            -defaultDuration_,
+            defaultRK4_
+                .integrateDuration(
+                    defaultStateVector_,
+                    -defaultDuration_,
+                    systemOfEquations_,
+                    std::make_shared<Condition>(-defaultDuration_ - 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        const Shared<Condition> condition = std::make_shared<Condition>(-defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+
+        EXPECT_NEAR(propagatedTime, condition->target_, 1e-6);
+
+        // Validate the output against an analytical function
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+    }
+
+    // Simple value based struct
+    {
+        struct Condition : public EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", Condition::Criteria::PositiveCrossing),
+                  target_(aTarget)
+            {
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &aStateVector, const Real &aTime) const
+            {
+                (void)aTime;
+                return aStateVector[0] - target_;
+            }
+
+            Real target_;
+        };
+
+        // Forward integration
+        {
+            const Shared<Condition> condition = std::make_shared<Condition>(0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Ensure that integration terminates at condition if condition is met
+
+            EXPECT_TRUE(propagatedTime < defaultDuration_);
+            EXPECT_NEAR(propagatedTime, std::asin(condition->target_), 1e-6);
+
+            // Validate the output against an analytical function
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+        }
+
+        // Backward integration
+        {
+            const Shared<Condition> condition = std::make_shared<Condition>(-0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Ensure that integration terminates at condition if condition is met
+
+            EXPECT_TRUE(propagatedTime > -defaultDuration_);
+            EXPECT_NEAR(propagatedTime, std::asin(condition->target_), 1e-6);
+
+            // Validate the output against an analytical function
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
+{
+    const Real startTime = 500.0;
+
+    // Simple duration based condition
+
+    // Forward integration
+    {
+        struct Condition : EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", Condition::Criteria::AnyCrossing),
+                  target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                return currentValue > 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        const Real endTime = startTime + defaultDuration_;
+
+        EXPECT_NEAR(
+            endTime,
+            defaultRK4_
+                .integrateTime(
+                    defaultStateVector_,
+                    startTime,
+                    endTime,
+                    systemOfEquations_,
+                    std::make_shared<Condition>(endTime + 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        const Shared<Condition> condition = std::make_shared<Condition>(defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+
+        EXPECT_NEAR(propagatedTime, startTime + condition->target_, 1e-6);
+
+        // Validate the output against an analytical function
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+    }
+
+    // Backward integration
+    {
+        struct Condition : public EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", Condition::Criteria::AnyCrossing),
+                  target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                (void)previousValue;
+                return currentValue < 0.0;
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &stateVector, const Real &aTime) const
+            {
+                (void)stateVector;
+                return aTime - target_;
+            }
+
+            Real target_;
+        };
+
+        const Real endTime = startTime - defaultDuration_;
+
+        EXPECT_NEAR(
+            endTime,
+            defaultRK4_
+                .integrateTime(
+                    defaultStateVector_,
+                    startTime,
+                    endTime,
+                    systemOfEquations_,
+                    std::make_shared<Condition>(-defaultDuration_ - 5.0)
+                )
+                .second,
+            1e-12
+        );
+
+        const Shared<Condition> condition = std::make_shared<Condition>(-defaultDuration_ / 2.0);
+
+        const NumericalSolver::Solution solution =
+            defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+
+        EXPECT_NEAR(propagatedTime, startTime + condition->target_, 1e-6);
+
+        // Validate the output against an analytical function
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+    }
+
+    // Simple value based struct
+    {
+        struct Condition : public EventCondition
+        {
+            Condition(const Real &aTarget)
+                : EventCondition("test", Condition::Criteria::AnyCrossing),
+                  target_(aTarget)
+            {
+            }
+
+            bool operator()(const Real &currentValue, const Real &previousValue) const
+            {
+                return (previousValue < 0.0) == (currentValue > 0.0);
+            }
+
+            Real evaluate(const NumericalSolver::StateVector &aStateVector, const Real &aTime) const
+            {
+                (void)aTime;
+                return aStateVector[0] - target_;
+            }
+
+            Real target_;
+        };
+
+        // Forward integration
+        {
+            const Real endTime = startTime + defaultDuration_;
+
+            const Shared<Condition> condition = std::make_shared<Condition>(0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Ensure that integration terminates at condition if condition is met
+
+            EXPECT_TRUE(propagatedTime < endTime);
+            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition->target_), 1e-6);
+
+            // Validate the output against an analytical function
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        }
+
+        // Backward integration
+        {
+            const Real endTime = startTime - defaultDuration_;
+
+            const Shared<Condition> condition = std::make_shared<Condition>(-0.9);
+
+            const NumericalSolver::Solution solution =
+                defaultRK4_.integrateTime(defaultStateVector_, startTime, endTime, systemOfEquations_, condition);
+
+            const NumericalSolver::StateVector propagatedStateVector = solution.first;
+            const Real propagatedTime = solution.second;
+
+            // Ensure that integration terminates at condition if condition is met
+
+            EXPECT_TRUE(propagatedTime > endTime);
+            EXPECT_NEAR(propagatedTime - startTime, std::asin(condition->target_), 1e-6);
+
+            // Validate the output against an analytical function
+
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
+            EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
+        }
     }
 }
 

@@ -12,6 +12,8 @@ namespace astro
 
 using namespace boost::numeric::odeint;
 
+using ostk::core::types::Index;
+
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
 typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
@@ -362,6 +364,21 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     return this->integrateDuration(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
 }
 
+NumericalSolver::Solution NumericalSolver::integrateTime(
+    const NumericalSolver::StateVector& anInitialStateVector,
+    const Real& aStartTime,
+    const Real& anEndTime,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
+    const Shared<EventCondition>& anEventCondition
+)
+{
+    NumericalSolver::Solution solution =
+        integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, anEventCondition);
+    solution.second += aStartTime;
+
+    return solution;
+}
+
 Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
     const NumericalSolver::StateVector& anInitialStateVector,
     const Array<Real>& aDurationArray,
@@ -369,6 +386,124 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
 )
 {
     return integrateTime(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
+}
+
+NumericalSolver::Solution NumericalSolver::integrateDuration(
+    const StateVector& anInitialStateVector,
+    const Real& aDurationInSeconds,
+    const SystemOfEquationsWrapper& aSystemOfEquations,
+    const Shared<EventCondition>& anEventCondition
+)
+{
+    if (aDurationInSeconds.isZero())
+    {
+        return {anInitialStateVector, 0.0};
+    }
+
+    NumericalSolver::StateVector aStateVector = anInitialStateVector;
+
+    // Ensure that the time step is the correct sign
+    const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
+
+    // TBI: Adapt this to any dense stepper type
+    auto stepper =
+        make_dense_output(absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>());
+
+    // initialize stepper
+    double currentTime = 0.0;
+    stepper.initialize(aStateVector, currentTime, signedTimeStep);
+
+    // do first step
+    double previousTime;
+    std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
+    observeNumericalIntegration(stepper.current_state(), stepper.current_time());
+
+    bool conditionSatisfied = false;
+    Real currentValue = Real::Undefined();
+    Real previousValue = anEventCondition->evaluate(stepper.current_state(), stepper.current_time());
+    NumericalSolver::StateVector currentState;
+
+    // account for integration direction
+    const auto checkTimeLimit = [&currentTime, &aDurationInSeconds]()
+    {
+        if (aDurationInSeconds > 0.0)
+        {
+            return currentTime < aDurationInSeconds;
+        }
+        return currentTime > aDurationInSeconds;
+    };
+
+    while (checkTimeLimit())
+    {
+        std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
+        currentState = stepper.current_state();
+
+        currentValue = anEventCondition->evaluate(currentState, currentTime);
+
+        conditionSatisfied = anEventCondition->isSatisfied(currentValue, previousValue);
+
+        if (conditionSatisfied)
+        {
+            break;
+        }
+
+        observeNumericalIntegration(currentState, currentTime);
+
+        previousValue = currentValue;
+    }
+
+    // TBI: Share information upstream on if the condition was satisfied
+    if (!conditionSatisfied)
+    {
+        stepper.calc_state(aDurationInSeconds, currentState);
+        return {currentState, aDurationInSeconds};
+    }
+
+    // Search for the exact time of the condition change
+    NumericalSolver::StateVector midState(currentState);
+    double midTime;
+
+    // TBI: Make this a parameter
+    const Index maxIterationCount = 100;
+
+    for (Index iterationCount = 0; iterationCount < maxIterationCount; ++iterationCount)
+    {
+        midTime = 0.5 * (previousTime + currentTime);
+        stepper.calc_state(midTime, midState);
+
+        const Real midValue = anEventCondition->evaluate(midState, midTime);
+
+        if (anEventCondition->isSatisfied(midValue, previousValue))
+        {
+            // root lies between previousTime and midTime
+            // update current -> mid
+            currentTime = midTime;
+            currentValue = midValue;
+        }
+        else
+        {
+            // root lies between midTime and currentTime
+            // update previous -> mid
+            previousTime = midTime;
+            previousValue = midValue;
+        }
+
+        // TBI: Make tolerance a parameter
+        if (std::abs(midValue) < 1e-6)
+        {
+            break;
+        }
+    }
+
+    // TBI: Share information upstream on the number of iterations + success
+    // if (iterationCount == maxIterationCount)
+    // {
+    //   do thing
+    // }
+
+    observeNumericalIntegration(midState, midTime);
+
+    return {midState, midTime};
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
