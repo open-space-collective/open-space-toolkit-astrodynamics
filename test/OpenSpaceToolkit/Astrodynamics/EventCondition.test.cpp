@@ -3,15 +3,17 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::astro::NumericalSolver;
+using ostk::math::obj::VectorXd;
+
 using ostk::astro::EventCondition;
 
 class TestCondition : public EventCondition
@@ -22,7 +24,7 @@ class TestCondition : public EventCondition
     {
     }
 
-    virtual Real evaluate(const NumericalSolver::StateVector& aStateVector, const Real& aTime) const override
+    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
     {
         (void)aStateVector;
         (void)aTime;

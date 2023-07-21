@@ -10,8 +10,9 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Real;
 
+using ostk::math::obj::VectorXd;
+
 using ostk::astro::EventCondition;
-using ostk::astro::NumericalSolver;
 
 // Trampoline class for virtual member functions
 class PyEventCondition : public EventCondition
@@ -26,7 +27,7 @@ class PyEventCondition : public EventCondition
         PYBIND11_OVERRIDE(bool, EventCondition, isSatisfied, currentValue, previousValue);
     }
 
-    Real evaluate(const NumericalSolver::StateVector& aStateVector, const Real& aTime) const override
+    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
     {
         PYBIND11_OVERRIDE_PURE(Real, EventCondition, evaluate, aStateVector, aTime);
     }

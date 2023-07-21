@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 namespace ostk
 {
@@ -16,7 +16,7 @@ namespace astro
 using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::astro::NumericalSolver;
+using ostk::math::obj::VectorXd;
 
 /// @brief                      An Event Condition defines a criteria that can be evaluated based on a current/previous
 /// state vectors and times
@@ -107,7 +107,7 @@ class EventCondition
     ///
     /// @return             Real number representing the evaluation result of the Event Condition
 
-    virtual Real evaluate(const NumericalSolver::StateVector& aStateVector, const Real& aTime) const = 0;
+    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const = 0;
 
     /// @brief              Convert criteria to string
     ///
