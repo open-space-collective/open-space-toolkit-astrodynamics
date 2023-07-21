@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
@@ -38,6 +39,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Pair;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
