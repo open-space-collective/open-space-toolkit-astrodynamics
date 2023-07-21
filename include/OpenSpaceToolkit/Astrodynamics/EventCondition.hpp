@@ -38,11 +38,7 @@ class EventCondition
     ///
     /// @code
     ///                     EventCondition eventCondition = {aName, aCriteria};
-    /// @endcode
     ///
-    /// @param              [in] aName A string representing the name of the Event Condition
-    /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-
     EventCondition(const String& aName, const Criteria& aCriteria);
 
     /// @brief              Virtual destructor

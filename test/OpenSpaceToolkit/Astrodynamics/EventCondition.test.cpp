@@ -122,7 +122,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
     }
 
-    // Positive Only (previous value doesn't matter)
+    // Strictly Positive (previous value doesn't matter)
     {
         TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyPositive);
 
@@ -131,7 +131,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         EXPECT_FALSE(testCondition.isSatisfied(-5.0, 5.0));
     }
 
-    // Negative Only (previous value doesn't matter)
+    // Strictly Negative (previous value doesn't matter)
     {
         TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyNegative);
 
