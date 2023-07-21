@@ -37,7 +37,7 @@ class EventCondition
     /// @brief              Constructor
     ///
     /// @code
-    ///                     EventCondition eventCondition = { aName, aCriteria };
+    ///                     EventCondition eventCondition = {aName, aCriteria};
     /// @endcode
     ///
     /// @param              [in] aName A string representing the name of the Event Condition

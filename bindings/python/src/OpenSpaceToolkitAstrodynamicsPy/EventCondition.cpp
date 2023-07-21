@@ -13,7 +13,7 @@ using ostk::core::types::Real;
 using ostk::astro::EventCondition;
 using ostk::astro::NumericalSolver;
 
-// Trampoline class for pure virtual member functions
+// Trampoline class for virtual member functions
 class PyEventCondition : public EventCondition
 {
    public:
@@ -66,10 +66,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             ;
     }
-
-    // Create "EventCondition" python submodule
-    auto eventCondition = aModule.def_submodule("event_condition");
-
-    // Add __path__ attribute for "EventCondition" submodule
-    eventCondition.attr("__path__") = "ostk.astrodynamics.event_condition";
 }
