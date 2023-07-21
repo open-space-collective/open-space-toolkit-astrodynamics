@@ -429,7 +429,6 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
 
     bool conditionSatisfied = false;
     Real currentValue = Real::Undefined();
-
     Real previousValue = anEventCondition->evaluate(stepper.current_state(), stepper.current_time());
     NumericalSolver::StateVector currentState;
 
