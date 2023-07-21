@@ -314,7 +314,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
             defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
+        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
 
     // Performance test with RungeKutta4 in backward time
@@ -328,7 +328,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
             defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
+        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
     }
 
     // Performance test with RungeKuttaCashKarp54 and integrateTime in forward time
@@ -851,6 +851,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             Real target_;
         };
 
+        // Ensure that integration terminates at maximum duration if condition is not met
+
         EXPECT_NEAR(
             defaultDuration_,
             defaultRK4_
@@ -869,9 +871,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
 
-        // Validate the output against an analytical function
+        // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+
+        // Validate the output against an analytical function
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
@@ -901,6 +905,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             Real target_;
         };
 
+        // Ensure that integration terminates at maximum duration if condition is not met
+
         EXPECT_NEAR(
             -defaultDuration_,
             defaultRK4_
@@ -919,9 +925,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
 
-        // Validate the output against an analytical function
+        // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+
+        // Validate the output against an analytical function
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
@@ -960,10 +968,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
 
-            // Validate the output against an analytical function
+            // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime < defaultDuration_);
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+
+            // Validate the output against an analytical function
 
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
@@ -979,10 +989,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
 
-            // Validate the output against an analytical function
+            // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime > -defaultDuration_);
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+
+            // Validate the output against an analytical function
 
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
@@ -1037,9 +1049,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
 
-        // Validate the output against an analytical function
+        // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+
+        // Validate the output against an analytical function
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
@@ -1089,9 +1103,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
 
-        // Validate the output against an analytical function
+        // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+
+        // Validate the output against an analytical function
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
@@ -1132,10 +1148,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
 
-            // Validate the output against an analytical function
+            // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime < endTime);
             EXPECT_NEAR(propagatedTime - startTime, std::asin(condition.target_), 1e-6);
+
+            // Validate the output against an analytical function
 
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));
@@ -1153,10 +1171,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
 
-            // Validate the output against an analytical function
+            // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime > endTime);
             EXPECT_NEAR(propagatedTime - startTime, std::asin(condition.target_), 1e-6);
+
+            // Validate the output against an analytical function
 
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime - startTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime - startTime)));

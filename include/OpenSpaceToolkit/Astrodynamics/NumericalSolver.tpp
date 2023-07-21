@@ -112,7 +112,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         {
             // root lies between midTime and currentTime
             // update previous -> mid
-            previousTime = midTime;  // condition changer lies after midpoint
+            previousTime = midTime;
             previousValue = midValue;
         }
 
