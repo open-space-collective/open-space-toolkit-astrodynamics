@@ -38,7 +38,9 @@ class EventCondition
     ///
     /// @code
     ///                     EventCondition eventCondition = {aName, aCriteria};
+    /// @endcode
     ///
+
     EventCondition(const String& aName, const Criteria& aCriteria);
 
     /// @brief              Virtual destructor
