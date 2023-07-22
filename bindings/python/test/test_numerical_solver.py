@@ -47,9 +47,9 @@ def duration_condition() -> EventCondition:
             self._duration = duration
 
         def evaluate(self, state_vector, time: float) -> bool:
-            return time - self._duration
+            return time - self._target
 
-    return DurationCondition(5.0, EventCondition.Criteria.PositiveOnly)
+    return CustomCondition(5.0, EventCondition.Criteria.PositiveOnly)
 
 
 @pytest.fixture
