@@ -36,6 +36,7 @@ def custom_condition() -> EventCondition:
     return CustomCondition(5.0, EventCondition.Criteria.PositiveOnly)
 
 
+
 @pytest.fixture
 def numerical_solver_default_inputs() -> (
     tuple[NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float]
