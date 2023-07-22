@@ -36,7 +36,7 @@ class DurationCondition : public EventCondition
     /// @brief              Constructor
     ///
     /// @code
-    ///                     DurationCondition durationCondition = {aName, aCriteria, aDuration};
+    ///                     DurationCondition durationCondition = {aCriteria, aDuration};
     /// @endcode
     ///
     /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
