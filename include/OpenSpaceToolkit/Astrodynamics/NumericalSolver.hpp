@@ -69,7 +69,7 @@ class NumericalSolver
     typedef VectorXd StateVector;                // Container used to hold the state vector
     typedef Pair<StateVector, double> Solution;  // Container used to hold the state vector and time
     typedef std::function<void(const StateVector&, StateVector&, const double)>
-        SystemOfEquationsWrapper;                // Function pointer type for returning dynamical equation's pointers
+        SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
 
     /// @brief              Constructor
     ///
