@@ -4,6 +4,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
+
 using namespace pybind11;
 
 using ostk::core::types::Shared;
@@ -67,4 +69,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             ;
     }
+
+    // Create "event_condition" python submodule
+    auto event_condition = aModule.def_submodule("event_condition");
+
+    // Add __path__ attribute for "event_condition" submodule
+    event_condition.attr("__path__") = "ostk.astrodynamics.trajectory.event_condition";
+
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
 }
