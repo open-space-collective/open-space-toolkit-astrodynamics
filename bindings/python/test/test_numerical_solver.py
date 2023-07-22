@@ -24,16 +24,16 @@ def get_state_vec(time: float) -> np.ndarray:
 
 
 @pytest.fixture
-def duration_condition() -> EventCondition:
-    class DurationCondition(EventCondition):
-        def __init__(self, duration: float, criteria: EventCondition.Criteria):
-            super().__init__("Duration", criteria)
-            self._duration = duration
+def custom_condition() -> EventCondition:
+    class CustomCondition(EventCondition):
+        def __init__(self, target: float, criteria: EventCondition.Criteria):
+            super().__init__("Custom", criteria)
+            self._target = target
 
         def evaluate(self, state_vector, time: float) -> bool:
-            return time - self._duration
+            return time - self._target
 
-    return DurationCondition(5.0, EventCondition.Criteria.PositiveOnly)
+    return CustomCondition(5.0, EventCondition.Criteria.PositiveOnly)
 
 
 @pytest.fixture
@@ -179,21 +179,21 @@ class TestNumericalSolver:
         self,
         numerical_solver: NumericalSolver,
         initial_state_vec: np.ndarray,
-        duration_condition: EventCondition,
+        custom_condition: EventCondition,
     ):
         integration_duration: float = 100.0
 
         state_vector, time = numerical_solver.integrate_duration(
-            initial_state_vec, integration_duration, oscillator, duration_condition
+            initial_state_vec, integration_duration, oscillator, custom_condition
         )
 
-        assert abs(time - duration_condition._duration) < 1e-6
+        assert abs(time - custom_condition._target) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
     def test_integrate_time_with_condition(
-        self, numerical_solver: NumericalSolver, duration_condition: EventCondition
+        self, numerical_solver: NumericalSolver, custom_condition: EventCondition
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
@@ -201,10 +201,10 @@ class TestNumericalSolver:
         initial_state_vec = get_state_vec(start_time)
 
         state_vector, time = numerical_solver.integrate_time(
-            initial_state_vec, start_time, end_time, oscillator, duration_condition
+            initial_state_vec, start_time, end_time, oscillator, custom_condition
         )
 
-        assert abs(time - start_time - duration_condition._duration) < 1e-6
+        assert abs(time - start_time - custom_condition._target) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
