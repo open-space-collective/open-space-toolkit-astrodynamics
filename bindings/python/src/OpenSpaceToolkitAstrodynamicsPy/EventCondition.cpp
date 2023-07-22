@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/SemiMajorAxisCondition.cpp>
 
 using namespace pybind11;
 
@@ -77,4 +78,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     event_condition.attr("__path__") = "ostk.astrodynamics.trajectory.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_SemiMajorAxisCondition(event_condition);
 }

@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -31,6 +33,8 @@ namespace kepler
 using ostk::core::ctnr::Pair;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
+
+using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -103,6 +107,8 @@ class COE
     static Angle EccentricAnomalyFromMeanAnomaly(
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
+
+    static Real SemiMajorAxisFromVector(const Real& aPosition, const Real& aVelocity, const Real& mu);
 
    private:
     Length semiMajorAxis_;
