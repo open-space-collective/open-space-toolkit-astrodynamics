@@ -45,16 +45,6 @@ class EventCondition
 
     EventCondition(const String& aName, const Criteria& aCriteria);
 
-    /// @brief              Copy constructor
-    ///
-    /// @code
-    ///                     EventCondition eventCondition = {anEventCondition};
-    /// @endcode
-    ///
-    /// @param              [in] anEventCondition An event condition
-
-    EventCondition(const EventCondition& anEventCondition);
-
     /// @brief              Virtual destructor
 
     virtual ~EventCondition();

@@ -46,14 +46,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, CopyConstructor)
-{
-    {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-        EXPECT_NO_THROW(TestCondition newTestCondition(testCondition));
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StreamOperator)
 {
     {

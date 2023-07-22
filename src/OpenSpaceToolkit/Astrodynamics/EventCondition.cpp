@@ -17,13 +17,6 @@ EventCondition::EventCondition(const String& aName, const Criteria& aCriteria)
 {
 }
 
-EventCondition::EventCondition(const EventCondition& anEventCondition)
-    : name_(anEventCondition.name_),
-      criteria_(anEventCondition.criteria_),
-      comparator_(anEventCondition.comparator_)
-{
-}
-
 EventCondition::~EventCondition() {}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const EventCondition& anEventCondition)
