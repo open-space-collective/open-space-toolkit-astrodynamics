@@ -56,13 +56,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity :
     void SetUp() override
     {
         startStateVector_.resize(6);
-
-        startStateVector_[0] = 7000000.0;
-        startStateVector_[1] = 0.0;
-        startStateVector_[2] = 0.0;
-        startStateVector_[3] = 0.0;
-        startStateVector_[4] = 0.0;
-        startStateVector_[5] = 0.0;
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 0.0, 0.0;
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
@@ -195,18 +189,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     NumericalSolver::StateVector dxdt(6);
     dxdt.setZero();
     centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
-    EXPECT_GT(1e-15, 0.0 - dxdt[0]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[1]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[2]);
-    EXPECT_GT(1e-15, -8.134702887755102 - dxdt[3]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[4]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[5]);
+    NumericalSolver::StateVector Earth_ReferencePull(6);
+    Earth_ReferencePull << 0.0, 0.0, 0.0, -8.134702887755102, 0.0, 0.0;
+    EXPECT_TRUE(((Earth_ReferencePull - dxdt).array() < 1e-15).all());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
 {
-    NumericalSolver::StateVector Earth_ReferencePull(6);
-
     // Setup dynamics
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
     const Array<Shared<Dynamics>> dynamics = {
@@ -219,17 +208,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    Earth_ReferencePull[0] = 6.999995932647768e+06;
-    Earth_ReferencePull[1] = -2.312964634635743e-17;
-    Earth_ReferencePull[2] = 0.000000000000000e+00;
-    Earth_ReferencePull[3] = -8.134706038871020e+00;
-    Earth_ReferencePull[4] = -4.625929269271485e-17;
-    Earth_ReferencePull[5] = 0.000000000000000e+00;
+    NumericalSolver::StateVector Earth_ReferencePull(6);
+    Earth_ReferencePull << 6.999995932647768e+06, -2.312964634635743e-17, 0.0, -8.134706038871020e+00,
+        -4.625929269271485e-17, 0.0;
 
-    EXPECT_GT(1e-15, startStateVector_[0] - Earth_ReferencePull[0]);
-    EXPECT_GT(1e-15, startStateVector_[1] - Earth_ReferencePull[1]);
-    EXPECT_GT(1e-15, startStateVector_[2] - Earth_ReferencePull[2]);
-    EXPECT_GT(1e-15, startStateVector_[3] - Earth_ReferencePull[3]);
-    EXPECT_GT(1e-15, startStateVector_[4] - Earth_ReferencePull[4]);
-    EXPECT_GT(1e-15, startStateVector_[5] - Earth_ReferencePull[5]);
+    EXPECT_TRUE(((startStateVector_ - Earth_ReferencePull).array() < 1e-15).all());
 }

@@ -20,6 +20,7 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
 {
     void SetUp() override
     {
+        defaultStateVector_.resize(2);
         defaultStateVector_ << 0.0, 1.0;
     }
 

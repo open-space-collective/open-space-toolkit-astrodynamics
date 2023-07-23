@@ -1,46 +1,9 @@
 /// Apache License 2.0
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen_algebra.hpp>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
-
-// TBI: Move this to eigen.hpp when we move this file to ostk mathematics
-namespace boost::numeric::odeint
-{
-template <>
-struct resize_impl<ostk::astro::NumericalSolver::StateVector, ostk::astro::NumericalSolver::StateVector>
-{
-    static void resize(
-        ostk::astro::NumericalSolver::StateVector& x, const ostk::astro::NumericalSolver::StateVector& template_x
-    )
-    {
-        x.resize(template_x.size());
-    }
-};
-
-template <>
-struct is_resizeable<ostk::astro::NumericalSolver::StateVector>
-{
-    typedef boost::true_type type;
-    static const bool value = type::value;
-};
-
-template <>
-struct same_size_impl<ostk::astro::NumericalSolver::StateVector, ostk::astro::NumericalSolver::StateVector>
-{
-    static bool same_size(
-        const ostk::astro::NumericalSolver::StateVector& x, const ostk::astro::NumericalSolver::StateVector& template_x
-    )
-    {
-        return x.rows() == template_x.rows();
-    }
-};
-
-}  // namespace boost::numeric::odeint
 
 namespace ostk
 {
@@ -49,22 +12,9 @@ namespace astro
 
 using namespace boost::numeric::odeint;
 
-typedef runge_kutta4<NumericalSolver::StateVector, double, NumericalSolver::StateVector, double, vector_space_algebra>
-    stepper_type_4;
-typedef runge_kutta_cash_karp54<
-    NumericalSolver::StateVector,
-    double,
-    NumericalSolver::StateVector,
-    double,
-    vector_space_algebra>
-    error_stepper_type_54;
-typedef runge_kutta_fehlberg78<
-    NumericalSolver::StateVector,
-    double,
-    NumericalSolver::StateVector,
-    double,
-    vector_space_algebra>
-    error_stepper_type_78;
+typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
+typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
+typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
 
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,

@@ -17,7 +17,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
    protected:
     void SetUp() override
     {
-        startStateVector_ = NumericalSolver::StateVector(6);
+        startStateVector_.resize(6);
         startStateVector_ << 7000000.0, 0.0, 0.0, 5000.12345, 7546.05329, 8000.5737;
     }
 
@@ -66,10 +66,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
     NumericalSolver::StateVector dxdt(6);
     dxdt.setZero();
     positionDerivative_.applyContribution(startStateVector_, dxdt, startInstant_);
-    EXPECT_GT(1e-15, startStateVector_[3] - dxdt[0]);
-    EXPECT_GT(1e-15, startStateVector_[4] - dxdt[1]);
-    EXPECT_GT(1e-15, startStateVector_[5] - dxdt[2]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[3]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[4]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[5]);
+    EXPECT_TRUE(((startStateVector_.segment(3, 3) - dxdt.segment(0, 3)).array() < 1e-15).all());
+    EXPECT_TRUE((dxdt.segment(3, 3).array() < 1e-15).all());
 }

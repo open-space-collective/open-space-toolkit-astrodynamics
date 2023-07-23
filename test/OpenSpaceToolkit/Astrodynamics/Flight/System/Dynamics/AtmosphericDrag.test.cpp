@@ -92,12 +92,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
         };
 
         startStateVector_.resize(6);
-        startStateVector_[0] = 7000000.0;
-        startStateVector_[1] = 0.0;
-        startStateVector_[2] = 0.0;
-        startStateVector_[3] = 0.0;
-        startStateVector_[4] = 7546.05329;
-        startStateVector_[5] = 0.0;
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0;
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
     }

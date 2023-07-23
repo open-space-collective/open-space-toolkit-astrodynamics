@@ -139,10 +139,10 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
     const Instant startInstant = aState.accessInstant();
 
-    Array<Instant> forwardInstants;
-    forwardInstants.reserve(anInstantArray.getSize());
-    Array<Instant> backwardInstants;
-    backwardInstants.reserve(anInstantArray.getSize());
+    Array<Real> forwardDurations;
+    forwardDurations.reserve(anInstantArray.getSize());
+    Array<Real> backwardDurations;
+    backwardDurations.reserve(anInstantArray.getSize());
 
     for (const Instant& anInstant : anInstantArray)
     {
