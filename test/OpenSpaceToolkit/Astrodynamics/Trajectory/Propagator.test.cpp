@@ -33,6 +33,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
@@ -84,6 +85,7 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::NumericalSolver;
+using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::flight::system::Dynamics;
@@ -306,6 +308,53 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
     for (const Instant& instant : instantArray)
     {
         EXPECT_NO_THROW(defaultPropagator_.calculateStateAt(state, instant));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, CalculateStateAt_Condition)
+{
+    {
+        // Current state and instant setup
+        const State state = {
+            Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC),
+            Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+            Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        };
+
+        // Setup instants
+        const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
+
+        class TestCondition : public EventCondition
+        {
+           public:
+            TestCondition(const Real& aTarget)
+                : EventCondition("test", EventCondition::Criteria::PositiveOnly),
+                  target_(aTarget)
+            {
+            }
+
+            virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+            {
+                (void)aStateVector;
+                return aTime - target_;
+            }
+
+           private:
+            Real target_ = Real::Undefined();
+        };
+
+        const Real target = 60.0;
+
+        const Shared<EventCondition> condition = std::make_shared<TestCondition>(target);
+
+        const State endState = defaultPropagator_.calculateStateAt(state, endInstant, condition);
+
+        EXPECT_TRUE(endState.getInstant() < endInstant);
+        EXPECT_NEAR(
+            endState.getInstant().getJulianDate(Scale::UTC),
+            (state.getInstant() + Duration::Seconds(target)).getJulianDate(Scale::UTC),
+            1e-12
+        );
     }
 }
 

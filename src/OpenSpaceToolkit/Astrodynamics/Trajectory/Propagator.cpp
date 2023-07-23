@@ -111,6 +111,40 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     };
 }
 
+State Propagator::calculateStateAt(
+    const State& aState, const Instant& anInstant, const Shared<EventCondition>& anEventCondition
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagator");
+    }
+
+    const VectorXd stateCoordinates = aState.getCoordinates();
+
+    NumericalSolver::StateVector startStateVector(
+        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
+    );
+
+    const Instant startInstant = aState.getInstant();
+
+    const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
+        startStateVector,
+        (anInstant - startInstant).inSeconds(),
+        Dynamics::GetDynamicalEquations(this->dynamics_, startInstant),
+        anEventCondition
+    );
+
+    const NumericalSolver::StateVector endStateVector = solution.first;
+    const Instant endInstant = startInstant + Duration::Seconds(solution.second);
+
+    return {
+        endInstant,
+        Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
+        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr),
+    };
+}
+
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
 {
     if (!this->isDefined())

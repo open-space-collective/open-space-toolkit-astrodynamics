@@ -11,11 +11,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::core::ctnr::Array;
 
     using ostk::physics::Environment;
+    using ostk::physics::time::Instant;
 
     using ostk::astro::NumericalSolver;
+    using ostk::astro::EventCondition;
     using ostk::astro::flight::system::Dynamics;
     using ostk::astro::flight::system::SatelliteSystem;
     using ostk::astro::trajectory::Propagator;
+    using ostk::astro::trajectory::State;
 
     class_<Propagator>(aModule, "Propagator")
 
@@ -35,7 +38,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def("add_dynamics", &Propagator::addDynamics, arg("dynamics"))
         .def("clear_dynamics", &Propagator::clearDynamics)
 
-        .def("calculate_state_at", &Propagator::calculateStateAt, arg("state"), arg("instant"))
+        .def(
+            "calculate_state_at",
+            overload_cast<const State&, const Instant&>(&Propagator::calculateStateAt, const_),
+            arg("state"),
+            arg("instant")
+        )
+        .def(
+            "calculate_state_at",
+            overload_cast<const State&, const Instant&, const Shared<EventCondition>&>(
+                &Propagator::calculateStateAt, const_
+            ),
+            arg("state"),
+            arg("instant"),
+            arg("event_condition")
+        )
 
         .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"))
 
