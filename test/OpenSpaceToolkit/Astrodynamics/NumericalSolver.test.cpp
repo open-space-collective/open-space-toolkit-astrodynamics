@@ -904,6 +904,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         }
     }
 
+    {
+        const NumericalSolver::Solution solution =
+            defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, nullptr);
+
+        EXPECT_TRUE(solution.first == defaultStateVector_);
+        EXPECT_TRUE(solution.second == 0.0);
+    }
+
     // Simple duration based condition
 
     // Forward integration
