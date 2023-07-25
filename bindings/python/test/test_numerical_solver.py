@@ -75,6 +75,7 @@ def numerical_solver_default_inputs() -> (
 def numerical_solver(numerical_solver_default_inputs) -> NumericalSolver:
     return NumericalSolver(*numerical_solver_default_inputs)
 
+
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
     return NumericalSolver(
