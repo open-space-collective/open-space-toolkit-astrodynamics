@@ -469,6 +469,8 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         return {currentState, aDurationInSeconds};
     }
 
+    // Condition at previousTime => False
+    // Condition at currentTime => True
     // Search for the exact time of the condition change
     NumericalSolver::StateVector midState(currentState);
     double midTime;
