@@ -59,6 +59,16 @@ def numerical_solver_default_inputs() -> (
 def numerical_solver(numerical_solver_default_inputs) -> NumericalSolver:
     return NumericalSolver(*numerical_solver_default_inputs)
 
+@pytest.fixture
+def numerical_solver_conditional() -> NumericalSolver:
+    return NumericalSolver(
+        NumericalSolver.LogType.NoLog,
+        NumericalSolver.StepperType.RungeKuttaDopri5,
+        5.0,
+        1.0e-15,
+        1.0e-15,
+    )
+
 
 class TestNumericalSolver:
     def test_constructors(self, numerical_solver: NumericalSolver):
@@ -177,13 +187,13 @@ class TestNumericalSolver:
 
     def test_integrate_duration_with_condition(
         self,
-        numerical_solver: NumericalSolver,
+        numerical_solver_conditional: NumericalSolver,
         initial_state_vec: np.ndarray,
         custom_condition: EventCondition,
     ):
         integration_duration: float = 100.0
 
-        state_vector, time = numerical_solver.integrate_duration(
+        state_vector, time = numerical_solver_conditional.integrate_duration(
             initial_state_vec, integration_duration, oscillator, custom_condition
         )
 
@@ -193,14 +203,14 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
     def test_integrate_time_with_condition(
-        self, numerical_solver: NumericalSolver, custom_condition: EventCondition
+        self, numerical_solver_conditional: NumericalSolver, custom_condition: EventCondition
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
 
         initial_state_vec = get_state_vec(start_time)
 
-        state_vector, time = numerical_solver.integrate_time(
+        state_vector, time = numerical_solver_conditional.integrate_time(
             initial_state_vec, start_time, end_time, oscillator, custom_condition
         )
 
