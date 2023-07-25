@@ -56,7 +56,8 @@ class NumericalSolver
     {
         RungeKutta4,
         RungeKuttaCashKarp54,
-        RungeKuttaFehlberg78
+        RungeKuttaFehlberg78,
+        RungeKuttaDopri5
     };
 
     enum class LogType

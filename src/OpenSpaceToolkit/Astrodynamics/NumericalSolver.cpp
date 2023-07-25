@@ -19,6 +19,7 @@ using ostk::core::types::Index;
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
 typedef runge_kutta_fehlberg78<NumericalSolver::StateVector> error_stepper_type_78;
+typedef runge_kutta_dopri5<NumericalSolver::StateVector> dense_stepper_type_5;
 
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
@@ -397,6 +398,13 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     const Shared<EventCondition>& anEventCondition
 )
 {
+    if (stepperType_ != NumericalSolver::StepperType::RungeKuttaDopri5)
+    {
+        throw ostk::core::error::runtime::ToBeImplemented(
+            "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type."
+        );
+    }
+
     if (aDurationInSeconds.isZero())
     {
         return {anInitialStateVector, 0.0};
@@ -408,8 +416,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
     // TBI: Adapt this to any dense stepper type
-    auto stepper =
-        make_dense_output(absoluteTolerance_, relativeTolerance_, runge_kutta_dopri5<NumericalSolver::StateVector>());
+    auto stepper = make_dense_output(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
 
     // initialize stepper
     double currentTime = 0.0;
@@ -539,6 +546,9 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
 
         case NumericalSolver::StepperType::RungeKuttaFehlberg78:
             return "RungeKuttaFehlberg78";
+
+        case NumericalSolver::StepperType::RungeKuttaDopri5:
+            return "RungeKuttaDopri5";
 
         default:
             throw ostk::core::error::runtime::Wrong("Stepper Type");
