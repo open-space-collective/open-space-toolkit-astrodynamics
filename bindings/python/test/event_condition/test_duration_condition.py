@@ -15,7 +15,7 @@ def duration() -> Duration:
 
 @pytest.fixture
 def criteria() -> EventCondition.Criteria:
-    return EventCondition.Criteria.PositiveOnly
+    return EventCondition.Criteria.StrictlyPositive
 
 
 @pytest.fixture

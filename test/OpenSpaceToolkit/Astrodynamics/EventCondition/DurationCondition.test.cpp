@@ -27,7 +27,7 @@ class OpenSpaceToolkit_Astrodynamics_DurationCondition : public ::testing::Test
     }
 
    protected:
-    const DurationCondition::Criteria defaultCriteria_ = DurationCondition::Criteria::PositiveOnly;
+    const DurationCondition::Criteria defaultCriteria_ = DurationCondition::Criteria::StrictlyPositive;
     const Duration defaultDuration_ = Duration::Seconds(5.0);
     Shared<DurationCondition> defaultCondition_ = nullptr;
 };
