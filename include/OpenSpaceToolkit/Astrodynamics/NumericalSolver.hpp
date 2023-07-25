@@ -228,8 +228,8 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time until either a condition or the end time is met
-    /// reached
+    /// @brief              Perform numerical integration from a start time until either a condition or the end time is
+    /// met reached
     ///
     /// @code
     ///                     StateVector stateVector = numericalSolver.integrateTime(stateVector,
