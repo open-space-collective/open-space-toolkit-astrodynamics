@@ -75,6 +75,16 @@ def numerical_solver_default_inputs() -> (
 def numerical_solver(numerical_solver_default_inputs) -> NumericalSolver:
     return NumericalSolver(*numerical_solver_default_inputs)
 
+@pytest.fixture
+def numerical_solver_conditional() -> NumericalSolver:
+    return NumericalSolver(
+        NumericalSolver.LogType.NoLog,
+        NumericalSolver.StepperType.RungeKuttaDopri5,
+        5.0,
+        1.0e-15,
+        1.0e-15,
+    )
+
 
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
