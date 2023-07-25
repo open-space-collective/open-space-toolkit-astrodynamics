@@ -29,8 +29,8 @@ class EventCondition
         PositiveCrossing,
         NegativeCrossing,
         AnyCrossing,
-        PositiveOnly,
-        NegativeOnly,
+        StrictlyPositive,
+        StrictlyNegative,
         Undefined
     };
 

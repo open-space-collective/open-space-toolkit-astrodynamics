@@ -61,8 +61,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             .value("PositiveCrossing", EventCondition::Criteria::PositiveCrossing)
             .value("NegativeCrossing", EventCondition::Criteria::NegativeCrossing)
             .value("AnyCrossing", EventCondition::Criteria::AnyCrossing)
-            .value("PositiveOnly", EventCondition::Criteria::PositiveOnly)
-            .value("NegativeOnly", EventCondition::Criteria::NegativeOnly)
+            .value("StrictlyPositive", EventCondition::Criteria::StrictlyPositive)
+            .value("StrictlyNegative", EventCondition::Criteria::StrictlyNegative)
             .value("Undefined", EventCondition::Criteria::Undefined)
 
             ;

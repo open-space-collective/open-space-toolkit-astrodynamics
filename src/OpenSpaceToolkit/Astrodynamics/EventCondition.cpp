@@ -64,11 +64,11 @@ String EventCondition::StringFromCriteria(const Criteria& aCriteria)
         case Criteria::AnyCrossing:
             return "Any Crossing";
 
-        case Criteria::PositiveOnly:
-            return "Positive Only";
+        case Criteria::StrictlyPositive:
+            return "Strictly Positive";
 
-        case Criteria::NegativeOnly:
-            return "Negative Only";
+        case Criteria::StrictlyNegative:
+            return "Strictly Negative";
 
         case Criteria::Undefined:
             return "Undefined";
@@ -84,14 +84,14 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
 {
     switch (aCriteria)
     {
-        case EventCondition::Criteria::PositiveOnly:
+        case EventCondition::Criteria::StrictlyPositive:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 (void)previousValue;
                 return (currentValue > 0.0);
             };
 
-        case EventCondition::Criteria::NegativeOnly:
+        case EventCondition::Criteria::StrictlyNegative:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 (void)previousValue;

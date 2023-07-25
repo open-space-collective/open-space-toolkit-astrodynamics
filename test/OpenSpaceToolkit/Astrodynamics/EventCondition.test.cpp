@@ -124,7 +124,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Positive Only (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::PositiveOnly);
+        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyPositive);
 
         EXPECT_TRUE(testCondition.isSatisfied(5.0, 4.0));
         EXPECT_TRUE(testCondition.isSatisfied(4.0, 5.0));
@@ -133,7 +133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Negative Only (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::NegativeOnly);
+        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyNegative);
 
         EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
         EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
@@ -151,8 +151,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StringFromCriteria)
             EventCondition::StringFromCriteria(EventCondition::Criteria::NegativeCrossing) == "Negative Crossing"
         );
         EXPECT_TRUE(EventCondition::StringFromCriteria(EventCondition::Criteria::AnyCrossing) == "Any Crossing");
-        EXPECT_TRUE(EventCondition::StringFromCriteria(EventCondition::Criteria::PositiveOnly) == "Positive Only");
-        EXPECT_TRUE(EventCondition::StringFromCriteria(EventCondition::Criteria::NegativeOnly) == "Negative Only");
+        EXPECT_TRUE(
+            EventCondition::StringFromCriteria(EventCondition::Criteria::StrictlyPositive) == "Strictly Positive"
+        );
+        EXPECT_TRUE(
+            EventCondition::StringFromCriteria(EventCondition::Criteria::StrictlyNegative) == "Strictly Negative"
+        );
         EXPECT_TRUE(EventCondition::StringFromCriteria(EventCondition::Criteria::Undefined) == "Undefined");
     }
 }
