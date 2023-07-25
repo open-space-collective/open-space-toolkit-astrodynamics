@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <boost/numeric/odeint.hpp>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -439,7 +437,7 @@ void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVe
 
             std::cout.precision(10);
             std::cout.setf(std::ios::scientific, std::ios::floatfield);
-            for (Size i = 0; i < x.size(); i++)
+            for (Size i = 0; i < (Size)x.size(); i++)
             {
                 std::cout << std::internal << std::setw(16) << x[i] << "     ";
             }

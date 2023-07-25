@@ -92,12 +92,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
         };
 
         startStateVector_.resize(6);
-        startStateVector_[0] = 7000000.0;
-        startStateVector_[1] = 0.0;
-        startStateVector_[2] = 0.0;
-        startStateVector_[3] = 0.0;
-        startStateVector_[4] = 7546.05329;
-        startStateVector_[5] = 0.0;
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0;
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
     }
@@ -228,7 +223,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ApplyContribution)
 {
-    NumericalSolver::StateVector dxdt(6, 0.0);
+    NumericalSolver::StateVector dxdt(6);
+    dxdt.setZero();
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
@@ -251,14 +247,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    NumericalSolver::StateVector Earth_ReferencePull = {
-        7000000.0000000000000000,
-        0.0,
-        0.0,
-        0.0,
-        7546.0532621292200000,
-        -00000.0000000000197640,
-    };
+    NumericalSolver::StateVector Earth_ReferencePull(6);
+    Earth_ReferencePull << 7000000.0000000000000000, 0.0, 0.0, 0.0, 7546.0532621292200000, -00000.0000000000197640;
 
     EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
     EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
@@ -302,28 +292,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     // Setup initial conditions
     const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
 
-    NumericalSolver::StateVector startStateVector = {
-        6878137.0,
-        0.0,
-        0.0,
-        0.0,
-        7612.608170359118000,
-        0.0,
-    };
+    NumericalSolver::StateVector startStateVector(6);
+    startStateVector << 6878137.0, 0.0, 0.0, 0.0, 7612.608170359118000, 0.0;
 
     // Perform 1.0s integration step
     runge_kutta4<NumericalSolver::StateVector> stepper;
     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant), startStateVector, (0.0), 1.0);
 
     // Set reference pull values for the Earth
-    NumericalSolver::StateVector referenceValues = {
-        6878132.787246078000000,
-        7612.606615971900000,
-        -0.000000000000330,
-        -8.425506982847088,
-        7612.603507382901000,
-        -0.000000000000649,
-    };
+    NumericalSolver::StateVector referenceValues(6);
+    referenceValues << 6878132.787246078000000, 7612.606615971900000, -0.000000000000330, -8.425506982847088,
+        7612.603507382901000, -0.000000000000649;
 
     EXPECT_GT(1e-12, startStateVector[0] - referenceValues[0]);
     EXPECT_GT(1e-12, startStateVector[1] - referenceValues[1]);
