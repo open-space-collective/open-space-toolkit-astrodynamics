@@ -84,7 +84,9 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
 
     NumericalSolver::StateVector getStateVector(const double &aTime)
     {
-        return {std::sin(aTime), std::cos(aTime)};
+        VectorXd stateVector(2);
+        stateVector << std::sin(aTime), std::cos(aTime);
+        return stateVector;
     }
 };
 

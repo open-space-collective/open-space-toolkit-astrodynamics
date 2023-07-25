@@ -423,11 +423,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     bool conditionSatisfied = false;
     Real currentValue = Real::Undefined();
 
-    const Size stateSize = anInitialStateVector.size();
-
-    Real previousValue = anEventCondition->evaluate(
-        Eigen::Map<const Eigen::VectorXd>(stepper.current_state().data(), stateSize), stepper.current_time()
-    );
+    Real previousValue = anEventCondition->evaluate(stepper.current_state(), stepper.current_time());
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
@@ -445,8 +441,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
 
-        currentValue =
-            anEventCondition->evaluate(Eigen::Map<const Eigen::VectorXd>(currentState.data(), stateSize), currentTime);
+        currentValue = anEventCondition->evaluate(currentState, currentTime);
 
         conditionSatisfied = anEventCondition->isSatisfied(currentValue, previousValue);
 
@@ -479,8 +474,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         midTime = 0.5 * (previousTime + currentTime);
         stepper.calc_state(midTime, midState);
 
-        const Real midValue =
-            anEventCondition->evaluate(Eigen::Map<const Eigen::VectorXd>(midState.data(), stateSize), midTime);
+        const Real midValue = anEventCondition->evaluate(midState, midTime);
 
         if (anEventCondition->isSatisfied(midValue, previousValue))
         {
