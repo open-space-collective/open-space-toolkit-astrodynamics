@@ -88,26 +88,26 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 (void)previousValue;
-                return currentValue > 0.0;
+                return (currentValue > 0.0);
             };
 
         case EventCondition::Criteria::NegativeOnly:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 (void)previousValue;
-                return currentValue < 0.0;
+                return (currentValue < 0.0);
             };
 
         case EventCondition::Criteria::PositiveCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
-                return previousValue < 0.0 && currentValue > 0.0;
+                return (previousValue < 0.0) && (currentValue > 0.0);
             };
 
         case EventCondition::Criteria::NegativeCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
-                return previousValue > 0.0 && currentValue < 0.0;
+                return (previousValue > 0.0) && (currentValue < 0.0);
             };
 
         case EventCondition::Criteria::AnyCrossing:
