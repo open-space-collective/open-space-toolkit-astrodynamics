@@ -57,6 +57,14 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
         1.0e-15,
     };
 
+    NumericalSolver defaultRKD5_ = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
     NumericalSolver::StateVector defaultStateVector_;
     const Real defaultDuration_ = 10.0;
     const Real defaultStartTime_ = 0.0;
@@ -312,6 +320,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
         EXPECT_TRUE(
             NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaFehlberg78) ==
             "RungeKuttaFehlberg78"
+        );
+        EXPECT_TRUE(
+            NumericalSolver::StringFromStepperType(NumericalSolver::StepperType::RungeKuttaDopri5) == "RungeKuttaDopri5"
         );
     }
 
@@ -846,6 +857,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditions)
 {
+    {
+        EXPECT_THROW(
+            {
+                try
+                {
+                    defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, nullptr);
+                }
+                catch (const ostk::core::error::runtime::ToBeImplemented &e)
+                {
+                    const String expectedMessage =
+                        "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type";
+
+                    EXPECT_TRUE((e.getMessage().find(expectedMessage) != std::string::npos));
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::ToBeImplemented
+        );
+    }
+
     // Simple duration based condition
 
     // Forward integration
@@ -871,7 +902,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
         EXPECT_NEAR(
             defaultDuration_,
-            defaultRK4_
+            defaultRKD5_
                 .integrateDuration(
                     defaultStateVector_,
                     defaultDuration_,
@@ -885,7 +916,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         const Shared<Condition> condition = std::make_shared<Condition>(defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+            defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -923,7 +954,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
         EXPECT_NEAR(
             -defaultDuration_,
-            defaultRK4_
+            defaultRKD5_
                 .integrateDuration(
                     defaultStateVector_,
                     -defaultDuration_,
@@ -937,7 +968,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         const Shared<Condition> condition = std::make_shared<Condition>(-defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+            defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -976,7 +1007,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             const Shared<Condition> condition = std::make_shared<Condition>(0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+                defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -997,7 +1028,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             const Shared<Condition> condition = std::make_shared<Condition>(-0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+                defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1046,7 +1077,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         EXPECT_NEAR(
             endTime,
-            defaultRK4_
+            defaultRKD5_
                 .integrateTime(
                     stateVector, startTime, endTime, systemOfEquations_, std::make_shared<Condition>(endTime + 5.0)
                 )
@@ -1057,7 +1088,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const Shared<Condition> condition = std::make_shared<Condition>(defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+            defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1095,7 +1126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         EXPECT_NEAR(
             endTime,
-            defaultRK4_
+            defaultRKD5_
                 .integrateTime(
                     stateVector,
                     startTime,
@@ -1110,7 +1141,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         const Shared<Condition> condition = std::make_shared<Condition>(-defaultDuration_ / 2.0);
 
         const NumericalSolver::Solution solution =
-            defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+            defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1151,7 +1182,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const Shared<Condition> condition = std::make_shared<Condition>(0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+                defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1173,7 +1204,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             const Shared<Condition> condition = std::make_shared<Condition>(-0.9);
 
             const NumericalSolver::Solution solution =
-                defaultRK4_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+                defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
