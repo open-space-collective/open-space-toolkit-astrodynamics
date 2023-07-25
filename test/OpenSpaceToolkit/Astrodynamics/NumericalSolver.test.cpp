@@ -905,8 +905,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
     }
 
     {
-        const NumericalSolver::Solution solution =
+        const NumericalSolver::ConditionSolution conditionSolution =
             defaultRKD5_.integrateDuration(defaultStateVector_, 0.0, systemOfEquations_, nullptr);
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         EXPECT_TRUE(solution.first == defaultStateVector_);
         EXPECT_TRUE(solution.second == 0.0);
@@ -941,14 +942,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
                 .integrateDuration(
                     defaultStateVector_, defaultDuration_, systemOfEquations_, Condition(defaultDuration_ + 5.0)
                 )
-                .second,
+                .solution.second,
             1e-12
         );
 
         const Condition condition = Condition(defaultDuration_ / 2.0);
 
-        const NumericalSolver::Solution solution =
+        const NumericalSolver::ConditionSolution conditionSolution =
             defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -990,14 +992,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
                 .integrateDuration(
                     defaultStateVector_, -defaultDuration_, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
                 )
-                .second,
+                .solution.second,
             1e-12
         );
 
         const Condition condition = Condition(-defaultDuration_ / 2.0);
 
-        const NumericalSolver::Solution solution =
+        const NumericalSolver::ConditionSolution conditionSolution =
             defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1035,8 +1038,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         {
             const Condition condition = Condition(0.9);
 
-            const NumericalSolver::Solution solution =
+            const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+            const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1056,8 +1060,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         {
             const Condition condition = Condition(-0.9);
 
-            const NumericalSolver::Solution solution =
+            const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+            const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1113,8 +1118,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         const Condition condition = Condition(defaultDuration_ / 2.0);
 
-        const NumericalSolver::Solution solution =
+        const NumericalSolver::ConditionSolution conditionSolution =
             defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1160,8 +1166,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         const Condition condition = Condition(-defaultDuration_ / 2.0);
 
-        const NumericalSolver::Solution solution =
+        const NumericalSolver::ConditionSolution conditionSolution =
             defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
@@ -1201,8 +1208,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             const Condition condition = Condition(0.9);
 
-            const NumericalSolver::Solution solution =
+            const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+            const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
@@ -1223,8 +1231,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             const Condition condition = Condition(-0.9);
 
-            const NumericalSolver::Solution solution =
+            const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
+            const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
             const Real propagatedTime = solution.second;
