@@ -853,7 +853,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         struct Condition : public EventCondition
         {
             Condition(const Real &aTarget)
-                : EventCondition("test", EventCondition::Criteria::PositiveOnly),
+                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
                   target_(aTarget)
             {
             }
@@ -905,7 +905,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         struct Condition : public EventCondition
         {
             Condition(const Real &aTarget)
-                : EventCondition("test", EventCondition::Criteria::NegativeOnly),
+                : EventCondition("test", EventCondition::Criteria::StrictlyNegative),
                   target_(aTarget)
             {
             }
