@@ -231,8 +231,8 @@ class NumericalSolver
     /// reached
     ///
     /// @code
-    ///                     StateVector stateVector = numericalsolver.integrateTime(stateVector,
-    ///                     aStartTime, anEndTime, SystemofEquations, anEventCondition) ;
+    ///                     StateVector stateVector = numericalSolver.integrateTime(stateVector,
+    ///                     aStartTime, anEndTime, SystemOfEquations, anEventCondition) ;
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aStartTime A time to begin integrating from
@@ -286,12 +286,12 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time till a condition is met, or end time is
+    /// @brief              Perform numerical integration from a start time till a condition is met, or duration is
     /// reached
     ///
     /// @code
-    ///                     StateVector stateVector = numericalsolver.integrateDuration(stateVector,
-    ///                     aStartTime, aDurationInSeconds, SystemofEquations, anEventCondition) ;
+    ///                     StateVector stateVector = numericalSolver.integrateDuration(stateVector,
+    ///                     aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition) ;
     /// @endcode
     /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param              [in] aDurationInSeconds A duration to integrate for
