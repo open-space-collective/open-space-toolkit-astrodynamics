@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__

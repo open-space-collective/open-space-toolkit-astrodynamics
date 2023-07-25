@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -42,17 +42,25 @@ def satellite_system(satellite_system_default_inputs) -> SatelliteSystem:
 
 
 class TestSatelliteSystem:
-    def test_constructors(self, satellite_system: SatelliteSystem):
+    def test_constructors(
+        self,
+        satellite_system: SatelliteSystem,
+    ):
         assert satellite_system is not None
         assert isinstance(satellite_system, SatelliteSystem)
         assert satellite_system.is_defined()
 
-    def test_comparators(self, satellite_system: SatelliteSystem):
+    def test_comparators(
+        self,
+        satellite_system: SatelliteSystem,
+    ):
         assert (satellite_system == satellite_system) is True
         assert (satellite_system != satellite_system) is False
 
     def test_getters(
-        self, satellite_system_default_inputs, satellite_system: SatelliteSystem
+        self,
+        satellite_system_default_inputs,
+        satellite_system: SatelliteSystem,
     ):
         (
             mass,

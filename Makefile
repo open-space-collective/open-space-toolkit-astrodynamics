@@ -1,7 +1,8 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 project_name := astrodynamics
 project_version := $(shell git describe --tags --always)
+project_major_version := $(shell git describe --tags --always | cut -c 1)
 
 docker_registry_path := openspacecollective
 docker_image_repository := $(docker_registry_path)/open-space-toolkit-$(project_name)
@@ -51,7 +52,7 @@ pull-release-images: ## Pull release images
 
 .PHONY: pull-release-images
 
-pull-release-image-cpp:
+pull-release-image-cpp: ## Pull release image cpp
 
 	@ echo "Pull C++ release image..."
 
@@ -60,7 +61,7 @@ pull-release-image-cpp:
 
 .PHONY: pull-release-image-cpp
 
-pull-release-image-python:
+pull-release-image-python: ## Pull release image python
 
 	@ echo "Pulling Python release image..."
 
@@ -69,7 +70,7 @@ pull-release-image-python:
 
 .PHONY: pull-release-image-python
 
-pull-release-image-jupyter:
+pull-release-image-jupyter: ## Pull release image jupyter
 
 	@ echo "Pulling Jupyter Notebook release image..."
 
@@ -114,7 +115,7 @@ build-release-images: ## Build release images
 
 .PHONY: build-release-images
 
-build-release-image-cpp: build-development-image pull-release-image-cpp
+build-release-image-cpp: build-development-image pull-release-image-cpp ## Build release image cpp
 
 	@ echo "Building C++ release image..."
 
@@ -125,10 +126,10 @@ build-release-image-cpp: build-development-image pull-release-image-cpp
 		--build-arg="VERSION=$(docker_image_version)" \
 		--target=cpp-release \
 		"$(CURDIR)"
-	
+
 .PHONY: build-release-image-cpp
 
-build-release-image-python: build-development-image pull-release-image-python
+build-release-image-python: build-development-image pull-release-image-python ## Build release image python
 
 	@ echo "Building Python release image..."
 
@@ -142,7 +143,7 @@ build-release-image-python: build-development-image pull-release-image-python
 
 .PHONY: build-release-image-python
 
-build-release-image-jupyter: pull-release-image-jupyter
+build-release-image-jupyter: pull-release-image-jupyter ## Build release image jupyter
 
 	@ echo "Building Jupyter Notebook release image..."
 
@@ -209,7 +210,7 @@ build-packages-cpp-standalone: ## Build C++ packages (standalone)
 .PHONY: build-packages-cpp-standalone
 
 build-packages-python: build-development-image ## Build Python packages
-	
+
 	@ $(MAKE) build-packages-python-standalone
 
 .PHONY: build-packages-python
@@ -247,13 +248,13 @@ start-development-no-link: build-development-image ## Start development environm
 
 .PHONY: start-development-no-link
 
-start-development-link: ## Start linked development environment
+start-development-link: build-development-image ## Start linked development environment
 
 	$(if $(links), , $(error "You need to provide the links to the C++ dependency repositories you want to link with, separated by white spaces. For example: make start-development-link links="/home/OSTk/open-space-toolkit-io /home/OSTk/open-space-toolkit-core"))
 
 	@ echo "Starting development environment (linked)..."
 
-	@ project_directory="$(CURDIR)" docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
+	@ docker_development_image_repository=$(docker_development_image_repository) docker_image_version=$(docker_image_version) "$(CURDIR)/tools/development/start.sh" --link $(links)
 
 .PHONY: start-development-link
 
@@ -291,7 +292,7 @@ start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter
+debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -301,7 +302,7 @@ debug-jupyter-notebook: build-release-image-jupyter
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
-		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.0:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.0:ro" \
+		--volume="$(CURDIR)/lib/libopen-space-toolkit-$(project_name).so.$(project_major_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/libopen-space-toolkit-$(project_name).so.$(project_major_version):ro" \
 		--volume="$(CURDIR)/lib/$(jupyter_project_name_python_shared_object).so:/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/$(jupyter_project_name_python_shared_object).so:ro" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
@@ -345,7 +346,16 @@ debug-python-release: build-release-image-python ## Debug Python release environ
 
 .PHONY: debug-python-release
 
-format: build-development-image ## Format all of the source code with the rules in .clang-format
+format: ## Run formatting
+
+	@ echo "Formatting..."
+
+	@ $(MAKE) format-cpp
+	@ $(MAKE) format-python
+
+.PHONY: format
+
+format-cpp: build-development-image ## Format all of the source code with the rules in .clang-format
 
 	docker run \
 		--rm \
@@ -357,28 +367,50 @@ format: build-development-image ## Format all of the source code with the rules 
 
 .PHONY: format
 
-format-check: build-development-image ## Runs the clang-format tool to check the code against rules and formatting
+format-python: build-development-image ## Run the black format tool against python code
+
+	docker run \
+		--rm \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+
+.PHONY: format-python
+
+format-check: ## Run format checking
+
+	@ echo "Checking format..."
+
+	@ $(MAKE) format-check-cpp
+	@ $(MAKE) format-check-python
+
+.PHONY: format-check
+
+format-check-cpp: build-development-image ## Run the clang-format tool to check the code against rules and formatting
 
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		--user="$(shell id -u):$(shell id -g)" \
-		$(docker_development_image_repository):$(docker_image_version) \
+		"$(docker_development_image_repository):$(docker_image_version)" \
 		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
 
-.PHONY: format-check
+.PHONY: format-check-cpp
 
-format-python: build-development-image  ## Runs the black format tool against python code
+format-check-python: build-development-image ## Run the black format tool against python code
 
 	docker run \
 		--rm \
-		--volume="$(CURDIR):/app" \
+		--privileged \
+		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+		/bin/bash -c "python3.11 -m black --line-length=90 --check --diff bindings/python/"
 
-.PHONY: format-python
+.PHONY: format-check-python
 
 test: ## Run tests
 
@@ -399,7 +431,7 @@ test-unit: ## Run unit tests
 .PHONY: test-unit
 
 test-unit-cpp: build-development-image ## Run C++ unit tests
-	
+
 	@ $(MAKE) test-unit-cpp-standalone
 
 .PHONY: test-unit-cpp
@@ -411,7 +443,6 @@ test-unit-cpp-standalone: ## Run C++ unit tests (standalone)
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
@@ -434,13 +465,13 @@ test-unit-python-standalone: ## Run Python unit tests (standalone)
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		--entrypoint="" \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=ON -DBUILD_UNIT_TESTS=OFF .. \
-		&& $(MAKE) -j 4 && pip install bindings/python/dist/*311*.whl \
+		&& $(MAKE) -j 4 && python3.11 -m pip install --root-user-action=ignore bindings/python/dist/*311*.whl \
+		&& python3.11 -m pip install plotly pandas \
 		&& cd /usr/local/lib/python3.11/site-packages/ostk/$(project_name)/ \
 		&& python3.11 -m pytest -sv ."
 
@@ -467,7 +498,6 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 	docker run \
 		--rm \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/share/OpenSpaceToolkit:/usr/local/share/OpenSpaceToolkit:delegated" \
 		--volume="/app/build" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \

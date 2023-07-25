@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -16,12 +16,6 @@ System::System(const Mass& aMass, const Composite& aGeometry)
 
     : mass_(aMass),
       geometry_(aGeometry)
-{
-}
-
-System::System(const System& aSystem)
-    : mass_(aSystem.mass_),
-      geometry_(aSystem.geometry_)
 {
 }
 
@@ -89,6 +83,11 @@ Composite System::getGeometry() const
     }
 
     return geometry_;
+}
+
+System System::Undefined()
+{
+    return {Mass::Undefined(), Composite::Undefined()};
 }
 
 }  // namespace flight

@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -48,8 +48,8 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
     {
         timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds();
 
-        coordinates.row(i).segment<3>(0) = stateArray[i].accessPosition().accessCoordinates();
-        coordinates.row(i).segment<3>(3) = stateArray[i].accessVelocity().accessCoordinates();
+        coordinates.row(i).segment<3>(0) = stateArray[i].getPosition().accessCoordinates();
+        coordinates.row(i).segment<3>(3) = stateArray[i].getVelocity().accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -171,10 +171,12 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
     }
 
+    const Shared<const Frame> frame = firstState_.getPosition().accessFrame();
+
     return State(
         anInstant,
-        Position::Meters(interpolatedCoordinates.segment<3>(0), firstState_.accessPosition().accessFrame()),
-        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), firstState_.accessPosition().accessFrame())
+        Position::Meters(interpolatedCoordinates.segment<3>(0), frame),
+        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), frame)
     );
 }
 
@@ -224,8 +226,8 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (firstState.isDefined() ? String::Format(
                                              "{} - {} - {}",
                                              firstState.accessInstant().toString(),
-                                             firstState.accessPosition().toString(),
-                                             firstState.accessVelocity().toString()
+                                             firstState.getPosition().toString(),
+                                             firstState.getVelocity().toString()
                                          )
                                        : "Undefined");
     }
@@ -239,8 +241,8 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << (lastState.isDefined() ? String::Format(
                                             "{} - {} - {}",
                                             lastState.accessInstant().toString(),
-                                            lastState.accessPosition().toString(),
-                                            lastState.accessVelocity().toString()
+                                            lastState.getPosition().toString(),
+                                            lastState.getVelocity().toString()
                                         )
                                       : "Undefined");
     }

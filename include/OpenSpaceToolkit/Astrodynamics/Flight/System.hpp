@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System__
@@ -38,12 +38,6 @@ class System
     /// @param              [in] aGeometry A geometry
 
     System(const Mass& aMass, const Composite& aGeometry);
-
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] aSystem A system
-
-    System(const System& aSystem);
 
     /// @brief              Destructor
 
@@ -109,6 +103,8 @@ class System
     /// @return             Composite
 
     Composite getGeometry() const;
+
+    static System Undefined();
 
    private:
     Mass mass_;

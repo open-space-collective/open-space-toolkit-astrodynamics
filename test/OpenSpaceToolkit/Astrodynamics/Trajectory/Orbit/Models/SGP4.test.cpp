@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
@@ -110,8 +110,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -123,8 +123,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
             const State state_TEME = state_GCRF.inFrame(temeOfEpochFrame);
 
-            const Position position_TEME = state_TEME.accessPosition();
-            const Velocity velocity_TEME = state_TEME.accessVelocity();
+            const Position position_TEME = state_TEME.getPosition();
+            const Velocity velocity_TEME = state_TEME.getVelocity();
 
             // STK
 
@@ -158,11 +158,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
             // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl ;
             // std::cout << "position_GCRF 2 = " << std::endl <<
-            // state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF()).accessPosition() << std::endl ;
+            // state_GCRF.inFrame(temeOfEpochFrame).inFrame(Frame::GCRF()).getPosition() << std::endl ;
 
             // std::cout << "position_TEME 1 = " << std::endl << position_TEME << std::endl ;
             // std::cout << "position_TEME 2 = " << std::endl <<
-            // state_TEME.inFrame(Frame::GCRF()).inFrame(temeOfEpochFrame).accessPosition() << std::endl ;
+            // state_TEME.inFrame(Frame::GCRF()).inFrame(temeOfEpochFrame).getPosition() << std::endl ;
 
             EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *position_TEME.accessFrame());
             EXPECT_EQ(*Frame::TEMEOfEpoch(tle.getEpoch()), *velocity_TEME.accessFrame());
@@ -174,8 +174,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_SGP4, Test_1)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());

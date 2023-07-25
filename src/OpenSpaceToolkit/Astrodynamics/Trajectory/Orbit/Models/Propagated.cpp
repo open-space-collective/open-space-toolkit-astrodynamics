@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -18,6 +18,9 @@ namespace models
 
 using ostk::core::types::Size;
 
+using ostk::math::obj::Vector3d;
+using ostk::math::obj::VectorXd;
+
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
@@ -26,23 +29,17 @@ static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
-Propagated::Propagated(
-    const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver, const State& aState
-)
+Propagated::Propagated(const Propagator& aPropagator, const State& aState)
     : Model(),
-      propagator_(aSatelliteDynamics, aNumericalSolver),
+      propagator_(aPropagator),
       cachedStateArray_(1, aState)
 
 {
 }
 
-Propagated::Propagated(
-    const SatelliteDynamics& aSatelliteDynamics,
-    const NumericalSolver& aNumericalSolver,
-    const Array<State>& aCachedStateArray
-)
+Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray)
     : Model(),
-      propagator_(aSatelliteDynamics, aNumericalSolver),
+      propagator_(aPropagator),
       cachedStateArray_(aCachedStateArray)
 
 {
@@ -258,9 +255,9 @@ Integer Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
     }
 
     // Calculate gravitational parameter (Spherical earth has the most modern value which is the correct one)
-    using ostk::physics::env::obj::celest::Earth;
+    using ostk::physics::environment::gravitational::Earth;
 
-    const Derived gravitationalParameter = Earth::Models::Spherical::GravitationalParameter;
+    const Derived gravitationalParameter = Earth::Spherical.gravitationalParameter_;
     const Real gravitationalParameter_SI = gravitationalParameter.in(GravitationalParameterSIUnit);
 
     Position currentPosition = cachedStateArray_[0].getPosition();

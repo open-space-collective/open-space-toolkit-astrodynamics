@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System.cpp>

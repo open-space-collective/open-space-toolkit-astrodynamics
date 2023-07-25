@@ -1,11 +1,14 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Propagator__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
@@ -25,9 +28,11 @@
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/SatelliteDynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -39,21 +44,27 @@ namespace trajectory
 {
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Index;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
+using ostk::core::types::Size;
+using ostk::core::types::String;
 
-using ostk::math::obj::Vector3d;
-
+using ostk::physics::Environment;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::flight::system::dynamics::SatelliteDynamics;
+using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::CoordinatesSubset;
 using ostk::astro::trajectory::State;
+using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::SatelliteSystem;
 
-/// @brief                      Defines a propagator to be used for numerical integration
+/// @brief                      Define a propagator to be used for numerical propagation
 
 class Propagator
 {
@@ -61,19 +72,16 @@ class Propagator
     /// @brief              Constructor
     ///
     /// @code
-    ///                     Propagator propagator = { aSatelliteDynamics, aNumericalSolver } ;
+    ///                     Propagator propagator = { aNumericalSolver, aDynamicsArray } ;
     /// @endcode
     ///
-    /// @param              [in] aSatelliteDynamics A satellite dynamics object
     /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] aDynamicsArray A dynamics array
 
-    Propagator(const SatelliteDynamics& aSatelliteDynamics, const NumericalSolver& aNumericalSolver);
-
-    /// @brief              Clone propagator
-    ///
-    /// @return             Pointer to cloned propagator
-
-    Propagator* clone() const;
+    Propagator(
+        const NumericalSolver& aNumericalSolver,
+        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty()
+    );
 
     /// @brief              Equal to operator
     ///
@@ -103,6 +111,37 @@ class Propagator
 
     bool isDefined() const;
 
+    /// @brief              Get the dynamics array
+    /// @code
+    ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
+    /// @endcode
+    /// @return             An array of dynamics shared pointers
+
+    Array<Shared<Dynamics>> getDynamics() const;
+
+    /// @brief              Set the dynamics array
+    /// @code
+    ///                     propagator.setDynamics(aDynamicsArray);
+    /// @endcode
+    /// @param              [in] aDynamicsArray A dynamics array
+
+    void setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray);
+
+    /// @brief              Add a dynamics to the array of shared pointers to dynamics
+    /// @code
+    ///                     propagator.addDynamics(aDynamics);
+    /// @endcode
+    /// @param              [in] aDynamics A Dynamics shared pointer
+
+    void addDynamics(const Shared<Dynamics>& aDynamics);
+
+    /// @brief              Clear the dynamics array
+    /// @code
+    ///                     propagator.clearDynamics();
+    /// @endcode
+
+    void clearDynamics();
+
     /// @brief              Calculate the state at an instant, given initial state
     /// @code
     ///                     State state = propagator.calculateStateAt(aState, anInstant) ;
@@ -114,7 +153,7 @@ class Propagator
     State calculateStateAt(const State& aState, const Instant& anInstant) const;
 
     /// @brief              Calculate the states at an array of instants, given an initial state
-    /// @brief              Can only be used with sorted instant array
+    /// @brief              Can only be used with sorted instants array
     /// @code
     ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;
     /// @endcode
@@ -130,29 +169,42 @@ class Propagator
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Create a medium fidelity Propagator object with recommended settings
+    /// @brief              Undefined
     ///
-    /// @code
-    ///                     Propagator propagator = Propagator::MediumFidelity(aState) ;
-    /// @endcode
-    /// @param              [in] aState A State
-    /// @return             Propagator
+    /// @return             An undefined propagator
 
-    static Propagator MediumFidelity();
+    static Propagator Undefined();
 
-    /// @brief              Create a high fidelity Propagator object with recommended settings
+    /// @brief              Default
     ///
-    /// @code
-    ///                     Propagator propagator = Propagator::HighFidelity(aState) ;
-    /// @endcode
-    /// @param              [in] aState A State
-    /// @return             Propagator
+    /// @return             A default propagator (with position derivative dynamics included)
 
-    static Propagator HighFidelity();
+    static Propagator Default();
+
+    /// @brief              Default from environment
+    ///
+    /// @return             A default propagator from environment
+
+    static Propagator Default(
+        const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
+    );
+
+    /// @brief              From environment
+    ///
+    /// @return             A propagator from environment
+
+    static Propagator FromEnvironment(
+        const NumericalSolver& aNumericalSolver,
+        const Environment& anEnvironment,
+        const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
+    );
 
    private:
-    mutable SatelliteDynamics satelliteDynamics_;
+    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    Array<Dynamics::DynamicsInformation> dynamicsInformation_ = Array<Dynamics::DynamicsInformation>::Empty();
     mutable NumericalSolver numericalSolver_;
+
+    void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);
 };
 
 }  // namespace trajectory

@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
@@ -66,12 +66,6 @@ class SatelliteSystem : public System
         const Real& aCrossSectionalSurfaceArea,
         const Real& aDragCoefficient
     );
-
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] aSatelliteSystem A satellite system
-
-    SatelliteSystem(const SatelliteSystem& aSatelliteSystem);
 
     /// @brief              Destructor
 
@@ -147,6 +141,12 @@ class SatelliteSystem : public System
     /// @return             Real
 
     Real getDragCoefficient() const;
+
+    /// @brief              Undefined satellite system
+    ///
+    /// @return             Undefined satellite system
+
+    static SatelliteSystem Undefined();
 
    private:
     Matrix3d inertiaTensor_;

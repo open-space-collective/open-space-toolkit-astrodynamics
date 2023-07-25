@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #ifndef __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
@@ -33,6 +33,7 @@ class NumericalSolver
    public:
     enum class StepperType
     {
+        RungeKutta4,
         RungeKuttaCashKarp54,
         RungeKuttaFehlberg78
     };
@@ -71,12 +72,6 @@ class NumericalSolver
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance
     );
-
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] NumericalSolver A numerical solver
-
-    NumericalSolver(const NumericalSolver& aNumericalSolver);
 
     /// @brief              Clone numerical solver
     ///
@@ -248,6 +243,18 @@ class NumericalSolver
     /// @return             LogType
 
     static String StringFromLogType(const NumericalSolver::LogType& aLogType);
+
+    /// @brief              Undefined
+    ///
+    /// @return             An undefined numerical solver
+
+    static NumericalSolver Undefined();
+
+    /// @brief              Default
+    ///
+    /// @return             A default numerical solver
+
+    static NumericalSolver Default();
 
    private:
     NumericalSolver::LogType logType_;

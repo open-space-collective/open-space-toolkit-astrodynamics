@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -82,6 +82,12 @@ class TestNumericalSolver:
     def test_get_string_from_types(self):
         assert (
             NumericalSolver.string_from_stepper_type(
+                NumericalSolver.StepperType.RungeKutta4
+            )
+            == "RungeKutta4"
+        )
+        assert (
+            NumericalSolver.string_from_stepper_type(
                 NumericalSolver.StepperType.RungeKuttaCashKarp54
             )
             == "RungeKuttaCashKarp54"
@@ -148,3 +154,6 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(
             prop_state_vector[1] - math.cos((end_instant - start_instant).in_seconds())
         )
+
+    def test_default(self):
+        assert NumericalSolver.default() is not None

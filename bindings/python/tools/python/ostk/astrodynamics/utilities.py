@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 from .OpenSpaceToolkitAstrodynamicsPy import *
 
@@ -12,6 +12,7 @@ from ostk.physics.coordinate.spherical import AER
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
 
 
 def lla_from_state(state: trajectory.State) -> list:
@@ -35,8 +36,8 @@ def lla_from_position(position: Position, instant: Instant) -> LLA:
 
     return LLA.cartesian(
         position.in_frame(Frame.ITRF(), instant).get_coordinates(),
-        Earth.equatorial_radius,
-        Earth.flattening,
+        EarthGravitationalModel.EGM2008.equatorial_radius,
+        EarthGravitationalModel.EGM2008.flattening,
     )
 
 
@@ -46,7 +47,10 @@ def position_from_lla(lla: LLA) -> Position:
     """
 
     return Position.meters(
-        lla.to_cartesian(Earth.equatorial_radius, Earth.flattening),
+        lla.to_cartesian(
+            EarthGravitationalModel.EGM2008.equatorial_radius,
+            EarthGravitationalModel.EGM2008.flattening,
+        ),
         Frame.ITRF(),
     )
 
@@ -120,8 +124,8 @@ def convert_state(instant: Instant, state: trajectory.State) -> list:
         state.get_position()
         .in_frame(Frame.ITRF(), state.get_instant())
         .get_coordinates(),
-        Earth.equatorial_radius,
-        Earth.flattening,
+        EarthGravitationalModel.EGM2008.equatorial_radius,
+        EarthGravitationalModel.EGM2008.flattening,
     )
 
     return [

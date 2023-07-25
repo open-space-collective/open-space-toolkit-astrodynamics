@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
@@ -14,6 +14,10 @@ namespace flight
 namespace system
 {
 
+using ostk::math::geom::d3::objects::Composite;
+
+using ostk::physics::units::Mass;
+
 SatelliteSystem::SatelliteSystem(
     const Mass& aMass,
     const Composite& aSatelliteGeometry,
@@ -25,14 +29,6 @@ SatelliteSystem::SatelliteSystem(
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient)
-{
-}
-
-SatelliteSystem::SatelliteSystem(const SatelliteSystem& aSatelliteSystem)
-    : System(aSatelliteSystem),
-      inertiaTensor_(aSatelliteSystem.inertiaTensor_),
-      crossSectionalSurfaceArea_(aSatelliteSystem.crossSectionalSurfaceArea_),
-      dragCoefficient_(aSatelliteSystem.dragCoefficient_)
 {
 }
 
@@ -118,6 +114,13 @@ Real SatelliteSystem::getDragCoefficient() const
     }
 
     return dragCoefficient_;
+}
+
+SatelliteSystem SatelliteSystem::Undefined()
+{
+    return SatelliteSystem(
+        Mass::Undefined(), Composite::Undefined(), Matrix3d::Undefined(), Real::Undefined(), Real::Undefined()
+    );
 }
 
 }  // namespace system

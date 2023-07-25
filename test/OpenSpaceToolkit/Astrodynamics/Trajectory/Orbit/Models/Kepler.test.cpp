@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
@@ -23,6 +23,34 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
+
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Table;
+using ostk::core::fs::File;
+using ostk::core::fs::Path;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+
+using ostk::math::obj::Vector3d;
+
+using ostk::physics::Environment;
+using ostk::physics::coord::Frame;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+using ostk::physics::environment::gravitational::Earth;
+using ostk::physics::time::DateTime;
+using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
+using ostk::physics::time::Interval;
+using ostk::physics::time::Scale;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Derived;
+using ostk::physics::units::Length;
+
+using ostk::astro::trajectory::Orbit;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::orbit::models::Kepler;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Constructor)
 // {
@@ -120,34 +148,6 @@
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -165,10 +165,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime::Parse("2018-01-01 00:00:00"), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM2008::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM2008::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM2008::J2;
-        const Real J4 = Earth::Models::EGM2008::J4;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
@@ -207,8 +207,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -220,8 +220,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -254,34 +254,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_1)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -299,10 +271,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM96::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM96::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM96::J2;
-        const Real J4 = Earth::Models::EGM96::J4;
+        const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
+        const Real J2 = Earth::EGM96.J2_;
+        const Real J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
@@ -341,8 +313,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -354,8 +326,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -395,34 +367,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_2)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -440,10 +384,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM96::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM96::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM96::J2;
-        const Real J4 = Earth::Models::EGM96::J4;
+        const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
+        const Real J2 = Earth::EGM96.J2_;
+        const Real J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
@@ -480,8 +424,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -493,8 +437,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -525,34 +469,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_3)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -570,10 +486,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM96::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM96::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM96::J2;
-        const Real J4 = Earth::Models::EGM96::J4;
+        const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
+        const Real J2 = Earth::EGM96.J2_;
+        const Real J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
@@ -610,8 +526,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -623,8 +539,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -655,34 +571,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_4)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -700,10 +588,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM96::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM96::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM96::J2;
-        const Real J4 = Earth::Models::EGM96::J4;
+        const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
+        const Real J2 = Earth::EGM96.J2_;
+        const Real J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
@@ -740,8 +628,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -753,8 +641,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
@@ -785,34 +673,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_5)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 {
-    using ostk::core::ctnr::Array;
-    using ostk::core::ctnr::Table;
-    using ostk::core::fs::File;
-    using ostk::core::fs::Path;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::Environment;
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::Velocity;
-    using ostk::physics::env::obj::celest::Earth;
-    using ostk::physics::time::DateTime;
-    using ostk::physics::time::Duration;
-    using ostk::physics::time::Instant;
-    using ostk::physics::time::Interval;
-    using ostk::physics::time::Scale;
-    using ostk::physics::units::Angle;
-    using ostk::physics::units::Derived;
-    using ostk::physics::units::Length;
-
-    using ostk::astro::trajectory::Orbit;
-    using ostk::astro::trajectory::State;
-    using ostk::astro::trajectory::orbit::models::Kepler;
-    using ostk::astro::trajectory::orbit::models::kepler::COE;
-
     {
         // Environment setup
 
@@ -830,10 +690,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
         const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const Derived gravitationalParameter = Earth::Models::EGM96::GravitationalParameter;
-        const Length equatorialRadius = Earth::Models::EGM96::EquatorialRadius;
-        const Real J2 = Earth::Models::EGM96::J2;
-        const Real J4 = Earth::Models::EGM96::J4;
+        const Derived gravitationalParameter = Earth::EGM96.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM96.equatorialRadius_;
+        const Real J2 = Earth::EGM96.J2_;
+        const Real J4 = Earth::EGM96.J4_;
 
         const Kepler keplerianModel = {
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
@@ -870,8 +730,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
             const State state_GCRF = orbit.getStateAt(instant);
 
-            const Position position_GCRF = state_GCRF.accessPosition();
-            const Velocity velocity_GCRF = state_GCRF.accessVelocity();
+            const Position position_GCRF = state_GCRF.getPosition();
+            const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
             ASSERT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
@@ -883,8 +743,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler, Test_6)
 
             const State state_ITRF = state_GCRF.inFrame(itrfFrame);
 
-            const Position position_ITRF = state_ITRF.accessPosition();
-            const Velocity velocity_ITRF = state_ITRF.accessVelocity();
+            const Position position_ITRF = state_ITRF.getPosition();
+            const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
             ASSERT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
             ASSERT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());

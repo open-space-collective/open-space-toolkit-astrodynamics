@@ -1,4 +1,4 @@
-# Apache License 2.0 
+# Apache License 2.0
 
 import pytest
 
@@ -64,7 +64,7 @@ def cdm() -> CDM:
                 catalog_name="SATCAT",
                 object_name="SATELLITE A",
                 international_designator="1997−030E",
-                object_type=CDM.ObjectType.PAYLOAD,
+                object_type=CDM.ObjectType.Payload,
                 operator_contact_position="OSA",
                 operator_organization="EUTMETSAT",
                 operator_phone="+49615130312",
@@ -87,7 +87,7 @@ def cdm() -> CDM:
                 catalog_name="SATCAT",
                 object_name="SATELLITE B",
                 international_designator="1997−030F",
-                object_type=CDM.ObjectType.PAYLOAD,
+                object_type=CDM.ObjectType.Payload,
                 ephemeris_name="EPHEMERIS SATELLITE B",
                 covariance_method="CALCULATED",
                 maneuverable="YES",
@@ -212,7 +212,7 @@ class TestCDM:
         assert cdm_object_1_metadata.catalog_name == "SATCAT"
         assert cdm_object_1_metadata.object_name == "SATELLITE A"
         assert cdm_object_1_metadata.international_designator == "1997−030E"
-        assert cdm_object_1_metadata.object_type == CDM.ObjectType.PAYLOAD
+        assert cdm_object_1_metadata.object_type == CDM.ObjectType.Payload
         assert cdm_object_1_metadata.operator_contact_position == "OSA"
         assert cdm_object_1_metadata.operator_organization == "EUTMETSAT"
         assert cdm_object_1_metadata.operator_phone == "+49615130312"
@@ -237,7 +237,7 @@ class TestCDM:
         assert cdm_object_2_metadata.catalog_name == "SATCAT"
         assert cdm_object_2_metadata.object_name == "SATELLITE B"
         assert cdm_object_2_metadata.international_designator == "1997−030F"
-        assert cdm_object_2_metadata.object_type == CDM.ObjectType.PAYLOAD
+        assert cdm_object_2_metadata.object_type == CDM.ObjectType.Payload
         assert cdm_object_2_metadata.operator_contact_position == ""
         assert cdm_object_2_metadata.operator_organization == ""
         assert cdm_object_2_metadata.operator_phone == ""
@@ -384,7 +384,7 @@ class TestCDM:
         assert object_1_metadata.catalog_name == "SATCAT"
         assert object_1_metadata.object_name == "YAM-2"
         assert object_1_metadata.international_designator == "2021-059AJ"
-        assert object_1_metadata.object_type == CDM.ObjectType.PAYLOAD
+        assert object_1_metadata.object_type == CDM.ObjectType.Payload
         assert object_1_metadata.ephemeris_name == "NONE"
         assert object_1_metadata.covariance_method == "CALCULATED"
         assert object_1_metadata.maneuverable == "N/A"
@@ -406,11 +406,11 @@ class TestCDM:
         assert CDM.load(file=cdm_file) is not None
 
     def test_object_type_from_string(self):
-        assert CDM.object_type_from_string("PAYLOAD") == CDM.ObjectType.PAYLOAD
-        assert CDM.object_type_from_string("ROCKET BODY") == CDM.ObjectType.ROCKETBODY
-        assert CDM.object_type_from_string("DEBRIS") == CDM.ObjectType.DEBRIS
-        assert CDM.object_type_from_string("UNKNOWN") == CDM.ObjectType.UNKNOWN
-        assert CDM.object_type_from_string("OTHER") == CDM.ObjectType.OTHER
+        assert CDM.object_type_from_string("PAYLOAD") == CDM.ObjectType.Payload
+        assert CDM.object_type_from_string("ROCKET BODY") == CDM.ObjectType.RocketBody
+        assert CDM.object_type_from_string("DEBRIS") == CDM.ObjectType.Debris
+        assert CDM.object_type_from_string("UNKNOWN") == CDM.ObjectType.Unknown
+        assert CDM.object_type_from_string("OTHER") == CDM.ObjectType.Other
 
         with pytest.raises(Exception) as e:
             CDM.object_type_from_string("ANOTHERSUPPORTEDTYPE")

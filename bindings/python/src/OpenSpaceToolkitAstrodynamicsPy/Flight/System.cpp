@@ -1,4 +1,4 @@
-/// Apache License 2.0  
+/// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
@@ -30,6 +30,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
 
             .def("get_mass", &System::getMass)
             .def("get_geometry", &System::getGeometry)
+
+            .def_static("undefined", &System::Undefined)
 
             ;
     }
