@@ -59,6 +59,7 @@ def numerical_solver_default_inputs() -> (
 def numerical_solver(numerical_solver_default_inputs) -> NumericalSolver:
     return NumericalSolver(*numerical_solver_default_inputs)
 
+
 @pytest.fixture
 def numerical_solver_conditional() -> NumericalSolver:
     return NumericalSolver(
@@ -203,7 +204,9 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
     def test_integrate_time_with_condition(
-        self, numerical_solver_conditional: NumericalSolver, custom_condition: EventCondition
+        self,
+        numerical_solver_conditional: NumericalSolver,
+        custom_condition: EventCondition,
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0
