@@ -113,7 +113,7 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
         case EventCondition::Criteria::AnyCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
-                return ((currentValue > 0.0) == (previousValue < 0.0));
+                return (currentValue > 0.0) == (previousValue < 0.0);
             };
 
         case EventCondition::Criteria::Undefined:
