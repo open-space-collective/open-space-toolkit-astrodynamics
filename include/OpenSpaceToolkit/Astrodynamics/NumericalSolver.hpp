@@ -248,7 +248,7 @@ class NumericalSolver
         const Real& aStartTime,
         const Real& anEndTime,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const Shared<EventCondition>& anEventCondition
+        const EventCondition& anEventCondition
     );
 
     /// @brief              Perform numerical integration for a specified duration
@@ -305,7 +305,7 @@ class NumericalSolver
         const StateVector& anInitialStateVector,
         const Real& aDurationInSeconds,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const Shared<EventCondition>& anEventCondition
+        const EventCondition& anEventCondition
     );
 
     /// @brief              Get string from the integration stepper type

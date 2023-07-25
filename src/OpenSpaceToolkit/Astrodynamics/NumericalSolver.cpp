@@ -372,7 +372,7 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     const Real& aStartTime,
     const Real& anEndTime,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const Shared<EventCondition>& anEventCondition
+    const EventCondition& anEventCondition
 )
 {
     NumericalSolver::Solution solution =
@@ -395,7 +395,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
     const SystemOfEquationsWrapper& aSystemOfEquations,
-    const Shared<EventCondition>& anEventCondition
+    const EventCondition& anEventCondition
 )
 {
     if (stepperType_ != NumericalSolver::StepperType::RungeKuttaDopri5)
@@ -430,7 +430,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     bool conditionSatisfied = false;
     Real currentValue = Real::Undefined();
 
-    Real previousValue = anEventCondition->evaluate(stepper.current_state(), stepper.current_time());
+    Real previousValue = anEventCondition.evaluate(stepper.current_state(), stepper.current_time());
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
@@ -448,9 +448,9 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
 
-        currentValue = anEventCondition->evaluate(currentState, currentTime);
+        currentValue = anEventCondition.evaluate(currentState, currentTime);
 
-        conditionSatisfied = anEventCondition->isSatisfied(currentValue, previousValue);
+        conditionSatisfied = anEventCondition.isSatisfied(currentValue, previousValue);
 
         if (conditionSatisfied)
         {
@@ -483,9 +483,9 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         midTime = 0.5 * (previousTime + currentTime);
         stepper.calc_state(midTime, midState);
 
-        const Real midValue = anEventCondition->evaluate(midState, midTime);
+        const Real midValue = anEventCondition.evaluate(midState, midTime);
 
-        if (anEventCondition->isSatisfied(midValue, previousValue))
+        if (anEventCondition.isSatisfied(midValue, previousValue))
         {
             // root lies between previousTime and midTime
             // update current -> mid
