@@ -5,8 +5,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
-#include <Eigen/Dense>
-
 namespace ostk
 {
 namespace astro
