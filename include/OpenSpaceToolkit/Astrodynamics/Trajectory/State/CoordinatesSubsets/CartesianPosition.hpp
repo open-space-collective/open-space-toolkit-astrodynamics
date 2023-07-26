@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 namespace ostk
@@ -31,30 +29,61 @@ using ostk::astro::trajectory::state::CoordinatesBroker;
 class CartesianPosition : public CoordinatesSubset
 {
    public:
-    static const String DEFAULT_NAME;
-
     /// @brief              Constructor
     ///
     /// @param              [in] aName a name
-    /// @param              [in] aSize a size [1, 3]
 
-    CartesianPosition(const String& aName, const Size& aSize);
+    CartesianPosition(const String& aName = DEFAULT_NAME);
+
+    /// @brief              Destructor
+
+    ~CartesianPosition();
+
+    /// @brief              Adds two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFrame the reference frame in which the coordinates are resolved
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (aSubset + anotherSubset)
 
     VectorXd add(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
+
+    /// @brief              Subtracts two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFrame the reference frame associated to the coordinates
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (aSubset - anotherSubset)
 
     VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
+
+    /// @brief              Transforms the coordinate subset from one frame to another
+    ///
+    /// @param              [in] anInstant the reference frame associated to the coordinates
+    /// @param              [in] allCoordinates all coordinates
+    /// @param              [in] fromFrame the reference frame associated to the coordinates
+    /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
     VectorXd inFrame(
         const Instant& anInstant,
@@ -62,16 +91,9 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
 
-    /// @brief              Return the default three-dimensional instance
-    ///
-    /// @return             The defaul three-dimensional instance
-
-    static Shared<const CartesianPosition> ThreeDimensional();
-
-   private:
-    static const Shared<const CartesianPosition> THREE_DIMENSIONAL;
+    static String DEFAULT_NAME;
 };
 
 }  // namespace coordinatessubsets

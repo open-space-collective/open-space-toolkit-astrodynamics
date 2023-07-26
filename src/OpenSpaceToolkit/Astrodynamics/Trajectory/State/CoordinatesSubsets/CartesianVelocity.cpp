@@ -12,6 +12,8 @@ namespace trajectory
 {
 namespace state
 {
+namespace state
+{
 namespace coordinatessubsets
 {
 
@@ -22,37 +24,36 @@ using ostk::physics::coord::Velocity;
 
 const String CartesianVelocity::DEFAULT_NAME = "CARTESIAN_VELOCITY";
 
-const Shared<const CartesianVelocity> CartesianVelocity::THREE_DIMENSIONAL =
-    CartesianVelocity::FromPosition(CartesianPosition::ThreeDimensional());
-
-CartesianVelocity::CartesianVelocity(const String& aName, const Shared<const CartesianPosition>& aCartesianPositionSPtr)
+CartesianVelocity::CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName)
     : CoordinatesSubset(aName, aCartesianPositionSPtr->getSize()),
       cartesianPositionSPtr_(aCartesianPositionSPtr)
 {
 }
 
+CartesianVelocity::~CartesianVelocity() {}
+
 VectorXd CartesianVelocity::add(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& allCoordinates_1,
-    const VectorXd& allCoordinates_2,
+    const VectorXd& aFullCoordinates,
+    const VectorXd& anotherFullCoordinates,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) +
-           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinates, *this) +
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinates, *this);
 }
 
 VectorXd CartesianVelocity::subtract(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& allCoordinates_1,
-    const VectorXd& allCoordinates_2,
+    const VectorXd& aFullCoordinates,
+    const VectorXd& anotherFullCoordinates,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) -
-           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinates, *this) -
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinates, *this);
 }
 
 VectorXd CartesianVelocity::inFrame(
@@ -82,19 +83,6 @@ VectorXd CartesianVelocity::inFrame(
             .getCoordinates();
 
     return VectorXd::Map(toFrameCoordinates.data(), static_cast<Eigen::Index>(3));
-}
-
-Shared<const CartesianVelocity> CartesianVelocity::FromPosition(
-    const Shared<const CartesianPosition>& aCartesianPositionSPtr
-)
-{
-    const CartesianVelocity cartesianVelocity = CartesianVelocity(DEFAULT_NAME, aCartesianPositionSPtr);
-    return std::make_shared<CartesianVelocity>(cartesianVelocity);
-}
-
-Shared<const CartesianVelocity> CartesianVelocity::ThreeDimensional()
-{
-    return CartesianVelocity::THREE_DIMENSIONAL;
 }
 
 }  // namespace coordinatessubsets

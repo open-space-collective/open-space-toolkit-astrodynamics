@@ -21,6 +21,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
@@ -31,30 +32,68 @@ using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 class CartesianVelocity : public CoordinatesSubset
 {
    public:
-    static const String DEFAULT_NAME;
-
     /// @brief              Constructor
     ///
-    /// @param              [in] aName a name
+    /// @code
+    ///                     CartesianVelocity velocity = {aCartesianPositionSPtr, aName};
+    /// @endcode
+    ///
     /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
+    /// @param              [in] aName a name
 
-    CartesianVelocity(const String& aName, const Shared<const CartesianPosition>& aCartesianPositionSPtr);
+    CartesianVelocity(
+        const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName = DEFAULT_NAME
+    );
+
+    /// @brief              Destructor
+
+    ~CartesianVelocity();
+
+    /// @brief              Adds two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFrame the reference frame in which the coordinates are resolved
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (aSubset + anotherSubset)
 
     VectorXd add(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
+    /// @brief              Subtracts two coordinates subsets
+    ///
+    /// @param              [in] anInstant the instant associated to the coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFrame the reference frame associated to the coordinates
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value (aSubset - anotherSubset)
+
     VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
+
+    /// @brief              Transforms the coordinate subset from one frame to another
+    ///
+    /// @param              [in] anInstant the reference frame associated to the coordinates
+    /// @param              [in] allCoordinates all coordinates
+    /// @param              [in] fromFrame the reference frame associated to the coordinates
+    /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
+    /// @param              [in] aCoordinatesBroker a coordinates broker
+    ///
+    /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
     VectorXd inFrame(
         const Instant& anInstant,
@@ -64,22 +103,9 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    /// @brief              Return a new instance associated with the given position.
-    ///
-    /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
-    ///
-    /// @return             A new shared pointer
-
-    static Shared<const CartesianVelocity> FromPosition(const Shared<const CartesianPosition>& aCartesianPositionSPtr);
-
-    /// @brief              Return the default three-dimensional instance
-    ///
-    /// @return             The defaul three-dimensional instance
-
-    static Shared<const CartesianVelocity> ThreeDimensional();
+    static String DEFAULT_NAME;
 
    private:
-    static const Shared<const CartesianVelocity> THREE_DIMENSIONAL;
     Shared<const CartesianPosition> cartesianPositionSPtr_;
 };
 
