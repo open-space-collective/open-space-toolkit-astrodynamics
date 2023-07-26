@@ -59,11 +59,15 @@ class CoordinatesSubsetMock : public CoordinatesSubset
     );
 };
 
-static const Shared<CoordinatesSubsetMock> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
-static const Shared<CoordinatesSubsetMock> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
-static const Shared<CoordinatesSubsetMock> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
-static const Shared<CoordinatesSubsetMock> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
-static const Shared<CoordinatesSubsetMock> subset_1_duplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker : public ::testing::Test
+{
+   protected:
+    const Shared<CoordinatesSubset> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+    const Shared<CoordinatesSubset> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
+    const Shared<CoordinatesSubset> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
+    const Shared<CoordinatesSubset> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
+    const Shared<CoordinatesSubset> subset_1_duplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+};
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
 {
@@ -126,6 +130,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualT
         CoordinatesBroker broker_2 = CoordinatesBroker();
         broker_2.addSubset(subset_1);
         broker_2.addSubset(subset_2);
+
+        EXPECT_FALSE(broker_1 == broker_2);
+    }
+
+    {
+        CoordinatesBroker broker_1 = CoordinatesBroker();
+        broker_1.addSubset(subset_1);
+        broker_1.addSubset(subset_2);
+
+        CoordinatesBroker broker_2 = CoordinatesBroker();
+        broker_2.addSubset(subset_1);
 
         EXPECT_FALSE(broker_1 == broker_2);
     }
