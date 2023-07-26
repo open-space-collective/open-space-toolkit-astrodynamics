@@ -101,7 +101,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                     const NumericalSolver::StateVector& aStateVector,
                     const Real& aDurationInSeconds,
                     const object& aSystemOfEquationsObject,
-                    const Shared<EventCondition>& anEventCondition)
+                    const EventCondition& anEventCondition)
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
@@ -170,7 +170,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                     const Real& aStartTime,
                     const Real& anEndTime,
                     const object& aSystemOfEquationsObject,
-                    const Shared<EventCondition>& anEventCondition)
+                    const EventCondition& anEventCondition)
                 {
                     const auto pythonDynamicsEquation =
                         pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
