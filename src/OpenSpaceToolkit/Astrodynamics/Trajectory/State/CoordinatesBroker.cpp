@@ -10,6 +10,8 @@ namespace astro
 {
 namespace trajectory
 {
+namespace state
+{
 
 CoordinatesBroker::CoordinatesBroker()
     : nextCoordinatesSubsetIndex_(0),
@@ -152,6 +154,7 @@ Index CoordinatesBroker::getSubsetIndex(const String& anId) const
     return search->second;
 }
 
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

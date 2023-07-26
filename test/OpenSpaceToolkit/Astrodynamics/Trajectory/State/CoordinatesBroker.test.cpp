@@ -9,8 +9,8 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
-using ostk::astro::trajectory::CoordinatesBroker;
-using ostk::astro::trajectory::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 static const Shared<CoordinatesSubset> subset_1 = std::make_shared<CoordinatesSubset>("S1", 1);
 static const Shared<CoordinatesSubset> subset_2 = std::make_shared<CoordinatesSubset>("S2", 2);
@@ -18,7 +18,7 @@ static const Shared<CoordinatesSubset> subset_3 = std::make_shared<CoordinatesSu
 static const Shared<CoordinatesSubset> subset_4 = std::make_shared<CoordinatesSubset>("S4", 1);
 static const Shared<CoordinatesSubset> subset_1_duplicate = std::make_shared<CoordinatesSubset>("S1", 1);
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Constructor)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
 {
     {
         EXPECT_NO_THROW(CoordinatesBroker());
@@ -29,7 +29,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Constructor)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, EqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -95,7 +95,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, EqualToOperato
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, NotEqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -161,7 +161,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, NotEqualToOper
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Getters)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -182,7 +182,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Getters)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Operations)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -268,7 +268,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Operations)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Extract)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extract)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -298,7 +298,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, Extract)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker, FromSubsets)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, FromSubsets)
 {
     {
         const CoordinatesBroker broker_1 = CoordinatesBroker({subset_1, subset_2});
