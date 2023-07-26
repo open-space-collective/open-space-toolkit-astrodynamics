@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 #include <Global.test.hpp>
 
@@ -13,8 +13,8 @@ using ostk::math::obj::VectorXd;
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::CoordinatesBroker;
-using ostk::astro::trajectory::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class SimpleCoordinatesSubset : public CoordinatesSubset
 {
