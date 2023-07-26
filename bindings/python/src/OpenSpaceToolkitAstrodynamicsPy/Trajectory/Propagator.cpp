@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
-#define PYBIND11_DETAILED_ERROR_MESSAGES
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::module& aModule)
 {
@@ -46,9 +45,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         )
         .def(
             "calculate_state_at",
-            overload_cast<const State&, const Instant&, const Shared<EventCondition>&>(
-                &Propagator::calculateStateAt, const_
-            ),
+            overload_cast<const State&, const Instant&, const EventCondition&>(&Propagator::calculateStateAt, const_),
             arg("state"),
             arg("instant"),
             arg("event_condition")

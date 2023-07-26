@@ -143,6 +143,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
         1.0e-15,
     };
 
+    const NumericalSolver defaultRKD5_ = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        5.0,
+        1.0e-15,
+        1.0e-15,
+    };
+
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
@@ -328,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         {
            public:
             TestCondition(const Real& aTarget)
-                : EventCondition("test", EventCondition::Criteria::PositiveOnly),
+                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
                   target_(aTarget)
             {
             }
@@ -345,9 +353,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
 
         const Real target = 60.0;
 
-        const Shared<EventCondition> condition = std::make_shared<TestCondition>(target);
+        const TestCondition condition(target);
 
-        const State endState = defaultPropagator_.calculateStateAt(state, endInstant, condition);
+        const Propagator propagator = {defaultRKD5_, defaultDynamics_};
+
+        const State endState = propagator.calculateStateAt(state, endInstant, condition);
 
         EXPECT_TRUE(endState.getInstant() < endInstant);
         EXPECT_NEAR(

@@ -112,7 +112,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 }
 
 State Propagator::calculateStateAt(
-    const State& aState, const Instant& anInstant, const Shared<EventCondition>& anEventCondition
+    const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
 ) const
 {
     if (!this->isDefined())
@@ -120,11 +120,7 @@ State Propagator::calculateStateAt(
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const VectorXd stateCoordinates = aState.getCoordinates();
-
-    NumericalSolver::StateVector startStateVector(
-        stateCoordinates.data(), stateCoordinates.data() + stateCoordinates.size()
-    );
+    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
 
     const Instant startInstant = aState.getInstant();
 

@@ -150,11 +150,10 @@ class Propagator
     /// @endcode
     /// @param              [in] aState An initial state
     /// @param              [in] anInstant An instant
+    /// @param              [in] anEventCondition An event condition
     /// @return             State
 
-    State calculateStateAt(
-        const State& aState, const Instant& anInstant, const Shared<EventCondition>& anEventCondition
-    ) const;
+    State calculateStateAt(const State& aState, const Instant& anInstant, const EventCondition& anEventCondition) const;
 
     /// @brief              Calculate the states at an array of instants, given an initial state
     /// @brief              Can only be used with sorted instants array
