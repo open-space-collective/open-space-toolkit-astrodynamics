@@ -10,7 +10,7 @@
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
