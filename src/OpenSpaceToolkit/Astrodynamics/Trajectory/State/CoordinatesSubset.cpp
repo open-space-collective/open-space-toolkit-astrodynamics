@@ -10,6 +10,8 @@ namespace astro
 {
 namespace trajectory
 {
+namespace state
+{
 
 CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
     : name_(aName),
@@ -53,39 +55,7 @@ Size CoordinatesSubset::getSize() const
     return size_;
 }
 
-VectorXd CoordinatesSubset::add(
-    [[maybe_unused]] const Instant& anInstant,
-    [[maybe_unused]] const VectorXd& allCoordinates_1,
-    [[maybe_unused]] const VectorXd& allCoordinates_2,
-    [[maybe_unused]] const Shared<const Frame>& aFrame,
-    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-) const
-{
-    throw ostk::core::error::runtime::ToBeImplemented("Addition");
-}
-
-VectorXd CoordinatesSubset::subtract(
-    [[maybe_unused]] const Instant& anInstant,
-    [[maybe_unused]] const VectorXd& allCoordinates_1,
-    [[maybe_unused]] const VectorXd& allCoordinates_2,
-    [[maybe_unused]] const Shared<const Frame>& aFrame,
-    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-) const
-{
-    throw ostk::core::error::runtime::ToBeImplemented("Subtraction");
-}
-
-VectorXd CoordinatesSubset::inFrame(
-    [[maybe_unused]] const Instant& anInstant,
-    [[maybe_unused]] const VectorXd& allCoordinates,
-    [[maybe_unused]] const Shared<const Frame>& fromFrame,
-    [[maybe_unused]] const Shared<const Frame>& toFrame,
-    [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-) const
-{
-    throw ostk::core::error::runtime::ToBeImplemented("Frame transformation");
-}
-
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

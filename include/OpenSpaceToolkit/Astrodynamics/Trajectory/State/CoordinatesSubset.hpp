@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset__
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
@@ -17,6 +17,8 @@ namespace ostk
 namespace astro
 {
 namespace trajectory
+{
+namespace state
 {
 
 using ostk::core::types::Shared;
@@ -43,77 +45,77 @@ class CoordinatesSubset
 
     CoordinatesSubset(const String& aName, const Size& aSize);
 
-    /// @brief              Equals to operator
+    /// @brief              Equal to operator
     ///
     /// @param              [in] aCoordinatesSubset The coordinate subset to compare it to
     ///
-    /// @return             True if both instances refer to the same subset and have the same size (i.e. dimension)
+    /// @return             True if CoordinatesSubsets are equal
 
     bool operator==(const CoordinatesSubset& aCoordinatesSubset) const;
 
-    /// @brief              Not equals to operator
+    /// @brief              Not equal to operator
     ///
     /// @param              [in] aCoordinatesSubset The coordinate subset to compare it to
     ///
-    /// @return             False if both instances refer to the same subset and have the same size (i.e. dimension)
+    /// @return             True if CoordinatesSubsets are not equal
 
     bool operator!=(const CoordinatesSubset& aCoordinatesSubset) const;
 
-    /// @brief              Returns the unique identifier of the instance
+    /// @brief              Return the unique identifier of the instance
     ///
     /// @return             The unique identifier of the instance
 
     String getId() const;
 
-    /// @brief              Returns the name of the instance
+    /// @brief              Return the name of the instance
     ///
     /// @return             The name of the instance
 
     String getName() const;
 
-    /// @brief              Returns the size (i.e. dimension) of the instance
+    /// @brief              Return the size (i.e. dimension) of the instance
     ///
     /// @return             The size (i.e. dimension) of the instance
 
     Size getSize() const;
 
-    /// @brief              Adds two coordinates subsets
+    /// @brief              Add two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] allCoordinates_1 first set of all coordinates
-    /// @param              [in] allCoordinates_2 second set of all coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
     /// @param              [in] aFrame the reference frame in which the coordinates are resolved
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
     /// @return             The resulting coordinates subset value (subset_1 + subset_2)
 
-    VectorXd add(
+    virtual VectorXd add(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    /// @brief              Subtracts two coordinates subsets
+    /// @brief              Subtract two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] allCoordinates_1 first set of all coordinates
-    /// @param              [in] allCoordinates_2 second set of all coordinates
+    /// @param              [in] aFullCoordinates first set of all coordinates
+    /// @param              [in] anotherFullCoordinates second set of all coordinates
     /// @param              [in] aFrame the reference frame associated to the coordinates
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
     /// @return             The resulting coordinates subset value (subset_1 - subset_2)
 
-    VectorXd subtract(
+    virtual VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinates,
+        const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    /// @brief              Transforms the coordinate subset from one frame to another
+    /// @brief              Transform the coordinate subset from one frame to another
     ///
     /// @param              [in] anInstant the reference frame associated to the coordinates
     /// @param              [in] allCoordinates all coordinates
@@ -123,7 +125,7 @@ class CoordinatesSubset
     ///
     /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
-    VectorXd inFrame(
+    virtual VectorXd inFrame(
         const Instant& anInstant,
         const VectorXd& allCoordinates,
         const Shared<const Frame>& fromFrame,
@@ -137,26 +139,9 @@ class CoordinatesSubset
     Size size_;
 };
 
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
-
-namespace std
-{
-
-using ostk::core::types::String;
-
-using ostk::astro::trajectory::CoordinatesSubset;
-
-template <>
-struct hash<CoordinatesSubset>
-{
-    size_t operator()(const CoordinatesSubset& aCoordinatesSubset) const
-    {
-        return hash<String>()(aCoordinatesSubset.getId());
-    }
-};
-
-}  // namespace std
 
 #endif

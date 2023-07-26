@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesBroker__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
@@ -18,6 +18,8 @@ namespace astro
 {
 namespace trajectory
 {
+namespace state
+{
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
@@ -26,7 +28,7 @@ using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
 
-using ostk::astro::trajectory::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 /// @brief  State coordinates broker.
 
@@ -44,7 +46,7 @@ class CoordinatesBroker
     /// @brief              Constructor
     ///
     /// @code
-    ///                     CoordinatesBroker coordinatesBroker({subsetSPtr_1, subsetSPtr_2});
+    ///                     CoordinatesBroker coordinatesBroker({asubsetSPtr, anotherSubsetSPtr});
     /// @endcode
     ///
     /// @param              [in] aCoordinatesSubsetsArray the coordinates subsets to consider
@@ -55,7 +57,7 @@ class CoordinatesBroker
     ///
     /// @param              [in] aCoordinatesBroker A coordinates broker
     ///
-    /// @return             True if coordinates brokers equal
+    /// @return             True if CoordinateBrokers equal
 
     bool operator==(const CoordinatesBroker& aCoordinatesBroker) const;
 
@@ -63,29 +65,29 @@ class CoordinatesBroker
     ///
     /// @param              [in] aCoordinatesBroker A coordinates broker
     ///
-    /// @return             True if coordinates brokers are different
+    /// @return             True if CoordinateBrokers are not equal
 
     bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
 
-    /// @brief              Returns the total number of coordinates
+    /// @brief              Return the total number of coordinates
     ///
     /// @return             The total number of coordinates
 
     Size getNumberOfCoordinates() const;
 
-    /// @brief              Returns the total number of coordinate subsets
+    /// @brief              Return the total number of coordinate subsets
     ///
     /// @return             The total number of coordinate subsets
 
     Size getNumberOfSubsets() const;
 
-    /// @brief              Returns the considered coordinate subsets
+    /// @brief              Return the considered coordinate subsets
     ///
     /// @return             The considered coordinate subsets
 
     Array<Shared<const CoordinatesSubset>> getSubsets() const;
 
-    /// @brief              Adds a coordinates subset to be considered, returning the starting index it will occupy (or
+    /// @brief              Add a coordinates subset to be considered, returning the starting index it will occupy (or
     /// that it occupies if it was already added) in the state coordinates
     ///
     /// @param              [in] aCoordinatesSubsetSPtr a coordinates subset to be considered
@@ -94,7 +96,7 @@ class CoordinatesBroker
 
     Index addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr);
 
-    /// @brief              Checks if a coordinates subset has already been considered
+    /// @brief              Check if a coordinates subset has already been considered
     ///
     /// @param              [in] aCoordinatesSubsetSPtr the coordinates subset to be checked
     ///
@@ -102,7 +104,7 @@ class CoordinatesBroker
 
     bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
-    /// @brief              Returns the starting index of a coordinates subset in the state coordinates
+    /// @brief              Return the starting index of a coordinates subset in the state coordinates
     ///
     /// @param              [in] aCoordinatesSubsetSPtr the coordinates subset
     ///
@@ -111,7 +113,7 @@ class CoordinatesBroker
 
     Index getSubsetIndex(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
-    /// @brief              Extracts the coordinates of a given subset from the full coordinates vector
+    /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param              [in] allCoordinates the full coordinates vecctor
     /// @param              [in] aCoordinatesSubset the coordinates subsets of interest
@@ -120,7 +122,7 @@ class CoordinatesBroker
 
     VectorXd extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
 
-    /// @brief              Extracts the coordinates of a given subset from the full coordinates vector
+    /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param              [in] allCoordinates the full coordinates vecctor
     /// @param              [in] aCoordinatesSubsetSPtr the coordinates subsets of interest
@@ -130,7 +132,7 @@ class CoordinatesBroker
     VectorXd extract(const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
         const;
 
-    /// @brief              Creates a shared pointer wiht the given coordinates subsets.
+    /// @brief              Create a shared pointer wiht the given coordinates subsets.
     ///
     /// @param              [in] aCoordinatesSubsetsArray the coordinates subsets to consider
     ///
@@ -149,6 +151,7 @@ class CoordinatesBroker
     Index getSubsetIndex(const String& anId) const;
 };
 
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
