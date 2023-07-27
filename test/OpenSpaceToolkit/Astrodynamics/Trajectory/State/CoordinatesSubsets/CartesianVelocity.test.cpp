@@ -88,20 +88,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartes
 {
     {
         const Instant instant = Instant::J2000();
-        const Shared<const Frame> frame_1 = Frame::GCRF();
-        const Shared<const Frame> frame_2 = Frame::TEME();
-        VectorXd allCoordinates(6);
-        allCoordinates << 1.0e6, 2.0e6, 3.0e5, 4.0e3, -5.0e3, 6.0e3;
+        const Shared<const Frame> fromFrame = Frame::GCRF();
+        const Shared<const Frame> toFrame = Frame::TEME();
+        VectorXd fullCoordinatesVector(6);
+        fullCoordinatesVector << 1.0e6, 2.0e6, 3.0e5, 4.0e3, -5.0e3, 6.0e3;
         const Array<Shared<const CoordinatesSubset>> coordinateSubsets = {
             defaultCartesianPositionSPtr_, std::make_shared<CartesianVelocity>(defaultCartesianVelocity_)};
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(coordinateSubsets);
 
-        Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, frame_1)
-                                .inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, frame_1), frame_2, instant)
+        Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, fromFrame)
+                                .inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, fromFrame), toFrame, instant)
                                 .getCoordinates();
 
         const VectorXd actual =
-            defaultCartesianVelocity_.inFrame(instant, allCoordinates, frame_1, frame_2, brokerSPtr);
+            defaultCartesianVelocity_.inFrame(instant, fullCoordinatesVector, fromFrame, toFrame, brokerSPtr);
 
         EXPECT_EQ(expected, actual);
     }

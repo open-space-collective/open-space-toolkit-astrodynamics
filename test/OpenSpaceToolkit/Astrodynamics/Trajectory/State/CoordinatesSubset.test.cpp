@@ -50,7 +50,7 @@ class CoordinatesSubsetMock : public CoordinatesSubset
         VectorXd,
         inFrame,
         (const Instant& anInstant,
-         const VectorXd& allCoordinates,
+         const VectorXd& aFullCoordinatesVector,
          const Shared<const Frame>& fromFrame,
          const Shared<const Frame>& toFrame,
          const Shared<const CoordinatesBroker>& aCoordinatesBroker),

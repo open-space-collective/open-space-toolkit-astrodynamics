@@ -50,8 +50,8 @@ class CartesianVelocity : public CoordinatesSubset
     /// @brief              Adds two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinates first set of all coordinates
-    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
     /// @param              [in] aFrame the reference frame in which the coordinates are resolved
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
@@ -59,8 +59,8 @@ class CartesianVelocity : public CoordinatesSubset
 
     VectorXd add(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinates,
-        const VectorXd& anotherFullCoordinates,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
@@ -68,8 +68,8 @@ class CartesianVelocity : public CoordinatesSubset
     /// @brief              Subtracts two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinates first set of all coordinates
-    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
     /// @param              [in] aFrame the reference frame associated to the coordinates
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
@@ -77,8 +77,8 @@ class CartesianVelocity : public CoordinatesSubset
 
     VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinates,
-        const VectorXd& anotherFullCoordinates,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
@@ -86,7 +86,7 @@ class CartesianVelocity : public CoordinatesSubset
     /// @brief              Transforms the coordinate subset from one frame to another
     ///
     /// @param              [in] anInstant the reference frame associated to the coordinates
-    /// @param              [in] allCoordinates all coordinates
+    /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
     /// @param              [in] aCoordinatesBroker a coordinates broker
@@ -95,7 +95,7 @@ class CartesianVelocity : public CoordinatesSubset
 
     VectorXd inFrame(
         const Instant& anInstant,
-        const VectorXd& allCoordinates,
+        const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker

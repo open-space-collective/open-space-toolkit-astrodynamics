@@ -51,7 +51,7 @@ class CoordinatesSubsetMock : public CoordinatesSubset
         VectorXd,
         inFrame,
         (const Instant& anInstant,
-         const VectorXd& allCoordinates,
+         const VectorXd& aFullCoordinatesVector,
          const Shared<const Frame>& fromFrame,
          const Shared<const Frame>& toFrame,
          const Shared<const CoordinatesBroker>& aCoordinatesBroker),
@@ -344,24 +344,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         broker.addSubset(subset_2);
         broker.addSubset(subset_3);
 
-        VectorXd allCoordinates(6);
-        allCoordinates << 0.0, 1.0, 2.0, 3.0, 4.0, 5.0;
+        VectorXd fullCoordinatesVector(6);
+        fullCoordinatesVector << 0.0, 1.0, 2.0, 3.0, 4.0, 5.0;
 
-        const VectorXd subset_1_coordinates = broker.extractCoordinates(allCoordinates, subset_1);
+        const VectorXd subset_1_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_1);
         EXPECT_EQ(1, subset_1_coordinates.size());
         EXPECT_EQ(0.0, subset_1_coordinates(0));
 
-        const VectorXd subset_2_coordinates = broker.extractCoordinates(allCoordinates, subset_2);
+        const VectorXd subset_2_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_2);
         EXPECT_EQ(2, subset_2_coordinates.size());
         EXPECT_EQ(1.0, subset_2_coordinates(0));
         EXPECT_EQ(2.0, subset_2_coordinates(1));
 
-        const VectorXd subset_3_coordinates = broker.extractCoordinates(allCoordinates, subset_3);
+        const VectorXd subset_3_coordinates = broker.extractCoordinates(fullCoordinatesVector, subset_3);
         EXPECT_EQ(3, subset_3_coordinates.size());
         EXPECT_EQ(3.0, subset_3_coordinates(0));
         EXPECT_EQ(4.0, subset_3_coordinates(1));
         EXPECT_EQ(5.0, subset_3_coordinates(2));
 
-        EXPECT_ANY_THROW(broker.extractCoordinates(allCoordinates, subset_4));
+        EXPECT_ANY_THROW(broker.extractCoordinates(fullCoordinatesVector, subset_4));
     }
 }

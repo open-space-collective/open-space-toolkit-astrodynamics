@@ -84,16 +84,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartes
 {
     {
         const Instant instant = Instant::J2000();
-        const Shared<const Frame> frame_1 = Frame::GCRF();
-        const Shared<const Frame> frame_2 = Frame::TEME();
-        VectorXd allCoordinates(3);
-        allCoordinates << 1.0e7, -1e7, 5e6;
+        const Shared<const Frame> fromFrame = Frame::GCRF();
+        const Shared<const Frame> toFrame = Frame::TEME();
+        VectorXd fullCoordinatesVector(3);
+        fullCoordinatesVector << 1.0e7, -1e7, 5e6;
         const Shared<const CoordinatesBroker> brokerkSPtr = defaultCoordinatesBroker_;
 
-        Vector3d expected = Position::Meters({1.0e7, -1e7, 5e6}, frame_1).inFrame(frame_2, instant).getCoordinates();
+        Vector3d expected = Position::Meters({1.0e7, -1e7, 5e6}, fromFrame).inFrame(toFrame, instant).getCoordinates();
 
         const VectorXd actual =
-            defaultCartesianPosition_.inFrame(instant, allCoordinates, frame_1, frame_2, brokerkSPtr);
+            defaultCartesianPosition_.inFrame(instant, fullCoordinatesVector, fromFrame, toFrame, brokerkSPtr);
 
         EXPECT_EQ(expected, actual);
     }

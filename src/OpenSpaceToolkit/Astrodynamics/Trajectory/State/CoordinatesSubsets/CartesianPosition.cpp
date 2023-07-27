@@ -31,37 +31,37 @@ CartesianPosition::~CartesianPosition() {}
 
 VectorXd CartesianPosition::add(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinates,
-    const VectorXd& anotherFullCoordinates,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(aFullCoordinates, *this) +
-           aCoordinatesBroker->extractCoordinates(anotherFullCoordinates, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) +
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianPosition::subtract(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& aFullCoordinates,
-    const VectorXd& anotherFullCoordinates,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(aFullCoordinates, *this) -
-           aCoordinatesBroker->extractCoordinates(anotherFullCoordinates, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) -
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianPosition::inFrame(
     const Instant& anInstant,
-    const VectorXd& allCoordinates,
+    const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
     const Shared<const Frame>& toFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    VectorXd positionCoordinates = aCoordinatesBroker->extractCoordinates(allCoordinates, *this);
+    VectorXd positionCoordinates = aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this);
 
     Vector3d toFrameCoordinates =
         Position::Meters({positionCoordinates(0), positionCoordinates(1), positionCoordinates(2)}, fromFrame)
