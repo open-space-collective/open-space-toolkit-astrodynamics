@@ -69,17 +69,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
 {
     {
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
-        VectorXd allCoordinates_1(3);
-        allCoordinates_1 << 1.0, 2.0, 3.0;
-        VectorXd allCoordinates_2(3);
-        allCoordinates_2 << 4.0, 5.0, 6.0;
+        VectorXd aFullCoordinatesVector(3);
+        aFullCoordinatesVector << 1.0, 2.0, 3.0;
+        VectorXd anotherFullCoordinatesVector(3);
+        anotherFullCoordinatesVector << 4.0, 5.0, 6.0;
         VectorXd expected(3);
         expected << 5.0, 7.0, 9.0;
 
         VectorXd actual = cartesianPosition->add(
             Instant::Undefined(),
-            allCoordinates_1,
-            allCoordinates_2,
+            aFullCoordinatesVector,
+            anotherFullCoordinatesVector,
             Frame::Undefined(),
             std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}))
         );
@@ -95,17 +95,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
 {
     {
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
-        VectorXd allCoordinates_1(3);
-        allCoordinates_1 << 1.0, 2.0, 3.0;
-        VectorXd allCoordinates_2(3);
-        allCoordinates_2 << -4.0, -5.0, -6.0;
+        VectorXd aFullCoordinatesVector(3);
+        aFullCoordinatesVector << 1.0, 2.0, 3.0;
+        VectorXd anotherFullCoordinatesVector(3);
+        anotherFullCoordinatesVector << -4.0, -5.0, -6.0;
         VectorXd expected(3);
         expected << 5.0, 7.0, 9.0;
 
         VectorXd actual = cartesianPosition->subtract(
             Instant::Undefined(),
-            allCoordinates_1,
-            allCoordinates_2,
+            aFullCoordinatesVector,
+            anotherFullCoordinatesVector,
             Frame::Undefined(),
             std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}))
         );
@@ -124,13 +124,13 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
         const Shared<const Frame> frame_1 = Frame::GCRF();
         const Shared<const Frame> frame_2 = Frame::TEME();
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
-        VectorXd allCoordinates(3);
-        allCoordinates << 1.0e7, -1e7, 5e6;
+        VectorXd aFullCoordinatesVector(3);
+        aFullCoordinatesVector << 1.0e7, -1e7, 5e6;
         const Shared<const CoordinatesBroker> brokerkSPtr =
             std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}));
         Vector3d expected = Position::Meters({1.0e7, -1e7, 5e6}, frame_1).inFrame(frame_2, instant).getCoordinates();
 
-        VectorXd actual = cartesianPosition->inFrame(instant, allCoordinates, frame_1, frame_2, brokerkSPtr);
+        VectorXd actual = cartesianPosition->inFrame(instant, aFullCoordinatesVector, frame_1, frame_2, brokerkSPtr);
 
         EXPECT_EQ(3, actual.size());
         EXPECT_EQ(expected(0), actual(0));

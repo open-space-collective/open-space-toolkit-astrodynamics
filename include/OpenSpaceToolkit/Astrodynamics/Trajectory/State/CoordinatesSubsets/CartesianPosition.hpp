@@ -42,27 +42,27 @@ class CartesianPosition : public CoordinatesSubset
 
     VectorXd add(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
 
     VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
 
     VectorXd inFrame(
         const Instant& anInstant,
-        const VectorXd& allCoordinates,
+        const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const override;
 
     /// @brief              Return the default three-dimensional instance
     ///

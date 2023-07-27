@@ -33,31 +33,31 @@ CartesianVelocity::CartesianVelocity(const String& aName, const Shared<const Car
 
 VectorXd CartesianVelocity::add(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& allCoordinates_1,
-    const VectorXd& allCoordinates_2,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) +
-           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) +
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianVelocity::subtract(
     [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& allCoordinates_1,
-    const VectorXd& allCoordinates_2,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
     [[maybe_unused]] const Shared<const Frame>& aFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) -
-           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) -
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianVelocity::inFrame(
     const Instant& anInstant,
-    const VectorXd& allCoordinates,
+    const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
     const Shared<const Frame>& toFrame,
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
@@ -69,8 +69,8 @@ VectorXd CartesianVelocity::inFrame(
     }
 
     const VectorXd positionCoordinates =
-        aCoordinatesBroker->extractCoordinates(allCoordinates, this->cartesianPositionSPtr_);
-    const VectorXd velocityCoordinates = aCoordinatesBroker->extractCoordinates(allCoordinates, *this);
+        aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, this->cartesianPositionSPtr_);
+    const VectorXd velocityCoordinates = aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this);
 
     Vector3d toFrameCoordinates =
         Velocity::MetersPerSecond({velocityCoordinates(0), velocityCoordinates(1), velocityCoordinates(2)}, fromFrame)

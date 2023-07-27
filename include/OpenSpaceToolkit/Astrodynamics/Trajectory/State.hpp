@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 namespace ostk
 {
@@ -32,7 +32,7 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 /// @brief                      Trajectory state
 
@@ -92,13 +92,6 @@ class State
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     static State Undefined();
-
-    static State FromStdVector(
-        const Instant& anInstant,
-        const std::vector<double>& aCoordinates,
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
-    );
 
    private:
     static const Shared<const CoordinatesBroker> CARTESIAN_POSVEL_COORDINATES_BROKER;
