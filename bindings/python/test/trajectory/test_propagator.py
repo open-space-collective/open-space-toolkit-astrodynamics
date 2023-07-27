@@ -25,6 +25,7 @@ from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
+from ostk.astrodynamics import EventCondition
 
 
 @pytest.fixture
@@ -92,6 +93,26 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
+def conditional_numerical_solver() -> NumericalSolver:
+    return NumericalSolver(
+        NumericalSolver.LogType.NoLog,
+        NumericalSolver.StepperType.RungeKuttaDopri5,
+        5.0,
+        1.0e-15,
+        1.0e-15,
+    )
+
+
+@pytest.fixture
+def event_condition() -> EventCondition:
+    class MyEventCondition(EventCondition):
+        def evaluate(self, state_vector, time):
+            return time - 42.0
+
+    return MyEventCondition("42 Seconds", EventCondition.Criteria.StrictlyPositive)
+
+
+@pytest.fixture
 def propagator(numerical_solver: NumericalSolver, dynamics: list[Dynamics]) -> Propagator:
     return Propagator(numerical_solver, dynamics)
 
@@ -129,7 +150,7 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 0
 
-    def test_calculate_state(self, propagator: Propagator, state: State):
+    def test_calculate_state_at(self, propagator: Propagator, state: State):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagator_state = propagator.calculate_state_at(state, instant)
@@ -160,7 +181,24 @@ class TestPropagator:
         )
         assert propagator_state.get_instant() == instant
 
-    def test_calculate_states(self, propagator: Propagator, state: State):
+    def test_calculate_state_at(
+        self,
+        conditional_numerical_solver: NumericalSolver,
+        dynamics: list[Dynamics],
+        state: State,
+        event_condition: EventCondition,
+    ):
+        propagator: Propagator = Propagator(conditional_numerical_solver, dynamics)
+
+        instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
+
+        propagator_state = propagator.calculate_state_at(state, instant, event_condition)
+
+        assert pytest.approx(42.0, abs=1e-3) == float(
+            (propagator_state.get_instant() - state.get_instant()).in_seconds()
+        )
+
+    def test_calculate_states_at(self, propagator: Propagator, state: State):
         instant_array = [
             Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
             Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),

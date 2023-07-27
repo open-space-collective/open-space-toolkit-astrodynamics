@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
@@ -41,6 +42,7 @@ namespace trajectory
 using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;
@@ -49,6 +51,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
+using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
@@ -133,7 +136,7 @@ class Propagator
 
     /// @brief              Calculate the state at an instant, given initial state
     /// @code
-    ///                     State state = propagator.calculateStateAt(aState, anInstant) ;
+    ///                     State state = propagator.calculateStateAt(aState, anInstant);
     /// @endcode
     /// @param              [in] aState An initial state
     /// @param              [in] anInstant An instant
@@ -141,10 +144,21 @@ class Propagator
 
     State calculateStateAt(const State& aState, const Instant& anInstant) const;
 
+    /// @brief              Calculate the state subject to an Event Condition, given initial state and maximum end time
+    /// @code
+    ///                     State state = propagator.calculateStateAt(aState, anInstant, anEventCondition);
+    /// @endcode
+    /// @param              [in] aState An initial state
+    /// @param              [in] anInstant An instant
+    /// @param              [in] anEventCondition An event condition
+    /// @return             State
+
+    State calculateStateAt(const State& aState, const Instant& anInstant, const EventCondition& anEventCondition) const;
+
     /// @brief              Calculate the states at an array of instants, given an initial state
     /// @brief              Can only be used with sorted instants array
     /// @code
-    ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray) ;
+    ///                     Array<State> states = propagator.calculateStatesAt(aState, anInstantArray);
     /// @endcode
     /// @param              [in] anInstantArray An instant array
     /// @return             Array<State>

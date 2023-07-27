@@ -12,6 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
     using ostk::core::types::String;
 
     using ostk::astro::NumericalSolver;
+    using ostk::astro::EventCondition;
 
     typedef std::function<NumericalSolver::StateVector(
         const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
@@ -95,6 +96,30 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
             )
 
             .def(
+                "integrate_duration",
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Real& aDurationInSeconds,
+                    const object& aSystemOfEquationsObject,
+                    const EventCondition& anEventCondition)
+                {
+                    const auto pythonDynamicsEquation =
+                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+
+                    const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
+                    {
+                        dxdt = pythonDynamicsEquation(x, dxdt, t);
+                    };
+
+                    return aNumericalSolver.integrateDuration(
+                        aStateVector, aDurationInSeconds, systemOfEquations, anEventCondition
+                    );
+                }
+            )
+
+            .def(
                 "integrate_time",
                 +[](NumericalSolver& aNumericalSolver,
                     const NumericalSolver::StateVector& aStateVector,
@@ -138,6 +163,31 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
                 }
             )
 
+            .def(
+                "integrate_time",
+                +[](NumericalSolver& aNumericalSolver,
+                    const NumericalSolver::StateVector& aStateVector,
+                    const Real& aStartTime,
+                    const Real& anEndTime,
+                    const object& aSystemOfEquationsObject,
+                    const EventCondition& anEventCondition)
+                {
+                    const auto pythonDynamicsEquation =
+                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+
+                    const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
+                        [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
+                        ) -> void
+                    {
+                        dxdt = pythonDynamicsEquation(x, dxdt, t);
+                    };
+
+                    return aNumericalSolver.integrateTime(
+                        aStateVector, aStartTime, anEndTime, systemOfEquations, anEventCondition
+                    );
+                }
+            )
+
             .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
             .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))
             .def_static("default", &NumericalSolver::Default)
@@ -150,6 +200,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
             .value("RungeKutta4", NumericalSolver::StepperType::RungeKutta4)
             .value("RungeKuttaCashKarp54", NumericalSolver::StepperType::RungeKuttaCashKarp54)
             .value("RungeKuttaFehlberg78", NumericalSolver::StepperType::RungeKuttaFehlberg78)
+            .value("RungeKuttaDopri5", NumericalSolver::StepperType::RungeKuttaDopri5)
 
             ;
 

@@ -115,7 +115,9 @@ VectorXd CoordinatesBroker::extractCoordinates(
     const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset
 ) const
 {
-    return aFullCoordinatesVector.segment(this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize());
+    return aFullCoordinatesVector.segment(
+        this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize()
+    );
 }
 
 VectorXd CoordinatesBroker::extractCoordinates(
