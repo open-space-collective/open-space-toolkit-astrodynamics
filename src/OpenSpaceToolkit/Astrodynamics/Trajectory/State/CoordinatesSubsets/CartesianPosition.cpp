@@ -19,7 +19,8 @@ using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Position;
 
-const String CartesianPosition::DEFAULT_NAME = "CARTESIAN_POSITION";
+const Shared<const CartesianPosition> CartesianPosition::DEFAULT =
+    std::make_shared<CartesianPosition>("CARTESIAN_POSITION");
 
 CartesianPosition::CartesianPosition(const String& aName)
     : CoordinatesSubset(aName, 3)
@@ -68,6 +69,11 @@ VectorXd CartesianPosition::inFrame(
             .getCoordinates();
 
     return VectorXd::Map(toFrameCoordinates.data(), static_cast<Eigen::Index>(3));
+}
+
+Shared<const CartesianPosition> CartesianPosition::Default()
+{
+    return CartesianPosition::DEFAULT;
 }
 
 }  // namespace coordinatessubsets

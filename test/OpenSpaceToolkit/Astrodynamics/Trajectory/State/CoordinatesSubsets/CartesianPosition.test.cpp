@@ -57,10 +57,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartes
             Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinatesBroker_
         );
 
-        EXPECT_EQ(3, actual.size());
-        EXPECT_EQ(expected(0), actual(0));
-        EXPECT_EQ(expected(1), actual(1));
-        EXPECT_EQ(expected(2), actual(2));
+        EXPECT_EQ(expected, actual);
     }
 }
 
@@ -79,10 +76,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartes
             Instant::Undefined(), firstCoordinates, secondCoordinates, Frame::Undefined(), defaultCoordinatesBroker_
         );
 
-        EXPECT_EQ(3, actual.size());
-        EXPECT_EQ(expected(0), actual(0));
-        EXPECT_EQ(expected(1), actual(1));
-        EXPECT_EQ(expected(2), actual(2));
+        EXPECT_EQ(expected, actual);
     }
 }
 
@@ -101,9 +95,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartes
         const VectorXd actual =
             defaultCartesianPosition_.inFrame(instant, allCoordinates, frame_1, frame_2, brokerkSPtr);
 
-        EXPECT_EQ(3, actual.size());
-        EXPECT_EQ(expected(0), actual(0));
-        EXPECT_EQ(expected(1), actual(1));
-        EXPECT_EQ(expected(2), actual(2));
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, Default)
+{
+    {
+        EXPECT_NO_THROW(CartesianPosition::Default());
     }
 }

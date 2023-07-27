@@ -20,7 +20,8 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-const String CartesianVelocity::DEFAULT_NAME = "CARTESIAN_VELOCITY";
+const Shared<const CartesianVelocity> CartesianVelocity::DEFAULT =
+    std::make_shared<CartesianVelocity>(CartesianPosition::Default(), "CARTESIAN_VELOCITY");
 
 CartesianVelocity::CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName)
     : CoordinatesSubset(aName, aCartesianPositionSPtr->getSize()),
@@ -62,11 +63,6 @@ VectorXd CartesianVelocity::inFrame(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    if (this->getSize() != 3)
-    {
-        throw ostk::core::error::runtime::ToBeImplemented("Frame Transformation");
-    }
-
     const VectorXd positionCoordinates =
         aCoordinatesBroker->extractCoordinates(allCoordinates, this->cartesianPositionSPtr_);
     const VectorXd velocityCoordinates = aCoordinatesBroker->extractCoordinates(allCoordinates, *this);
@@ -81,6 +77,11 @@ VectorXd CartesianVelocity::inFrame(
             .getCoordinates();
 
     return VectorXd::Map(toFrameCoordinates.data(), static_cast<Eigen::Index>(3));
+}
+
+Shared<const CartesianVelocity> CartesianVelocity::Default()
+{
+    return CartesianVelocity::DEFAULT;
 }
 
 }  // namespace coordinatessubsets

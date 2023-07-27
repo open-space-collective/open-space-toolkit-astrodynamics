@@ -41,9 +41,7 @@ class CartesianVelocity : public CoordinatesSubset
     /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
     /// @param              [in] aName a name
 
-    CartesianVelocity(
-        const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName = DEFAULT_NAME
-    );
+    CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName);
 
     /// @brief              Destructor
 
@@ -103,10 +101,16 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    static const String DEFAULT_NAME;
+    /// @brief              Return the default instance
+    ///
+    /// @return             The default instance
+
+    static Shared<const CartesianVelocity> Default();
 
    private:
     Shared<const CartesianPosition> cartesianPositionSPtr_;
+
+    static const Shared<const CartesianVelocity> DEFAULT;
 };
 
 }  // namespace coordinatessubsets

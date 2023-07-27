@@ -33,7 +33,7 @@ class CartesianPosition : public CoordinatesSubset
     ///
     /// @param              [in] aName a name
 
-    CartesianPosition(const String& aName = DEFAULT_NAME);
+    CartesianPosition(const String& aName);
 
     /// @brief              Destructor
 
@@ -93,7 +93,14 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const override;
 
-    static const String DEFAULT_NAME;
+    /// @brief              Return the default instance
+    ///
+    /// @return             The default instance
+
+    static Shared<const CartesianPosition> Default();
+
+   private:
+    static const Shared<const CartesianPosition> DEFAULT;
 };
 
 }  // namespace coordinatessubsets
