@@ -1,12 +1,9 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Real;
 
@@ -36,9 +33,7 @@ class PyEventCondition : public EventCondition
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
 {
     {
-        class_<EventCondition, Shared<EventCondition>, PyEventCondition> eventCondition_class(
-            aModule, "EventCondition"
-        );
+        class_<EventCondition, PyEventCondition> eventCondition_class(aModule, "EventCondition");
 
         eventCondition_class
 
