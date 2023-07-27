@@ -33,7 +33,7 @@ using ostk::physics::time::Instant;
 class CoordinatesBroker;
 
 /// @brief  State coordinates subset. It contains information related to a particular group of coordinates. It does not
-/// hold coordinates value information.
+/// contain the coordinate values.
 
 class CoordinatesSubset
 {
