@@ -103,7 +103,7 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    static String DEFAULT_NAME;
+    static const String DEFAULT_NAME;
 
    private:
     Shared<const CartesianPosition> cartesianPositionSPtr_;

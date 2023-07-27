@@ -36,8 +36,8 @@ VectorXd CartesianPosition::add(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extract(aFullCoordinates, *this) +
-           aCoordinatesBroker->extract(anotherFullCoordinates, *this);
+    return aCoordinatesBroker->extractCoordinates(aFullCoordinates, *this) +
+           aCoordinatesBroker->extractCoordinates(anotherFullCoordinates, *this);
 }
 
 VectorXd CartesianPosition::subtract(

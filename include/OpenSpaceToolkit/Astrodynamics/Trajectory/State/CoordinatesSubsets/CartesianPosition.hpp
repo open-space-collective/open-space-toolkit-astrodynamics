@@ -93,7 +93,7 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const override;
 
-    static String DEFAULT_NAME;
+    static const String DEFAULT_NAME;
 };
 
 }  // namespace coordinatessubsets
