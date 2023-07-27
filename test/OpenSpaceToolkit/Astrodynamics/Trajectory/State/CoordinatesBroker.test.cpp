@@ -174,6 +174,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqu
         broker_1.addSubset(subset_2);
 
         CoordinatesBroker broker_2 = CoordinatesBroker();
+        broker_2.addSubset(subset_2);
+        broker_2.addSubset(subset_1);
+
+        EXPECT_TRUE(broker_1 != broker_2);
+    }
+
+    {
+        CoordinatesBroker broker_1 = CoordinatesBroker();
+        broker_1.addSubset(subset_1);
+        broker_1.addSubset(subset_2);
+
+        CoordinatesBroker broker_2 = CoordinatesBroker();
 
         EXPECT_TRUE(broker_1 != broker_2);
     }
