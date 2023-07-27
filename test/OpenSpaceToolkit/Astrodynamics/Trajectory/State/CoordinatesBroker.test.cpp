@@ -69,7 +69,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker : public
     const Shared<CoordinatesSubsetMock> subsetDuplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
 };
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
 {
     {
         EXPECT_NO_THROW(CoordinatesBroker());
@@ -80,7 +80,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Construc
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -146,7 +146,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToO
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -212,7 +212,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqual
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessors)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -229,7 +229,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessor
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -250,7 +250,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
