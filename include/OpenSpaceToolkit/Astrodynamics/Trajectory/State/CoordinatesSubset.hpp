@@ -122,7 +122,7 @@ class CoordinatesSubset
     /// @brief              Transform the coordinate subset from one frame to another
     ///
     /// @param              [in] anInstant the reference frame associated to the coordinates
-    /// @param              [in] allCoordinates all coordinates
+    /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
     /// @param              [in] aCoordinatesBroker a coordinates broker
@@ -131,7 +131,7 @@ class CoordinatesSubset
 
     virtual VectorXd inFrame(
         const Instant& anInstant,
-        const VectorXd& allCoordinates,
+        const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
