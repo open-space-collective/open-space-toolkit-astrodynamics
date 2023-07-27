@@ -12,7 +12,6 @@ from ostk.physics import Environment
 from ostk.physics.units import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
-from ostk.physics.time import Duration
 from ostk.physics.time import Scale
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
