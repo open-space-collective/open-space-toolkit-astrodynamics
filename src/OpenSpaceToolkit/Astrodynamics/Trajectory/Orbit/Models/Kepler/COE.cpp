@@ -379,7 +379,14 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     // Semi-major axis
 
-    const Real a_m = SemiMajorAxisFromVector(position, velocity, mu);
+    const Real E = (0.5 * velocity * velocity) - (mu / velocity);
+
+    if (E == 0.0)
+    {
+        throw ostk::core::error::runtime::Wrong("Specific orbital energy");
+    }
+
+    const Real a_m = -mu / (2.0 * E);
 
     if (std::abs(a_m * (1.0 - e)) < Real::Epsilon())
     {
@@ -711,18 +718,6 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     }
 
     return Angle::Radians(E);
-}
-
-Real COE::SemiMajorAxisFromVector(const Real& aPosition, const Real& aVelocity, const Real& mu)
-{
-    const Real E = (0.5 * aVelocity * aVelocity) - (mu / aPosition);
-
-    if (E == 0.0)
-    {
-        throw ostk::core::error::runtime::Wrong("Specific orbital energy");
-    }
-
-    return -mu / (2.0 * E);
 }
 
 }  // namespace kepler

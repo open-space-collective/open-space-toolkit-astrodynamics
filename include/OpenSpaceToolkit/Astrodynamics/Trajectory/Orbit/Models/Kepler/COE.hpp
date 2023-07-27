@@ -108,8 +108,6 @@ class COE
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
 
-    static Real SemiMajorAxisFromVector(const Real& aPosition, const Real& aVelocity, const Real& mu);
-
    private:
     Length semiMajorAxis_;
     Real eccentricity_;

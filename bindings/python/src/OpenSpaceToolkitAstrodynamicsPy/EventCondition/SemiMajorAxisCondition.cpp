@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/SemiMajorAxisCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 
 using namespace pybind11;
 
@@ -12,14 +12,12 @@ using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 
 using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::SemiMajorAxisCondition;
+using ostk::astro::eventcondition::COECondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_SemiMajorAxisCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<SemiMajorAxisCondition, Shared<SemiMajorAxisCondition>, EventCondition>(
-            aModule, "SemiMajorAxisCondition"
-        )
+        class_<COECondition, Shared<COECondition>, EventCondition>(aModule, "COECondition")
 
             .def(
                 init<const EventCondition::Criteria&, const Length&, const Derived&>(),
@@ -28,9 +26,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_SemiMajorAxisConditio
                 arg("gravitational_parameter")
             )
 
-            .def("get_semi_major_axis", &SemiMajorAxisCondition::getSemiMajorAxis)
+            .def("get_semi_major_axis", &COECondition::getSemiMajorAxis)
 
-            .def("get_gravitational_parameter", &SemiMajorAxisCondition::getGravitationalParameter)
+            .def("get_gravitational_parameter", &COECondition::getGravitationalParameter)
 
             ;
     }
