@@ -6,8 +6,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
-#include <Eigen/Dense>
-
 namespace ostk
 {
 namespace astro
