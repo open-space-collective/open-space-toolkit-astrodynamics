@@ -63,6 +63,11 @@ bool CoordinatesBroker::operator!=(const CoordinatesBroker& aCoordinatesBroker) 
     return !((*this) == aCoordinatesBroker);
 }
 
+const Array<Shared<const CoordinatesSubset>>& CoordinatesBroker::accessSubsets() const
+{
+    return this->coordinatesSubsets_;
+}
+
 Size CoordinatesBroker::getNumberOfCoordinates() const
 {
     return this->nextCoordinatesSubsetIndex_;
@@ -75,7 +80,7 @@ Size CoordinatesBroker::getNumberOfSubsets() const
 
 Array<Shared<const CoordinatesSubset>> CoordinatesBroker::getSubsets() const
 {
-    return this->coordinatesSubsets_;
+    return this->accessSubsets();
 }
 
 Index CoordinatesBroker::addSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
@@ -106,16 +111,18 @@ Index CoordinatesBroker::getSubsetIndex(const Shared<const CoordinatesSubset>& a
     return this->getSubsetIndex(aCoordinatesSubsetSPtr->getId());
 }
 
-VectorXd CoordinatesBroker::extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const
+VectorXd CoordinatesBroker::extractCoordinates(
+    const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset
+) const
 {
     return allCoordinates.segment(this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize());
 }
 
-VectorXd CoordinatesBroker::extract(
+VectorXd CoordinatesBroker::extractCoordinates(
     const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
 ) const
 {
-    return this->extract(allCoordinates, *aCoordinatesSubsetSPtr);
+    return this->extractCoordinates(allCoordinates, *aCoordinatesSubsetSPtr);
 }
 
 bool CoordinatesBroker::hasSubset(const String& anId) const

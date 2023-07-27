@@ -40,6 +40,10 @@ class CoordinatesSubset
    public:
     /// @brief              Constructor
     ///
+    /// @code
+    ///                     CoordinateSubset coordinateSubset = {aName, aSize};
+    /// @endcode
+    ///
     /// @param              [in] aName A name
     /// @param              [in] aSize A size (i.e. dimension)
 
@@ -82,8 +86,8 @@ class CoordinatesSubset
     /// @brief              Add two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinates first set of all coordinates
-    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
     /// @param              [in] aFrame the reference frame in which the coordinates are resolved
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
@@ -91,8 +95,8 @@ class CoordinatesSubset
 
     virtual VectorXd add(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinates,
-        const VectorXd& anotherFullCoordinates,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const = 0;
@@ -100,8 +104,8 @@ class CoordinatesSubset
     /// @brief              Subtract two coordinates subsets
     ///
     /// @param              [in] anInstant the instant associated to the coordinates
-    /// @param              [in] aFullCoordinates first set of all coordinates
-    /// @param              [in] anotherFullCoordinates second set of all coordinates
+    /// @param              [in] aFullCoordinatesVector first set of all coordinates
+    /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
     /// @param              [in] aFrame the reference frame associated to the coordinates
     /// @param              [in] aCoordinatesBroker a coordinates broker
     ///
@@ -109,8 +113,8 @@ class CoordinatesSubset
 
     virtual VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinates,
-        const VectorXd& anotherFullCoordinates,
+        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const = 0;
