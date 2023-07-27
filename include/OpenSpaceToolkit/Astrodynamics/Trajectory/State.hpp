@@ -94,7 +94,6 @@ class State
     static State Undefined();
 
    private:
-    static const Shared<const CoordinatesBroker> CARTESIAN_POSVEL_COORDINATES_BROKER;
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;

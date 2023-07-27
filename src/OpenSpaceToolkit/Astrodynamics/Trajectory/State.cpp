@@ -21,10 +21,6 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
-const Shared<const CoordinatesBroker> State::CARTESIAN_POSVEL_COORDINATES_BROKER =
-    std::make_shared<CoordinatesBroker>(CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-    );
-
 State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
@@ -60,9 +56,15 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
     coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
 
+    static const Shared<CoordinatesBroker> coordinatesBrokerSPtr =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+        }));
+
     this->coordinates_ = coordinates;
     this->frameSPtr_ = aPosition.accessFrame();
-    this->coordinatesBrokerSPtr_ = State::CARTESIAN_POSVEL_COORDINATES_BROKER;
+    this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 
 bool State::operator==(const State& aState) const
@@ -142,7 +144,12 @@ State State::operator+(const State& aState) const
         i += subsetSize;
     }
 
-    return {this->instant_, addedCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
+    return {
+        this->instant_,
+        addedCoordinates,
+        this->frameSPtr_,
+        this->coordinatesBrokerSPtr_,
+    };
 }
 
 State State::operator-(const State& aState) const
@@ -182,7 +189,12 @@ State State::operator-(const State& aState) const
         i += subsetSize;
     }
 
-    return {this->instant_, subtractedCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
+    return {
+        this->instant_,
+        subtractedCoordinates,
+        this->frameSPtr_,
+        this->coordinatesBrokerSPtr_,
+    };
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
@@ -296,7 +308,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
         return {this->instant_, this->coordinates_, this->frameSPtr_, this->coordinatesBrokerSPtr_};
     }
 
-    VectorXd inFrame = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
+    VectorXd inFrameCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
     for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
@@ -304,14 +316,16 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
             this->instant_, this->coordinates_, this->frameSPtr_, aFrameSPtr, this->coordinatesBrokerSPtr_
         );
 
-        for (int j = 0; j < subsetInFrame.size(); j++)
-        {
-            inFrame(i) = subsetInFrame(j);
-            i++;
-        }
+        inFrameCoordinates.segment(i, subsetInFrame.size()) = subsetInFrame;
+        i += subsetInFrame.size();
     }
 
-    return {this->instant_, inFrame, aFrameSPtr, this->coordinatesBrokerSPtr_};
+    return {
+        this->instant_,
+        inFrameCoordinates,
+        aFrameSPtr,
+        this->coordinatesBrokerSPtr_,
+    };
 }
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const
