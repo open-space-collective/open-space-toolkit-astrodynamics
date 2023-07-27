@@ -95,7 +95,7 @@ class CoordinatesSubset
         const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const = 0;
 
     /// @brief              Subtract two coordinates subsets
     ///
@@ -113,7 +113,7 @@ class CoordinatesSubset
         const VectorXd& anotherFullCoordinates,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const = 0;
 
     /// @brief              Transform the coordinate subset from one frame to another
     ///
@@ -131,7 +131,7 @@ class CoordinatesSubset
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const;
+    ) const = 0;
 
    private:
     String id_;

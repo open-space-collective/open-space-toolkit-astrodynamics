@@ -132,16 +132,6 @@ class CoordinatesBroker
     VectorXd extract(const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
         const;
 
-    /// @brief              Create a shared pointer wiht the given coordinates subsets.
-    ///
-    /// @param              [in] aCoordinatesSubsetsArray the coordinates subsets to consider
-    ///
-    /// @return             A new instance
-
-    static Shared<const CoordinatesBroker> FromSubsets(
-        const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
-    );
-
    private:
     Index nextCoordinatesSubsetIndex_;
     Array<Shared<const CoordinatesSubset>> coordinatesSubsets_;
