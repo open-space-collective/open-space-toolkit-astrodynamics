@@ -2,13 +2,15 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 namespace trajectory
+{
+namespace state
 {
 namespace coordinatessubsets
 {
@@ -39,7 +41,8 @@ VectorXd CartesianPosition::add(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extract(allCoordinates_1, *this) + aCoordinatesBroker->extract(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) +
+           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
 }
 
 VectorXd CartesianPosition::subtract(
@@ -50,7 +53,8 @@ VectorXd CartesianPosition::subtract(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extract(allCoordinates_1, *this) - aCoordinatesBroker->extract(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) -
+           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
 }
 
 VectorXd CartesianPosition::inFrame(
@@ -61,7 +65,7 @@ VectorXd CartesianPosition::inFrame(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    VectorXd positionCoordinates = aCoordinatesBroker->extract(allCoordinates, *this);
+    VectorXd positionCoordinates = aCoordinatesBroker->extractCoordinates(allCoordinates, *this);
 
     Vector3d toFrameCoordinates =
         Position::Meters({positionCoordinates(0), positionCoordinates(1), positionCoordinates(2)}, fromFrame)
@@ -77,6 +81,7 @@ Shared<const CartesianPosition> CartesianPosition::ThreeDimensional()
 }
 
 }  // namespace coordinatessubsets
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

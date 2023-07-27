@@ -1,17 +1,19 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition__
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 namespace trajectory
+{
+namespace state
 {
 namespace coordinatessubsets
 {
@@ -21,8 +23,8 @@ using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::CoordinatesSubset;
-using ostk::astro::trajectory::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 /// @brief  Cartesian Position.
 
@@ -62,7 +64,7 @@ class CartesianPosition : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    /// @brief              Returns the default three-dimensional instance
+    /// @brief              Return the default three-dimensional instance
     ///
     /// @return             The defaul three-dimensional instance
 
@@ -73,6 +75,7 @@ class CartesianPosition : public CoordinatesSubset
 };
 
 }  // namespace coordinatessubsets
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk

@@ -2,13 +2,15 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 namespace trajectory
+{
+namespace state
 {
 namespace coordinatessubsets
 {
@@ -37,7 +39,8 @@ VectorXd CartesianVelocity::add(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extract(allCoordinates_1, *this) + aCoordinatesBroker->extract(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) +
+           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
 }
 
 VectorXd CartesianVelocity::subtract(
@@ -48,7 +51,8 @@ VectorXd CartesianVelocity::subtract(
     const Shared<const CoordinatesBroker>& aCoordinatesBroker
 ) const
 {
-    return aCoordinatesBroker->extract(allCoordinates_1, *this) - aCoordinatesBroker->extract(allCoordinates_2, *this);
+    return aCoordinatesBroker->extractCoordinates(allCoordinates_1, *this) -
+           aCoordinatesBroker->extractCoordinates(allCoordinates_2, *this);
 }
 
 VectorXd CartesianVelocity::inFrame(
@@ -64,8 +68,9 @@ VectorXd CartesianVelocity::inFrame(
         throw ostk::core::error::runtime::ToBeImplemented("Frame Transformation");
     }
 
-    const VectorXd positionCoordinates = aCoordinatesBroker->extract(allCoordinates, this->cartesianPositionSPtr_);
-    const VectorXd velocityCoordinates = aCoordinatesBroker->extract(allCoordinates, *this);
+    const VectorXd positionCoordinates =
+        aCoordinatesBroker->extractCoordinates(allCoordinates, this->cartesianPositionSPtr_);
+    const VectorXd velocityCoordinates = aCoordinatesBroker->extractCoordinates(allCoordinates, *this);
 
     Vector3d toFrameCoordinates =
         Velocity::MetersPerSecond({velocityCoordinates(0), velocityCoordinates(1), velocityCoordinates(2)}, fromFrame)
@@ -93,6 +98,7 @@ Shared<const CartesianVelocity> CartesianVelocity::ThreeDimensional()
 }
 
 }  // namespace coordinatessubsets
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
