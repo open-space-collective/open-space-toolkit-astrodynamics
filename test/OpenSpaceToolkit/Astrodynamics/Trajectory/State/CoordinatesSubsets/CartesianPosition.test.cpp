@@ -1,6 +1,6 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 
 #include <Global.test.hpp>
 
@@ -14,10 +14,10 @@ using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::CoordinatesBroker;
-using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, Constructor)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, Constructor)
 {
     {
         EXPECT_NO_THROW(CartesianPosition("NAME", 3));
@@ -35,7 +35,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, EqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, EqualToOperator)
 {
     {
         EXPECT_TRUE(CartesianPosition("NAME", 3) == CartesianPosition("NAME", 3));
@@ -46,7 +46,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, NotEqualToOperator)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, NotEqualToOperator)
 {
     {
         EXPECT_FALSE(CartesianPosition("NAME", 3) != CartesianPosition("NAME", 3));
@@ -57,7 +57,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, Getters)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, Getters)
 {
     const CartesianPosition cartesianPosition = CartesianPosition("NAME", 3);
 
@@ -65,7 +65,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     EXPECT_EQ(3, cartesianPosition.getSize());
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, Add)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, Add)
 {
     {
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
@@ -81,7 +81,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
             allCoordinates_1,
             allCoordinates_2,
             Frame::Undefined(),
-            CoordinatesBroker::FromSubsets({cartesianPosition})
+            std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}))
         );
 
         EXPECT_EQ(3, actual.size());
@@ -91,7 +91,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, Subtract)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, Subtract)
 {
     {
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
@@ -107,7 +107,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
             allCoordinates_1,
             allCoordinates_2,
             Frame::Undefined(),
-            CoordinatesBroker::FromSubsets({cartesianPosition})
+            std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}))
         );
 
         EXPECT_EQ(3, actual.size());
@@ -117,7 +117,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, InFrame)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, InFrame)
 {
     {
         const Instant instant = Instant::J2000();
@@ -126,7 +126,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
         const Shared<const CartesianPosition> cartesianPosition = CartesianPosition::ThreeDimensional();
         VectorXd allCoordinates(3);
         allCoordinates << 1.0e7, -1e7, 5e6;
-        const Shared<const CoordinatesBroker> brokerkSPtr = CoordinatesBroker::FromSubsets({cartesianPosition});
+        const Shared<const CoordinatesBroker> brokerkSPtr =
+            std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianPosition}));
         Vector3d expected = Position::Meters({1.0e7, -1e7, 5e6}, frame_1).inFrame(frame_2, instant).getCoordinates();
 
         VectorXd actual = cartesianPosition->inFrame(instant, allCoordinates, frame_1, frame_2, brokerkSPtr);
@@ -138,7 +139,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosit
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianPosition, ThreeDimensional)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianPosition, ThreeDimensional)
 {
     {
         EXPECT_NO_THROW(CartesianPosition::ThreeDimensional());

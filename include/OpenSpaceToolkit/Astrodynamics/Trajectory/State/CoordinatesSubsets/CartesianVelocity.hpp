@@ -1,16 +1,18 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVelocity__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubsets_CartesianVelocity__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianVelocity__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_CartesianVelocity__
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 
 namespace ostk
 {
 namespace astro
 {
 namespace trajectory
+{
+namespace state
 {
 namespace coordinatessubsets
 {
@@ -20,9 +22,9 @@ using ostk::core::types::String;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::CoordinatesSubset;
-using ostk::astro::trajectory::CoordinatesBroker;
-using ostk::astro::trajectory::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 
 /// @brief  Cartesian Velocity.
 
@@ -62,7 +64,7 @@ class CartesianVelocity : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
     ) const;
 
-    /// @brief              Returns a new instance associated with the given position.
+    /// @brief              Return a new instance associated with the given position.
     ///
     /// @param              [in] aCartesianPositionSPtr the associated Cartesian position
     ///
@@ -70,7 +72,7 @@ class CartesianVelocity : public CoordinatesSubset
 
     static Shared<const CartesianVelocity> FromPosition(const Shared<const CartesianPosition>& aCartesianPositionSPtr);
 
-    /// @brief              Returns the default three-dimensional instance
+    /// @brief              Return the default three-dimensional instance
     ///
     /// @return             The defaul three-dimensional instance
 
@@ -82,6 +84,7 @@ class CartesianVelocity : public CoordinatesSubset
 };
 
 }  // namespace coordinatessubsets
+}  // namespace state
 }  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
