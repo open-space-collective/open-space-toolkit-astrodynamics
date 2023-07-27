@@ -16,46 +16,44 @@ using ostk::physics::time::Instant;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-class SimpleCoordinatesSubset : public CoordinatesSubset
+class CoordinatesSubsetMock : public CoordinatesSubset
 {
    public:
-    SimpleCoordinatesSubset(const String& aName, const Size& aSize)
-        : CoordinatesSubset(aName, aSize)
-    {
-    }
+    CoordinatesSubsetMock(const String& aName, const Size& aSize)
+        : CoordinatesSubset(aName, aSize) {};
 
-    VectorXd add(
-        [[maybe_unused]] const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
-        [[maybe_unused]] const Shared<const Frame>& aFrame,
-        [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override
-    {
-        return allCoordinates_1 + allCoordinates_2;
-    }
+    MOCK_METHOD(
+        VectorXd,
+        add,
+        (const Instant& anInstant,
+         const VectorXd& aFullCoordinatesVector,
+         const VectorXd& anotherFullCoordinatesVector,
+         const Shared<const Frame>& aFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
 
-    VectorXd subtract(
-        [[maybe_unused]] const Instant& anInstant,
-        const VectorXd& allCoordinates_1,
-        const VectorXd& allCoordinates_2,
-        [[maybe_unused]] const Shared<const Frame>& aFrame,
-        [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override
-    {
-        return allCoordinates_1 - allCoordinates_2;
-    }
+    MOCK_METHOD(
+        VectorXd,
+        subtract,
+        (const Instant& anInstant,
+         const VectorXd& aFullCoordinatesVector,
+         const VectorXd& anotherFullCoordinatesVector,
+         const Shared<const Frame>& aFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
 
-    VectorXd inFrame(
-        [[maybe_unused]] const Instant& anInstant,
-        const VectorXd& allCoordinates,
-        [[maybe_unused]] const Shared<const Frame>& aFrame,
-        [[maybe_unused]] const Shared<const Frame>& toFrame,
-        [[maybe_unused]] const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override
-    {
-        return allCoordinates;
-    }
+    MOCK_METHOD(
+        VectorXd,
+        inFrame,
+        (const Instant& anInstant,
+         const VectorXd& allCoordinates,
+         const Shared<const Frame>& fromFrame,
+         const Shared<const Frame>& toFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
 };
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset : public ::testing::Test
@@ -63,18 +61,18 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset : public ::tes
    protected:
     const String defaultName_ = "NAME";
     const Size defaultSize_ = 1;
-    const SimpleCoordinatesSubset defaultCoordinateSubset_ = SimpleCoordinatesSubset(defaultName_, defaultSize_);
+    const CoordinatesSubsetMock defaultCoordinateSubset_ = CoordinatesSubsetMock(defaultName_, defaultSize_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, Constructor)
 {
     {
-        EXPECT_NO_THROW(SimpleCoordinatesSubset("NAME", 1));
+        EXPECT_NO_THROW(CoordinatesSubsetMock("NAME", 1));
     }
 
     {
-        EXPECT_ANY_THROW(SimpleCoordinatesSubset("", 0));
-        EXPECT_ANY_THROW(SimpleCoordinatesSubset("NAME", 0));
+        EXPECT_ANY_THROW(CoordinatesSubsetMock("", 0));
+        EXPECT_ANY_THROW(CoordinatesSubsetMock("NAME", 0));
     }
 }
 
@@ -85,8 +83,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, EqualToOpera
     }
 
     {
-        EXPECT_FALSE(defaultCoordinateSubset_ == SimpleCoordinatesSubset("OTHER", 1));
-        EXPECT_FALSE(defaultCoordinateSubset_ == SimpleCoordinatesSubset("NAME", 2));
+        EXPECT_FALSE(defaultCoordinateSubset_ == CoordinatesSubsetMock("OTHER", 1));
+        EXPECT_FALSE(defaultCoordinateSubset_ == CoordinatesSubsetMock("NAME", 2));
     }
 }
 
@@ -97,8 +95,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_CoordinatesSubset, NotEqualToOp
     }
 
     {
-        EXPECT_TRUE(defaultCoordinateSubset_ != SimpleCoordinatesSubset("OTHER", 1));
-        EXPECT_TRUE(defaultCoordinateSubset_ != SimpleCoordinatesSubset("NAME", 2));
+        EXPECT_TRUE(defaultCoordinateSubset_ != CoordinatesSubsetMock("OTHER", 1));
+        EXPECT_TRUE(defaultCoordinateSubset_ != CoordinatesSubsetMock("NAME", 2));
     }
 }
 
