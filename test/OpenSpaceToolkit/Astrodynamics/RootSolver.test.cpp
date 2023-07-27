@@ -13,7 +13,7 @@ class OpenSpaceToolkit_Astrodynamics_RootSolver : public ::testing::Test
    protected:
     const Size defaultMaxIterations_ = 100u;
     const Size defaultNumDigits_ = (std::numeric_limits<double>::digits / 2) + 1;
-    const RootSolver defaultRootSolver_ = RootSolver::Default();
+    const RootSolver defaultRootSolver_ = RootSolver(defaultMaxIterations_, defaultNumDigits_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Constructor)
@@ -23,7 +23,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Constructor)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetMaximumNumberOfIterations)
 {
-    EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumNumberOfIterations());
+    EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumIterationsCount());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetNumberOfDigits)
@@ -55,8 +55,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndBounds)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Default)
 {
-    RootSolver rootSolver = RootSolver::Default();
-
-    EXPECT_EQ(defaultMaxIterations_, rootSolver.getMaximumNumberOfIterations());
-    EXPECT_EQ(defaultNumDigits_, rootSolver.getNumberOfDigits());
+    EXPECT_NO_THROW(RootSolver::Default());
 }

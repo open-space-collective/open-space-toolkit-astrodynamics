@@ -29,23 +29,38 @@ class RootSolver
     /// @brief              Constructor
     ///
     /// @code
-    ///                     RootSolver rootSolver = {aMaximumNumberOfIterations};
+    ///                     RootSolver rootSolver = {aMaximumIterationsCount, aNumberOfDigits};
     /// @endcode
     ///
-    /// @param              [in] aMaximumNumberOfIterations The maximum number of iterations for the solver
+    /// @param              [in] aMaximumIterationsCount The maximum iterations count for the solver
     /// @param              [in] aNumberOfDigits The number of digits
 
-    RootSolver(const Size& aMaximumNumberOfIterations, const Size& aNumberOfDigits);
+    RootSolver(const Size& aMaximumIterationsCount, const Size& aNumberOfDigits);
 
     /// @brief              Virtual destructor
 
     virtual ~RootSolver();
 
-    /// @brief              Get maximum number of iterations
+    /// @brief              Output stream operator
     ///
-    /// @return             Maximum number of iterations
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] aRootSolver A Root Solver
+    /// @return             An output stream
 
-    Size getMaximumNumberOfIterations() const;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSolver);
+
+    /// @brief              Print root solver
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    /// @brief              Get maximum iterations count
+    ///
+    /// @return             Maximum iterations count
+
+    Size getMaximumIterationsCount() const;
 
     /// @brief              Get number of digits of precision
     ///
@@ -84,7 +99,7 @@ class RootSolver
     static RootSolver Default();
 
    private:
-    Size maximumNumberOfIterations_;
+    Size maximumIterationsCount_;
     Size numberOfDigits_;
 
     boost::math::tools::eps_tolerance<double> tolerance_;

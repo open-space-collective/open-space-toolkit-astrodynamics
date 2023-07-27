@@ -479,7 +479,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     {
         NumericalSolver::StateVector aState(stepper.current_state());
         stepper.calc_state(aTime, aState);
-        return anEventCondition->evaluate(aState, aTime);
+        return anEventCondition.evaluate(aState, aTime);
     };
 
     const RootSolver::Solution solution = rootSolver_.solve(checkCondition, previousTime, currentTime);

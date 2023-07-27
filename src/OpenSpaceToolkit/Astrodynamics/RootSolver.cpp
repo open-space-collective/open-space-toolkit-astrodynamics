@@ -12,17 +12,34 @@ namespace ostk
 namespace astro
 {
 
-RootSolver::RootSolver(const Size& aMaximumNumberOfIterations, const Size& aNumberOfDigits)
-    : maximumNumberOfIterations_(aMaximumNumberOfIterations),
+RootSolver::RootSolver(const Size& aMaximumIterationsCount, const Size& aNumberOfDigits)
+    : maximumIterationsCount_(aMaximumIterationsCount),
       numberOfDigits_(aNumberOfDigits)
 {
 }
 
 RootSolver::~RootSolver() {}
 
-Size RootSolver::getMaximumNumberOfIterations() const
+std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSolver)
 {
-    return maximumNumberOfIterations_;
+    aRootSolver.print(anOutputStream, false);
+
+    return anOutputStream;
+}
+
+void RootSolver::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Root Solver") : void();
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationsCount_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << numberOfDigits_;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+Size RootSolver::getMaximumIterationsCount() const
+{
+    return maximumIterationsCount_;
 }
 
 Size RootSolver::getNumberOfDigits() const
@@ -35,7 +52,7 @@ RootSolver::Solution RootSolver::solve(
 ) const
 {
     const boost::math::tools::eps_tolerance<double> tolerance(numberOfDigits_);
-    std::uintmax_t iteratorCount = maximumNumberOfIterations_;
+    std::uintmax_t iteratorCount = maximumIterationsCount_;
 
     std::pair<Real, Real> r = boost::math::tools::bracket_and_solve_root(
         aFunction, anInitialGuess, factor_, isRising, tolerance, iteratorCount
@@ -54,7 +71,7 @@ RootSolver::Solution RootSolver::solve(
     // account for the fact that the function may be decreasing
     const double lowerBound = std::min(aLowerBound, anUpperBound);
     const double upperBound = std::max(aLowerBound, anUpperBound);
-    std::uintmax_t iteratorCount = maximumNumberOfIterations_;
+    std::uintmax_t iteratorCount = maximumIterationsCount_;
     const boost::math::tools::eps_tolerance<double> tolerance(numberOfDigits_);
 
     std::pair<Real, Real> r =
