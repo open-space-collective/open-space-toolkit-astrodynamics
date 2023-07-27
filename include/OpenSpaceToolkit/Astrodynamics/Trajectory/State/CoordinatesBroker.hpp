@@ -121,22 +121,22 @@ class CoordinatesBroker
 
     /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param              [in] allCoordinates the full coordinates vecctor
+    /// @param              [in] aFullCoordinatesVector the full coordinates vecctor
     /// @param              [in] aCoordinatesSubset the coordinates subsets of interest
     ///
     /// @return             The coordinates of the subset
 
-    VectorXd extractCoordinates(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
+    VectorXd extractCoordinates(const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset) const;
 
     /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
-    /// @param              [in] allCoordinates the full coordinates vecctor
+    /// @param              [in] aFullCoordinatesVector the full coordinates vecctor
     /// @param              [in] aCoordinatesSubsetSPtr the coordinates subsets of interest
     ///
     /// @return             The coordinates of the subset
 
     VectorXd extractCoordinates(
-        const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
+        const VectorXd& aFullCoordinatesVector, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
     ) const;
 
    private:

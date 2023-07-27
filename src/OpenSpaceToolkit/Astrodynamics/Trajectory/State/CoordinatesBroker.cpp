@@ -112,17 +112,17 @@ Index CoordinatesBroker::getSubsetIndex(const Shared<const CoordinatesSubset>& a
 }
 
 VectorXd CoordinatesBroker::extractCoordinates(
-    const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset
+    const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset
 ) const
 {
-    return allCoordinates.segment(this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize());
+    return aFullCoordinatesVector.segment(this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize());
 }
 
 VectorXd CoordinatesBroker::extractCoordinates(
-    const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
+    const VectorXd& aFullCoordinatesVector, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
 ) const
 {
-    return this->extractCoordinates(allCoordinates, *aCoordinatesSubsetSPtr);
+    return this->extractCoordinates(aFullCoordinatesVector, *aCoordinatesSubsetSPtr);
 }
 
 bool CoordinatesBroker::hasSubset(const String& anId) const
