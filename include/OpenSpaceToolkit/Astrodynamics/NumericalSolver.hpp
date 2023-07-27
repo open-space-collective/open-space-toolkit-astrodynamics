@@ -226,7 +226,8 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time until either a condition or the end time is reached
+    /// @brief              Perform numerical integration from a start time until either a condition or the end time is
+    /// reached
     ///
     ///
     /// @code
