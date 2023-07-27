@@ -59,24 +59,28 @@ class CoordinatesSubsetMock : public CoordinatesSubset
     );
 };
 
-static const Shared<CoordinatesSubsetMock> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
-static const Shared<CoordinatesSubsetMock> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
-static const Shared<CoordinatesSubsetMock> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
-static const Shared<CoordinatesSubsetMock> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
-static const Shared<CoordinatesSubsetMock> subset_1_duplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker : public ::testing::Test
+{
+   protected:
+    const Shared<CoordinatesSubsetMock> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+    const Shared<CoordinatesSubsetMock> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
+    const Shared<CoordinatesSubsetMock> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
+    const Shared<CoordinatesSubsetMock> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
+    const Shared<CoordinatesSubsetMock> subsetDuplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+};
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
 {
     {
         EXPECT_NO_THROW(CoordinatesBroker());
     }
 
     {
-        EXPECT_NO_THROW(CoordinatesBroker({subset_1, subset_2, subset_1_duplicate}));
+        EXPECT_NO_THROW(CoordinatesBroker({subset_1, subset_2, subsetDuplicate}));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -142,7 +146,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToO
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -208,7 +212,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqual
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessors)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -217,7 +221,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessor
     }
 
     {
-        CoordinatesBroker broker = CoordinatesBroker({subset_1, subset_2, subset_1_duplicate});
+        CoordinatesBroker broker = CoordinatesBroker({subset_1, subset_2, subsetDuplicate});
 
         EXPECT_EQ(2, broker.accessSubsets().size());
         EXPECT_EQ(subset_1, broker.accessSubsets()[0]);
@@ -225,7 +229,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Accessor
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -236,7 +240,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
     }
 
     {
-        CoordinatesBroker broker = CoordinatesBroker({subset_1, subset_2, subset_1_duplicate});
+        CoordinatesBroker broker = CoordinatesBroker({subset_1, subset_2, subsetDuplicate});
 
         EXPECT_EQ(3, broker.getNumberOfCoordinates());
         EXPECT_EQ(2, broker.getNumberOfSubsets());
@@ -246,7 +250,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -306,9 +310,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operatio
         EXPECT_EQ(1, broker.getNumberOfCoordinates());
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
-        EXPECT_TRUE(broker.hasSubset(subset_1_duplicate));
+        EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
         EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1_duplicate));
+        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
 
         // Add subset again
         EXPECT_EQ(0, broker.addSubset(subset_1));
@@ -316,23 +320,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operatio
         EXPECT_EQ(1, broker.getNumberOfCoordinates());
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
-        EXPECT_TRUE(broker.hasSubset(subset_1_duplicate));
+        EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
         EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1_duplicate));
+        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
 
         // Add duplicate
-        EXPECT_EQ(0, broker.addSubset(subset_1_duplicate));
+        EXPECT_EQ(0, broker.addSubset(subsetDuplicate));
 
         EXPECT_EQ(1, broker.getNumberOfCoordinates());
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
-        EXPECT_TRUE(broker.hasSubset(subset_1_duplicate));
+        EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
         EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1_duplicate));
+        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extract)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, ExtractCoordinates)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
