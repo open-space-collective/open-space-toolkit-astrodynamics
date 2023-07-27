@@ -74,17 +74,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
         const Shared<const CartesianVelocity> cartesianVelocity =
             CartesianVelocity::FromPosition(CartesianPosition::ThreeDimensional());
 
-        VectorXd aFullCoordinatesVector(3);
-        aFullCoordinatesVector << 1.0, 2.0, 3.0;
-        VectorXd anotherFullCoordinatesVector(3);
-        anotherFullCoordinatesVector << 4.0, 5.0, 6.0;
+        VectorXd allCoordinates_1(3);
+        allCoordinates_1 << 1.0, 2.0, 3.0;
+        VectorXd allCoordinates_2(3);
+        allCoordinates_2 << 4.0, 5.0, 6.0;
         VectorXd expected(3);
         expected << 5.0, 7.0, 9.0;
 
         VectorXd actual = cartesianVelocity->add(
             Instant::Undefined(),
-            aFullCoordinatesVector,
-            anotherFullCoordinatesVector,
+            allCoordinates_1,
+            allCoordinates_2,
             Frame::Undefined(),
             std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianVelocity}))
         );
@@ -102,17 +102,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
         const Shared<const CartesianVelocity> cartesianVelocity =
             CartesianVelocity::FromPosition(CartesianPosition::ThreeDimensional());
 
-        VectorXd aFullCoordinatesVector(3);
-        aFullCoordinatesVector << 1.0, 2.0, 3.0;
-        VectorXd anotherFullCoordinatesVector(3);
-        anotherFullCoordinatesVector << -4.0, -5.0, -6.0;
+        VectorXd allCoordinates_1(3);
+        allCoordinates_1 << 1.0, 2.0, 3.0;
+        VectorXd allCoordinates_2(3);
+        allCoordinates_2 << -4.0, -5.0, -6.0;
         VectorXd expected(3);
         expected << 5.0, 7.0, 9.0;
 
         VectorXd actual = cartesianVelocity->subtract(
             Instant::Undefined(),
-            aFullCoordinatesVector,
-            anotherFullCoordinatesVector,
+            allCoordinates_1,
+            allCoordinates_2,
             Frame::Undefined(),
             std::make_shared<CoordinatesBroker>(CoordinatesBroker({cartesianVelocity}))
         );
@@ -132,8 +132,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
         const Shared<const Frame> frame_2 = Frame::TEME();
         const Shared<const CartesianVelocity> cartesianVelocity =
             CartesianVelocity::FromPosition(CartesianPosition::ThreeDimensional());
-        VectorXd aFullCoordinatesVector(6);
-        aFullCoordinatesVector << 1.0e6, 2.0e6, 3.0e5, 4.0e3, -5.0e3, 6.0e3;
+        VectorXd allCoordinates(6);
+        allCoordinates << 1.0e6, 2.0e6, 3.0e5, 4.0e3, -5.0e3, 6.0e3;
         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
             CoordinatesBroker({CartesianPosition::ThreeDimensional(), cartesianVelocity})
         );
@@ -141,7 +141,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesia
         Vector3d expected = Velocity::MetersPerSecond({4.0e3, -5.0e3, 6.0e3}, frame_1)
                                 .inFrame(Position::Meters({1.0e6, 2.0e6, 3.0e5}, frame_1), frame_2, instant)
                                 .getCoordinates();
-        VectorXd actual = cartesianVelocity->inFrame(instant, aFullCoordinatesVector, frame_1, frame_2, brokerSPtr);
+        VectorXd actual = cartesianVelocity->inFrame(instant, allCoordinates, frame_1, frame_2, brokerSPtr);
 
         EXPECT_EQ(3, actual.size());
         EXPECT_EQ(expected(0), actual(0));

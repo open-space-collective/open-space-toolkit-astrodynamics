@@ -42,27 +42,27 @@ class CartesianVelocity : public CoordinatesSubset
 
     VectorXd add(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
+        const VectorXd& allCoordinates_1,
+        const VectorXd& allCoordinates_2,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override;
+    ) const;
 
     VectorXd subtract(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
-        const VectorXd& anotherFullCoordinatesVector,
+        const VectorXd& allCoordinates_1,
+        const VectorXd& allCoordinates_2,
         const Shared<const Frame>& aFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override;
+    ) const;
 
     VectorXd inFrame(
         const Instant& anInstant,
-        const VectorXd& aFullCoordinatesVector,
+        const VectorXd& allCoordinates,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
         const Shared<const CoordinatesBroker>& aCoordinatesBroker
-    ) const override;
+    ) const;
 
     /// @brief              Return a new instance associated with the given position.
     ///
