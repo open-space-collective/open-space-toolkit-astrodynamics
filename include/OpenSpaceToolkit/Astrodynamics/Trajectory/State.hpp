@@ -13,6 +13,8 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -30,6 +32,8 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
+using ostk::astro::trajectory::state::CoordinatesBroker;
+
 /// @brief                      Trajectory state
 
 class State
@@ -42,8 +46,14 @@ class State
     /// in International System of Units
     /// @param              [in] aFrameSPtr The reference frame in which the coordinates are referenced to and resolved
     /// in
+    /// @param              [in] aCoordinatesBrokerSPtr The coordinates broker associated to the coordinates
 
-    State(const Instant& anInstant, const VectorXd& aCoordinates, const Shared<const Frame>& aFrameSPtr);
+    State(
+        const Instant& anInstant,
+        const VectorXd& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+    );
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
 
@@ -65,6 +75,8 @@ class State
 
     const VectorXd& accessCoordinates() const;
 
+    Size getSize() const;
+
     Instant getInstant() const;
 
     Shared<const Frame> getFrame() const;
@@ -85,6 +97,7 @@ class State
     Instant instant_;
     VectorXd coordinates_;
     Shared<const Frame> frameSPtr_;
+    Shared<const CoordinatesBroker> coordinatesBrokerSPtr_;
 };
 
 }  // namespace trajectory

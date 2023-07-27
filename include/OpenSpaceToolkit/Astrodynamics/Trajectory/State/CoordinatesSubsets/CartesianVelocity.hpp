@@ -109,8 +109,6 @@ class CartesianVelocity : public CoordinatesSubset
 
    private:
     Shared<const CartesianPosition> cartesianPositionSPtr_;
-
-    static const Shared<const CartesianVelocity> DEFAULT;
 };
 
 }  // namespace coordinatessubsets

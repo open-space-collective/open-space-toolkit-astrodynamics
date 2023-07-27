@@ -20,9 +20,6 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-const Shared<const CartesianVelocity> CartesianVelocity::DEFAULT =
-    std::make_shared<CartesianVelocity>(CartesianPosition::Default(), "CARTESIAN_VELOCITY");
-
 CartesianVelocity::CartesianVelocity(const Shared<const CartesianPosition>& aCartesianPositionSPtr, const String& aName)
     : CoordinatesSubset(aName, aCartesianPositionSPtr->getSize()),
       cartesianPositionSPtr_(aCartesianPositionSPtr)
@@ -81,7 +78,9 @@ VectorXd CartesianVelocity::inFrame(
 
 Shared<const CartesianVelocity> CartesianVelocity::Default()
 {
-    return CartesianVelocity::DEFAULT;
+    static const Shared<const CartesianVelocity> cartesianVelocity =
+        std::make_shared<CartesianVelocity>(CartesianPosition::Default(), "CARTESIAN_VELOCITY");
+    return cartesianVelocity;
 }
 
 }  // namespace coordinatessubsets
