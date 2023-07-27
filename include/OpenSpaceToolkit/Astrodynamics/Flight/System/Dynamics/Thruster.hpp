@@ -47,94 +47,48 @@ class Thruster : public Dynamics
    public:
     /// @brief              Constructor
     ///
-    /// @code
-    ///                     const Direction aDirection = { ... };
-    ///                     const SatelliteSystem aSatelliteSystem = { ... };
-    ///                     Thruster thrusterDynamics = { aDirection, aSatelliteSystem };
-    /// @endcode
-    ///
-    /// @param              [in] aDirection A direction
-    /// @param              [in] aSatelliteSystem A satellite system
-
-    Thruster(const Direction& aDirection, const SatelliteSystem& aSatelliteSystem);
-
-    /// @brief              Constructor
-    ///
-    /// @code
-    ///                     const Direction aDirection = { ... };
-    ///                     const SatelliteSystem aSatelliteSystem = { ... };
-    ///                     const aName = { ... };
-    ///                     Thruster thrusterDynamics = { aDirection, aSatelliteSystem, aName};
-    /// @endcode
-    ///
-    /// @param              [in] aDirection A direction
-    /// @param              [in] aSatelliteSystem A satellite system
     /// @param              [in] aName A name
 
-    Thruster(const Direction& aDirection, const SatelliteSystem& aSatelliteSystem, const String& aName);
-
-    /// @brief              Copy Constructor
-    ///
-    /// @param              [in] Thruster A thruster dynamics
-
-    Thruster(const Thruster& aThruster);
+    Thruster(const SatelliteSystem& aSatelliteSystem, const String& aName = String::Empty());
 
     /// @brief              Destructor
 
-    virtual ~Thruster() override;
+    virtual ~Thruster() = 0;
 
-    /// @brief              Clone thruster dynamics
+    /// @brief              Clone thruster
     ///
     /// @return             Pointer to cloned thruster dynamics
 
-    virtual Thruster* clone() const override;
+    virtual Thruster* clone() const = 0;
 
-    /// @brief              Equal to operator
+    /// @brief              Check if thruster is defined
     ///
-    /// @param              [in] aThruster A thruster dynamics
-    /// @return             True if thruster dynamics are equal
+    /// @return             True if thruster is defined
 
-    bool operator==(const Thruster& aThruster) const;
+    virtual bool isDefined() const = 0;
 
-    /// @brief              Not equal to operator
+    /// @brief              Get name
     ///
-    /// @param              [in] aThruster A thruster dynamics
-    /// @return             True if thruster dynamics are not equal
+    /// @return             Name of thruster
 
-    bool operator!=(const Thruster& aThruster) const;
+    String getName() const;
 
-    /// @brief              Output stream operator
+    /// @brief              Get satellite system
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aThruster A thruster dynamics
-    /// @return             A reference to output stream
+    /// @return             Satellite system
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const Thruster& aThruster);
+    SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Check if thruster dynamics is defined
-    ///
-    /// @return             True if thruster dynamics is defined
-
-    virtual bool isDefined() const override;
-
-    /// @brief              Apply contribution to the state derivative
-    ///
-    /// @param              [in] x A state vector
-    /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
-
-    virtual void applyContribution(const Dynamics::StateVector& x, Dynamics::StateVector& dxdt, const Instant& anInstant) const override;
-
-    /// @brief              Print thruster dynamics
+    /// @brief              Print thruster
     ///
     /// @param              [in] anOutputStream An output stream
     /// @param              [in] (optional) displayDecorators If true, display decorators
 
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    Direction direction_;
-    SatelliteSystem satelliteSystem_;
+    const String name_;
+    SatelliteSystem satelliteSystem_;  // TBI: Might want to use PropulsionSystem instead and populate it under the hood for constant thrust case
 };
 
 }  // namespace dynamics

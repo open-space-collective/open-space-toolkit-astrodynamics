@@ -63,7 +63,7 @@ void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Scalar PropulsionSystem::getThruster() const
+Scalar PropulsionSystem::getThrust() const
 {
     if (!this->isDefined())
     {
@@ -95,7 +95,7 @@ Scalar PropulsionSystem::getMassFlowRate() const
         massFlowRateSIUnit_};  // TBM: Replace with gravity constant
 }
 
-Real PropulsionSystem::getAcceleration(const Mass& aMass) const
+Real PropulsionSystem::getAcceleration(const Mass& aMass) const  // Should be using Scalar
 {
     if (!this->isDefined())
     {

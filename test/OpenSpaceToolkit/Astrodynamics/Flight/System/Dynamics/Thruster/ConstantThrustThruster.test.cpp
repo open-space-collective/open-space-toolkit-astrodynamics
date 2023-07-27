@@ -25,7 +25,7 @@
 #include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
 
 #include <Global.test.hpp>
 
@@ -59,17 +59,19 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+
+using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::Thruster;
+using ostk::astro::flight::system::dynamics::thruster::ConstantThrustThruster;
 
 using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -128,152 +130,156 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster : public ::
 
     Direction direction_ = Direction::Undefined();
 
-    Dynamics::StateVector startStateVector_;
+    NumericalSolver::StateVector startStateVector_;
 
     Shared<Celestial> earthSPtr_ = nullptr;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Constructor)
 {
     {
-        EXPECT_NO_THROW(Thruster thrusterDynamics(direction_, satelliteSystem_));
+        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_, "aThrusterDynamicsName"));
     }
 
     {
+        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_));
+    }
 
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
+    // {
 
-        const satelliteSystem = {
-            Mass::Kilograms(100.0),
-            satelliteGeometry,
-            Matrix3d::Identity(),
-            500.0,
-            2.1
-        };
+    //     const Composite satelliteGeometry(Cuboid(
+    //         {0.0, 0.0, 0.0},
+    //         {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+    //         {1.0, 2.0, 3.0}
+    //     ));
 
-        const String expectedString = "{Propulsion System} is undefined.";
+    //     const SatelliteSystem satelliteSystem({
+    //         Mass::Kilograms(100.0),
+    //         satelliteGeometry,
+    //         Matrix3d::Identity(),
+    //         500.0,
+    //         2.1
+    //     });
 
-        // Test the throw and the message that is thrown
-        EXPECT_THROW(
-            {
-                try
-                {
-                    Thruster thrusterDynamics(direction_, satelliteSystem);
-                }
-                catch (const ostk::core::error::runtime::Undefined& e)
-                {
-                    EXPECT_EQ(expectedString, e.getMessage());
-                    throw;
-                }
-            },
-            ostk::core::error::runtime::Undefined
-        );
+    //     const String expectedString = "{Propulsion System} is undefined.";
+
+    //     // Test the throw and the message that is thrown
+    //     EXPECT_THROW(
+    //         {
+    //             try
+    //             {
+    //                 ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    //             }
+    //             catch (const ostk::core::error::runtime::Undefined& e)
+    //             {
+    //                 EXPECT_EQ(expectedString, e.getMessage());
+    //                 throw;
+    //             }
+    //         },
+    //         ostk::core::error::runtime::Undefined
+    //     );
+    // }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, IsDefined)
+{
+    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    EXPECT_TRUE(constantThrustThrusterDynamics.isDefined());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, StreamOperator)
+{
+    {
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << constantThrustThrusterDynamics << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, IsDefined)
-// {
-//     AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-//     EXPECT_TRUE(atmosphericDynamics.isDefined());
-// }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Print)
+{
+    {
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, StreamOperator)
-// {
-//     {
-//         AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+        testing::internal::CaptureStdout();
 
-//         testing::internal::CaptureStdout();
+        EXPECT_NO_THROW(constantThrustThrusterDynamics.print(std::cout, true));
+        EXPECT_NO_THROW(constantThrustThrusterDynamics.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
 
-//         EXPECT_NO_THROW(std::cout << atmosphericDynamics << std::endl);
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetName)
+{
+    {
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+        EXPECT_TRUE(constantThrustThrusterDynamics.getName() == String::Empty());
+    }
 
-//         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-//     }
-// }
+    {
+        const String thrusterDynamicsName = "aThrusterDynamicsName";
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_, thrusterDynamicsName);
+        EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
+    }
+}
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, Print)
-// {
-//     {
-//         AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetSatelliteSystem)
+{
+    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
+}
 
-//         testing::internal::CaptureStdout();
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetThrust)
+{
+    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
+}
 
-//         EXPECT_NO_THROW(atmosphericDynamics.print(std::cout, true));
-//         EXPECT_NO_THROW(atmosphericDynamics.print(std::cout, false));
-//         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-//     }
-// }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, ApplyContribution)
+{
+    NumericalSolver::StateVector dxdt(6, 0.0);
+    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    constantThrustThrusterDynamics.applyContribution(startStateVector_, dxdt, startInstant_);
+    // EXPECT_GT(1e-15, 0.0 - dxdt[0]);
+    // EXPECT_GT(1e-15, 0.0 - dxdt[1]);
+    // EXPECT_GT(1e-15, 0.0 - dxdt[2]);
+    // EXPECT_GT(1e-15, 0.0 - dxdt[3]);
+    // EXPECT_GT(5e-11, -0.0000278707803890 - dxdt[4]);
+    // EXPECT_GT(5e-11, -0.0000000000197640 - dxdt[5]);
+}
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, GetName)
-// {
-//     {
-//         AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-//         EXPECT_TRUE(atmosphericDynamics.getName() != String::Empty());
-//     }
+// Test data gathered from Orekit
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, OneStepConstantThrustThrusterDynamicsOnly)
+{
+    // Setup dynamics
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<ConstantThrustThruster>(ConstantThrustThruster(satelliteSystem_, direction_))};
 
-//     {
-//         const String name = "test";
-//         AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_, name);
-//         EXPECT_TRUE(atmosphericDynamics.getName() == name);
-//     }
-// }
+    // Perform 1.0s integration step
+    runge_kutta4<NumericalSolver::StateVector> stepper;
+    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, GetCelestial)
-// {
-//     AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-//     EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr_);
-// }
+    // Set reference pull values for the Earth
+    NumericalSolver::StateVector Earth_ReferencePull = {
+        7000000.0000000000000000,
+        0.0,
+        0.0,
+        0.0,
+        7546.0532621292200000,
+        -00000.0000000000197640,
+    };
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, GetSatelliteSystem)
-// {
-//     AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-//     EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, ApplyContribution)
-// {
-//     Dynamics::StateVector dxdt(6, 0.0);
-//     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
-//     atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
-//     EXPECT_GT(1e-15, 0.0 - dxdt[0]);
-//     EXPECT_GT(1e-15, 0.0 - dxdt[1]);
-//     EXPECT_GT(1e-15, 0.0 - dxdt[2]);
-//     EXPECT_GT(1e-15, 0.0 - dxdt[3]);
-//     EXPECT_GT(5e-11, -0.0000278707803890 - dxdt[4]);
-//     EXPECT_GT(5e-11, -0.0000000000197640 - dxdt[5]);
-// }
-
-// // Test data gathered from Orekit
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, OneStepAtmosphereOnly)
-// {
-//     // Setup dynamics
-//     const Array<Shared<Dynamics>> dynamics = {
-//         std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
-
-//     // Perform 1.0s integration step
-//     runge_kutta4<Dynamics::StateVector> stepper;
-//     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
-
-//     // Set reference pull values for the Earth
-//     Dynamics::StateVector Earth_ReferencePull = {
-//         7000000.0000000000000000,
-//         0.0,
-//         0.0,
-//         0.0,
-//         7546.0532621292200000,
-//         -00000.0000000000197640,
-//     };
-
-//     EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
-//     EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
-//     EXPECT_GT(5e-11, startStateVector_[2] - Earth_ReferencePull[2]);
-//     EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
-//     EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
-//     EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
-// }
+    EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
+    EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
+    EXPECT_GT(5e-11, startStateVector_[2] - Earth_ReferencePull[2]);
+    EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
+    EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
+    EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
+}
 
 // TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, OneStepAtmosphereGravity)
 // {

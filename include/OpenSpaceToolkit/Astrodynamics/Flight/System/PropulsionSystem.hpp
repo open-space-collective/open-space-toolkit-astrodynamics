@@ -97,12 +97,12 @@ class PropulsionSystem
     /// @brief              Get propulsion system's thrust
     ///
     /// @code
-    ///                     Scalar thrust = propulsionSystem.getThruster() ;
+    ///                     Scalar thrust = propulsionSystem.getThrust() ;
     /// @endcode
     ///
     /// @return             Scalar
 
-    Scalar getThruster() const;
+    Scalar getThrust() const;
 
     /// @brief              Get propulsion system's specific impulse
     ///                     https://en.wikipedia.org/wiki/Specific_impulse
