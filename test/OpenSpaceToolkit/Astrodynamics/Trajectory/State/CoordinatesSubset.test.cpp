@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <gmock/gmock.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 #include <Global.test.hpp>
