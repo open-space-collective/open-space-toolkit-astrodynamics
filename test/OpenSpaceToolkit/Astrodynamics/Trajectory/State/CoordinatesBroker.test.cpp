@@ -1,24 +1,71 @@
 /// Apache License 2.0
 
+#include <gmock/gmock.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
+using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
+
+using ostk::physics::coord::Frame;
+using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-static const Shared<CoordinatesSubset> subset_1 = std::make_shared<CoordinatesSubset>("S1", 1);
-static const Shared<CoordinatesSubset> subset_2 = std::make_shared<CoordinatesSubset>("S2", 2);
-static const Shared<CoordinatesSubset> subset_3 = std::make_shared<CoordinatesSubset>("S3", 3);
-static const Shared<CoordinatesSubset> subset_4 = std::make_shared<CoordinatesSubset>("S4", 1);
-static const Shared<CoordinatesSubset> subset_1_duplicate = std::make_shared<CoordinatesSubset>("S1", 1);
+class CoordinatesSubsetMock : public CoordinatesSubset
+{
+   public:
+    CoordinatesSubsetMock(const String& aName, const Size& aSize)
+        : CoordinatesSubset(aName, aSize) {};
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
+    MOCK_METHOD(
+        VectorXd,
+        add,
+        (const Instant& anInstant,
+         const VectorXd& aFullCoordinates,
+         const VectorXd& anotherFullCoordinates,
+         const Shared<const Frame>& aFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
+
+    MOCK_METHOD(
+        VectorXd,
+        subtract,
+        (const Instant& anInstant,
+         const VectorXd& aFullCoordinates,
+         const VectorXd& anotherFullCoordinates,
+         const Shared<const Frame>& aFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
+
+    MOCK_METHOD(
+        VectorXd,
+        inFrame,
+        (const Instant& anInstant,
+         const VectorXd& allCoordinates,
+         const Shared<const Frame>& fromFrame,
+         const Shared<const Frame>& toFrame,
+         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+        (const, override)
+    );
+};
+
+static const Shared<CoordinatesSubsetMock> subset_1 = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+static const Shared<CoordinatesSubsetMock> subset_2 = std::make_shared<CoordinatesSubsetMock>("S2", 2);
+static const Shared<CoordinatesSubsetMock> subset_3 = std::make_shared<CoordinatesSubsetMock>("S3", 3);
+static const Shared<CoordinatesSubsetMock> subset_4 = std::make_shared<CoordinatesSubsetMock>("S4", 1);
+static const Shared<CoordinatesSubsetMock> subset_1_duplicate = std::make_shared<CoordinatesSubsetMock>("S1", 1);
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Constructor)
 {
     {
         EXPECT_NO_THROW(CoordinatesBroker());
@@ -29,7 +76,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Construc
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -95,7 +142,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualToO
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
 {
     {
         CoordinatesBroker broker_1 = CoordinatesBroker();
@@ -161,7 +208,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqual
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -182,7 +229,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Getters)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operations)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -268,7 +315,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operatio
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extract)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extract)
 {
     {
         CoordinatesBroker broker = CoordinatesBroker();
@@ -295,16 +342,5 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extract)
         EXPECT_EQ(5.0, subset_3_coordinates(2));
 
         EXPECT_ANY_THROW(broker.extract(allCoordinates, subset_4));
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, FromSubsets)
-{
-    {
-        const CoordinatesBroker broker_1 = CoordinatesBroker({subset_1, subset_2});
-        const Shared<const CoordinatesBroker> brokerSPtr_1 = std::make_shared<CoordinatesBroker>(broker_1);
-        const Shared<const CoordinatesBroker> brokerSPtr_2 = CoordinatesBroker::FromSubsets({subset_1, subset_2});
-
-        EXPECT_EQ(*brokerSPtr_1, *brokerSPtr_2);
     }
 }

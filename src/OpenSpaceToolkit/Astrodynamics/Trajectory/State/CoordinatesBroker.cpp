@@ -87,13 +87,13 @@ Index CoordinatesBroker::addSubset(const Shared<const CoordinatesSubset>& aCoord
         return search->second;
     }
 
-    Index preAdditionNextCoordinatesSubsetIndex = this->nextCoordinatesSubsetIndex_;
+    const Index coordinatesSubsetIndex = this->nextCoordinatesSubsetIndex_;
 
     this->coordinatesSubsets_.add(aCoordinatesSubsetSPtr);
     this->coordinatesSubsetsIndexMap_.insert({aCoordinatesSubsetSPtr->getId(), this->nextCoordinatesSubsetIndex_});
     this->nextCoordinatesSubsetIndex_ += aCoordinatesSubsetSPtr->getSize();
 
-    return preAdditionNextCoordinatesSubsetIndex;
+    return coordinatesSubsetIndex;
 }
 
 bool CoordinatesBroker::hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
@@ -108,16 +108,7 @@ Index CoordinatesBroker::getSubsetIndex(const Shared<const CoordinatesSubset>& a
 
 VectorXd CoordinatesBroker::extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const
 {
-    const Size size = aCoordinatesSubset.getSize();
-    VectorXd subsetCoordinates = VectorXd(size);
-    const Index indexOffset = this->getSubsetIndex(aCoordinatesSubset.getId());
-
-    for (Index i = 0; i < size; i++)
-    {
-        subsetCoordinates(i) = allCoordinates(i + indexOffset);
-    }
-
-    return subsetCoordinates;
+    return allCoordinates.segment(this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize());
 }
 
 VectorXd CoordinatesBroker::extract(
@@ -127,19 +118,9 @@ VectorXd CoordinatesBroker::extract(
     return this->extract(allCoordinates, *aCoordinatesSubsetSPtr);
 }
 
-Shared<const CoordinatesBroker> CoordinatesBroker::FromSubsets(
-    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
-)
-{
-    const CoordinatesBroker broker = CoordinatesBroker(aCoordinatesSubsetsArray);
-    return std::make_shared<CoordinatesBroker>(broker);
-}
-
 bool CoordinatesBroker::hasSubset(const String& anId) const
 {
-    auto search = this->coordinatesSubsetsIndexMap_.find(anId);
-
-    return search != this->coordinatesSubsetsIndexMap_.end();
+    return this->coordinatesSubsetsIndexMap_.count(anId) > 0;
 }
 
 Index CoordinatesBroker::getSubsetIndex(const String& anId) const
