@@ -69,6 +69,12 @@ class CoordinatesBroker
 
     bool operator!=(const CoordinatesBroker& aCoordinatesBroker) const;
 
+    /// @brief              Return the considered coordinate subsets
+    ///
+    /// @return             The considered coordinate subsets
+
+    const Array<Shared<const CoordinatesSubset>>& accessSubsets() const;
+
     /// @brief              Return the total number of coordinates
     ///
     /// @return             The total number of coordinates
@@ -120,7 +126,7 @@ class CoordinatesBroker
     ///
     /// @return             The coordinates of the subset
 
-    VectorXd extract(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
+    VectorXd extractCoordinates(const VectorXd& allCoordinates, const CoordinatesSubset& aCoordinatesSubset) const;
 
     /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
@@ -129,8 +135,9 @@ class CoordinatesBroker
     ///
     /// @return             The coordinates of the subset
 
-    VectorXd extract(const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
-        const;
+    VectorXd extractCoordinates(
+        const VectorXd& allCoordinates, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr
+    ) const;
 
    private:
     Index nextCoordinatesSubsetIndex_;
