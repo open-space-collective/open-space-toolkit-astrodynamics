@@ -12,8 +12,6 @@ namespace trajectory
 {
 namespace state
 {
-namespace state
-{
 namespace coordinatessubsets
 {
 
