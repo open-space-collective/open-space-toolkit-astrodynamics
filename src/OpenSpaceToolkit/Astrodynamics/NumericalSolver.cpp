@@ -4,6 +4,7 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 namespace ostk
 {
@@ -13,6 +14,8 @@ namespace astro
 using namespace boost::numeric::odeint;
 
 using ostk::core::types::Index;
+
+using ostk::astro::RootSolver;
 
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
@@ -24,13 +27,15 @@ NumericalSolver::NumericalSolver(
     const NumericalSolver::StepperType& aStepperType,
     const Real& aTimeStep,
     const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance
+    const Real& anAbsoluteTolerance,
+    const RootSolver& aRootSolver
 )
     : logType_(aLogType),
       stepperType_(aStepperType),
       timeStep_(aTimeStep),
       relativeTolerance_(aRelativeTolerance),
       absoluteTolerance_(anAbsoluteTolerance),
+      rootSolver_(aRootSolver),
       observedStates_()
 {
 }
@@ -470,50 +475,27 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     // Condition at previousTime => False
     // Condition at currentTime => True
     // Search for the exact time of the condition change
-    NumericalSolver::StateVector midState(currentState);
-    double midTime;
-
-    // TBI: Make this a parameter
-    const Index maxIterationCount = 100;
-
-    for (Index iterationCount = 0; iterationCount < maxIterationCount; ++iterationCount)
+    const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
     {
-        midTime = 0.5 * (previousTime + currentTime);
-        stepper.calc_state(midTime, midState);
+        NumericalSolver::StateVector aState(stepper.current_state());
+        stepper.calc_state(aTime, aState);
+        return anEventCondition->evaluate(aState, aTime);
+    };
 
-        const Real midValue = anEventCondition.evaluate(midState, midTime);
+    const RootSolver::Solution solution = rootSolver_.solve(checkCondition, previousTime, currentTime);
+    NumericalSolver::StateVector solutionState(currentState.size());
+    const double solutionTime = solution.root;
 
-        if (anEventCondition.isSatisfied(midValue, previousValue))
-        {
-            // root lies between previousTime and midTime
-            // update current -> mid
-            currentTime = midTime;
-            currentValue = midValue;
-        }
-        else
-        {
-            // root lies between midTime and currentTime
-            // update previous -> mid
-            previousTime = midTime;
-            previousValue = midValue;
-        }
-
-        // TBI: Make tolerance a parameter
-        if (std::abs(midValue) < 1e-6)
-        {
-            break;
-        }
-    }
-
+    stepper.calc_state(solution.root, solutionState);
     // TBI: Share information upstream on the number of iterations + success
     // if (iterationCount == maxIterationCount)
     // {
     //   do thing
     // }
 
-    observeNumericalIntegration(midState, midTime);
+    observeNumericalIntegration(solutionState, solutionTime);
 
-    return {midState, midTime};
+    return {solutionState, solutionTime};
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
