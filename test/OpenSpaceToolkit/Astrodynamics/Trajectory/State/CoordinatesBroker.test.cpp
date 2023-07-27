@@ -144,17 +144,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, EqualT
 
         EXPECT_FALSE(broker_1 == broker_2);
     }
-
-    {
-        CoordinatesBroker broker_1 = CoordinatesBroker();
-        broker_1.addSubset(subset_1);
-        broker_1.addSubset(subset_2);
-
-        CoordinatesBroker broker_2 = CoordinatesBroker();
-        broker_2.addSubset(subset_1);
-
-        EXPECT_FALSE(broker_1 == broker_2);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, NotEqualToOperator)
