@@ -138,9 +138,9 @@ class CoordinatesSubset
     ) const = 0;
 
    private:
-    String id_;
     String name_;
     Size size_;
+    String id_;
 };
 
 }  // namespace state

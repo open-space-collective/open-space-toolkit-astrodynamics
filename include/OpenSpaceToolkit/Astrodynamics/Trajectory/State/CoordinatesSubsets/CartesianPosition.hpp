@@ -98,9 +98,6 @@ class CartesianPosition : public CoordinatesSubset
     /// @return             The default instance
 
     static Shared<const CartesianPosition> Default();
-
-   private:
-    static const Shared<const CartesianPosition> DEFAULT;
 };
 
 }  // namespace coordinatessubsets

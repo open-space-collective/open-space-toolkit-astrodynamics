@@ -15,7 +15,8 @@ namespace state
 
 CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
     : name_(aName),
-      size_(aSize)
+      size_(aSize),
+      id_(aName + " | " + std::to_string(aSize))
 {
     if (aName.isEmpty())
     {
@@ -26,8 +27,6 @@ CoordinatesSubset::CoordinatesSubset(const String& aName, const Size& aSize)
     {
         throw ostk::core::error::runtime::Wrong("Size");
     }
-
-    this->id_ = aName + " | " + std::to_string(aSize);
 }
 
 bool CoordinatesSubset::operator==(const CoordinatesSubset& aCoordinatesSubset) const
