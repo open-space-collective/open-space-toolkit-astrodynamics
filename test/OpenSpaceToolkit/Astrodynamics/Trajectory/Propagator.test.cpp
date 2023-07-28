@@ -42,6 +42,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -88,6 +90,8 @@ using ostk::astro::NumericalSolver;
 using ostk::astro::EventCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
@@ -558,7 +562,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     expectedCoordinates << -5172890.413848375000, -4716058.194055955000, 0000000.000000000000, 05083.946625786208,
         -05576.415230079790, 00000.000000000000;
 
-    VectorXd residuals = finalState.getCoordinates() - expectedCoordinates;
+    VectorXd actualCoordinates(6);
+    actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
+    actualCoordinates.segment(3, 6) = finalState.extractCoordinates(CartesianVelocity::Default());
+
+    const VectorXd residuals = actualCoordinates - expectedCoordinates;
+
     ASSERT_TRUE((residuals.array() < 1e-7).all()) << String::Format("Residual: {}", residuals.maxCoeff());
 }
 
@@ -587,13 +596,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     };
     const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
-    const State postBurnState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
+    const State finalState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
     VectorXd expectedCoordinates(6);
     expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
         -05576.414764013522, -00000.000000010687;
 
-    const VectorXd residuals = postBurnState.getCoordinates() - expectedCoordinates;
+    VectorXd actualCoordinates(6);
+    actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
+    actualCoordinates.segment(3, 6) = finalState.extractCoordinates(CartesianVelocity::Default());
+
+    const VectorXd residuals = actualCoordinates - expectedCoordinates;
+
     ASSERT_TRUE((residuals.array() < 1e-6).all()) << String::Format("Residual: {}", residuals.maxCoeff());
 }
 

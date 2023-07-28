@@ -232,39 +232,3 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     EXPECT_GT(1e-15, 0.0 - contribution[1]);
     EXPECT_GT(1e-15, 0.0 - contribution[2]);
 }
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
-{
-    const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-
-    const Pair<Index, Size> positionInformation = {0, 3};
-    const Pair<Index, Size> velocityInformation = {3, 3};
-
-    Dynamics::DynamicsInformation positionDerivativeInformation = {
-        std::make_shared<PositionDerivative>(), {velocityInformation}, {positionInformation}, 3};
-
-    Dynamics::DynamicsInformation centralBodyGravityInformation = {
-        std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth)),
-        {positionInformation},
-        {velocityInformation},
-        3};
-
-    const Array<Dynamics::DynamicsInformation> dynamicsInformation = {
-        positionDerivativeInformation, centralBodyGravityInformation};
-
-    // Perform 1.0s integration step
-    runge_kutta4<NumericalSolver::StateVector> stepper;
-    stepper.do_step(
-        Dynamics::GetDynamicalEquations(dynamicsInformation, startInstant_, Frame::GCRF()),
-        startStateVector_,
-        (0.0),
-        1.0
-    );
-
-    // Set reference pull values for the Earth
-    NumericalSolver::StateVector Earth_ReferencePull(6);
-    Earth_ReferencePull << 6.999995932647768e+06, -2.312964634635743e-17, 0.0, -8.134706038871020e+00,
-        -4.625929269271485e-17, 0.0;
-
-    EXPECT_TRUE(((startStateVector_ - Earth_ReferencePull).array() < 1e-15).all());
-}

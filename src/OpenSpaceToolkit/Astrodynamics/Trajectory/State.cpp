@@ -267,10 +267,7 @@ Position State::getPosition() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Position::Meters(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianPosition::Default()), 3),
-        this->frameSPtr_
-    );
+    return Position::Meters(this->extractCoordinates(CartesianPosition::Default()), this->frameSPtr_);
 }
 
 Velocity State::getVelocity() const
@@ -280,15 +277,17 @@ Velocity State::getVelocity() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Velocity::MetersPerSecond(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianVelocity::Default()), 3),
-        this->frameSPtr_
-    );
+    return Velocity::MetersPerSecond(this->extractCoordinates(CartesianVelocity::Default()), this->frameSPtr_);
 }
 
 VectorXd State::getCoordinates() const
 {
     return this->accessCoordinates();
+}
+
+VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubset) const
+{
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubset);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const

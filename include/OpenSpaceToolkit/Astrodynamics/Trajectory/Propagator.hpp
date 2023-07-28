@@ -215,6 +215,8 @@ class Propagator
     mutable NumericalSolver numericalSolver_;
 
     void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);
+
+    NumericalSolver::StateVector extractCoordinatesFromStateVector(const State& aState) const;
 };
 
 }  // namespace trajectory
