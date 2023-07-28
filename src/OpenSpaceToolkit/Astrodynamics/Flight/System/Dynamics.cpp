@@ -11,7 +11,9 @@ namespace flight
 namespace system
 {
 
+using ostk::core::ctnr::Pair;
 using ostk::core::types::Index;
+using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
 
@@ -37,7 +39,9 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
-    const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
+    const Array<Dynamics::DynamicsInformation>& aDynamicsInformationArray,
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrame
 )
 {
     return std::bind(
@@ -45,8 +49,9 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
         std::placeholders::_1,
         std::placeholders::_2,
         std::placeholders::_3,
-        aDynamicsArray,
-        anInstant
+        aDynamicsInformationArray,
+        anInstant,
+        aFrame
     );
 }
 
@@ -54,20 +59,67 @@ void Dynamics::DynamicalEquations(
     const NumericalSolver::StateVector& x,
     NumericalSolver::StateVector& dxdt,
     const double& t,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Instant& anInstant
+    const Array<Dynamics::DynamicsInformation>& aDynamicsInformationArray,
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrame
 )
 {
-    for (Size i = 0; i < (Size)dxdt.size(); ++i)
+    for (int i = 0; i < dxdt.size(); ++i)
     {
         dxdt[i] = 0;
     }
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Shared<Dynamics>& dynamics : aDynamicsArray)
+    for (const Dynamics::DynamicsInformation& dynamicsInformation : aDynamicsInformationArray)
     {
-        dynamics->applyContribution(x, dxdt, nextInstant);
+        const VectorXd contribution = dynamicsInformation.dynamics->computeContribution(
+            nextInstant,
+            Dynamics::ReduceFullStateToReadState(
+                x, dynamicsInformation.readIndexes, dynamicsInformation.reducedStateSize
+            ),
+            aFrame
+        );
+
+        Dynamics::AddContributionToFullState(dxdt, contribution, dynamicsInformation.writeIndexes);
+    }
+}
+
+VectorXd Dynamics::ReduceFullStateToReadState(
+    const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+)
+{
+    Index i = 0;
+    VectorXd reduced = VectorXd(readSize);
+
+    for (const Pair<Index, Size>& pair : readInfo)
+    {
+        const Index subsetOffset = pair.first;
+        const Size subsetSize = pair.second;
+        for (Index j = 0; j < subsetSize; j++)
+        {
+            reduced[i] = x[subsetOffset + j];
+            i++;
+        }
+    }
+
+    return reduced;
+}
+
+void Dynamics::AddContributionToFullState(
+    NumericalSolver::StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
+)
+{
+    Index i = 0;
+    for (Pair<Index, Size> pair : writeInfo)
+    {
+        const Index subsetOffset = pair.first;
+        const Size subsetSize = pair.second;
+        for (Index j = 0; j < subsetSize; j++)
+        {
+            dxdt[subsetOffset + j] += contribution[i];
+            i++;
+        }
     }
 }
 

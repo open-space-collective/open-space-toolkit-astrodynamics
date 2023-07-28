@@ -1,16 +1,35 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
+using ostk::core::types::Shared;
+
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative : public ::testing::Test
 {
@@ -61,11 +80,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative,
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, ApplyContribution)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, GetReadCoordinatesSubsets)
 {
-    NumericalSolver::StateVector dxdt(6);
-    dxdt.setZero();
-    positionDerivative_.applyContribution(startStateVector_, dxdt, startInstant_);
-    EXPECT_TRUE(((startStateVector_.segment(3, 3) - dxdt.segment(0, 3)).array() < 1e-15).all());
-    EXPECT_TRUE((dxdt.segment(3, 3).array() < 1e-15).all());
+    const PositionDerivative positionDerivative = PositionDerivative();
+
+    const Array<Shared<const CoordinatesSubset>> subsets = positionDerivative.getReadCoordinatesSubsets();
+
+    EXPECT_EQ(1, subsets.size());
+    EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, GetWriteCoordinatesSubsets)
+{
+    const PositionDerivative positionDerivative = PositionDerivative();
+
+    const Array<Shared<const CoordinatesSubset>> subsets = positionDerivative.getWriteCoordinatesSubsets();
+
+    EXPECT_EQ(1, subsets.size());
+    EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, ComputeContribution)
+{
+    const VectorXd contribution =
+        positionDerivative_.computeContribution(startInstant_, startStateVector_.segment(3, 3), Frame::Undefined());
+
+    EXPECT_EQ(3, contribution.size());
+    EXPECT_EQ(startStateVector_[3], contribution[0]);
+    EXPECT_EQ(startStateVector_[4], contribution[1]);
+    EXPECT_EQ(startStateVector_[5], contribution[2]);
 }

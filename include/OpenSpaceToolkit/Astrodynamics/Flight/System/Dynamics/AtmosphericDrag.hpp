@@ -3,12 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag__
 
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -21,6 +22,7 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::physics::env::obj::Celestial;
@@ -28,7 +30,6 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::NumericalSolver;
 
 /// @brief                      Define the acceleration experienced by a point mass due to atmospheric drag
 
@@ -101,14 +102,12 @@ class AtmosphericDrag : public Dynamics
 
     SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Apply contribution to the state derivative
-    ///
-    /// @param              [in] x A state vector
-    /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
+    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
 
-    virtual void applyContribution(
-        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+
+    virtual VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
     ) const override;
 
     /// @brief              Print atmospheric drag dynamics

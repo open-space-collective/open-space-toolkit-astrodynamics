@@ -397,7 +397,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
 NumericalSolver::Solution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
-    const SystemOfEquationsWrapper& aSystemOfEquations,
+    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
     const EventCondition& anEventCondition
 )
 {

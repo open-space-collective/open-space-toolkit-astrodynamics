@@ -55,11 +55,11 @@ class TestThirdBodyGravity:
     ):
         assert dynamics.get_celestial() == moon
 
-    def test_apply_contribution(
+    def test_get_contribution(
         self,
         dynamics: ThirdBodyGravity,
         state: State,
     ):
         dxdt: np.ndarray = np.zeros(6)
-        dynamics.apply_contribution(state.get_coordinates(), dxdt, state.get_instant())
+        dynamics.get_contribution(state.get_coordinates(), dxdt, state.get_instant())
         assert True

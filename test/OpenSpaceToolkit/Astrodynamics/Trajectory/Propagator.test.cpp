@@ -243,8 +243,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, GetDynamics)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Getters)
 {
+    {
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
+    }
+
     {
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
     }
@@ -253,16 +257,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, GetDyn
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDynamics)
 {
     {
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
 
         const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
 
         defaultPropagator_.setDynamics({centralBodyGravity});
 
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 1);
 
         defaultPropagator_.setDynamics({});
 
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 0);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
         EXPECT_TRUE(defaultPropagator_.isDefined());
     }
@@ -271,16 +278,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDyn
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AddDynamics)
 {
     {
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 2);
 
         const Shared<Dynamics> centralBodyGravity = std::make_shared<CentralBodyGravity>(earthSpherical_);
 
         defaultPropagator_.addDynamics(centralBodyGravity);
 
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 3);
 
         defaultPropagator_.addDynamics(centralBodyGravity);
 
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 4);
     }
 }
@@ -288,10 +298,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AddDyn
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ClearDynamics)
 {
     {
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 6);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() >= 1);
 
         defaultPropagator_.clearDynamics();
 
+        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 0);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
     }
 }

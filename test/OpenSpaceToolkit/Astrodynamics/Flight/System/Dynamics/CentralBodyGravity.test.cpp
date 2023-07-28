@@ -3,7 +3,13 @@
 #include <boost/numeric/odeint.hpp>
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -17,12 +23,20 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Index;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 using ostk::core::types::String;
+
+using ostk::math::obj::VectorXd;
 
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::env::obj::celest::Earth;
@@ -40,10 +54,13 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::NumericalSolver;
 
 using namespace boost::numeric::odeint;
 
@@ -182,30 +199,66 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity,
     EXPECT_TRUE(centralBodyGravity.getCelestial() == sphericalEarthSPtr_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, ApplyContribution)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetReadCoordinatesSubsets)
+{
+    const CentralBodyGravity centralBodyGravity = CentralBodyGravity(sphericalEarthSPtr_);
+
+    const Array<Shared<const CoordinatesSubset>> subsets = centralBodyGravity.getReadCoordinatesSubsets();
+
+    EXPECT_EQ(1, subsets.size());
+    EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, GetWriteCoordinatesSubsets)
+{
+    const CentralBodyGravity centralBodyGravity = CentralBodyGravity(sphericalEarthSPtr_);
+
+    const Array<Shared<const CoordinatesSubset>> subsets = centralBodyGravity.getWriteCoordinatesSubsets();
+
+    EXPECT_EQ(1, subsets.size());
+    EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, ComputeContribution)
 {
     CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
 
-    NumericalSolver::StateVector dxdt(6);
-    dxdt.setZero();
-    centralBodyGravity.applyContribution(startStateVector_, dxdt, startInstant_);
-    NumericalSolver::StateVector Earth_ReferencePull(6);
-    Earth_ReferencePull << 0.0, 0.0, 0.0, -8.134702887755102, 0.0, 0.0;
-    EXPECT_TRUE(((Earth_ReferencePull - dxdt).array() < 1e-15).all());
+    const VectorXd contribution =
+        centralBodyGravity.computeContribution(startInstant_, startStateVector_.segment(0, 3), Frame::GCRF());
+
+    EXPECT_EQ(3, contribution.size());
+    EXPECT_GT(1e-15, -8.134702887755102 - contribution[0]);
+    EXPECT_GT(1e-15, 0.0 - contribution[1]);
+    EXPECT_GT(1e-15, 0.0 - contribution[2]);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity, OneStepEarthOnly)
 {
-    // Setup dynamics
     const Shared<Celestial> earth = std::make_shared<Celestial>(Earth::Spherical());
-    const Array<Shared<Dynamics>> dynamics = {
+
+    const Pair<Index, Size> positionInformation = {0, 3};
+    const Pair<Index, Size> velocityInformation = {3, 3};
+
+    Dynamics::DynamicsInformation positionDerivativeInformation = {
+        std::make_shared<PositionDerivative>(), {velocityInformation}, {positionInformation}, 3};
+
+    Dynamics::DynamicsInformation centralBodyGravityInformation = {
         std::make_shared<CentralBodyGravity>(CentralBodyGravity(earth)),
-        std::make_shared<PositionDerivative>(PositionDerivative()),
-    };
+        {positionInformation},
+        {velocityInformation},
+        3};
+
+    const Array<Dynamics::DynamicsInformation> dynamicsInformation = {
+        positionDerivativeInformation, centralBodyGravityInformation};
 
     // Perform 1.0s integration step
     runge_kutta4<NumericalSolver::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    stepper.do_step(
+        Dynamics::GetDynamicalEquations(dynamicsInformation, startInstant_, Frame::GCRF()),
+        startStateVector_,
+        (0.0),
+        1.0
+    );
 
     // Set reference pull values for the Earth
     NumericalSolver::StateVector Earth_ReferencePull(6);
