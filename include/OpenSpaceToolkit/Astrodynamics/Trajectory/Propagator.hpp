@@ -43,6 +43,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;
@@ -110,6 +111,12 @@ class Propagator
     /// @return             An array of dynamics shared pointers
 
     Array<Shared<Dynamics>> getDynamics() const;
+
+    /// @brief              Get the number of propagated coordinates
+    ///
+    /// @return             The number of propagated coordinates
+
+    Size getNumberOfCoordinates() const;
 
     /// @brief              Set the dynamics array
     /// @code
@@ -203,8 +210,11 @@ class Propagator
     );
 
    private:
-    Array<Shared<Dynamics>> dynamics_;
+    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    Array<Dynamics::DynamicsInformation> dynamicsInformation_ = Array<Dynamics::DynamicsInformation>::Empty();
     mutable NumericalSolver numericalSolver_;
+
+    void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);
 };
 
 }  // namespace trajectory

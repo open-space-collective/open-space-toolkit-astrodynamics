@@ -43,7 +43,7 @@ class TestPositionDerivative:
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_apply_contribution(self, dynamics: PositionDerivative, state: State):
+    def test_get_contribution(self, dynamics: PositionDerivative, state: State):
         dxdt: np.ndarray = np.zeros(6)
-        dynamics.apply_contribution(state.get_coordinates(), dxdt, state.get_instant())
+        dynamics.get_contribution(state.get_coordinates(), dxdt, state.get_instant())
         assert True

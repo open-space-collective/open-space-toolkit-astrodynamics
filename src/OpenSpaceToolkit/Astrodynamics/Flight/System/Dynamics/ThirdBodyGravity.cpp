@@ -4,6 +4,8 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -25,6 +27,9 @@ using ostk::physics::data::Vector;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -79,27 +84,40 @@ Shared<const Celestial> ThirdBodyGravity::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-void ThirdBodyGravity::applyContribution(
-    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getReadCoordinatesSubsets() const
+{
+    return {CartesianPosition::Default()};
+}
+
+Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getWriteCoordinatesSubsets() const
+{
+    return {CartesianVelocity::Default()};
+}
+
+VectorXd ThirdBodyGravity::computeContribution(
+    const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
 ) const
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
     // TBI: This fails for the earth as we cannot calculate the acceleration at the origin of the GCRF
     Vector3d gravitationalAccelerationSI =
-        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, gcrfSPtr_), anInstant)
-             .inFrame(gcrfSPtr_, anInstant)
+        -celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({0.0, 0.0, 0.0}, aFrame), anInstant)
+             .inFrame(aFrame, anInstant)
              .getValue();
 
     // Add celestial's gravity to total gravitational acceleration
+    Vector3d positionCoordinates = Vector3d(reducedX[0], reducedX[1], reducedX[2]);
+
     gravitationalAccelerationSI +=
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
-            .inFrame(gcrfSPtr_, anInstant)
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrame), anInstant)
+            .inFrame(aFrame, anInstant)
             .getValue();
 
-    // Integrate velocity states
-    dxdt[3] += gravitationalAccelerationSI[0];
-    dxdt[4] += gravitationalAccelerationSI[1];
-    dxdt[5] += gravitationalAccelerationSI[2];
+    // Compute contribution
+    VectorXd contribution(3);
+    contribution << gravitationalAccelerationSI[0], gravitationalAccelerationSI[1], gravitationalAccelerationSI[2];
+
+    return contribution;
 }
 
 void ThirdBodyGravity::print(std::ostream& anOutputStream, bool displayDecorator) const

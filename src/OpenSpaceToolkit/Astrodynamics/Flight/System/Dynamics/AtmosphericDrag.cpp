@@ -1,11 +1,12 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -26,7 +27,9 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using ostk::physics::coord::Position;
-using ostk::physics::data::Scalar;
+
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -95,23 +98,33 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
-void AtmosphericDrag::applyContribution(
-    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubsets() const
+{
+    return {CartesianPosition::Default(), CartesianVelocity::Default()};
+}
+
+Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinatesSubsets() const
+{
+    return {CartesianVelocity::Default()};
+}
+
+VectorXd AtmosphericDrag::computeContribution(
+    const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
 ) const
 {
-    (void)anInstant;
+    Vector3d positionCoordinates = Vector3d(reducedX[0], reducedX[1], reducedX[2]);
+    Vector3d velocityCoordinates = Vector3d(reducedX[3], reducedX[4], reducedX[5]);
 
     // Get atmospheric density
     const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters({x[0], x[1], x[2]}, gcrfSPtr_), anInstant)
+        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrame), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        gcrfSPtr_->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
+        aFrame->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
-    const Vector3d relativeVelocity =
-        Vector3d(x[3], x[4], x[5]) - earthAngularVelocity.cross(Vector3d(x[0], x[1], x[2]));
+    const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
     const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
@@ -121,10 +134,11 @@ void AtmosphericDrag::applyContribution(
     const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
-    // Integrate velocity states
-    dxdt[3] += dragAccelerationSI[0];
-    dxdt[4] += dragAccelerationSI[1];
-    dxdt[5] += dragAccelerationSI[2];
+    // Compute contribution
+    VectorXd contribution(3);
+    contribution << dragAccelerationSI[0], dragAccelerationSI[1], dragAccelerationSI[2];
+
+    return contribution;
 }
 
 void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator) const

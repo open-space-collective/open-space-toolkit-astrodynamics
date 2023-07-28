@@ -16,8 +16,10 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::core::types::Size;
+using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
+using ostk::core::types::Shared;
+using ostk::core::types::Size;
 
 using ostk::math::obj::VectorXd;
 
@@ -27,13 +29,18 @@ using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
-    : dynamics_(aDynamicsArray),
+    : dynamicsInformation_(),
       numericalSolver_(aNumericalSolver)
 {
+    for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
+    {
+        this->registerDynamicsInformation(aDynamics);
+    }
 }
 
 bool Propagator::operator==(const Propagator& aPropagator) const
@@ -43,7 +50,10 @@ bool Propagator::operator==(const Propagator& aPropagator) const
         return false;
     }
 
-    return (numericalSolver_ == aPropagator.numericalSolver_ && dynamics_ == aPropagator.dynamics_);
+    return (
+        numericalSolver_ == aPropagator.numericalSolver_ &&
+        *this->coordinatesBrokerSPtr_ == *(aPropagator.coordinatesBrokerSPtr_)
+    );
 }
 
 bool Propagator::operator!=(const Propagator& aPropagator) const
@@ -63,14 +73,31 @@ bool Propagator::isDefined() const
     return numericalSolver_.isDefined();
 }
 
+Size Propagator::getNumberOfCoordinates() const
+{
+    return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
+}
+
 Array<Shared<Dynamics>> Propagator::getDynamics() const
 {
-    return this->dynamics_;
+    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
+
+    for (const Dynamics::DynamicsInformation& dynamicsInformation : this->dynamicsInformation_)
+    {
+        dynamicsArray.add(dynamicsInformation.dynamics);
+    }
+
+    return dynamicsArray;
 }
 
 void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 {
-    this->dynamics_ = aDynamicsArray;
+    this->clearDynamics();
+
+    for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
+    {
+        this->registerDynamicsInformation(aDynamics);
+    }
 }
 
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
@@ -80,12 +107,13 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    this->dynamics_.add(aDynamics);
+    this->registerDynamicsInformation(aDynamics);
 }
 
 void Propagator::clearDynamics()
 {
-    this->dynamics_.clear();
+    this->dynamicsInformation_.clear();
+    this->coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
 }
 
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant) const
@@ -95,20 +123,15 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
+    const Instant startInstant = aState.getInstant();
 
     const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
-        startStateVector,
-        (anInstant - aState.getInstant()).inSeconds(),
-        Dynamics::GetDynamicalEquations(this->dynamics_, aState.getInstant())
+        aState.accessCoordinates(),
+        (anInstant - startInstant).inSeconds(),
+        Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, gcrfSPtr)
     );
-    const NumericalSolver::StateVector endStateVector = solution.first;
 
-    return {
-        anInstant,
-        Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
-        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr),
-    };
+    return State(anInstant, solution.first, gcrfSPtr, this->coordinatesBrokerSPtr_);
 }
 
 State Propagator::calculateStateAt(
@@ -120,14 +143,12 @@ State Propagator::calculateStateAt(
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
-
     const Instant startInstant = aState.getInstant();
 
     const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
-        startStateVector,
+        aState.accessCoordinates(),
         (anInstant - startInstant).inSeconds(),
-        Dynamics::GetDynamicalEquations(this->dynamics_, startInstant),
+        Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, gcrfSPtr),
         anEventCondition
     );
 
@@ -141,8 +162,9 @@ State Propagator::calculateStateAt(
 
     return {
         endInstant,
-        Position::Meters({endStateVector[0], endStateVector[1], endStateVector[2]}, gcrfSPtr),
-        Velocity::MetersPerSecond({endStateVector[3], endStateVector[4], endStateVector[5]}, gcrfSPtr),
+        solution.first,
+        gcrfSPtr,
+        this->coordinatesBrokerSPtr_,
     };
 }
 
@@ -171,7 +193,6 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const NumericalSolver::StateVector startStateVector = aState.getCoordinates();
     const Instant startInstant = aState.accessInstant();
 
     Array<Real> forwardDurations;
@@ -198,7 +219,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     if (!forwardDurations.isEmpty())
     {
         forwardPropagatedSolutions = numericalSolver_.integrateDuration(
-            startStateVector, forwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
+            aState.accessCoordinates(),
+            forwardDurations,
+            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, gcrfSPtr)
         );
     }
 
@@ -209,7 +232,9 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardDurations.begin(), backwardDurations.end());
 
         backwardPropagatedSolutions = numericalSolver_.integrateDuration(
-            startStateVector, backwardDurations, Dynamics::GetDynamicalEquations(this->dynamics_, startInstant)
+            aState.accessCoordinates(),
+            backwardDurations,
+            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, gcrfSPtr)
         );
 
         std::reverse(backwardPropagatedSolutions.begin(), backwardPropagatedSolutions.end());
@@ -221,16 +246,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     Size k = 0;
     for (const NumericalSolver::Solution& solution : (backwardPropagatedSolutions + forwardPropagatedSolutions))
     {
-        const NumericalSolver::StateVector stateVector = solution.first;
-
-        State propagatedState = {
-            anInstantArray[k],
-            Position::Meters({stateVector[0], stateVector[1], stateVector[2]}, gcrfSPtr),
-            Velocity::MetersPerSecond({stateVector[3], stateVector[4], stateVector[5]}, gcrfSPtr),
-        };
-
-        propagatedStates.add(propagatedState);
-
+        propagatedStates.add(State(anInstantArray[k], solution.first, gcrfSPtr, this->coordinatesBrokerSPtr_));
         ++k;
     }
 
@@ -311,6 +327,31 @@ Propagator Propagator::FromEnvironment(
         aNumericalSolver,
         dynamicsArray,
     };
+}
+
+void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
+{
+    // Store read coordinate subsets information
+    Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
+
+    Size reducedStateSize = 0;
+    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getReadCoordinatesSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        readInfo.add(indexAndSize);
+
+        reducedStateSize += indexAndSize.second;
+    }
+
+    // Store write coordinate subsets information
+    Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
+    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getWriteCoordinatesSubsets())
+    {
+        Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
+        writeInfo.add(indexAndSize);
+    }
+
+    this->dynamicsInformation_.add({aDynamics, readInfo, writeInfo, reducedStateSize});
 }
 
 }  // namespace trajectory
