@@ -929,6 +929,31 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, IsDefined)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
+{
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(0);
+        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(CoordinatesBroker());
+        const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+
+        EXPECT_ANY_THROW(aState.extractCoordinates(CartesianPosition::Default()));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+        const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+
+        EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinates(CartesianPosition::Default()));
+        EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(CartesianVelocity::Default()));
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
 {
     {

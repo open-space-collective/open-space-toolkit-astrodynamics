@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
 {
@@ -33,6 +34,7 @@ using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 /// @brief                      Trajectory state
 
@@ -86,6 +88,8 @@ class State
     Velocity getVelocity() const;
 
     VectorXd getCoordinates() const;
+
+    VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubset) const;
 
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
