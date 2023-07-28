@@ -15,6 +15,7 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 // TBI: Move this to eigen.hpp when we move this file to ostk mathematics
 namespace boost::numeric::odeint
@@ -91,7 +92,8 @@ class NumericalSolver
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance
+        const Real& anAbsoluteTolerance,
+        const RootSolver& aRootSolver = RootSolver::Default()
     );
 
     /// @brief              Clone numerical solver
@@ -345,6 +347,8 @@ class NumericalSolver
     Real timeStep_;
     Real relativeTolerance_;
     Real absoluteTolerance_;
+    RootSolver rootSolver_;
+
     std::vector<Solution> observedStates_;
 
     void observeNumericalIntegration(const StateVector& x, const double t);
