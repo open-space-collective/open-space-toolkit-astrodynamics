@@ -27,16 +27,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSo
     return anOutputStream;
 }
 
-void RootSolver::print(std::ostream& anOutputStream, bool displayDecorator) const
-{
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Root Solver") : void();
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationsCount_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << numberOfDigits_;
-
-    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
 Size RootSolver::getMaximumIterationsCount() const
 {
     return maximumIterationsCount_;
@@ -81,6 +71,16 @@ RootSolver::Solution RootSolver::solve(
         r.first + (r.second - r.first) / 2.0,
         (Size)iteratorCount,
     };
+}
+
+void RootSolver::print(std::ostream& anOutputStream, bool displayDecorator) const
+{
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Root Solver") : void();
+
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationsCount_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << numberOfDigits_;
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 RootSolver RootSolver::Default()

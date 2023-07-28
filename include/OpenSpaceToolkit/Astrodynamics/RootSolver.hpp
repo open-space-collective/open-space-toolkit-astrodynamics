@@ -49,13 +49,6 @@ class RootSolver
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSolver);
 
-    /// @brief              Print root solver
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
     /// @brief              Get maximum iterations count
     ///
     /// @return             Maximum iterations count
@@ -91,6 +84,13 @@ class RootSolver
     Solution solve(
         const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
     ) const;
+
+    /// @brief              Print root solver
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief              Default root solver
     ///

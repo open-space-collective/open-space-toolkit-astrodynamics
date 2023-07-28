@@ -32,17 +32,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, StreamOperator)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Print)
-{
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(defaultRootSolver_.print(std::cout, true));
-        EXPECT_NO_THROW(defaultRootSolver_.print(std::cout, false));
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetMaximumNumberOfIterations)
 {
     EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumIterationsCount());
@@ -73,6 +62,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndBounds)
     };
 
     EXPECT_NO_THROW(defaultRootSolver_.solve(func, 1.0, 5.0));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(defaultRootSolver_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultRootSolver_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Default)
