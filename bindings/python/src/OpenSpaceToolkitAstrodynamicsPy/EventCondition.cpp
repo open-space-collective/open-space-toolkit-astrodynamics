@@ -1,11 +1,15 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
 
 using namespace pybind11;
 
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Real;
 
@@ -35,7 +39,9 @@ class PyEventCondition : public EventCondition
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
 {
     {
-        class_<EventCondition, PyEventCondition> eventCondition_class(aModule, "EventCondition");
+        class_<EventCondition, Shared<EventCondition>, PyEventCondition> eventCondition_class(
+            aModule, "EventCondition"
+        );
 
         eventCondition_class
 
@@ -72,4 +78,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     event_condition.attr("__path__") = "ostk.astrodynamics.trajectory.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
 }
