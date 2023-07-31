@@ -61,7 +61,7 @@ class Dynamics
         Shared<Dynamics> dynamics;
         Array<Pair<Index, Size>> readIndexes;
         Array<Pair<Index, Size>> writeIndexes;
-        Size reducedStateSize;
+        Size readStateSize;
     };
 
     /// @brief              Constructor
@@ -107,11 +107,11 @@ class Dynamics
     /// @brief              Computes the contribution to the state derivative.
     ///
     /// @param anInstant    An instant
-    /// @param x            The 'reduced' state vector (this vector will follow the structure determined by the 'read'
+    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
-    /// @param aFrame       The 'frame' in which the state vector is expressed
+    /// @param aFrame       The frame in which the state vector is expressed
     ///
-    /// @return             The 'reduced' derivative state vector (this vector must follow the structure determined by
+    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
     virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
@@ -124,13 +124,11 @@ class Dynamics
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Get dynamical equations function wrapper (pure virtual)
+    /// @brief              Get system of equations wrapper
     ///
-    /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
+    /// @param              [in] aDynamicsInformationArray An array of Dynamics Information
     /// @param              [in] anInstant An instant
     /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
-    /// @param              [in] readIndexes An array containing read coordinates subsets indexes and sizes
-    /// @param              [in] writeIndexes An array containing write coordinates subsets indexes and sizes
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 

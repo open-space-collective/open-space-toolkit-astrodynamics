@@ -346,13 +346,13 @@ void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
     // Store read coordinate subsets information
     Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
 
-    Size reducedStateSize = 0;
+    Size readStateSize = 0;
     for (const Shared<const CoordinatesSubset>& subset : aDynamics->getReadCoordinatesSubsets())
     {
         const Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         readInfo.add(indexAndSize);
 
-        reducedStateSize += indexAndSize.second;
+        readStateSize += indexAndSize.second;
     }
 
     // Store write coordinate subsets information

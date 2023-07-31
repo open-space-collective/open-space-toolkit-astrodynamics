@@ -26,11 +26,11 @@ Dynamics::DynamicsInformation::DynamicsInformation(
     : dynamics(aDynamics),
       readIndexes(aReadIndexes),
       writeIndexes(aWriteIndexes),
-      reducedStateSize(0)
+      readStateSize(0)
 {
     for (const Pair<Index, Size>& pair : readIndexes)
     {
-        this->reducedStateSize += pair.second;
+        this->readStateSize += pair.second;
     }
 }
 
@@ -89,7 +89,7 @@ void Dynamics::DynamicalEquations(
     {
         const VectorXd contribution = dynamicsInformation.dynamics->computeContribution(
             nextInstant,
-            Dynamics::extractReadState(x, dynamicsInformation.readIndexes, dynamicsInformation.reducedStateSize),
+            Dynamics::extractReadState(x, dynamicsInformation.readIndexes, dynamicsInformation.readStateSize),
             aFrame
         );
 

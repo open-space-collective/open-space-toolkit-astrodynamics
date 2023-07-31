@@ -84,19 +84,17 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    if (this->coordinates_ != aState.coordinates_)
+    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
-        return false;
-    }
+        if (!aState.coordinatesBrokerSPtr_->hasSubset(subset))
+        {
+            return false;
+        }
 
-    if (this->coordinatesBrokerSPtr_ == aState.coordinatesBrokerSPtr_)
-    {
-        return true;
-    }
-
-    if (*this->coordinatesBrokerSPtr_ != *aState.coordinatesBrokerSPtr_)
-    {
-        return false;
+        if (this->extractCoordinates(subset) != aState.extractCoordinates(subset))
+        {
+            return false;
+        }
     }
 
     return true;
