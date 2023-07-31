@@ -564,7 +564,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
     VectorXd actualCoordinates(6);
     actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
-    actualCoordinates.segment(3, 6) = finalState.extractCoordinates(CartesianVelocity::Default());
+    actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
@@ -604,7 +604,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
     VectorXd actualCoordinates(6);
     actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
-    actualCoordinates.segment(3, 6) = finalState.extractCoordinates(CartesianVelocity::Default());
+    actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 

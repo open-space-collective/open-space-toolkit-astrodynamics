@@ -84,6 +84,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity : p
     const Instant startInstant_ = Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC);
     const Shared<Celestial> sphericalMoonSPtr_ = std::make_shared<Celestial>(Moon::Spherical());
 
+    const ThirdBodyGravity defaultThirdBodyGravity_ = {sphericalMoonSPtr_};
+
     NumericalSolver::StateVector startStateVector_;
 };
 
@@ -211,18 +213,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, G
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetCelestial)
 {
-    const Shared<Celestial> moonSPtr = std::make_shared<Celestial>(Moon::Spherical());
-    const ThirdBodyGravity thirdBodyGravity(moonSPtr);
-
-    EXPECT_TRUE(thirdBodyGravity.getCelestial() == moonSPtr);
+    EXPECT_TRUE(defaultThirdBodyGravity_.getCelestial() == sphericalMoonSPtr_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetReadCoordinatesSubsets)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
-    ThirdBodyGravity thirdBodyGravity(earthSPtr);
-
-    const Array<Shared<const CoordinatesSubset>> subsets = thirdBodyGravity.getReadCoordinatesSubsets();
+    const Array<Shared<const CoordinatesSubset>> subsets = defaultThirdBodyGravity_.getReadCoordinatesSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
@@ -230,10 +226,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, G
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, GetWriteCoordinatesSubsets)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
-    ThirdBodyGravity thirdBodyGravity(earthSPtr);
-
-    const Array<Shared<const CoordinatesSubset>> subsets = thirdBodyGravity.getWriteCoordinatesSubsets();
+    const Array<Shared<const CoordinatesSubset>> subsets = defaultThirdBodyGravity_.getWriteCoordinatesSubsets();
 
     EXPECT_EQ(1, subsets.size());
     EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);
@@ -241,10 +234,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, G
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_ThirdBodyGravity, ComputeContribution)
 {
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(Moon::Spherical());
-    ThirdBodyGravity thirdBodyGravity(earthSPtr);
-
-    const VectorXd contribution = thirdBodyGravity.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
+    const VectorXd contribution =
+        defaultThirdBodyGravity_.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, -4.620543790697659e-07 - contribution[0]);

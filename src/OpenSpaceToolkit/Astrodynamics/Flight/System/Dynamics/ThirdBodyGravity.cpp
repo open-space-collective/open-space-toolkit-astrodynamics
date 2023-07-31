@@ -95,7 +95,7 @@ Array<Shared<const CoordinatesSubset>> ThirdBodyGravity::getWriteCoordinatesSubs
 }
 
 VectorXd ThirdBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
 ) const
 {
     // Obtain 3rd body effect on center of Central Body (origin in GCRF) aka 3rd body correction
@@ -106,7 +106,7 @@ VectorXd ThirdBodyGravity::computeContribution(
              .getValue();
 
     // Add celestial's gravity to total gravitational acceleration
-    Vector3d positionCoordinates = Vector3d(reducedX[0], reducedX[1], reducedX[2]);
+    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
 
     gravitationalAccelerationSI +=
         celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrame), anInstant)

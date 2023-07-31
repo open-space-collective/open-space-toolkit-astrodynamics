@@ -92,9 +92,8 @@ class ThirdBodyGravity : public Dynamics
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
 
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
-    ) const override;
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
+        const override;
 
     /// @brief              Print third body gravity dynamics
     ///

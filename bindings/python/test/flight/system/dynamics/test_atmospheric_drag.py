@@ -46,7 +46,7 @@ def satellite_system() -> SatelliteSystem:
         )
     )
     inertia_tensor = np.ndarray(shape=(3, 3))
-    surface_area = 1.0
+    surface_area = 500.0
     drag_coefficient = 2.1
 
     return SatelliteSystem(
@@ -62,11 +62,9 @@ def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDrag
 @pytest.fixture
 def state() -> State:
     frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([6900000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second(
-        [0.0, 5335.865450622126, 5335.865450622126], frame
-    )
-    instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    position: Position = Position.meters([7000000.0, 0.0, 0.0], frame)
+    velocity: Velocity = Velocity.meters_per_second([0.0, 7546.05329, 0.0], frame)
+    instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
     return State(instant, position, velocity)
 
 
@@ -80,7 +78,12 @@ class TestAtmosphericDrag:
     def test_getters(self, dynamics: AtmosphericDrag, earth: Earth):
         assert dynamics.get_celestial() == earth
 
-    def test_get_contribution(self, dynamics: AtmosphericDrag, state: State):
-        dxdt: np.ndarray = np.zeros(6)
-        dynamics.get_contribution(state.get_coordinates(), dxdt, state.get_instant())
-        assert True
+    def test_compute_contribution(self, dynamics: AtmosphericDrag, state: State):
+        contribution = dynamics.compute_contribution(
+            state.get_instant(), state.get_coordinates(), state.get_frame()
+        )
+
+        assert len(contribution) == 3
+        assert contribution == pytest.approx(
+            [0.0, -0.0000278707803890, -0.0000000000197640], abs=5e-11
+        )

@@ -104,6 +104,18 @@ class Propagator
 
     bool isDefined() const;
 
+    /// @brief              Get the number of propagated coordinates
+    ///
+    /// @return             The number of propagated coordinates
+
+    Size getNumberOfCoordinates() const;
+
+    /// @brief              Get the coordinates broker
+    ///
+    /// @return             The coordinates broker
+
+    const Shared<CoordinatesBroker>& getCoordinatesBroker() const;
+
     /// @brief              Get the dynamics array
     /// @code
     ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
@@ -111,12 +123,6 @@ class Propagator
     /// @return             An array of dynamics shared pointers
 
     Array<Shared<Dynamics>> getDynamics() const;
-
-    /// @brief              Get the number of propagated coordinates
-    ///
-    /// @return             The number of propagated coordinates
-
-    Size getNumberOfCoordinates() const;
 
     /// @brief              Set the dynamics array
     /// @code

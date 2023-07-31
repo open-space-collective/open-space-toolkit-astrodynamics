@@ -26,12 +26,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDr
             .def("get_celestial", &AtmosphericDrag::getCelestial)
             .def("get_satellite_system", &AtmosphericDrag::getSatelliteSystem)
 
-            .def(
-                "compute_contribution",
-                &AtmosphericDrag::computeContribution,
-                arg("instant"),
-                arg("reduced_x"),
-                arg("frame")
-            );
+            .def("compute_contribution", &AtmosphericDrag::computeContribution, arg("instant"), arg("x"), arg("frame"));
     }
 }
