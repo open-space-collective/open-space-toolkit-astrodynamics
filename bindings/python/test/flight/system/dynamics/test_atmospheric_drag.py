@@ -80,7 +80,7 @@ class TestAtmosphericDrag:
 
     def test_compute_contribution(self, dynamics: AtmosphericDrag, state: State):
         contribution = dynamics.compute_contribution(
-            state.get_instant(), state.get_coordinates(), state.access_frame()
+            state.get_instant(), state.get_coordinates(), state.get_frame()
         )
 
         assert len(contribution) == 3
