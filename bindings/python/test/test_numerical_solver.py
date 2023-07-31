@@ -198,10 +198,13 @@ class TestNumericalSolver:
         condition_solution = numerical_solver_conditional.integrate_duration(
             initial_state_vec, integration_duration, oscillator, custom_condition
         )
-        
+
         assert condition_solution.condition_is_satisfied
-        assert condition_solution.number_of_iterations < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
-        
+        assert (
+            condition_solution.number_of_iterations
+            < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
+        )
+
         state_vector, time = condition_solution.solution
 
         assert abs(time - custom_condition._target) < 1e-6
@@ -222,10 +225,13 @@ class TestNumericalSolver:
         condition_solution = numerical_solver_conditional.integrate_time(
             initial_state_vec, start_time, end_time, oscillator, custom_condition
         )
-        
+
         assert condition_solution.condition_is_satisfied
-        assert condition_solution.number_of_iterations < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
-        
+        assert (
+            condition_solution.number_of_iterations
+            < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
+        )
+
         state_vector, time = condition_solution.solution
 
         assert abs(time - start_time - custom_condition._target) < 1e-6
