@@ -107,7 +107,7 @@ class Dynamics
     /// @brief              Computes the contribution to the state derivative.
     ///
     /// @param anInstant    An instant
-    /// @param x     The 'reduced' state vector (this vector will follow the structure determined by the 'read'
+    /// @param x            The 'reduced' state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
     /// @param aFrame       The 'frame' in which the state vector is expressed
     ///
