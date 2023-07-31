@@ -309,6 +309,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetRootSolver)
+{
+    {
+        EXPECT_NO_THROW(defaultRK54_.getRootSolver());
+    }
+
+    {
+        EXPECT_ANY_THROW(NumericalSolver::Undefined().getRootSolver());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
 {
     {
