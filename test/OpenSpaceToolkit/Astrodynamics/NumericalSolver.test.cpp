@@ -896,21 +896,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         }
 
         {
-            const NumericalSolver::Solution solution =
+            const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateDuration(defaultStateVector_, 0.0, systemOfEquations_, Condition());
+            const NumericalSolver::Solution solution = conditionSolution.solution;
 
             EXPECT_TRUE(solution.first == defaultStateVector_);
             EXPECT_TRUE(solution.second == 0.0);
         }
-    }
-
-    {
-        const NumericalSolver::ConditionSolution conditionSolution =
-            defaultRKD5_.integrateDuration(defaultStateVector_, 0.0, systemOfEquations_, nullptr);
-        const NumericalSolver::Solution solution = conditionSolution.solution;
-
-        EXPECT_TRUE(solution.first == defaultStateVector_);
-        EXPECT_TRUE(solution.second == 0.0);
     }
 
     // Simple duration based condition
@@ -1112,7 +1104,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         EXPECT_NEAR(
             endTime,
             defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, Condition(endTime + 5.0))
-                .second,
+                .solution.second,
             1e-12
         );
 
@@ -1160,7 +1152,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             endTime,
             defaultRKD5_
                 .integrateTime(stateVector, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_ - 5.0))
-                .second,
+                .solution.second,
             1e-12
         );
 

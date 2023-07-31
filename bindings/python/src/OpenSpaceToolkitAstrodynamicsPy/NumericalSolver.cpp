@@ -19,6 +19,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
     )>
         pythonSystemOfEquationsSignature;
 
+    class_<NumericalSolver::ConditionSolution>(aModule, "ConditionSolution")
+
+        .def_readonly("solution", &NumericalSolver::ConditionSolution::solution)
+        .def_readonly("conditionIsSatisfied", &NumericalSolver::ConditionSolution::conditionIsSatisfied)
+        .def_readonly("number_of_iterations", &NumericalSolver::ConditionSolution::numberOfIterations)
+
+        ;
+
     {
         class_<NumericalSolver> numericalSolver(aModule, "NumericalSolver");
 
