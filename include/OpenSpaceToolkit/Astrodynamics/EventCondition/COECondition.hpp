@@ -32,7 +32,7 @@ using ostk::physics::units::Length;
 
 using ostk::astro::EventCondition;
 
-/// @brief                      A semi major axis based event condition
+/// @brief                      A Classical Orbital Element based event condition
 
 class COECondition : public EventCondition
 {
