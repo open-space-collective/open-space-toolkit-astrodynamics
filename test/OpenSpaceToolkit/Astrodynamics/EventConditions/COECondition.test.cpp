@@ -29,23 +29,23 @@ class OpenSpaceToolkit_Astrodynamics_COECondition : public ::testing::Test
 {
    protected:
     const EventCondition::Criteria defaultCriteria_ = EventCondition::Criteria::AnyCrossing;
-    const Length defaultSMA_ = Length::Meters(7000000.0);
+    const Length defaultSMATarget_ = Length::Meters(7000000.0);
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     COECondition defaultCondition_ =
-        COECondition::SemiMajorAxis(defaultCriteria_, defaultSMA_, gravitationalParameter_);
+        COECondition::SemiMajorAxis(defaultCriteria_, defaultSMATarget_, gravitationalParameter_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(COECondition::SemiMajorAxis(defaultCriteria_, defaultSMA_, gravitationalParameter_));
+        EXPECT_NO_THROW(COECondition::SemiMajorAxis(defaultCriteria_, defaultSMATarget_, gravitationalParameter_));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, getTarget)
 {
     {
-        EXPECT_TRUE(defaultCondition_.getTarget() == defaultSMA_.inMeters());
+        EXPECT_TRUE(defaultCondition_.getTarget() == defaultSMATarget_.inMeters());
     }
 }
 
@@ -63,7 +63,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, evaluate)
     stateVector << 717094.039086306, -6872433.2241124, 46175.9696673281, -970.650826004612, -45.4598114773158,
         7529.82424886455;
 
+    std::cout << expectedSMA << " " << defaultSMATarget_ << " " << defaultCondition_.evaluate(stateVector, 0.0) << " "
+              << (expectedSMA - defaultSMATarget_.inMeters()) << std::endl;
+
     {
-        EXPECT_TRUE(defaultCondition_.evaluate(stateVector, 0.0) == (expectedSMA - defaultSMA_.inMeters()));
+        EXPECT_DOUBLE_EQ(defaultCondition_.evaluate(stateVector, 0.0), (expectedSMA - defaultSMATarget_.inMeters()));
     }
 }

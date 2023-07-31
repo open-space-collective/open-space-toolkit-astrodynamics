@@ -173,7 +173,7 @@ class COECondition : public EventCondition
    private:
     Element element_;
     Real target_;
-    Real gravitationalParameterInSI_;
+    Derived gravitationalParameter_;
     std::function<Real(const Vector3d&, const Vector3d&)> evaluator_;
 
     /// @brief              Constructor
