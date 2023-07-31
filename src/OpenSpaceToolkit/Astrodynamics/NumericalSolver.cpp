@@ -144,6 +144,16 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return absoluteTolerance_;
 }
 
+RootSolver NumericalSolver::getRootSolver() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return rootSolver_;
+}
+
 Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
     const Real& aStartTime,

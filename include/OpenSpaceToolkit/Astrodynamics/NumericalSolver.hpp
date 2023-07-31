@@ -195,6 +195,16 @@ class NumericalSolver
 
     Real getAbsoluteTolerance() const;
 
+    /// @brief              Get root solver
+    ///
+    /// @code
+    ///                     numericalSolver.getRootSolver() ;
+    /// @endcode
+    ///
+    /// @return             RootSolver
+
+    RootSolver getRootSolver() const;
+
     /// @brief              Perform numerical integration from a start time to an array of times
     ///
     /// @code

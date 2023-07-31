@@ -902,6 +902,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             EXPECT_TRUE(solution.first == defaultStateVector_);
             EXPECT_TRUE(solution.second == 0.0);
+            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
         }
     }
 
@@ -928,15 +929,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
         // Ensure that integration terminates at maximum duration if condition is not met
 
-        EXPECT_NEAR(
-            defaultDuration_,
-            defaultRKD5_
-                .integrateDuration(
-                    defaultStateVector_, defaultDuration_, systemOfEquations_, Condition(defaultDuration_ + 5.0)
-                )
-                .solution.second,
-            1e-12
-        );
+        {
+            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
+                defaultStateVector_, defaultDuration_, systemOfEquations_, Condition(defaultDuration_ + 5.0)
+            );
+            const NumericalSolver::Solution solution = conditionSolution.solution;
+            EXPECT_DOUBLE_EQ(defaultDuration_, solution.second);
+            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+        }
 
         const Condition condition = Condition(defaultDuration_ / 2.0);
 
@@ -950,6 +951,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
         // Validate the output against an analytical function
 
@@ -978,15 +980,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
         // Ensure that integration terminates at maximum duration if condition is not met
 
-        EXPECT_NEAR(
-            -defaultDuration_,
-            defaultRKD5_
-                .integrateDuration(
-                    defaultStateVector_, -defaultDuration_, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
-                )
-                .solution.second,
-            1e-12
-        );
+        {
+            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
+                defaultStateVector_, -defaultDuration_, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
+            );
+            const NumericalSolver::Solution solution = conditionSolution.solution;
+            EXPECT_DOUBLE_EQ(-defaultDuration_, solution.second);
+            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+        }
 
         const Condition condition = Condition(-defaultDuration_ / 2.0);
 
@@ -1000,6 +1002,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
         // Validate the output against an analytical function
 
@@ -1041,6 +1044,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             EXPECT_TRUE(propagatedTime < defaultDuration_);
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
 
@@ -1063,6 +1067,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             EXPECT_TRUE(propagatedTime > -defaultDuration_);
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
 
@@ -1101,12 +1106,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         const Real endTime = startTime + defaultDuration_;
 
-        EXPECT_NEAR(
-            endTime,
-            defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, Condition(endTime + 5.0))
-                .solution.second,
-            1e-12
-        );
+        {
+            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+                stateVector, startTime, endTime, systemOfEquations_, Condition(endTime + 5.0)
+            );
+            const NumericalSolver::Solution solution = conditionSolution.solution;
+
+            EXPECT_DOUBLE_EQ(solution.second, endTime);
+            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+        }
 
         const Condition condition = Condition(defaultDuration_ / 2.0);
 
@@ -1120,6 +1129,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
         // Validate the output against an analytical function
 
@@ -1148,13 +1158,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
         const Real endTime = startTime - defaultDuration_;
 
-        EXPECT_NEAR(
-            endTime,
-            defaultRKD5_
-                .integrateTime(stateVector, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_ - 5.0))
-                .solution.second,
-            1e-12
-        );
+        {
+            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+                stateVector, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
+            );
+            const NumericalSolver::Solution solution = conditionSolution.solution;
+
+            EXPECT_DOUBLE_EQ(solution.second, endTime);
+            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+        }
 
         const Condition condition = Condition(-defaultDuration_ / 2.0);
 
@@ -1168,6 +1181,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
         // Ensure that integration terminates at condition if condition is met
 
         EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
         // Validate the output against an analytical function
 
@@ -1210,6 +1224,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime < endTime);
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
 
@@ -1233,6 +1248,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(propagatedTime > endTime);
+            EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
 
