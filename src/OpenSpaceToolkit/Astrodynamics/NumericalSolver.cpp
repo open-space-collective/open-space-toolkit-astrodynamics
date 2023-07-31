@@ -449,9 +449,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     observeNumericalIntegration(stepper.current_state(), stepper.current_time());
 
     bool conditionSatisfied = false;
-    Real currentValue = Real::Undefined();
-
-    Real previousValue = anEventCondition.evaluate(stepper.current_state(), stepper.current_time());
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
@@ -469,9 +466,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
 
-        currentValue = anEventCondition.evaluate(currentState, currentTime);
-
-        conditionSatisfied = anEventCondition.isSatisfied(currentValue, previousValue);
+        conditionSatisfied =
+            anEventCondition.isSatisfied(currentState, currentTime, stepper.previous_state(), previousTime);
 
         if (conditionSatisfied)
         {
@@ -479,8 +475,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         }
 
         observeNumericalIntegration(currentState, currentTime);
-
-        previousValue = currentValue;
     }
 
     if (!conditionSatisfied)
@@ -501,7 +495,10 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     {
         NumericalSolver::StateVector aState(stepper.current_state());
         stepper.calc_state(aTime, aState);
-        return anEventCondition.evaluate(aState, aTime);
+
+        const bool isSatisfied =
+            anEventCondition.isSatisfied(aState, aTime, stepper.previous_state(), stepper.previous_time());
+        return isSatisfied ? 1.0 : -1.0;
     };
 
     const RootSolver::Solution solution = rootSolver_.solve(checkCondition, previousTime, currentTime);

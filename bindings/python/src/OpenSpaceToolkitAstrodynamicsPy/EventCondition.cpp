@@ -3,7 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Conjunctive.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Disjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalConnective.cpp>
 
 using namespace pybind11;
 
@@ -76,4 +79,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Conjunctive(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Disjunctive(event_condition);
 }
