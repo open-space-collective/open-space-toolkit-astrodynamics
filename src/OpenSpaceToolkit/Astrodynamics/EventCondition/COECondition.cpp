@@ -63,6 +63,31 @@ Real COECondition::evaluate(const VectorXd& aStateVector, const Real& aTime) con
     return evaluator_(positionVector, velocityVector) - target_;
 }
 
+String COECondition::StringFromElement(const COECondition::Element& anElement)
+{
+    switch (anElement)
+    {
+        case Element::SemiMajorAxis:
+            return "Semi-major axis";
+        case Element::Eccentricity:
+            return "Eccentricity";
+        case Element::Inclination:
+            return "Inclination";
+        case Element::ArgumentOfPeriapsis:
+            return "Argument of periapsis";
+        case Element::RightAngleOfAscendingNode:
+            return "Right angle of ascending node";
+        case Element::TrueAnomaly:
+            return "True anomaly";
+        case Element::MeanAnomaly:
+            return "Mean anomaly";
+        case Element::EccentricAnomaly:
+            return "Eccentric anomaly";
+    }
+
+    throw ostk::core::error::runtime::Wrong("Element");
+}
+
 COECondition COECondition::SemiMajorAxis(
     const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
 )

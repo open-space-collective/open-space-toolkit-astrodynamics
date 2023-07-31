@@ -1,14 +1,12 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
+using ostk::core::types::Real;
+using ostk::core::types::String;
 
-using ostk::physics::units::Length;
 using ostk::physics::units::Derived;
 
 using ostk::astro::EventCondition;
@@ -17,10 +15,29 @@ using ostk::astro::eventcondition::COECondition;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition, Shared<COECondition>, EventCondition>(aModule, "COECondition")
+        class_<COECondition, EventCondition> coeCondition(aModule, "COECondition");
+
+        coeCondition
+
+            .def(
+                init<
+                    const String&,
+                    const EventCondition::Criteria&,
+                    const COECondition::Element&,
+                    const Real&,
+                    const Derived&>(),
+                arg("name"),
+                arg("criteria"),
+                arg("element"),
+                arg("target"),
+                arg("gravitational_parameter")
+            )
 
             .def("get_target", &COECondition::getTarget)
             .def("get_gravitational_parameter", &COECondition::getGravitationalParameter)
+            .def("get_element", &COECondition::getElement)
+
+            .def_static("string_from_element", &COECondition::StringFromElement, arg("element"))
 
             .def_static(
                 "semi_major_axis",
@@ -88,6 +105,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 arg("eccentric_anomaly"),
                 arg("gravitational_parameter")
             )
+
+            ;
+
+        enum_<COECondition::Element>(coeCondition, "Element")
+
+            .value("SemiMajorAxis", COECondition::Element::SemiMajorAxis)
+            .value("Eccentricity", COECondition::Element::Eccentricity)
+            .value("Inclination", COECondition::Element::Inclination)
+            .value("ArgumentOfPeriapsis", COECondition::Element::ArgumentOfPeriapsis)
+            .value("RightAngleOfAscendingNode", COECondition::Element::RightAngleOfAscendingNode)
+            .value("TrueAnomaly", COECondition::Element::TrueAnomaly)
+            .value("MeanAnomaly", COECondition::Element::MeanAnomaly)
+            .value("EccentricAnomaly", COECondition::Element::EccentricAnomaly)
 
             ;
     }

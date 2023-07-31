@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
@@ -9,7 +7,6 @@
 
 using namespace pybind11;
 
-using ostk::core::types::Shared;
 using ostk::core::types::String;
 using ostk::core::types::Real;
 
@@ -39,9 +36,7 @@ class PyEventCondition : public EventCondition
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
 {
     {
-        class_<EventCondition, Shared<EventCondition>, PyEventCondition> eventCondition_class(
-            aModule, "EventCondition"
-        );
+        class_<EventCondition, PyEventCondition> eventCondition_class(aModule, "EventCondition");
 
         eventCondition_class
 
@@ -57,7 +52,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             .def("evaluate", &EventCondition::evaluate, arg("state_vector"), arg("time"))
 
-            .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"));
+            .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"))
+
+            ;
 
         enum_<EventCondition::Criteria>(eventCondition_class, "Criteria")
 

@@ -100,6 +100,14 @@ class COECondition : public EventCondition
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
 
+    /// @brief              Convert element to string
+    ///
+    /// @param              [in] anElement An element
+    ///
+    /// @return             String representing the element
+
+    static String StringFromElement(const Element& anElement);
+
     /// @brief              Semi Major Axis based constructor
     ///
     /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
