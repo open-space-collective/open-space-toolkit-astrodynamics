@@ -42,7 +42,7 @@ class DynamicsMock : public Dynamics
     MOCK_METHOD(
         VectorXd,
         computeContribution,
-        (const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame),
+        (const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame),
         (const, override)
     );
 };

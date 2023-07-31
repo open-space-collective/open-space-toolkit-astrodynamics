@@ -23,11 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_PositionDeriv
             .def("is_defined", &PositionDerivative::isDefined)
 
             .def(
-                "compute_contribution",
-                &PositionDerivative::computeContribution,
-                arg("instant"),
-                arg("reduced_x"),
-                arg("frame")
+                "compute_contribution", &PositionDerivative::computeContribution, arg("instant"), arg("x"), arg("frame")
             );
     }
 }

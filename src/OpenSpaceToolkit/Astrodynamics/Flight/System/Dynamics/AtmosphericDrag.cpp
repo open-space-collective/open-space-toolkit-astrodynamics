@@ -109,11 +109,11 @@ Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinatesSubse
 }
 
 VectorXd AtmosphericDrag::computeContribution(
-    const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
 ) const
 {
-    Vector3d positionCoordinates = Vector3d(reducedX[0], reducedX[1], reducedX[2]);
-    Vector3d velocityCoordinates = Vector3d(reducedX[3], reducedX[4], reducedX[5]);
+    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+    Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
 
     // Get atmospheric density
     const Real atmosphericDensity =

@@ -52,6 +52,12 @@ class Dynamics
    public:
     struct DynamicsInformation
     {
+        DynamicsInformation(
+            const Shared<Dynamics>& aDynamics,
+            const Array<Pair<Index, Size>>& aReadIndexes,
+            const Array<Pair<Index, Size>>& aWriteIndexes
+        );
+
         Shared<Dynamics> dynamics;
         Array<Pair<Index, Size>> readIndexes;
         Array<Pair<Index, Size>> writeIndexes;
@@ -101,16 +107,15 @@ class Dynamics
     /// @brief              Computes the contribution to the state derivative.
     ///
     /// @param anInstant    An instant
-    /// @param reducedX     The 'reduced' state vector (this vector will follow the structure determined by the 'read'
+    /// @param x     The 'reduced' state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
     /// @param aFrame       The 'frame' in which the state vector is expressed
     ///
     /// @return             The 'reduced' derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
-    virtual VectorXd computeContribution(
-        const Instant& anInstant, const VectorXd& reducedX, const Shared<const Frame>& aFrame
-    ) const = 0;
+    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
+        const = 0;
 
     /// @brief              Print dynamics
     ///
@@ -158,11 +163,11 @@ class Dynamics
         const Shared<const Frame>& aFrame
     );
 
-    static VectorXd ReduceFullStateToReadState(
+    static VectorXd extractReadState(
         const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
     );
 
-    static void AddContributionToFullState(
+    static void applyContribution(
         NumericalSolver::StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
     );
 };

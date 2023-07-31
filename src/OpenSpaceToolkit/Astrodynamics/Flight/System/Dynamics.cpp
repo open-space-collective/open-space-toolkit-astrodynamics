@@ -11,11 +11,28 @@ namespace flight
 namespace system
 {
 
+using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Pair;
 using ostk::core::types::Index;
 using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
+
+Dynamics::DynamicsInformation::DynamicsInformation(
+    const Shared<Dynamics>& aDynamics,
+    const Array<Pair<Index, Size>>& aReadIndexes,
+    const Array<Pair<Index, Size>>& aWriteIndexes
+)
+    : dynamics(aDynamics),
+      readIndexes(aReadIndexes),
+      writeIndexes(aWriteIndexes),
+      reducedStateSize(0)
+{
+    for (const Pair<Index, Size>& pair : readIndexes)
+    {
+        this->reducedStateSize += pair.second;
+    }
+}
 
 Dynamics::Dynamics(const String& aName)
     : name_(aName)
@@ -64,10 +81,7 @@ void Dynamics::DynamicalEquations(
     const Shared<const Frame>& aFrame
 )
 {
-    for (int i = 0; i < dxdt.size(); ++i)
-    {
-        dxdt[i] = 0;
-    }
+    dxdt.setZero();
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
@@ -75,51 +89,45 @@ void Dynamics::DynamicalEquations(
     {
         const VectorXd contribution = dynamicsInformation.dynamics->computeContribution(
             nextInstant,
-            Dynamics::ReduceFullStateToReadState(
-                x, dynamicsInformation.readIndexes, dynamicsInformation.reducedStateSize
-            ),
+            Dynamics::extractReadState(x, dynamicsInformation.readIndexes, dynamicsInformation.reducedStateSize),
             aFrame
         );
 
-        Dynamics::AddContributionToFullState(dxdt, contribution, dynamicsInformation.writeIndexes);
+        Dynamics::applyContribution(dxdt, contribution, dynamicsInformation.writeIndexes);
     }
 }
 
-VectorXd Dynamics::ReduceFullStateToReadState(
+VectorXd Dynamics::extractReadState(
     const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
 )
 {
-    Index i = 0;
+    Index offset = 0;
     VectorXd reduced = VectorXd(readSize);
 
     for (const Pair<Index, Size>& pair : readInfo)
     {
         const Index subsetOffset = pair.first;
         const Size subsetSize = pair.second;
-        for (Index j = 0; j < subsetSize; j++)
-        {
-            reduced[i] = x[subsetOffset + j];
-            i++;
-        }
+
+        reduced.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
+        offset += subsetSize;
     }
 
     return reduced;
 }
 
-void Dynamics::AddContributionToFullState(
+void Dynamics::applyContribution(
     NumericalSolver::StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
 )
 {
-    Index i = 0;
+    Index offset = 0;
     for (Pair<Index, Size> pair : writeInfo)
     {
         const Index subsetOffset = pair.first;
         const Size subsetSize = pair.second;
-        for (Index j = 0; j < subsetSize; j++)
-        {
-            dxdt[subsetOffset + j] += contribution[i];
-            i++;
-        }
+
+        dxdt.segment(subsetOffset, subsetSize) += contribution.segment(offset, subsetSize);
+        offset += subsetSize;
     }
 }
 

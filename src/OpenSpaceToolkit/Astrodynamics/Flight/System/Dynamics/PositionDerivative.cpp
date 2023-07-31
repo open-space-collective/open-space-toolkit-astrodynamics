@@ -58,13 +58,11 @@ Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinatesSu
 }
 
 VectorXd PositionDerivative::computeContribution(
-    [[maybe_unused]] const Instant& anInstant,
-    const VectorXd& reducedX,
-    [[maybe_unused]] const Shared<const Frame>& aFrame
+    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrame
 ) const
 {
     VectorXd contribution(3);
-    contribution << reducedX[0], reducedX[1], reducedX[2];
+    contribution << x[0], x[1], x[2];
 
     return contribution;
 }
