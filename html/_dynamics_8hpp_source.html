@@ -96,91 +96,96 @@ $(document).ready(function(){initNavTree('_dynamics_8hpp_source.html',''); initR
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceostk.html">ostk</a></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>astro</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_numerical_solver_8hpp.html">OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceostk.html">ostk</a></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>flight</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>astro</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>system</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>flight</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using</span> ostk::core::types::Shared;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using</span> ostk::core::types::String;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> ostk::core::ctnr::Array;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> ostk::physics::time::Instant;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> ostk::physics::coord::Frame;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>system</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> ostk::core::types::Shared;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> ostk::core::types::String;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> ostk::core::ctnr::Array;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> ostk::physics::time::Instant;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> ostk::physics::coord::Frame;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">   35</a></span>&#160;    <span class="keyword">typedef</span> std::vector&lt;double&gt; <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>;  <span class="comment">// Container used to hold the state vector</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">   36</a></span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp;, <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp;, <span class="keyword">const</span> <span class="keywordtype">double</span>)&gt; <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">Dynamics</a>(<span class="keyword">const</span> String&amp; aName = String::Empty());</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#afad57df27ce6737316f0c1102e1919ae">~Dynamics</a>() = 0;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a>* <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7de1a8ce101f3cee59fd624b487de5be">clone</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">isDefined</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    String <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">getName</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#adeafa07fa43b4074788a3acc6dd6e419">applyContribution</a>(<span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp; x, <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp; dxdt, <span class="keyword">const</span> Instant&amp; anInstant) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a01cf369daf419b0f9864f0e1d8d90e24">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">GetDynamicalEquations</a>(</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> Array&lt;Shared&lt;Dynamics&gt;&gt;&amp; aDynamicsArray, <span class="keyword">const</span> Instant&amp; anInstant</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    );</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">   91</a></span>&#160;    <span class="keyword">const</span> Shared&lt;const Frame&gt; <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF();</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">const</span> String name_;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html">ostk::astro::NumericalSolver</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">Dynamics</a>(<span class="keyword">const</span> String&amp; aName = String::Empty());</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#afad57df27ce6737316f0c1102e1919ae">~Dynamics</a>() = 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a>* <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7de1a8ce101f3cee59fd624b487de5be">clone</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">isDefined</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    String <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">getName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a96bc85c25ffe90dc88a42335d8ffd433">applyContribution</a>(</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a>&amp; x, <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a>&amp; dxdt, <span class="keyword">const</span> Instant&amp; anInstant</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a01cf369daf419b0f9864f0e1d8d90e24">print</a>(std::ostream&amp; anOutputStream, <span class="keywordtype">bool</span> displayDecorator = <span class="keyword">true</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">static</span> <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">GetDynamicalEquations</a>(</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> Array&lt;Shared&lt;Dynamics&gt;&gt;&amp; aDynamicsArray, <span class="keyword">const</span> Instant&amp; anInstant</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    );</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">   94</a></span>&#160;    <span class="keyword">const</span> Shared&lt;const Frame&gt; <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> DynamicalEquations(</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp; x,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a>&amp; dxdt,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; t,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> Array&lt;Shared&lt;Dynamics&gt;&gt;&amp; aDynamicsArray,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    );</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}  <span class="comment">// namespace system</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}  <span class="comment">// namespace flight</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keyword">const</span> String name_;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> DynamicalEquations(</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a>&amp; x,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a>&amp; dxdt,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">double</span>&amp; t,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keyword">const</span> Array&lt;Shared&lt;Dynamics&gt;&gt;&amp; aDynamicsArray,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">const</span> Instant&amp; anInstant</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    );</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace system</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}  <span class="comment">// namespace flight</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a66734583c7858726da890f6e91273b8b"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">ostk::astro::flight::system::Dynamics::getName</a></div><div class="ttdeci">String getName() const</div><div class="ttdoc">Get name.</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:25</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a67f485d4f732ba80ef9d3d7302e688cd"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">ostk::astro::flight::system::Dynamics::GetDynamicalEquations</a></div><div class="ttdeci">static DynamicalEquationWrapper GetDynamicalEquations(const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</div><div class="ttdoc">Get dynamical equations function wrapper (pure virtual)</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:39</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a7de1a8ce101f3cee59fd624b487de5be"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7de1a8ce101f3cee59fd624b487de5be">ostk::astro::flight::system::Dynamics::clone</a></div><div class="ttdeci">virtual Dynamics * clone() const =0</div><div class="ttdoc">Clone dynamics (pure virtual)</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a7a04f804b15e0f12d76f3f1f437f5169"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">ostk::astro::flight::system::Dynamics::StateVector</a></div><div class="ttdeci">std::vector&lt; double &gt; StateVector</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:35</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html">ostk::astro::NumericalSolver</a></div><div class="ttdoc">Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OST...</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:51</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_acbbc8eabceede55128ffea0492de9424"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">ostk::astro::flight::system::Dynamics::GetDynamicalEquations</a></div><div class="ttdeci">static NumericalSolver::SystemOfEquationsWrapper GetDynamicalEquations(const Array&lt; Shared&lt; Dynamics &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</div><div class="ttdoc">Get dynamical equations function wrapper (pure virtual)</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:39</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a13160e001990a6ce8db807e39b8f97df"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">ostk::astro::flight::system::Dynamics::isDefined</a></div><div class="ttdeci">virtual bool isDefined() const =0</div><div class="ttdoc">Check if dynamics is defined (pure virtual)</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a01cf369daf419b0f9864f0e1d8d90e24"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a01cf369daf419b0f9864f0e1d8d90e24">ostk::astro::flight::system::Dynamics::print</a></div><div class="ttdeci">virtual void print(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</div><div class="ttdoc">Print dynamics.</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:30</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_afad57df27ce6737316f0c1102e1919ae"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#afad57df27ce6737316f0c1102e1919ae">ostk::astro::flight::system::Dynamics::~Dynamics</a></div><div class="ttdeci">virtual ~Dynamics()=0</div><div class="ttdoc">Destructor (pure virtual)</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:23</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:22</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></div><div class="ttdoc">Define a dynamical system subject to equations of motion.</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:32</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a980aad3845f4b9ca1a64df4173134e44"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">ostk::astro::flight::system::Dynamics::gcrfSPtr_</a></div><div class="ttdeci">const Shared&lt; const Frame &gt; gcrfSPtr_</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:91</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></div><div class="ttdoc">Define a dynamical system subject to equations of motion.</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:36</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_aa39593aa5ff747e4f68492708b45bbc5"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">ostk::astro::NumericalSolver::SystemOfEquationsWrapper</a></div><div class="ttdeci">std::function&lt; void(const StateVector &amp;, StateVector &amp;, const double)&gt; SystemOfEquationsWrapper</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:73</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a980aad3845f4b9ca1a64df4173134e44"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">ostk::astro::flight::system::Dynamics::gcrfSPtr_</a></div><div class="ttdeci">const Shared&lt; const Frame &gt; gcrfSPtr_</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:94</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af91ffcd9d471c9fe3a093f9c5aa6f448"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">VectorXd StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:69</div></div>
+<div class="ttc" id="a_numerical_solver_8hpp_html"><div class="ttname"><a href="_numerical_solver_8hpp.html">NumericalSolver.hpp</a></div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a3af17a36f06f2518e4a686148d40691c"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">ostk::astro::flight::system::Dynamics::Dynamics</a></div><div class="ttdeci">Dynamics(const String &amp;aName=String::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:18</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_adeafa07fa43b4074788a3acc6dd6e419"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#adeafa07fa43b4074788a3acc6dd6e419">ostk::astro::flight::system::Dynamics::applyContribution</a></div><div class="ttdeci">virtual void applyContribution(const StateVector &amp;x, StateVector &amp;dxdt, const Instant &amp;anInstant) const =0</div><div class="ttdoc">Apply contribution to the state derivative (pure virtual)</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a9b14f4fbea6fe1e96af9e71545d4c77e"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">ostk::astro::flight::system::Dynamics::DynamicalEquationWrapper</a></div><div class="ttdeci">std::function&lt; void(const StateVector &amp;, StateVector &amp;, const double)&gt; DynamicalEquationWrapper</div><div class="ttdef"><b>Definition:</b> Dynamics.hpp:36</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a96bc85c25ffe90dc88a42335d8ffd433"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a96bc85c25ffe90dc88a42335d8ffd433">ostk::astro::flight::system::Dynamics::applyContribution</a></div><div class="ttdeci">virtual void applyContribution(const NumericalSolver::StateVector &amp;x, NumericalSolver::StateVector &amp;dxdt, const Instant &amp;anInstant) const =0</div><div class="ttdoc">Apply contribution to the state derivative (pure virtual)</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

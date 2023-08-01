@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['j2_862',['J2',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494',1,'ostk::astro::trajectory::orbit::models::Kepler']]],
-  ['j4_863',['J4',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369',1,'ostk::astro::trajectory::orbit::models::Kepler']]]
+  ['inclination_1038',['Inclination',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94ad5077cca37d144dc8530e4a9db417dc5',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['inertial_1039',['Inertial',['../classostk_1_1astro_1_1flight_1_1_profile.html#a01d9e77f30ba7131c70e81d12b237ea4a4d5cc7bc19ef3d1ab992ba044dc0ebe4',1,'ostk::astro::flight::Profile']]]
 ];

@@ -1,0 +1,114 @@
+\hypertarget{classostk_1_1astro_1_1eventcondition_1_1_duration_condition}{}\doxysection{ostk\+::astro\+::eventcondition\+::Duration\+Condition Class Reference}
+\label{classostk_1_1astro_1_1eventcondition_1_1_duration_condition}\index{ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}}
+
+
+A duration based event condition.  
+
+
+
+
+{\ttfamily \#include $<$Duration\+Condition.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::eventcondition\+::Duration\+Condition\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1eventcondition_1_1_duration_condition}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_ae62349a5120bd738b3e15730beee7268}{Duration\+Condition}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Duration \&a\+Duration)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a6c9ab8fe6a64e429af530e26f48ed04d}{$\sim$\+Duration\+Condition}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+Duration \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a505eb51a3a2cf6ec932bb49cbc578d69}{get\+Duration}} () const
+\begin{DoxyCompactList}\small\item\em Get duration. \end{DoxyCompactList}\item 
+virtual Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_acfe1faba7322303110b3a582c648af27}{evaluate}} (const Vector\+Xd \&a\+State\+Vector, const Real \&a\+Time) const override
+\begin{DoxyCompactList}\small\item\em Evaluate the Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+A duration based event condition. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_ae62349a5120bd738b3e15730beee7268}\label{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_ae62349a5120bd738b3e15730beee7268}} 
+\index{ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}!DurationCondition@{DurationCondition}}
+\index{DurationCondition@{DurationCondition}!ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}}
+\doxysubsubsection{\texorpdfstring{DurationCondition()}{DurationCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Duration\+Condition\+::\+Duration\+Condition (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Duration \&}]{a\+Duration }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_ae62349a5120bd738b3e15730beee7268}{DurationCondition}} durationCondition = \{aCriteria, aDuration\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Criteria} & An enum indicating the criteria used to determine the Event Condition \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Duration} & A duration \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a6c9ab8fe6a64e429af530e26f48ed04d}\label{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a6c9ab8fe6a64e429af530e26f48ed04d}} 
+\index{ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}!````~DurationCondition@{$\sim$DurationCondition}}
+\index{````~DurationCondition@{$\sim$DurationCondition}!ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}}
+\doxysubsubsection{\texorpdfstring{$\sim$DurationCondition()}{~DurationCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Duration\+Condition\+::$\sim$\+Duration\+Condition (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_acfe1faba7322303110b3a582c648af27}\label{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_acfe1faba7322303110b3a582c648af27}} 
+\index{ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}}
+\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+Duration\+Condition\+::evaluate (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{a\+State\+Vector,  }\item[{const Real \&}]{a\+Time }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Evaluate the Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State\+Vector} & The current state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Time} & The current time\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Real number representing the evaluation result of the Event Condition 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ab5996e10828c9b863b8fd140eb112c22}{ostk\+::astro\+::\+Event\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a505eb51a3a2cf6ec932bb49cbc578d69}\label{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_a505eb51a3a2cf6ec932bb49cbc578d69}} 
+\index{ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}!getDuration@{getDuration}}
+\index{getDuration@{getDuration}!ostk::astro::eventcondition::DurationCondition@{ostk::astro::eventcondition::DurationCondition}}
+\doxysubsubsection{\texorpdfstring{getDuration()}{getDuration()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::eventcondition\+::\+Duration\+Condition\+::get\+Duration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get duration. 
+
+\begin{DoxyReturn}{Returns}
+Duration 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_duration_condition_8hpp}{Duration\+Condition.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_duration_condition_8cpp}{Duration\+Condition.\+cpp}}\end{DoxyCompactItemize}

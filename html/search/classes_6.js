@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['metadata_443',['Metadata',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],
-  ['model_444',['Model',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_model.html',1,'ostk::astro::trajectory::orbit::Model'],['../classostk_1_1astro_1_1flight_1_1profile_1_1_model.html',1,'ostk::astro::flight::profile::Model'],['../classostk_1_1astro_1_1trajectory_1_1_model.html',1,'ostk::astro::trajectory::Model']]]
+  ['is_5fresizeable_3c_20ostk_3a_3amath_3a_3aobj_3a_3avectorxd_20_3e_534',['is_resizeable&lt; ostk::math::obj::VectorXd &gt;',['../structboost_1_1numeric_1_1odeint_1_1is__resizeable_3_01ostk_1_1math_1_1obj_1_1_vector_xd_01_4.html',1,'boost::numeric::odeint']]]
 ];

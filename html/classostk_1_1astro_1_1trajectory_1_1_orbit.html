@@ -197,6 +197,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8070657a625af4dae7b79a23e5026dcd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html">Orbit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#a8070657a625af4dae7b79a23e5026dcd">CircularEquatorial</a> (const Instant &amp;anEpoch, const Length &amp;anAltitude, const Shared&lt; const Celestial &gt; &amp;aCelestialObjectSPtr)</td></tr>
 <tr class="memdesc:a8070657a625af4dae7b79a23e5026dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a circular-equatorial orbit.  <a href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#a8070657a625af4dae7b79a23e5026dcd">More...</a><br /></td></tr>
 <tr class="separator:a8070657a625af4dae7b79a23e5026dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24492769b1948a354dab07958a0f134c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html">Orbit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#a24492769b1948a354dab07958a0f134c">GeoSynchronous</a> (const Instant &amp;anEpoch, const Angle &amp;anInclination, const Angle &amp;aLongitude, const Shared&lt; const Celestial &gt; &amp;aCelestialObjectSPtr)</td></tr>
+<tr class="memdesc:a24492769b1948a354dab07958a0f134c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a geosynchronous orbit.  <a href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#a24492769b1948a354dab07958a0f134c">More...</a><br /></td></tr>
+<tr class="separator:a24492769b1948a354dab07958a0f134c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf0e7e3140ba78c06cc590f37ba680a5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html">Orbit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#aaf0e7e3140ba78c06cc590f37ba680a5">SunSynchronous</a> (const Instant &amp;anEpoch, const Length &amp;anAltitude, const Time &amp;aLocalTimeAtDescendingNode, const Shared&lt; const Celestial &gt; &amp;aCelestialObjectSPtr)</td></tr>
 <tr class="memdesc:aaf0e7e3140ba78c06cc590f37ba680a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a Sun-synchronous orbit.  <a href="classostk_1_1astro_1_1trajectory_1_1_orbit.html#aaf0e7e3140ba78c06cc590f37ba680a5">More...</a><br /></td></tr>
 <tr class="separator:aaf0e7e3140ba78c06cc590f37ba680a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -541,6 +544,67 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Equatorial orbit </dd></dl>
+
+</div>
+</div>
+<a id="a24492769b1948a354dab07958a0f134c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24492769b1948a354dab07958a0f134c">&#9670;&nbsp;</a></span>GeoSynchronous()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_orbit.html">Orbit</a> ostk::astro::trajectory::Orbit::GeoSynchronous </td>
+          <td>(</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anEpoch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Angle &amp;&#160;</td>
+          <td class="paramname"><em>anInclination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Angle &amp;&#160;</td>
+          <td class="paramname"><em>aLongitude</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Shared&lt; const Celestial &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aCelestialObjectSPtr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs a geosynchronous orbit. </p>
+<pre class="fragment">                Model: Kepler (J2 Perturbation).
+</pre><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEpoch</td><td>An orbit epoch </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInclination</td><td>An orbit inclination </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aLongitude</td><td>A longitude above the surface </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCelestialObjectSPtr</td><td>A shared pointer to a central celestial body </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Circular orbit </dd></dl>
 
 </div>
 </div>

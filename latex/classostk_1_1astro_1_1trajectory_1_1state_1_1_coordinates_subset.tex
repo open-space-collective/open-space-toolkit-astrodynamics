@@ -1,0 +1,241 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{}\doxysection{ostk\+::astro\+::trajectory\+::state\+::Coordinates\+Subset Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} coordinates subset. It contains information related to a particular group of coordinates. It does not contain the coordinate values.  
+
+
+
+
+{\ttfamily \#include $<$Coordinates\+Subset.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::trajectory\+::state\+::Coordinates\+Subset\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.443299cm]{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a0b72dfab727ef003a56b9382d93d2c00}{Coordinates\+Subset}} (const String \&a\+Name, const Size \&a\+Size)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_affc65fb1429cbe580b41c64e9b67e671}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} \&a\+Coordinates\+Subset) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ab8497937b78fa04873cb7e92cc0ae08c}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} \&a\+Coordinates\+Subset) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a8400f8968ba03028278b0b0e81861ac2}{get\+Id}} () const
+\begin{DoxyCompactList}\small\item\em Return the unique identifier of the instance. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ad20dbe8a07f3591b5d7ee6467ca4197b}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Return the name of the instance. \end{DoxyCompactList}\item 
+Size \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a88e08cd16d5dde166c01df3d2b4bba21}{get\+Size}} () const
+\begin{DoxyCompactList}\small\item\em Return the size (i.\+e. dimension) of the instance. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a3b4e3d69bb95647a87c1f051eb54b8b5}{add}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const Vector\+Xd \&another\+Full\+Coordinates\+Vector, const Shared$<$ const Frame $>$ \&a\+Frame, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&a\+Coordinates\+Broker) const =0
+\begin{DoxyCompactList}\small\item\em Add two coordinates subsets. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a917ed84ce8eaca9b2cee577b103337fe}{subtract}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const Vector\+Xd \&another\+Full\+Coordinates\+Vector, const Shared$<$ const Frame $>$ \&a\+Frame, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&a\+Coordinates\+Broker) const =0
+\begin{DoxyCompactList}\small\item\em Subtract two coordinates subsets. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_aa1e166cb7676529689f60a1b8279a61b}{in\+Frame}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const Shared$<$ const Frame $>$ \&from\+Frame, const Shared$<$ const Frame $>$ \&to\+Frame, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&a\+Coordinates\+Broker) const =0
+\begin{DoxyCompactList}\small\item\em Transform the coordinate subset from one frame to another. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} coordinates subset. It contains information related to a particular group of coordinates. It does not contain the coordinate values. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a0b72dfab727ef003a56b9382d93d2c00}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a0b72dfab727ef003a56b9382d93d2c00}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!CoordinatesSubset@{CoordinatesSubset}}
+\index{CoordinatesSubset@{CoordinatesSubset}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{CoordinatesSubset()}{CoordinatesSubset()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::\+Coordinates\+Subset (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const Size \&}]{a\+Size }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{CoordinateSubset coordinateSubset = \{aName, aSize\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Size} & A size (i.\+e. dimension) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a3b4e3d69bb95647a87c1f051eb54b8b5}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a3b4e3d69bb95647a87c1f051eb54b8b5}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!add@{add}}
+\index{add@{add}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily virtual Vector\+Xd ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::add (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Full\+Coordinates\+Vector,  }\item[{const Vector\+Xd \&}]{another\+Full\+Coordinates\+Vector,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Add two coordinates subsets. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & the instant associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Full\+Coordinates\+Vector} & first set of all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em another\+Full\+Coordinates\+Vector} & second set of all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame} & the reference frame in which the coordinates are resolved \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker} & a coordinates broker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting coordinates subset value (subset\+\_\+1 + subset\+\_\+2) 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_ac79e6033704baa451f21ffe565f857f2}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Position}}, and \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_adebfc9257e55a194803a2133050f8fb6}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Velocity}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a8400f8968ba03028278b0b0e81861ac2}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a8400f8968ba03028278b0b0e81861ac2}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!getId@{getId}}
+\index{getId@{getId}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Return the unique identifier of the instance. 
+
+\begin{DoxyReturn}{Returns}
+The unique identifier of the instance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ad20dbe8a07f3591b5d7ee6467ca4197b}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ad20dbe8a07f3591b5d7ee6467ca4197b}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!getName@{getName}}
+\index{getName@{getName}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Return the name of the instance. 
+
+\begin{DoxyReturn}{Returns}
+The name of the instance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a88e08cd16d5dde166c01df3d2b4bba21}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a88e08cd16d5dde166c01df3d2b4bba21}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!getSize@{getSize}}
+\index{getSize@{getSize}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{getSize()}{getSize()}}
+{\footnotesize\ttfamily Size ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::get\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Return the size (i.\+e. dimension) of the instance. 
+
+\begin{DoxyReturn}{Returns}
+The size (i.\+e. dimension) of the instance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_aa1e166cb7676529689f60a1b8279a61b}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_aa1e166cb7676529689f60a1b8279a61b}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!inFrame@{inFrame}}
+\index{inFrame@{inFrame}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{inFrame()}{inFrame()}}
+{\footnotesize\ttfamily virtual Vector\+Xd ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::in\+Frame (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Full\+Coordinates\+Vector,  }\item[{const Shared$<$ const Frame $>$ \&}]{from\+Frame,  }\item[{const Shared$<$ const Frame $>$ \&}]{to\+Frame,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Transform the coordinate subset from one frame to another. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & the reference frame associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Full\+Coordinates\+Vector} & all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em from\+Frame} & the reference frame associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em to\+Frame} & the reference frame in which the coordinates are to be transformed \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker} & a coordinates broker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting coordinates subset value expressed in the desired reference frame 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_ae9f4f1df23fd7283d21e9c5f84ae6a6a}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Position}}, and \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_a815b3a308f0dcb431577f15a72977ddd}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Velocity}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ab8497937b78fa04873cb7e92cc0ae08c}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_ab8497937b78fa04873cb7e92cc0ae08c}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} \&}]{a\+Coordinates\+Subset }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset} & The coordinate subset to compare it to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if Coordinates\+Subsets are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_affc65fb1429cbe580b41c64e9b67e671}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_affc65fb1429cbe580b41c64e9b67e671}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} \&}]{a\+Coordinates\+Subset }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset} & The coordinate subset to compare it to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if Coordinates\+Subsets are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a917ed84ce8eaca9b2cee577b103337fe}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_a917ed84ce8eaca9b2cee577b103337fe}} 
+\index{ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}!subtract@{subtract}}
+\index{subtract@{subtract}!ostk::astro::trajectory::state::CoordinatesSubset@{ostk::astro::trajectory::state::CoordinatesSubset}}
+\doxysubsubsection{\texorpdfstring{subtract()}{subtract()}}
+{\footnotesize\ttfamily virtual Vector\+Xd ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Subset\+::subtract (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Full\+Coordinates\+Vector,  }\item[{const Vector\+Xd \&}]{another\+Full\+Coordinates\+Vector,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Subtract two coordinates subsets. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & the instant associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Full\+Coordinates\+Vector} & first set of all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em another\+Full\+Coordinates\+Vector} & second set of all coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame} & the reference frame associated to the coordinates \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Broker} & a coordinates broker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting coordinates subset value (subset\+\_\+1 -\/ subset\+\_\+2) 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position_a2ad12f350fe12c9a27c196bd0993275b}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Position}}, and \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity_ae65369b0814fb08f0851ce407f488849}{ostk\+::astro\+::trajectory\+::state\+::coordinatessubsets\+::\+Cartesian\+Velocity}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\mbox{\hyperlink{_coordinates_subset_8hpp}{Coordinates\+Subset.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\mbox{\hyperlink{_coordinates_subset_8cpp}{Coordinates\+Subset.\+cpp}}\end{DoxyCompactItemize}

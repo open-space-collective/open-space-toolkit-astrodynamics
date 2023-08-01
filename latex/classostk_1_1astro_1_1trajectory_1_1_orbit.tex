@@ -72,6 +72,8 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbo
 \begin{DoxyCompactList}\small\item\em Constructs an equatorial orbit. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a8070657a625af4dae7b79a23e5026dcd}{Circular\+Equatorial}} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Constructs a circular-\/equatorial orbit. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}{Geo\+Synchronous}} (const Instant \&an\+Epoch, const Angle \&an\+Inclination, const Angle \&a\+Longitude, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructs a geosynchronous orbit. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_aaf0e7e3140ba78c06cc590f37ba680a5}{Sun\+Synchronous}} (const Instant \&an\+Epoch, const Length \&an\+Altitude, const Time \&a\+Local\+Time\+At\+Descending\+Node, const Shared$<$ const Celestial $>$ \&a\+Celestial\+Object\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Constructs a Sun-\/synchronous orbit. \end{DoxyCompactList}\item 
 static String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a329934037eb9eb4cacfcb2a5774753ed}{String\+From\+Frame\+Type}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit_a1cc449ad56374471a8ab4300dde979e7}{Orbit\+::\+Frame\+Type}} \&a\+Frame\+Type)
@@ -244,6 +246,34 @@ Constructs an equatorial orbit.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Equatorial orbit 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_a24492769b1948a354dab07958a0f134c}} 
+\index{ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}!GeoSynchronous@{GeoSynchronous}}
+\index{GeoSynchronous@{GeoSynchronous}!ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}}
+\doxysubsubsection{\texorpdfstring{GeoSynchronous()}{GeoSynchronous()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}} ostk\+::astro\+::trajectory\+::\+Orbit\+::\+Geo\+Synchronous (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Epoch,  }\item[{const Angle \&}]{an\+Inclination,  }\item[{const Angle \&}]{a\+Longitude,  }\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial\+Object\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Constructs a geosynchronous orbit. 
+
+\begin{DoxyVerb}                Model: Kepler (J2 Perturbation).
+\end{DoxyVerb}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Epoch} & An orbit epoch \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Inclination} & An orbit inclination \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Longitude} & A longitude above the surface \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Celestial\+Object\+S\+Ptr} & A shared pointer to a central celestial body \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Circular orbit 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_orbit_a2549ae1a3ce8be76f441cfa85e9ab5ee}\label{classostk_1_1astro_1_1trajectory_1_1_orbit_a2549ae1a3ce8be76f441cfa85e9ab5ee}} 
 \index{ostk::astro::trajectory::Orbit@{ostk::astro::trajectory::Orbit}!getOrbitalFrame@{getOrbitalFrame}}

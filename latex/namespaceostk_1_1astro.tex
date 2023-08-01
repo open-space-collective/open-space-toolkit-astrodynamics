@@ -7,6 +7,8 @@
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1conjunction}{conjunction}}
 \item 
+ \mbox{\hyperlink{namespaceostk_1_1astro_1_1eventcondition}{eventcondition}}
+\item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight}{flight}}
 \item 
  \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory}{trajectory}}
@@ -16,48 +18,64 @@
 \item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}}
 \begin{DoxyCompactList}\small\item\em Object-\/to-\/object visibility. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}}
+\begin{DoxyCompactList}\small\item\em An Event Condition defines a criteria that can be evaluated based on a current/previous state vectors and times. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}}
 \begin{DoxyCompactList}\small\item\em Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}}
+\begin{DoxyCompactList}\small\item\em A Root Solver is a method for finding the roots (a.\+k.\+a. zeros) of an equation. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}}
 \begin{DoxyCompactList}\small\item\em Path followed by an object through space as a function of time. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef runge\+\_\+kutta4$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}{stepper\+\_\+type\+\_\+4}}
+typedef runge\+\_\+kutta4$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}{stepper\+\_\+type\+\_\+4}}
 \item 
-typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{error\+\_\+stepper\+\_\+type\+\_\+54}}
+typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{error\+\_\+stepper\+\_\+type\+\_\+54}}
 \item 
-typedef runge\+\_\+kutta\+\_\+fehlberg78$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{error\+\_\+stepper\+\_\+type\+\_\+78}}
+typedef runge\+\_\+kutta\+\_\+fehlberg78$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{error\+\_\+stepper\+\_\+type\+\_\+78}}
+\item 
+typedef runge\+\_\+kutta\+\_\+dopri5$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} $>$ \mbox{\hyperlink{namespaceostk_1_1astro_a8e2de4e00612914a22fea6f2aefee421}{dense\+\_\+stepper\+\_\+type\+\_\+5}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} \&an\+Access)
 \item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&an\+Event\+Condition)
+\item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver)
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}} \&a\+Root\+Solver)
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+Trajectory)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceostk_1_1astro_a8e2de4e00612914a22fea6f2aefee421}\label{namespaceostk_1_1astro_a8e2de4e00612914a22fea6f2aefee421}} 
+\index{ostk::astro@{ostk::astro}!dense\_stepper\_type\_5@{dense\_stepper\_type\_5}}
+\index{dense\_stepper\_type\_5@{dense\_stepper\_type\_5}!ostk::astro@{ostk::astro}}
+\doxysubsubsection{\texorpdfstring{dense\_stepper\_type\_5}{dense\_stepper\_type\_5}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+dopri5$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_a8e2de4e00612914a22fea6f2aefee421}{ostk\+::astro\+::dense\+\_\+stepper\+\_\+type\+\_\+5}}}
+
 \mbox{\Hypertarget{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}\label{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}} 
 \index{ostk::astro@{ostk::astro}!error\_stepper\_type\_54@{error\_stepper\_type\_54}}
 \index{error\_stepper\_type\_54@{error\_stepper\_type\_54}!ostk::astro@{ostk::astro}}
 \doxysubsubsection{\texorpdfstring{error\_stepper\_type\_54}{error\_stepper\_type\_54}}
-{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+54}}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+cash\+\_\+karp54$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_ae0e87d949c5bf8265860957bc3e551a4}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+54}}}
 
 \mbox{\Hypertarget{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}\label{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}} 
 \index{ostk::astro@{ostk::astro}!error\_stepper\_type\_78@{error\_stepper\_type\_78}}
 \index{error\_stepper\_type\_78@{error\_stepper\_type\_78}!ostk::astro@{ostk::astro}}
 \doxysubsubsection{\texorpdfstring{error\_stepper\_type\_78}{error\_stepper\_type\_78}}
-{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+fehlberg78$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+78}}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta\+\_\+fehlberg78$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_ac65cff551d02047f499131307bd5f688}{ostk\+::astro\+::error\+\_\+stepper\+\_\+type\+\_\+78}}}
 
 \mbox{\Hypertarget{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}\label{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}} 
 \index{ostk::astro@{ostk::astro}!stepper\_type\_4@{stepper\_type\_4}}
 \index{stepper\_type\_4@{stepper\_type\_4}!ostk::astro@{ostk::astro}}
 \doxysubsubsection{\texorpdfstring{stepper\_type\_4}{stepper\_type\_4}}
-{\footnotesize\ttfamily typedef runge\+\_\+kutta4$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a4a1673a6f74a72d6bacfe6480b9c1ccd}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}{ostk\+::astro\+::stepper\+\_\+type\+\_\+4}}}
+{\footnotesize\ttfamily typedef runge\+\_\+kutta4$<$\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}}$>$ \mbox{\hyperlink{namespaceostk_1_1astro_a60ad55c3b6d885619737be7886f78802}{ostk\+::astro\+::stepper\+\_\+type\+\_\+4}}}
 
 
 
@@ -65,13 +83,35 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e049
 \mbox{\Hypertarget{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}\label{namespaceostk_1_1astro_ad6bf403749e98996e2e56cd6dc8cc848}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} \&}]{an\+Access }\end{DoxyParamCaption})}
 
+\mbox{\Hypertarget{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}\label{namespaceostk_1_1astro_a8d5810d67d4d17063ace5ff0c7b8c5a4}} 
+\index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&}]{an\+Event\+Condition }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << EventCondition(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
 \mbox{\Hypertarget{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}\label{namespaceostk_1_1astro_a1504859af3ff5ed6cea30697522bbf4e}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver }\end{DoxyParamCaption})}
 
 
@@ -84,10 +124,26 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_a0cb767c3814a31416e049
 \begin{DoxyReturn}{Returns}
 A reference to output stream 
 \end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}\label{namespaceostk_1_1astro_af133b774c97fb149321a50874009a218}} 
+\index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver}{Root\+Solver}} \&}]{a\+Root\+Solver }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Root\+Solver} & A Root Solver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An output stream 
+\end{DoxyReturn}
 \mbox{\Hypertarget{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}\label{namespaceostk_1_1astro_a0cb767c3814a31416e0491406bc56ed2}} 
 \index{ostk::astro@{ostk::astro}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro@{ostk::astro}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+Trajectory }\end{DoxyParamCaption})}
 
 

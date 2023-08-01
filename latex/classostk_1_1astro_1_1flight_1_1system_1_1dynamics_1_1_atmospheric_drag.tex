@@ -32,7 +32,7 @@ Shared$<$ const Celestial $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1s
 \begin{DoxyCompactList}\small\item\em Get celestial. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}{get\+Satellite\+System}} () const
 \begin{DoxyCompactList}\small\item\em Get satellite system. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a38c69bb9b5d3b2c4dc548c7731d97716}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
 \begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_adfca0c807bb765365ac69a456efde5bf}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print atmospheric drag dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -114,11 +114,11 @@ Destructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a38c69bb9b5d3b2c4dc548c7731d97716}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a38c69bb9b5d3b2c4dc548c7731d97716}} 
 \index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!applyContribution@{applyContribution}}
 \index{applyContribution@{applyContribution}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
 \doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{Dynamics\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
 
 
@@ -135,7 +135,7 @@ Apply contribution to the state derivative.
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}} 
 \index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!clone@{clone}}

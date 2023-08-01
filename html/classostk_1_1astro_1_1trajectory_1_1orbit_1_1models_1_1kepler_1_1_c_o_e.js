@@ -1,6 +1,16 @@
 var classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e =
 [
     [ "CartesianState", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a410fdbf5aa25ed4651f1b7337c678edc", null ],
+    [ "Element", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94", [
+      [ "SemiMajorAxis", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a0799caf6dcb819282bb8808aae40e4db", null ],
+      [ "Eccentricity", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a1078f8f87d6348dce5960e3d861c0053", null ],
+      [ "Inclination", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94ad5077cca37d144dc8530e4a9db417dc5", null ],
+      [ "Aop", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a0b506ccfa4de59cfa64646a72ff019ed", null ],
+      [ "Raan", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a6953d46ff06cf818c4941a2d7d93a923", null ],
+      [ "TrueAnomaly", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94add9bb4f5c8ac7051efe788f0a62d1200", null ],
+      [ "MeanAnomaly", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94ac8e43235334b06bbdc80f063364309c5", null ],
+      [ "EccentricAnomaly", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a3361420b1530eeff8345432804abbae9", null ]
+    ] ],
     [ "COE", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#ad978e3d9271251a8ded920e56f2862f8", null ],
     [ "getAop", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a046e29af64478c59cc37a60e62af0564", null ],
     [ "getCartesianState", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a3ebb7ead964fda0471f1342ef6701080", null ],

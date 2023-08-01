@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['rocketbody_877',['RocketBody',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#a9ef446f2327904fc0516249120ec9d71adbf0f8cc46650179a9710985f21747b4',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],
-  ['rungekutta4_878',['RungeKutta4',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58',1,'ostk::astro::NumericalSolver']]],
-  ['rungekuttacashkarp54_879',['RungeKuttaCashKarp54',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37',1,'ostk::astro::NumericalSolver']]],
-  ['rungekuttafehlberg78_880',['RungeKuttaFehlberg78',['../classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7',1,'ostk::astro::NumericalSolver']]]
+  ['partial_1054',['Partial',['../classostk_1_1astro_1_1_access.html#aac00b1a6ead7db92eba5b71e43235c93a44ffd38a6dea695cbe2b34efdcc6cf27',1,'ostk::astro::Access::Partial()'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a74449dbd104c6a24462b373cc55febcca44ffd38a6dea695cbe2b34efdcc6cf27',1,'ostk::astro::trajectory::orbit::Pass::Partial()']]],
+  ['payload_1055',['Payload',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#a9ef446f2327904fc0516249120ec9d71a00f4e5788aab6d3546bb433842dbbefc',1,'ostk::astro::conjunction::messages::ccsds::CDM']]],
+  ['positivecrossing_1056',['PositiveCrossing',['../classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7ea35f12699e9d62145f3a7222ef63e496d',1,'ostk::astro::EventCondition']]]
 ];

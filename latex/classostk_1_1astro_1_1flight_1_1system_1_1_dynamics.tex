@@ -15,13 +15,6 @@ Inheritance diagram for ostk\+::astro\+::flight\+::system\+::Dynamics\+:\begin{f
 \includegraphics[height=0.851064cm]{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}
 \end{center}
 \end{figure}
-\doxysubsection*{Public Types}
-\begin{DoxyCompactItemize}
-\item 
-typedef std\+::vector$<$ double $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}}
-\item 
-typedef std\+::function$<$ void(const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&, const double)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamical\+Equation\+Wrapper}}
-\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -35,14 +28,14 @@ virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamic
 \begin{DoxyCompactList}\small\item\em Check if dynamics is defined (pure virtual) \end{DoxyCompactList}\item 
 String \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a66734583c7858726da890f6e91273b8b}{get\+Name}} () const
 \begin{DoxyCompactList}\small\item\em Get name. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&dxdt, const Instant \&an\+Instant) const =0
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const =0
 \begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative (pure virtual) \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a01cf369daf419b0f9864f0e1d8d90e24}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamical\+Equation\+Wrapper}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a67f485d4f732ba80ef9d3d7302e688cd}{Get\+Dynamical\+Equations}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array, const Instant \&an\+Instant)
+static \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_acbbc8eabceede55128ffea0492de9424}{Get\+Dynamical\+Equations}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array, const Instant \&an\+Instant)
 \begin{DoxyCompactList}\small\item\em Get dynamical equations function wrapper (pure virtual) \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -53,21 +46,6 @@ const Shared$<$ const Frame $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_
 
 \doxysubsection{Detailed Description}
 Define a dynamical system subject to equations of motion. 
-
-\doxysubsection{Member Typedef Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}} 
-\index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!DynamicalEquationWrapper@{DynamicalEquationWrapper}}
-\index{DynamicalEquationWrapper@{DynamicalEquationWrapper}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}
-\doxysubsubsection{\texorpdfstring{DynamicalEquationWrapper}{DynamicalEquationWrapper}}
-{\footnotesize\ttfamily typedef std\+::function$<$void(const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}}\&, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}}\&, const double)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::\+Dynamical\+Equation\+Wrapper}}}
-
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}} 
-\index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!StateVector@{StateVector}}
-\index{StateVector@{StateVector}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}
-\doxysubsubsection{\texorpdfstring{StateVector}{StateVector}}
-{\footnotesize\ttfamily typedef std\+::vector$<$double$>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::\+State\+Vector}}}
-
-
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a3af17a36f06f2518e4a686148d40691c}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a3af17a36f06f2518e4a686148d40691c}} 
@@ -98,11 +76,11 @@ Destructor (pure virtual)
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_adeafa07fa43b4074788a3acc6dd6e419}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}} 
 \index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!applyContribution@{applyContribution}}
 \index{applyContribution@{applyContribution}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}
 \doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
-{\footnotesize\ttfamily virtual void ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7a04f804b15e0f12d76f3f1f437f5169}{State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+{\footnotesize\ttfamily virtual void ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
 
 
@@ -119,7 +97,7 @@ Apply contribution to the state derivative (pure virtual)
 \end{DoxyParams}
 
 
-Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a72d99b33f16cd8ac93fab4397d98d87d}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a454d04592ea520a3d56000898093b1d1}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a0a748ee66cdc1e9b24b9f5513967433b}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_adf74720ba4b07e0bcfd0c5a320dee708}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative}}.
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a38c69bb9b5d3b2c4dc548c7731d97716}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ab4a222fd6b11e586b08d15e15c6434cc}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a4a52332ea7a3dd07889ef194690ada92}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_af19a843af275285e4c9eacfbcd00af50}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}} 
 \index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!clone@{clone}}
@@ -138,11 +116,11 @@ Pointer to cloned dynamics
 
 Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_aff8041b8fd877b854950a4226fdbe101}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_ac31048251076f5c0e7bf575b7789a923}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a56b1b97d5d10facdf884cf461f0deb3c}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a04a97d45de4a8699ffbbdbd008116257}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative}}.
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a67f485d4f732ba80ef9d3d7302e688cd}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a67f485d4f732ba80ef9d3d7302e688cd}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_acbbc8eabceede55128ffea0492de9424}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_acbbc8eabceede55128ffea0492de9424}} 
 \index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!GetDynamicalEquations@{GetDynamicalEquations}}
 \index{GetDynamicalEquations@{GetDynamicalEquations}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}
 \doxysubsubsection{\texorpdfstring{GetDynamicalEquations()}{GetDynamicalEquations()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a9b14f4fbea6fe1e96af9e71545d4c77e}{Dynamics\+::\+Dynamical\+Equation\+Wrapper}} ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::\+Get\+Dynamical\+Equations (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_aa39593aa5ff747e4f68492708b45bbc5}{Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper}} ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::\+Get\+Dynamical\+Equations (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 

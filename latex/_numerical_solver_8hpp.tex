@@ -1,19 +1,33 @@
 \hypertarget{_numerical_solver_8hpp}{}\doxysection{include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Numerical\+Solver.hpp File Reference}
 \label{_numerical_solver_8hpp}\index{include/OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp@{include/OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp}}
+{\ttfamily \#include $<$boost/numeric/odeint.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/numeric/odeint/external/eigen/eigen\+\_\+algebra.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Array.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Pair.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Integer.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Real.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+String.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Duration.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Objects/\+Vector.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Root\+Solver.\+hpp$>$}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+struct \mbox{\hyperlink{structboost_1_1numeric_1_1odeint_1_1is__resizeable_3_01ostk_1_1math_1_1obj_1_1_vector_xd_01_4}{boost\+::numeric\+::odeint\+::is\+\_\+resizeable$<$ ostk\+::math\+::obj\+::\+Vector\+Xd $>$}}
+\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{ostk\+::astro\+::\+Numerical\+Solver}}
-\begin{DoxyCompactList}\small\item\em Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution}{ostk\+::astro\+::\+Numerical\+Solver\+::\+Condition\+Solution}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
+ \mbox{\hyperlink{namespaceboost}{boost}}
+\item 
+ \mbox{\hyperlink{namespaceboost_1_1numeric}{boost\+::numeric}}
+\item 
+ \mbox{\hyperlink{namespaceboost_1_1numeric_1_1odeint}{boost\+::numeric\+::odeint}}
+\begin{DoxyCompactList}\small\item\em Apache License 2.\+0. \end{DoxyCompactList}\item 
  \mbox{\hyperlink{namespaceostk}{ostk}}
 \begin{DoxyCompactList}\small\item\em Apache License 2.\+0. \end{DoxyCompactList}\item 
  \mbox{\hyperlink{namespaceostk_1_1astro}{ostk\+::astro}}

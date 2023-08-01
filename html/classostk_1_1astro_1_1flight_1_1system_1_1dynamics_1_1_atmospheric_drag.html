@@ -126,9 +126,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f9a57f33b5cf0aad22b00c32729e4f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html">SatelliteSystem</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a6f9a57f33b5cf0aad22b00c32729e4f2">getSatelliteSystem</a> () const</td></tr>
 <tr class="memdesc:a6f9a57f33b5cf0aad22b00c32729e4f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get satellite system.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a6f9a57f33b5cf0aad22b00c32729e4f2">More...</a><br /></td></tr>
 <tr class="separator:a6f9a57f33b5cf0aad22b00c32729e4f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72d99b33f16cd8ac93fab4397d98d87d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a72d99b33f16cd8ac93fab4397d98d87d">applyContribution</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">Dynamics::StateVector</a> &amp;x, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">Dynamics::StateVector</a> &amp;dxdt, const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:a72d99b33f16cd8ac93fab4397d98d87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a72d99b33f16cd8ac93fab4397d98d87d">More...</a><br /></td></tr>
-<tr class="separator:a72d99b33f16cd8ac93fab4397d98d87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c69bb9b5d3b2c4dc548c7731d97716"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a38c69bb9b5d3b2c4dc548c7731d97716">applyContribution</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;x, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;dxdt, const Instant &amp;anInstant) const override</td></tr>
+<tr class="memdesc:a38c69bb9b5d3b2c4dc548c7731d97716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a38c69bb9b5d3b2c4dc548c7731d97716">More...</a><br /></td></tr>
+<tr class="separator:a38c69bb9b5d3b2c4dc548c7731d97716"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfca0c807bb765365ac69a456efde5bf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#adfca0c807bb765365ac69a456efde5bf">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="memdesc:adfca0c807bb765365ac69a456efde5bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print atmospheric drag dynamics.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#adfca0c807bb765365ac69a456efde5bf">More...</a><br /></td></tr>
 <tr class="separator:adfca0c807bb765365ac69a456efde5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,15 +151,10 @@ Friends</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:a7a04f804b15e0f12d76f3f1f437f5169 inherit pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a></td></tr>
-<tr class="separator:a7a04f804b15e0f12d76f3f1f437f5169 inherit pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b14f4fbea6fe1e96af9e71545d4c77e inherit pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">StateVector</a> &amp;, const double)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a></td></tr>
-<tr class="separator:a9b14f4fbea6fe1e96af9e71545d4c77e inherit pub_types_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:a67f485d4f732ba80ef9d3d7302e688cd inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a9b14f4fbea6fe1e96af9e71545d4c77e">DynamicalEquationWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">GetDynamicalEquations</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</td></tr>
-<tr class="memdesc:a67f485d4f732ba80ef9d3d7302e688cd inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a67f485d4f732ba80ef9d3d7302e688cd">More...</a><br /></td></tr>
-<tr class="separator:a67f485d4f732ba80ef9d3d7302e688cd inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">GetDynamicalEquations</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</td></tr>
+<tr class="memdesc:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">More...</a><br /></td></tr>
+<tr class="separator:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
 <tr class="memitem:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">const Shared&lt; const Frame &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF()</td></tr>
 <tr class="separator:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,8 +278,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a72d99b33f16cd8ac93fab4397d98d87d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72d99b33f16cd8ac93fab4397d98d87d">&#9670;&nbsp;</a></span>applyContribution()</h2>
+<a id="a38c69bb9b5d3b2c4dc548c7731d97716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c69bb9b5d3b2c4dc548c7731d97716">&#9670;&nbsp;</a></span>applyContribution()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,13 +290,13 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void ostk::astro::flight::system::dynamics::AtmosphericDrag::applyContribution </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">Dynamics::StateVector</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7a04f804b15e0f12d76f3f1f437f5169">Dynamics::StateVector</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
           <td class="paramname"><em>dxdt</em>, </td>
         </tr>
         <tr>
@@ -333,7 +328,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#adeafa07fa43b4074788a3acc6dd6e419">ostk::astro::flight::system::Dynamics</a>.</p>
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a96bc85c25ffe90dc88a42335d8ffd433">ostk::astro::flight::system::Dynamics</a>.</p>
 
 </div>
 </div>

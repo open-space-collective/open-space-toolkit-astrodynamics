@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['first_859',['First',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a7fb55ed0b7a30342ba6da306428cae04',1,'ostk::astro::trajectory::orbit::Pass']]],
-  ['fourth_860',['Fourth',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a4c5f54feec066a636b1e7293aacf0114a6e599f7a2a9186d391be4537f105be98',1,'ostk::astro::trajectory::orbit::Pass']]]
+  ['eccentricanomaly_1034',['EccentricAnomaly',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a3361420b1530eeff8345432804abbae9',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]],
+  ['eccentricity_1035',['Eccentricity',['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a1887b5ac618d22ebe63521063038ad94a1078f8f87d6348dce5960e3d861c0053',1,'ostk::astro::trajectory::orbit::models::kepler::COE']]]
 ];

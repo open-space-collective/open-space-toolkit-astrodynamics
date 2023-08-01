@@ -3,6 +3,12 @@ var hierarchy =
     [ "ostk::astro::Access", "classostk_1_1astro_1_1_access.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM", "classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html", null ],
     [ "ostk::astro::trajectory::orbit::models::kepler::COE", "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html", null ],
+    [ "ostk::astro::NumericalSolver::ConditionSolution", "structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html", null ],
+    [ "ostk::astro::trajectory::state::CoordinatesBroker", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html", null ],
+    [ "ostk::astro::trajectory::state::CoordinatesSubset", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html", [
+      [ "ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html", null ],
+      [ "ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity", "classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html", null ]
+    ] ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::Data", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html", null ],
     [ "ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment", "structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html", null ],
     [ "ostk::astro::flight::system::Dynamics", "classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html", [
@@ -11,9 +17,14 @@ var hierarchy =
       [ "ostk::astro::flight::system::dynamics::PositionDerivative", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html", null ],
       [ "ostk::astro::flight::system::dynamics::ThirdBodyGravity", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html", null ]
     ] ],
+    [ "ostk::astro::EventCondition", "classostk_1_1astro_1_1_event_condition.html", [
+      [ "ostk::astro::eventcondition::COECondition", "classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html", null ],
+      [ "ostk::astro::eventcondition::DurationCondition", "classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html", null ]
+    ] ],
     [ "ostk::astro::access::Generator", "classostk_1_1astro_1_1access_1_1_generator.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::Header", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_header.html", null ],
     [ "ostk::astro::trajectory::orbit::messages::spacex::OPM::Header", "structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_header.html", null ],
+    [ "boost::numeric::odeint::is_resizeable< ostk::math::obj::VectorXd >", "structboost_1_1numeric_1_1odeint_1_1is__resizeable_3_01ostk_1_1math_1_1obj_1_1_vector_xd_01_4.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::Metadata", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html", null ],
     [ "ostk::astro::flight::profile::Model", "classostk_1_1astro_1_1flight_1_1profile_1_1_model.html", [
       [ "ostk::astro::flight::profile::models::Tabulated", "classostk_1_1astro_1_1flight_1_1profile_1_1models_1_1_tabulated.html", null ],
@@ -37,6 +48,8 @@ var hierarchy =
     [ "ostk::astro::flight::Profile", "classostk_1_1astro_1_1flight_1_1_profile.html", null ],
     [ "ostk::astro::trajectory::Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html", null ],
+    [ "ostk::astro::RootSolver", "classostk_1_1astro_1_1_root_solver.html", null ],
+    [ "ostk::astro::RootSolver::Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", null ],
     [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
     [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::System", "classostk_1_1astro_1_1flight_1_1_system.html", [

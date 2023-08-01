@@ -81,6 +81,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1_numerical_solve
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
@@ -96,11 +97,17 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1_numerical_solve
 
 <p><code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">NumericalSolver.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html">ConditionSolution</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:afb80f81b2c3cc1d356b0b4749e45b947"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947">StepperType</a> { <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58">StepperType::RungeKutta4</a>, 
 <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37">StepperType::RungeKuttaCashKarp54</a>, 
-<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7">StepperType::RungeKuttaFehlberg78</a>
+<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7">StepperType::RungeKuttaFehlberg78</a>, 
+<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a3203013d28f8e40a899ed45ede9ad149">StepperType::RungeKuttaDopri5</a>
  }</td></tr>
 <tr class="separator:afb80f81b2c3cc1d356b0b4749e45b947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23e9e3f7d630f3097b4cbd91d9a2aa4c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4c">LogType</a> { <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4cac224e58a49e83bb9b94e2bd594fd5231">LogType::NoLog</a>, 
@@ -108,16 +115,18 @@ Public Types</h2></td></tr>
 <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4caa412149ee02d5aaab7f9f710b2e39c5e">LogType::LogAdaptive</a>
  }</td></tr>
 <tr class="separator:a23e9e3f7d630f3097b4cbd91d9a2aa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a1673a6f74a72d6bacfe6480b9c1ccd"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a></td></tr>
-<tr class="separator:a4a1673a6f74a72d6bacfe6480b9c1ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa39593aa5ff747e4f68492708b45bbc5"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;, const double)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a></td></tr>
+<tr class="memitem:af91ffcd9d471c9fe3a093f9c5aa6f448"><td class="memItemLeft" align="right" valign="top">typedef VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a></td></tr>
+<tr class="separator:af91ffcd9d471c9fe3a093f9c5aa6f448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ade38a233dbf4f3a59161aa87ecb77"><td class="memItemLeft" align="right" valign="top">typedef Pair&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a>, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a></td></tr>
+<tr class="separator:af7ade38a233dbf4f3a59161aa87ecb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa39593aa5ff747e4f68492708b45bbc5"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;, const double)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a></td></tr>
 <tr class="separator:aa39593aa5ff747e4f68492708b45bbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac67671257ab8be4f684842505f4ce8d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">NumericalSolver</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4c">NumericalSolver::LogType</a> &amp;aLogType, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947">NumericalSolver::StepperType</a> &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance)</td></tr>
-<tr class="memdesc:ac67671257ab8be4f684842505f4ce8d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">More...</a><br /></td></tr>
-<tr class="separator:ac67671257ab8be4f684842505f4ce8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ee8408e552fdf6173d9315c0e382359"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">NumericalSolver</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4c">NumericalSolver::LogType</a> &amp;aLogType, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947">NumericalSolver::StepperType</a> &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const <a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a> &amp;aRootSolver=<a class="el" href="classostk_1_1astro_1_1_root_solver.html#a1183671b30532b0b9096ab24e7c675f4">RootSolver::Default</a>())</td></tr>
+<tr class="memdesc:a7ee8408e552fdf6173d9315c0e382359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">More...</a><br /></td></tr>
+<tr class="separator:a7ee8408e552fdf6173d9315c0e382359"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b96baffe23b77c14046e4fb7ffc89a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a5b96baffe23b77c14046e4fb7ffc89a1">clone</a> () const</td></tr>
 <tr class="memdesc:a5b96baffe23b77c14046e4fb7ffc89a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone numerical solver.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a5b96baffe23b77c14046e4fb7ffc89a1">More...</a><br /></td></tr>
 <tr class="separator:a5b96baffe23b77c14046e4fb7ffc89a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,15 +157,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0f768255c5f2f51f395e4515db245930"><td class="memItemLeft" align="right" valign="top">Real&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a0f768255c5f2f51f395e4515db245930">getAbsoluteTolerance</a> () const</td></tr>
 <tr class="memdesc:a0f768255c5f2f51f395e4515db245930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get absolute integration tolerance.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a0f768255c5f2f51f395e4515db245930">More...</a><br /></td></tr>
 <tr class="separator:a0f768255c5f2f51f395e4515db245930"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87bd6b5ab330b5dcfa98ce8e2e18470c"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a87bd6b5ab330b5dcfa98ce8e2e18470c">integrateStatesAtSortedInstants</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;anInitialStateVector, const Instant &amp;aStartInstant, const Array&lt; Instant &gt; &amp;anInstantArray, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
-<tr class="memdesc:a87bd6b5ab330b5dcfa98ce8e2e18470c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from a starting instant to an array of states.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a87bd6b5ab330b5dcfa98ce8e2e18470c">More...</a><br /></td></tr>
-<tr class="separator:a87bd6b5ab330b5dcfa98ce8e2e18470c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b70e0e1a28d5c68f4dbde0b972e57e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a1b70e0e1a28d5c68f4dbde0b972e57e0">integrateStateFromInstantToInstant</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;anInitialStateVector, const Instant &amp;aStartInstant, const Instant &amp;anEndInstant, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
-<tr class="memdesc:a1b70e0e1a28d5c68f4dbde0b972e57e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from an instant to another instant.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a1b70e0e1a28d5c68f4dbde0b972e57e0">More...</a><br /></td></tr>
-<tr class="separator:a1b70e0e1a28d5c68f4dbde0b972e57e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a759c48ef757547a6855c21795c66ec5a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a759c48ef757547a6855c21795c66ec5a">integrateStateForDuration</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;anInitialStateVector, const Duration &amp;anIntegrationDuration, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
-<tr class="memdesc:a759c48ef757547a6855c21795c66ec5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration for a certain duration.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a759c48ef757547a6855c21795c66ec5a">More...</a><br /></td></tr>
-<tr class="separator:a759c48ef757547a6855c21795c66ec5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22102966485304b7fad6c0dd793362c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a22102966485304b7fad6c0dd793362c0">getRootSolver</a> () const</td></tr>
+<tr class="memdesc:a22102966485304b7fad6c0dd793362c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get root solver.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a22102966485304b7fad6c0dd793362c0">More...</a><br /></td></tr>
+<tr class="separator:a22102966485304b7fad6c0dd793362c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab4999a9a2b780ffc839eec7eb357fe3"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aab4999a9a2b780ffc839eec7eb357fe3">integrateTime</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Real &amp;aStartTime, const Array&lt; Real &gt; &amp;aTimeArray, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
+<tr class="memdesc:aab4999a9a2b780ffc839eec7eb357fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from a start time to an array of times.  <a href="classostk_1_1astro_1_1_numerical_solver.html#aab4999a9a2b780ffc839eec7eb357fe3">More...</a><br /></td></tr>
+<tr class="separator:aab4999a9a2b780ffc839eec7eb357fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3cd83c7f53ef794b9d69a2be35137e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#ab3cd83c7f53ef794b9d69a2be35137e4">integrateTime</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Real &amp;aStartTime, const Real &amp;anEndTime, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
+<tr class="memdesc:ab3cd83c7f53ef794b9d69a2be35137e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from a start time to an end time.  <a href="classostk_1_1astro_1_1_numerical_solver.html#ab3cd83c7f53ef794b9d69a2be35137e4">More...</a><br /></td></tr>
+<tr class="separator:ab3cd83c7f53ef794b9d69a2be35137e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9123455fb97853147c26c6c734b438c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html">ConditionSolution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa9123455fb97853147c26c6c734b438c">integrateTime</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Real &amp;aStartTime, const Real &amp;anEndTime, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;anEventCondition)</td></tr>
+<tr class="memdesc:aa9123455fb97853147c26c6c734b438c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from a start time until either a condition or the end time is reached.  <a href="classostk_1_1astro_1_1_numerical_solver.html#aa9123455fb97853147c26c6c734b438c">More...</a><br /></td></tr>
+<tr class="separator:aa9123455fb97853147c26c6c734b438c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde6e4f6648884ac27bc6a945fcdc298"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#adde6e4f6648884ac27bc6a945fcdc298">integrateDuration</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Real &amp;aDurationInSeconds, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
+<tr class="memdesc:adde6e4f6648884ac27bc6a945fcdc298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration for a specified duration.  <a href="classostk_1_1astro_1_1_numerical_solver.html#adde6e4f6648884ac27bc6a945fcdc298">More...</a><br /></td></tr>
+<tr class="separator:adde6e4f6648884ac27bc6a945fcdc298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a269c7e91519287bba7e4cbc571646b3e"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a269c7e91519287bba7e4cbc571646b3e">integrateDuration</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Array&lt; Real &gt; &amp;aDurationArray, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations)</td></tr>
+<tr class="memdesc:a269c7e91519287bba7e4cbc571646b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration for an array of durations.  <a href="classostk_1_1astro_1_1_numerical_solver.html#a269c7e91519287bba7e4cbc571646b3e">More...</a><br /></td></tr>
+<tr class="separator:a269c7e91519287bba7e4cbc571646b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1b3381e52aeeedbc8861d1936c6b876"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html">ConditionSolution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#ae1b3381e52aeeedbc8861d1936c6b876">integrateDuration</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;anInitialStateVector, const Real &amp;aDurationInSeconds, const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;aSystemOfEquations, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;anEventCondition)</td></tr>
+<tr class="memdesc:ae1b3381e52aeeedbc8861d1936c6b876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform numerical integration from a start time until either a condition or duration is met.  <a href="classostk_1_1astro_1_1_numerical_solver.html#ae1b3381e52aeeedbc8861d1936c6b876">More...</a><br /></td></tr>
+<tr class="separator:ae1b3381e52aeeedbc8861d1936c6b876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -182,14 +203,28 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be moved into OSTk-math in the future. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a4a1673a6f74a72d6bacfe6480b9c1ccd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a1673a6f74a72d6bacfe6480b9c1ccd">&#9670;&nbsp;</a></span>StateVector</h2>
+<a id="af7ade38a233dbf4f3a59161aa87ecb77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ade38a233dbf4f3a59161aa87ecb77">&#9670;&nbsp;</a></span>Solution</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;double&gt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">ostk::astro::NumericalSolver::StateVector</a></td>
+          <td class="memname">typedef Pair&lt;<a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a>, double&gt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">ostk::astro::NumericalSolver::Solution</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af91ffcd9d471c9fe3a093f9c5aa6f448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af91ffcd9d471c9fe3a093f9c5aa6f448">&#9670;&nbsp;</a></span>StateVector</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef VectorXd <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">ostk::astro::NumericalSolver::StateVector</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -203,7 +238,7 @@ Friends</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::function&lt;void(const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a>&amp;, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a>&amp;, const double)&gt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">ostk::astro::NumericalSolver::SystemOfEquationsWrapper</a></td>
+          <td class="memname">typedef std::function&lt;void(const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a>&amp;, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a>&amp;, const double)&gt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">ostk::astro::NumericalSolver::SystemOfEquationsWrapper</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -261,13 +296,14 @@ Friends</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a2ad1d4b322353ee07200045be21ffb58"></a>RungeKutta4&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a646d9d3aaac989d6fd4990f308ba3a37"></a>RungeKuttaCashKarp54&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a5002097811f3eb2dd4a34b826b1288e7"></a>RungeKuttaFehlberg78&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afb80f81b2c3cc1d356b0b4749e45b947a3203013d28f8e40a899ed45ede9ad149"></a>RungeKuttaDopri5&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac67671257ab8be4f684842505f4ce8d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac67671257ab8be4f684842505f4ce8d8">&#9670;&nbsp;</a></span>NumericalSolver()</h2>
+<a id="a7ee8408e552fdf6173d9315c0e382359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ee8408e552fdf6173d9315c0e382359">&#9670;&nbsp;</a></span>NumericalSolver()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,7 +336,13 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Real &amp;&#160;</td>
-          <td class="paramname"><em>anAbsoluteTolerance</em>&#160;</td>
+          <td class="paramname"><em>anAbsoluteTolerance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>aRootSolver</em> = <code><a class="el" href="classostk_1_1astro_1_1_root_solver.html#a1183671b30532b0b9096ab24e7c675f4">RootSolver::Default</a>()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -311,7 +353,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">NumericalSolver</a> numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance,</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">NumericalSolver</a> numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance,</div>
 <div class="line">anAbsoluteTolerance } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -438,6 +480,27 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a22102966485304b7fad6c0dd793362c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22102966485304b7fad6c0dd793362c0">&#9670;&nbsp;</a></span>getRootSolver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_root_solver.html">RootSolver</a> ostk::astro::NumericalSolver::getRootSolver </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get root solver. </p>
+<div class="fragment"><div class="line">numericalSolver.getRootSolver() ;</div>
+</div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1_root_solver.html" title="A Root Solver is a method for finding the roots (a.k.a. zeros) of an equation.">RootSolver</a> </dd></dl>
+
+</div>
+</div>
 <a id="adb327bb6a9dc0fc4ab8fca57030b51e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb327bb6a9dc0fc4ab8fca57030b51e6">&#9670;&nbsp;</a></span>getStepperType()</h2>
 
@@ -480,23 +543,23 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a759c48ef757547a6855c21795c66ec5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a759c48ef757547a6855c21795c66ec5a">&#9670;&nbsp;</a></span>integrateStateForDuration()</h2>
+<a id="a269c7e91519287bba7e4cbc571646b3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a269c7e91519287bba7e4cbc571646b3e">&#9670;&nbsp;</a></span>integrateDuration() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a> ostk::astro::NumericalSolver::integrateStateForDuration </td>
+          <td class="memname">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">NumericalSolver::Solution</a> &gt; ostk::astro::NumericalSolver::integrateDuration </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
           <td class="paramname"><em>anInitialStateVector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Duration &amp;&#160;</td>
-          <td class="paramname"><em>anIntegrationDuration</em>, </td>
+          <td class="paramtype">const Array&lt; Real &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aDurationArray</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -512,44 +575,38 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Perform numerical integration for a certain duration. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> stateVector = numericalsolver.integrateStateFromInstantToInstant(stateVector,</div>
-<div class="line">instant, otherInstant, SystemofEquations) ;</div>
+<p>Perform numerical integration for an array of durations. </p>
+<div class="fragment"><div class="line">Array&lt;Solution&gt; solutions = numericalsolver.integrateTime(stateVector, durationArray,</div>
+<div class="line">SystemofEquations);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anIntegrationDuration</td><td>A duration over which to integration </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDurationArray</td><td>An array of durations over which to integrate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>A std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Array&lt;Solution&gt; </dd></dl>
 
 </div>
 </div>
-<a id="a1b70e0e1a28d5c68f4dbde0b972e57e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b70e0e1a28d5c68f4dbde0b972e57e0">&#9670;&nbsp;</a></span>integrateStateFromInstantToInstant()</h2>
+<a id="adde6e4f6648884ac27bc6a945fcdc298"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adde6e4f6648884ac27bc6a945fcdc298">&#9670;&nbsp;</a></span>integrateDuration() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a> ostk::astro::NumericalSolver::integrateStateFromInstantToInstant </td>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">NumericalSolver::Solution</a> ostk::astro::NumericalSolver::integrateDuration </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
           <td class="paramname"><em>anInitialStateVector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>aStartInstant</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>anEndInstant</em>, </td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aDurationInSeconds</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -565,45 +622,98 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Perform numerical integration from an instant to another instant. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> stateVector = numericalSolver.integrateStateFromInstantToInstant(stateVector,</div>
-<div class="line">instant, otherInstant, systemOfEquations) ;</div>
+<p>Perform numerical integration for a specified duration. </p>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a> solution = numericalsolver.integrateTime(stateVector, durationSeconds,</div>
+<div class="line">SystemofEquations) ;</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStartInstant</td><td>An instant to begin integrating from </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEndInstant</td><td>An instant to finish integrating at </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDurationInSeconds</td><td>A duration over which to integrate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>A std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution </dd></dl>
 
 </div>
 </div>
-<a id="a87bd6b5ab330b5dcfa98ce8e2e18470c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87bd6b5ab330b5dcfa98ce8e2e18470c">&#9670;&nbsp;</a></span>integrateStatesAtSortedInstants()</h2>
+<a id="ae1b3381e52aeeedbc8861d1936c6b876"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1b3381e52aeeedbc8861d1936c6b876">&#9670;&nbsp;</a></span>integrateDuration() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">NumericalSolver::StateVector</a> &gt; ostk::astro::NumericalSolver::integrateStatesAtSortedInstants </td>
+          <td class="memname"><a class="el" href="structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html">NumericalSolver::ConditionSolution</a> ostk::astro::NumericalSolver::integrateDuration </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">StateVector</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
           <td class="paramname"><em>anInitialStateVector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>aStartInstant</em>, </td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aDurationInSeconds</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Array&lt; Instant &gt; &amp;&#160;</td>
-          <td class="paramname"><em>anInstantArray</em>, </td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSystemOfEquations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;&#160;</td>
+          <td class="paramname"><em>anEventCondition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform numerical integration from a start time until either a condition or duration is met. </p>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> stateVector = numericalSolver.integrateDuration(stateVector,</div>
+<div class="line">aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition) ;</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDurationInSeconds</td><td>A duration to integrate for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution </dd></dl>
+
+</div>
+</div>
+<a id="aab4999a9a2b780ffc839eec7eb357fe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab4999a9a2b780ffc839eec7eb357fe3">&#9670;&nbsp;</a></span>integrateTime() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">NumericalSolver::Solution</a> &gt; ostk::astro::NumericalSolver::integrateTime </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>anInitialStateVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aStartTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Array&lt; Real &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aTimeArray</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -619,20 +729,134 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Perform numerical integration from a starting instant to an array of states. </p>
-<div class="fragment"><div class="line">Array&lt;StateVector&gt; stateVectorArray =</div>
-<div class="line">numericalSolver.integrateStatesAtSortedInstants(stateVector, instant, instantArray,</div>
-<div class="line">systemOfEquations) ;</div>
+<p>Perform numerical integration from a start time to an array of times. </p>
+<div class="fragment"><div class="line">Array&lt;Solution&gt; solutions =</div>
+<div class="line">numericalSolver.integrateTime(stateVector, startTime, timeArray, systemOfEquations);</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aStartInstant</td><td>An instant to begin integrating from </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstantArray</td><td>An instant array to integrate to </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aStartTime</td><td>A time to begin integrating from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aTimeArray</td><td>A array of times to integrate to </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>A std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;std::vector&lt;double&gt;&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Array&lt;Solution&gt; </dd></dl>
+
+</div>
+</div>
+<a id="ab3cd83c7f53ef794b9d69a2be35137e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3cd83c7f53ef794b9d69a2be35137e4">&#9670;&nbsp;</a></span>integrateTime() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">NumericalSolver::Solution</a> ostk::astro::NumericalSolver::integrateTime </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>anInitialStateVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aStartTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>anEndTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSystemOfEquations</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform numerical integration from a start time to an end time. </p>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">Solution</a> solution = numericalSolver.integrateTime(stateVector, startTime, endTime,</div>
+<div class="line">systemOfEquations);</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aStartTime</td><td>A time to begin integrating from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEndTime</td><td>An time to integrate to </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>A std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution </dd></dl>
+
+</div>
+</div>
+<a id="aa9123455fb97853147c26c6c734b438c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9123455fb97853147c26c6c734b438c">&#9670;&nbsp;</a></span>integrateTime() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html">NumericalSolver::ConditionSolution</a> ostk::astro::NumericalSolver::integrateTime </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>anInitialStateVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aStartTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>anEndTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">SystemOfEquationsWrapper</a> &amp;&#160;</td>
+          <td class="paramname"><em>aSystemOfEquations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;&#160;</td>
+          <td class="paramname"><em>anEventCondition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform numerical integration from a start time until either a condition or the end time is reached. </p>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">StateVector</a> stateVector = numericalSolver.integrateTime(stateVector,</div>
+<div class="line">aStartTime, anEndTime, SystemOfEquations, anEventCondition) ;</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aStartTime</td><td>A time to begin integrating from </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEndTime</td><td>A maximum time to to integrate to </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSystemOfEquations</td><td>An std::function wrapper with a particular signature that boost::odeint accepts to perform numerical integration </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution </dd></dl>
 
 </div>
 </div>
@@ -900,10 +1124,11 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:424</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a4a1673a6f74a72d6bacfe6480b9c1ccd"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a4a1673a6f74a72d6bacfe6480b9c1ccd">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">std::vector&lt; double &gt; StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:48</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:406</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ac67671257ab8be4f684842505f4ce8d8"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ac67671257ab8be4f684842505f4ce8d8">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:21</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af7ade38a233dbf4f3a59161aa87ecb77"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">ostk::astro::NumericalSolver::Solution</a></div><div class="ttdeci">Pair&lt; StateVector, double &gt; Solution</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:71</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:534</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af91ffcd9d471c9fe3a093f9c5aa6f448"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">VectorXd StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:69</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:516</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a7ee8408e552fdf6173d9315c0e382359"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:25</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
