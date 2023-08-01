@@ -17,11 +17,9 @@ using ostk::astro::eventcondition::LogicalConnective;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_Conjunctive(pybind11::module& aModule)
 {
     {
-        class_<Conjunctive, Shared<Conjunctive>, LogicalConnective>(aModule, "Conjunctive")
+        class_<Conjunctive, LogicalConnective, Shared<Conjunctive>>(aModule, "Conjunctive")
 
             .def(init<const Array<Shared<EventCondition>>&>(), arg("event_conditions"))
-
-            .def("is_satisfied", &Conjunctive::isSatisfied)
 
             ;
     }

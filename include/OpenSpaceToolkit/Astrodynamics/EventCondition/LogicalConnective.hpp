@@ -39,8 +39,6 @@ class LogicalConnective : public EventCondition
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
 
-    // virtual void setValue(const VectorXd& aStateVector, const Real& aTime) override;
-
    protected:
     Array<Shared<EventCondition>> eventConditions_;
 };

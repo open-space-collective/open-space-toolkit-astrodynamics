@@ -15,7 +15,7 @@ using ostk::astro::eventcondition::LogicalConnective;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(pybind11::module& aModule)
 {
     {
-        class_<LogicalConnective, Shared<LogicalConnective>, EventCondition>(aModule, "LogicalConnective")
+        class_<LogicalConnective, EventCondition, Shared<LogicalConnective>>(aModule, "LogicalConnective")
 
             .def(init<const String&, const Array<Shared<EventCondition>>&>(), arg("name"), arg("event_conditions"))
 

@@ -20,20 +20,11 @@ using ostk::math::obj::VectorXd;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::LogicalConnective;
 
-// class EventConditionMock : public EventCondition
-// {
-//    public:
-//     EventConditionMock(const String& aName, const EventCondition::Criteria& aCriteria)
-//         : EventCondition(aName, aCriteria) {};
-
-//     MOCK_METHOD(Real, evaluate, (const VectorXd& aStateVector, const Real& aTime), (const, override));
-// };
-
 class TestCondition : public EventCondition
 {
    public:
-    TestCondition()
-        : EventCondition("First", EventCondition::Criteria::PositiveCrossing)
+    TestCondition(const String& aName)
+        : EventCondition(aName, EventCondition::Criteria::PositiveCrossing)
     {
     }
 
@@ -58,7 +49,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective : public :
 
    protected:
     LogicalConnective logicalConnectiveCondition_ = {"Logical Connective Condition", {}};
-    TestCondition testCondition_;
+    const String defaultName_ = "test";
+    const TestCondition testCondition_ = {defaultName_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Constructor)
@@ -73,20 +65,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Construc
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, GgetEventConditions)
+{
+    {
+        EXPECT_EQ(logicalConnectiveCondition_.getEventConditions().getSize(), 1);
+        EXPECT_EQ(logicalConnectiveCondition_.getEventConditions()[0]->getName(), defaultName_);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Evaluate)
 {
     {
         EXPECT_ANY_THROW(logicalConnectiveCondition_.evaluate(VectorXd::Zero(2), 0.0));
     }
 }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, SetValue)
-// {
-//     {
-//         logicalConnectiveCondition_.setValue(VectorXd::Zero(2), 1.0);
-//         for (const auto& eventCondition : logicalConnectiveCondition_.getEventConditions())
-//         {
-//             EXPECT_EQ(1.0, eventCondition->getValue());
-//         }
-//     }
-// }

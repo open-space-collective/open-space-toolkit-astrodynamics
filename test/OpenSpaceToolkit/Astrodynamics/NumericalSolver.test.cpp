@@ -798,7 +798,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conjunctive)
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conjunctive)
 {
     struct XCrossingCondition : EventCondition
     {
@@ -810,102 +810,62 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conjunc
 
         Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
         {
-            // (void)aTime;
-            std::cout << aStateVector[0] << " " << aTime << std::endl;
+            (void)aTime;
             return aStateVector[0] - target_;
         }
 
         Real target_;
     };
 
-    // Forward integration
+    struct DurationCondition : public EventCondition
     {
-        struct DurationCondition : EventCondition
+        DurationCondition(const Real &aTarget)
+            : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
+              target_(aTarget)
         {
-            DurationCondition(const Real &aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
-                  target_(aTarget)
-            {
-            }
+        }
 
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
-            {
-                (void)stateVector;
-                return aTime - target_;
-            }
+        Real evaluate(const VectorXd &stateVector, const Real &aTime) const
+        {
+            (void)stateVector;
+            return aTime - target_;
+        }
 
-            Real target_;
-        };
+        Real target_;
+    };
 
-        const Real endTime = defaultStartTime_ + defaultDuration_;
+    const Array<Tuple<Real>> testCases = {
+        {defaultDuration_},
+        {-defaultDuration_},
+    };
 
-        const Shared<DurationCondition> durationCondition = std::make_shared<DurationCondition>(defaultDuration_ / 2.0);
+    for (const auto testCase : testCases)
+    {
+        const Real duration = std::get<0>(testCase);
+        const Real endTime = defaultStartTime_ + duration;
+
+        const Shared<DurationCondition> durationCondition = std::make_shared<DurationCondition>(duration / 2.0);
         const Shared<XCrossingCondition> xCrossingCondition = std::make_shared<XCrossingCondition>(0.5);
-        const Conjunctive conjunctiveCondition = Conjunctive({durationCondition, xCrossingCondition});
+        const Conjunctive conjunctiveCondition = Conjunctive({
+            durationCondition,
+            xCrossingCondition,
+        });
 
-        const NumericalSolver::Solution solution = defaultRKD5_.integrateTime(
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
             defaultStateVector_, defaultStartTime_, endTime, systemOfEquations_, conjunctiveCondition
         );
+        const NumericalSolver::Solution solution = conditionSolution.solution;
 
         const NumericalSolver::StateVector propagatedStateVector = solution.first;
         const Real propagatedTime = solution.second;
 
         // Ensure that integration terminates at condition if condition is met
-        EXPECT_TRUE(propagatedTime < endTime);
-
-        // Validate the output against an analytical function
+        EXPECT_TRUE(propagatedTime != endTime);
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
         EXPECT_GT(1e-8, std::abs(propagatedStateVector[0] - 0.5));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
-
-    // Backward integration
-    // {
-    //     struct Condition : public EventCondition
-    //     {
-    //         Condition(const Real &aTarget)
-    //             : EventCondition("test", Condition::Criteria::AnyCrossing),
-    //               target_(aTarget)
-    //         {
-    //         }
-
-    //         Real evaluate(const VectorXd &stateVector, const Real &aTime) const
-    //         {
-    //             (void)stateVector;
-    //             return aTime - target_;
-    //         }
-
-    //         Real target_;
-    //     };
-
-    //     const Real endTime = startTime - defaultDuration_;
-
-    //     EXPECT_NEAR(
-    //         endTime,
-    //         defaultRKD5_
-    //             .integrateTime(stateVector, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_
-    //             - 5.0)) .second,
-    //         1e-12
-    //     );
-
-    //     const Condition condition = Condition(-defaultDuration_ / 2.0);
-
-    //     const NumericalSolver::Solution solution =
-    //         defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
-
-    //     const NumericalSolver::StateVector propagatedStateVector = solution.first;
-    //     const Real propagatedTime = solution.second;
-
-    //     // Ensure that integration terminates at condition if condition is met
-
-    //     EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
-
-    //     // Validate the output against an analytical function
-
-    //     EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-    //     EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
-    // }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Undefined)
