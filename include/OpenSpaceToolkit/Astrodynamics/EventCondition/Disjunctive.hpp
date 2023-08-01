@@ -37,10 +37,7 @@ class Disjunctive : public LogicalConnective
 
     ~Disjunctive();
 
-    virtual bool isSatisfied(
-        const Real& currentValue,
-        const Real& previousValue
-    ) const override;
+    virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const override;
 
     // virtual bool isSatisfied(
     //     const VectorXd& currentStateVector,
