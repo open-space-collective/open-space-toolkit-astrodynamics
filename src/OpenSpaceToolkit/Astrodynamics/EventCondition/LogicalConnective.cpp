@@ -29,14 +29,6 @@ Real LogicalConnective::evaluate(const VectorXd& aStateVector, const Real& aTime
     throw ostk::core::error::runtime::Undefined("LogicalConnective::evaluate");
 }
 
-// void LogicalConnective::setValue(const VectorXd& aStateVector, const Real& aTime)
-// {
-//     for (const Shared<EventCondition>& eventCondition : eventConditions_)
-//     {
-//         eventCondition->setValue(aStateVector, aTime);
-//     }
-// }
-
 }  // namespace eventcondition
 }  // namespace astro
 }  // namespace ostk

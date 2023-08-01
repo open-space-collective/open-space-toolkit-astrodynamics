@@ -37,8 +37,6 @@ class Conjunctive : public LogicalConnective
 
     ~Conjunctive();
 
-    // virtual bool evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
-
     virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const override;
 
     virtual bool isSatisfied(
@@ -47,8 +45,6 @@ class Conjunctive : public LogicalConnective
         const VectorXd& previousStateVector,
         const Real& previousTime
     ) const override;
-
-    // virtual bool isSatisfiedFromCache(const VectorXd& aStateVector, const Real& aTime) override;
 };
 
 }  // namespace eventcondition

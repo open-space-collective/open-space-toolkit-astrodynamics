@@ -39,14 +39,12 @@ class Disjunctive : public LogicalConnective
 
     virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const override;
 
-    // virtual bool isSatisfied(
-    //     const VectorXd& currentStateVector,
-    //     const Real& currentTime,
-    //     const VectorXd& previousStateVector,
-    //     const Real& previousTime
-    // ) const override;
-
-    // virtual bool isSatisfiedFromCache(const VectorXd& aStateVector, const Real& aTime) override;
+    virtual bool isSatisfied(
+        const VectorXd& currentStateVector,
+        const Real& currentTime,
+        const VectorXd& previousStateVector,
+        const Real& previousTime
+    ) const override;
 };
 
 }  // namespace eventcondition

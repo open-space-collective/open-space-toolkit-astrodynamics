@@ -15,19 +15,6 @@ Conjunctive::Conjunctive(const Array<Shared<EventCondition>>& eventConditions)
 
 Conjunctive::~Conjunctive() {}
 
-// bool Conjunctive::isSatisfiedFromCache(const VectorXd& aStateVector, const Real& aTime)
-// {
-//     for (const Shared<EventCondition>& eventCondition : eventConditions_)
-//     {
-//         if (!eventCondition->isSatisfiedFromCache(aStateVector, aTime))
-//         {
-//             return false;
-//         }
-//     }
-
-//     return true;
-// }
-
 bool Conjunctive::isSatisfied(const Real& currentValue, const Real& previousValue) const
 {
     for (const Shared<EventCondition>& eventCondition : eventConditions_)
@@ -40,16 +27,6 @@ bool Conjunctive::isSatisfied(const Real& currentValue, const Real& previousValu
 
     return true;
 }
-
-// Real Conjunctive::evaluate(const VectorXd& aStateVector, const Real& aTime) const
-// {
-//     for (const Shared<EventCondition>& eventCondition : eventConditions_)
-//     {
-//         result *= eventCondition->evaluate(aStateVector, aTime);
-//     }
-
-//     return result;
-// }
 
 bool Conjunctive::isSatisfied(
     const VectorXd& currentStateVector,

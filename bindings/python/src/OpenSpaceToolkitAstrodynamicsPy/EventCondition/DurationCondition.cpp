@@ -4,6 +4,8 @@
 
 using namespace pybind11;
 
+using ostk::core::types::Shared;
+
 using ostk::physics::time::Duration;
 
 using ostk::astro::EventCondition;
