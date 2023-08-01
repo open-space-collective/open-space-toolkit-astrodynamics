@@ -6,6 +6,7 @@ from ostk.physics.environment.gravitational import Earth
 from ostk.physics.units import Derived, Length, Angle
 
 from ostk.astrodynamics.event_condition import COECondition
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 
 
 @pytest.fixture
@@ -19,8 +20,8 @@ def gravitational_parameter() -> Derived:
 
 
 @pytest.fixture
-def element() -> COECondition.Element:
-    return COECondition.Element.SemiMajorAxis
+def element() -> COE.Element:
+    return COE.Element.SemiMajorAxis
 
 
 @pytest.fixture
@@ -31,7 +32,7 @@ def target() -> float:
 @pytest.fixture
 def condition(
     criteria: COECondition.Criteria,
-    element: COECondition.Element,
+    element: COE.Element,
     target: float,
     gravitational_parameter: Derived,
 ) -> COECondition:
@@ -70,8 +71,8 @@ class TestCOECondition:
             (COECondition.semi_major_axis, Length.meters(7e6)),
             (COECondition.eccentricity, 0.1),
             (COECondition.inclination, Angle.degrees(0.0)),
-            (COECondition.argument_of_periapsis, Angle.degrees(0.0)),
-            (COECondition.right_angle_of_ascending_node, Angle.degrees(0.0)),
+            (COECondition.aop, Angle.degrees(0.0)),
+            (COECondition.raan, Angle.degrees(0.0)),
             (COECondition.true_anomaly, Angle.degrees(0.0)),
             (COECondition.mean_anomaly, Angle.degrees(0.0)),
             (COECondition.eccentric_anomaly, Angle.degrees(0.0)),
@@ -88,6 +89,5 @@ class TestCOECondition:
         )
 
     def test_string_from_element(self):
-        # Test COECondition.StringFromElement
-        element_str = COECondition.string_from_element(COECondition.Element.SemiMajorAxis)
+        element_str = COECondition.string_from_element(COE.Element.SemiMajorAxis)
         assert element_str == "Semi-major axis"

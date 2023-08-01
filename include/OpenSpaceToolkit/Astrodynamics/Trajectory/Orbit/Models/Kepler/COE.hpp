@@ -48,6 +48,18 @@ using ostk::physics::units::Length;
 class COE
 {
    public:
+    enum class Element
+    {
+        SemiMajorAxis,
+        Eccentricity,
+        Inclination,
+        Aop,
+        Raan,
+        TrueAnomaly,
+        MeanAnomaly,
+        EccentricAnomaly
+    };
+
     typedef Pair<Position, Velocity> CartesianState;
 
     COE(const Length& aSemiMajorAxis,

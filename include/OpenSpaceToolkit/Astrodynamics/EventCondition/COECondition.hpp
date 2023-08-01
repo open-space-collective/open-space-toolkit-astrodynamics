@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
 {
@@ -31,24 +32,13 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 /// @brief                      A Classical Orbital Element based event condition
 
 class COECondition : public EventCondition
 {
    public:
-    enum class Element
-    {
-        SemiMajorAxis,
-        Eccentricity,
-        Inclination,
-        ArgumentOfPeriapsis,
-        RightAngleOfAscendingNode,
-        TrueAnomaly,
-        MeanAnomaly,
-        EccentricAnomaly
-    };
-
     /// @brief              Constructor
     ///
     /// @code
@@ -64,7 +54,7 @@ class COECondition : public EventCondition
     COECondition(
         const String& aName,
         const Criteria& aCriteria,
-        const Element& anElement,
+        const COE::Element& anElement,
         const Real& aTarget,
         const Derived& aGravitationalParameter
     );
@@ -89,7 +79,7 @@ class COECondition : public EventCondition
     ///
     /// @return              element
 
-    Element getElement() const;
+    COE::Element getElement() const;
 
     /// @brief              Evaluate the Event Condition
     ///
@@ -106,7 +96,7 @@ class COECondition : public EventCondition
     ///
     /// @return             String representing the element
 
-    static String StringFromElement(const Element& anElement);
+    static String StringFromElement(const COE::Element& anElement);
 
     /// @brief              Semi Major Axis based constructor
     ///
@@ -147,26 +137,22 @@ class COECondition : public EventCondition
     /// @brief              Argument of Periapsis based constructor
     ///
     /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-    /// @param              [in] anArgumentOfPeriapsis An argument of periapsis
+    /// @param              [in] anAOP An argument of periapsis
     /// @param              [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return             COECondition object
 
-    static COECondition ArgumentOfPeriapsis(
-        const Criteria& aCriteria, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
-    );
+    static COECondition Aop(const Criteria& aCriteria, const Angle& anAOP, const Derived& aGravitationalParameter);
 
-    /// @brief              Right Angle of Ascending Node based constructor
+    /// @brief              Right Ascension of Ascending Node based constructor
     ///
     /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-    /// @param              [in] aRightAngleOfAscendingNode A right angle of ascending node
+    /// @param              [in] aRAAN A right angle of ascending node
     /// @param              [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return             COECondition object
 
-    static COECondition RightAngleOfAscendingNode(
-        const Criteria& aCriteria, const Angle& aRightAngleOfAscendingNode, const Derived& aGravitationalParameter
-    );
+    static COECondition Raan(const Criteria& aCriteria, const Angle& aRAAN, const Derived& aGravitationalParameter);
 
     /// @brief              True Anomaly based constructor
     ///
@@ -205,7 +191,7 @@ class COECondition : public EventCondition
     );
 
    private:
-    Element element_;
+    COE::Element element_;
     Real target_;
     Derived gravitationalParameter_;
     std::function<Real(const Vector3d&, const Vector3d&)> evaluator_;
@@ -216,7 +202,7 @@ class COECondition : public EventCondition
     ///
     /// @return             Evaluation function
 
-    std::function<Real(const Vector3d&, const Vector3d&)> getEvaluator(const Element& anElement) const;
+    std::function<Real(const Vector3d&, const Vector3d&)> getEvaluator(const COE::Element& anElement) const;
 };
 
 }  // namespace eventcondition

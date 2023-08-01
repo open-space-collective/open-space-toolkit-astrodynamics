@@ -24,7 +24,7 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 COECondition::COECondition(
     const String& aName,
     const Criteria& aCriteria,
-    const COECondition::Element& anElement,
+    const COE::Element& anElement,
     const Real& aTarget,
     const Derived& aGravitationalParameter
 )
@@ -48,7 +48,7 @@ Derived COECondition::getGravitationalParameter() const
     return gravitationalParameter_;
 }
 
-COECondition::Element COECondition::getElement() const
+COE::Element COECondition::getElement() const
 {
     return element_;
 }
@@ -63,25 +63,25 @@ Real COECondition::evaluate(const VectorXd& aStateVector, const Real& aTime) con
     return evaluator_(positionVector, velocityVector) - target_;
 }
 
-String COECondition::StringFromElement(const COECondition::Element& anElement)
+String COECondition::StringFromElement(const COE::Element& anElement)
 {
     switch (anElement)
     {
-        case Element::SemiMajorAxis:
+        case COE::Element::SemiMajorAxis:
             return "Semi-major axis";
-        case Element::Eccentricity:
+        case COE::Element::Eccentricity:
             return "Eccentricity";
-        case Element::Inclination:
+        case COE::Element::Inclination:
             return "Inclination";
-        case Element::ArgumentOfPeriapsis:
+        case COE::Element::Aop:
             return "Argument of periapsis";
-        case Element::RightAngleOfAscendingNode:
+        case COE::Element::Raan:
             return "Right angle of ascending node";
-        case Element::TrueAnomaly:
+        case COE::Element::TrueAnomaly:
             return "True anomaly";
-        case Element::MeanAnomaly:
+        case COE::Element::MeanAnomaly:
             return "Mean anomaly";
-        case Element::EccentricAnomaly:
+        case COE::Element::EccentricAnomaly:
             return "Eccentric anomaly";
     }
 
@@ -95,7 +95,7 @@ COECondition COECondition::SemiMajorAxis(
     return {
         "Semi-major axis Condition",
         aCriteria,
-        Element::SemiMajorAxis,
+        COE::Element::SemiMajorAxis,
         aSemiMajorAxis.inMeters(),
         aGravitationalParameter,
     };
@@ -108,7 +108,7 @@ COECondition COECondition::Eccentricity(
     return {
         "Eccentricity Condition",
         aCriteria,
-        Element::Eccentricity,
+        COE::Element::Eccentricity,
         anEccentricity,
         aGravitationalParameter,
     };
@@ -121,34 +121,34 @@ COECondition COECondition::Inclination(
     return {
         "Inclination Condition",
         aCriteria,
-        Element::Inclination,
+        COE::Element::Inclination,
         anInclination.inRadians(),
         aGravitationalParameter,
     };
 }
 
-COECondition COECondition::ArgumentOfPeriapsis(
+COECondition COECondition::Aop(
     const Criteria& aCriteria, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
 )
 {
     return {
         "Argument of periapsis Condition",
         aCriteria,
-        Element::ArgumentOfPeriapsis,
+        COE::Element::Aop,
         anArgumentOfPeriapsis.inRadians(),
         aGravitationalParameter,
     };
 }
 
-COECondition COECondition::RightAngleOfAscendingNode(
-    const Criteria& aCriteria, const Angle& aRightAngleOfAscendingNode, const Derived& aGravitationalParameter
+COECondition COECondition::Raan(
+    const Criteria& aCriteria, const Angle& aRightAscensionOfAscendingNode, const Derived& aGravitationalParameter
 )
 {
     return {
         "Right angle of ascending node Condition",
         aCriteria,
-        Element::RightAngleOfAscendingNode,
-        aRightAngleOfAscendingNode.inRadians(),
+        COE::Element::Raan,
+        aRightAscensionOfAscendingNode.inRadians(),
         aGravitationalParameter,
     };
 }
@@ -160,7 +160,7 @@ COECondition COECondition::TrueAnomaly(
     return {
         "True anomaly Condition",
         aCriteria,
-        Element::TrueAnomaly,
+        COE::Element::TrueAnomaly,
         aTrueAnomaly.inRadians(),
         aGravitationalParameter,
     };
@@ -173,7 +173,7 @@ COECondition COECondition::MeanAnomaly(
     return {
         "Mean anomaly Condition",
         aCriteria,
-        Element::MeanAnomaly,
+        COE::Element::MeanAnomaly,
         aMeanAnomaly.inRadians(),
         aGravitationalParameter,
     };
@@ -186,13 +186,13 @@ COECondition COECondition::EccentricAnomaly(
     return {
         "Eccentric anomaly Condition",
         aCriteria,
-        Element::EccentricAnomaly,
+        COE::Element::EccentricAnomaly,
         anEccentricAnomaly.inRadians(),
         aGravitationalParameter,
     };
 }
 
-std::function<Real(const Vector3d&, const Vector3d&)> COECondition::getEvaluator(const Element& anElement) const
+std::function<Real(const Vector3d&, const Vector3d&)> COECondition::getEvaluator(const COE::Element& anElement) const
 {
     return [anElement, this](const Vector3d& aPositionVector, const Vector3d& aVelocityVector) -> Real
     {
@@ -204,21 +204,21 @@ std::function<Real(const Vector3d&, const Vector3d&)> COECondition::getEvaluator
 
         switch (anElement)
         {
-            case Element::SemiMajorAxis:
+            case COE::Element::SemiMajorAxis:
                 return coe.getSemiMajorAxis().inMeters();
-            case Element::Eccentricity:
+            case COE::Element::Eccentricity:
                 return coe.getEccentricity();
-            case Element::Inclination:
+            case COE::Element::Inclination:
                 return coe.getInclination().inRadians();
-            case Element::ArgumentOfPeriapsis:
+            case COE::Element::Aop:
                 return coe.getAop().inRadians();
-            case Element::RightAngleOfAscendingNode:
+            case COE::Element::Raan:
                 return coe.getRaan().inRadians();
-            case Element::TrueAnomaly:
+            case COE::Element::TrueAnomaly:
                 return coe.getTrueAnomaly().inRadians();
-            case Element::MeanAnomaly:
+            case COE::Element::MeanAnomaly:
                 return coe.getMeanAnomaly().inRadians();
-            case Element::EccentricAnomaly:
+            case COE::Element::EccentricAnomaly:
                 return coe.getEccentricAnomaly().inRadians();
         }
 

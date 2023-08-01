@@ -72,7 +72,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     auto event_condition = aModule.def_submodule("event_condition");
 
     // Add __path__ attribute for "event_condition" submodule
-    event_condition.attr("__path__") = "ostk.astrodynamics.trajectory.event_condition";
+    event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);

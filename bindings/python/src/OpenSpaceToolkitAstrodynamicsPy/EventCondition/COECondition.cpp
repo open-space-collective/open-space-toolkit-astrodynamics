@@ -10,22 +10,17 @@ using ostk::core::types::String;
 using ostk::physics::units::Derived;
 
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::eventcondition::COECondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition, EventCondition> coeCondition(aModule, "COECondition");
-
-        coeCondition
+        class_<COECondition, EventCondition>(aModule, "COECondition")
 
             .def(
-                init<
-                    const String&,
-                    const EventCondition::Criteria&,
-                    const COECondition::Element&,
-                    const Real&,
-                    const Derived&>(),
+                init<const String&, const EventCondition::Criteria&, const COE::Element&, const Real&, const Derived&>(
+                ),
                 arg("name"),
                 arg("criteria"),
                 arg("element"),
@@ -65,20 +60,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
             )
 
             .def_static(
-                "argument_of_periapsis",
-                &COECondition::ArgumentOfPeriapsis,
-                arg("criteria"),
-                arg("argument_of_periapsis"),
-                arg("gravitational_parameter")
+                "aop", &COECondition::Aop, arg("criteria"), arg("aop"), arg("gravitational_parameter")
 
             )
 
             .def_static(
-                "right_angle_of_ascending_node",
-                &COECondition::RightAngleOfAscendingNode,
-                arg("criteria"),
-                arg("right_angle_of_ascending_node"),
-                arg("gravitational_parameter")
+                "raan", &COECondition::Raan, arg("criteria"), arg("raan"), arg("gravitational_parameter")
 
             )
 
@@ -105,19 +92,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 arg("eccentric_anomaly"),
                 arg("gravitational_parameter")
             )
-
-            ;
-
-        enum_<COECondition::Element>(coeCondition, "Element")
-
-            .value("SemiMajorAxis", COECondition::Element::SemiMajorAxis)
-            .value("Eccentricity", COECondition::Element::Eccentricity)
-            .value("Inclination", COECondition::Element::Inclination)
-            .value("ArgumentOfPeriapsis", COECondition::Element::ArgumentOfPeriapsis)
-            .value("RightAngleOfAscendingNode", COECondition::Element::RightAngleOfAscendingNode)
-            .value("TrueAnomaly", COECondition::Element::TrueAnomaly)
-            .value("MeanAnomaly", COECondition::Element::MeanAnomaly)
-            .value("EccentricAnomaly", COECondition::Element::EccentricAnomaly)
 
             ;
     }
