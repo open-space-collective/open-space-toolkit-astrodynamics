@@ -11,6 +11,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/Conjunctive.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/Disjunctive.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -26,6 +27,7 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::Conjunctive;
+using ostk::astro::eventcondition::Disjunctive;
 using ostk::astro::NumericalSolver;
 
 // Simple duration based condition
@@ -889,8 +891,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Disjunctive
 
     struct DurationCondition : public EventCondition
     {
-        DurationCondition(const Real &aTarget)
-            : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
+        DurationCondition(const Real &aTarget, const EventCondition::Criteria &aCriteria)
+            : EventCondition("test", aCriteria),
               target_(aTarget)
         {
         }
@@ -904,19 +906,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Disjunctive
         Real target_;
     };
 
-    const Array<Tuple<Real>> testCases = {
-        {defaultDuration_},
-        {-defaultDuration_},
+    const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
+        {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
+        {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
     };
 
     for (const auto testCase : testCases)
     {
         const Real duration = std::get<0>(testCase);
+        const EventCondition::Criteria criteria = std::get<1>(testCase);
+
         const Real endTime = defaultStartTime_ + duration;
 
-        const Shared<DurationCondition> durationCondition = std::make_shared<DurationCondition>(duration / 2.0);
+        const Shared<DurationCondition> durationCondition =
+            std::make_shared<DurationCondition>(duration / 2.0, criteria);
         const Shared<XCrossingCondition> xCrossingCondition = std::make_shared<XCrossingCondition>(0.5);
-        const Conjunctive conjunctiveCondition = Conjunctive({
+        const Disjunctive conjunctiveCondition = Disjunctive({
             durationCondition,
             xCrossingCondition,
         });
@@ -931,9 +936,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Disjunctive
 
         // Ensure that integration terminates at condition if condition is met
         EXPECT_TRUE(propagatedTime != endTime);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-        EXPECT_GT(1e-8, std::abs(propagatedTime - durationCondition->target_));
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
 }
