@@ -162,12 +162,14 @@ State Propagator::calculateStateAt(
         throw ostk::core::error::RuntimeError("Condition not satisfied.");
     }
 
-    const NumericalSolver::StateVector endStateVector = conditionSolution.solution.first;
-    const Instant endInstant = startInstant + Duration::Seconds(conditionSolution.solution.second);
+    const NumericalSolver::Solution solution = conditionSolution.solution;
+
+    const NumericalSolver::StateVector endStateVector = solution.first;
+    const Instant endInstant = startInstant + Duration::Seconds(solution.second);
 
     return {
         endInstant,
-        solution.first,
+        endStateVector,
         INTEGRATION_REFERENCE_FRAME,
         this->coordinatesBrokerSPtr_,
     };
