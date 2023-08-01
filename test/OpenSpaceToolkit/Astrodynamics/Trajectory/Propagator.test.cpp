@@ -365,6 +365,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
             (state.getInstant() + Duration::Seconds(target)).getJulianDate(Scale::UTC),
             1e-12
         );
+
+        EXPECT_ANY_THROW(propagator.calculateStateAt(state, endInstant, TestCondition(7000.0)));
     }
 }
 

@@ -144,6 +144,16 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return absoluteTolerance_;
 }
 
+RootSolver NumericalSolver::getRootSolver() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return rootSolver_;
+}
+
 Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
     const Real& aStartTime,
@@ -370,7 +380,7 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     return this->integrateDuration(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
 }
 
-NumericalSolver::Solution NumericalSolver::integrateTime(
+NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     const NumericalSolver::StateVector& anInitialStateVector,
     const Real& aStartTime,
     const Real& anEndTime,
@@ -378,11 +388,11 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     const EventCondition& anEventCondition
 )
 {
-    NumericalSolver::Solution solution =
+    NumericalSolver::ConditionSolution conditionSolution =
         integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, anEventCondition);
-    solution.second += aStartTime;
+    conditionSolution.solution.second += aStartTime;
 
-    return solution;
+    return conditionSolution;
 }
 
 Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
@@ -394,7 +404,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
     return integrateTime(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
 }
 
-NumericalSolver::Solution NumericalSolver::integrateDuration(
+NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
     const SystemOfEquationsWrapper& aSystemOfEquations,
@@ -410,7 +420,11 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
 
     if (aDurationInSeconds.isZero())
     {
-        return {anInitialStateVector, 0.0};
+        return {
+            {anInitialStateVector, 0.0},
+            false,
+            0,
+        };
     }
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
@@ -465,11 +479,14 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
         previousValue = currentValue;
     }
 
-    // TBI: Share information upstream on if the condition was satisfied
     if (!conditionSatisfied)
     {
         stepper.calc_state(aDurationInSeconds, currentState);
-        return {currentState, aDurationInSeconds};
+        return {
+            {currentState, aDurationInSeconds},
+            false,
+            0,
+        };
     }
 
     // Condition at previousTime => False
@@ -487,15 +504,13 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
     const double solutionTime = solution.root;
 
     stepper.calc_state(solution.root, solutionState);
-    // TBI: Share information upstream on the number of iterations + success
-    // if (iterationCount == maxIterationCount)
-    // {
-    //   do thing
-    // }
-
     observeNumericalIntegration(solutionState, solutionTime);
 
-    return {solutionState, solutionTime};
+    return {
+        {solutionState, solutionTime},
+        true,
+        solution.numberOfIterations,
+    };
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)

@@ -124,15 +124,20 @@ State Propagator::calculateStateAt(
 
     const Instant startInstant = aState.getInstant();
 
-    const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
+    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
         startStateVector,
         (anInstant - startInstant).inSeconds(),
         Dynamics::GetDynamicalEquations(this->dynamics_, startInstant),
         anEventCondition
     );
 
-    const NumericalSolver::StateVector endStateVector = solution.first;
-    const Instant endInstant = startInstant + Duration::Seconds(solution.second);
+    if (!conditionSolution.conditionIsSatisfied)
+    {
+        throw ostk::core::error::RuntimeError("Condition not satisfied.");
+    }
+
+    const NumericalSolver::StateVector endStateVector = conditionSolution.solution.first;
+    const Instant endInstant = startInstant + Duration::Seconds(conditionSolution.solution.second);
 
     return {
         endInstant,
