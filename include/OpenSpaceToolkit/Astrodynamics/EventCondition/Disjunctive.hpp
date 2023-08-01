@@ -33,11 +33,28 @@ using ostk::astro::eventcondition::LogicalConnective;
 class Disjunctive : public LogicalConnective
 {
    public:
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     Disjunctive disjunctiveCondition = {eventConditions};
+    /// @endcode
+    ///
+    /// @param              [in] eventConditions An Array of shared pointers to EventCondition instances
+
     Disjunctive(const Array<Shared<EventCondition>>& eventConditions);
+
+    /// @brief              Destructor
 
     ~Disjunctive();
 
-    virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const override;
+    /// @brief              Check if any of the conditions is satisfied based on the current state vector and time
+    ///
+    /// @param              [in] currentStateVector The current state vector
+    /// @param              [in] currentTime The current time
+    /// @param              [in] previousStateVector The previous state vector
+    /// @param              [in] previousTime The previous time
+    ///
+    /// @return             Boolean value indicating if the Disjunctive Event Condition is met.
 
     virtual bool isSatisfied(
         const VectorXd& currentStateVector,

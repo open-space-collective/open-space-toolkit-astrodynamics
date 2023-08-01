@@ -15,19 +15,6 @@ Disjunctive::Disjunctive(const Array<Shared<EventCondition>>& eventConditions)
 
 Disjunctive::~Disjunctive() {}
 
-bool Disjunctive::isSatisfied(const Real& currentValue, const Real& previousValue) const
-{
-    for (const Shared<EventCondition>& eventCondition : eventConditions_)
-    {
-        if (eventCondition->isSatisfied(currentValue, previousValue))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool Disjunctive::isSatisfied(
     const VectorXd& currentStateVector,
     const Real& currentTime,

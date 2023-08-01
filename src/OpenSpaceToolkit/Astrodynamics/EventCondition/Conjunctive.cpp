@@ -15,19 +15,6 @@ Conjunctive::Conjunctive(const Array<Shared<EventCondition>>& eventConditions)
 
 Conjunctive::~Conjunctive() {}
 
-bool Conjunctive::isSatisfied(const Real& currentValue, const Real& previousValue) const
-{
-    for (const Shared<EventCondition>& eventCondition : eventConditions_)
-    {
-        if (!eventCondition->isSatisfied(currentValue, previousValue))
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 bool Conjunctive::isSatisfied(
     const VectorXd& currentStateVector,
     const Real& currentTime,

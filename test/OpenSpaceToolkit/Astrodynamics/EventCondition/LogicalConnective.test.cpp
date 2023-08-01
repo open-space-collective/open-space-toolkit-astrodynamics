@@ -65,11 +65,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Construc
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, GgetEventConditions)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, GetEventConditions)
 {
     {
         EXPECT_EQ(logicalConnectiveCondition_.getEventConditions().getSize(), 1);
         EXPECT_EQ(logicalConnectiveCondition_.getEventConditions()[0]->getName(), defaultName_);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, IsSatisfied)
+{
+    {
+        EXPECT_ANY_THROW(logicalConnectiveCondition_.isSatisfied(0.0, 0.0));
     }
 }
 
