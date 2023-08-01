@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
 
 using namespace pybind11;
@@ -51,7 +52,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             .def("evaluate", &EventCondition::evaluate, arg("state_vector"), arg("time"))
 
-            .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"));
+            .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"))
+
+            ;
 
         enum_<EventCondition::Criteria>(eventCondition_class, "Criteria")
 
@@ -69,7 +72,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     auto event_condition = aModule.def_submodule("event_condition");
 
     // Add __path__ attribute for "event_condition" submodule
-    event_condition.attr("__path__") = "ostk.astrodynamics.trajectory.event_condition";
+    event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
 }

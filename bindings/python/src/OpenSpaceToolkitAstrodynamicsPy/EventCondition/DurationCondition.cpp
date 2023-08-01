@@ -1,12 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/DurationCondition.hpp>
 
 using namespace pybind11;
-
-using ostk::core::types::Shared;
 
 using ostk::physics::time::Duration;
 

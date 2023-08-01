@@ -13,7 +13,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
     using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-    class_<COE>(aModule, "COE")
+    class_<COE> coe(aModule, "COE");
+
+    coe
 
         .def(
             init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
@@ -80,6 +82,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             arg("eccentricity"),
             arg("tolerance")
         )
+
+        ;
+
+    enum_<COE::Element>(coe, "Element")
+
+        .value("SemiMajorAxis", COE::Element::SemiMajorAxis)
+        .value("Eccentricity", COE::Element::Eccentricity)
+        .value("Inclination", COE::Element::Inclination)
+        .value("Aop", COE::Element::Aop)
+        .value("Raan", COE::Element::Raan)
+        .value("TrueAnomaly", COE::Element::TrueAnomaly)
+        .value("MeanAnomaly", COE::Element::MeanAnomaly)
+        .value("EccentricAnomaly", COE::Element::EccentricAnomaly)
 
         ;
 }
