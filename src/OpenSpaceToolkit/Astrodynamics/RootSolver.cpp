@@ -61,6 +61,7 @@ RootSolver::Solution RootSolver::solve(
     // account for the fact that the function may be decreasing
     const double lowerBound = std::min(aLowerBound, anUpperBound);
     const double upperBound = std::max(aLowerBound, anUpperBound);
+
     std::uintmax_t iteratorCount = maximumIterationsCount_;
     const boost::math::tools::eps_tolerance<double> tolerance(numberOfDigits_);
 

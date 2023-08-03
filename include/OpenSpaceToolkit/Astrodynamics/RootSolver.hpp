@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_RootSolver__
 #define __OpenSpaceToolkit_Astrodynamics_RootSolver__
 
-#include <boost/math/tools/roots.hpp>
-
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
@@ -101,8 +99,6 @@ class RootSolver
    private:
     Size maximumIterationsCount_;
     Size numberOfDigits_;
-
-    boost::math::tools::eps_tolerance<double> tolerance_;
 
     static constexpr double factor_ = 2.0;
 };
