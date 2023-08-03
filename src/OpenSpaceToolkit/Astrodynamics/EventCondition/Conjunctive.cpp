@@ -22,15 +22,16 @@ bool Conjunctive::isSatisfied(
     const Real& previousTime
 ) const
 {
-    for (const Shared<EventCondition>& eventCondition : eventConditions_)
-    {
-        if (!eventCondition->isSatisfied(currentStateVector, currentTime, previousStateVector, previousTime))
+    return std::all_of(
+        eventConditions_.begin(),
+        eventConditions_.end(),
+        [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
+            const Shared<EventCondition>& eventCondition
+        ) -> bool
         {
-            return false;
+            return eventCondition->isSatisfied(currentStateVector, currentTime, previousStateVector, previousTime);
         }
-    }
-
-    return true;
+    );
 }
 
 }  // namespace eventcondition
