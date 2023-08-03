@@ -3,9 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen_algebra.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
@@ -18,17 +15,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 // TBI: Move this to eigen.hpp when we move this file to ostk mathematics
-namespace boost::numeric::odeint
-{
+// namespace boost::numeric::odeint
+// {
 
-template <>
-struct is_resizeable<ostk::math::obj::VectorXd>
-{
-    typedef boost::true_type type;
-    static const bool value = type::value;
-};
+// template <>
+// struct is_resizeable<ostk::math::obj::VectorXd>
+// {
+//     typedef boost::true_type type;
+//     static const bool value = type::value;
+// };
 
-}  // namespace boost::numeric::odeint
+// }  // namespace boost::numeric::odeint
 
 namespace ostk
 {
@@ -66,11 +63,11 @@ class NumericalSolver
         LogAdaptive
     };
 
-    typedef VectorXd StateVector;  // Container used to hold the state vector
+    typedef VectorXd StateVector;                // Container used to hold the state vector
 
     typedef Pair<StateVector, double> Solution;  // Container used to hold the state vector and time
     typedef std::function<void(const StateVector&, StateVector&, const double)>
-        SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
+        SystemOfEquationsWrapper;                // Function pointer type for returning dynamical equation's pointers
 
     struct ConditionSolution
     {
