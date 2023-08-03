@@ -1,8 +1,7 @@
 {
     "name": "Open Space Toolkit Astrodynamics",
     "mounts": [
-        "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
-        "source=${localWorkspaceFolder}/tools/development/helpers,target=/app/build/helpers,type=bind"
+        "source=ostk_astrodynamics_vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
     ],
     "runArgs": [
         "--name",

@@ -19,8 +19,6 @@ jupyter_python_version := 3.11
 
 project_name_camel_case := $(shell echo $(project_name) | sed -r 's/(^|-)([a-z])/\U\2/g')
 
-clang_format_sources_path ?= $(shell find ~+ src/ include/ test/ bindings/python/src/ -name '*.cpp' -o -name '*.cxx' -o -name '*.hpp' -o -name '*.tpp')
-
 pull: ## Pull all images
 
 	@ echo "Pulling images..."
@@ -240,7 +238,6 @@ start-development-no-link: build-development-image ## Start development environm
 		--rm \
 		--privileged \
 		--volume="$(CURDIR):/app:delegated" \
-		--volume="$(CURDIR)/tools/development/helpers:/app/build/helpers:ro,delegated" \
 		--workdir=/app/build \
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash
@@ -258,9 +255,9 @@ start-development-link: build-development-image ## Start linked development envi
 .PHONY: start-development-link
 
 ifndef link
-start-development: start-development-no-link
+start-development dev: start-development-no-link
 else
-start-development: start-development-link
+start-development dev: start-development-link
 endif
 
 .PHONY: start-development
@@ -292,7 +289,7 @@ start-jupyter-notebook: build-release-image-jupyter ## Start Jupyter Notebook en
 
 .PHONY: start-jupyter-notebook
 
-debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code, must have run make start-development and helpers/build.sh and helpers/install-python.sh to use this
+debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook using the ostk-astro package built from current source code, must have run make start-development and ostk-build and ostk-install-python to use this
 
 	@ echo "Debugging Jupyter Notebook environment..."
 
@@ -362,11 +359,11 @@ format-cpp: build-development-image ## Format all of the source code with the ru
 
 	docker run \
 		--rm \
+		--user="$(shell id -u):$(shell id -g)" \
 		--volume="$(CURDIR):/app" \
 		--workdir=/app \
-		--user="$(shell id -u):$(shell id -g)" \
 		$(docker_development_image_repository):$(docker_image_version) \
-		clang-format -i -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
+		ostk-format-cpp
 
 .PHONY: format
 
@@ -374,11 +371,11 @@ format-python: build-development-image ## Run the black format tool against pyth
 
 	docker run \
 		--rm \
-		--privileged \
+		--user="$(shell id -u):$(shell id -g)" \
 		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "python3.11 -m black --line-length=90 bindings/python/"
+		ostk-format-python
 
 .PHONY: format-python
 
@@ -395,11 +392,11 @@ format-check-cpp: build-development-image ## Run the clang-format tool to check 
 
 	docker run \
 		--rm \
-		--volume="$(CURDIR):/app" \
+		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
 		--user="$(shell id -u):$(shell id -g)" \
-		"$(docker_development_image_repository):$(docker_image_version)" \
-		clang-format -Werror --dry-run -style=file:thirdparty/clang/.clang-format ${clang_format_sources_path}
+		$(docker_development_image_repository):$(docker_image_version) \
+		ostk-check-format-cpp
 
 .PHONY: format-check-cpp
 
@@ -407,11 +404,10 @@ format-check-python: build-development-image ## Run the black format tool agains
 
 	docker run \
 		--rm \
-		--privileged \
 		--volume="$(CURDIR):/app:delegated" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
-		/bin/bash -c "python3.11 -m black --line-length=90 --check --diff bindings/python/"
+		ostk-check-format-python
 
 .PHONY: format-check-python
 
