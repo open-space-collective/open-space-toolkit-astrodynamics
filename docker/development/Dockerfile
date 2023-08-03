@@ -164,7 +164,7 @@ COPY tools/development/helpers/check-format-cpp.sh /usr/bin/ostk-check-format-cp
 COPY tools/development/helpers/check-format-python.sh /usr/bin/ostk-check-format-python
 COPY tools/development/helpers/clean.sh /usr/bin/ostk-clean
 COPY tools/development/helpers/install-python.sh /usr/bin/ostk-install-python
-COPY tools/development/helpers/debug.sh /usr/bin/ostk-debug
+# COPY tools/development/helpers/debug.sh /usr/bin/ostk-debug
 
 # Labels
 
