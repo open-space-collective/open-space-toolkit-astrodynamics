@@ -126,7 +126,8 @@ class ConstantThrustThruster : public Thruster
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
-    Direction direction_;
+    Direction direction_;  // TBI: Orekit uses the Satellite frame (usually defined wrt Local Orbital Frame implementation) for Thrust direction
+    // TBI: Check if we should constrain the Frame for direction_ to be a LOF and not Frame
 };
 
 }  // namespace thruster

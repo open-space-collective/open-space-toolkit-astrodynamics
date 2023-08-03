@@ -24,6 +24,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 #include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrame.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
 
@@ -59,7 +60,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-
+using ostk::astro::trajectory::LocalOrbitalFrame;
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
@@ -87,6 +88,11 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             200.0   // Isp
         );
 
+        const PropulsionSystem uselessPropulsionSystem = PropulsionSystem(
+            0.0001,  // Thrust
+            0.00001   // Isp
+        );
+
         satelliteSystem_ = {
             Mass::Kilograms(100.0),
             satelliteGeometry,
@@ -96,7 +102,10 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             propulsionSystem
         };
 
-        direction_ = {{1.0, 0.0, 0.0}, Frame::GCRF()};  // Not used by Thruster for now
+        // Define local orbital frame for thrust direction definition
+        const Shared<const Frame> localOrbitalFrameSPtr = LocalOrbitalFrame::VNC();
+
+        direction_ = {{-1.0, 0.0, 0.0}, localOrbitalFrameSPtr};  // Not used by Thruster for now
 
         startStateVector_.resize(7);
         startStateVector_[0] = 7000000.0;
@@ -108,6 +117,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
         startStateVector_[6] = 100.0;  // TBI: Initial fuel mass
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
+
+        Frame::Destruct("VNCC");
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
