@@ -3,9 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_NumericalSolver__
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen_algebra.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
@@ -16,19 +13,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
-
-// TBI: Move this to eigen.hpp when we move this file to ostk mathematics
-namespace boost::numeric::odeint
-{
-
-template <>
-struct is_resizeable<ostk::math::obj::VectorXd>
-{
-    typedef boost::true_type type;
-    static const bool value = type::value;
-};
-
-}  // namespace boost::numeric::odeint
 
 namespace ostk
 {
