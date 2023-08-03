@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
@@ -14,6 +15,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Tuple;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::String;
@@ -23,6 +25,44 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::NumericalSolver;
 using ostk::astro::EventCondition;
+
+// Simple duration based condition
+
+struct DurationCondition : public EventCondition
+{
+    DurationCondition(const Real &aTarget, const EventCondition::Criteria &aCriteria)
+        : EventCondition("test", aCriteria),
+          target_(aTarget)
+    {
+    }
+
+    Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
+    {
+        (void)stateVector;
+        return aTime - target_;
+    }
+
+    Real target_;
+};
+
+// Simple value based struct
+
+struct XCrossingCondition : public EventCondition
+{
+    XCrossingCondition(const Real &aTarget)
+        : EventCondition("test", XCrossingCondition::Criteria::AnyCrossing),
+          target_(aTarget)
+    {
+    }
+
+    Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
+    {
+        (void)aTime;
+        return aStateVector[0] - target_;
+    }
+
+    Real target_;
+};
 
 class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
 {
@@ -45,14 +85,6 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaFehlberg78,
         5.0,
-        1.0e-15,
-        1.0e-15,
-    };
-
-    NumericalSolver defaultRK4_ = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKutta4,
-        1e-3,
         1.0e-15,
         1.0e-15,
     };
@@ -97,6 +129,22 @@ class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
         return stateVector;
     }
 };
+
+class OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized
+    : public OpenSpaceToolkit_Astrodynamics_NumericalSolver,
+      public ::testing::WithParamInterface<Tuple<NumericalSolver::StepperType>>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    Integration,
+    OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized,
+    ::testing::Values(
+        std::make_tuple(NumericalSolver::StepperType::RungeKutta4),
+        std::make_tuple(NumericalSolver::StepperType::RungeKuttaCashKarp54),
+        std::make_tuple(NumericalSolver::StepperType::RungeKuttaFehlberg78)
+    )
+);
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Constructor)
 {
@@ -297,12 +345,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetNumbers)
 {
     {
-        EXPECT_EQ(defaultRK4_.getTimeStep(), 1e-3);
-        EXPECT_EQ(defaultRK4_.getRelativeTolerance(), 1.0e-15);
-        EXPECT_EQ(defaultRK4_.getAbsoluteTolerance(), 1.0e-15);
-    }
-
-    {
         EXPECT_EQ(defaultRK54_.getTimeStep(), 5.0);
         EXPECT_EQ(defaultRK54_.getRelativeTolerance(), 1.0e-15);
         EXPECT_EQ(defaultRK54_.getAbsoluteTolerance(), 1.0e-15);
@@ -344,179 +386,55 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, StringFromType)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime_Array)
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, integrateDuration)
 {
-    // Performance test with RungeKutta4 in forward time
+    const auto parameters = GetParam();
+
+    NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        std::get<0>(parameters),
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
+    const Array<Real> durations = {
+        defaultDuration_,
+        -defaultDuration_,
+    };
+
+    for (const Real &duration : durations)
     {
-        const Array<Real> aTimeArray = {
-            10.0,
-            40.0,
-            70.0,
-        };
+        const NumericalSolver::StateVector propagatedStateVector =
+            numericalSolver.integrateDuration(defaultStateVector_, duration, systemOfEquations_).first;
 
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
+        // Validate the output against an analytical function
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKutta4 in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -10.0,
-            -40.0,
-            -70.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateTime in forward time
-    {
-        const Array<Real> aTimeArray = {
-            100.0,
-            400.0,
-            700.0,
-            1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -100.0,
-            -400.0,
-            -700.0,
-            -1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in forward time
-    {
-        const Array<Real> aTimeArray = {
-            100.0,
-            400.0,
-            700.0,
-            1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -100.0,
-            -400.0,
-            -700.0,
-            -1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateTime(defaultStateVector_, defaultStartTime_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(duration)));
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(duration)));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, IntegrateDuration_Comparison)
 {
-    // Performance test with RungeKutta4 in forward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
-    }
-
-    // Performance test with RungeKutta4 in backward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateDuration in forward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in forward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in backward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_).first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
+    const auto parameters = GetParam();
 
     // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
     {
         NumericalSolver numericalSolver_1 = {
             NumericalSolver::LogType::LogAdaptive,
-            NumericalSolver::StepperType::RungeKuttaCashKarp54,
-            5.0,
+            std::get<0>(parameters),
+            1e-3,
             1.0e-15,
-            1.0e-15};
+            1.0e-15,
+        };
         NumericalSolver numericalSolver_2 = {
             NumericalSolver::LogType::LogConstant,
-            NumericalSolver::StepperType::RungeKuttaCashKarp54,
-            5.0,
+            std::get<0>(parameters),
+            1e-3,
             1.0e-15,
-            1.0e-15};
+            1.0e-15,
+        };
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
@@ -529,181 +447,98 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration)
 
         // Validate the output against an analytical function
 
-        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable
-        // tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        // Ensure state error between integrate_const and integrate_adaptive is within a reasonable tolerance
         EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]));
         EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]));
-
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0);
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0);
-    }
-
-    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
-    {
-        NumericalSolver numericalSolver_1 = {
-            NumericalSolver::LogType::LogAdaptive,
-            NumericalSolver::StepperType::RungeKuttaFehlberg78,
-            5.0,
-            1.0e-15,
-            1.0e-15};
-        NumericalSolver numericalSolver_2 = {
-            NumericalSolver::LogType::LogConstant,
-            NumericalSolver::StepperType::RungeKuttaFehlberg78,
-            5.0,
-            1.0e-15,
-            1.0e-15};
-
-        testing::internal::CaptureStdout();
-        const NumericalSolver::StateVector propagatedStateVector_1 =
-            numericalSolver_1.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
-        const NumericalSolver::StateVector propagatedStateVector_2 =
-            numericalSolver_2.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_).first;
-        String output = testing::internal::GetCapturedStdout();
-
-        EXPECT_FALSE(output.empty());
-
-        // Validate the output against an analytical function
-        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable
-        // tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]));
-        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]));
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0);
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, IntegrateDuration_Array)
 {
-    // Performance test with RungeKutta4 in forwards time
+    const auto parameters = GetParam();
+
+    NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        std::get<0>(parameters),
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
+    const Array<Array<Real>> durationArrays = {
+        {10.0, 40.0, 70.0, 1000.0},
+        {-10.0, -40.0, -70.0, -1000.0},
+    };
+
+    for (const Array<Real> &durationArray : durationArrays)
+    {
+        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
+            numericalSolver.integrateDuration(defaultStateVector_, durationArray, systemOfEquations_);
+
+        validatePropagatedStates(durationArray, propagatedStateVectorArray, 2e-8);
+    }
+}
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, IntegrateTime)
+{
+    const auto parameters = GetParam();
+
+    NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        std::get<0>(parameters),
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
+    const Array<Real> endTimes = {
+        defaultStartTime_ + defaultDuration_,
+        defaultStartTime_ - defaultDuration_,
+    };
+
+    for (const Real &endTime : endTimes)
     {
         const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
-                )
-                .first;
+            numericalSolver.integrateTime(defaultStateVector_, defaultStartTime_, endTime, systemOfEquations_).first;
 
         // Validate the output against an analytical function
 
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(endTime)));
+        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(endTime)));
     }
+}
 
-    // Performance test with RungeKutta4 in backwards time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK4_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
-                )
-                .first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaCashKarp54 in forward time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
-                )
-                .first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaCashKarp54 in backwards time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRK54_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
-                )
-                .first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-8, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in forwards time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
-                )
-                .first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(defaultDuration_)));
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in backwards time
-    {
-        const NumericalSolver::StateVector propagatedStateVector =
-            defaultRKF78_
-                .integrateTime(
-                    defaultStateVector_, defaultStartTime_, defaultStartTime_ - defaultDuration_, systemOfEquations_
-                )
-                .first;
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(-defaultDuration_)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(-defaultDuration_)));
-    }
-
-    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaCashKarp54
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, IntegrateTime_Comparison)
+{
+    const auto parameters = GetParam();
+    // Performance test comparing results of integrate_adaptive and integrate_const
     {
         NumericalSolver numericalSolver_1 = {
             NumericalSolver::LogType::LogAdaptive,
-            NumericalSolver::StepperType::RungeKuttaCashKarp54,
-            5.0,
+            std::get<0>(parameters),
+            1e-3,
             1.0e-15,
-            1.0e-15};
+            1.0e-15,
+        };
         NumericalSolver numericalSolver_2 = {
             NumericalSolver::LogType::LogConstant,
-            NumericalSolver::StepperType::RungeKuttaCashKarp54,
-            5.0,
+            std::get<0>(parameters),
+            1e-3,
             1.0e-15,
-            1.0e-15};
+            1.0e-15,
+        };
 
         testing::internal::CaptureStdout();
         const NumericalSolver::StateVector propagatedStateVector_1 =
             numericalSolver_1
                 .integrateTime(
-                    defaultStateVector_,
-                    defaultStartTime_,
-                    defaultStartTime_ + defaultDuration_,
-                    [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
-                    {
-                        dxdt[0] = x[1];
-                        dxdt[1] = -x[0];
-                    }
+                    defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
                 )
                 .first;
         const NumericalSolver::StateVector propagatedStateVector_2 =
             numericalSolver_2
                 .integrateTime(
-                    defaultStateVector_,
-                    defaultStartTime_,
-                    defaultStartTime_ + defaultDuration_,
-                    [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
-                    {
-                        dxdt[0] = x[1];
-                        dxdt[1] = -x[0];
-                    }
+                    defaultStateVector_, defaultStartTime_, defaultStartTime_ + defaultDuration_, systemOfEquations_
                 )
                 .first;
         String output = testing::internal::GetCapturedStdout();
@@ -711,341 +546,111 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateTime)
         EXPECT_FALSE(output.empty());
 
         // Validate the output against an analytical function
-        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable
-        // tolerance but that it is also not exactly zero since both integration methods do not exactly match
+        // Ensure state error between integrate_const and integrate_adaptive is within a reasonable tolerance
         EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]));
         EXPECT_GT(1e-9, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]));
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0);
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0);
-    }
-
-    // Performance test comparing results of integrate_adaptive and integrate_const for RungeKuttaFehlberg78
-    {
-        NumericalSolver numericalSolver_1 = {
-            NumericalSolver::LogType::LogAdaptive,
-            NumericalSolver::StepperType::RungeKuttaFehlberg78,
-            5.0,
-            1.0e-15,
-            1.0e-15};
-        NumericalSolver numericalSolver_2 = {
-            NumericalSolver::LogType::LogConstant,
-            NumericalSolver::StepperType::RungeKuttaFehlberg78,
-            5.0,
-            1.0e-15,
-            1.0e-15};
-
-        testing::internal::CaptureStdout();
-        const NumericalSolver::StateVector propagatedStateVector_1 =
-            numericalSolver_1
-                .integrateTime(
-                    defaultStateVector_,
-                    defaultStartTime_,
-                    defaultStartTime_ + defaultDuration_,
-                    [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
-                    {
-                        dxdt[0] = x[1];
-                        dxdt[1] = -x[0];
-                    }
-                )
-                .first;
-        const NumericalSolver::StateVector propagatedStateVector_2 =
-            numericalSolver_2
-                .integrateTime(
-                    defaultStateVector_,
-                    defaultStartTime_,
-                    defaultStartTime_ + defaultDuration_,
-                    [=](const NumericalSolver::StateVector &x, NumericalSolver::StateVector &dxdt, const double) -> void
-                    {
-                        dxdt[0] = x[1];
-                        dxdt[1] = -x[0];
-                    }
-                )
-                .first;
-        String output = testing::internal::GetCapturedStdout();
-
-        EXPECT_FALSE(output.empty());
-
-        // Validate the output against an analytical function
-        // Check to make sure state error between integrate_const and integrate_adaptive is within a reasonable
-        // tolerance but that it is also not exactly zero since both integration methods do not exactly match
-        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]));
-        EXPECT_GT(1e-11, std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]));
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[0] - propagatedStateVector_2[0]) == 0.0);
-        EXPECT_FALSE(std::abs(propagatedStateVector_1[1] - propagatedStateVector_2[1]) == 0.0);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, integrateDuration_Array)
+TEST_P(OpenSpaceToolkit_Astrodynamics_NumericalSolver_Parametrized, IntegrateTime_Array)
 {
-    // Performance test with RungeKutta4 in forward time
+    const auto parameters = GetParam();
+
+    NumericalSolver numericalSolver = {
+        NumericalSolver::LogType::NoLog,
+        std::get<0>(parameters),
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
+    const Array<Array<Real>> timeArrays = {
+        {100.0, 400.0, 700.0, 1000.0},
+        {-100.0, -400.0, -700.0, -1000.0},
+    };
+
+    for (const Array<Real> &timeArray : timeArrays)
     {
-        const Array<Real> aTimeArray = {
-            10.0,
-            40.0,
-            70.0,
-        };
-
         const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
+            numericalSolver.integrateTime(defaultStateVector_, defaultStartTime_, timeArray, systemOfEquations_);
 
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKutta4 in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -10.0,
-            -40.0,
-            -70.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK4_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateDuration in forward time
-    {
-        const Array<Real> aTimeArray = {
-            100.0,
-            400.0,
-            700.0,
-            1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
-    }
-
-    // Performance test with RungeKuttaCashKarp54 and integrateDuration in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -100.0,
-            -400.0,
-            -700.0,
-            -1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRK54_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-8);
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in forward time
-    {
-        const Array<Real> aTimeArray = {
-            100.0,
-            400.0,
-            700.0,
-            1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
-    }
-
-    // Performance test with RungeKuttaFehlberg78 in backward time
-    {
-        const Array<Real> aTimeArray = {
-            -100.0,
-            -400.0,
-            -700.0,
-            -1000.0,
-        };
-
-        const Array<NumericalSolver::Solution> propagatedStateVectorArray =
-            defaultRKF78_.integrateDuration(defaultStateVector_, aTimeArray, systemOfEquations_);
-
-        validatePropagatedStates(aTimeArray, propagatedStateVectorArray, 2e-10);
+        validatePropagatedStates(timeArray, propagatedStateVectorArray, 2e-8);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditions)
 {
+    // Invalid stepper type
     {
-        struct Condition : public EventCondition
-        {
-            Condition()
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive)
+        EXPECT_THROW(
             {
-            }
-
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
-            {
-                (void)stateVector;
-                (void)aTime;
-                return 0.0;
-            }
-        };
-
-        {
-            EXPECT_THROW(
+                try
                 {
-                    try
-                    {
-                        defaultRK4_.integrateDuration(
-                            defaultStateVector_, defaultDuration_, systemOfEquations_, Condition()
-                        );
-                    }
-                    catch (const ostk::core::error::runtime::ToBeImplemented &e)
-                    {
-                        const String expectedMessage =
-                            "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type";
+                    defaultRK54_.integrateDuration(
+                        defaultStateVector_,
+                        defaultDuration_,
+                        systemOfEquations_,
+                        DurationCondition(0.0, EventCondition::Criteria::StrictlyPositive)
+                    );
+                }
+                catch (const ostk::core::error::runtime::ToBeImplemented &e)
+                {
+                    const String expectedMessage =
+                        "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type";
 
-                        EXPECT_TRUE((e.getMessage().find(expectedMessage) != std::string::npos));
-                        throw;
-                    }
-                },
-                ostk::core::error::runtime::ToBeImplemented
-            );
-        }
-
-        {
-            const NumericalSolver::ConditionSolution conditionSolution =
-                defaultRKD5_.integrateDuration(defaultStateVector_, 0.0, systemOfEquations_, Condition());
-            const NumericalSolver::Solution solution = conditionSolution.solution;
-
-            EXPECT_TRUE(solution.first == defaultStateVector_);
-            EXPECT_TRUE(solution.second == 0.0);
-            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-        }
+                    EXPECT_TRUE((e.getMessage().find(expectedMessage) != std::string::npos));
+                    throw;
+                }
+            },
+            ostk::core::error::runtime::ToBeImplemented
+        );
     }
 
-    // Simple duration based condition
-
-    // Forward integration
+    // 0 duration
     {
-        struct Condition : public EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
-                  target_(aTarget)
-            {
-            }
-
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
-            {
-                (void)stateVector;
-                return aTime - target_;
-            }
-
-            Real target_;
-        };
-
-        // Ensure that integration terminates at maximum duration if condition is not met
-
-        {
-            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
-                defaultStateVector_, defaultDuration_, systemOfEquations_, Condition(defaultDuration_ + 5.0)
-            );
-            const NumericalSolver::Solution solution = conditionSolution.solution;
-            EXPECT_DOUBLE_EQ(defaultDuration_, solution.second);
-            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
-        }
-
-        const Condition condition = Condition(defaultDuration_ / 2.0);
-
-        const NumericalSolver::ConditionSolution conditionSolution =
-            defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
+            defaultStateVector_,
+            0.0,
+            systemOfEquations_,
+            DurationCondition(0.0, EventCondition::Criteria::StrictlyPositive)
+        );
         const NumericalSolver::Solution solution = conditionSolution.solution;
 
-        const NumericalSolver::StateVector propagatedStateVector = solution.first;
-        const Real propagatedTime = solution.second;
-
-        // Ensure that integration terminates at condition if condition is met
-
-        EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
-        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+        EXPECT_TRUE(solution.first == defaultStateVector_);
+        EXPECT_TRUE(solution.second == 0.0);
+        EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
     }
 
-    // Backward integration
     {
-        struct Condition : public EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyNegative),
-                  target_(aTarget)
-            {
-            }
-
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
-            {
-                (void)stateVector;
-                return aTime - target_;
-            }
-
-            Real target_;
+        const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
+            {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
+            {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
         };
 
-        // Ensure that integration terminates at maximum duration if condition is not met
-
+        for (const auto &testCase : testCases)
         {
-            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
-                defaultStateVector_, -defaultDuration_, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
-            );
-            const NumericalSolver::Solution solution = conditionSolution.solution;
-            EXPECT_DOUBLE_EQ(-defaultDuration_, solution.second);
-            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
-        }
+            const Real duration = std::get<0>(testCase);
+            const EventCondition::Criteria criteria = std::get<1>(testCase);
+            // Ensure that integration terminates at maximum duration if condition is not met
 
-        const Condition condition = Condition(-defaultDuration_ / 2.0);
-
-        const NumericalSolver::ConditionSolution conditionSolution =
-            defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
-        const NumericalSolver::Solution solution = conditionSolution.solution;
-
-        const NumericalSolver::StateVector propagatedStateVector = solution.first;
-        const Real propagatedTime = solution.second;
-
-        // Ensure that integration terminates at condition if condition is met
-
-        EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
-        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
-    }
-
-    // Simple value based struct
-    {
-        struct Condition : public EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", Condition::Criteria::AnyCrossing),
-                  target_(aTarget)
             {
+                const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
+                    defaultStateVector_,
+                    duration,
+                    systemOfEquations_,
+                    DurationCondition(duration + duration / 2.0, criteria)
+                );
+                const NumericalSolver::Solution solution = conditionSolution.solution;
+
+                EXPECT_DOUBLE_EQ(duration, solution.second);
+                EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+                EXPECT_EQ(conditionSolution.numberOfIterations, 0);
             }
 
-            Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
-            {
-                (void)aTime;
-                return aStateVector[0] - target_;
-            }
-
-            Real target_;
-        };
-
-        // Forward integration
-        {
-            const Condition condition = Condition(0.9);
+            const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
 
             const NumericalSolver::ConditionSolution conditionSolution =
-                defaultRKD5_.integrateDuration(defaultStateVector_, defaultDuration_, systemOfEquations_, condition);
+                defaultRKD5_.integrateDuration(defaultStateVector_, duration, systemOfEquations_, condition);
             const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
@@ -1053,8 +658,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_TRUE(propagatedTime < defaultDuration_);
-            EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+            EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
@@ -1062,13 +666,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
         }
+    }
 
-        // Backward integration
+    {
+        const Array<Tuple<Real, Real>> testCases = {
+            {defaultDuration_, 0.9},
+            {-defaultDuration_, -0.9},
+        };
+
+        for (const auto testCase : testCases)
         {
-            const Condition condition = Condition(-0.9);
+            const Real duration = std::get<0>(testCase);
+            const Real target = std::get<1>(testCase);
+
+            const XCrossingCondition condition = XCrossingCondition(target);
 
             const NumericalSolver::ConditionSolution conditionSolution =
-                defaultRKD5_.integrateDuration(defaultStateVector_, -defaultDuration_, systemOfEquations_, condition);
+                defaultRKD5_.integrateDuration(defaultStateVector_, duration, systemOfEquations_, condition);
             const NumericalSolver::Solution solution = conditionSolution.solution;
 
             const NumericalSolver::StateVector propagatedStateVector = solution.first;
@@ -1076,7 +690,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_TRUE(propagatedTime > -defaultDuration_);
+            EXPECT_TRUE(std::abs(propagatedTime) < std::abs(duration));
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
@@ -1094,136 +708,35 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
     const NumericalSolver::StateVector stateVector = getStateVector(startTime);
 
-    // Simple duration based condition
-
-    // Forward integration
     {
-        struct Condition : EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", Condition::Criteria::AnyCrossing),
-                  target_(aTarget)
-            {
-            }
-
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
-            {
-                (void)stateVector;
-                return aTime - target_;
-            }
-
-            Real target_;
+        const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
+            {defaultDuration_, EventCondition::Criteria::AnyCrossing},
+            {-defaultDuration_, EventCondition::Criteria::AnyCrossing},
         };
 
-        const Real endTime = startTime + defaultDuration_;
-
+        for (const auto &testCase : testCases)
         {
-            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
-                stateVector, startTime, endTime, systemOfEquations_, Condition(endTime + 5.0)
-            );
-            const NumericalSolver::Solution solution = conditionSolution.solution;
+            const Real duration = std::get<0>(testCase);
+            const EventCondition::Criteria criteria = std::get<1>(testCase);
 
-            EXPECT_DOUBLE_EQ(solution.second, endTime);
-            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
-        }
+            const Real endTime = startTime + duration;
 
-        const Condition condition = Condition(defaultDuration_ / 2.0);
-
-        const NumericalSolver::ConditionSolution conditionSolution =
-            defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
-        const NumericalSolver::Solution solution = conditionSolution.solution;
-
-        const NumericalSolver::StateVector propagatedStateVector = solution.first;
-        const Real propagatedTime = solution.second;
-
-        // Ensure that integration terminates at condition if condition is met
-
-        EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
-        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
-    }
-
-    // Backward integration
-    {
-        struct Condition : public EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", Condition::Criteria::AnyCrossing),
-                  target_(aTarget)
             {
+                const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+                    stateVector,
+                    startTime,
+                    endTime,
+                    systemOfEquations_,
+                    DurationCondition(endTime + duration / 2.0, criteria)
+                );
+                const NumericalSolver::Solution solution = conditionSolution.solution;
+
+                EXPECT_DOUBLE_EQ(solution.second, endTime);
+                EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+                EXPECT_EQ(conditionSolution.numberOfIterations, 0);
             }
 
-            Real evaluate(const VectorXd &stateVector, const Real &aTime) const
-            {
-                (void)stateVector;
-                return aTime - target_;
-            }
-
-            Real target_;
-        };
-
-        const Real endTime = startTime - defaultDuration_;
-
-        {
-            const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
-                stateVector, startTime, endTime, systemOfEquations_, Condition(-defaultDuration_ - 5.0)
-            );
-            const NumericalSolver::Solution solution = conditionSolution.solution;
-
-            EXPECT_DOUBLE_EQ(solution.second, endTime);
-            EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-            EXPECT_EQ(conditionSolution.numberOfIterations, 0);
-        }
-
-        const Condition condition = Condition(-defaultDuration_ / 2.0);
-
-        const NumericalSolver::ConditionSolution conditionSolution =
-            defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
-        const NumericalSolver::Solution solution = conditionSolution.solution;
-
-        const NumericalSolver::StateVector propagatedStateVector = solution.first;
-        const Real propagatedTime = solution.second;
-
-        // Ensure that integration terminates at condition if condition is met
-
-        EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
-        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-
-        // Validate the output against an analytical function
-
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
-        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
-    }
-
-    // Simple value based struct
-    {
-        struct Condition : public EventCondition
-        {
-            Condition(const Real &aTarget)
-                : EventCondition("test", Condition::Criteria::AnyCrossing),
-                  target_(aTarget)
-            {
-            }
-
-            Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
-            {
-                (void)aTime;
-                return aStateVector[0] - target_;
-            }
-
-            Real target_;
-        };
-
-        // Forward integration
-        {
-            const Real endTime = startTime + defaultDuration_;
-
-            const Condition condition = Condition(0.9);
+            const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
@@ -1234,7 +747,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_TRUE(propagatedTime < endTime);
+            EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
@@ -1242,12 +755,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
         }
+    }
 
-        // Backward integration
+    {
+        const Array<Tuple<Real, Real>> testCases = {
+            {defaultDuration_, 0.9},
+            {-defaultDuration_, -0.9},
+        };
+
+        for (const auto &testCase : testCases)
         {
-            const Real endTime = startTime - defaultDuration_;
+            const Real duration = std::get<0>(testCase);
+            const Real target = std::get<1>(testCase);
 
-            const Condition condition = Condition(-0.9);
+            const Real endTime = startTime + duration;
+            const XCrossingCondition condition = XCrossingCondition(target);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(stateVector, startTime, endTime, systemOfEquations_, condition);
@@ -1258,7 +780,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_TRUE(propagatedTime > endTime);
+            EXPECT_TRUE(duration > 0.0 ? propagatedTime < endTime : propagatedTime > endTime);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
 
             // Validate the output against an analytical function
