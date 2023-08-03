@@ -163,4 +163,12 @@ LABEL VERSION="${VERSION}"
 
 # Execution
 
+RUN ln -s /app/build/helpers/build.sh /usr/bin/ostk-build
+RUN ln -s /app/build/helpers/test.sh /usr/bin/ostk-test
+RUN ln -s /app/build/helpers/test-python.sh /usr/bin/ostk-test-python
+RUN ln -s /app/build/helpers/format.sh /usr/bin/ostk-format
+RUN ln -s /app/build/helpers/clean.sh /usr/bin/ostk-clean
+RUN ln -s /app/build/helpers/install-python.sh /usr/bin/ostk-install-python
+RUN ln -s /app/build/helpers/debug.sh /usr/bin/ostk-debug
+
 CMD ["/bin/bash"]
