@@ -12,9 +12,9 @@ namespace ostk
 namespace astro
 {
 
-RootSolver::RootSolver(const Size& aMaximumIterationsCount, const Size& aNumberOfDigits)
-    : maximumIterationsCount_(aMaximumIterationsCount),
-      numberOfDigits_(aNumberOfDigits)
+RootSolver::RootSolver(const Size& aMaximumIterationCount, const Size& aDigitCount)
+    : maximumIterationCount_(aMaximumIterationCount),
+      digitCount_(aDigitCount)
 {
 }
 
@@ -27,22 +27,22 @@ std::ostream& operator<<(std::ostream& anOutputStream, const RootSolver& aRootSo
     return anOutputStream;
 }
 
-Size RootSolver::getMaximumIterationsCount() const
+Size RootSolver::getMaximumIterationCount() const
 {
-    return maximumIterationsCount_;
+    return maximumIterationCount_;
 }
 
-Size RootSolver::getNumberOfDigits() const
+Size RootSolver::getDigitCount() const
 {
-    return numberOfDigits_;
+    return digitCount_;
 }
 
 RootSolver::Solution RootSolver::solve(
     const std::function<double(const double&)>& aFunction, const double& anInitialGuess, const bool& isRising
 ) const
 {
-    const boost::math::tools::eps_tolerance<double> tolerance(numberOfDigits_);
-    std::uintmax_t iteratorCount = maximumIterationsCount_;
+    const boost::math::tools::eps_tolerance<double> tolerance(digitCount_);
+    std::uintmax_t iteratorCount = maximumIterationCount_;
 
     std::pair<Real, Real> r = boost::math::tools::bracket_and_solve_root(
         aFunction, anInitialGuess, factor_, isRising, tolerance, iteratorCount
@@ -61,9 +61,8 @@ RootSolver::Solution RootSolver::solve(
     // account for the fact that the function may be decreasing
     const double lowerBound = std::min(aLowerBound, anUpperBound);
     const double upperBound = std::max(aLowerBound, anUpperBound);
-
-    std::uintmax_t iteratorCount = maximumIterationsCount_;
-    const boost::math::tools::eps_tolerance<double> tolerance(numberOfDigits_);
+    std::uintmax_t iteratorCount = maximumIterationCount_;
+    const boost::math::tools::eps_tolerance<double> tolerance(digitCount_);
 
     std::pair<Real, Real> r =
         boost::math::tools::toms748_solve(aFunction, lowerBound, upperBound, tolerance, iteratorCount);
@@ -78,8 +77,8 @@ void RootSolver::print(std::ostream& anOutputStream, bool displayDecorator) cons
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Root Solver") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationsCount_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << numberOfDigits_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationCount_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << digitCount_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

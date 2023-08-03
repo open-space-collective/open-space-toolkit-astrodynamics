@@ -512,7 +512,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     return {
         {solutionState, solutionTime},
         true,
-        solution.numberOfIterations,
+        solution.iterationCount,
     };
 }
 
