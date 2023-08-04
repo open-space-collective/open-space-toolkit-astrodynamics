@@ -153,6 +153,19 @@ ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY "/usr/lo
 ENV OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/gravitational/earth"
 ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/magnetic/earth"
 
+# Install development helpers
+
+COPY tools/development/helpers/build.sh /usr/bin/ostk-build
+COPY tools/development/helpers/test.sh /usr/bin/ostk-test
+COPY tools/development/helpers/test-python.sh /usr/bin/ostk-test-python
+COPY tools/development/helpers/format-cpp.sh /usr/bin/ostk-format-cpp
+COPY tools/development/helpers/format-python.sh /usr/bin/ostk-format-python
+COPY tools/development/helpers/check-format-cpp.sh /usr/bin/ostk-check-format-cpp
+COPY tools/development/helpers/check-format-python.sh /usr/bin/ostk-check-format-python
+COPY tools/development/helpers/clean.sh /usr/bin/ostk-clean
+COPY tools/development/helpers/install-python.sh /usr/bin/ostk-install-python
+COPY tools/development/helpers/debug.sh /usr/bin/ostk-debug
+
 # Labels
 
 ARG VERSION
@@ -162,13 +175,5 @@ ENV VERSION ${VERSION}
 LABEL VERSION="${VERSION}"
 
 # Execution
-
-RUN ln -s /app/build/helpers/build.sh /usr/bin/ostk-build
-RUN ln -s /app/build/helpers/test.sh /usr/bin/ostk-test
-RUN ln -s /app/build/helpers/test-python.sh /usr/bin/ostk-test-python
-RUN ln -s /app/build/helpers/format.sh /usr/bin/ostk-format
-RUN ln -s /app/build/helpers/clean.sh /usr/bin/ostk-clean
-RUN ln -s /app/build/helpers/install-python.sh /usr/bin/ostk-install-python
-RUN ln -s /app/build/helpers/debug.sh /usr/bin/ostk-debug
 
 CMD ["/bin/bash"]
