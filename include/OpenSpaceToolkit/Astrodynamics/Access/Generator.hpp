@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
@@ -28,16 +29,20 @@ namespace access
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
+using ostk::core::ctnr::Pair;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::Interval;
 
 using ostk::physics::Environment;
+using ostk::physics::coord::Position;
 using ostk::physics::coord::spherical::AER;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Length;
+using ostk::physics::env::obj::Celestial;
 
 using ostk::astro::Access;
 using ostk::astro::Trajectory;
@@ -49,6 +54,8 @@ using ostk::astro::trajectory::State;
 class Generator
 {
    public:
+    friend class GeneratorContext;
+
     Generator(
         const Environment& anEnvironment,
         const Duration& aStep = DEFAULT_STEP,
@@ -123,6 +130,43 @@ class Generator
     std::function<bool(const AER&)> aerFilter_;
     std::function<bool(const Access&)> accessFilter_;
     std::function<bool(const State&, const State&)> stateFilter_;
+};
+
+class GeneratorContext
+{
+   public:
+    GeneratorContext(
+        const physics::time::Interval& anInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Environment& anEnvironment,
+        const Generator& aGenerator
+    );
+
+    bool isAccessActiveAt(const Instant& anInstant);
+
+    Access generateAccess(const physics::time::Interval& anAccessInterval) const;
+
+   private:
+    physics::time::Interval interval_;
+    Trajectory fromTrajectory_;
+    Trajectory toTrajectory_;
+    Environment environment_;
+    const Generator& generator_;
+
+    const Shared<const Celestial> earthSPtr_;
+
+    Pair<State, State> getStatesAt(const Instant& anInstant) const;
+
+    Pair<Position, Position> getPositionsFromStates(const State& aFromState, const State& aToState) const;
+
+    AER calculateAer(const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) const;
+
+    bool isAccessActive(const Instant& anInstant, const State& aFromState, const State& aToState);
+
+    Instant findTimeOfClosestApproach(const physics::time::Interval& anAccessInterval) const;
+
+    Angle calculateElevationAt(const Instant& anInstant) const;
 };
 
 }  // namespace access

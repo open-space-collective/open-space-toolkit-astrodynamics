@@ -2,8 +2,6 @@
 
 #include <nlopt.hpp>
 
-#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Segment.hpp>
 
@@ -12,6 +10,21 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
+
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Real;
+using ostk::core::types::Shared;
+
+using ostk::math::geom::d3::objects::Point;
+using ostk::math::geom::d3::objects::Segment;
+
+using ostk::physics::coord::Frame;
+
+using ostk::physics::coord::spherical::LLA;  // [TBR]
+using ostk::physics::env::Object;
+using ostk::physics::env::obj::celest::Earth;  // [TBR]
+using ostk::astro::trajectory::State;
+using ostk::astro::solvers::TemporalConditionSolver;
 
 namespace ostk
 {
@@ -90,23 +103,6 @@ Array<Access> Generator::computeAccesses(
     // - [Rapid Satellite-to-Site Visibility Determination Based on Self-Adaptive Interpolation
     // Technique](https://arxiv.org/pdf/1611.02402.pdf)
 
-    using ostk::core::ctnr::Pair;
-    using ostk::core::types::Real;
-    using ostk::core::types::Shared;
-
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::geom::d3::objects::Segment;
-
-    using ostk::physics::coord::Frame;
-    using ostk::physics::coord::Position;
-    using ostk::physics::coord::spherical::LLA;  // [TBR]
-    using ostk::physics::env::Object;
-    using ostk::physics::env::obj::celest::Earth;  // [TBR]
-    using ostk::physics::time::Duration;
-
-    using ostk::astro::trajectory::State;
-    using ostk::astro::solvers::TemporalConditionSolver;
-
     if (!anInterval.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Interval");
@@ -127,220 +123,8 @@ Array<Access> Generator::computeAccesses(
         throw ostk::core::error::runtime::Undefined("Generator");
     }
 
-    Environment environment = environment_;
-
-    const auto earthSPtr = environment.accessCelestialObjectWithName("Earth");  // [TBR] This is Earth specific
-
-    const auto getStatesAt = [&aFromTrajectory, &aToTrajectory](const Instant& anInstant) -> Pair<State, State>
-    {
-        const State fromState = aFromTrajectory.getStateAt(anInstant);
-        const State toState = aToTrajectory.getStateAt(anInstant);
-
-        return {fromState, toState};
-    };
-
-    const auto getPositionsFromStates = [](const State& aFromState, const State& aToState) -> Pair<Position, Position>
-    {
-        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
-
-        if (aFromState.accessInstant() != aToState.accessInstant())
-        {
-            // TBI: Throw
-        }
-
-        const Position fromPosition = aFromState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
-        const Position toPosition = aToState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
-
-        return {fromPosition, toPosition};
-    };
-
-    const auto calculateAer =
-        [&earthSPtr](const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) -> AER
-    {
-        const Point referencePoint_ITRF =
-            Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()
-            );  // [TBR] This is Earth specific
-
-        const LLA referencePoint_LLA = LLA::Cartesian(
-            referencePoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()
-        );
-
-        const Shared<const Frame> nedFrameSPtr =
-            earthSPtr->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);  // [TBR] This is Earth specific
-
-        const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant);
-        const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant);
-
-        const AER aer = AER::FromPositionToPosition(fromPosition_NED, toPosition_NED, true);
-
-        return aer;
-    };
-
-    const auto isAccessActive = [this, &environment, &earthSPtr, getPositionsFromStates, calculateAer](
-                                    const Instant& anInstant, const State& aFromState, const State& aToState
-                                ) -> bool
-    {
-        environment.setInstant(anInstant);
-
-        if (stateFilter_ && (!stateFilter_(aFromState, aToState)))
-        {
-            return false;
-        }
-
-        const auto [fromPosition, toPosition] = getPositionsFromStates(aFromState, aToState);
-
-        // Line of sight
-
-        static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
-
-        const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates());
-        const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates());
-
-        if (fromPositionCoordinates != toPositionCoordinates)
-        {
-            const Segment fromToSegment = {fromPositionCoordinates, toPositionCoordinates};
-
-            const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
-
-            const bool lineOfSight = !environment.intersects(fromToSegmentGeometry);
-
-            if (!lineOfSight)
-            {
-                return false;
-            }
-        }
-
-        // AER filtering
-
-        if (aerFilter_)
-        {
-            const AER aer = calculateAer(anInstant, fromPosition, toPosition);
-
-            if (!aerFilter_(aer))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    const auto isAccessActiveAt = [getStatesAt, isAccessActive](const Instant& anInstant) -> bool
-    {
-        const auto [fromState, toState] = getStatesAt(anInstant);
-        return isAccessActive(anInstant, fromState, toState);
-    };
-
-    const auto elevationAt = [calculateAer, getStatesAt, getPositionsFromStates](const Instant& anInstant) -> Angle
-    {
-        const auto [fromState, toState] = getStatesAt(anInstant);
-        const auto [fromPosition, toPosition] = getPositionsFromStates(fromState, toState);
-
-        const AER aer = calculateAer(anInstant, fromPosition, toPosition);
-
-        const Angle elevationAngle = aer.getElevation();
-
-        return elevationAngle;
-    };
-
-    const auto findTimeOfClosestApproach =
-        [this, getStatesAt, getPositionsFromStates](const physics::time::Interval& anAccessInterval) -> Instant
-    {
-        struct Context
-        {
-            const Instant& startInstant;
-            const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
-            const std::function<Pair<Position, Position>(const State& aFromState, const State& aToState)>&
-                getPositionsFromStates;
-        };
-
-        const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
-                                    ) -> double
-        {
-            (void)aGradient;
-
-            if (aDataContext == nullptr)
-            {
-                throw ostk::core::error::runtime::Wrong("Data context");
-            }
-
-            const Context* contextPtr = static_cast<const Context*>(aDataContext);
-
-            const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
-
-            const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
-            const auto [queryFromPosition, queryToPosition] =
-                contextPtr->getPositionsFromStates(queryFromState, queryToState);
-
-            const Real squaredRange_m =
-                (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm();
-
-            return squaredRange_m;
-        };
-
-        Context context = {anAccessInterval.getStart(), getStatesAt, getPositionsFromStates};
-
-        nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
-
-        const std::vector<double> lowerBound = {0.0};
-        const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
-
-        optimizer.set_lower_bounds(lowerBound);
-        optimizer.set_upper_bounds(upperBound);
-
-        optimizer.set_min_objective(calculateRange, &context);
-
-        optimizer.set_xtol_rel(this->tolerance_.inSeconds());
-
-        std::vector<double> x = {0.0};
-
-        try
-        {
-            double minimumSquaredRange;
-
-            nlopt::result result = optimizer.optimize(x, minimumSquaredRange);
-
-            switch (result)
-            {
-                case nlopt::STOPVAL_REACHED:
-                case nlopt::FTOL_REACHED:
-                case nlopt::XTOL_REACHED:
-                case nlopt::MAXEVAL_REACHED:
-                case nlopt::MAXTIME_REACHED:
-                    return anAccessInterval.getStart() + Duration::Seconds(x[0]);
-
-                case nlopt::FAILURE:
-                case nlopt::INVALID_ARGS:
-                case nlopt::OUT_OF_MEMORY:
-                case nlopt::ROUNDOFF_LIMITED:
-                case nlopt::FORCED_STOP:
-                default:
-                    throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).");
-            }
-        }
-        catch (const std::exception& anException)
-        {
-            throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
-        }
-    };
-
-    const auto generateAccess =
-        [anInterval, findTimeOfClosestApproach, elevationAt](const physics::time::Interval& anAccessInterval) -> Access
-    {
-        const Access::Type type = ((anInterval.accessStart() != anAccessInterval.accessStart()) &&
-                                   (anInterval.accessEnd() != anAccessInterval.accessEnd()))
-                                    ? Access::Type::Complete
-                                    : Access::Type::Partial;
-
-        const Instant acquisitionOfSignal = anAccessInterval.getStart();
-        const Instant timeOfClosestApproach = findTimeOfClosestApproach(anAccessInterval);
-        const Instant lossOfSignal = anAccessInterval.getEnd();
-
-        const Angle maxElevation =
-            timeOfClosestApproach.isDefined() ? elevationAt(timeOfClosestApproach) : Angle::Undefined();
-
-        return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
-    };
+    GeneratorContext generatorContext =
+        GeneratorContext(anInterval, aFromTrajectory, aToTrajectory, environment_, *this);
 
     const auto isAccessSelected = [this](const Access& anAccess) -> bool
     {
@@ -349,9 +133,13 @@ Array<Access> Generator::computeAccesses(
 
     const TemporalConditionSolver temporalConditionSolver = {this->step_, this->tolerance_};
 
-    const Array<physics::time::Interval> accessIntervals = temporalConditionSolver.solve(isAccessActiveAt, anInterval);
+    const Array<physics::time::Interval> accessIntervals = temporalConditionSolver.solve(
+        std::bind(&GeneratorContext::isAccessActiveAt, generatorContext, std::placeholders::_1), anInterval
+    );
 
-    return accessIntervals.map<Access>(generateAccess).getWhere(isAccessSelected);
+    return accessIntervals
+        .map<Access>(std::bind(&GeneratorContext::generateAccess, generatorContext, std::placeholders::_1))
+        .getWhere(isAccessSelected);
 }
 
 void Generator::setStep(const Duration& aStep)
@@ -492,6 +280,227 @@ Generator Generator::AerMask(
     };
 
     return {anEnvironment, aerFilter};
+}
+
+GeneratorContext::GeneratorContext(
+    const physics::time::Interval& anInterval,
+    const Trajectory& aFromTrajectory,
+    const Trajectory& aToTrajectory,
+    const Environment& anEnvironment,
+    const Generator& aGenerator
+)
+    : interval_(anInterval),
+      fromTrajectory_(aFromTrajectory),
+      toTrajectory_(aToTrajectory),
+      environment_(anEnvironment),
+      generator_(aGenerator),
+      earthSPtr_(environment_.accessCelestialObjectWithName("Earth"))  // [TBR] This is Earth specific
+{
+}
+
+bool GeneratorContext::isAccessActiveAt(const Instant& anInstant)
+{
+    const auto [fromState, toState] = this->getStatesAt(anInstant);
+    return this->isAccessActive(anInstant, fromState, toState);
+}
+
+Access GeneratorContext::generateAccess(const physics::time::Interval& anAccessInterval) const
+{
+    const Access::Type type = ((this->interval_.accessStart() != anAccessInterval.accessStart()) &&
+                               (this->interval_.accessEnd() != anAccessInterval.accessEnd()))
+                                ? Access::Type::Complete
+                                : Access::Type::Partial;
+
+    const Instant acquisitionOfSignal = anAccessInterval.getStart();
+    const Instant timeOfClosestApproach = this->findTimeOfClosestApproach(anAccessInterval);
+    const Instant lossOfSignal = anAccessInterval.getEnd();
+
+    const Angle maxElevation =
+        timeOfClosestApproach.isDefined() ? this->calculateElevationAt(timeOfClosestApproach) : Angle::Undefined();
+
+    return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+}
+
+Pair<State, State> GeneratorContext::getStatesAt(const Instant& anInstant) const
+{
+    const State fromState = this->fromTrajectory_.getStateAt(anInstant);
+    const State toState = this->toTrajectory_.getStateAt(anInstant);
+
+    return {fromState, toState};
+}
+
+Pair<Position, Position> GeneratorContext::getPositionsFromStates(const State& aFromState, const State& aToState) const
+{
+    static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
+
+    if (aFromState.accessInstant() != aToState.accessInstant())
+    {
+        // TBI: Throw
+    }
+
+    const Position fromPosition = aFromState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
+    const Position toPosition = aToState.getPosition().inFrame(commonFrameSPtr, aFromState.accessInstant());
+
+    return {fromPosition, toPosition};
+}
+
+AER GeneratorContext::calculateAer(const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition)
+    const
+{
+    const Point referencePoint_ITRF = Point::Vector(aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()
+    );  // [TBR] This is Earth specific
+
+    const LLA referencePoint_LLA = LLA::Cartesian(
+        referencePoint_ITRF.asVector(), this->earthSPtr_->getEquatorialRadius(), this->earthSPtr_->getFlattening()
+    );
+
+    const Shared<const Frame> nedFrameSPtr =
+        this->earthSPtr_->getFrameAt(referencePoint_LLA, Earth::FrameType::NED);  // [TBR] This is Earth specific
+
+    const Position fromPosition_NED = aFromPosition.inFrame(nedFrameSPtr, anInstant);
+    const Position toPosition_NED = aToPosition.inFrame(nedFrameSPtr, anInstant);
+
+    return AER::FromPositionToPosition(fromPosition_NED, toPosition_NED, true);
+}
+
+bool GeneratorContext::isAccessActive(const Instant& anInstant, const State& aFromState, const State& aToState)
+{
+    this->environment_.setInstant(anInstant);
+
+    if (this->generator_.stateFilter_ && (!this->generator_.stateFilter_(aFromState, aToState)))
+    {
+        return false;
+    }
+
+    const auto [fromPosition, toPosition] = this->getPositionsFromStates(aFromState, aToState);
+
+    // Line of sight
+
+    static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
+
+    const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates());
+    const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates());
+
+    if (fromPositionCoordinates != toPositionCoordinates)
+    {
+        const Segment fromToSegment = {fromPositionCoordinates, toPositionCoordinates};
+
+        const Object::Geometry fromToSegmentGeometry = {fromToSegment, commonFrameSPtr};
+
+        const bool lineOfSight = !this->environment_.intersects(fromToSegmentGeometry);
+
+        if (!lineOfSight)
+        {
+            return false;
+        }
+    }
+
+    // AER filtering
+
+    if (this->generator_.aerFilter_)
+    {
+        const AER aer = this->calculateAer(anInstant, fromPosition, toPosition);
+
+        if (!this->generator_.aerFilter_(aer))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+Instant GeneratorContext::findTimeOfClosestApproach(const physics::time::Interval& anAccessInterval) const
+{
+    struct Context
+    {
+        const Instant& startInstant;
+        const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
+        const std::function<Pair<Position, Position>(const State& aFromState, const State& aToState)>&
+            getPositionsFromStates;
+    };
+
+    const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
+                                ) -> double
+    {
+        (void)aGradient;
+
+        if (aDataContext == nullptr)
+        {
+            throw ostk::core::error::runtime::Wrong("Data context");
+        }
+
+        const Context* contextPtr = static_cast<const Context*>(aDataContext);
+
+        const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
+
+        const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
+        const auto [queryFromPosition, queryToPosition] =
+            contextPtr->getPositionsFromStates(queryFromState, queryToState);
+
+        const Real squaredRange_m =
+            (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm();
+
+        return squaredRange_m;
+    };
+
+    Context context = {
+        anAccessInterval.getStart(),
+        std::bind(&GeneratorContext::getStatesAt, this, std::placeholders::_1),
+        std::bind(&GeneratorContext::getPositionsFromStates, this, std::placeholders::_1, std::placeholders::_2)};
+
+    nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
+
+    const std::vector<double> lowerBound = {0.0};
+    const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
+
+    optimizer.set_lower_bounds(lowerBound);
+    optimizer.set_upper_bounds(upperBound);
+
+    optimizer.set_min_objective(calculateRange, &context);
+
+    optimizer.set_xtol_rel(this->generator_.tolerance_.inSeconds());
+
+    std::vector<double> x = {0.0};
+
+    try
+    {
+        double minimumSquaredRange;
+
+        nlopt::result result = optimizer.optimize(x, minimumSquaredRange);
+
+        switch (result)
+        {
+            case nlopt::STOPVAL_REACHED:
+            case nlopt::FTOL_REACHED:
+            case nlopt::XTOL_REACHED:
+            case nlopt::MAXEVAL_REACHED:
+            case nlopt::MAXTIME_REACHED:
+                return anAccessInterval.getStart() + Duration::Seconds(x[0]);
+
+            case nlopt::FAILURE:
+            case nlopt::INVALID_ARGS:
+            case nlopt::OUT_OF_MEMORY:
+            case nlopt::ROUNDOFF_LIMITED:
+            case nlopt::FORCED_STOP:
+            default:
+                throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).");
+        }
+    }
+    catch (const std::exception& anException)
+    {
+        throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
+    }
+}
+
+Angle GeneratorContext::calculateElevationAt(const Instant& anInstant) const
+{
+    const auto [fromState, toState] = this->getStatesAt(anInstant);
+    const auto [fromPosition, toPosition] = this->getPositionsFromStates(fromState, toState);
+
+    const AER aer = this->calculateAer(anInstant, fromPosition, toPosition);
+
+    return aer.getElevation();
 }
 
 }  // namespace access

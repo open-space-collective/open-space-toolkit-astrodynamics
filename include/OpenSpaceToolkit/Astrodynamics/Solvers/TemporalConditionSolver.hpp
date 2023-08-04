@@ -24,7 +24,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Interval;
 
-#define DEFAULT_MAXIUM_ITERATION_COUNT 500
+#define DEFAULT_MAXIMUM_ITERATION_COUNT 500
 
 /// @brief                      Given a set of conditions and a time interval,
 ///                             this solver computes all sub-intervals over which conditions are met.
@@ -47,7 +47,7 @@ class TemporalConditionSolver
     TemporalConditionSolver(
         const Duration& aTimeStep,
         const Duration& aTolerance,
-        const Size& aMaximumIterationCount = DEFAULT_MAXIUM_ITERATION_COUNT
+        const Size& aMaximumIterationCount = DEFAULT_MAXIMUM_ITERATION_COUNT
     );
 
     /// @brief                  Find the intervals over which the provided condition is true.
