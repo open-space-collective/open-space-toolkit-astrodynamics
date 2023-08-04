@@ -30,7 +30,7 @@ class RootSolver
     ///                         RootSolver rootSolver = {aMaximumIterationCount, aDigitCount};
     /// @endcode
     ///
-    /// @param                  [in] aMaximumIterationCount The maximum iterations count for the solver
+    /// @param                  [in] aMaximumIterationCount The maximum iteration count for the solver
     /// @param                  [in] aDigitCount The number of digits
 
     RootSolver(const Size& aMaximumIterationCount, const Size& aDigitCount);
