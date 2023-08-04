@@ -427,6 +427,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
             {anInitialStateVector, 0.0},
             false,
             0,
+            false,
         };
     }
 
@@ -489,6 +490,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
             {currentState, aDurationInSeconds},
             false,
             0,
+            false,
         };
     }
 
@@ -513,6 +515,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         {solutionState, solutionTime},
         true,
         solution.iterationCount,
+        solution.hasConverged,
     };
 }
 

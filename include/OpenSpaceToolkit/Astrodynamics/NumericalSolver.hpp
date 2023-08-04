@@ -61,6 +61,7 @@ class NumericalSolver
         Solution solution;
         bool conditionIsSatisfied;
         Size iterationCount;
+        bool rootSolverHasConverged;
     };
 
     /// @brief                  Constructor
