@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>  // [TBR]
 
 #include <OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.hpp>
 
 namespace ostk
 {
@@ -104,6 +105,7 @@ Array<Access> Generator::computeAccesses(
     using ostk::physics::time::Duration;
 
     using ostk::astro::trajectory::State;
+    using ostk::astro::solvers::TemporalConditionSolver;
 
     if (!anInterval.isDefined())
     {
@@ -187,34 +189,6 @@ Array<Access> Generator::computeAccesses(
 
         const auto [fromPosition, toPosition] = getPositionsFromStates(aFromState, aToState);
 
-        // Debug
-
-        // {
-
-        //     const Point fromPoint_ITRF = Point::Vector(fromPosition.inFrame(Frame::ITRF(),
-        //     anInstant).accessCoordinates()) ; const Point toPoint_ITRF =
-        //     Point::Vector(toPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates()) ;
-
-        //     const LLA fromPoint_LLA = LLA::Cartesian(fromPoint_ITRF.asVector(), earthSPtr->getEquatorialRadius(),
-        //     earthSPtr->getFlattening()) ; const LLA toPoint_LLA = LLA::Cartesian(toPoint_ITRF.asVector(),
-        //     earthSPtr->getEquatorialRadius(), earthSPtr->getFlattening()) ;
-
-        //     const AER aer = calculateAer(anInstant, fromPosition, toPosition) ;
-
-        //     std::cout   <<
-        //     anInstant.getDateTime(ostk::physics::time::Scale::UTC).toString(ostk::physics::time::DateTime::Format::ISO8601)
-        //     << ", "
-        //                 << fromPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-        //                 << fromPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-        //                 << fromPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-        //                 << toPoint_LLA.getLatitude().inDegrees().toString(12) << ", "
-        //                 << toPoint_LLA.getLongitude().inDegrees().toString(12) << ", "
-        //                 << toPoint_LLA.getAltitude().inMeters().toString(12) << ", "
-        //                 << aer.getAzimuth().inDegrees(-180.0, +180.0) << ", "
-        //                 << aer.getElevation().inDegrees(-180.0, +180.0) << std::endl ;
-
-        // }
-
         // Line of sight
 
         static const Shared<const Frame> commonFrameSPtr = Frame::GCRF();
@@ -251,13 +225,10 @@ Array<Access> Generator::computeAccesses(
         return true;
     };
 
-    const auto isAccessActiveAt = [getStatesAt, isAccessActive](const Instant& aNextInstant) -> bool
+    const auto isAccessActiveAt = [getStatesAt, isAccessActive](const Instant& anInstant) -> bool
     {
-        const auto [fromState, toState] = getStatesAt(aNextInstant);
-
-        const bool accessIsActive = isAccessActive(aNextInstant, fromState, toState);
-
-        return accessIsActive;
+        const auto [fromState, toState] = getStatesAt(anInstant);
+        return isAccessActive(anInstant, fromState, toState);
     };
 
     const auto elevationAt = [calculateAer, getStatesAt, getPositionsFromStates](const Instant& anInstant) -> Angle
@@ -272,243 +243,115 @@ Array<Access> Generator::computeAccesses(
         return elevationAngle;
     };
 
-    const std::function<
-        Instant(const Instant&, const Instant&, const Duration&, const bool, const std::function<bool(const Instant&)>&)>
-        findSwitchingInstant = [&findSwitchingInstant](
-                                   const Instant& aPreviousInstant,
-                                   const Instant& aNextInstant,
-                                   const Duration& aTolerance,
-                                   const bool isConditionActiveAtPreviousInstant,
-                                   const std::function<bool(const Instant&)>& aCondition
-                               ) -> Instant
+    const auto findTimeOfClosestApproach =
+        [this, getStatesAt, getPositionsFromStates](const physics::time::Interval& anAccessInterval) -> Instant
     {
-        const Duration step = Duration::Between(aPreviousInstant, aNextInstant);
-
-        if (step <= aTolerance)
+        struct Context
         {
-            return aNextInstant;
-        }
+            const Instant& startInstant;
+            const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
+            const std::function<Pair<Position, Position>(const State& aFromState, const State& aToState)>&
+                getPositionsFromStates;
+        };
 
-        const Instant midInstant = aPreviousInstant + (step / 2.0);
-
-        const bool conditionIsActiveInMidInstant = aCondition(midInstant);
-
-        if (isConditionActiveAtPreviousInstant != conditionIsActiveInMidInstant)
+        const auto calculateRange = [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext
+                                    ) -> double
         {
-            return findSwitchingInstant(
-                aPreviousInstant, midInstant, aTolerance, isConditionActiveAtPreviousInstant, aCondition
-            );
-        }
+            (void)aGradient;
 
-        return findSwitchingInstant(
-            midInstant, aNextInstant, aTolerance, isConditionActiveAtPreviousInstant, aCondition
-        );
+            if (aDataContext == nullptr)
+            {
+                throw ostk::core::error::runtime::Wrong("Data context");
+            }
+
+            const Context* contextPtr = static_cast<const Context*>(aDataContext);
+
+            const Instant queryInstant = contextPtr->startInstant + Duration::Seconds(x[0]);
+
+            const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
+            const auto [queryFromPosition, queryToPosition] =
+                contextPtr->getPositionsFromStates(queryFromState, queryToState);
+
+            const Real squaredRange_m =
+                (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm();
+
+            return squaredRange_m;
+        };
+
+        Context context = {anAccessInterval.getStart(), getStatesAt, getPositionsFromStates};
+
+        nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
+
+        const std::vector<double> lowerBound = {0.0};
+        const std::vector<double> upperBound = {anAccessInterval.getDuration().inSeconds()};
+
+        optimizer.set_lower_bounds(lowerBound);
+        optimizer.set_upper_bounds(upperBound);
+
+        optimizer.set_min_objective(calculateRange, &context);
+
+        optimizer.set_xtol_rel(this->tolerance_.inSeconds());
+
+        std::vector<double> x = {0.0};
+
+        try
+        {
+            double minimumSquaredRange;
+
+            nlopt::result result = optimizer.optimize(x, minimumSquaredRange);
+
+            switch (result)
+            {
+                case nlopt::STOPVAL_REACHED:
+                case nlopt::FTOL_REACHED:
+                case nlopt::XTOL_REACHED:
+                case nlopt::MAXEVAL_REACHED:
+                case nlopt::MAXTIME_REACHED:
+                    return anAccessInterval.getStart() + Duration::Seconds(x[0]);
+
+                case nlopt::FAILURE:
+                case nlopt::INVALID_ARGS:
+                case nlopt::OUT_OF_MEMORY:
+                case nlopt::ROUNDOFF_LIMITED:
+                case nlopt::FORCED_STOP:
+                default:
+                    throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).");
+            }
+        }
+        catch (const std::exception& anException)
+        {
+            throw ostk::core::error::RuntimeError("Cannot find TCA (algorithm failed): [{}].", anException.what());
+        }
     };
 
-    Array<Access> accesses = Array<Access>::Empty();
-
-    const auto addAccess = [this, &accesses](
-                               const Access::Type& aType,
-                               const Instant& anAcquisitionOfSignal,
-                               const Instant& aTimeOfClosestApproach,
-                               const Instant& aLossOfSignal,
-                               const Angle& aMaxElevation
-                           )
+    const auto generateAccess =
+        [anInterval, findTimeOfClosestApproach, elevationAt](const physics::time::Interval& anAccessInterval) -> Access
     {
-        const Access access = {aType, anAcquisitionOfSignal, aTimeOfClosestApproach, aLossOfSignal, aMaxElevation};
+        const Access::Type type = ((anInterval.accessStart() != anAccessInterval.accessStart()) &&
+                                   (anInterval.accessEnd() != anAccessInterval.accessEnd()))
+                                    ? Access::Type::Complete
+                                    : Access::Type::Partial;
 
-        if (accessFilter_ ? accessFilter_(access) : true)
-        {
-            accesses.add(access);
-        }
+        const Instant acquisitionOfSignal = anAccessInterval.getStart();
+        const Instant timeOfClosestApproach = findTimeOfClosestApproach(anAccessInterval);
+        const Instant lossOfSignal = anAccessInterval.getEnd();
+
+        const Angle maxElevation =
+            timeOfClosestApproach.isDefined() ? elevationAt(timeOfClosestApproach) : Angle::Undefined();
+
+        return Access {type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
     };
 
-    const Array<Instant> instants = anInterval.generateGrid(step_);
-
-    bool inAccess = false;
-
-    Instant previousInstantCache = Instant::Undefined();
-    Instant acquisitionOfSignalCache = Instant::Undefined();
-    Instant timeOfClosestApproachCache = Instant::Undefined();
-    Real fromToDistanceCache_m = Real::Undefined();
-
-    for (const auto& instant : instants)
+    const auto isAccessSelected = [this](const Access& anAccess) -> bool
     {
-        const auto [fromState, toState] = getStatesAt(instant);
+        return this->accessFilter_ ? this->accessFilter_(anAccess) : true;
+    };
 
-        const bool accessIsActive = isAccessActive(instant, fromState, toState);
+    const TemporalConditionSolver temporalConditionSolver = {this->step_, this->tolerance_};
 
-        const bool accessIsSwitching =
-            (accessIsActive != inAccess) || (accessIsActive && (!acquisitionOfSignalCache.isDefined()));
+    const Array<physics::time::Interval> accessIntervals = temporalConditionSolver.solve(isAccessActiveAt, anInterval);
 
-        if (accessIsSwitching)
-        {
-            const Instant switchingInstant =
-                previousInstantCache.isDefined()
-                    ? findSwitchingInstant(previousInstantCache, instant, tolerance_, !accessIsActive, isAccessActiveAt)
-                    : previousInstantCache;
-
-            if (accessIsActive)
-            {
-                acquisitionOfSignalCache = switchingInstant;
-
-                inAccess = true;
-            }
-            else
-            {
-                const Access::Type type =
-                    previousInstantCache.isDefined() ? Access::Type::Complete : Access::Type::Partial;
-                const Instant acquisitionOfSignal = acquisitionOfSignalCache;
-                const Instant timeOfClosestApproach = timeOfClosestApproachCache;
-                const Instant lossOfSignal = switchingInstant;
-                const Angle maxElevation = timeOfClosestApproach.isDefined() ? elevationAt(timeOfClosestApproach)
-                                                                             : Angle::Undefined();  // TBR: Approximate
-
-                addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation);
-
-                acquisitionOfSignalCache = Instant::Undefined();
-                timeOfClosestApproachCache = Instant::Undefined();
-                fromToDistanceCache_m = Real::Undefined();
-
-                inAccess = false;
-            }
-        }
-
-        if (inAccess)
-        {
-            const auto [fromPosition, toPosition] = getPositionsFromStates(fromState, toState);
-
-            const Point fromPositionCoordinates = Point::Vector(fromPosition.accessCoordinates());
-            const Point toPositionCoordinates = Point::Vector(toPosition.accessCoordinates());
-
-            const Real fromToDistance_m = (toPositionCoordinates - fromPositionCoordinates).norm();
-
-            if (!timeOfClosestApproachCache.isDefined())
-            {
-                timeOfClosestApproachCache = acquisitionOfSignalCache;
-
-                fromToDistanceCache_m = fromToDistance_m;
-            }
-            else if (fromToDistanceCache_m.isDefined())
-            {
-                if (fromToDistance_m < fromToDistanceCache_m)
-                {
-                    timeOfClosestApproachCache = instant;
-
-                    fromToDistanceCache_m = fromToDistance_m;
-                }
-                else if (fromToDistance_m >= fromToDistanceCache_m)
-                {
-                    struct Context
-                    {
-                        const Instant& instant;
-                        const std::function<Pair<State, State>(const Instant& anInstant)>& getStatesAt;
-                        const std::function<Pair<Position, Position>(const State& aFromState, const State& aToState)>&
-                            getPositionsFromStates;
-                    };
-
-                    const auto calculateRange =
-                        [](const std::vector<double>& x, std::vector<double>& aGradient, void* aDataContext) -> double
-                    {
-                        (void)aGradient;
-
-                        if (aDataContext == nullptr)
-                        {
-                            throw ostk::core::error::runtime::Wrong("Data context");
-                        }
-
-                        const Context* contextPtr = static_cast<const Context*>(aDataContext);
-
-                        const Duration offset = Duration::Seconds(x[0]);
-                        const Instant queryInstant = contextPtr->instant + offset;
-
-                        const auto [queryFromState, queryToState] = contextPtr->getStatesAt(queryInstant);
-                        const auto [queryFromPosition, queryToPosition] =
-                            contextPtr->getPositionsFromStates(queryFromState, queryToState);
-
-                        const Real squaredRange_m =
-                            (queryToPosition.accessCoordinates() - queryFromPosition.accessCoordinates()).squaredNorm();
-
-                        // std::cout << String::Format("{} [s] @ {} => {} [m]", x[0], queryInstant.toString(),
-                        // squaredRange_m.toString()) << std::endl ;
-
-                        return squaredRange_m;
-                    };
-
-                    Context context = {instant, getStatesAt, getPositionsFromStates};
-
-                    nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
-
-                    const std::vector<double> lowerBound = {-2.0 * step_.inSeconds()};
-                    const std::vector<double> upperBound = {+2.0 * step_.inSeconds()};
-
-                    optimizer.set_lower_bounds(lowerBound);
-                    optimizer.set_upper_bounds(upperBound);
-
-                    optimizer.set_min_objective(calculateRange, &context);
-
-                    optimizer.set_xtol_rel(tolerance_.inSeconds());
-
-                    std::vector<double> x = {0.0};
-
-                    try
-                    {
-                        double minimumSquaredRange;
-
-                        nlopt::result result = optimizer.optimize(x, minimumSquaredRange);
-
-                        switch (result)
-                        {
-                            case nlopt::STOPVAL_REACHED:
-                            case nlopt::FTOL_REACHED:
-                            case nlopt::XTOL_REACHED:
-                            case nlopt::MAXEVAL_REACHED:
-                            case nlopt::MAXTIME_REACHED:
-                                timeOfClosestApproachCache = instant + Duration::Seconds(x[0]);
-                                break;
-
-                            case nlopt::FAILURE:
-                            case nlopt::INVALID_ARGS:
-                            case nlopt::OUT_OF_MEMORY:
-                            case nlopt::ROUNDOFF_LIMITED:
-                            case nlopt::FORCED_STOP:
-                            default:
-                                throw ostk::core::error::RuntimeError("Cannot find TCA (solution did not converge).");
-                                break;
-                        }
-                    }
-                    catch (const std::exception& anException)
-                    {
-                        throw ostk::core::error::RuntimeError(
-                            "Cannot find TCA (algorithm failed): [{}].", anException.what()
-                        );
-                    }
-
-                    if (timeOfClosestApproachCache < acquisitionOfSignalCache)
-                    {
-                        timeOfClosestApproachCache = acquisitionOfSignalCache;
-                    }
-
-                    fromToDistanceCache_m = Real::Undefined();
-                }
-            }
-        }
-
-        previousInstantCache = instant;
-    }
-
-    if (inAccess)
-    {
-        const Access::Type type = Access::Type::Partial;
-        const Instant acquisitionOfSignal = acquisitionOfSignalCache;
-        const Instant timeOfClosestApproach = timeOfClosestApproachCache;
-        const Instant lossOfSignal = instants.accessLast();
-        const Angle maxElevation = elevationAt(timeOfClosestApproach);  // TBR: Approximate
-
-        addAccess(type, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation);
-    }
-
-    return accesses;
+    return accessIntervals.map<Access>(generateAccess).getWhere(isAccessSelected);
 }
 
 void Generator::setStep(const Duration& aStep)
