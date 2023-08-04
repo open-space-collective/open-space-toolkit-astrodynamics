@@ -619,6 +619,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         EXPECT_TRUE(solution.first == defaultStateVector_);
         EXPECT_TRUE(solution.second == 0.0);
         EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
+        EXPECT_FALSE(conditionSolution.rootSolverHasConverged);
     }
 
     {
@@ -660,6 +661,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
             // Validate the output against an analytical function
 
@@ -693,6 +695,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             EXPECT_TRUE(std::abs(propagatedTime) < std::abs(duration));
             EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
             // Validate the output against an analytical function
 
@@ -749,6 +752,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
             // Validate the output against an analytical function
 
@@ -782,6 +786,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             EXPECT_TRUE(duration > 0.0 ? propagatedTime < endTime : propagatedTime > endTime);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+            EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
             // Validate the output against an analytical function
 

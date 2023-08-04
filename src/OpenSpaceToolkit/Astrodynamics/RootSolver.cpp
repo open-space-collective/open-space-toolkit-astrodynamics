@@ -12,9 +12,9 @@ namespace ostk
 namespace astro
 {
 
-RootSolver::RootSolver(const Size& aMaximumIterationCount, const Size& aDigitCount)
+RootSolver::RootSolver(const Size& aMaximumIterationCount, const Real& aTolerance)
     : maximumIterationCount_(aMaximumIterationCount),
-      digitCount_(aDigitCount)
+      tolerance_(aTolerance)
 {
 }
 
@@ -32,25 +32,28 @@ Size RootSolver::getMaximumIterationCount() const
     return maximumIterationCount_;
 }
 
-Size RootSolver::getDigitCount() const
+Real RootSolver::getTolerance() const
 {
-    return digitCount_;
+    return tolerance_;
 }
 
-RootSolver::Solution RootSolver::solve(
-    const std::function<double(const double&)>& aFunction, const double& anInitialGuess, const bool& isRising
+RootSolver::Solution RootSolver::bracketAndSolve(
+    const std::function<double(const double&)>& aFunction,
+    const double& anInitialGuess,
+    const bool& isRising,
+    const double& aFactor
 ) const
 {
-    const boost::math::tools::eps_tolerance<double> tolerance(digitCount_);
     std::uintmax_t iteratorCount = maximumIterationCount_;
 
     std::pair<Real, Real> r = boost::math::tools::bracket_and_solve_root(
-        aFunction, anInitialGuess, factor_, isRising, tolerance, iteratorCount
+        aFunction, anInitialGuess, aFactor, isRising, getToleranceFunction(), iteratorCount
     );
 
     return {
         r.first + (r.second - r.first) / 2.0,
         (Size)iteratorCount,
+        (Size)iteratorCount < maximumIterationCount_,
     };
 }
 
@@ -61,15 +64,36 @@ RootSolver::Solution RootSolver::solve(
     // account for the fact that the function may be decreasing
     const double lowerBound = std::min(aLowerBound, anUpperBound);
     const double upperBound = std::max(aLowerBound, anUpperBound);
+
     std::uintmax_t iteratorCount = maximumIterationCount_;
-    const boost::math::tools::eps_tolerance<double> tolerance(digitCount_);
 
     std::pair<Real, Real> r =
-        boost::math::tools::toms748_solve(aFunction, lowerBound, upperBound, tolerance, iteratorCount);
+        boost::math::tools::toms748_solve(aFunction, lowerBound, upperBound, getToleranceFunction(), iteratorCount);
 
     return {
         r.first + (r.second - r.first) / 2.0,
         (Size)iteratorCount,
+        (Size)iteratorCount < maximumIterationCount_,
+    };
+}
+
+RootSolver::Solution RootSolver::bisection(
+    const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
+) const
+{
+    // account for the fact that the function may be decreasing
+    const double lowerBound = std::min(aLowerBound, anUpperBound);
+    const double upperBound = std::max(aLowerBound, anUpperBound);
+
+    std::uintmax_t iteratorCount = maximumIterationCount_;
+
+    std::pair<Real, Real> r =
+        boost::math::tools::bisect(aFunction, lowerBound, upperBound, getToleranceFunction(), iteratorCount);
+
+    return {
+        r.first + (r.second - r.first) / 2.0,
+        (Size)iteratorCount,
+        (Size)iteratorCount < maximumIterationCount_,
     };
 }
 
@@ -77,16 +101,23 @@ void RootSolver::print(std::ostream& anOutputStream, bool displayDecorator) cons
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Root Solver") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count:" << maximumIterationCount_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Number of Digits:" << digitCount_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Iterations Count: " << maximumIterationCount_;
+    ostk::core::utils::Print::Line(anOutputStream) << "Tolerance: " << tolerance_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 RootSolver RootSolver::Default()
 {
-    // recommended tolerance for double precision calculations from boost documentation
-    return {100u, (std::numeric_limits<double>::digits / 2) + 1};
+    return {100u, 1e-8};
+}
+
+std::function<bool(const double&, const double&)> RootSolver::getToleranceFunction() const
+{
+    return [this](const double& aLowerBound, const double& anUpperBound) -> bool
+    {
+        return std::fabs(aLowerBound - anUpperBound) <= tolerance_;
+    };
 }
 
 }  // namespace astro

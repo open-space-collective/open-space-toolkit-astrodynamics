@@ -22,18 +22,19 @@ class RootSolver
     {
         Real root;
         Size iterationCount;
+        bool hasConverged;
     };
 
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RootSolver rootSolver = {aMaximumIterationCount, aDigitCount};
+    ///                         RootSolver rootSolver = {aMaximumIterationCount, aTolerance};
     /// @endcode
     ///
     /// @param                  [in] aMaximumIterationCount The maximum iteration count for the solver
-    /// @param                  [in] aDigitCount The number of digits
+    /// @param                  [in] aTolerance The tolerance
 
-    RootSolver(const Size& aMaximumIterationCount, const Size& aDigitCount);
+    RootSolver(const Size& aMaximumIterationCount, const Real& aTolerance);
 
     /// @brief                  Virtual destructor
 
@@ -57,18 +58,22 @@ class RootSolver
     ///
     /// @return                 Number of digits of precision
 
-    Size getDigitCount() const;
+    Real getTolerance() const;
 
     /// @brief                  Solve for root given a function, an initial guess and function direction
     ///
     /// @param                  [in] aFunction A function
     /// @param                  [in] anInitialGuess An initial guess
     /// @param                  [in] isRising A boolean indicating whether the function is rising
+    /// @param                  [in] (optional) aFactor A factor
     ///
     /// @return                 The solution
 
-    Solution solve(
-        const std::function<double(const double&)>& aFunction, const double& anInitialGuess, const bool& isRising
+    Solution bracketAndSolve(
+        const std::function<double(const double&)>& aFunction,
+        const double& anInitialGuess,
+        const bool& isRising,
+        const double& aFactor = 2.0
     ) const;
 
     /// @brief                  Solve for root given a function, and bounds
@@ -80,6 +85,18 @@ class RootSolver
     /// @return                 The solution
 
     Solution solve(
+        const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
+    ) const;
+
+    /// @brief                  Bisection solve for root given a function, and bounds
+    ///
+    /// @param                  [in] aFunction A function
+    /// @param                  [in] aLowerBound A lower bound
+    /// @param                  [in] anUpperBound An upper bound
+    ///
+    /// @return                 The solution
+
+    Solution bisection(
         const std::function<double(const double&)>& aFunction, const double& aLowerBound, const double& anUpperBound
     ) const;
 
@@ -98,9 +115,9 @@ class RootSolver
 
    private:
     Size maximumIterationCount_;
-    Size digitCount_;
+    Real tolerance_;
 
-    static constexpr double factor_ = 2.0;
+    std::function<bool(const double&, const double&)> getToleranceFunction() const;
 };
 
 }  // namespace astro

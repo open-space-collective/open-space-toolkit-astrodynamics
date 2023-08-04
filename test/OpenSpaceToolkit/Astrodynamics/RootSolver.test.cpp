@@ -5,6 +5,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::types::Size;
+using ostk::core::types::Real;
 
 using ostk::astro::RootSolver;
 
@@ -12,13 +13,13 @@ class OpenSpaceToolkit_Astrodynamics_RootSolver : public ::testing::Test
 {
    protected:
     const Size defaultMaxIterations_ = 100u;
-    const Size defaultNumDigits_ = (std::numeric_limits<double>::digits / 2) + 1;
-    const RootSolver defaultRootSolver_ = RootSolver(defaultMaxIterations_, defaultNumDigits_);
+    const Real defaultTolerance_ = 1e-12;
+    const RootSolver defaultRootSolver_ = RootSolver(defaultMaxIterations_, defaultTolerance_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Constructor)
 {
-    EXPECT_NO_THROW(RootSolver rootSolver(defaultMaxIterations_, defaultNumDigits_));
+    EXPECT_NO_THROW(RootSolver rootSolver(defaultMaxIterations_, defaultTolerance_));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, StreamOperator)
@@ -37,12 +38,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetMaximumNumberOfIterations)
     EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumIterationCount());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetDigitCount)
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetTolerance)
 {
-    EXPECT_EQ(defaultNumDigits_, defaultRootSolver_.getDigitCount());
+    EXPECT_EQ(defaultTolerance_, defaultRootSolver_.getTolerance());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndInitialGuess)
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, BracketAndSolve)
 {
     // Define a simple quadratic function
     auto func = [](const double& x)
@@ -50,10 +51,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndInitialGu
         return (x * x) - 4;
     };
 
-    EXPECT_NO_THROW(defaultRootSolver_.solve(func, 1.0, true));
+    EXPECT_NO_THROW(defaultRootSolver_.bracketAndSolve(func, 1.0, true));
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndBounds)
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve)
 {
     // Define a simple quadratic function
     auto func = [](const double& x)
@@ -62,6 +63,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndBounds)
     };
 
     EXPECT_NO_THROW(defaultRootSolver_.solve(func, 1.0, 5.0));
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Bisection)
+{
+    // Define a simple quadratic function
+    auto func = [](const double& x)
+    {
+        return (x * x) - 4;
+    };
+
+    EXPECT_NO_THROW(defaultRootSolver_.bisection(func, 1.0, 5.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Print)

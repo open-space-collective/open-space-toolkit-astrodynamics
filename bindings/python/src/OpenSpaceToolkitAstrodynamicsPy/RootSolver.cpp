@@ -17,28 +17,29 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
 
         .def_readwrite("root", &RootSolver::Solution::root)
         .def_readwrite("iteration_count", &RootSolver::Solution::iterationCount)
+        .def_readwrite("has_converged", &RootSolver::Solution::hasConverged)
 
         ;
 
     {
         class_<RootSolver>(aModule, "RootSolver")
 
-            .def(init<const Size&, const Size&>(), arg("maximum_iteration_count"), arg("digit_count"))
+            .def(init<const Size&, const Real&>(), arg("maximum_iteration_count"), arg("tolerance"))
 
             .def("__str__", &(shiftToString<RootSolver>))
             .def("__repr__", &(shiftToString<RootSolver>))
 
-            .def("get_digit_count", &RootSolver::getDigitCount)
+            .def("get_tolerance", &RootSolver::getTolerance)
             .def("get_maximum_iteration_count", &RootSolver::getMaximumIterationCount)
 
             .def(
-                "solve",
+                "bracket_and_solve",
                 +[](const RootSolver& aRootSolver,
                     const pythonFunctionSignature& aFunction,
                     const Real& anInitialGuess,
                     const bool& isRising)
                 {
-                    return aRootSolver.solve(aFunction, anInitialGuess, isRising);
+                    return aRootSolver.bracketAndSolve(aFunction, anInitialGuess, isRising);
                 },
                 arg("function"),
                 arg("initial_guess"),
@@ -53,6 +54,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     const Real& anUpperBound)
                 {
                     return aRootSolver.solve(aFunction, aLowerBound, anUpperBound);
+                },
+                arg("function"),
+                arg("lower_bound"),
+                arg("upper_bound")
+            )
+
+            .def(
+                "bisection",
+                +[](const RootSolver& aRootSolver,
+                    const pythonFunctionSignature& aFunction,
+                    const Real& aLowerBound,
+                    const Real& anUpperBound)
+                {
+                    return aRootSolver.bisection(aFunction, aLowerBound, anUpperBound);
                 },
                 arg("function"),
                 arg("lower_bound"),
