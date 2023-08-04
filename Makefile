@@ -276,7 +276,7 @@ start-python: build-release-image-python ## Start Python runtime environment
 
 .PHONY: start-python
 
-start-jupyter-notebook: build-release-image-jupyter ## Starting Jupyter Notebook environment using the latest tagged version of ostk-astro package
+start-jupyter-notebook: build-release-image-jupyter ## Start Jupyter Notebook environment
 
 	@ echo "Starting Jupyter Notebook environment..."
 
@@ -303,7 +303,7 @@ debug-jupyter-notebook: build-release-image-jupyter ## Debug jupyter notebook us
 		--publish="$(jupyter_notebook_port):8888" \
 		--volume="$(CURDIR)/bindings/python/docs:/home/jovyan/docs" \
 		--volume="$(CURDIR)/tutorials/python/notebooks:/home/jovyan/tutorials" \
- 		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
+		--volume="$(CURDIR)/build/bindings/python/OpenSpaceToolkit${project_name_camel_case}Py-python-package-$(jupyter_python_version):/opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)" \
 		--workdir="/home/jovyan" \
 		$(docker_release_image_jupyter_repository):$(docker_image_version) \
 		bash -c "chown -R jovyan:users /home/jovyan ; python$(jupyter_python_version) -m pip install /opt/conda/lib/python$(jupyter_python_version)/site-packages/ostk/$(project_name)/ --force-reinstall ; start-notebook.sh --ServerApp.token=''"

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Apache License 2.0 
+# Apache License 2.0
 
 PYTHON_VERSION="3.11"
 
