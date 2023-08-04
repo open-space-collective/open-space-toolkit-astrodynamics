@@ -16,20 +16,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
     class_<RootSolver::Solution>(aModule, "RootSolverSolution")
 
         .def_readwrite("root", &RootSolver::Solution::root)
-        .def_readwrite("number_of_iterations", &RootSolver::Solution::numberOfIterations)
+        .def_readwrite("iteration_count", &RootSolver::Solution::iterationCount)
 
         ;
 
     {
         class_<RootSolver>(aModule, "RootSolver")
 
-            .def(init<const Size&, const Size&>(), arg("maximum_iterations_count"), arg("number_of_digits"))
+            .def(init<const Size&, const Size&>(), arg("maximum_iteration_count"), arg("digit_count"))
 
             .def("__str__", &(shiftToString<RootSolver>))
             .def("__repr__", &(shiftToString<RootSolver>))
 
-            .def("get_number_of_digits", &RootSolver::getNumberOfDigits)
-            .def("get_maximum_iterations_count", &RootSolver::getMaximumIterationsCount)
+            .def("get_digit_count", &RootSolver::getDigitCount)
+            .def("get_maximum_iteration_count", &RootSolver::getMaximumIterationCount)
 
             .def(
                 "solve",

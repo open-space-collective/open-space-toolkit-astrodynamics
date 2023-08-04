@@ -18,8 +18,8 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
-/// @brief                      An Event Condition defines a criteria that can be evaluated based on a current/previous
-/// state vectors and times
+/// @brief                      An Event Condition defines a criteria that can be evaluated
+///                             based on a current/previous state vectors and times
 
 class EventCondition
 {
@@ -34,76 +34,76 @@ class EventCondition
         Undefined
     };
 
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     EventCondition eventCondition = {aName, aCriteria};
+    ///                         EventCondition eventCondition = {aName, aCriteria};
     /// @endcode
     ///
-    /// @param              [in] aName A string representing the name of the Event Condition
-    /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
+    /// @param                  [in] aName A string representing the name of the Event Condition
+    /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
 
     EventCondition(const String& aName, const Criteria& aCriteria);
 
-    /// @brief              Virtual destructor
+    /// @brief                  Virtual destructor
 
     virtual ~EventCondition();
 
-    /// @brief              Output stream operator
+    /// @brief                  Output stream operator
     ///
     /// @code
-    ///                     std::cout << EventCondition(...) ;
+    ///                         std::cout << EventCondition(...) ;
     /// @endcode
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] anEventCondition An EventCondition
-    /// @return             A reference to output stream
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] anEventCondition An EventCondition
+    /// @return                 A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const EventCondition& anEventCondition);
 
-    /// @brief              Get name of the Event Condition
+    /// @brief                  Get name of the Event Condition
     ///
-    /// @return             String representing the name of the Event Condition
+    /// @return                 String representing the name of the Event Condition
 
     String getName() const;
 
-    /// @brief              Get the criteria of the Event Condition
+    /// @brief                  Get the criteria of the Event Condition
     ///
-    /// @return             Enum representing the criteria of the Event Condition
+    /// @return                 Enum representing the criteria of the Event Condition
 
     Criteria getCriteria() const;
 
-    /// @brief              Print the Event Condition
+    /// @brief                  Print the Event Condition
     ///
-    /// @param              [in, out] anOutputStream The output stream where the Event Condition will be printed
-    /// @param              [in] displayDecorator A boolean indicating whether or not to display decorator during
-    /// printing
+    /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
+    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    ///                         printing
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Check if the Event Condition is satisfied based on current value and previous value
+    /// @brief                  Check if the Event Condition is satisfied based on current value and previous value
     ///
-    /// @param              [in] currentValue The current value
-    /// @param              [in] previousValue The previous value
+    /// @param                  [in] currentValue The current value
+    /// @param                  [in] previousValue The previous value
     ///
-    /// @return             Boolean value indicating if the Event Condition is met
+    /// @return                 Boolean value indicating if the Event Condition is met
 
     virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const;
 
-    /// @brief              Evaluate the Event Condition
+    /// @brief                  Evaluate the Event Condition
     ///
-    /// @param              [in] aStateVector The current state vector
-    /// @param              [in] aTime The current time
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
     ///
-    /// @return             Real number representing the evaluation result of the Event Condition
+    /// @return                 Real number representing the evaluation result of the Event Condition
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const = 0;
 
-    /// @brief              Convert criteria to string
+    /// @brief                  Convert criteria to string
     ///
-    /// @param              [in] aCriteria An enum representing the criteria
+    /// @param                  [in] aCriteria An enum representing the criteria
     ///
-    /// @return             String representing the given criteria
+    /// @return                 String representing the given criteria
 
     static String StringFromCriteria(const Criteria& aCriteria);
 

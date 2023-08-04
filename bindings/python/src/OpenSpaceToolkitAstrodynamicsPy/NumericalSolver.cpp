@@ -23,7 +23,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
         .def_readonly("solution", &NumericalSolver::ConditionSolution::solution)
         .def_readonly("condition_is_satisfied", &NumericalSolver::ConditionSolution::conditionIsSatisfied)
-        .def_readonly("number_of_iterations", &NumericalSolver::ConditionSolution::numberOfIterations)
+        .def_readonly("iteration_count", &NumericalSolver::ConditionSolution::iterationCount)
 
         ;
 

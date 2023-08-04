@@ -201,8 +201,8 @@ class TestNumericalSolver:
 
         assert condition_solution.condition_is_satisfied
         assert (
-            condition_solution.number_of_iterations
-            < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
+            condition_solution.iteration_count
+            < numerical_solver_conditional.get_root_solver().get_maximum_iteration_count()
         )
 
         state_vector, time = condition_solution.solution
@@ -228,8 +228,8 @@ class TestNumericalSolver:
 
         assert condition_solution.condition_is_satisfied
         assert (
-            condition_solution.number_of_iterations
-            < numerical_solver_conditional.get_root_solver().get_maximum_iterations_count()
+            condition_solution.iteration_count
+            < numerical_solver_conditional.get_root_solver().get_maximum_iteration_count()
         )
 
         state_vector, time = condition_solution.solution

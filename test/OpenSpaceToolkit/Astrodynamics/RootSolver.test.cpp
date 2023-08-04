@@ -34,12 +34,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, StreamOperator)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetMaximumNumberOfIterations)
 {
-    EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumIterationsCount());
+    EXPECT_EQ(defaultMaxIterations_, defaultRootSolver_.getMaximumIterationCount());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetNumberOfDigits)
+TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, GetDigitCount)
 {
-    EXPECT_EQ(defaultNumDigits_, defaultRootSolver_.getNumberOfDigits());
+    EXPECT_EQ(defaultNumDigits_, defaultRootSolver_.getDigitCount());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_RootSolver, Solve_WithFunctionAndInitialGuess)

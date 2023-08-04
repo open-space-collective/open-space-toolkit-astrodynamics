@@ -644,7 +644,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
                 EXPECT_DOUBLE_EQ(duration, solution.second);
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-                EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+                EXPECT_EQ(conditionSolution.iterationCount, 0);
             }
 
             const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
@@ -733,7 +733,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
                 EXPECT_DOUBLE_EQ(solution.second, endTime);
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-                EXPECT_EQ(conditionSolution.numberOfIterations, 0);
+                EXPECT_EQ(conditionSolution.iterationCount, 0);
             }
 
             const DurationCondition condition = DurationCondition(duration / 2.0, criteria);

@@ -60,24 +60,24 @@ class NumericalSolver
     {
         Solution solution;
         bool conditionIsSatisfied;
-        Size numberOfIterations;
+        Size iterationCount;
     };
 
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance,
-    ///                     anAbsoluteTolerance } ;
+    ///                         NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
+    ///                         aRelativeTolerance, anAbsoluteTolerance } ;
     /// @endcode
     ///
-    /// @param              [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
-    /// numerical integration
-    /// @param              [in] aStepperType An enum indicating the type of numerical stepper used to perform
-    /// integration
-    /// @param              [in] aTimeStep A number indicating the initial guess time step the numerical solver will
-    /// take
-    /// @param              [in] aRelativeTolerance A number indicating the relative integration tolerance
-    /// @param              [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
+    /// @param                  [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
+    ///                         numerical integration
+    /// @param                  [in] aStepperType An enum indicating the type of numerical stepper used to perform
+    ///                         integration
+    /// @param                  [in] aTimeStep A number indicating the initial guess time step the numerical solver will
+    ///                         take
+    /// @param                  [in] aRelativeTolerance A number indicating the relative integration tolerance
+    /// @param                  [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
 
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
@@ -88,120 +88,120 @@ class NumericalSolver
         const RootSolver& aRootSolver = RootSolver::Default()
     );
 
-    /// @brief              Clone numerical solver
+    /// @brief                  Clone numerical solver
     ///
-    /// @return             Pointer to cloned numerical solver
+    /// @return                 Pointer to cloned numerical solver
 
     NumericalSolver* clone() const;
 
-    /// @brief              Equal to operator
+    /// @brief                  Equal to operator
     ///
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @return             True if numerical solver are equal
+    /// @param                  [in] aNumericalSolver A numerical solver
+    /// @return                 True if numerical solver are equal
 
     bool operator==(const NumericalSolver& aNumericalSolver) const;
 
-    /// @brief              Not equal to operator
+    /// @brief                  Not equal to operator
     ///
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @return             True if numerical solver are not equal
+    /// @param                  [in] aNumericalSolver A numerical solver
+    /// @return                 True if numerical solver are not equal
 
     bool operator!=(const NumericalSolver& aNumericalSolver) const;
 
-    /// @brief              Output stream operator
+    /// @brief                  Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aNumericalSolver A numerical solver
-    /// @return             A reference to output stream
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] aNumericalSolver A numerical solver
+    /// @return                 A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const NumericalSolver& aNumericalSolver);
 
-    /// @brief              Check if numerical solver is defined
+    /// @brief                  Check if numerical solver is defined
     ///
-    /// @return             True if numerical solver is defined
+    /// @return                 True if numerical solver is defined
 
     bool isDefined() const;
 
-    /// @brief              Print numerical solver
+    /// @brief                  Print numerical solver
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Get integration logging enum
+    /// @brief                  Get integration logging enum
     ///
     /// @code
-    ///                     numericalSolver.getLogType() ;
+    ///                         numericalSolver.getLogType() ;
     /// @endcode
     ///
-    /// @return             LogType
+    /// @return                 LogType
 
     NumericalSolver::LogType getLogType() const;
 
-    /// @brief              Get integration stepper enum
+    /// @brief                  Get integration stepper enum
     ///
     /// @code
-    ///                     numericalSolver.getStepperType() ;
+    ///                         numericalSolver.getStepperType() ;
     /// @endcode
     ///
-    /// @return             StepperType
+    /// @return                 StepperType
 
     NumericalSolver::StepperType getStepperType() const;
 
-    /// @brief              Get initial time step guess
+    /// @brief                  Get initial time step guess
     ///
     /// @code
-    ///                     numericalSolver.getTimeStep() ;
+    ///                         numericalSolver.getTimeStep() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return                 Real
 
     Real getTimeStep() const;
 
-    /// @brief              Get relative integration tolerance
+    /// @brief                  Get relative integration tolerance
     ///
     /// @code
-    ///                     numericalSolver.getRelativeTolerance() ;
+    ///                         numericalSolver.getRelativeTolerance() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return                 Real
 
     Real getRelativeTolerance() const;
 
-    /// @brief              Get absolute integration tolerance
+    /// @brief                  Get absolute integration tolerance
     ///
     /// @code
-    ///                     numericalSolver.getAbsoluteTolerance() ;
+    ///                         numericalSolver.getAbsoluteTolerance() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return                 Real
 
     Real getAbsoluteTolerance() const;
 
-    /// @brief              Get root solver
+    /// @brief                  Get root solver
     ///
     /// @code
-    ///                     numericalSolver.getRootSolver() ;
+    ///                         numericalSolver.getRootSolver() ;
     /// @endcode
     ///
-    /// @return             RootSolver
+    /// @return                 RootSolver
 
     RootSolver getRootSolver() const;
 
-    /// @brief              Perform numerical integration from a start time to an array of times
+    /// @brief                  Perform numerical integration from a start time to an array of times
     ///
     /// @code
-    ///                     Array<Solution> solutions =
-    ///                     numericalSolver.integrateTime(stateVector, startTime, timeArray, systemOfEquations);
+    ///                         Array<Solution> solutions =
+    ///                         numericalSolver.integrateTime(stateVector, startTime, timeArray, systemOfEquations);
     /// @endcode
     ///
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aStartTime A time to begin integrating from
-    /// @param              [in] aTimeArray A array of times to integrate to
-    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    /// boost::odeint accepts to perform numerical integration
-    /// @return             Array<Solution>
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aStartTime A time to begin integrating from
+    /// @param                  [in] aTimeArray A array of times to integrate to
+    /// @param                  [in] aSystemOfEquations A std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @return                 Array<Solution>
 
     Array<Solution> integrateTime(
         const StateVector& anInitialStateVector,
@@ -210,18 +210,18 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time to an end time
+    /// @brief                  Perform numerical integration from a start time to an end time
     ///
     /// @code
-    ///                     Solution solution = numericalSolver.integrateTime(stateVector, startTime, endTime,
-    ///                     systemOfEquations);
+    ///                         Solution solution = numericalSolver.integrateTime(stateVector, startTime, endTime,
+    ///                         systemOfEquations);
     /// @endcode
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aStartTime A time to begin integrating from
-    /// @param              [in] anEndTime An time to integrate to
-    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    /// boost::odeint accepts to perform numerical integration
-    /// @return             Solution
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aStartTime A time to begin integrating from
+    /// @param                  [in] anEndTime An time to integrate to
+    /// @param                  [in] aSystemOfEquations A std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @return                 Solution
 
     Solution integrateTime(
         const StateVector& anInitialStateVector,
@@ -230,21 +230,21 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time until either a condition or the end time is
-    /// reached
+    /// @brief                  Perform numerical integration from a start time
+    ///                         until either a condition or the end time is reached
     ///
     ///
     /// @code
-    ///                     StateVector stateVector = numericalSolver.integrateTime(stateVector,
-    ///                     aStartTime, anEndTime, SystemOfEquations, anEventCondition) ;
+    ///                         StateVector stateVector = numericalSolver.integrateTime(stateVector,
+    ///                         aStartTime, anEndTime, SystemOfEquations, anEventCondition) ;
     /// @endcode
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aStartTime A time to begin integrating from
-    /// @param              [in] anEndTime A maximum time to to integrate to
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
-    ///                     boost::odeint accepts to perform numerical integration
-    /// @param              [in] anEventCondition An event condition
-    /// @return             Solution
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aStartTime A time to begin integrating from
+    /// @param                  [in] anEndTime A maximum time to to integrate to
+    /// @param                  [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @param                  [in] anEventCondition An event condition
+    /// @return                 Solution
 
     ConditionSolution integrateTime(
         const StateVector& anInitialStateVector,
@@ -254,17 +254,17 @@ class NumericalSolver
         const EventCondition& anEventCondition
     );
 
-    /// @brief              Perform numerical integration for a specified duration
+    /// @brief                  Perform numerical integration for a specified duration
     ///
     /// @code
-    ///                     Solution solution = numericalsolver.integrateTime(stateVector, durationSeconds,
-    ///                     SystemofEquations) ;
+    ///                         Solution solution = numericalsolver.integrateTime(stateVector, durationSeconds,
+    ///                         SystemofEquations) ;
     /// @endcode
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aDurationInSeconds A duration over which to integrate
-    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    ///                              boost::odeint accepts to perform numerical integration
-    /// @return             Solution
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aDurationInSeconds A duration over which to integrate
+    /// @param                  [in] aSystemOfEquations A std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @return                 Solution
 
     Solution integrateDuration(
         const StateVector& anInitialStateVector,
@@ -272,17 +272,17 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration for an array of durations
+    /// @brief                  Perform numerical integration for an array of durations
     ///
     /// @code
-    ///                     Array<Solution> solutions = numericalsolver.integrateTime(stateVector, durationArray,
-    ///                     SystemofEquations);
+    ///                         Array<Solution> solutions = numericalsolver.integrateTime(stateVector, durationArray,
+    ///                         systemOfEquations);
     /// @endcode
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aDurationArray An array of durations over which to integrate
-    /// @param              [in] aSystemOfEquations A std::function wrapper with a particular signature that
-    ///                              boost::odeint accepts to perform numerical integration
-    /// @return             Array<Solution>
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aDurationArray An array of durations over which to integrate
+    /// @param                  [in] aSystemOfEquations A std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @return                 Array<Solution>
 
     Array<Solution> integrateDuration(
         const StateVector& anInitialStateVector,
@@ -290,19 +290,20 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief              Perform numerical integration from a start time until either a condition or duration is met
+    /// @brief                  Perform numerical integration from a start time
+    ///                         until either a condition or duration is met
     ///
     ///
     /// @code
-    ///                     StateVector stateVector = numericalSolver.integrateDuration(stateVector,
-    ///                     aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition) ;
+    ///                         StateVector stateVector = numericalSolver.integrateDuration(stateVector,
+    ///                         aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition) ;
     /// @endcode
-    /// @param              [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param              [in] aDurationInSeconds A duration to integrate for
-    /// @param              [in] aSystemOfEquations An std::function wrapper with a particular signature that
-    ///                     boost::odeint accepts to perform numerical integration
-    /// @param              [in] anEventCondition An event condition
-    /// @return             Solution
+    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
+    /// @param                  [in] aDurationInSeconds A duration to integrate for
+    /// @param                  [in] aSystemOfEquations An std::function wrapper with a particular signature that
+    ///                         boost::odeint accepts to perform numerical integration
+    /// @param                  [in] anEventCondition An event condition
+    /// @return                 Solution
 
     ConditionSolution integrateDuration(
         const StateVector& anInitialStateVector,
@@ -311,35 +312,35 @@ class NumericalSolver
         const EventCondition& anEventCondition
     );
 
-    /// @brief              Get string from the integration stepper type
+    /// @brief                  Get string from the integration stepper type
     ///
     /// @code
-    ///                     NumericalSolver::StringFromStepperType(aStepperType) ;
+    ///                         NumericalSolver::StringFromStepperType(aStepperType) ;
     /// @endcode
-    /// @param              [in] aStepperType An integration stepper type enum
-    /// @return             StepperType
+    /// @param                  [in] aStepperType An integration stepper type enum
+    /// @return                 StepperType
 
     static String StringFromStepperType(const NumericalSolver::StepperType& aStepperType);
 
-    /// @brief              Get string from the integration log type
+    /// @brief                  Get string from the integration log type
     ///
     /// @code
-    ///                     NumericalSolver::StringFromLogType(aLogType) ;
+    ///                         NumericalSolver::StringFromLogType(aLogType) ;
     /// @endcode
-    /// @param              [in] aLogType An integration log type enum
-    /// @return             LogType
+    /// @param                  [in] aLogType An integration log type enum
+    /// @return                 LogType
 
     static String StringFromLogType(const NumericalSolver::LogType& aLogType);
 
-    /// @brief              Undefined
+    /// @brief                  Undefined
     ///
-    /// @return             An undefined numerical solver
+    /// @return                 An undefined numerical solver
 
     static NumericalSolver Undefined();
 
-    /// @brief              Default
+    /// @brief                  Default
     ///
-    /// @return             A default numerical solver
+    /// @return                 A default numerical solver
 
     static NumericalSolver Default();
 
