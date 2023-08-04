@@ -39,7 +39,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_RootSolver(pybind11::module& aModule
                     const Real& anInitialGuess,
                     const bool& isRising)
                 {
-                    return aRootSolver.solve(aFunction, anInitialGuess, isRising);
+                    return aRootSolver.bracketAndSolve(aFunction, anInitialGuess, isRising);
                 },
                 arg("function"),
                 arg("initial_guess"),
