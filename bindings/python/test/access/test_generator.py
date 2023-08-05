@@ -1,48 +1,89 @@
 # Apache License 2.0
 
 import pytest
-import ostk.mathematics as mathematics
 
-import ostk.physics as physics
+from ostk.mathematics.objects import RealInterval
 
-import ostk.astrodynamics as astrodynamics
+from ostk.physics.units import Length
+from ostk.physics.units import Angle
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
+from ostk.physics.time import Duration
+from ostk.physics.time import Instant
+from ostk.physics.time import Interval
+from ostk.physics import Environment
+from ostk.physics.environment.objects import Celestial
 
-RealInterval = mathematics.objects.RealInterval
-Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
-Length = physics.units.Length
-Angle = physics.units.Angle
-DateTime = physics.time.DateTime
-Scale = physics.time.Scale
-Duration = physics.time.Duration
-Instant = physics.time.Instant
-Interval = physics.time.Interval
-Transform = physics.coordinate.Transform
-Frame = physics.coordinate.Frame
-Axes = physics.coordinate.Axes
-DynamicProvider = physics.coordinate.frame.providers.Dynamic
-Environment = physics.Environment
-Earth = physics.environment.objects.celestial_bodies.Earth
-Trajectory = astrodynamics.Trajectory
-Profile = astrodynamics.flight.Profile
-State = astrodynamics.flight.profile.State
-Orbit = astrodynamics.trajectory.Orbit
-Pass = astrodynamics.trajectory.orbit.Pass
-Kepler = astrodynamics.trajectory.orbit.models.Kepler
-COE = astrodynamics.trajectory.orbit.models.kepler.COE
-SGP4 = astrodynamics.trajectory.orbit.models.sgp4
-Access = astrodynamics.Access
-Generator = astrodynamics.access.Generator
-
-environment: Environment = Environment.default()
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory.orbit.models import Kepler
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics import Access
+from ostk.astrodynamics.access import Generator
 
 
 @pytest.fixture
-def generator() -> Generator:
-    return Generator(environment)
+def environment() -> Environment:
+    return Environment.default()
+
+
+@pytest.fixture
+def earth(environment: Environment) -> Celestial:
+    return environment.access_celestial_object_with_name("Earth")
+
+
+@pytest.fixture
+def generator(environment: Environment) -> Generator:
+    return Generator(
+        environment=environment,
+        aer_filter=lambda aer: True,
+        access_filter=lambda access: True,
+        state_filter=lambda state_1, state_2: True,
+    )
+
+
+@pytest.fixture
+def from_trajectory(earth: Celestial) -> Trajectory:
+    return Orbit(
+        model=Kepler(
+            coe=COE(
+                semi_major_axis=Length.kilometers(7000.0),
+                eccentricity=0.0,
+                inclination=Angle.degrees(45.0),
+                raan=Angle.degrees(0.0),
+                aop=Angle.degrees(0.0),
+                true_anomaly=Angle.degrees(0.0),
+            ),
+            epoch=Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+            celestial_object=earth,
+            perturbation_type=Kepler.PerturbationType.No,
+        ),
+        celestial_object=earth,
+    )
+
+
+@pytest.fixture
+def to_trajectory(earth: Celestial) -> Trajectory:
+    return Orbit(
+        model=Kepler(
+            coe=COE(
+                semi_major_axis=Length.kilometers(7000.0),
+                eccentricity=0.0,
+                inclination=Angle.degrees(45.0),
+                raan=Angle.degrees(180.0),
+                aop=Angle.degrees(0.0),
+                true_anomaly=Angle.degrees(180.0),
+            ),
+            epoch=Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+            celestial_object=earth,
+            perturbation_type=Kepler.PerturbationType.No,
+        ),
+        celestial_object=earth,
+    )
 
 
 class TestGenerator:
-    def test_constructor_success_environment(self):
+    def test_constructor_success_environment(self, environment: Environment):
         generator = Generator(
             environment=environment,
         )
@@ -50,7 +91,7 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_aer_filter(self):
+    def test_constructor_success_environment_aer_filter(self, environment: Environment):
         generator = Generator(
             environment=environment,
             aer_filter=lambda aer: True,
@@ -59,7 +100,9 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_access_filter(self):
+    def test_constructor_success_environment_access_filter(
+        self, environment: Environment
+    ):
         generator = Generator(
             environment=environment,
             access_filter=lambda access: True,
@@ -68,7 +111,7 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_state_filter(self):
+    def test_constructor_success_environment_state_filter(self, environment: Environment):
         generator = Generator(
             environment=environment,
             state_filter=lambda state_1, state_2: True,
@@ -77,7 +120,9 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_step_tolerance(self):
+    def test_constructor_success_environment_step_tolerance(
+        self, environment: Environment
+    ):
         generator = Generator(
             environment=environment,
             step=Duration.seconds(1.0),
@@ -92,55 +137,40 @@ class TestGenerator:
     def test_getters_success(self, generator: Generator):
         assert generator.get_step() == Duration.minutes(1.0)
         assert generator.get_tolerance() == Duration.microseconds(1.0)
+        assert generator.get_aer_filter() is not None
+        assert generator.get_access_filter() is not None
+        assert generator.get_state_filter() is not None
 
-    def test_compute_accesses_success(self):
-        # Contruction with environment and no filters
+    def test_get_condition_function_success(
+        self,
+        generator: Generator,
+        from_trajectory: Trajectory,
+        to_trajectory: Trajectory,
+    ):
+        condition_function = generator.get_condition_function(
+            from_trajectory=from_trajectory,
+            to_trajectory=to_trajectory,
+        )
 
-        generator = Generator(environment)
+        assert condition_function is not None
+        assert (
+            condition_function(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+            )
+            is True
+        )
 
-        start_instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-        end_instant = Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC)
-        interval = Interval.closed(start_instant, end_instant)
-
-        def generate_first_trajectory():
-            a = Length.kilometers(7000.0)
-            e = 0.0
-            i = Angle.degrees(45.0)
-            raan = Angle.degrees(0.0)
-            aop = Angle.degrees(0.0)
-            nu = Angle.degrees(0.0)
-
-            coe = COE(a, e, i, raan, aop, nu)
-
-            epoch = start_instant
-            earth = Earth.default()
-
-            kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
-
-            return Orbit(kepler, earth)
-
-        def generate_second_trajectory():
-            a = Length.kilometers(7000.0)
-            e = 0.0
-            i = Angle.degrees(45.0)
-            raan = Angle.degrees(180.0)
-            aop = Angle.degrees(0.0)
-            nu = Angle.degrees(180.0)
-
-            coe = COE(a, e, i, raan, aop, nu)
-
-            epoch = start_instant
-            earth = Earth.default()
-
-            kepler = Kepler(coe, epoch, earth, Kepler.PerturbationType.No)
-
-            return Orbit(kepler, earth)
-
-        from_trajectory = generate_first_trajectory()
-        to_trajectory = generate_second_trajectory()
-
+    def test_compute_accesses_success(
+        self,
+        generator: Generator,
+        from_trajectory: Trajectory,
+        to_trajectory: Trajectory,
+    ):
         accesses = generator.compute_accesses(
-            interval=interval,
+            interval=Interval.closed(
+                Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
+                Instant.date_time(DateTime(2018, 1, 1, 2, 0, 0), Scale.UTC),
+            ),
             from_trajectory=from_trajectory,
             to_trajectory=to_trajectory,
         )
@@ -172,7 +202,7 @@ class TestGenerator:
         assert isinstance(generator, Generator)
         assert generator.is_defined() is False
 
-    def test_aer_ranges_success(self):
+    def test_aer_ranges_success(self, environment: Environment):
         # Construct arbitrary AER ranges
         azimuth_interval = RealInterval.closed(0.0, 360.0)
         elevation_interval = RealInterval.closed(0.0, 90.0)
@@ -189,7 +219,7 @@ class TestGenerator:
         assert isinstance(generator, Generator)
         assert generator.is_defined()
 
-    def test_aer_mask_success(self):
+    def test_aer_mask_success(self, environment: Environment):
         # Construct arbitrary anAzimuthElevationMask using python dict
         an_azimuth_elevation_mask = {
             0.0: 30.0,

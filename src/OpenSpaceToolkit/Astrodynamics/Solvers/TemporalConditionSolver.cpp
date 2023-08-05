@@ -24,6 +24,21 @@ TemporalConditionSolver::TemporalConditionSolver(
 {
 }
 
+Duration TemporalConditionSolver::getTimeStep() const
+{
+    return this->timeStep_;
+}
+
+Duration TemporalConditionSolver::getTolerance() const
+{
+    return this->tolerance_;
+}
+
+Size TemporalConditionSolver::getMaximumIterationCount() const
+{
+    return this->maximumIterationCount_;
+}
+
 Array<Interval> TemporalConditionSolver::solve(
     const TemporalConditionSolver::Condition& aCondition, const Interval& anInterval
 ) const
@@ -46,112 +61,61 @@ Array<Interval> TemporalConditionSolver::solve(
 
     const Array<Instant> instants = anInterval.generateGrid(timeStep_);
 
-    bool inCondition = false;
-    Instant conditionStartCache = Instant::Undefined();
+    bool conditionIsMetCache = false;
+    Instant conditionStartInstantCache = Instant::Undefined();
     Instant previousInstantCache = Instant::Undefined();
 
     for (const auto& instant : instants)
     {
-        const bool conditionIsTrue = TemporalConditionSolver::EvaluateConditionAt(instant, aConditionArray);
+        const bool conditionIsMet = TemporalConditionSolver::EvaluateConditionAt(instant, aConditionArray);
 
         // If this is the first iteration
         if (!previousInstantCache.isDefined())
         {
-            inCondition = conditionIsTrue;
-            if (conditionIsTrue)
+            conditionIsMetCache = conditionIsMet;
+            if (conditionIsMet)
             {
-                conditionStartCache = instant;
+                conditionStartInstantCache = instant;
             }
         }
         else
         {
-            const bool conditionIsSwitching = (conditionIsTrue != inCondition);
+            const bool conditionIsSwitching = (conditionIsMet != conditionIsMetCache);
 
             if (conditionIsSwitching)
             {
                 const Instant switchingInstant =
-                    this->findSwitchingInstant(previousInstantCache, instant, !conditionIsTrue, aConditionArray);
+                    this->findSwitchingInstant(previousInstantCache, instant, aConditionArray);
 
-                if (conditionIsTrue)
+                if (conditionIsMet)
                 {
-                    conditionStartCache = switchingInstant;
+                    conditionStartInstantCache = switchingInstant;
                 }
                 else
                 {
-                    intervals.add(Interval::Closed(conditionStartCache, switchingInstant));
-                    conditionStartCache = Instant::Undefined();
+                    intervals.add(Interval::Closed(conditionStartInstantCache, switchingInstant));
+                    conditionStartInstantCache = Instant::Undefined();
                 }
 
-                inCondition = conditionIsTrue;
+                conditionIsMetCache = conditionIsMet;
             }
         }
 
         previousInstantCache = instant;
     }
 
-    // Add interval if condition is true on the last iteration
-    if (inCondition)
+    // Add interval if condition is met on the last iteration
+    if (conditionIsMetCache)
     {
-        intervals.add(Interval::Closed(conditionStartCache, instants.accessLast()));
+        intervals.add(Interval::Closed(conditionStartInstantCache, instants.accessLast()));
     }
 
     return intervals;
 }
 
-// Instant TemporalConditionSolver::findSwitchingInstant(
-//     const Instant& aPreviousInstant,
-//     const Instant& aNextInstant,
-//     const bool isConditionTrueAtPreviousInstant,
-//     const Array<TemporalConditionSolver::Condition>& aConditionArray
-// ) const
-// {
-//     const Duration step = Duration::Between(aPreviousInstant, aNextInstant);
-
-//     if (step <= this->tolerance_)
-//     {
-//         return aNextInstant;
-//     }
-
-//     const Instant midInstant = aPreviousInstant + (step / 2.0);
-
-//     const bool conditionIsTrueInMidInstant = TemporalConditionSolver::EvaluateConditionAt(midInstant,
-//     aConditionArray);
-
-//     if (isConditionTrueAtPreviousInstant != conditionIsTrueInMidInstant)
-//     {
-//         return this->findSwitchingInstant(
-//             aPreviousInstant, midInstant, isConditionTrueAtPreviousInstant, aConditionArray
-//         );
-//     }
-
-//     return this->findSwitchingInstant(midInstant, aNextInstant, isConditionTrueAtPreviousInstant, aConditionArray);
-// }
-
-// Instant TemporalConditionSolver::findSwitchingInstant(
-//     const Instant& aPreviousInstant,
-//     const Instant& aNextInstant,
-//     const bool isConditionTrueAtPreviousInstant,
-//     const Array<TemporalConditionSolver::Condition>& aConditionArray
-// ) const
-// {
-//     const RootSolver rootSolver = RootSolver(this->maximumIterationCount_, this->tolerance_.inSeconds());
-
-//     const auto result = rootSolver.bisection(
-//         [&aPreviousInstant, &aConditionArray](double aDurationInSeconds) -> double {
-//             return TemporalConditionSolver::EvaluateConditionAt(aPreviousInstant +
-//             Duration::Seconds(aDurationInSeconds), aConditionArray) ? +1.0 : -1.0;
-//         },
-//         0.0,
-//         Duration::Between(aPreviousInstant, aNextInstant).inSeconds()
-//     ) ;
-
-//     return aPreviousInstant + Duration::Seconds(result.root);
-// }
-
 Instant TemporalConditionSolver::findSwitchingInstant(
     const Instant& aPreviousInstant,
     const Instant& aNextInstant,
-    const bool isConditionTrueAtPreviousInstant,
     const Array<TemporalConditionSolver::Condition>& aConditionArray
 ) const
 {

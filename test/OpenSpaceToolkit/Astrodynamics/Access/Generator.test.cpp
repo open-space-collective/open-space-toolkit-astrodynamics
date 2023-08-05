@@ -159,6 +159,26 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAerFilter)
+{
+    FAIL();
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
+{
+    FAIL();
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
+{
+    FAIL();
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
+{
+    FAIL();
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
 {
     const Environment environment = Environment::Default();

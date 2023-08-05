@@ -50,6 +50,24 @@ class TemporalConditionSolver
         const Size& aMaximumIterationCount = DEFAULT_MAXIMUM_ITERATION_COUNT
     );
 
+    /// @brief                  Get the time step.
+    ///
+    /// @return                 Time step.
+
+    Duration getTimeStep() const;
+
+    /// @brief                  Get the tolerance.
+    ///
+    /// @return                 Tolerance.
+
+    Duration getTolerance() const;
+
+    /// @brief                  Get the maximum iteration count.
+    ///
+    /// @return                 Maximum iteration count.
+
+    Size getMaximumIterationCount() const;
+
     /// @brief                  Find the intervals over which the provided condition is true.
     ///
     /// @param                  [in] aCondition A temporal condition.
@@ -77,7 +95,6 @@ class TemporalConditionSolver
     Instant findSwitchingInstant(
         const Instant& aPreviousInstant,
         const Instant& aNextInstant,
-        const bool isConditionTrueAtPreviousInstant,
         const Array<TemporalConditionSolver::Condition>& aConditionArray
     ) const;
 

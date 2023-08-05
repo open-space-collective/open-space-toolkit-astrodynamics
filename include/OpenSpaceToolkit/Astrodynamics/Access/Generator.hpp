@@ -54,8 +54,6 @@ using ostk::astro::trajectory::State;
 class Generator
 {
    public:
-    friend class GeneratorContext;
-
     Generator(
         const Environment& anEnvironment,
         const Duration& aStep = DEFAULT_STEP,
@@ -76,6 +74,16 @@ class Generator
     Duration getStep() const;
 
     Duration getTolerance() const;
+
+    std::function<bool(const AER&)> getAerFilter() const;
+
+    std::function<bool(const Access&)> getAccessFilter() const;
+
+    std::function<bool(const State&, const State&)> getStateFilter() const;
+
+    std::function<bool(const Instant&)> getConditionFunction(
+        const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    ) const;
 
     Array<Access> computeAccesses(
         const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
@@ -130,43 +138,63 @@ class Generator
     std::function<bool(const AER&)> aerFilter_;
     std::function<bool(const Access&)> accessFilter_;
     std::function<bool(const State&, const State&)> stateFilter_;
+
+    static Access GenerateAccess(
+        const physics::time::Interval& anAccessInterval,
+        const physics::time::Interval& aGlobalInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr,
+        const Duration& aTolerance
+    );
+
+    static Instant FindTimeOfClosestApproach(
+        const physics::time::Interval& anAccessInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Duration& aTolerance
+    );
+
+    static Angle CalculateElevationAt(
+        const Instant& anInstant,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr
+    );
 };
 
 class GeneratorContext
 {
    public:
     GeneratorContext(
-        const physics::time::Interval& anInterval,
         const Trajectory& aFromTrajectory,
         const Trajectory& aToTrajectory,
         const Environment& anEnvironment,
         const Generator& aGenerator
     );
 
-    bool isAccessActiveAt(const Instant& anInstant);
+    bool isAccessActive(const Instant& anInstant);
 
-    Access generateAccess(const physics::time::Interval& anAccessInterval) const;
+    static Pair<State, State> GetStatesAt(
+        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    );
+
+    static Pair<Position, Position> GetPositionsFromStates(const State& aFromState, const State& aToState);
+
+    static AER CalculateAer(
+        const Instant& anInstant,
+        const Position& aFromPosition,
+        const Position& aToPosition,
+        const Shared<const Celestial> anEarthSPtr
+    );
 
    private:
-    physics::time::Interval interval_;
     Trajectory fromTrajectory_;
     Trajectory toTrajectory_;
     Environment environment_;
-    const Generator& generator_;
-
     const Shared<const Celestial> earthSPtr_;
 
-    Pair<State, State> getStatesAt(const Instant& anInstant) const;
-
-    Pair<Position, Position> getPositionsFromStates(const State& aFromState, const State& aToState) const;
-
-    AER calculateAer(const Instant& anInstant, const Position& aFromPosition, const Position& aToPosition) const;
-
-    bool isAccessActive(const Instant& anInstant, const State& aFromState, const State& aToState);
-
-    Instant findTimeOfClosestApproach(const physics::time::Interval& anAccessInterval) const;
-
-    Angle calculateElevationAt(const Instant& anInstant) const;
+    Generator generator_;
 };
 
 }  // namespace access
