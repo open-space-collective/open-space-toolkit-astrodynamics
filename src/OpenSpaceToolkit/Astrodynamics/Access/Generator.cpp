@@ -383,7 +383,8 @@ Instant Generator::FindTimeOfClosestApproach(
         {
             return GeneratorContext::GetStatesAt(anInstant, aFromTrajectory, aToTrajectory);
         },
-        GeneratorContext::GetPositionsFromStates};
+        GeneratorContext::GetPositionsFromStates
+    };
 
     nlopt::opt optimizer = {nlopt::LN_COBYLA, 1};
 
