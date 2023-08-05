@@ -97,17 +97,20 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
                     ratio * (nextState.accessPosition().accessCoordinates() -
                              previousState.accessPosition().accessCoordinates()),
                 previousState.accessPosition().getUnit(),
-                previousState.accessPosition().accessFrame()},
+                previousState.accessPosition().accessFrame()
+            },
             Velocity {
                 previousState.accessVelocity().accessCoordinates() +
                     ratio * (nextState.accessVelocity().accessCoordinates() -
                              previousState.accessVelocity().accessCoordinates()),
                 previousState.accessVelocity().getUnit(),
-                previousState.accessVelocity().accessFrame()},
+                previousState.accessVelocity().accessFrame()
+            },
             Quaternion::SLERP(previousState.accessAttitude(), nextState.accessAttitude(), ratio),
             previousState.accessAngularVelocity() +
                 ratio * (nextState.accessAngularVelocity() - previousState.accessAngularVelocity()),
-            previousState.getFrame()};
+            previousState.getFrame()
+        };
     }
     else if (stateRange.first != nullptr)
     {

@@ -216,7 +216,8 @@ State State::Undefined()
         Velocity::Undefined(),
         Quaternion::Undefined(),
         Vector3d::Undefined(),
-        Frame::Undefined()};
+        Frame::Undefined()
+    };
 }
 
 }  // namespace profile

@@ -42,7 +42,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -88,7 +89,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstruct
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -102,7 +104,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstruct
 
         // Construct SatelliteSystem object
         const SatelliteSystem satellitesystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient};
+            satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient
+        };
 
         EXPECT_NO_THROW(SatelliteSystem satellitesystemCopy(satellitesystem));
     }
@@ -135,7 +138,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperat
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
         const Cuboid satelliteCuboid = {center, axes, extent};
         const Composite satelliteGeometry(satelliteCuboid);
@@ -149,7 +153,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperat
         // Test for different mass
         const Mass satelliteMass_1(100.0, Mass::Unit::Kilogram);
         const SatelliteSystem satelliteSystem_1 = {
-            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
+            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2
+        };
 
         EXPECT_FALSE(satelliteSystem == satelliteSystem_1);
 
@@ -157,7 +162,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperat
         const Point center_0 = {1.0, 0.0, 0.0};
         const Composite satelliteGeometry_0(Cuboid(center_0, axes, extent));
         const SatelliteSystem satelliteSystem_3 = {
-            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2};
+            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2
+        };
 
         EXPECT_FALSE(satelliteSystem == satelliteSystem_3);
 
@@ -165,7 +171,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperat
         Matrix3d satelliteInertiaTensor_0 = satelliteInertiaTensor;
         satelliteInertiaTensor_0(0, 0) = 2.0;
         const SatelliteSystem satelliteSystem_2 = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2};
+            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2
+        };
 
         EXPECT_FALSE(satelliteSystem == satelliteSystem_2);
 
@@ -207,7 +214,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOpe
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
         const Cuboid satelliteCuboid = {center, axes, extent};
         const Composite satelliteGeometry(satelliteCuboid);
@@ -221,7 +229,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOpe
         // Test for different mass
         const Mass satelliteMass_1(100.0, Mass::Unit::Kilogram);
         const SatelliteSystem satelliteSystem_1 = {
-            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
+            satelliteMass_1, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2
+        };
 
         EXPECT_TRUE(satelliteSystem != satelliteSystem_1);
 
@@ -229,7 +238,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOpe
         const Point center_0 = {1.0, 0.0, 0.0};
         const Composite satelliteGeometry_0(Cuboid(center_0, axes, extent));
         const SatelliteSystem satelliteSystem_3 = {
-            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2};
+            satelliteMass, satelliteGeometry_0, satelliteInertiaTensor, 0.8, 2.2
+        };
 
         EXPECT_TRUE(satelliteSystem != satelliteSystem_3);
 
@@ -237,7 +247,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOpe
         Matrix3d satelliteInertiaTensor_0 = satelliteInertiaTensor;
         satelliteInertiaTensor_0(0, 0) = 2.0;
         const SatelliteSystem satelliteSystem_2 = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2};
+            satelliteMass, satelliteGeometry, satelliteInertiaTensor_0, 0.8, 2.2
+        };
 
         EXPECT_TRUE(satelliteSystem != satelliteSystem_2);
 
@@ -277,7 +288,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -316,7 +328,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, StreamOperato
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -359,7 +372,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Print)
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -402,7 +416,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getMass)
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -441,7 +456,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getGeometry)
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -480,7 +496,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getInertiaTen
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -519,7 +536,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getCrossSecti
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -530,7 +548,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getCrossSecti
 
         // Construct SatelliteSystem object
         const SatelliteSystem satelliteSystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, surfaceArea, 2.2};
+            satelliteMass, satelliteGeometry, satelliteInertiaTensor, surfaceArea, 2.2
+        };
 
         EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), surfaceArea);
     }
@@ -562,7 +581,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getDragCoeffi
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}};
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
         const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
@@ -573,7 +593,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getDragCoeffi
 
         // Construct SatelliteSystem object
         const SatelliteSystem satelliteSystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, dragCoefficient};
+            satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, dragCoefficient
+        };
 
         EXPECT_EQ(satelliteSystem.getDragCoefficient(), dragCoefficient);
     }

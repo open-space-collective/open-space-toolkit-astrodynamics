@@ -91,7 +91,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated : public
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
     const NumericalSolver defaultNumericalSolver_ = {
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15};
+        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-15, 1.0e-15
+    };
 
     const Instant defaultInstant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
 
@@ -168,7 +169,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, EqualT
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
-            1.0e-15};
+            1.0e-15
+        };
         const Propagated propagatedModel_1 = {{numericalSolver_1, defaultDynamics_}, defaultState_};
         EXPECT_FALSE(propagatedModel == propagatedModel_1);
 
@@ -204,7 +206,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, NotEqu
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
-            1.0e-15};
+            1.0e-15
+        };
         const Propagated propagatedModel_1 = {{numericalSolver_1, defaultDynamics_}, defaultState_};
         EXPECT_TRUE(propagatedModel != propagatedModel_1);
 
@@ -546,12 +549,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Access
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
         const State state_1 = {
-            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_1);
         const State state_2 = {defaultInstant_, defaultPosition_, defaultVelocity_};
         stateArray.add(state_2);
         const State state_3 = {
-            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_3);
 
         // Setup Propagated model
@@ -571,10 +576,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Access
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
         const State state_3 = {
-            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_3);
         const State state_1 = {
-            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_1);
         const State state_2 = {defaultInstant_, defaultPosition_, defaultVelocity_};
         stateArray.add(state_2);
@@ -607,12 +614,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
         const State state_1 = {
-            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_1);
         const State state_2 = {defaultInstant_, defaultPosition_, defaultVelocity_};
         stateArray.add(state_2);
         const State state_3 = {
-            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_3);
 
         // Manually set cachedStateArray
@@ -636,10 +645,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, SetCac
         // Current state and instant setup
         Array<State> stateArray = Array<State>::Empty();
         const State state_3 = {
-            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 3, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_3);
         const State state_1 = {
-            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_};
+            Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC), defaultPosition_, defaultVelocity_
+        };
         stateArray.add(state_1);
         const State state_2 = {defaultInstant_, defaultPosition_, defaultVelocity_};
         stateArray.add(state_2);
@@ -698,7 +709,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Propag
                 Instant::DateTime(DateTime::Parse("2023-01-30T18:40:00.184", DateTime::Format::ISO8601), Scale::UTC),
                 Position::Meters({-2965004.866673604585, 1695085.379882899811, 5976267.045515080914}, gcrfSPtr_),
                 Velocity::MetersPerSecond({6539.557709872774, -1396.675776577052, 3637.641862957897}, gcrfSPtr_),
-            }};
+            }
+        };
 
         Propagated propagatedModel(propagator_, states);
 

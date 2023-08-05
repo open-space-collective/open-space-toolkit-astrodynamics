@@ -89,9 +89,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, EqualToOperator)
         const Angle maxElevation = Angle::Degrees(54.3);
 
         const Access firstAccess = {
-            Access::Type::Complete, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+            Access::Type::Complete, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation
+        };
         const Access secondAccess = {
-            Access::Type::Partial, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+            Access::Type::Partial, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation
+        };
 
         EXPECT_FALSE(firstAccess == secondAccess);
     }
@@ -107,13 +109,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, EqualToOperator)
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
             timeOfClosestApproach,
             lossOfSignal,
-            maxElevation};
+            maxElevation
+        };
         const Access secondAccess = {
             type,
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
             timeOfClosestApproach,
             lossOfSignal,
-            maxElevation};
+            maxElevation
+        };
 
         EXPECT_FALSE(firstAccess == secondAccess);
     }
@@ -173,9 +177,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, NotEqualToOperator)
         const Angle maxElevation = Angle::Degrees(54.3);
 
         const Access firstAccess = {
-            Access::Type::Complete, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+            Access::Type::Complete, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation
+        };
         const Access secondAccess = {
-            Access::Type::Partial, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation};
+            Access::Type::Partial, acquisitionOfSignal, timeOfClosestApproach, lossOfSignal, maxElevation
+        };
 
         EXPECT_TRUE(firstAccess != secondAccess);
     }
@@ -191,13 +197,15 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access, NotEqualToOperator)
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
             timeOfClosestApproach,
             lossOfSignal,
-            maxElevation};
+            maxElevation
+        };
         const Access secondAccess = {
             type,
             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
             timeOfClosestApproach,
             lossOfSignal,
-            maxElevation};
+            maxElevation
+        };
 
         EXPECT_TRUE(firstAccess != secondAccess);
     }

@@ -161,22 +161,117 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAerFilter)
 {
-    FAIL();
+    {
+        const Generator generator = {Environment::Default()};
+
+        EXPECT_EQ(nullptr, generator.getAerFilter());
+    }
+
+    {
+        EXPECT_ANY_THROW(Generator::Undefined().getAerFilter());
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
 {
-    FAIL();
+    {
+        const Generator generator = {Environment::Default()};
+
+        EXPECT_EQ(nullptr, generator.getAccessFilter());
+    }
+
+    {
+        EXPECT_ANY_THROW(Generator::Undefined().getAccessFilter());
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
 {
-    FAIL();
+    {
+        const Generator generator = {Environment::Default()};
+
+        EXPECT_EQ(nullptr, generator.getStateFilter());
+    }
+
+    {
+        EXPECT_ANY_THROW(Generator::Undefined().getStateFilter());
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 {
-    FAIL();
+    const Environment environment = Environment::Default();
+
+    const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+    const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
+
+    const auto generateFirstOrbit = [&environment, &startInstant]() -> Orbit
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(+45.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(0.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = startInstant;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        return orbit;
+    };
+
+    const auto generateSecondOrbit = [&environment, &startInstant]() -> Orbit
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(+45.0);
+        const Angle raan = Angle::Degrees(180.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(180.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Instant epoch = startInstant;
+        const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
+        const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
+        const Real J2 = Earth::EGM2008.J2_;
+        const Real J4 = Earth::EGM2008.J4_;
+
+        const Kepler keplerianModel = {
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
+
+        const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
+
+        return orbit;
+    };
+
+    const Orbit fromOrbit = generateFirstOrbit();
+    const Orbit toOrbit = generateSecondOrbit();
+
+    {
+        const Generator generator = {environment};
+
+        const auto conditionFunction = generator.getConditionFunction(fromOrbit, toOrbit);
+
+        EXPECT_NE(nullptr, conditionFunction);
+        EXPECT_TRUE(conditionFunction(startInstant));
+    }
+
+    {
+        EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(fromOrbit, toOrbit));
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
@@ -208,7 +303,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -233,7 +329,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -327,7 +424,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -407,7 +505,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
     {
         const TLE tle = {
             "1 39419U 13066D   18248.44969859 -.00000394  00000-0 -31796-4 0  9997",
-            "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"};
+            "2 39419  97.6313 314.6863 0012643 218.7350 141.2966 14.93878994260975"
+        };
 
         const SGP4 orbitalModel = {tle};
 
@@ -485,7 +584,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_4)
                         (aVelocity.getCoordinates() * (instant - interval.getStart()).inSeconds()),
                     Frame::GCRF()
                 ),
-                aVelocity};
+                aVelocity
+            };
 
             states.add(state);
         }
@@ -690,7 +790,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges)
             const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
-                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
+            };
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -753,7 +854,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
         const Environment environment = Environment::Default();
 
         const ostk::core::ctnr::Map<Real, Real> azimuthElevationMask = {
-            {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}};
+            {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}
+        };
         const ostk::math::obj::Interval<Real> rangeRange = ostk::math::obj::Interval<Real>::Closed(0.0, 10000e3);
 
         const Generator generator = Generator::AerMask(azimuthElevationMask, rangeRange, environment);
@@ -793,7 +895,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask)
             const Real J4 = Earth::EGM2008.J4_;
 
             const Kepler keplerianModel = {
-                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
+                coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
+            };
 
             const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 

@@ -25,7 +25,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubsets_Cartesi
     const String defaultName_ = "NAME";
     const CartesianPosition defaultCartesianPosition_ = CartesianPosition(defaultName_);
     const Array<Shared<const CoordinatesSubset>> defaultCoordinateSubsets_ = {
-        std::make_shared<CartesianPosition>(defaultCartesianPosition_)};
+        std::make_shared<CartesianPosition>(defaultCartesianPosition_)
+    };
     const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
         std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
 };

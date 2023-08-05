@@ -72,7 +72,8 @@ Orbit::~Orbit()
         Orbit::FrameType::LVLHGD,
         Orbit::FrameType::QSW,
         Orbit::FrameType::TNW,
-        Orbit::FrameType::VNC};
+        Orbit::FrameType::VNC
+    };
 
     for (const auto& frameType : frameTypes)
     {
@@ -311,7 +312,8 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                     currentPass = {
                         Pass::Type::Complete,
                         currentRevolutionNumber + 1,
-                        Interval::Closed(currentPass.getInterval().accessEnd(), currentInstant)};
+                        Interval::Closed(currentPass.getInterval().accessEnd(), currentInstant)
+                    };
                 }
                 else
                 {
@@ -323,14 +325,16 @@ Pass Orbit::getPassWithRevolutionNumber(const Integer& aRevolutionNumber) const
                         currentPass = {
                             Pass::Type::Complete,
                             currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
+                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)
+                        };
                     }
                     else
                     {
                         currentPass = {
                             Pass::Type::Partial,
                             currentRevolutionNumber,
-                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)};
+                            Interval::Closed(this->modelPtr_->getEpoch(), currentInstant)
+                        };
                     }
                 }
 
@@ -425,7 +429,8 @@ Shared<const Frame> Orbit::getOrbitalFrame(const Orbit::FrameType& aFrameType) c
                     v_VVLH_GCRF_in_GCRF,
                     q_VVLH_GCRF,
                     w_VVLH_GCRF_in_VVLH,
-                    Transform::Type::Passive};
+                    Transform::Type::Passive
+                };
             }
         );
 
@@ -972,7 +977,8 @@ Orbit Orbit::SunSynchronous(
             aLocalTimeAtDescendingNode.getSecond(),
             aLocalTimeAtDescendingNode.getMillisecond(),
             aLocalTimeAtDescendingNode.getMicrosecond(),
-            aLocalTimeAtDescendingNode.getNanosecond()};
+            aLocalTimeAtDescendingNode.getNanosecond()
+        };
     };
 
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + anAltitude;

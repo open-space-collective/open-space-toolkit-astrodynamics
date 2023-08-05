@@ -80,7 +80,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -98,7 +99,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Constructor)
              Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)},
             {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC),
              Position::Meters({1.0, 0.0, 0.0}, gcrfSPtr),
-             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}};
+             Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)}
+        };
 
         const Integer initialRevolutionNumber = 123;
 
@@ -129,7 +131,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, EqualToOperator)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -165,7 +168,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, NotEqualToOperator)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -201,7 +205,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, IsDefined)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -238,7 +243,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetRevolutionNumberAt)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -295,7 +301,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassAt)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -362,7 +369,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -426,7 +434,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -490,7 +499,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetPassWithRevolutionNumbe
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J4
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -567,7 +577,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Shared<const Earth> earthSPtr =
             std::dynamic_pointer_cast<const Earth>(environment.accessObjectWithName("Earth"));
@@ -581,9 +592,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
 
             const Vector3d x_NED_ITRF_ref = {
-                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()};
+                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()
+            };
             const Vector3d v_NED_ITRF_in_ITRF_ref = {
-                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()};
+                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()
+            };
 
             const Quaternion q_NED_ITRF_ref = Quaternion::XYZS(
                                                   referenceRow[7].accessReal(),
@@ -593,7 +606,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, GetOrbitalFrame)
             )
                                                   .normalize();
             const Vector3d w_NED_ITRF_in_NED_ref = {
-                referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal()};
+                referenceRow[11].accessReal(), referenceRow[12].accessReal(), referenceRow[13].accessReal()
+            };
 
             const Quaternion q_ITRF_NED_ref = q_NED_ITRF_ref.toConjugate();
             const Vector3d w_ITRF_NED_in_ITRF_ref = -(q_ITRF_NED_ref * w_NED_ITRF_in_NED_ref);
@@ -762,7 +776,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
         const Real J4 = EarthGravitationalModel::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -899,7 +914,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Circular)
              1e-3,
              1e-6,
              1e-1,
-             1e-4}};
+             1e-4}
+        };
 
         for (const auto& scenario : scenarios)
         {
@@ -1035,7 +1051,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Equatorial)
              1e-3,
              1e-6,
              1e-0,
-             1e-3}};
+             1e-3}
+        };
 
         for (const auto& scenario : scenarios)
         {
@@ -1092,7 +1109,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, CircularEquatorial)
              1e-3,
              1e-6,
              1e-1,
-             1e-4}};
+             1e-4}
+        };
 
         for (const auto& scenario : scenarios)
         {

@@ -240,10 +240,12 @@ COE::CartesianState COE::getCartesianState(
     const Vector3d R_pqw = {
         p_m * std::cos(nu_rad) / (1.0 + eccentricity_ * std::cos(nu_rad)),
         p_m * std::sin(nu_rad) / (1.0 + eccentricity_ * std::cos(nu_rad)),
-        0.0};
+        0.0
+    };
 
     const Vector3d V_pqw = {
-        -std::sqrt(mu_SI / p_m) * std::sin(nu_rad), +std::sqrt(mu_SI / p_m) * (eccentricity_ + std::cos(nu_rad)), 0.0};
+        -std::sqrt(mu_SI / p_m) * std::sin(nu_rad), +std::sqrt(mu_SI / p_m) * (eccentricity_ + std::cos(nu_rad)), 0.0
+    };
 
     try
     {
@@ -308,7 +310,8 @@ COE COE::Undefined()
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),
-        Angle::Undefined()};
+        Angle::Undefined()
+    };
 }
 
 COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter)
@@ -511,7 +514,8 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
         Angle::Radians(i_rad),
         Angle::Radians(raan_rad),
         Angle::Radians(aop_rad),
-        Angle::Radians(nu_rad)};
+        Angle::Radians(nu_rad)
+    };
 }
 
 Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity)
