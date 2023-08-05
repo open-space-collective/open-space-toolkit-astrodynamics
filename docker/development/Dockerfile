@@ -80,38 +80,6 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
  && make install \
  && rm -rf /tmp/nlopt
 
-## Open Space Toolkit ▸ Physics
-
-ARG OSTK_PHYSICS_MAJOR="1"
-ARG OSTK_PHYSICS_MINOR="1"
-
-## Force an image rebuild when new Physics patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
-
-RUN mkdir -p /tmp/open-space-toolkit-physics \
- && cd /tmp/open-space-toolkit-physics \
- && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.x86_64-devel.deb \
- && apt-get install -y ./*.deb \
- && rm -rf /tmp/open-space-toolkit-physics
-
-## Open Space Toolkit ▸ Mathematics
-
-ARG OSTK_MATHEMATICS_MAJOR="0"
-ARG OSTK_MATHEMATICS_MINOR="7"
-
-## Force an image rebuild when new Mathematics patch versions are detected
-ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR}.${OSTK_MATHEMATICS_MINOR} /tmp/open-space-toolkit-mathematics/versions.json
-
-RUN mkdir -p /tmp/open-space-toolkit-mathematics \
- && cd /tmp/open-space-toolkit-mathematics \
- && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.x86_64-runtime.deb \
- && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.x86_64-devel.deb \
- && apt-get install -y ./*.deb \
- && rm -rf /tmp/open-space-toolkit-mathematics
-
 ## Open Space Toolkit ▸ Core
 
 ARG OSTK_CORE_MAJOR="0"
@@ -144,36 +112,53 @@ RUN mkdir -p /tmp/open-space-toolkit-io \
  && apt-get install -y ./*.deb \
  && rm -rf /tmp/open-space-toolkit-io
 
+## Open Space Toolkit ▸ Mathematics
+
+ARG OSTK_MATHEMATICS_MAJOR="0"
+ARG OSTK_MATHEMATICS_MINOR="7"
+
+## Force an image rebuild when new Mathematics patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-mathematics/git/matching-refs/tags/${OSTK_MATHEMATICS_MAJOR}.${OSTK_MATHEMATICS_MINOR} /tmp/open-space-toolkit-mathematics/versions.json
+
+RUN mkdir -p /tmp/open-space-toolkit-mathematics \
+ && cd /tmp/open-space-toolkit-mathematics \
+ && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-mathematics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-mathematics-${LATEST_PATCH_OF_MINOR}-1.x86_64-devel.deb \
+ && apt-get install -y ./*.deb \
+ && rm -rf /tmp/open-space-toolkit-mathematics
+
+## Open Space Toolkit ▸ Physics
+
+ARG OSTK_PHYSICS_MAJOR="1"
+ARG OSTK_PHYSICS_MINOR="1"
+
+## Force an image rebuild when new Physics patch versions are detected
+ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
+
+RUN mkdir -p /tmp/open-space-toolkit-physics \
+ && cd /tmp/open-space-toolkit-physics \
+ && export LATEST_PATCH_OF_MINOR=$(jq -r .[-1].ref versions.json | cut -d "/" -f3) \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.x86_64-runtime.deb \
+ && wget --quiet https://github.com/open-space-collective/open-space-toolkit-physics/releases/download/${LATEST_PATCH_OF_MINOR}/open-space-toolkit-physics-${LATEST_PATCH_OF_MINOR}-1.x86_64-devel.deb \
+ && apt-get install -y ./*.deb \
+ && rm -rf /tmp/open-space-toolkit-physics
+
 # Install data
 
 COPY --from=us.gcr.io/loft-orbital-public/software/open-space-toolkit/data:0.3.0 /open-space-toolkit/physics /usr/local/share/OpenSpaceToolkit/Physics
 
-ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/coordinate/frame/providers/iers"
-ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/ephemerides/spice"
-ENV OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/gravitational/earth"
-ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY "/usr/local/share/OpenSpaceToolkit/Physics/environment/magnetic/earth"
-
-# Install development helpers
-
-COPY tools/development/helpers/build.sh /usr/bin/ostk-build
-COPY tools/development/helpers/test.sh /usr/bin/ostk-test
-COPY tools/development/helpers/test-python.sh /usr/bin/ostk-test-python
-COPY tools/development/helpers/format-cpp.sh /usr/bin/ostk-format-cpp
-COPY tools/development/helpers/format-python.sh /usr/bin/ostk-format-python
-COPY tools/development/helpers/check-format-cpp.sh /usr/bin/ostk-check-format-cpp
-COPY tools/development/helpers/check-format-python.sh /usr/bin/ostk-check-format-python
-COPY tools/development/helpers/clean.sh /usr/bin/ostk-clean
-COPY tools/development/helpers/install-python.sh /usr/bin/ostk-install-python
-COPY tools/development/helpers/debug.sh /usr/bin/ostk-debug
+ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/coordinate/frame/providers/iers"
+ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/ephemerides/spice"
+ENV OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/gravitational/earth"
+ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/magnetic/earth"
 
 # Labels
 
 ARG VERSION
-
-ENV VERSION ${VERSION}
-
+ENV VERSION="${VERSION}"
 LABEL VERSION="${VERSION}"
 
 # Execution
 
-CMD ["/bin/bash"]
+CMD [ "/bin/bash" ]
