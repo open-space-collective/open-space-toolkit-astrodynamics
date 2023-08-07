@@ -1,0 +1,64 @@
+\hypertarget{classostk_1_1astro_1_1access_1_1_generator_context}{}\doxysection{ostk\+::astro\+::access\+::Generator\+Context Class Reference}
+\label{classostk_1_1astro_1_1access_1_1_generator_context}\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+
+
+{\ttfamily \#include $<$Generator.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator_context_a87a74a431a7883ebf23048ccd071414f}{Generator\+Context}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+From\+Trajectory, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+To\+Trajectory, const Environment \&an\+Environment, const \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator}} \&a\+Generator)
+\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator_context_a11928386e0a276ddbf0139af1f030e59}{is\+Access\+Active}} (const Instant \&an\+Instant)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Pair$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}, \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator_context_af24cf3609f57fe5aeebef9cc1c1514ff}{Get\+States\+At}} (const Instant \&an\+Instant, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+From\+Trajectory, const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&a\+To\+Trajectory)
+\item 
+static Pair$<$ Position, Position $>$ \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator_context_ac51db2b5d540cecf5fb430235922a40b}{Get\+Positions\+From\+States}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+From\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+To\+State)
+\item 
+static A\+ER \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator_context_a5c6ad05cc1745352125643b0d435fd70}{Calculate\+Aer}} (const Instant \&an\+Instant, const Position \&a\+From\+Position, const Position \&a\+To\+Position, const Shared$<$ const Celestial $>$ an\+Earth\+S\+Ptr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_context_a87a74a431a7883ebf23048ccd071414f}\label{classostk_1_1astro_1_1access_1_1_generator_context_a87a74a431a7883ebf23048ccd071414f}} 
+\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}!GeneratorContext@{GeneratorContext}}
+\index{GeneratorContext@{GeneratorContext}!ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+\doxysubsubsection{\texorpdfstring{GeneratorContext()}{GeneratorContext()}}
+{\footnotesize\ttfamily ostk\+::astro\+::access\+::\+Generator\+Context\+::\+Generator\+Context (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+From\+Trajectory,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+To\+Trajectory,  }\item[{const Environment \&}]{an\+Environment,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1access_1_1_generator}{Generator}} \&}]{a\+Generator }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_context_a5c6ad05cc1745352125643b0d435fd70}\label{classostk_1_1astro_1_1access_1_1_generator_context_a5c6ad05cc1745352125643b0d435fd70}} 
+\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}!CalculateAer@{CalculateAer}}
+\index{CalculateAer@{CalculateAer}!ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+\doxysubsubsection{\texorpdfstring{CalculateAer()}{CalculateAer()}}
+{\footnotesize\ttfamily A\+ER ostk\+::astro\+::access\+::\+Generator\+Context\+::\+Calculate\+Aer (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Position \&}]{a\+From\+Position,  }\item[{const Position \&}]{a\+To\+Position,  }\item[{const Shared$<$ const Celestial $>$}]{an\+Earth\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_context_ac51db2b5d540cecf5fb430235922a40b}\label{classostk_1_1astro_1_1access_1_1_generator_context_ac51db2b5d540cecf5fb430235922a40b}} 
+\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}!GetPositionsFromStates@{GetPositionsFromStates}}
+\index{GetPositionsFromStates@{GetPositionsFromStates}!ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+\doxysubsubsection{\texorpdfstring{GetPositionsFromStates()}{GetPositionsFromStates()}}
+{\footnotesize\ttfamily Pair$<$ Position, Position $>$ ostk\+::astro\+::access\+::\+Generator\+Context\+::\+Get\+Positions\+From\+States (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+From\+State,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+To\+State }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_context_af24cf3609f57fe5aeebef9cc1c1514ff}\label{classostk_1_1astro_1_1access_1_1_generator_context_af24cf3609f57fe5aeebef9cc1c1514ff}} 
+\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}!GetStatesAt@{GetStatesAt}}
+\index{GetStatesAt@{GetStatesAt}!ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+\doxysubsubsection{\texorpdfstring{GetStatesAt()}{GetStatesAt()}}
+{\footnotesize\ttfamily Pair$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}, \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ ostk\+::astro\+::access\+::\+Generator\+Context\+::\+Get\+States\+At (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+From\+Trajectory,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \&}]{a\+To\+Trajectory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1access_1_1_generator_context_a11928386e0a276ddbf0139af1f030e59}\label{classostk_1_1astro_1_1access_1_1_generator_context_a11928386e0a276ddbf0139af1f030e59}} 
+\index{ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}!isAccessActive@{isAccessActive}}
+\index{isAccessActive@{isAccessActive}!ostk::astro::access::GeneratorContext@{ostk::astro::access::GeneratorContext}}
+\doxysubsubsection{\texorpdfstring{isAccessActive()}{isAccessActive()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::access\+::\+Generator\+Context\+::is\+Access\+Active (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Access/\mbox{\hyperlink{_generator_8hpp}{Generator.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Access/\mbox{\hyperlink{_generator_8cpp}{Generator.\+cpp}}\end{DoxyCompactItemize}

@@ -17,18 +17,20 @@ struct \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Soluti
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a4a4a68a66faca8f00d5391557dc5dec5}{Root\+Solver}} (const Size \&a\+Maximum\+Iterations\+Count, const Size \&a\+Number\+Of\+Digits)
+\mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a78723603d5fe41663965fa76a24f29cb}{Root\+Solver}} (const Size \&a\+Maximum\+Iteration\+Count, const Real \&a\+Tolerance)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_aa147532dbe3edaf67053d6cdf81396f4}{$\sim$\+Root\+Solver}} ()
 \begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
-Size \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a23787ff5f407a50805e8108ec13a4dc0}{get\+Maximum\+Iterations\+Count}} () const
+Size \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a0ac1ca26dda8a792a48d0f76a6dde171}{get\+Maximum\+Iteration\+Count}} () const
 \begin{DoxyCompactList}\small\item\em Get maximum iterations count. \end{DoxyCompactList}\item 
-Size \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_af96ab56c1457d055999d2182494e4b23}{get\+Number\+Of\+Digits}} () const
+Real \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_ac7fde22b2a3f2527479a69c0741b7d13}{get\+Tolerance}} () const
 \begin{DoxyCompactList}\small\item\em Get number of digits of precision. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a8e9dd06ca87c41d8b7e132d0ca014446}{solve}} (const std\+::function$<$ double(const double \&)$>$ \&a\+Function, const double \&an\+Initial\+Guess, const bool \&is\+Rising) const
+\mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a585799cd7e2b297b9f1a98417ff0c1f7}{bracket\+And\+Solve}} (const std\+::function$<$ double(const double \&)$>$ \&a\+Function, const double \&an\+Initial\+Guess, const bool \&is\+Rising, const double \&a\+Factor=2.\+0) const
 \begin{DoxyCompactList}\small\item\em Solve for root given a function, an initial guess and function direction. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a9eb2294ce4db4a697ed83b6c6324896a}{solve}} (const std\+::function$<$ double(const double \&)$>$ \&a\+Function, const double \&a\+Lower\+Bound, const double \&an\+Upper\+Bound) const
 \begin{DoxyCompactList}\small\item\em Solve for root given a function, and bounds. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a5c67cb0f8e94778f9492f420a16733be}{bisection}} (const std\+::function$<$ double(const double \&)$>$ \&a\+Function, const double \&a\+Lower\+Bound, const double \&an\+Upper\+Bound) const
+\begin{DoxyCompactList}\small\item\em Bisection solve for root given a function, and bounds. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_abcdaf99efcc8343b7609b8228b314787}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
 \begin{DoxyCompactList}\small\item\em Print root solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
@@ -47,11 +49,11 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a1446e254d
 A Root Solver is a method for finding the roots (a.\+k.\+a. zeros) of an equation. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a4a4a68a66faca8f00d5391557dc5dec5}\label{classostk_1_1astro_1_1_root_solver_a4a4a68a66faca8f00d5391557dc5dec5}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a78723603d5fe41663965fa76a24f29cb}\label{classostk_1_1astro_1_1_root_solver_a78723603d5fe41663965fa76a24f29cb}} 
 \index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!RootSolver@{RootSolver}}
 \index{RootSolver@{RootSolver}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
 \doxysubsubsection{\texorpdfstring{RootSolver()}{RootSolver()}}
-{\footnotesize\ttfamily ostk\+::astro\+::\+Root\+Solver\+::\+Root\+Solver (\begin{DoxyParamCaption}\item[{const Size \&}]{a\+Maximum\+Iterations\+Count,  }\item[{const Size \&}]{a\+Number\+Of\+Digits }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Root\+Solver\+::\+Root\+Solver (\begin{DoxyParamCaption}\item[{const Size \&}]{a\+Maximum\+Iteration\+Count,  }\item[{const Real \&}]{a\+Tolerance }\end{DoxyParamCaption})}
 
 
 
@@ -59,15 +61,15 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a4a4a68a66faca8f00d5391557dc5dec5}{RootSolver}} rootSolver = \{aMaximumIterationsCount, aNumberOfDigits\};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_root_solver_a78723603d5fe41663965fa76a24f29cb}{RootSolver}} rootSolver = \{aMaximumIterationCount, aTolerance\};}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Maximum\+Iterations\+Count} & The maximum iterations count for the solver \\
+\mbox{\texttt{ in}}  & {\em a\+Maximum\+Iteration\+Count} & The maximum iteration count for the solver \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Number\+Of\+Digits} & The number of digits \\
+\mbox{\texttt{ in}}  & {\em a\+Tolerance} & The tolerance \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_aa147532dbe3edaf67053d6cdf81396f4}\label{classostk_1_1astro_1_1_root_solver_aa147532dbe3edaf67053d6cdf81396f4}} 
@@ -83,6 +85,52 @@ Virtual destructor.
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a5c67cb0f8e94778f9492f420a16733be}\label{classostk_1_1astro_1_1_root_solver_a5c67cb0f8e94778f9492f420a16733be}} 
+\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!bisection@{bisection}}
+\index{bisection@{bisection}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
+\doxysubsubsection{\texorpdfstring{bisection()}{bisection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Root\+Solver\+::\+Solution}} ostk\+::astro\+::\+Root\+Solver\+::bisection (\begin{DoxyParamCaption}\item[{const std\+::function$<$ double(const double \&)$>$ \&}]{a\+Function,  }\item[{const double \&}]{a\+Lower\+Bound,  }\item[{const double \&}]{an\+Upper\+Bound }\end{DoxyParamCaption}) const}
+
+
+
+Bisection solve for root given a function, and bounds. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Function} & A function \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Lower\+Bound} & A lower bound \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Upper\+Bound} & An upper bound\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The solution 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a585799cd7e2b297b9f1a98417ff0c1f7}\label{classostk_1_1astro_1_1_root_solver_a585799cd7e2b297b9f1a98417ff0c1f7}} 
+\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!bracketAndSolve@{bracketAndSolve}}
+\index{bracketAndSolve@{bracketAndSolve}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
+\doxysubsubsection{\texorpdfstring{bracketAndSolve()}{bracketAndSolve()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Root\+Solver\+::\+Solution}} ostk\+::astro\+::\+Root\+Solver\+::bracket\+And\+Solve (\begin{DoxyParamCaption}\item[{const std\+::function$<$ double(const double \&)$>$ \&}]{a\+Function,  }\item[{const double \&}]{an\+Initial\+Guess,  }\item[{const bool \&}]{is\+Rising,  }\item[{const double \&}]{a\+Factor = {\ttfamily 2.0} }\end{DoxyParamCaption}) const}
+
+
+
+Solve for root given a function, an initial guess and function direction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Function} & A function \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Initial\+Guess} & An initial guess \\
+\hline
+\mbox{\texttt{ in}}  & {\em is\+Rising} & A boolean indicating whether the function is rising \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & a\+Factor A factor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The solution 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a1183671b30532b0b9096ab24e7c675f4}\label{classostk_1_1astro_1_1_root_solver_a1183671b30532b0b9096ab24e7c675f4}} 
 \index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!Default@{Default}}
 \index{Default@{Default}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
@@ -96,11 +144,11 @@ Default root solver.
 \begin{DoxyReturn}{Returns}
 Default root solver 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a23787ff5f407a50805e8108ec13a4dc0}\label{classostk_1_1astro_1_1_root_solver_a23787ff5f407a50805e8108ec13a4dc0}} 
-\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!getMaximumIterationsCount@{getMaximumIterationsCount}}
-\index{getMaximumIterationsCount@{getMaximumIterationsCount}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
-\doxysubsubsection{\texorpdfstring{getMaximumIterationsCount()}{getMaximumIterationsCount()}}
-{\footnotesize\ttfamily Size ostk\+::astro\+::\+Root\+Solver\+::get\+Maximum\+Iterations\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a0ac1ca26dda8a792a48d0f76a6dde171}\label{classostk_1_1astro_1_1_root_solver_a0ac1ca26dda8a792a48d0f76a6dde171}} 
+\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!getMaximumIterationCount@{getMaximumIterationCount}}
+\index{getMaximumIterationCount@{getMaximumIterationCount}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
+\doxysubsubsection{\texorpdfstring{getMaximumIterationCount()}{getMaximumIterationCount()}}
+{\footnotesize\ttfamily Size ostk\+::astro\+::\+Root\+Solver\+::get\+Maximum\+Iteration\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -109,11 +157,11 @@ Get maximum iterations count.
 \begin{DoxyReturn}{Returns}
 Maximum iterations count 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_af96ab56c1457d055999d2182494e4b23}\label{classostk_1_1astro_1_1_root_solver_af96ab56c1457d055999d2182494e4b23}} 
-\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!getNumberOfDigits@{getNumberOfDigits}}
-\index{getNumberOfDigits@{getNumberOfDigits}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
-\doxysubsubsection{\texorpdfstring{getNumberOfDigits()}{getNumberOfDigits()}}
-{\footnotesize\ttfamily Size ostk\+::astro\+::\+Root\+Solver\+::get\+Number\+Of\+Digits (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_ac7fde22b2a3f2527479a69c0741b7d13}\label{classostk_1_1astro_1_1_root_solver_ac7fde22b2a3f2527479a69c0741b7d13}} 
+\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!getTolerance@{getTolerance}}
+\index{getTolerance@{getTolerance}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
+\doxysubsubsection{\texorpdfstring{getTolerance()}{getTolerance()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::\+Root\+Solver\+::get\+Tolerance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -142,7 +190,7 @@ Print root solver.
 \mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a9eb2294ce4db4a697ed83b6c6324896a}\label{classostk_1_1astro_1_1_root_solver_a9eb2294ce4db4a697ed83b6c6324896a}} 
 \index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!solve@{solve}}
 \index{solve@{solve}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
-\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Root\+Solver\+::\+Solution}} ostk\+::astro\+::\+Root\+Solver\+::solve (\begin{DoxyParamCaption}\item[{const std\+::function$<$ double(const double \&)$>$ \&}]{a\+Function,  }\item[{const double \&}]{a\+Lower\+Bound,  }\item[{const double \&}]{an\+Upper\+Bound }\end{DoxyParamCaption}) const}
 
 
@@ -156,28 +204,6 @@ Solve for root given a function, and bounds.
 \mbox{\texttt{ in}}  & {\em a\+Lower\+Bound} & A lower bound \\
 \hline
 \mbox{\texttt{ in}}  & {\em an\+Upper\+Bound} & An upper bound\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The solution 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1_root_solver_a8e9dd06ca87c41d8b7e132d0ca014446}\label{classostk_1_1astro_1_1_root_solver_a8e9dd06ca87c41d8b7e132d0ca014446}} 
-\index{ostk::astro::RootSolver@{ostk::astro::RootSolver}!solve@{solve}}
-\index{solve@{solve}!ostk::astro::RootSolver@{ostk::astro::RootSolver}}
-\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1_root_solver_1_1_solution}{Root\+Solver\+::\+Solution}} ostk\+::astro\+::\+Root\+Solver\+::solve (\begin{DoxyParamCaption}\item[{const std\+::function$<$ double(const double \&)$>$ \&}]{a\+Function,  }\item[{const double \&}]{an\+Initial\+Guess,  }\item[{const bool \&}]{is\+Rising }\end{DoxyParamCaption}) const}
-
-
-
-Solve for root given a function, an initial guess and function direction. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Function} & A function \\
-\hline
-\mbox{\texttt{ in}}  & {\em an\+Initial\+Guess} & An initial guess \\
-\hline
-\mbox{\texttt{ in}}  & {\em is\+Rising} & A boolean indicating whether the function is rising\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

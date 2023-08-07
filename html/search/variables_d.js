@@ -1,16 +1,10 @@
 var searchData=
 [
-  ['screenentrytime_980',['screenEntryTime',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a66f0717458e9b17d7efd7db99c933f3f',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenexittime_981',['screenExitTime',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a4ec3cda5aff9fbd3b1037e5143c4e7c5',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenvolumeframe_982',['screenVolumeFrame',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#aab6e00cedd6f308cdccf01d605659130',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenvolumeshape_983',['screenVolumeShape',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a5c61458a82b76eb15898a9394921d540',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenvolumex_984',['screenVolumeX',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a440c344301f3da0914287fc27efdecc3',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenvolumey_985',['screenVolumeY',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#ac4af249795dd088566aad3eba225a140',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['screenvolumez_986',['screenVolumeZ',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a9a8574e2bc75a5200ff14b90c231f700',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['sedr_987',['SEDR',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a0722a1292f11b07ca172d94208442089',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
-  ['sequencenumber_988',['sequenceNumber',['../structostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m_1_1_deployment.html#ae514bdf0229784c78152dd6efcbe9cd6',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Deployment']]],
-  ['solarradiationpressure_989',['solarRadiationPressure',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#a1f391661d25def1092b6051327e120cb',1,'ostk::astro::conjunction::messages::ccsds::CDM::Metadata']]],
-  ['solution_990',['solution',['../structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html#a6093d3bd56ddcaca8bd104ef816b847a',1,'ostk::astro::NumericalSolver::ConditionSolution']]],
-  ['startscreenperiod_991',['startScreenPeriod',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a41ed2de13d3990a54ee5184698e1df4a',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
-  ['state_992',['state',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a14c73382f6696f7c91e28ae5a5d29653',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]]
+  ['recommendedodspan_1029',['recommendedODSpan',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a60bd4f519dad47a722abe9390348495f',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['refframe_1030',['refFrame',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#a1f7760be8ce00cf588146c557a7511b4',1,'ostk::astro::conjunction::messages::ccsds::CDM::Metadata']]],
+  ['relativeposition_1031',['relativePosition',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a659e2e07a69047b7716bca49ff0d00f8',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
+  ['relativevelocity_1032',['relativeVelocity',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html#a2f1782200bd13c7a473769667a060870',1,'ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata']]],
+  ['residualsaccepted_1033',['residualsAccepted',['../structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_data.html#a762ebadedd5504222e2eac267a89bf10',1,'ostk::astro::conjunction::messages::ccsds::CDM::Data']]],
+  ['root_1034',['root',['../structostk_1_1astro_1_1_root_solver_1_1_solution.html#a5c0d25e70aa239b2b9297b97d8d64c2f',1,'ostk::astro::RootSolver::Solution']]],
+  ['rootsolverhasconverged_1035',['rootSolverHasConverged',['../structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html#aebe57012169e84c0330df7f453360150',1,'ostk::astro::NumericalSolver::ConditionSolution']]]
 ];

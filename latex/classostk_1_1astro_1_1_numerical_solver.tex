@@ -175,8 +175,8 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a7ee8408e552fdf6173d9315c0e382359}{NumericalSolver}} numericalSolver = \{ aLogType, aStepperType, aTimeStep, aRelativeTolerance,}
-\DoxyCodeLine{anAbsoluteTolerance \} ;}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_a7ee8408e552fdf6173d9315c0e382359}{NumericalSolver}} numericalSolver = \{ aLogType, aStepperType, aTimeStep,}
+\DoxyCodeLine{aRelativeTolerance, anAbsoluteTolerance \} ;}
 \end{DoxyCode}
 
 
@@ -349,7 +349,7 @@ Perform numerical integration for an array of durations.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Array<Solution> solutions = numericalsolver.integrateTime(stateVector, durationArray,}
-\DoxyCodeLine{SystemofEquations);}
+\DoxyCodeLine{systemOfEquations);}
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}

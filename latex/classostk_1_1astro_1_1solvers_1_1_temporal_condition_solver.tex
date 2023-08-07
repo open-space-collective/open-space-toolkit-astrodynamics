@@ -1,0 +1,160 @@
+\hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver}{}\doxysection{ostk\+::astro\+::solvers\+::Temporal\+Condition\+Solver Class Reference}
+\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver}\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+
+
+Given a set of conditions and a time interval, this solver computes all sub-\/intervals over which conditions are met.  
+
+
+
+
+{\ttfamily \#include $<$Temporal\+Condition\+Solver.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::function$<$ bool(const Instant \&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{Condition}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a6d335782200af6296ee5ff45cd418cc0}{Temporal\+Condition\+Solver}} (const Duration \&a\+Time\+Step, const Duration \&a\+Tolerance, const Size \&a\+Maximum\+Iteration\+Count=\mbox{\hyperlink{_temporal_condition_solver_8hpp_a6b90a4cd3ed333cab756eedeeac79b73}{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+X\+I\+M\+U\+M\+\_\+\+I\+T\+E\+R\+A\+T\+I\+O\+N\+\_\+\+C\+O\+U\+NT}})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+Duration \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_af3183946cbe55d279b54cf5b0b3fce60}{get\+Time\+Step}} () const
+\begin{DoxyCompactList}\small\item\em Get the time step. \end{DoxyCompactList}\item 
+Duration \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_ae4b5bc52dcd9ec53262106a0de1d808f}{get\+Tolerance}} () const
+\begin{DoxyCompactList}\small\item\em Get the tolerance. \end{DoxyCompactList}\item 
+Size \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_aa07c73ba5042b84d2bc0e06d269cf3ce}{get\+Maximum\+Iteration\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Get the maximum iteration count. \end{DoxyCompactList}\item 
+Array$<$ Interval $>$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a1f68bdd28f692bb69ac3363c025580e5}{solve}} (const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{Temporal\+Condition\+Solver\+::\+Condition}} \&a\+Condition, const Interval \&an\+Interval) const
+\begin{DoxyCompactList}\small\item\em Find the intervals over which the provided condition is true. \end{DoxyCompactList}\item 
+Array$<$ Interval $>$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a83ed3b4bae98d16e0e352199516a9741}{solve}} (const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{Temporal\+Condition\+Solver\+::\+Condition}} $>$ \&a\+Condition\+Array, const Interval \&an\+Interval) const
+\begin{DoxyCompactList}\small\item\em Find the intervals over which all provided conditions are true. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Given a set of conditions and a time interval, this solver computes all sub-\/intervals over which conditions are met. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!Condition@{Condition}}
+\index{Condition@{Condition}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{Condition}{Condition}}
+{\footnotesize\ttfamily typedef std\+::function$<$bool(const Instant\&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::\+Condition}}}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a6d335782200af6296ee5ff45cd418cc0}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a6d335782200af6296ee5ff45cd418cc0}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!TemporalConditionSolver@{TemporalConditionSolver}}
+\index{TemporalConditionSolver@{TemporalConditionSolver}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{TemporalConditionSolver()}{TemporalConditionSolver()}}
+{\footnotesize\ttfamily ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::\+Temporal\+Condition\+Solver (\begin{DoxyParamCaption}\item[{const Duration \&}]{a\+Time\+Step,  }\item[{const Duration \&}]{a\+Tolerance,  }\item[{const Size \&}]{a\+Maximum\+Iteration\+Count = {\ttfamily \mbox{\hyperlink{_temporal_condition_solver_8hpp_a6b90a4cd3ed333cab756eedeeac79b73}{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+X\+I\+M\+U\+M\+\_\+\+I\+T\+E\+R\+A\+T\+I\+O\+N\+\_\+\+C\+O\+U\+NT}}} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a6d335782200af6296ee5ff45cd418cc0}{TemporalConditionSolver}} temporalConditionSolver = \{ Duration::Minutes(1.0),}
+\DoxyCodeLine{Duration::Microseconds(1.0) \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Time\+Step} & A time step used to generate the temporal grid. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Tolerance} & A temporal tolerance used to determine the switching instant. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Maximum\+Iteration\+Count} & The maximum iteration count for the solver. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_aa07c73ba5042b84d2bc0e06d269cf3ce}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_aa07c73ba5042b84d2bc0e06d269cf3ce}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!getMaximumIterationCount@{getMaximumIterationCount}}
+\index{getMaximumIterationCount@{getMaximumIterationCount}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{getMaximumIterationCount()}{getMaximumIterationCount()}}
+{\footnotesize\ttfamily Size ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::get\+Maximum\+Iteration\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the maximum iteration count. 
+
+\begin{DoxyReturn}{Returns}
+Maximum iteration count. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_af3183946cbe55d279b54cf5b0b3fce60}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_af3183946cbe55d279b54cf5b0b3fce60}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!getTimeStep@{getTimeStep}}
+\index{getTimeStep@{getTimeStep}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{getTimeStep()}{getTimeStep()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::get\+Time\+Step (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the time step. 
+
+\begin{DoxyReturn}{Returns}
+Time step. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_ae4b5bc52dcd9ec53262106a0de1d808f}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_ae4b5bc52dcd9ec53262106a0de1d808f}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!getTolerance@{getTolerance}}
+\index{getTolerance@{getTolerance}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{getTolerance()}{getTolerance()}}
+{\footnotesize\ttfamily Duration ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::get\+Tolerance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the tolerance. 
+
+\begin{DoxyReturn}{Returns}
+Tolerance. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a83ed3b4bae98d16e0e352199516a9741}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a83ed3b4bae98d16e0e352199516a9741}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!solve@{solve}}
+\index{solve@{solve}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Array$<$ Interval $>$ ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::solve (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{Temporal\+Condition\+Solver\+::\+Condition}} $>$ \&}]{a\+Condition\+Array,  }\item[{const Interval \&}]{an\+Interval }\end{DoxyParamCaption}) const}
+
+
+
+Find the intervals over which all provided conditions are true. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Condition\+Array} & An array of temporal conditions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Interval} & A time interval within which to perform the search.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of time intervals. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a1f68bdd28f692bb69ac3363c025580e5}\label{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a1f68bdd28f692bb69ac3363c025580e5}} 
+\index{ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}!solve@{solve}}
+\index{solve@{solve}!ostk::astro::solvers::TemporalConditionSolver@{ostk::astro::solvers::TemporalConditionSolver}}
+\doxysubsubsection{\texorpdfstring{solve()}{solve()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Array$<$ Interval $>$ ostk\+::astro\+::solvers\+::\+Temporal\+Condition\+Solver\+::solve (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver_a4884bae44d9100802dce0f32b343ec01}{Temporal\+Condition\+Solver\+::\+Condition}} \&}]{a\+Condition,  }\item[{const Interval \&}]{an\+Interval }\end{DoxyParamCaption}) const}
+
+
+
+Find the intervals over which the provided condition is true. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Condition} & A temporal condition. \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Interval} & A time interval within which to perform the search.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of time intervals. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Solvers/\mbox{\hyperlink{_temporal_condition_solver_8hpp}{Temporal\+Condition\+Solver.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Solvers/\mbox{\hyperlink{_temporal_condition_solver_8cpp}{Temporal\+Condition\+Solver.\+cpp}}\end{DoxyCompactItemize}

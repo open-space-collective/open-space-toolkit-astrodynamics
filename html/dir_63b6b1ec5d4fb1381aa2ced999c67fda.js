@@ -4,6 +4,7 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
     [ "Conjunction", "dir_27bf2a9effe12d13a0dd0b2a43415894.html", "dir_27bf2a9effe12d13a0dd0b2a43415894" ],
     [ "EventCondition", "dir_e41b2cba089ed3ee71bd9bdec1b42eda.html", "dir_e41b2cba089ed3ee71bd9bdec1b42eda" ],
     [ "Flight", "dir_a9475479c97067a34c1b41ad9be87160.html", "dir_a9475479c97067a34c1b41ad9be87160" ],
+    [ "Solvers", "dir_0ff8e11cbb54ee7aeff85ec17a62416d.html", "dir_0ff8e11cbb54ee7aeff85ec17a62416d" ],
     [ "Trajectory", "dir_487c49ff17ded48b6f4eeef50bd2df5e.html", "dir_487c49ff17ded48b6f4eeef50bd2df5e" ],
     [ "Access.hpp", "_access_8hpp.html", [
       [ "Access", "classostk_1_1astro_1_1_access.html", "classostk_1_1astro_1_1_access" ]
@@ -13,7 +14,6 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
     ] ],
     [ "Flight.hpp", "_flight_8hpp.html", null ],
     [ "NumericalSolver.hpp", "_numerical_solver_8hpp.html", [
-      [ "is_resizeable< ostk::math::obj::VectorXd >", "structboost_1_1numeric_1_1odeint_1_1is__resizeable_3_01ostk_1_1math_1_1obj_1_1_vector_xd_01_4.html", "structboost_1_1numeric_1_1odeint_1_1is__resizeable_3_01ostk_1_1math_1_1obj_1_1_vector_xd_01_4" ],
       [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", "classostk_1_1astro_1_1_numerical_solver" ],
       [ "ConditionSolution", "structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html", "structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution" ]
     ] ],

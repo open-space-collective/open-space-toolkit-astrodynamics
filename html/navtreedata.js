@@ -50,20 +50,7 @@ var NAVTREE =
       [ "Special Thanks", "index.html#autotoc_md18", null ],
       [ "License", "index.html#autotoc_md19", null ]
     ] ],
-    [ "Contributing", "md__c_o_n_t_r_i_b_u_t_i_n_g.html", [
-      [ "Introduction", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Introduction", null ],
-      [ "Guidelines", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Guidelines", [
-        [ "Codebase", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Codebase", [
-          [ "C++", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#C", null ],
-          [ "Python", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Python", null ]
-        ] ],
-        [ "Version Control", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Version", [
-          [ "Rules", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Rules", null ],
-          [ "Commit Messages", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#Commit", null ]
-        ] ]
-      ] ],
-      [ "Code of Conduct", "md__c_o_n_t_r_i_b_u_t_i_n_g.html#CodeOfConduct", null ]
-    ] ],
+    [ "Contributing", "md__c_o_n_t_r_i_b_u_t_i_n_g.html", null ],
     [ "Tutorial", "md_docs__tutorial.html", [
       [ "Setup", "md_docs__tutorial.html#Setup", null ],
       [ "Examples", "md_docs__tutorial.html#Examples", null ]
@@ -101,10 +88,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_access_8cpp.html",
-"classostk_1_1astro_1_1access_1_1_generator.html#a009da655bc3cc6232cd9986275cc5731",
-"classostk_1_1astro_1_1trajectory_1_1_propagator.html#a660922ef2c1c93694163c91686755257",
-"classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a0b72dfab727ef003a56b9382d93d2c00",
-"structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#a135bbf761e45624d5cf29677756cce18"
+"classostk_1_1astro_1_1_root_solver.html#ac7fde22b2a3f2527479a69c0741b7d13",
+"classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver.html#af3183946cbe55d279b54cf5b0b3fce60",
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a115316d7355d615749dd7cb96d2c16c9",
+"structostk_1_1astro_1_1_root_solver_1_1_solution.html#a296567368a9650e395f52847d5c95ea6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

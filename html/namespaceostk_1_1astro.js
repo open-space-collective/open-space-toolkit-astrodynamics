@@ -4,6 +4,7 @@ var namespaceostk_1_1astro =
     [ "conjunction", "namespaceostk_1_1astro_1_1conjunction.html", "namespaceostk_1_1astro_1_1conjunction" ],
     [ "eventcondition", "namespaceostk_1_1astro_1_1eventcondition.html", "namespaceostk_1_1astro_1_1eventcondition" ],
     [ "flight", "namespaceostk_1_1astro_1_1flight.html", "namespaceostk_1_1astro_1_1flight" ],
+    [ "solvers", "namespaceostk_1_1astro_1_1solvers.html", "namespaceostk_1_1astro_1_1solvers" ],
     [ "trajectory", "namespaceostk_1_1astro_1_1trajectory.html", "namespaceostk_1_1astro_1_1trajectory" ],
     [ "Access", "classostk_1_1astro_1_1_access.html", "classostk_1_1astro_1_1_access" ],
     [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html", "classostk_1_1astro_1_1_event_condition" ],

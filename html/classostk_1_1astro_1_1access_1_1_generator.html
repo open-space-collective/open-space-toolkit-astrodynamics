@@ -103,6 +103,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1fa5d363b74c6badf4f925174affd91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47010380af2aa5b0ffa9864edb12ff5d"><td class="memItemLeft" align="right" valign="top">Duration&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#a47010380af2aa5b0ffa9864edb12ff5d">getTolerance</a> () const</td></tr>
 <tr class="separator:a47010380af2aa5b0ffa9864edb12ff5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad288115f8a5b4faef6d92c0e2cf8eaf"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const AER &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#aad288115f8a5b4faef6d92c0e2cf8eaf">getAerFilter</a> () const</td></tr>
+<tr class="separator:aad288115f8a5b4faef6d92c0e2cf8eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a419cec65ec7e9c86c57daf853ce74047"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const <a class="el" href="classostk_1_1astro_1_1_access.html">Access</a> &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#a419cec65ec7e9c86c57daf853ce74047">getAccessFilter</a> () const</td></tr>
+<tr class="separator:a419cec65ec7e9c86c57daf853ce74047"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3cac4445f845c77ab45ae5d2c6eab9b"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#ad3cac4445f845c77ab45ae5d2c6eab9b">getStateFilter</a> () const</td></tr>
+<tr class="separator:ad3cac4445f845c77ab45ae5d2c6eab9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa736cafa8eeabeeff9be4468ec9bfed1"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const Instant &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#aa736cafa8eeabeeff9be4468ec9bfed1">getConditionFunction</a> (const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aFromTrajectory, const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aToTrajectory) const</td></tr>
+<tr class="separator:aa736cafa8eeabeeff9be4468ec9bfed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3624c39c3ffa4588c40a687ccc4b8145"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1_access.html">Access</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#a3624c39c3ffa4588c40a687ccc4b8145">computeAccesses</a> (const physics::time::Interval &amp;anInterval, const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aFromTrajectory, const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;aToTrajectory) const</td></tr>
 <tr class="separator:a3624c39c3ffa4588c40a687ccc4b8145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c0cb8f1e59364029e88078c423cd96b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#a4c0cb8f1e59364029e88078c423cd96b">setStep</a> (const Duration &amp;aStep)</td></tr>
@@ -356,6 +364,85 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a419cec65ec7e9c86c57daf853ce74047"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a419cec65ec7e9c86c57daf853ce74047">&#9670;&nbsp;</a></span>getAccessFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const <a class="el" href="classostk_1_1astro_1_1_access.html">Access</a> &amp;)&gt; ostk::astro::access::Generator::getAccessFilter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad288115f8a5b4faef6d92c0e2cf8eaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad288115f8a5b4faef6d92c0e2cf8eaf">&#9670;&nbsp;</a></span>getAerFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const AER &amp;)&gt; ostk::astro::access::Generator::getAerFilter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa736cafa8eeabeeff9be4468ec9bfed1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa736cafa8eeabeeff9be4468ec9bfed1">&#9670;&nbsp;</a></span>getConditionFunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const Instant &amp;)&gt; ostk::astro::access::Generator::getConditionFunction </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;&#160;</td>
+          <td class="paramname"><em>aFromTrajectory</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_trajectory.html">Trajectory</a> &amp;&#160;</td>
+          <td class="paramname"><em>aToTrajectory</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad3cac4445f845c77ab45ae5d2c6eab9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3cac4445f845c77ab45ae5d2c6eab9b">&#9670;&nbsp;</a></span>getStateFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;)&gt; ostk::astro::access::Generator::getStateFilter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -353,8 +353,8 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">NumericalSolver</a> numericalSolver = { aLogType, aStepperType, aTimeStep, aRelativeTolerance,</div>
-<div class="line">anAbsoluteTolerance } ;</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">NumericalSolver</a> numericalSolver = { aLogType, aStepperType, aTimeStep,</div>
+<div class="line">aRelativeTolerance, anAbsoluteTolerance } ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aLogType</td><td>An enum indicating the amount of verbosity wanted to be logged during numerical integration </td></tr>
@@ -577,7 +577,7 @@ Friends</h2></td></tr>
 
 <p>Perform numerical integration for an array of durations. </p>
 <div class="fragment"><div class="line">Array&lt;Solution&gt; solutions = numericalsolver.integrateTime(stateVector, durationArray,</div>
-<div class="line">SystemofEquations);</div>
+<div class="line">systemOfEquations);</div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInitialStateVector</td><td>An initial n-dimensional state vector to begin integrating at </td></tr>
@@ -1124,11 +1124,11 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af7ade38a233dbf4f3a59161aa87ecb77"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">ostk::astro::NumericalSolver::Solution</a></div><div class="ttdeci">Pair&lt; StateVector, double &gt; Solution</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:71</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:534</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af91ffcd9d471c9fe3a093f9c5aa6f448"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">VectorXd StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:69</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:516</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a7ee8408e552fdf6173d9315c0e382359"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:25</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af7ade38a233dbf4f3a59161aa87ecb77"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af7ade38a233dbf4f3a59161aa87ecb77">ostk::astro::NumericalSolver::Solution</a></div><div class="ttdeci">Pair&lt; StateVector, double &gt; Solution</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:55</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a3dd4e9b6acffec931c3748d4d851155b"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a3dd4e9b6acffec931c3748d4d851155b">ostk::astro::NumericalSolver::StringFromStepperType</a></div><div class="ttdeci">static String StringFromStepperType(const NumericalSolver::StepperType &amp;aStepperType)</div><div class="ttdoc">Get string from the integration stepper type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:537</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_af91ffcd9d471c9fe3a093f9c5aa6f448"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">ostk::astro::NumericalSolver::StateVector</a></div><div class="ttdeci">VectorXd StateVector</div><div class="ttdef"><b>Definition:</b> NumericalSolver.hpp:53</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_ab75ca02c5e4d0b2b2390045c353bf66f"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#ab75ca02c5e4d0b2b2390045c353bf66f">ostk::astro::NumericalSolver::StringFromLogType</a></div><div class="ttdeci">static String StringFromLogType(const NumericalSolver::LogType &amp;aLogType)</div><div class="ttdoc">Get string from the integration log type.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:519</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_numerical_solver_html_a7ee8408e552fdf6173d9315c0e382359"><div class="ttname"><a href="classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359">ostk::astro::NumericalSolver::NumericalSolver</a></div><div class="ttdeci">NumericalSolver(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> NumericalSolver.cpp:28</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

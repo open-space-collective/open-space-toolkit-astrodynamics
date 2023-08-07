@@ -12,7 +12,7 @@ An Event Condition defines a criteria that can be evaluated based on a current/p
 Inheritance diagram for ostk\+::astro\+::Event\+Condition\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1_event_condition}
+\includegraphics[height=1.527273cm]{classostk_1_1astro_1_1_event_condition}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Types}
@@ -43,6 +43,8 @@ virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a72cf335332
 \begin{DoxyCompactList}\small\item\em Print the Event Condition. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ad2a69272f4e27baf5a5f70d45e74686c}{is\+Satisfied}} (const Real \&current\+Value, const Real \&previous\+Value) const
 \begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current value and previous value. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ac547005f98d41268b6ef71ebd898e140}{is\+Satisfied}} (const Vector\+Xd \&current\+State\+Vector, const Real \&current\+Time, const Vector\+Xd \&previous\+State\+Vector, const Real \&previous\+Time) const
+\begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state/time and previous state/time This overload is useful when the Event Condition is a Conjunctive/\+Disjunctive of several conditions. \end{DoxyCompactList}\item 
 virtual Real \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ab5996e10828c9b863b8fd140eb112c22}{evaluate}} (const Vector\+Xd \&a\+State\+Vector, const Real \&a\+Time) const =0
 \begin{DoxyCompactList}\small\item\em Evaluate the Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
@@ -154,7 +156,7 @@ Real number representing the evaluation result of the Event Condition
 \end{DoxyReturn}
 
 
-Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa7a90bfd60b03c1de7fe7d64e789bf5c}{ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition}}, and \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_acfe1faba7322303110b3a582c648af27}{ostk\+::astro\+::eventcondition\+::\+Duration\+Condition}}.
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa7a90bfd60b03c1de7fe7d64e789bf5c}{ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition}}, \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_aff916086ea60b05a3ecfe8f66f289cf6}{ostk\+::astro\+::eventcondition\+::\+Logical\+Connective}}, and \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_duration_condition_acfe1faba7322303110b3a582c648af27}{ostk\+::astro\+::eventcondition\+::\+Duration\+Condition}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a94449df1581d2ee07a8bf9b02cd3c5a5}\label{classostk_1_1astro_1_1_event_condition_a94449df1581d2ee07a8bf9b02cd3c5a5}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!getCriteria@{getCriteria}}
@@ -185,7 +187,7 @@ String representing the name of the Event Condition
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ad2a69272f4e27baf5a5f70d45e74686c}\label{classostk_1_1astro_1_1_event_condition_ad2a69272f4e27baf5a5f70d45e74686c}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!isSatisfied@{isSatisfied}}
 \index{isSatisfied@{isSatisfied}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
-\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}}
+\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily bool ostk\+::astro\+::\+Event\+Condition\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const Real \&}]{current\+Value,  }\item[{const Real \&}]{previous\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
@@ -202,6 +204,38 @@ Check if the Event Condition is satisfied based on current value and previous va
 \begin{DoxyReturn}{Returns}
 Boolean value indicating if the Event Condition is met 
 \end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a9bbf861ec75d5e17a8bd0fa8043610e5}{ostk\+::astro\+::eventcondition\+::\+Logical\+Connective}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_ac547005f98d41268b6ef71ebd898e140}\label{classostk_1_1astro_1_1_event_condition_ac547005f98d41268b6ef71ebd898e140}} 
+\index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!isSatisfied@{isSatisfied}}
+\index{isSatisfied@{isSatisfied}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}
+\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::\+Event\+Condition\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{current\+State\+Vector,  }\item[{const Real \&}]{current\+Time,  }\item[{const Vector\+Xd \&}]{previous\+State\+Vector,  }\item[{const Real \&}]{previous\+Time }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Check if the Event Condition is satisfied based on current state/time and previous state/time This overload is useful when the Event Condition is a Conjunctive/\+Disjunctive of several conditions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em current\+State\+Vector} & The current state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em current\+Time} & The current time \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+State\+Vector} & The previous state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+Time} & The previous time\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean value indicating if the Event Condition is met 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_conjunctive_a6742d78c5ef4ea3a7193816639941dd5}{ostk\+::astro\+::eventcondition\+::\+Conjunctive}}, and \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_disjunctive_a0a4269d0c0a3800e88660799c25ae417}{ostk\+::astro\+::eventcondition\+::\+Disjunctive}}.
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}\label{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}} 
 \index{ostk::astro::EventCondition@{ostk::astro::EventCondition}!print@{print}}
 \index{print@{print}!ostk::astro::EventCondition@{ostk::astro::EventCondition}}

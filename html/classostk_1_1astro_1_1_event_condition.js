@@ -14,6 +14,7 @@ var classostk_1_1astro_1_1_event_condition =
     [ "getCriteria", "classostk_1_1astro_1_1_event_condition.html#a94449df1581d2ee07a8bf9b02cd3c5a5", null ],
     [ "getName", "classostk_1_1astro_1_1_event_condition.html#a4059c751030da6877a63a6cff90576e7", null ],
     [ "isSatisfied", "classostk_1_1astro_1_1_event_condition.html#ad2a69272f4e27baf5a5f70d45e74686c", null ],
+    [ "isSatisfied", "classostk_1_1astro_1_1_event_condition.html#ac547005f98d41268b6ef71ebd898e140", null ],
     [ "print", "classostk_1_1astro_1_1_event_condition.html#a72cf3353323b6b21f4406c8e152b2d30", null ],
     [ "operator<<", "classostk_1_1astro_1_1_event_condition.html#a79479aa52401e558f7a2a8137b9b0359", null ]
 ];
