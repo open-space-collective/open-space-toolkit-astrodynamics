@@ -217,10 +217,10 @@ class Propagator
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
-    Array<Dynamics::DynamicsInformation> dynamicsInformation_ = Array<Dynamics::DynamicsInformation>::Empty();
+    Array<Dynamics::Context> dynamicsInformation_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
-    void registerDynamicsInformation(const Shared<Dynamics>& aDynamics);
+    void registerDynamicsContext(const Shared<Dynamics>& aDynamics);
 
     NumericalSolver::StateVector extractCoordinatesFromStateVector(const State& aState) const;
 };

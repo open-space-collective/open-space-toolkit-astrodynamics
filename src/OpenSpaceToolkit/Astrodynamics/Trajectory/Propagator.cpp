@@ -31,7 +31,7 @@ using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-static const Shared<const Frame> INTEGRATION_REFERENCE_FRAME = Frame::GCRF();
+static const Shared<const Frame> integrationFrame = Frame::GCRF();
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
     : dynamicsInformation_(),
@@ -39,7 +39,7 @@ Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shar
 {
     for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
     {
-        this->registerDynamicsInformation(aDynamics);
+        this->registerDynamicsContext(aDynamics);
     }
 }
 
@@ -87,7 +87,7 @@ Array<Shared<Dynamics>> Propagator::getDynamics() const
 {
     Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
 
-    for (const Dynamics::DynamicsInformation& dynamicsInformation : this->dynamicsInformation_)
+    for (const Dynamics::Context& dynamicsInformation : this->dynamicsInformation_)
     {
         dynamicsArray.add(dynamicsInformation.dynamics);
     }
@@ -101,7 +101,7 @@ void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 
     for (const Shared<Dynamics>& aDynamics : aDynamicsArray)
     {
-        this->registerDynamicsInformation(aDynamics);
+        this->registerDynamicsContext(aDynamics);
     }
 }
 
@@ -112,7 +112,7 @@ void Propagator::addDynamics(const Shared<Dynamics>& aDynamics)
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
 
-    this->registerDynamicsInformation(aDynamics);
+    this->registerDynamicsContext(aDynamics);
 }
 
 void Propagator::clearDynamics()
@@ -133,10 +133,10 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
         extractCoordinatesFromStateVector(aState),
         (anInstant - startInstant).inSeconds(),
-        Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, INTEGRATION_REFERENCE_FRAME)
+        Dynamics::GetSystemsOfEquations(this->dynamicsInformation_, startInstant, integrationFrame)
     );
 
-    return State(anInstant, solution.first, INTEGRATION_REFERENCE_FRAME, this->coordinatesBrokerSPtr_);
+    return State(anInstant, solution.first, integrationFrame, this->coordinatesBrokerSPtr_);
 }
 
 State Propagator::calculateStateAt(
@@ -153,7 +153,7 @@ State Propagator::calculateStateAt(
     const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
         extractCoordinatesFromStateVector(aState),
         (anInstant - startInstant).inSeconds(),
-        Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, INTEGRATION_REFERENCE_FRAME),
+        Dynamics::GetSystemsOfEquations(this->dynamicsInformation_, startInstant, integrationFrame),
         anEventCondition
     );
 
@@ -170,7 +170,7 @@ State Propagator::calculateStateAt(
     return {
         endInstant,
         endStateVector,
-        INTEGRATION_REFERENCE_FRAME,
+        integrationFrame,
         this->coordinatesBrokerSPtr_,
     };
 }
@@ -230,7 +230,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         forwardPropagatedSolutions = numericalSolver_.integrateDuration(
             extractedCoordinates,
             forwardDurations,
-            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, INTEGRATION_REFERENCE_FRAME)
+            Dynamics::GetSystemsOfEquations(this->dynamicsInformation_, startInstant, integrationFrame)
         );
     }
 
@@ -243,7 +243,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         backwardPropagatedSolutions = numericalSolver_.integrateDuration(
             extractedCoordinates,
             backwardDurations,
-            Dynamics::GetDynamicalEquations(this->dynamicsInformation_, startInstant, INTEGRATION_REFERENCE_FRAME)
+            Dynamics::GetSystemsOfEquations(this->dynamicsInformation_, startInstant, integrationFrame)
         );
 
         std::reverse(backwardPropagatedSolutions.begin(), backwardPropagatedSolutions.end());
@@ -258,7 +258,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         propagatedStates.add({
             anInstantArray[k],
             solution.first,
-            INTEGRATION_REFERENCE_FRAME,
+            integrationFrame,
             this->coordinatesBrokerSPtr_,
         });
         ++k;
@@ -343,7 +343,7 @@ Propagator Propagator::FromEnvironment(
     };
 }
 
-void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
+void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamics)
 {
     // Store read coordinate subsets information
     Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
@@ -370,7 +370,7 @@ void Propagator::registerDynamicsInformation(const Shared<Dynamics>& aDynamics)
 
 NumericalSolver::StateVector Propagator::extractCoordinatesFromStateVector(const State& aState) const
 {
-    const State state = aState.inFrame(INTEGRATION_REFERENCE_FRAME);
+    const State state = aState.inFrame(integrationFrame);
 
     Index offset = 0;
     NumericalSolver::StateVector extractedStateVector = NumericalSolver::StateVector(this->getNumberOfCoordinates());

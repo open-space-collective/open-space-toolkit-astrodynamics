@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
         .def("get_name", &Dynamics::getName)
         .def_static(
             "get_dynamical_equations",
-            &Dynamics::GetDynamicalEquations,
+            &Dynamics::GetSystemsOfEquations,
             arg("dynamics_array"),
             arg("instant"),
             arg("frame")

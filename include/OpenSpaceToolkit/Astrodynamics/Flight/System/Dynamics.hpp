@@ -50,9 +50,9 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 class Dynamics
 {
    public:
-    struct DynamicsInformation
+    struct Context
     {
-        DynamicsInformation(
+        Context(
             const Shared<Dynamics>& aDynamics,
             const Array<Pair<Index, Size>>& aReadIndexes,
             const Array<Pair<Index, Size>>& aWriteIndexes
@@ -92,19 +92,19 @@ class Dynamics
 
     String getName() const;
 
-    /// @brief              Returns the coordinates subsets that the instance reads from
+    /// @brief              Return the coordinates subsets that the instance reads from
     ///
     /// @return             The coordinates subsets that the instance reads from
 
     virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const = 0;
 
-    /// @brief              Returns the coordinates subsets that the instance writes to
+    /// @brief              Return the coordinates subsets that the instance writes to
     ///
     /// @return             The coordinates subsets that the instance writes to
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const = 0;
 
-    /// @brief              Computes the contribution to the state derivative.
+    /// @brief              Compute the contribution to the state derivative.
     ///
     /// @param anInstant    An instant
     /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
@@ -126,14 +126,14 @@ class Dynamics
 
     /// @brief              Get system of equations wrapper
     ///
-    /// @param              [in] aDynamicsInformationArray An array of Dynamics Information
+    /// @param              [in] aContextArray An array of Dynamics Information
     /// @param              [in] anInstant An instant
     /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    static NumericalSolver::SystemOfEquationsWrapper GetDynamicalEquations(
-        const Array<DynamicsInformation>& aDynamicsInformationArray,
+    static NumericalSolver::SystemOfEquationsWrapper GetSystemsOfEquations(
+        const Array<Context>& aContextArray,
         const Instant& anInstant,
         const Shared<const Frame>& aFrame
     );
@@ -156,7 +156,7 @@ class Dynamics
         const NumericalSolver::StateVector& x,
         NumericalSolver::StateVector& dxdt,
         const double& t,
-        const Array<DynamicsInformation>& aDynamicsInformationArray,
+        const Array<Context>& aContextArray,
         const Instant& anInstant,
         const Shared<const Frame>& aFrame
     );

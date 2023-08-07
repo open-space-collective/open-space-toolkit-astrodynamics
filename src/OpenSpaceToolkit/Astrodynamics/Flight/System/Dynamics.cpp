@@ -18,7 +18,7 @@ using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
 
-Dynamics::DynamicsInformation::DynamicsInformation(
+Dynamics::Context::Context(
     const Shared<Dynamics>& aDynamics,
     const Array<Pair<Index, Size>>& aReadIndexes,
     const Array<Pair<Index, Size>>& aWriteIndexes
@@ -55,8 +55,8 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
-    const Array<Dynamics::DynamicsInformation>& aDynamicsInformationArray,
+NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemsOfEquations(
+    const Array<Dynamics::Context>& aContextArray,
     const Instant& anInstant,
     const Shared<const Frame>& aFrame
 )
@@ -66,7 +66,7 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
         std::placeholders::_1,
         std::placeholders::_2,
         std::placeholders::_3,
-        aDynamicsInformationArray,
+        aContextArray,
         anInstant,
         aFrame
     );
@@ -76,7 +76,7 @@ void Dynamics::DynamicalEquations(
     const NumericalSolver::StateVector& x,
     NumericalSolver::StateVector& dxdt,
     const double& t,
-    const Array<Dynamics::DynamicsInformation>& aDynamicsInformationArray,
+    const Array<Dynamics::Context>& aContextArray,
     const Instant& anInstant,
     const Shared<const Frame>& aFrame
 )
@@ -85,7 +85,7 @@ void Dynamics::DynamicalEquations(
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Dynamics::DynamicsInformation& dynamicsInformation : aDynamicsInformationArray)
+    for (const Dynamics::Context& dynamicsInformation : aContextArray)
     {
         const VectorXd contribution = dynamicsInformation.dynamics->computeContribution(
             nextInstant,
