@@ -31,45 +31,45 @@ using ostk::astro::EventCondition;
 class LogicalConnective : public EventCondition
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     LogicalConnective logicalCondition = {aName, eventConditions};
+    ///                         LogicalConnective logicalCondition = {aName, eventConditions};
     /// @endcode
     ///
-    /// @param              [in] aName A string representing the name of the Logical Connective Event Condition
-    /// @param              [in] eventConditions An Array of shared pointers to EventCondition instances,
-    ///                                      representing the individual event conditions to be evaluated.
+    /// @param                  [in] aName A string representing the name of the Logical Connective Event Condition
+    /// @param                  [in] eventConditions An Array of shared pointers to EventCondition instances,
+    ///                                         representing the individual event conditions to be evaluated.
 
     LogicalConnective(const String& aName, const Array<Shared<EventCondition>>& eventConditions);
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     ~LogicalConnective();
 
-    /// @brief              Get the individual event conditions composing the Logical Connective Event Condition
+    /// @brief                  Get the individual event conditions composing the Logical Connective Event Condition
     ///
-    /// @return             An Array of shared pointers to EventCondition instances,
-    ///                     representing the individual event conditions.
+    /// @return                 An Array of shared pointers to EventCondition instances,
+    ///                         representing the individual event conditions.
 
     Array<Shared<EventCondition>> getEventConditions() const;
 
-    /// @brief              Throw an error as the condition cannot be evaluated based on the current state vector and
+    /// @brief                  Throw an error as the condition cannot be evaluated based on the current state vector and
     /// time
     ///
-    /// @param              [in] currentValue The current value
-    /// @param              [in] previousValue The previous value
+    /// @param                  [in] currentValue The current value
+    /// @param                  [in] previousValue The previous value
     ///
-    /// @return             Boolean value indicating if the condition is met.
+    /// @return                 Boolean value indicating if the condition is met.
 
     virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const override;
 
-    /// @brief              Throw an error as the condition cannot be evaluated based on the state vector and time
+    /// @brief                  Throw an error as the condition cannot be evaluated based on the state vector and time
     ///
-    /// @param              [in] aStateVector The current state vector
-    /// @param              [in] aTime The current time
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
     ///
-    /// @return             Real number representing the evaluation result of the Logical Connective Event Condition.
+    /// @return                 Real number representing the evaluation result of the Logical Connective Event Condition.
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
 

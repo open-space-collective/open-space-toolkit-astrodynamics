@@ -33,28 +33,28 @@ using ostk::astro::eventcondition::LogicalConnective;
 class Conjunctive : public LogicalConnective
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     Conjunctive conjunctiveCondition = {eventConditions};
+    ///                         Conjunctive conjunctiveCondition = {eventConditions};
     /// @endcode
     ///
-    /// @param              [in] eventConditions An Array of shared pointers to EventCondition instances
+    /// @param                  [in] eventConditions An Array of shared pointers to EventCondition instances
 
     Conjunctive(const Array<Shared<EventCondition>>& eventConditions);
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     ~Conjunctive();
 
-    /// @brief              Check if all the event conditions are satisfied based on the current state vector and time
+    /// @brief                  Check if all the event conditions are satisfied based on the current state vector and time
     ///
-    /// @param              [in] currentStateVector The current state vector
-    /// @param              [in] currentTime The current time
-    /// @param              [in] previousStateVector The previous state vector
-    /// @param              [in] previousTime The previous time
+    /// @param                  [in] currentStateVector The current state vector
+    /// @param                  [in] currentTime The current time
+    /// @param                  [in] previousStateVector The previous state vector
+    /// @param                  [in] previousTime The previous time
     ///
-    /// @return             Boolean value indicating if the Conjunctive Event Condition is met.
+    /// @return                 Boolean value indicating if the Conjunctive Event Condition is met.
 
     virtual bool isSatisfied(
         const VectorXd& currentStateVector,
