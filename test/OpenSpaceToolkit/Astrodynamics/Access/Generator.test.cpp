@@ -265,7 +265,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
         const auto conditionFunction = generator.getConditionFunction(fromOrbit, toOrbit);
 
         EXPECT_NE(nullptr, conditionFunction);
-        EXPECT_TRUE(conditionFunction(startInstant));
+        EXPECT_TRUE(conditionFunction(epoch));
     }
 
     {
