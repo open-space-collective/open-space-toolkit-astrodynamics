@@ -103,5 +103,6 @@ def test_trajectory_orbit_models_kepler_coe_static_methods():
     assert COE.true_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert COE.mean_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
     assert (
-        COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
+        COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0)
+        is not None
     )

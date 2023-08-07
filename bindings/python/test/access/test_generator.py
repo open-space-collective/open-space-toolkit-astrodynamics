@@ -101,7 +101,8 @@ class TestGenerator:
         assert isinstance(generator, Generator)
 
     def test_constructor_success_environment_access_filter(
-        self, environment: Environment
+        self,
+        environment: Environment,
     ):
         generator = Generator(
             environment=environment,
@@ -111,7 +112,10 @@ class TestGenerator:
         assert generator is not None
         assert isinstance(generator, Generator)
 
-    def test_constructor_success_environment_state_filter(self, environment: Environment):
+    def test_constructor_success_environment_state_filter(
+        self,
+        environment: Environment,
+    ):
         generator = Generator(
             environment=environment,
             state_filter=lambda state_1, state_2: True,
@@ -121,7 +125,8 @@ class TestGenerator:
         assert isinstance(generator, Generator)
 
     def test_constructor_success_environment_step_tolerance(
-        self, environment: Environment
+        self,
+        environment: Environment,
     ):
         generator = Generator(
             environment=environment,

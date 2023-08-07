@@ -129,7 +129,8 @@ class TestNumericalSolver:
             == "RungeKuttaFehlberg78"
         )
         assert (
-            NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog) == "NoLog"
+            NumericalSolver.string_from_log_type(NumericalSolver.LogType.NoLog)
+            == "NoLog"
         )
         assert (
             NumericalSolver.string_from_log_type(NumericalSolver.LogType.LogConstant)

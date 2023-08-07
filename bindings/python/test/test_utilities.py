@@ -35,7 +35,12 @@ class TestUtilities:
         assert lla[0] >= -180.0 and lla[0] <= 180.0
         assert isinstance(lla[2], float)
 
-    def test_lla_from_position(self, instant: Instant, position: Position, state: State):
+    def test_lla_from_position(
+        self,
+        instant: Instant,
+        position: Position,
+        state: State,
+    ):
         lla: LLA = utilities.lla_from_position(position, instant)
 
         assert lla is not None
