@@ -86,7 +86,8 @@ int main()
     const Instant epoch = Instant::DateTime(DateTime(2018, 9, 5, 0, 0, 0), Scale::UTC);
 
     const Kepler orbitalModel = {
-        coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true};  // True = COE expressed in ITRF frame
+        coe, epoch, *earthSPtr, Kepler::PerturbationType::None, true
+    };  // True = COE expressed in ITRF frame
 
     const Orbit orbit = {orbitalModel, earthSPtr};
 
@@ -157,7 +158,8 @@ int main()
         Polygon2d({{-1.0, -1.0}, {+1.0, -1.0}, {+1.0, +1.0}, {-1.0, +1.0}}),
         apex_B + Vector3d(0.0, 0.0, 5.0),
         Vector3d(1.0, 0.0, 0.0),
-        Vector3d(0.0, 1.0, 0.0)};
+        Vector3d(0.0, 1.0, 0.0)
+    };
 
     const Pyramid pyramid_B = {base_B, apex_B};
 

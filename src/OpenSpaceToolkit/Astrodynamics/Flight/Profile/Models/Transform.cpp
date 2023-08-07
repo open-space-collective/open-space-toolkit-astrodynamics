@@ -64,7 +64,8 @@ State Transform::calculateStateAt(const Instant& anInstant) const
         Velocity::MetersPerSecond(v_REF_in_REF, this->frameSPtr_),
         q_B_REF,
         w_B_REF_in_B,
-        this->frameSPtr_};
+        this->frameSPtr_
+    };
 }
 
 Axes Transform::getAxesAt(const Instant& anInstant) const
@@ -105,7 +106,8 @@ Shared<const Frame> Transform::getBodyFrame(const String& aFrameName) const
         [this](const Instant& anInstant) -> Transform
         {
             return this->transformProvider_.getTransformAt(anInstant).getInverse();
-        }};
+        }
+    };
 
     return Frame::Construct(
         aFrameName, false, this->frameSPtr_, std::make_shared<const DynamicProvider>(dynamicTransformProvider)
@@ -149,7 +151,8 @@ Transform Transform::InertialPointing(const Trajectory& aTrajectory, const Quate
             const Vector3d v_GCRF = trajectoryState.getVelocity().getCoordinates();
 
             return Transform::Passive(anInstant, x_GCRF, v_GCRF, aQuaternion, {0.0, 0.0, 0.0});
-        }};
+        }
+    };
 
     return {dynamicTransformProvider, Frame::GCRF()};
 }
@@ -178,7 +181,8 @@ Transform Transform::NadirPointing(
             static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
             return orbitalFrameSPtr->getTransformTo(gcrfSPtr, anInstant);
-        }};
+        }
+    };
 
     return {dynamicTransformProvider, Frame::GCRF()};
 }

@@ -241,7 +241,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
 {
     // Setup dynamics
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))};
+        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))
+    };
 
     // Perform 1.0s integration step
     runge_kutta4<NumericalSolver::StateVector> stepper;
@@ -272,9 +273,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, On
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
     const Composite satelliteGeometry(Cuboid {
-        {0.0, 0.0, 0.0},
-        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}});
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    });
 
     const SatelliteSystem satelliteSystem = {
         Mass::Kilograms(100.0),

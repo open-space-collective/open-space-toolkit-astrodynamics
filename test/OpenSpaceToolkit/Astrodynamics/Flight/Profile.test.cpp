@@ -70,7 +70,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Profile : public ::testing::Test
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         this->orbit_ = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -207,7 +208,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, GetStatesAt)
              Velocity::MetersPerSecond({-8.134701312198, 7546.048902632449, 0.000000000000}, Frame::GCRF()),
              Quaternion::XYZS(-0.499730425479, -0.500269429259, 0.500269429259, 0.499730425479),
              {0.000000000000, -0.001078007612, 0.000000000000},
-             Frame::GCRF()}};
+             Frame::GCRF()}
+        };
 
         const Array<State> states = profile_.getStatesAt(referenceInstants);
 
@@ -297,7 +299,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -324,11 +327,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
             const Vector3d x_BODY_GCRF_ref = {
                 referenceRow["x (m)"].accessReal(),
                 referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()};
+                referenceRow["z (m)"].accessReal()
+            };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
                 referenceRow["vx (m/sec)"].accessReal(),
                 referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()};
+                referenceRow["vz (m/sec)"].accessReal()
+            };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
                                                    referenceRow["q1"].accessReal(),
                                                    referenceRow["q2"].accessReal(),
@@ -339,7 +344,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, InertialPointing)
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
                 referenceRow["wx (rad/sec)"].accessReal(),
                 referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()};
+                referenceRow["wz (rad/sec)"].accessReal()
+            };
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -435,7 +441,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -462,11 +469,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d x_BODY_GCRF_ref = {
                 referenceRow["x (m)"].accessReal(),
                 referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()};
+                referenceRow["z (m)"].accessReal()
+            };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
                 referenceRow["vx (m/sec)"].accessReal(),
                 referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()};
+                referenceRow["vz (m/sec)"].accessReal()
+            };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
                                                    referenceRow["q1"].accessReal(),
                                                    referenceRow["q2"].accessReal(),
@@ -477,7 +486,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
                 referenceRow["wx (rad/sec)"].accessReal(),
                 referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()};
+                referenceRow["wz (rad/sec)"].accessReal()
+            };
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -541,7 +551,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -568,11 +579,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d x_BODY_GCRF_ref = {
                 referenceRow["x (m)"].accessReal(),
                 referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()};
+                referenceRow["z (m)"].accessReal()
+            };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
                 referenceRow["vx (m/sec)"].accessReal(),
                 referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()};
+                referenceRow["vz (m/sec)"].accessReal()
+            };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
                                                    referenceRow["q1"].accessReal(),
                                                    referenceRow["q2"].accessReal(),
@@ -583,7 +596,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
                 referenceRow["wx (rad/sec)"].accessReal(),
                 referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()};
+                referenceRow["wz (rad/sec)"].accessReal()
+            };
 
             const State state = profile.getStateAt(instant_ref);
 
@@ -647,7 +661,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
         const Real J4 = Earth::EGM2008.J4_;
 
         const Kepler keplerianModel = {
-            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None};
+            coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
+        };
 
         const Orbit orbit = {keplerianModel, environment.accessCelestialObjectWithName("Earth")};
 
@@ -674,11 +689,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d x_BODY_GCRF_ref = {
                 referenceRow["x (m)"].accessReal(),
                 referenceRow["y (m)"].accessReal(),
-                referenceRow["z (m)"].accessReal()};
+                referenceRow["z (m)"].accessReal()
+            };
             const Vector3d v_BODY_GCRF_in_GCRF_ref = {
                 referenceRow["vx (m/sec)"].accessReal(),
                 referenceRow["vy (m/sec)"].accessReal(),
-                referenceRow["vz (m/sec)"].accessReal()};
+                referenceRow["vz (m/sec)"].accessReal()
+            };
             const Quaternion q_BODY_GCRF_ref = Quaternion::XYZS(
                                                    referenceRow["q1"].accessReal(),
                                                    referenceRow["q2"].accessReal(),
@@ -689,7 +706,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile, NadirPointing_VVLH)
             const Vector3d w_BODY_GCRF_in_BODY_ref = {
                 referenceRow["wx (rad/sec)"].accessReal(),
                 referenceRow["wy (rad/sec)"].accessReal(),
-                referenceRow["wz (rad/sec)"].accessReal()};
+                referenceRow["wz (rad/sec)"].accessReal()
+            };
 
             const State state = profile.getStateAt(instant_ref);
 

@@ -393,7 +393,8 @@ State Kepler::CalculateNoneStateAt(
         Angle::Radians(inclination_rad),
         Angle::Radians(raan_rad),
         Angle::Radians(aop_rad),
-        Angle::Radians(trueAnomaly_rad)};
+        Angle::Radians(trueAnomaly_rad)
+    };
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -498,7 +499,8 @@ State Kepler::CalculateJ2StateAt(
         Angle::Radians(inclination_rad),
         Angle::Radians(raan_rad),
         Angle::Radians(aop_rad),
-        Angle::Radians(trueAnomaly_rad)};
+        Angle::Radians(trueAnomaly_rad)
+    };
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 
@@ -771,7 +773,8 @@ State Kepler::CalculateJ4StateAt(
         Angle::Radians(inclination_rad),
         Angle::Radians(raan_rad),
         Angle::Radians(aop_rad),
-        Angle::Radians(trueAnomaly_rad)};
+        Angle::Radians(trueAnomaly_rad)
+    };
 
     static const Shared<const Frame> gcrfSPtr = Frame::GCRF();
 

@@ -5,6 +5,7 @@
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Interval.hpp>
@@ -28,16 +29,20 @@ namespace access
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Map;
+using ostk::core::ctnr::Pair;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::Interval;
 
 using ostk::physics::Environment;
+using ostk::physics::coord::Position;
 using ostk::physics::coord::spherical::AER;
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Length;
+using ostk::physics::env::obj::Celestial;
 
 using ostk::astro::Access;
 using ostk::astro::Trajectory;
@@ -70,6 +75,16 @@ class Generator
 
     Duration getTolerance() const;
 
+    std::function<bool(const AER&)> getAerFilter() const;
+
+    std::function<bool(const Access&)> getAccessFilter() const;
+
+    std::function<bool(const State&, const State&)> getStateFilter() const;
+
+    std::function<bool(const Instant&)> getConditionFunction(
+        const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    ) const;
+
     Array<Access> computeAccesses(
         const physics::time::Interval& anInterval, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
     ) const;
@@ -86,13 +101,13 @@ class Generator
 
     static Generator Undefined();
 
-    /// @brief              Constructs an access generator with defined AER ranges
+    /// @brief                  Constructs an access generator with defined AER ranges
     ///
-    /// @param              [in] anAzimuthRange An azimuth interval [deg]
-    /// @param              [in] anElevationRange An elevation interval [deg]
-    /// @param              [in] aRangeRange A range interval [m]
-    /// @param              [in] anEnvironment An environment
-    /// @return             An access generator
+    /// @param                  [in] anAzimuthRange An azimuth interval [deg]
+    /// @param                  [in] anElevationRange An elevation interval [deg]
+    /// @param                  [in] aRangeRange A range interval [m]
+    /// @param                  [in] anEnvironment An environment
+    /// @return                 An access generator
 
     static Generator AerRanges(
         const Interval<Real>& anAzimuthRange,
@@ -101,12 +116,12 @@ class Generator
         const Environment& anEnvironment
     );
 
-    /// @brief              Constructs an access generator with a defined AER mask
+    /// @brief                  Constructs an access generator with a defined AER mask
     ///
-    /// @param              [in] anAzimuthElevationMask An azimuth-elevation mask [deg]
-    /// @param              [in] aRangeRange A range interval [m]
-    /// @param              [in] anEnvironment An environment
-    /// @return             An access generator
+    /// @param                  [in] anAzimuthElevationMask An azimuth-elevation mask [deg]
+    /// @param                  [in] aRangeRange A range interval [m]
+    /// @param                  [in] anEnvironment An environment
+    /// @return                 An access generator
 
     static Generator AerMask(
         const Map<Real, Real>& anAzimuthElevationMask,
@@ -123,6 +138,63 @@ class Generator
     std::function<bool(const AER&)> aerFilter_;
     std::function<bool(const Access&)> accessFilter_;
     std::function<bool(const State&, const State&)> stateFilter_;
+
+    static Access GenerateAccess(
+        const physics::time::Interval& anAccessInterval,
+        const physics::time::Interval& aGlobalInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr,
+        const Duration& aTolerance
+    );
+
+    static Instant FindTimeOfClosestApproach(
+        const physics::time::Interval& anAccessInterval,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Duration& aTolerance
+    );
+
+    static Angle CalculateElevationAt(
+        const Instant& anInstant,
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Shared<const Celestial> anEarthSPtr
+    );
+};
+
+class GeneratorContext
+{
+   public:
+    GeneratorContext(
+        const Trajectory& aFromTrajectory,
+        const Trajectory& aToTrajectory,
+        const Environment& anEnvironment,
+        const Generator& aGenerator
+    );
+
+    bool isAccessActive(const Instant& anInstant);
+
+    static Pair<State, State> GetStatesAt(
+        const Instant& anInstant, const Trajectory& aFromTrajectory, const Trajectory& aToTrajectory
+    );
+
+    static Pair<Position, Position> GetPositionsFromStates(const State& aFromState, const State& aToState);
+
+    static AER CalculateAer(
+        const Instant& anInstant,
+        const Position& aFromPosition,
+        const Position& aToPosition,
+        const Shared<const Celestial> anEarthSPtr
+    );
+
+   private:
+    Trajectory fromTrajectory_;
+    Trajectory toTrajectory_;
+    Environment environment_;
+    const Shared<const Celestial> earthSPtr_;
+
+    Generator generator_;
 };
 
 }  // namespace access

@@ -292,7 +292,7 @@ class NumericalSolver
     );
 
     /// @brief                  Perform numerical integration from a start time
-    ///                         until either a condition or duration is met
+    ///                         until either a condition or duration is met.
     ///
     ///
     /// @code

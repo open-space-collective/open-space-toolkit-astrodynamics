@@ -38,7 +38,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
                 Instant::DateTime(DateTime(2010, 3, 12, 22, 31, 12), Scale::UTC),
                 "JSPOC",
                 "SATELLITE A",
-                "201113719185"},
+                "201113719185"
+            },
             CDM::RelativeMetadata {
                 String::Empty(),
                 Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
@@ -79,7 +80,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
                  "MOON, SUN",
                  false,
                  false,
-                 false},
+                 false
+             },
              CDM::Metadata {
                  String::Empty(),
                  "OBJECT2",
@@ -102,7 +104,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
                  "MOON, SUN",
                  true,
                  false,
-                 false}},
+                 false
+             }},
             {CDM::Data {
                  Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
                  Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC),
@@ -123,7 +126,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
                  0.0,
                  0.000045457,
                  State::Undefined(),
-                 MatrixXd(9, 9)},
+                 MatrixXd(9, 9)
+             },
              CDM::Data {
                  Instant::DateTime(DateTime(2010, 3, 12, 1, 14, 12, 746), Scale::UTC),
                  Instant::DateTime(DateTime(2010, 3, 12, 3, 14, 12, 746), Scale::UTC),
@@ -144,7 +148,9 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Messages_CCSDS_CDM : public ::t
                  Real::Undefined(),
                  Real::Undefined(),
                  State::Undefined(),
-                 MatrixXd(9, 9)}}};
+                 MatrixXd(9, 9)
+             }}
+        };
     }
 
     CDM cdm_ = CDM::Undefined();

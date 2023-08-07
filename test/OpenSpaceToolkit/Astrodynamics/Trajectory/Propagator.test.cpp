@@ -177,7 +177,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, EqualT
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
-            1.0e-15};
+            1.0e-15
+        };
         const Propagator propagator_1 = {numericalSolver_1, defaultDynamics_};
         EXPECT_FALSE(defaultPropagator_ == propagator_1);
     }
@@ -194,7 +195,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NotEqu
             NumericalSolver::StepperType::RungeKuttaFehlberg78,
             5.0,
             1.0e-15,
-            1.0e-15};
+            1.0e-15
+        };
         const Propagator propagator1 = {numericalSolver1, defaultDynamics_};
         EXPECT_TRUE(defaultPropagator_ != propagator1);
     }
@@ -2026,7 +2028,8 @@ TEST_F(
 
         // Construct default numerical solver
         const NumericalSolver numericalSolver54 = {
-            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15};
+            NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaCashKarp54, 5.0, 1.0e-15, 1.0e-15
+        };
 
         // Setup initial conditions
         const State state = {

@@ -142,7 +142,8 @@ OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
             Angle::Degrees(deploymentObject["mean_argument_of_perigee_deg"].accessReal()),
             Angle::Degrees(deploymentObject["mean_longitude_ascending_node_deg"].accessReal()),
             Angle::Degrees(deploymentObject["mean_mean_anomaly_deg"].accessReal()),
-            deploymentObject["ballistic_coef_kg_per_m2"].accessReal()};
+            deploymentObject["ballistic_coef_kg_per_m2"].accessReal()
+        };
 
         deployments.add(deployment);
     }
@@ -162,7 +163,8 @@ OPM OPM::Dictionary(const ctnr::Dictionary& aDictionary)
                 Scale::UTC
             ),
         },
-        deployments};
+        deployments
+    };
 }
 
 OPM OPM::Parse(const String& aString)

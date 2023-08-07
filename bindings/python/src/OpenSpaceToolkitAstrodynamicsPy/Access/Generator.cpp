@@ -42,7 +42,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
         .def("get_step", &Generator::getStep)
         .def("get_tolerance", &Generator::getTolerance)
+        .def("get_aer_filter", &Generator::getAerFilter)
+        .def("get_access_filter", &Generator::getAccessFilter)
+        .def("get_state_filter", &Generator::getStateFilter)
 
+        .def("get_condition_function", &Generator::getConditionFunction, arg("from_trajectory"), arg("to_trajectory"))
         .def(
             "compute_accesses",
             &Generator::computeAccesses,

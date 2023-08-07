@@ -48,7 +48,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM : publ
                  Angle::Degrees(2.0),
                  Angle::Degrees(3.0),
                  Angle::Degrees(4.0),
-                 123.456},
+                 123.456
+             },
              OPM::Deployment {
                  "B",
                  456,
@@ -62,7 +63,9 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM : publ
                  Angle::Degrees(6.0),
                  Angle::Degrees(7.0),
                  Angle::Degrees(8.0),
-                 456.123}}};
+                 456.123
+             }}
+        };
     }
 
     OPM opm_ = OPM::Undefined();
@@ -88,7 +91,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, Cons
             Angle::Degrees(2.0),
             Angle::Degrees(3.0),
             Angle::Degrees(4.0),
-            123.456}}};
+            123.456
+        }}
+    };
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Messages_SpaceX_OPM, IsDefined)

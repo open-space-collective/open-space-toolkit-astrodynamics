@@ -344,7 +344,8 @@ CDM CDM::Undefined()
          Real::Undefined(),
          String::Empty()},
         Array<CDM::Metadata>::Empty(),
-        Array<CDM::Data>::Empty()};
+        Array<CDM::Data>::Empty()
+    };
 }
 
 CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
@@ -391,7 +392,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         ),
         aDictionary["ORIGINATOR"].getString(),
         aDictionary["MESSAGE_FOR"].getString(),
-        aDictionary["CDM_ID"].getString()};
+        aDictionary["CDM_ID"].getString()
+    };
 
     // Extract Conjunction Relative Metadata
 
@@ -411,7 +413,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         Instant::Undefined(),
         Instant::Undefined(),
         Real::Parse(aDictionary["COLLISION_PROBABILITY"].accessString()),
-        aDictionary["COLLISION_PROBABILITY_METHOD"].accessString()};
+        aDictionary["COLLISION_PROBABILITY_METHOD"].accessString()
+    };
 
     // Extract Conjunction Objects Metadata
 
@@ -439,7 +442,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         String::Empty(),
         false,
         false,
-        false};
+        false
+    };
 
     // Extract Object 2 Metadata
 
@@ -465,7 +469,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
         String::Empty(),
         false,
         false,
-        false};
+        false
+    };
 
     Array<CDM::Metadata> metadataArray = {sat1ObjectMetadata, sat2ObjectMetadata};
 
@@ -543,7 +548,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
                 sat1RefFramePtr
             )
         ),
-        object1CovarianceMatrix};
+        object1CovarianceMatrix
+    };
 
     // Extract Object 2 Data
 
@@ -617,7 +623,8 @@ CDM CDM::Dictionary(const ctnr::Dictionary& aDictionary)
                 sat2RefFramePtr
             )
         ),
-        object2CovarianceMatrix};
+        object2CovarianceMatrix
+    };
 
     Array<CDM::Data> dataArray = {sat1ObjectData, sat2ObjectData};
 
@@ -645,7 +652,8 @@ CDM::ObjectType CDM::ObjectTypeFromString(const String& aString)
         {"ROCKET BODY", CDM::ObjectType::RocketBody},
         {"DEBRIS", CDM::ObjectType::Debris},
         {"UNKNOWN", CDM::ObjectType::Unknown},
-        {"OTHER", CDM::ObjectType::Other}};
+        {"OTHER", CDM::ObjectType::Other}
+    };
 
     try
     {
