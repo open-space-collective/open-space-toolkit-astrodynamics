@@ -6,6 +6,7 @@ using namespace pybind11;
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
+using ostk::core::types::Shared;
 
 using ostk::physics::units::Derived;
 
@@ -16,7 +17,7 @@ using ostk::astro::eventcondition::COECondition;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition, EventCondition>(aModule, "COECondition")
+        class_<COECondition, EventCondition, Shared<COECondition>>(aModule, "COECondition")
 
             .def(
                 init<const String&, const EventCondition::Criteria&, const COE::Element&, const Real&, const Derived&>(

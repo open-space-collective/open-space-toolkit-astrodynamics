@@ -3,12 +3,16 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Conjunctive.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Disjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalConnective.cpp>
 
 using namespace pybind11;
 
 using ostk::core::types::String;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
@@ -27,6 +31,18 @@ class PyEventCondition : public EventCondition
         PYBIND11_OVERRIDE(bool, EventCondition, isSatisfied, currentValue, previousValue);
     }
 
+    bool isSatisfied(
+        const VectorXd& currentStateVector,
+        const Real& currentTime,
+        const VectorXd& previousStateVector,
+        const Real& previousTime
+    ) const override
+    {
+        PYBIND11_OVERRIDE(
+            bool, EventCondition, isSatisfied, currentStateVector, currentTime, previousStateVector, previousTime
+        );
+    }
+
     Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
     {
         PYBIND11_OVERRIDE_PURE(Real, EventCondition, evaluate, aStateVector, aTime);
@@ -36,7 +52,9 @@ class PyEventCondition : public EventCondition
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aModule)
 {
     {
-        class_<EventCondition, PyEventCondition> eventCondition_class(aModule, "EventCondition");
+        class_<EventCondition, PyEventCondition, Shared<EventCondition>> eventCondition_class(
+            aModule, "EventCondition"
+        );
 
         eventCondition_class
 
@@ -45,7 +63,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             .def("__str__", &(shiftToString<EventCondition>))
             .def("__repr__", &(shiftToString<EventCondition>))
 
-            .def("is_satisfied", &EventCondition::isSatisfied, arg("current_value"), arg("previous_value"))
+            .def(
+                "is_satisfied",
+                overload_cast<const Real&, const Real&>(&EventCondition::isSatisfied, const_),
+                arg("current_value"),
+                arg("previous_value")
+            )
+            .def(
+                "is_satisfied",
+                overload_cast<const VectorXd&, const Real&, const VectorXd&, const Real&>(
+                    &EventCondition::isSatisfied, const_
+                ),
+                arg("current_state_vector"),
+                arg("current_time"),
+                arg("previous_state_vector"),
+                arg("previous_time")
+            )
 
             .def("get_name", &EventCondition::getName)
             .def("get_criteria", &EventCondition::getCriteria)
@@ -76,4 +109,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Conjunctive(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Disjunctive(event_condition);
 }

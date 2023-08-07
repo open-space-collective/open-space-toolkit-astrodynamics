@@ -10,6 +10,8 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/Conjunctive.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/Disjunctive.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -23,8 +25,10 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
-using ostk::astro::NumericalSolver;
 using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::Conjunctive;
+using ostk::astro::eventcondition::Disjunctive;
+using ostk::astro::NumericalSolver;
 
 // Simple duration based condition
 
@@ -793,6 +797,88 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
             EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
         }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conjunctive)
+{
+    const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
+        {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
+        {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
+    };
+
+    for (const auto testCase : testCases)
+    {
+        const Real duration = std::get<0>(testCase);
+        const EventCondition::Criteria criteria = std::get<1>(testCase);
+
+        const Real endTime = defaultStartTime_ + duration;
+
+        const Shared<DurationCondition> durationCondition =
+            std::make_shared<DurationCondition>(duration / 2.0, criteria);
+        const Shared<XCrossingCondition> xCrossingCondition = std::make_shared<XCrossingCondition>(0.5);
+        const Conjunctive conjunctiveCondition = Conjunctive({
+            durationCondition,
+            xCrossingCondition,
+        });
+
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+            defaultStateVector_, defaultStartTime_, endTime, systemOfEquations_, conjunctiveCondition
+        );
+        const NumericalSolver::Solution solution = conditionSolution.solution;
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+        EXPECT_TRUE(propagatedTime != endTime);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+        std::cout.precision(16);
+        std::cout << propagatedStateVector[0] << std::endl;
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(1e-7, std::abs(propagatedStateVector[0] - 0.5));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Disjunctive)
+{
+    const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
+        {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
+        {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
+    };
+
+    for (const auto testCase : testCases)
+    {
+        const Real duration = std::get<0>(testCase);
+        const EventCondition::Criteria criteria = std::get<1>(testCase);
+
+        const Real endTime = defaultStartTime_ + duration;
+
+        const Shared<DurationCondition> durationCondition =
+            std::make_shared<DurationCondition>(duration / 2.0, criteria);
+        const Shared<XCrossingCondition> xCrossingCondition = std::make_shared<XCrossingCondition>(0.5);
+        const Disjunctive conjunctiveCondition = Disjunctive({
+            durationCondition,
+            xCrossingCondition,
+        });
+
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+            defaultStateVector_, defaultStartTime_, endTime, systemOfEquations_, conjunctiveCondition
+        );
+        const NumericalSolver::Solution solution = conditionSolution.solution;
+
+        const NumericalSolver::StateVector propagatedStateVector = solution.first;
+        const Real propagatedTime = solution.second;
+
+        // Ensure that integration terminates at condition if condition is met
+        EXPECT_TRUE(propagatedTime != endTime);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
+        EXPECT_GT(1e-7, std::abs(propagatedStateVector[0] - 0.5));
+        EXPECT_GT(2e-10, std::abs(propagatedStateVector[1] - std::cos(propagatedTime)));
     }
 }
 

@@ -33,33 +33,33 @@ using ostk::astro::EventCondition;
 class DurationCondition : public EventCondition
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     DurationCondition durationCondition = {aCriteria, aDuration};
+    ///                         DurationCondition durationCondition = {aCriteria, aDuration};
     /// @endcode
     ///
-    /// @param              [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-    /// @param              [in] aDuration A duration
+    /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
+    /// @param                  [in] aDuration A duration
 
     DurationCondition(const Criteria& aCriteria, const Duration& aDuration);
 
-    /// @brief              Virtual destructor
+    /// @brief                  Virtual destructor
 
     virtual ~DurationCondition();
 
-    /// @brief              Get duration
+    /// @brief                  Get duration
     ///
-    /// @return             Duration
+    /// @return                 Duration
 
     Duration getDuration() const;
 
-    /// @brief              Evaluate the Event Condition
+    /// @brief                  Evaluate the Event Condition
     ///
-    /// @param              [in] aStateVector The current state vector
-    /// @param              [in] aTime The current time
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
     ///
-    /// @return             Real number representing the evaluation result of the Event Condition
+    /// @return                 Real number representing the evaluation result of the Event Condition
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
 

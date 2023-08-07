@@ -51,6 +51,19 @@ bool EventCondition::isSatisfied(const Real& currentValue, const Real& previousV
     return comparator_(currentValue, previousValue);
 }
 
+bool EventCondition::isSatisfied(
+    const VectorXd& currentStateVector,
+    const Real& currentTime,
+    const VectorXd& previousStateVector,
+    const Real& previousTime
+) const
+{
+    const Real currentValue = evaluate(currentStateVector, currentTime);
+    const Real previousValue = evaluate(previousStateVector, previousTime);
+
+    return comparator_(currentValue, previousValue);
+}
+
 String EventCondition::StringFromCriteria(const Criteria& aCriteria)
 {
     switch (aCriteria)

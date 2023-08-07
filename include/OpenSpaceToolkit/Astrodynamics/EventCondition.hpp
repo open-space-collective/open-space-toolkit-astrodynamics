@@ -77,7 +77,7 @@ class EventCondition
     ///
     /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
     /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
-    ///                         printing
+    /// printing
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
@@ -89,6 +89,25 @@ class EventCondition
     /// @return                 Boolean value indicating if the Event Condition is met
 
     virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const;
+
+    /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
+    /// state/time
+    ///                         This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several
+    ///                         conditions
+    ///
+    /// @param                  [in] currentStateVector The current state vector
+    /// @param                  [in] currentTime The current time
+    /// @param                  [in] previousStateVector The previous state vector
+    /// @param                  [in] previousTime The previous time
+    ///
+    /// @return                 Boolean value indicating if the Event Condition is met
+
+    virtual bool isSatisfied(
+        const VectorXd& currentStateVector,
+        const Real& currentTime,
+        const VectorXd& previousStateVector,
+        const Real& previousTime
+    ) const;
 
     /// @brief                  Evaluate the Event Condition
     ///
