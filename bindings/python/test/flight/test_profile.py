@@ -44,7 +44,7 @@ def profile() -> Profile:
         return Transform.identity(instant)
 
     return Profile(
-        TransformModel(DynamicProvider(dynamic_provider_generator), Frame.GCRF())
+        model=TransformModel(DynamicProvider(dynamic_provider_generator), Frame.GCRF())
     )
 
 

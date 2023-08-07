@@ -215,7 +215,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Instant epoch = epoch;
         const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
         const Real J2 = Earth::EGM2008.J2_;
@@ -241,7 +240,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Instant epoch = epoch;
         const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
         const Real J2 = Earth::EGM2008.J2_;

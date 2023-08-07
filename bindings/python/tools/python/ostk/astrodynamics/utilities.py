@@ -93,7 +93,9 @@ def compute_aer(
 
 
 def compute_time_lla_aer_state(
-    state: trajectory.State, from_position: Position, environment: Environment
+    state: trajectory.State,
+    from_position: Position,
+    environment: Environment,
 ) -> list:
     """
     Return [instant, latitude, longitude, altitude, azimuth, elevation, range] from State and observer Position.
