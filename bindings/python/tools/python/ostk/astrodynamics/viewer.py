@@ -178,6 +178,9 @@ class Viewer:
 
         return self._viewer.to_html()
 
+    def _repr_html_(self) -> str:
+        return self.render()
+
 
 def _generate_llas(states: list[State]) -> list[LLA]:
     return [
