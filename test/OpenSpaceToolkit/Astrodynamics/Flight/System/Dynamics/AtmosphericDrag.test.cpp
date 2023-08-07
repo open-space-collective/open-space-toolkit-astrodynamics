@@ -1,8 +1,5 @@
 /// Apache License 2.0
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Index.hpp>
@@ -81,8 +78,6 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::NumericalSolver;
-
-using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
