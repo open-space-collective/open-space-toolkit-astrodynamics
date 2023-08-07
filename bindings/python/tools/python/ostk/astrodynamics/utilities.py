@@ -29,13 +29,23 @@ def lla_from_state(state: trajectory.State) -> list:
     ]
 
 
-def lla_from_position(position: Position, instant: Instant) -> LLA:
+def lla_from_position(
+    position: Position,
+    instant: Instant | None = None,
+) -> LLA:
     """
     Return LLA from position and instant.
     """
 
+    if position.access_frame() != Frame.ITRF():
+        if instant is None:
+            raise ValueError(
+                "Instant must be provided if position is not expressed in ECEF."
+            )
+        position = position.in_frame(Frame.ITRF(), instant)
+
     return LLA.cartesian(
-        position.in_frame(Frame.ITRF(), instant).get_coordinates(),
+        position.get_coordinates(),
         EarthGravitationalModel.EGM2008.equatorial_radius,
         EarthGravitationalModel.EGM2008.flattening,
     )

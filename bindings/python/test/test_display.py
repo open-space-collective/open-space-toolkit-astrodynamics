@@ -1,7 +1,5 @@
 # Apache License 2.0
 
-import pytest
-
 from ostk.mathematics.objects import RealInterval
 
 from ostk.physics import Environment
