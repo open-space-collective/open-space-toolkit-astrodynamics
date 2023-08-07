@@ -1,41 +1,35 @@
 # Apache License 2.0
 
-import pytest
-
 from datetime import datetime
 
-import numpy as np
+import pytest
 
-import ostk.mathematics as mathematics
+from ostk.mathematics.geometry.d3.transformations.rotations import Quaternion
 
-import ostk.physics as physics
+from ostk.physics import Environment
+from ostk.physics.time import DateTime
+from ostk.physics.time import Time
+from ostk.physics.time import Scale
+from ostk.physics.time import Instant
+from ostk.physics.units import Length
+from ostk.physics.coordinate import Transform
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
+from ostk.physics.coordinate import Axes
+from ostk.physics.coordinate.frame.providers import Dynamic as DynamicProvider
 
-import ostk.astrodynamics as astrodynamics
-
-Quaternion = mathematics.geometry.d3.transformations.rotations.Quaternion
-Environment = physics.Environment
-DateTime = physics.time.DateTime
-Time = physics.time.Time
-Scale = physics.time.Scale
-Instant = physics.time.Instant
-Length = physics.units.Length
-Transform = physics.coordinate.Transform
-Position = physics.coordinate.Position
-Velocity = physics.coordinate.Velocity
-Frame = physics.coordinate.Frame
-Axes = physics.coordinate.Axes
-DynamicProvider = physics.coordinate.frame.providers.Dynamic
-Trajectory = astrodynamics.Trajectory
-Orbit = astrodynamics.trajectory.Orbit
-Profile = astrodynamics.flight.Profile
-State = astrodynamics.flight.profile.State
-TransformModel = astrodynamics.flight.profile.models.Transform
-TabulatedModel = astrodynamics.flight.profile.models.Tabulated
+from ostk.astrodynamics import Trajectory
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.flight import Profile
+from ostk.astrodynamics.flight.profile import State
+from ostk.astrodynamics.flight.profile.models import Transform as TransformModel
+from ostk.astrodynamics.flight.profile.models import Tabulated as TabulatedModel
 
 
 @pytest.fixture
 def instant() -> Instant:
-    return Instant.date_time(DateTime(2020, 1, 3, 0, 0, 0), Scale.UTC)
+    return Instant.date_time(DateTime(2020, 1, 3), Scale.UTC)
 
 
 @pytest.fixture
@@ -44,7 +38,10 @@ def profile() -> Profile:
         return Transform.identity(instant)
 
     return Profile(
-        model=TransformModel(DynamicProvider(dynamic_provider_generator), Frame.GCRF())
+        model=TransformModel(
+            dynamic_provider=DynamicProvider(dynamic_provider_generator),
+            frame=Frame.GCRF(),
+        ),
     )
 
 
@@ -116,29 +113,27 @@ class TestProfile:
         assert profile.is_defined()
 
     def test_tabulated(self):
-        tabulated_model = TabulatedModel(
-            states=[
-                State(
-                    instant=Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
-                    position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                    velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
-                    attitude=Quaternion.unit(),
-                    angular_velocity=(0.0, 0.0, 0.0),
-                    reference_frame=Frame.GCRF(),
-                ),
-                State(
-                    instant=Instant.date_time(datetime(2020, 1, 1, 0, 1, 0), Scale.UTC),
-                    position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                    velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
-                    attitude=Quaternion.unit(),
-                    angular_velocity=(0.0, 0.0, 0.0),
-                    reference_frame=Frame.GCRF(),
-                ),
-            ],
-        )
-
         profile = Profile(
-            model=tabulated_model,
+            model=TabulatedModel(
+                states=[
+                    State(
+                        instant=Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+                        position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                        velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                        attitude=Quaternion.unit(),
+                        angular_velocity=(0.0, 0.0, 0.0),
+                        reference_frame=Frame.GCRF(),
+                    ),
+                    State(
+                        instant=Instant.date_time(datetime(2020, 1, 1, 0, 1, 0), Scale.UTC),
+                        position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
+                        velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                        attitude=Quaternion.unit(),
+                        angular_velocity=(0.0, 0.0, 0.0),
+                        reference_frame=Frame.GCRF(),
+                    ),
+                ],
+            ),
         )
 
         assert isinstance(profile, Profile)

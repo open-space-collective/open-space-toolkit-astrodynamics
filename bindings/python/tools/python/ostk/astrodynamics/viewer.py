@@ -1,12 +1,18 @@
 # Apache License 2.0
 
+from __future__ import annotations
+
 import functools
 import operator
 from dataclasses import dataclass
 
 import numpy as np
 
-import cesiumpy
+try:
+    import cesiumpy
+
+except ImportError:
+    ...
 
 from ostk.mathematics.geometry.d3.transformations.rotations import Quaternion
 
