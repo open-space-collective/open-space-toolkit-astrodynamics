@@ -85,7 +85,9 @@ class TestProfile:
         assert profile.is_defined() is False
 
     def test_inertial_pointing(self):
-        quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
+        quaternion: Quaternion = Quaternion(
+            [0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS
+        )
 
         trajectory: Trajectory = Trajectory.position(
             Position.meters((0.0, 0.0, 0.0), Frame.GCRF())

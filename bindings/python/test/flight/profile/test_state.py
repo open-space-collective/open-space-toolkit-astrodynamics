@@ -78,7 +78,8 @@ class TestState:
         angular_velocity = [0.01, 0.01, 0.0]
 
         assert isinstance(
-            State(instant, position, velocity, quaternion, angular_velocity, frame), State
+            State(instant, position, velocity, quaternion, angular_velocity, frame),
+            State,
         )
 
     def test_constructors_tuples(
@@ -89,7 +90,8 @@ class TestState:
         angular_velocity = (0.01, 0.01, 0.0)
 
         assert isinstance(
-            State(instant, position, velocity, quaternion, angular_velocity, frame), State
+            State(instant, position, velocity, quaternion, angular_velocity, frame),
+            State,
         )
 
     def test_constructors_array(
@@ -100,7 +102,8 @@ class TestState:
         angular_velocity = np.array((0.01, 0.01, 0.0))
 
         assert isinstance(
-            State(instant, position, velocity, quaternion, angular_velocity, frame), State
+            State(instant, position, velocity, quaternion, angular_velocity, frame),
+            State,
         )
 
     def test_comparators(self, state: State):

@@ -318,7 +318,8 @@ class TestTLE:
             TLE.generate_checksum(tle.get_first_line()) == tle.get_first_line_checksum()
         )
         assert (
-            TLE.generate_checksum(tle.get_second_line()) == tle.get_second_line_checksum()
+            TLE.generate_checksum(tle.get_second_line())
+            == tle.get_second_line_checksum()
         )
 
         assert (
