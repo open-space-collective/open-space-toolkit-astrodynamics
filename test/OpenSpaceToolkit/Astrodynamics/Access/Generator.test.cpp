@@ -202,10 +202,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 {
     const Environment environment = Environment::Default();
 
-    const Instant startInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-    const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
+    const Instant epoch = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
 
-    const auto generateFirstOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateFirstOrbit = [&environment, &epoch]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -216,7 +215,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Instant epoch = startInstant;
+        const Instant epoch = epoch;
         const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
         const Real J2 = Earth::EGM2008.J2_;
@@ -231,7 +230,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
         return orbit;
     };
 
-    const auto generateSecondOrbit = [&environment, &startInstant]() -> Orbit
+    const auto generateSecondOrbit = [&environment, &epoch]() -> Orbit
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
         const Real eccentricity = 0.0;
@@ -242,7 +241,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
 
-        const Instant epoch = startInstant;
+        const Instant epoch = epoch;
         const Derived gravitationalParameter = Earth::EGM2008.gravitationalParameter_;
         const Length equatorialRadius = Earth::EGM2008.equatorialRadius_;
         const Real J2 = Earth::EGM2008.J2_;
