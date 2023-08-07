@@ -20,6 +20,7 @@ from ostk.physics.units import Length
 from ostk.physics.units import Angle
 from ostk.physics.time import Instant, Interval, Duration
 from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate.spherical import LLA
 
 from ostk.astrodynamics.flight import Profile
@@ -230,7 +231,7 @@ def _generate_sampled_orientation(states: list[State]) -> cesiumpy.SampledProper
         samples=[
             (
                 coerce_to_datetime(state.get_instant()),
-                _cesium_from_ostk_quaternion(state.get_attitude()),
+                _cesium_from_ostk_quaternion(state.in_frame(Frame.ITRF()).get_attitude()),
                 None,
             )
             for state in states
