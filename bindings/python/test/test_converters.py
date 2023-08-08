@@ -36,9 +36,7 @@ def test_coerce_to_datetime_success_datetime():
 
 def test_coerce_to_instant_success_datetime():
     value = datetime(2020, 1, 1, tzinfo=timezone.utc)
-    assert coerce_to_instant(value) == Instant.date_time(
-        DateTime(2020, 1, 1), Scale.UTC
-    )
+    assert coerce_to_instant(value) == Instant.date_time(DateTime(2020, 1, 1), Scale.UTC)
 
 
 def test_coerce_to_instant_success_instant():

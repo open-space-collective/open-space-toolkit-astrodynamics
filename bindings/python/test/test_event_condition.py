@@ -64,8 +64,6 @@ class TestEventCondition:
             == True
         )
         assert (
-            event_condition_overloaded.is_satisfied(
-                current_value=1.0, previous_value=1.0
-            )
+            event_condition_overloaded.is_satisfied(current_value=1.0, previous_value=1.0)
             == False
         )

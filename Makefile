@@ -371,8 +371,7 @@ format-python: build-development-image ## Run the black format tool against pyth
 
 	docker run \
 		--rm \
-		--user="$(shell id -u):$(shell id -g)" \
-		--volume="$(CURDIR):/app:delegated" \
+		--volume="$(CURDIR):/app" \
 		--workdir=/app \
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-format-python
