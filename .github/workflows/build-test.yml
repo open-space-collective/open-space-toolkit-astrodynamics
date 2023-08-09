@@ -51,7 +51,7 @@ jobs:
     secrets: inherit
 
   benchmark:
-    name: Benchmark
+    name: Benchmark C++
     needs:
       - build-and-test
     runs-on: ubuntu-latest
