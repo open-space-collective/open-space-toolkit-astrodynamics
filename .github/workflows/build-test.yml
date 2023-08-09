@@ -55,11 +55,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Download previous benchmark
+        uses: actions/cache@v1
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-benchmark
       - uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: 'googlecpp'
           output-file-path: benchmark_result.json
+          external-data-json-path: ./cache/benchmark-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          summary-always: true
           auto-push: true
       
     # steps:
