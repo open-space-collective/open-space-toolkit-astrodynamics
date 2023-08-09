@@ -510,6 +510,23 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 
 .PHONY: test-coverage-cpp-standalone
 
+benchmark-cpp: build-development-image ## Run C++ performance benchmark
+
+	@ echo "Running C++ benchmark..."
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--workdir=/app \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "rm -rf /app/benchmark/cpp \
+		&& mkdir -p /app/benchmark/cpp \
+		&& cd /app/benchmark/cpp \
+		&& clang++ -std=c++14 -O3 -pthread /app/test/OpenSpaceToolkit/Astrodynamics/Performance/benchmark.cpp -l benchmark \
+		&& ./a.out --benchmark_format=json | tee benchmark_result.json"
+
+.PHONY: benchmark-cpp
+
 clean: ## Clean
 
 	@ echo "Cleaning up..."
@@ -520,6 +537,7 @@ clean: ## Clean
 	rm -rf "$(CURDIR)/docs/latex"
 	rm -rf "$(CURDIR)/lib/"*.so*
 	rm -rf "$(CURDIR)/coverage"
+	rm -rf "$(CURDIR)/benchmark"
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
 

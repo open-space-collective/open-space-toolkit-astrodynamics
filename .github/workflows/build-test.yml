@@ -49,3 +49,25 @@ jobs:
       project_name: ${{ needs.prepare-environment.outputs.project_name }}
       project_version: ${{ needs.prepare-environment.outputs.project_version }}
     secrets: inherit
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    needs:
+      - prepare-environment
+      - build-image-development
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Pull Development Image
+        run: docker pull ${{ env.DOCKER_REGISTRY_PATH }}/${{ inputs.project_name }}-development:${{ inputs.project_version }}
+      - name: Run C++ Benchmark
+        run: make benchmark-cpp

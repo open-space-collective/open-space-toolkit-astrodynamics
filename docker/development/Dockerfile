@@ -88,7 +88,8 @@ RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark
  && cd /tmp/benchmark \
  && cmake -E make_directory "build" \
  && cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ../ \
- && cmake --build "build" --config Release
+ && cmake --build "build" --config Release --target install \
+ && rm -rf /tmp/benchmark
 
 ## Open Space Toolkit ▸ Core
 
