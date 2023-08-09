@@ -217,7 +217,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
                 instants[k],
                 coordinates,
                 gcrfSPtr,
-                propagator_.getCoordinatesBroker(),
+                propagator_.accessCoordinatesBroker(),
             });
         }
 

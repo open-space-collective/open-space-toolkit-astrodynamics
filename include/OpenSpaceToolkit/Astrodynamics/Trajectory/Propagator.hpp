@@ -110,11 +110,11 @@ class Propagator
 
     Size getNumberOfCoordinates() const;
 
-    /// @brief              Get the coordinates broker
+    /// @brief              Access the coordinates broker
     ///
     /// @return             The coordinates broker
 
-    const Shared<CoordinatesBroker>& getCoordinatesBroker() const;
+    const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
 
     /// @brief              Get the dynamics array
     /// @code
@@ -134,11 +134,11 @@ class Propagator
 
     /// @brief              Add a dynamics to the array of shared pointers to dynamics
     /// @code
-    ///                     propagator.addDynamics(aDynamics);
+    ///                     propagator.addDynamics(aDynamicsSPtr);
     /// @endcode
-    /// @param              [in] aDynamics A Dynamics shared pointer
+    /// @param              [in] aDynamicsSPtr A Dynamics shared pointer
 
-    void addDynamics(const Shared<Dynamics>& aDynamics);
+    void addDynamics(const Shared<Dynamics>& aDynamicsSPtr);
 
     /// @brief              Clear the dynamics array
     /// @code
@@ -217,10 +217,10 @@ class Propagator
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
-    Array<Dynamics::Context> dynamicsInformation_ = Array<Dynamics::Context>::Empty();
+    Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
 
-    void registerDynamicsContext(const Shared<Dynamics>& aDynamics);
+    void registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr);
 
     NumericalSolver::StateVector extractCoordinatesFromStateVector(const State& aState) const;
 };

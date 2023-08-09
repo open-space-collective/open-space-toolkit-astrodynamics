@@ -54,7 +54,7 @@ class State
         const Instant& anInstant,
         const VectorXd& aCoordinates,
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity);
@@ -89,7 +89,7 @@ class State
 
     VectorXd getCoordinates() const;
 
-    VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubset) const;
+    VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const;
 
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 

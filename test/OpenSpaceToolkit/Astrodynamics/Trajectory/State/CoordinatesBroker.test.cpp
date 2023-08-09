@@ -31,8 +31,8 @@ class CoordinatesSubsetMock : public CoordinatesSubset
         (const Instant& anInstant,
          const VectorXd& aFullCoordinatesVector,
          const VectorXd& anotherFullCoordinatesVector,
-         const Shared<const Frame>& aFrame,
-         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+         const Shared<const Frame>& aFrameSPtr,
+         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr),
         (const, override)
     );
 
@@ -42,8 +42,8 @@ class CoordinatesSubsetMock : public CoordinatesSubset
         (const Instant& anInstant,
          const VectorXd& aFullCoordinatesVector,
          const VectorXd& anotherFullCoordinatesVector,
-         const Shared<const Frame>& aFrame,
-         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+         const Shared<const Frame>& aFrameSPtr,
+         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr),
         (const, override)
     );
 
@@ -54,7 +54,7 @@ class CoordinatesSubsetMock : public CoordinatesSubset
          const VectorXd& aFullCoordinatesVector,
          const Shared<const Frame>& fromFrame,
          const Shared<const Frame>& toFrame,
-         const Shared<const CoordinatesBroker>& aCoordinatesBroker),
+         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr),
         (const, override)
     );
 };

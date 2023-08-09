@@ -80,24 +80,28 @@ Shared<const Celestial> CentralBodyGravity::getCelestial() const
 
 Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getReadCoordinatesSubsets() const
 {
-    return {CartesianPosition::Default()};
+    return {
+        CartesianPosition::Default(),
+    };
 }
 
 Array<Shared<const CoordinatesSubset>> CentralBodyGravity::getWriteCoordinatesSubsets() const
 {
-    return {CartesianVelocity::Default()};
+    return {
+        CartesianVelocity::Default(),
+    };
 }
 
 VectorXd CentralBodyGravity::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
+    Vector3d positionCoordinates = {x[0], x[1], x[2]};
 
     // Obtain gravitational acceleration from current object
     const Vector3d gravitationalAccelerationSI =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrame), anInstant)
-            .inFrame(aFrame, anInstant)
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
+            .inFrame(aFrameSPtr, anInstant)
             .getValue();
 
     // Compute contribution

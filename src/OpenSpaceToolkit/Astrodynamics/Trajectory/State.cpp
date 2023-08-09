@@ -25,7 +25,7 @@ State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 )
     : instant_(anInstant),
       coordinates_(aCoordinates),
@@ -283,9 +283,9 @@ VectorXd State::getCoordinates() const
     return this->accessCoordinates();
 }
 
-VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubset) const
+VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubset);
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubetSPtr);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const

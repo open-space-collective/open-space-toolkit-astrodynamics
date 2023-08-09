@@ -49,16 +49,20 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
 
 Array<Shared<const CoordinatesSubset>> PositionDerivative::getReadCoordinatesSubsets() const
 {
-    return {CartesianVelocity::Default()};
+    return {
+        CartesianVelocity::Default(),
+    };
 }
 
 Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinatesSubsets() const
 {
-    return {CartesianPosition::Default()};
+    return {
+        CartesianPosition::Default(),
+    };
 }
 
 VectorXd PositionDerivative::computeContribution(
-    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrame
+    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
 ) const
 {
     VectorXd contribution(3);

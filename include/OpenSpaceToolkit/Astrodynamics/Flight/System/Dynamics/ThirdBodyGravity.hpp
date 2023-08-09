@@ -88,12 +88,31 @@ class ThirdBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
+    /// @brief              Return the coordinates subsets that the instance reads from
+    ///
+    /// @return             The coordinates subsets that the instance reads from
+
     virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+
+    /// @brief              Return the coordinates subsets that the instance writes to
+    ///
+    /// @return             The coordinates subsets that the instance writes to
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
 
-    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
-        const override;
+    /// @brief              Compute the contribution to the state derivative.
+    ///
+    /// @param anInstant    An instant
+    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
+    /// coordinate subsets)
+    /// @param aFrameSPtr       The frame in which the state vector is expressed
+    ///
+    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
+    /// the 'write' coordinate subsets) expressed in the given frame
+
+    virtual VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
+    ) const override;
 
     /// @brief              Print third body gravity dynamics
     ///

@@ -19,11 +19,11 @@ using ostk::core::types::Size;
 using ostk::physics::time::Duration;
 
 Dynamics::Context::Context(
-    const Shared<Dynamics>& aDynamics,
+    const Shared<Dynamics>& aDynamicsSPtr,
     const Array<Pair<Index, Size>>& aReadIndexes,
     const Array<Pair<Index, Size>>& aWriteIndexes
 )
-    : dynamics(aDynamics),
+    : dynamics(aDynamicsSPtr),
       readIndexes(aReadIndexes),
       writeIndexes(aWriteIndexes),
       readStateSize(0)
@@ -55,10 +55,8 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemsOfEquations(
-    const Array<Dynamics::Context>& aContextArray,
-    const Instant& anInstant,
-    const Shared<const Frame>& aFrame
+NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemOfEquations(
+    const Array<Dynamics::Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
 )
 {
     return std::bind(
@@ -68,7 +66,7 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemsOfEquations(
         std::placeholders::_3,
         aContextArray,
         anInstant,
-        aFrame
+        aFrameSPtr
     );
 }
 
@@ -78,22 +76,22 @@ void Dynamics::DynamicalEquations(
     const double& t,
     const Array<Dynamics::Context>& aContextArray,
     const Instant& anInstant,
-    const Shared<const Frame>& aFrame
+    const Shared<const Frame>& aFrameSPtr
 )
 {
     dxdt.setZero();
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Dynamics::Context& dynamicsInformation : aContextArray)
+    for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
-        const VectorXd contribution = dynamicsInformation.dynamics->computeContribution(
+        const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
             nextInstant,
-            Dynamics::extractReadState(x, dynamicsInformation.readIndexes, dynamicsInformation.readStateSize),
-            aFrame
+            Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize),
+            aFrameSPtr
         );
 
-        Dynamics::applyContribution(dxdt, contribution, dynamicsInformation.writeIndexes);
+        Dynamics::applyContribution(dxdt, contribution, dynamicsContext.writeIndexes);
     }
 }
 
@@ -109,11 +107,11 @@ VectorXd Dynamics::extractReadState(
         const Index subsetOffset = pair.first;
         const Size subsetSize = pair.second;
 
-        reduced.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
+        reducedState.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
         offset += subsetSize;
     }
 
-    return reduced;
+    return reducedState;
 }
 
 void Dynamics::applyContribution(

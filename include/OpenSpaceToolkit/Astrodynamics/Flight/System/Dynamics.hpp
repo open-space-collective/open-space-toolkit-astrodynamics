@@ -53,7 +53,7 @@ class Dynamics
     struct Context
     {
         Context(
-            const Shared<Dynamics>& aDynamics,
+            const Shared<Dynamics>& aDynamicsSPtr,
             const Array<Pair<Index, Size>>& aReadIndexes,
             const Array<Pair<Index, Size>>& aWriteIndexes
         );
@@ -109,13 +109,14 @@ class Dynamics
     /// @param anInstant    An instant
     /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
-    /// @param aFrame       The frame in which the state vector is expressed
+    /// @param aFrameSPtr       The frame in which the state vector is expressed
     ///
     /// @return             The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
-    virtual VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame)
-        const = 0;
+    virtual VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
+    ) const = 0;
 
     /// @brief              Print dynamics
     ///
@@ -128,14 +129,12 @@ class Dynamics
     ///
     /// @param              [in] aContextArray An array of Dynamics Information
     /// @param              [in] anInstant An instant
-    /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
+    /// @param              [in] aFrameSPtr The reference frame in which dynamic equations are resolved
     ///
     /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
-    static NumericalSolver::SystemOfEquationsWrapper GetSystemsOfEquations(
-        const Array<Context>& aContextArray,
-        const Instant& anInstant,
-        const Shared<const Frame>& aFrame
+    static NumericalSolver::SystemOfEquationsWrapper GetSystemOfEquations(
+        const Array<Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
     );
 
    private:
@@ -148,7 +147,7 @@ class Dynamics
     /// @param              [in] t A step duration from anInstant to the next in seconds
     /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
     /// @param              [in] anInstant An instant
-    /// @param              [in] aFrame The reference frame in which dynamic equations are resolved
+    /// @param              [in] aFrameSPtr The reference frame in which dynamic equations are resolved
     /// @param              [in] readIndexes An array containing read coordinates subsets indexes and sizes
     /// @param              [in] writeIndexes An array containing write coordinates subsets indexes and sizes
 
@@ -158,7 +157,7 @@ class Dynamics
         const double& t,
         const Array<Context>& aContextArray,
         const Instant& anInstant,
-        const Shared<const Frame>& aFrame
+        const Shared<const Frame>& aFrameSPtr
     );
 
     static VectorXd extractReadState(

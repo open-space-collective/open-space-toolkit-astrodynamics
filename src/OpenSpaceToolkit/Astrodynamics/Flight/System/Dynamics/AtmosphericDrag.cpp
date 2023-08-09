@@ -100,16 +100,21 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 
 Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubsets() const
 {
-    return {CartesianPosition::Default(), CartesianVelocity::Default()};
+    return {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+    };
 }
 
 Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getWriteCoordinatesSubsets() const
 {
-    return {CartesianVelocity::Default()};
+    return {
+        CartesianVelocity::Default(),
+    };
 }
 
 VectorXd AtmosphericDrag::computeContribution(
-    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrame
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
@@ -117,12 +122,12 @@ VectorXd AtmosphericDrag::computeContribution(
 
     // Get atmospheric density
     const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrame), anInstant)
+        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        aFrame->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
+        aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
