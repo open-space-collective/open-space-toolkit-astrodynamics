@@ -67,7 +67,7 @@ jobs:
           external-data-json-path: ./cache/benchmark-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           summary-always: true
-          auto-push: true
+          auto-push: false
       
     # steps:
     #   - name: Checkout Repository
