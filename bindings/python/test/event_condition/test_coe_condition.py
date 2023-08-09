@@ -56,9 +56,7 @@ def state_vector() -> list[float]:
 class TestCOECondition:
     def test_constructor(self, criteria, element, target, gravitational_parameter):
         name = "Test COECondition"
-        condition = COECondition(
-            name, criteria, element, target, gravitational_parameter
-        )
+        condition = COECondition(name, criteria, element, target, gravitational_parameter)
 
         assert condition is not None
 

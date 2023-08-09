@@ -82,9 +82,7 @@ class TestProfile:
         assert profile.is_defined() is False
 
     def test_inertial_pointing(self):
-        quaternion: Quaternion = Quaternion(
-            [0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS
-        )
+        quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
         trajectory: Trajectory = Trajectory.position(
             Position.meters((0.0, 0.0, 0.0), Frame.GCRF())
@@ -117,17 +115,25 @@ class TestProfile:
             model=TabulatedModel(
                 states=[
                     State(
-                        instant=Instant.date_time(datetime(2020, 1, 1, 0, 0, 0), Scale.UTC),
+                        instant=Instant.date_time(
+                            datetime(2020, 1, 1, 0, 0, 0), Scale.UTC
+                        ),
                         position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                        velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                        velocity=Velocity.meters_per_second(
+                            (0.0, 0.0, 0.0), Frame.GCRF()
+                        ),
                         attitude=Quaternion.unit(),
                         angular_velocity=(0.0, 0.0, 0.0),
                         reference_frame=Frame.GCRF(),
                     ),
                     State(
-                        instant=Instant.date_time(datetime(2020, 1, 1, 0, 1, 0), Scale.UTC),
+                        instant=Instant.date_time(
+                            datetime(2020, 1, 1, 0, 1, 0), Scale.UTC
+                        ),
                         position=Position.meters((0.0, 0.0, 0.0), Frame.GCRF()),
-                        velocity=Velocity.meters_per_second((0.0, 0.0, 0.0), Frame.GCRF()),
+                        velocity=Velocity.meters_per_second(
+                            (0.0, 0.0, 0.0), Frame.GCRF()
+                        ),
                         attitude=Quaternion.unit(),
                         angular_velocity=(0.0, 0.0, 0.0),
                         reference_frame=Frame.GCRF(),

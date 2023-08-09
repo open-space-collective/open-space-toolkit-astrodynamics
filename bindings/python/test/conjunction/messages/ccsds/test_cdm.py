@@ -25,9 +25,7 @@ def cdm() -> CDM:
     return CDM(
         header=CDM.Header(
             ccsds_cdm_version="1.0",
-            creation_date=Instant.date_time(
-                datetime(2010, 3, 12, 22, 31, 12), Scale.UTC
-            ),
+            creation_date=Instant.date_time(datetime(2010, 3, 12, 22, 31, 12), Scale.UTC),
             originator="JSPOC",
             message_for="SATELLITE A",
             message_id="201113719185",
