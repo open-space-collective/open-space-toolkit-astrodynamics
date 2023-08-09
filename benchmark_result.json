@@ -1,0 +1,68 @@
+{
+  "context": {
+    "date": "2023-08-09T14:56:48+00:00",
+    "host_name": "5f2819a4fb86",
+    "executable": "./a.out",
+    "num_cpus": 8,
+    "mhz_per_cpu": 3100,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 1048576,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 25952256,
+        "num_sharing": 8
+      }
+    ],
+    "load_avg": [0.62,0.48,0.43],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "scenario001",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "scenario001",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 4433678,
+      "real_time": 1.6036548255249397e+02,
+      "cpu_time": 1.6034294912711300e+02,
+      "time_unit": "ns"
+    },
+    {
+      "name": "scenario002",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "scenario002",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 30530,
+      "real_time": 2.2944702061861411e+04,
+      "cpu_time": 2.2942499475925317e+04,
+      "time_unit": "ns"
+    }
+  ]
+}

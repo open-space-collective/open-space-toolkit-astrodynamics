@@ -522,7 +522,7 @@ benchmark-cpp: build-development-image ## Run C++ performance benchmark
 		/bin/bash -c "rm -rf /app/benchmark/cpp \
 		&& mkdir -p /app/benchmark/cpp \
 		&& cd /app/benchmark/cpp \
-		&& clang++ -std=c++14 -O3 -pthread /app/test/OpenSpaceToolkit/Astrodynamics/Performance/benchmark.cpp -l benchmark \
+		&& clang++ -std=c++14 -O3 -pthread /app/test/OpenSpaceToolkit/Astrodynamics/Benchmark/benchmark.cpp -l benchmark \
 		&& ./a.out --benchmark_format=json | tee benchmark_result.json"
 
 .PHONY: benchmark-cpp
