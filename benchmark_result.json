@@ -46,7 +46,7 @@
       "repetition_index": 0,
       "threads": 1,
       "iterations": 2833678,
-      "real_time": 1.7036548255249397e+02,
+      "real_time": 1.8036548255249397e+02,
       "cpu_time": 1.5034294912711300e+02,
       "time_unit": "ns"
     },
@@ -60,7 +60,7 @@
       "repetition_index": 0,
       "threads": 1,
       "iterations": 21530,
-      "real_time": 2.7944702061861411e+04,
+      "real_time": 2.6944702061861411e+04,
       "cpu_time": 2.4942499475925317e+04,
       "time_unit": "ns"
     }
