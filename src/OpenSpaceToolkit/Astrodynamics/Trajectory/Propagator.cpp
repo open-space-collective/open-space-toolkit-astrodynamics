@@ -343,13 +343,13 @@ Propagator Propagator::FromEnvironment(
     };
 }
 
-void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamics)
+void Propagator::registerDynamicsContext(const Shared<Dynamics> aDynamicsSPtr)
 {
     // Store read coordinate subsets information
     Array<Pair<Index, Size>> readInfo = Array<Pair<Index, Size>>::Empty();
 
     Size readStateSize = 0;
-    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getReadCoordinatesSubsets())
+    for (const Shared<const CoordinatesSubset>& subset : aDynamicsSPtr->getReadCoordinatesSubsets())
     {
         const Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         readInfo.add(indexAndSize);
@@ -359,18 +359,18 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamics)
 
     // Store write coordinate subsets information
     Array<Pair<Index, Size>> writeInfo = Array<Pair<Index, Size>>::Empty();
-    for (const Shared<const CoordinatesSubset>& subset : aDynamics->getWriteCoordinatesSubsets())
+    for (const Shared<const CoordinatesSubset>& subset : aDynamicsSPtr->getWriteCoordinatesSubsets())
     {
         const Pair<Index, Size> indexAndSize = {this->coordinatesBrokerSPtr_->addSubset(subset), subset->getSize()};
         writeInfo.add(indexAndSize);
     }
 
-    this->dynamicsInformation_.add({aDynamics, readInfo, writeInfo});
+    this->dynamicsInformation_.add({aDynamicsSPtr, readInfo, writeInfo});
 }
 
 NumericalSolver::StateVector Propagator::extractCoordinatesFromStateVector(const State& aState) const
 {
-    const State state = aState.inFrame(integrationFrame);
+    const State state = aState.inFrame(integrationFrameSPtr);
 
     Index offset = 0;
     NumericalSolver::StateVector extractedStateVector = NumericalSolver::StateVector(this->getNumberOfCoordinates());
