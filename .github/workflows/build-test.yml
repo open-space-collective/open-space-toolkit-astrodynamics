@@ -55,7 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - prepare-environment
-      - build-image-development
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
