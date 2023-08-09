@@ -64,10 +64,8 @@ jobs:
         with:
           tool: 'googlecpp'
           output-file-path: benchmark_result.json
-          external-data-json-path: ./cache/benchmark-data.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          summary-always: true
-          auto-push: false
+          auto-push: true
       
     # steps:
     #   - name: Checkout Repository
