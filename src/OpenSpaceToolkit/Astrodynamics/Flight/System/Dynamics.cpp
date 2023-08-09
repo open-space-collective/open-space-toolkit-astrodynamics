@@ -102,7 +102,7 @@ VectorXd Dynamics::extractReadState(
 )
 {
     Index offset = 0;
-    VectorXd reduced = VectorXd(readSize);
+    VectorXd reducedState = VectorXd(readSize);
 
     for (const Pair<Index, Size>& pair : readInfo)
     {
