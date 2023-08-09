@@ -53,10 +53,12 @@ jobs:
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
-    uses: benchmark-action/github-action-benchmark@v1
-    with:
-      tool: 'googlecpp'
-      output-file-path: benchmark_result.json
+    steps:
+      - uses: actions/checkout@v2
+      - uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'googlecpp'
+          output-file-path: benchmark_result.json
     # steps:
     #   - name: Checkout Repository
     #     uses: actions/checkout@v3
