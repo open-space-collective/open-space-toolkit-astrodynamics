@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - prepare-environment
-    uses: open-space-collective/open-space-toolkit/build-image-development@main
+    uses: open-space-collective/open-space-toolkit/.github/workflows/build-test.yml/build-image-development@main
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
