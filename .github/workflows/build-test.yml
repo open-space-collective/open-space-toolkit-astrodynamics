@@ -67,7 +67,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull Development Image
-        run: docker pull ${{ env.DOCKER_REGISTRY_PATH }}/${{ inputs.project_name }}-development:${{ inputs.project_version }}
+        run: docker pull ${{ env.DOCKER_REGISTRY_PATH }}/${{ env.PROJECT_NAME }}-development:${{ env.PROJECT_VERSION }}
       - name: Run C++ Benchmark
         run: make benchmark-cpp
       - name: Download previous benchmark
