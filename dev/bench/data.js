@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1691597786828,
+  "lastUpdate": 1691669878097,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -160,6 +160,38 @@ window.BENCHMARK_DATA = {
             "value": 26944.70206186141,
             "unit": "ns/iter",
             "extra": "iterations: 21530\ncpu: 24942.499475925317 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "open-space-collective",
+            "username": "open-space-collective"
+          },
+          "committer": {
+            "name": "open-space-collective",
+            "username": "open-space-collective"
+          },
+          "id": "60ae14b82809a8c0fcc85a18441629f3fae83315",
+          "message": "feat: include performance tests",
+          "timestamp": "2023-07-15T11:32:08Z",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/184/commits/60ae14b82809a8c0fcc85a18441629f3fae83315"
+        },
+        "date": 1691669876464,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "scenario001",
+            "value": 15599.38739908157,
+            "unit": "ns/iter",
+            "extra": "iterations: 45457\ncpu: 15578.969135666674 ns\nthreads: 1"
+          },
+          {
+            "name": "scenario002",
+            "value": 2608.1337943250874,
+            "unit": "ns/iter",
+            "extra": "iterations: 268696\ncpu: 2603.8325840354905 ns\nthreads: 1"
           }
         ]
       }
