@@ -56,9 +56,6 @@ jobs:
     needs:
       - prepare-environment
       - build-and-test
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -71,7 +68,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull Development Image
-        run: docker pull ${{ env.DOCKER_REGISTRY_PATH }}/${{ inputs.project_name }}-development:${{ inputs.project_version }}
+        run: docker pull ${{ env.DOCKER_REGISTRY_PATH }}/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
       - name: Run C++ Benchmark
         run: make benchmark-cpp
       - name: Download previous benchmark
