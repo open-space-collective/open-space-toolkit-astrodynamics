@@ -209,6 +209,16 @@ Or to run them manually:
 
 *Tip: The `ostk-test` command simplifies running tests from within the development environment.*
 
+### Benchmark
+
+To run benchmarks:
+
+```
+make benchmark-cpp
+```
+
+Benchmarks are pushed to the [GitHub pages](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/dev/bench/).
+
 ## Dependencies
 
 | Name        | Version   | License            | Link                                                                                                                                       |
