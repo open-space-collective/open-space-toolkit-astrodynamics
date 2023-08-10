@@ -55,10 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-and-test
-    with:
-      project_name: ${{ needs.prepare-environment.outputs.project_name }}
-      project_version: ${{ needs.prepare-environment.outputs.project_version }}
-    secrets: inherit
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
