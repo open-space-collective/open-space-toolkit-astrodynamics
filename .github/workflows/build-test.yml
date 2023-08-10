@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Pull Development Image
-        run: docker pull openspacecollective/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
+        run: docker pull $${{ needs.build-and-test.env.DOCKER_REGISTRY_PATH }}/${{ needs.prepare-environment.outputs.project_name }}-development:${{ needs.prepare-environment.outputs.project_version }}
       - name: Run C++ Benchmark
         run: make benchmark-cpp
       - name: Download previous benchmark
