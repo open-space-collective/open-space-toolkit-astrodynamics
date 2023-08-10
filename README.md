@@ -209,6 +209,16 @@ Or to run them manually:
 
 *Tip: The `ostk-test` command simplifies running tests from within the development environment.*
 
+### Benchmark
+
+To run benchmarks:
+
+```
+make benchmark
+```
+
+Benchmarks are pushed to the [GitHub pages](https://open-space-collective.github.io/open-space-toolkit-astrodynamics/dev/bench/).
+
 ## Dependencies
 
 | Name        | Version   | License            | Link                                                                                                                                       |
@@ -218,6 +228,7 @@ Or to run them manually:
 | Eigen       | `3.3.7`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
 | SGP4        | `6a448b4` | Apache License 2.0 | [github.com/dnwrnr/sgp4](https://github.com/dnwrnr/sgp4)                                                                                   |
 | NLopt       | `2.5.0`   | LGPL               | [github.com/stevengj/nlopt](https://github.com/stevengj/nlopt)                                                                             |
+| benchmark   | `1.8.2`   | Apache License 2.0 | [github.com/google/benchmark](https://github.com/google/benchmark)                                                                             |
 | Core        | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-core](https://github.com/open-space-collective/open-space-toolkit-core)               |
 | I/O         | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-io](https://github.com/open-space-collective/open-space-toolkit-io)                   |
 | Mathematics | `main`    | Apache License 2.0 | [github.com/open-space-collective/open-space-toolkit-mathematics](https://github.com/open-space-collective/open-space-toolkit-mathematics) |
