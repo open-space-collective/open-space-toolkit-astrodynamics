@@ -43,6 +43,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 
 using ostk::physics::Environment;
 using ostk::physics::coord::Position;
@@ -103,6 +104,18 @@ class Propagator
 
     bool isDefined() const;
 
+    /// @brief              Get the number of propagated coordinates
+    ///
+    /// @return             The number of propagated coordinates
+
+    Size getNumberOfCoordinates() const;
+
+    /// @brief              Access the coordinates broker
+    ///
+    /// @return             The coordinates broker
+
+    const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
+
     /// @brief              Get the dynamics array
     /// @code
     ///                     Array<Shared<Dynamics>> dynamics = propagator.getDynamics();
@@ -121,11 +134,11 @@ class Propagator
 
     /// @brief              Add a dynamics to the array of shared pointers to dynamics
     /// @code
-    ///                     propagator.addDynamics(aDynamics);
+    ///                     propagator.addDynamics(aDynamicsSPtr);
     /// @endcode
-    /// @param              [in] aDynamics A Dynamics shared pointer
+    /// @param              [in] aDynamicsSPtr A Dynamics shared pointer
 
-    void addDynamics(const Shared<Dynamics>& aDynamics);
+    void addDynamics(const Shared<Dynamics>& aDynamicsSPtr);
 
     /// @brief              Clear the dynamics array
     /// @code
@@ -203,8 +216,13 @@ class Propagator
     );
 
    private:
-    Array<Shared<Dynamics>> dynamics_;
+    Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();
+    Array<Dynamics::Context> dynamicsContexts_ = Array<Dynamics::Context>::Empty();
     mutable NumericalSolver numericalSolver_;
+
+    void registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr);
+
+    NumericalSolver::StateVector extractCoordinatesFromStateVector(const State& aState) const;
 };
 
 }  // namespace trajectory

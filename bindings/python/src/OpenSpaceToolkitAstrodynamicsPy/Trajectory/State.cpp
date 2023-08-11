@@ -26,10 +26,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
         .def("is_defined", &State::isDefined)
 
+        .def("get_size", &State::getSize)
         .def("get_instant", &State::getInstant)
         .def("get_position", &State::getPosition)
         .def("get_velocity", &State::getVelocity)
         .def("get_coordinates", &State::getCoordinates)
+        .def("get_frame", &State::getFrame)
+
         .def("in_frame", &State::inFrame, arg("frame"))
 
         .def_static("undefined", &State::Undefined)

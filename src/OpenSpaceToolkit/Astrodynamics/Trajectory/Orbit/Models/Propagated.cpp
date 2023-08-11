@@ -205,19 +205,20 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         for (Size k = 0; k < instants.getSize(); ++k)
         {
             Real forwardWeight =
-                (this->cachedStateArray_[i + 1].getInstant() - instants[k]).inSeconds() / durationBetweenStates;
+                (this->cachedStateArray_[i + 1].accessInstant() - instants[k]).inSeconds() / durationBetweenStates;
             Real backwardWeight =
-                (instants[k] - this->cachedStateArray_[i].getInstant()).inSeconds() / durationBetweenStates;
+                (instants[k] - this->cachedStateArray_[i].accessInstant()).inSeconds() / durationBetweenStates;
 
             VectorXd coordinates =
-                (forwardStates[k].getCoordinates() * forwardWeight + backwardStates[k].getCoordinates() * backwardWeight
-                );
+                (forwardStates[k].accessCoordinates() * forwardWeight +
+                 backwardStates[k].accessCoordinates() * backwardWeight);
 
-            averagedStates.add(
-                {instants[k],
-                 Position::Meters({coordinates[0], coordinates[1], coordinates[2]}, gcrfSPtr),
-                 Velocity::MetersPerSecond({coordinates[3], coordinates[4], coordinates[5]}, gcrfSPtr)}
-            );
+            averagedStates.add({
+                instants[k],
+                coordinates,
+                gcrfSPtr,
+                propagator_.accessCoordinatesBroker(),
+            });
         }
 
         allStates.add(averagedStates);

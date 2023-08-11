@@ -11,9 +11,28 @@ namespace flight
 namespace system
 {
 
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
 using ostk::core::types::Index;
+using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
+
+Dynamics::Context::Context(
+    const Shared<Dynamics>& aDynamicsSPtr,
+    const Array<Pair<Index, Size>>& aReadIndexes,
+    const Array<Pair<Index, Size>>& aWriteIndexes
+)
+    : dynamics(aDynamicsSPtr),
+      readIndexes(aReadIndexes),
+      writeIndexes(aWriteIndexes),
+      readStateSize(0)
+{
+    for (const Pair<Index, Size>& pair : readIndexes)
+    {
+        this->readStateSize += pair.second;
+    }
+}
 
 Dynamics::Dynamics(const String& aName)
     : name_(aName)
@@ -36,8 +55,8 @@ void Dynamics::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
-    const Array<Shared<Dynamics>>& aDynamicsArray, const Instant& anInstant
+NumericalSolver::SystemOfEquationsWrapper Dynamics::GetSystemOfEquations(
+    const Array<Dynamics::Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
 )
 {
     return std::bind(
@@ -45,8 +64,9 @@ NumericalSolver::SystemOfEquationsWrapper Dynamics::GetDynamicalEquations(
         std::placeholders::_1,
         std::placeholders::_2,
         std::placeholders::_3,
-        aDynamicsArray,
-        anInstant
+        aContextArray,
+        anInstant,
+        aFrameSPtr
     );
 }
 
@@ -54,20 +74,58 @@ void Dynamics::DynamicalEquations(
     const NumericalSolver::StateVector& x,
     NumericalSolver::StateVector& dxdt,
     const double& t,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Instant& anInstant
+    const Array<Dynamics::Context>& aContextArray,
+    const Instant& anInstant,
+    const Shared<const Frame>& aFrameSPtr
 )
 {
-    for (Size i = 0; i < (Size)dxdt.size(); ++i)
-    {
-        dxdt[i] = 0;
-    }
+    dxdt.setZero();
 
     const Instant nextInstant = anInstant + Duration::Seconds(t);
 
-    for (const Shared<Dynamics>& dynamics : aDynamicsArray)
+    for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
-        dynamics->applyContribution(x, dxdt, nextInstant);
+        const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
+            nextInstant,
+            Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize),
+            aFrameSPtr
+        );
+
+        Dynamics::applyContribution(dxdt, contribution, dynamicsContext.writeIndexes);
+    }
+}
+
+VectorXd Dynamics::extractReadState(
+    const NumericalSolver::StateVector& x, const Array<Pair<Index, Size>>& readInfo, const Size readSize
+)
+{
+    Index offset = 0;
+    VectorXd reducedState = VectorXd(readSize);
+
+    for (const Pair<Index, Size>& pair : readInfo)
+    {
+        const Index subsetOffset = pair.first;
+        const Size subsetSize = pair.second;
+
+        reducedState.segment(offset, subsetSize) = x.segment(subsetOffset, subsetSize);
+        offset += subsetSize;
+    }
+
+    return reducedState;
+}
+
+void Dynamics::applyContribution(
+    NumericalSolver::StateVector& dxdt, const VectorXd& contribution, const Array<Pair<Index, Size>>& writeInfo
+)
+{
+    Index offset = 0;
+    for (Pair<Index, Size> pair : writeInfo)
+    {
+        const Index subsetOffset = pair.first;
+        const Size subsetSize = pair.second;
+
+        dxdt.segment(subsetOffset, subsetSize) += contribution.segment(offset, subsetSize);
+        offset += subsetSize;
     }
 }
 

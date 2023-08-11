@@ -6,6 +6,8 @@
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 namespace ostk
 {
@@ -17,6 +19,9 @@ namespace system
 {
 namespace dynamics
 {
+
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 PositionDerivative::PositionDerivative()
     : Dynamics("Position Derivative")
@@ -42,16 +47,28 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative&
     return anOutputStream;
 }
 
-void PositionDerivative::applyContribution(
-    const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+Array<Shared<const CoordinatesSubset>> PositionDerivative::getReadCoordinatesSubsets() const
+{
+    return {
+        CartesianVelocity::Default(),
+    };
+}
+
+Array<Shared<const CoordinatesSubset>> PositionDerivative::getWriteCoordinatesSubsets() const
+{
+    return {
+        CartesianPosition::Default(),
+    };
+}
+
+VectorXd PositionDerivative::computeContribution(
+    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
 ) const
 {
-    (void)anInstant;
+    VectorXd contribution(3);
+    contribution << x[0], x[1], x[2];
 
-    // Integrate position states
-    dxdt[0] = x[3];
-    dxdt[1] = x[4];
-    dxdt[2] = x[5];
+    return contribution;
 }
 
 void PositionDerivative::print(std::ostream& anOutputStream, bool displayDecorator) const

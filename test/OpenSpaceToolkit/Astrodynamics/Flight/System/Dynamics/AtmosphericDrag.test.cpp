@@ -1,10 +1,11 @@
 /// Apache License 2.0
 
-#include <boost/numeric/odeint.hpp>
-#include <boost/numeric/odeint/external/eigen/eigen.hpp>
-
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
+#include <OpenSpaceToolkit/Core/Types/Index.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
@@ -29,11 +30,17 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Pair;
+using ostk::core::types::Index;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 using ostk::core::types::String;
 
 using ostk::math::geom::d3::objects::Composite;
@@ -41,6 +48,7 @@ using ostk::math::geom::d3::objects::Cuboid;
 using ostk::math::geom::d3::objects::Point;
 using ostk::math::obj::Matrix3d;
 using ostk::math::obj::Vector3d;
+using ostk::math::obj::VectorXd;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -61,14 +69,15 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
-
-using namespace boost::numeric::odeint;
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::NumericalSolver;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
@@ -222,93 +231,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
     EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ApplyContribution)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetReadCoordinatesSubsets)
 {
-    NumericalSolver::StateVector dxdt(6);
-    dxdt.setZero();
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
-    atmosphericDrag.applyContribution(startStateVector_, dxdt, startInstant_);
-    EXPECT_GT(1e-15, 0.0 - dxdt[0]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[1]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[2]);
-    EXPECT_GT(1e-15, 0.0 - dxdt[3]);
-    EXPECT_GT(5e-11, -0.0000278707803890 - dxdt[4]);
-    EXPECT_GT(5e-11, -0.0000000000197640 - dxdt[5]);
+
+    const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getReadCoordinatesSubsets();
+
+    EXPECT_EQ(2, subsets.size());
+    EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
+    EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
 }
 
-// Test data gathered from Orekit
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereOnly)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetWriteCoordinatesSubsets)
 {
-    // Setup dynamics
-    const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<AtmosphericDrag>(AtmosphericDrag(earthSPtr_, satelliteSystem_))
-    };
+    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
 
-    // Perform 1.0s integration step
-    runge_kutta4<NumericalSolver::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
+    const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getWriteCoordinatesSubsets();
 
-    // Set reference pull values for the Earth
-    NumericalSolver::StateVector Earth_ReferencePull(6);
-    Earth_ReferencePull << 7000000.0000000000000000, 0.0, 0.0, 0.0, 7546.0532621292200000, -00000.0000000000197640;
-
-    EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
-    EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
-    EXPECT_GT(5e-11, startStateVector_[2] - Earth_ReferencePull[2]);
-    EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
-    EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
-    EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
+    EXPECT_EQ(1, subsets.size());
+    EXPECT_EQ(CartesianVelocity::Default(), subsets[0]);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, OneStepAtmosphereGravity)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ComputeContribution)
 {
-    // Setup dynamics
-    const Earth earth = {
-        std::make_shared<Analytical>(Frame::ITRF()),
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-    };
+    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
 
-    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+    const VectorXd contribution =
+        atmosphericDrag.computeContribution(startInstant_, startStateVector_.segment(0, 6), Frame::GCRF());
 
-    const Composite satelliteGeometry(Cuboid {
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
-    });
-
-    const SatelliteSystem satelliteSystem = {
-        Mass::Kilograms(100.0),
-        satelliteGeometry,
-        Matrix3d::Identity(),
-        1.0,
-        2.1,
-    };
-
-    const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<PositionDerivative>(),
-        std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
-    };
-
-    // Setup initial conditions
-    const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
-
-    NumericalSolver::StateVector startStateVector(6);
-    startStateVector << 6878137.0, 0.0, 0.0, 0.0, 7612.608170359118000, 0.0;
-
-    // Perform 1.0s integration step
-    runge_kutta4<NumericalSolver::StateVector> stepper;
-    stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant), startStateVector, (0.0), 1.0);
-
-    // Set reference pull values for the Earth
-    NumericalSolver::StateVector referenceValues(6);
-    referenceValues << 6878132.787246078000000, 7612.606615971900000, -0.000000000000330, -8.425506982847088,
-        7612.603507382901000, -0.000000000000649;
-
-    EXPECT_GT(1e-12, startStateVector[0] - referenceValues[0]);
-    EXPECT_GT(1e-12, startStateVector[1] - referenceValues[1]);
-    EXPECT_GT(1e-12, startStateVector[2] - referenceValues[2]);
-    EXPECT_GT(1e-12, startStateVector[3] - referenceValues[3]);
-    EXPECT_GT(1e-12, startStateVector[4] - referenceValues[4]);
-    EXPECT_GT(1e-12, startStateVector[5] - referenceValues[5]);
+    EXPECT_EQ(3, contribution.size());
+    EXPECT_GT(1e-15, 0.0 - contribution[0]);
+    EXPECT_GT(5e-11, -0.0000278707803890 - contribution[1]);
+    EXPECT_GT(5e-11, -0.0000000000197640 - contribution[2]);
 }

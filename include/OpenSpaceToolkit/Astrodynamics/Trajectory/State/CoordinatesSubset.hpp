@@ -88,8 +88,8 @@ class CoordinatesSubset
     /// @param              [in] anInstant the instant associated to the coordinates
     /// @param              [in] aFullCoordinatesVector first set of all coordinates
     /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
-    /// @param              [in] aFrame the reference frame in which the coordinates are resolved
-    /// @param              [in] aCoordinatesBroker a coordinates broker
+    /// @param              [in] aFrameSPtr the reference frame in which the coordinates are resolved
+    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
     ///
     /// @return             The resulting coordinates subset value (subset_1 + subset_2)
 
@@ -97,8 +97,8 @@ class CoordinatesSubset
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBroker
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const = 0;
 
     /// @brief              Subtract two coordinates subsets
@@ -106,8 +106,8 @@ class CoordinatesSubset
     /// @param              [in] anInstant the instant associated to the coordinates
     /// @param              [in] aFullCoordinatesVector first set of all coordinates
     /// @param              [in] anotherFullCoordinatesVector second set of all coordinates
-    /// @param              [in] aFrame the reference frame associated to the coordinates
-    /// @param              [in] aCoordinatesBroker a coordinates broker
+    /// @param              [in] aFrameSPtr the reference frame associated to the coordinates
+    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
     ///
     /// @return             The resulting coordinates subset value (subset_1 - subset_2)
 
@@ -115,8 +115,8 @@ class CoordinatesSubset
         const Instant& anInstant,
         const VectorXd& aFullCoordinatesVector,
         const VectorXd& anotherFullCoordinatesVector,
-        const Shared<const Frame>& aFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBroker
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const = 0;
 
     /// @brief              Transform the coordinate subset from one frame to another
@@ -125,7 +125,7 @@ class CoordinatesSubset
     /// @param              [in] aFullCoordinatesVector all coordinates
     /// @param              [in] fromFrame the reference frame associated to the coordinates
     /// @param              [in] toFrame the reference frame in which the coordinates are to be transformed
-    /// @param              [in] aCoordinatesBroker a coordinates broker
+    /// @param              [in] aCoordinatesBrokerSPtr a coordinates broker
     ///
     /// @return             The resulting coordinates subset value expressed in the desired reference frame
 
@@ -134,7 +134,7 @@ class CoordinatesSubset
         const VectorXd& aFullCoordinatesVector,
         const Shared<const Frame>& fromFrame,
         const Shared<const Frame>& toFrame,
-        const Shared<const CoordinatesBroker>& aCoordinatesBroker
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const = 0;
 
    private:

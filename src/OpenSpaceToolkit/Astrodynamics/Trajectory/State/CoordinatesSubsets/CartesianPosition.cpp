@@ -30,24 +30,24 @@ VectorXd CartesianPosition::add(
     [[maybe_unused]] const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,
     const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBroker
+    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) +
-           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
+    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) +
+           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianPosition::subtract(
     [[maybe_unused]] const Instant& anInstant,
     const VectorXd& aFullCoordinatesVector,
     const VectorXd& anotherFullCoordinatesVector,
-    [[maybe_unused]] const Shared<const Frame>& aFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBroker
+    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    return aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this) -
-           aCoordinatesBroker->extractCoordinates(anotherFullCoordinatesVector, *this);
+    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) -
+           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
 }
 
 VectorXd CartesianPosition::inFrame(
@@ -55,10 +55,10 @@ VectorXd CartesianPosition::inFrame(
     const VectorXd& aFullCoordinatesVector,
     const Shared<const Frame>& fromFrame,
     const Shared<const Frame>& toFrame,
-    const Shared<const CoordinatesBroker>& aCoordinatesBroker
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 ) const
 {
-    VectorXd positionCoordinates = aCoordinatesBroker->extractCoordinates(aFullCoordinatesVector, *this);
+    VectorXd positionCoordinates = aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this);
 
     Vector3d toFrameCoordinates =
         Position::Meters({positionCoordinates(0), positionCoordinates(1), positionCoordinates(2)}, fromFrame)

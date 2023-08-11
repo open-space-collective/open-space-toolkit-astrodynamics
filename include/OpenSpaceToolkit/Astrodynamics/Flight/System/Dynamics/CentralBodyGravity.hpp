@@ -3,11 +3,12 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_CentralBodyGravity__
 
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
+
 #include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -20,13 +21,13 @@ namespace system
 namespace dynamics
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::String;
 
 using ostk::physics::env::obj::Celestial;
 using ostk::physics::time::Instant;
 
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::NumericalSolver;
 
 /// @brief                      Define the acceleration experienced by a point mass due to gravity
 
@@ -87,14 +88,30 @@ class CentralBodyGravity : public Dynamics
 
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief              Apply contribution to the state derivative
+    /// @brief              Return the coordinates subsets that the instance reads from
     ///
-    /// @param              [in] x A state vector
-    /// @param              [in] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
+    /// @return             The coordinates subsets that the instance reads from
 
-    virtual void applyContribution(
-        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+
+    /// @brief              Return the coordinates subsets that the instance writes to
+    ///
+    /// @return             The coordinates subsets that the instance writes to
+
+    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+
+    /// @brief              Compute the contribution to the state derivative.
+    ///
+    /// @param anInstant    An instant
+    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
+    /// coordinate subsets)
+    /// @param aFrameSPtr       The frame in which the state vector is expressed
+    ///
+    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
+    /// the 'write' coordinate subsets) expressed in the given frame
+
+    virtual VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
     /// @brief              Print central body gravity dynamics

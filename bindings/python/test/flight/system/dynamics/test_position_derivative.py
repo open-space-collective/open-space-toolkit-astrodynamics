@@ -43,7 +43,9 @@ class TestPositionDerivative:
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_apply_contribution(self, dynamics: PositionDerivative, state: State):
-        dxdt: np.ndarray = np.zeros(6)
-        dynamics.apply_contribution(state.get_coordinates(), dxdt, state.get_instant())
-        assert True
+    def test_compute_contribution(self, dynamics: PositionDerivative, state: State):
+        contribution = dynamics.compute_contribution(
+            state.get_instant(), state.get_coordinates(), state.get_frame()
+        )
+        assert len(contribution) == 3
+        assert contribution == pytest.approx(state.get_coordinates()[:3])

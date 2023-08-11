@@ -25,7 +25,7 @@ State::State(
     const Instant& anInstant,
     const VectorXd& aCoordinates,
     const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker> aCoordinatesBrokerSPtr
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 )
     : instant_(anInstant),
       coordinates_(aCoordinates),
@@ -84,19 +84,17 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    if (this->coordinates_ != aState.coordinates_)
+    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
-        return false;
-    }
+        if (!aState.coordinatesBrokerSPtr_->hasSubset(subset))
+        {
+            return false;
+        }
 
-    if (this->coordinatesBrokerSPtr_ == aState.coordinatesBrokerSPtr_)
-    {
-        return true;
-    }
-
-    if (*this->coordinatesBrokerSPtr_ != *aState.coordinatesBrokerSPtr_)
-    {
-        return false;
+        if (this->extractCoordinates(subset) != aState.extractCoordinates(subset))
+        {
+            return false;
+        }
     }
 
     return true;
@@ -267,10 +265,7 @@ Position State::getPosition() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Position::Meters(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianPosition::Default()), 3),
-        this->frameSPtr_
-    );
+    return Position::Meters(this->extractCoordinates(CartesianPosition::Default()), this->frameSPtr_);
 }
 
 Velocity State::getVelocity() const
@@ -280,15 +275,17 @@ Velocity State::getVelocity() const
         throw ostk::core::error::runtime::Undefined("State");
     }
 
-    return Velocity::MetersPerSecond(
-        this->coordinates_.segment(this->coordinatesBrokerSPtr_->getSubsetIndex(CartesianVelocity::Default()), 3),
-        this->frameSPtr_
-    );
+    return Velocity::MetersPerSecond(this->extractCoordinates(CartesianVelocity::Default()), this->frameSPtr_);
 }
 
 VectorXd State::getCoordinates() const
 {
     return this->accessCoordinates();
+}
+
+VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const
+{
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubetSPtr);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
