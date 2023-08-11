@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1691690013482,
+  "lastUpdate": 1691757219246,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -256,6 +256,50 @@ window.BENCHMARK_DATA = {
             "value": 602.5417526510666,
             "unit": "ns/iter",
             "extra": "iterations: 1167363\ncpu: 602.4481673652497 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "open-space-collective",
+            "username": "open-space-collective"
+          },
+          "committer": {
+            "name": "open-space-collective",
+            "username": "open-space-collective"
+          },
+          "id": "4074b642964cde6a87e813e58c82961fd4fe5988",
+          "message": "feat: add benchmarking framework",
+          "timestamp": "2023-07-15T11:32:08Z",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/pull/186/commits/4074b642964cde6a87e813e58c82961fd4fe5988"
+        },
+        "date": 1691757216964,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 7250704210.900017,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 7244453970.000003 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 30593727167.900024,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 30588553730.000008 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 30559702602.899982,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 30554176989.99999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 33425676501.100018,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 33420154630.00001 ns\nthreads: 1"
           }
         ]
       }
