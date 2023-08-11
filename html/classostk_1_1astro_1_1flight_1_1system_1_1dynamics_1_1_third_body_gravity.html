@@ -123,9 +123,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3efa83eb9c4e78f8fb6ec159e193877e"><td class="memItemLeft" align="right" valign="top">Shared&lt; const Celestial &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a3efa83eb9c4e78f8fb6ec159e193877e">getCelestial</a> () const</td></tr>
 <tr class="memdesc:a3efa83eb9c4e78f8fb6ec159e193877e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get celestial.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a3efa83eb9c4e78f8fb6ec159e193877e">More...</a><br /></td></tr>
 <tr class="separator:a3efa83eb9c4e78f8fb6ec159e193877e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a52332ea7a3dd07889ef194690ada92"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a4a52332ea7a3dd07889ef194690ada92">applyContribution</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;x, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;dxdt, const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:a4a52332ea7a3dd07889ef194690ada92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a4a52332ea7a3dd07889ef194690ada92">More...</a><br /></td></tr>
-<tr class="separator:a4a52332ea7a3dd07889ef194690ada92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfbbe20757d4e0d4b0480915ca8f7789"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#acfbbe20757d4e0d4b0480915ca8f7789">getReadCoordinatesSubsets</a> () const override</td></tr>
+<tr class="memdesc:acfbbe20757d4e0d4b0480915ca8f7789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the coordinates subsets that the instance reads from.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#acfbbe20757d4e0d4b0480915ca8f7789">More...</a><br /></td></tr>
+<tr class="separator:acfbbe20757d4e0d4b0480915ca8f7789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab88f4e3145fb9be25acede6aeb85ebf6"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ab88f4e3145fb9be25acede6aeb85ebf6">getWriteCoordinatesSubsets</a> () const override</td></tr>
+<tr class="memdesc:ab88f4e3145fb9be25acede6aeb85ebf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the coordinates subsets that the instance writes to.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ab88f4e3145fb9be25acede6aeb85ebf6">More...</a><br /></td></tr>
+<tr class="separator:ab88f4e3145fb9be25acede6aeb85ebf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37f33dc52ed8be334e64ead1aceff384"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a37f33dc52ed8be334e64ead1aceff384">computeContribution</a> (const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</td></tr>
+<tr class="memdesc:a37f33dc52ed8be334e64ead1aceff384"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a37f33dc52ed8be334e64ead1aceff384">More...</a><br /></td></tr>
+<tr class="separator:a37f33dc52ed8be334e64ead1aceff384"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc3898d92a779f5a3a111f0e0d4a27ae"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#acc3898d92a779f5a3a111f0e0d4a27ae">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="memdesc:acc3898d92a779f5a3a111f0e0d4a27ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print third body gravity dynamics.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#acc3898d92a779f5a3a111f0e0d4a27ae">More...</a><br /></td></tr>
 <tr class="separator:acc3898d92a779f5a3a111f0e0d4a27ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,12 +155,9 @@ Friends</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">GetDynamicalEquations</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</td></tr>
-<tr class="memdesc:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">More...</a><br /></td></tr>
-<tr class="separator:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">const Shared&lt; const Frame &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF()</td></tr>
-<tr class="separator:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">GetSystemOfEquations</a> (const Array&lt; <a class="el" href="structostk_1_1astro_1_1flight_1_1system_1_1_dynamics_1_1_context.html">Context</a> &gt; &amp;aContextArray, const Instant &amp;anInstant, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</td></tr>
+<tr class="memdesc:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get system of equations wrapper.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">More...</a><br /></td></tr>
+<tr class="separator:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Define the acceleration experienced by a point mass due to gravity. </p>
@@ -255,60 +258,6 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4a52332ea7a3dd07889ef194690ada92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a52332ea7a3dd07889ef194690ada92">&#9670;&nbsp;</a></span>applyContribution()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ostk::astro::flight::system::dynamics::ThirdBodyGravity::applyContribution </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
-          <td class="paramname"><em>dxdt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>anInstant</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Apply contribution to the state derivative. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>A state vector </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">dxdt</td><td>A state derivative vector </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a96bc85c25ffe90dc88a42335d8ffd433">ostk::astro::flight::system::Dynamics</a>.</p>
-
-</div>
-</div>
 <a id="a56b1b97d5d10facdf884cf461f0deb3c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56b1b97d5d10facdf884cf461f0deb3c">&#9670;&nbsp;</a></span>clone()</h2>
 
@@ -339,6 +288,61 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a37f33dc52ed8be334e64ead1aceff384"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37f33dc52ed8be334e64ead1aceff384">&#9670;&nbsp;</a></span>computeContribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd ostk::astro::flight::system::dynamics::ThirdBodyGravity::computeContribution </td>
+          <td>(</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Shared&lt; const Frame &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aFrameSPtr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the contribution to the state derivative. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The reduced derivative state vector (this vector must follow the structure determined by the 'write' coordinate subsets) expressed in the given frame </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a945e44635ba9038b1a3a198deb1b1184">ostk::astro::flight::system::Dynamics</a>.</p>
+
+</div>
+</div>
 <a id="a3efa83eb9c4e78f8fb6ec159e193877e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3efa83eb9c4e78f8fb6ec159e193877e">&#9670;&nbsp;</a></span>getCelestial()</h2>
 
@@ -356,6 +360,66 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Get celestial. </p>
 <dl class="section return"><dt>Returns</dt><dd>A celestial object </dd></dl>
+
+</div>
+</div>
+<a id="acfbbe20757d4e0d4b0480915ca8f7789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfbbe20757d4e0d4b0480915ca8f7789">&#9670;&nbsp;</a></span>getReadCoordinatesSubsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt; ostk::astro::flight::system::dynamics::ThirdBodyGravity::getReadCoordinatesSubsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the coordinates subsets that the instance reads from. </p>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance reads from </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a4227a9bf26bde9932c0d818a67972076">ostk::astro::flight::system::Dynamics</a>.</p>
+
+</div>
+</div>
+<a id="ab88f4e3145fb9be25acede6aeb85ebf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab88f4e3145fb9be25acede6aeb85ebf6">&#9670;&nbsp;</a></span>getWriteCoordinatesSubsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt; ostk::astro::flight::system::dynamics::ThirdBodyGravity::getWriteCoordinatesSubsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the coordinates subsets that the instance writes to. </p>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance writes to </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a0f64bb21af5bc827763a8c3c422d0dbb">ostk::astro::flight::system::Dynamics</a>.</p>
 
 </div>
 </div>
@@ -489,7 +553,7 @@ Additional Inherited Members</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_html_ab280a713c968373a2b030fe761d4431c"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ab280a713c968373a2b030fe761d4431c">ostk::astro::flight::system::dynamics::ThirdBodyGravity::ThirdBodyGravity</a></div><div class="ttdeci">ThirdBodyGravity(const Shared&lt; const Celestial &gt; &amp;aCelestial)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> ThirdBodyGravity.cpp:32</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_html_ab280a713c968373a2b030fe761d4431c"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ab280a713c968373a2b030fe761d4431c">ostk::astro::flight::system::dynamics::ThirdBodyGravity::ThirdBodyGravity</a></div><div class="ttdeci">ThirdBodyGravity(const Shared&lt; const Celestial &gt; &amp;aCelestial)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> ThirdBodyGravity.cpp:37</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

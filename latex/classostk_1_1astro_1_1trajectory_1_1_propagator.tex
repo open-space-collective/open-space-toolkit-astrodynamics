@@ -20,11 +20,15 @@ bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}{is\+Defined}} () const
 \begin{DoxyCompactList}\small\item\em Check if propagator is defined. \end{DoxyCompactList}\item 
+Size \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}{get\+Number\+Of\+Coordinates}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of propagated coordinates. \end{DoxyCompactList}\item 
+const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae462ca0a630a1fb7767b9aa3fe4db6f2}{access\+Coordinates\+Broker}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the coordinates broker. \end{DoxyCompactList}\item 
 Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}{get\+Dynamics}} () const
 \begin{DoxyCompactList}\small\item\em Get the dynamics array. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}{set\+Dynamics}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array)
 \begin{DoxyCompactList}\small\item\em Set the dynamics array. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}{add\+Dynamics}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics)
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}{add\+Dynamics}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Add a dynamics to the array of shared pointers to dynamics. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}{clear\+Dynamics}} ()
 \begin{DoxyCompactList}\small\item\em Clear the dynamics array. \end{DoxyCompactList}\item 
@@ -84,11 +88,24 @@ Constructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a49d3f0cd493a13fdb2fbca1c3a120745}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_ae462ca0a630a1fb7767b9aa3fe4db6f2}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_ae462ca0a630a1fb7767b9aa3fe4db6f2}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!accessCoordinatesBroker@{accessCoordinatesBroker}}
+\index{accessCoordinatesBroker@{accessCoordinatesBroker}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{accessCoordinatesBroker()}{accessCoordinatesBroker()}}
+{\footnotesize\ttfamily const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \& ostk\+::astro\+::trajectory\+::\+Propagator\+::access\+Coordinates\+Broker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the coordinates broker. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates broker 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!addDynamics@{addDynamics}}
 \index{addDynamics@{addDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{addDynamics()}{addDynamics()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::add\+Dynamics (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::add\+Dynamics (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics\+S\+Ptr }\end{DoxyParamCaption})}
 
 
 
@@ -96,11 +113,11 @@ Add a dynamics to the array of shared pointers to dynamics.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{propagator.addDynamics(aDynamics);}
+\DoxyCodeLine{propagator.addDynamics(aDynamicsSPtr);}
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Dynamics} & A Dynamics shared pointer \\
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & A Dynamics shared pointer \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
@@ -244,6 +261,19 @@ Get the dynamics array.
 \end{DoxyCode}
  \begin{DoxyReturn}{Returns}
 An array of dynamics shared pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!getNumberOfCoordinates@{getNumberOfCoordinates}}
+\index{getNumberOfCoordinates@{getNumberOfCoordinates}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{getNumberOfCoordinates()}{getNumberOfCoordinates()}}
+{\footnotesize\ttfamily Size ostk\+::astro\+::trajectory\+::\+Propagator\+::get\+Number\+Of\+Coordinates (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the number of propagated coordinates. 
+
+\begin{DoxyReturn}{Returns}
+The number of propagated coordinates 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!isDefined@{isDefined}}

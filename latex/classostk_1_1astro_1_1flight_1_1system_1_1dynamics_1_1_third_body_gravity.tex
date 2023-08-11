@@ -30,8 +30,12 @@ virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics
 \begin{DoxyCompactList}\small\item\em Check if third body gravity dynamics is defined. \end{DoxyCompactList}\item 
 Shared$<$ const Celestial $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a3efa83eb9c4e78f8fb6ec159e193877e}{get\+Celestial}} () const
 \begin{DoxyCompactList}\small\item\em Get celestial. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a4a52332ea7a3dd07889ef194690ada92}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
-\begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_acfbbe20757d4e0d4b0480915ca8f7789}{get\+Read\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_ab88f4e3145fb9be25acede6aeb85ebf6}{get\+Write\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance writes to. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a37f33dc52ed8be334e64ead1aceff384}{compute\+Contribution}} (const Instant \&an\+Instant, const Vector\+Xd \&x, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const override
+\begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_acc3898d92a779f5a3a111f0e0d4a27ae}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print third body gravity dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
@@ -106,29 +110,6 @@ Destructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a4a52332ea7a3dd07889ef194690ada92}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a4a52332ea7a3dd07889ef194690ada92}} 
-\index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!applyContribution@{applyContribution}}
-\index{applyContribution@{applyContribution}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
-\doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Apply contribution to the state derivative. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em x} & A state vector \\
-\hline
-\mbox{\texttt{ out}}  & {\em dxdt} & A state derivative vector \\
-\hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
-\hline
-\end{DoxyParams}
-
-
-Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
-
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a56b1b97d5d10facdf884cf461f0deb3c}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a56b1b97d5d10facdf884cf461f0deb3c}} 
 \index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!clone@{clone}}
 \index{clone@{clone}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
@@ -146,6 +127,32 @@ Pointer to cloned third body gravity dynamics
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a37f33dc52ed8be334e64ead1aceff384}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a37f33dc52ed8be334e64ead1aceff384}} 
+\index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!computeContribution@{computeContribution}}
+\index{computeContribution@{computeContribution}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
+\doxysubsubsection{\texorpdfstring{computeContribution()}{computeContribution()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity\+::compute\+Contribution (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{x,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute the contribution to the state derivative. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
+\hline
+{\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+\hline
+{\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The reduced derivative state vector (this vector must follow the structure determined by the \textquotesingle{}write\textquotesingle{} coordinate subsets) expressed in the given frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a945e44635ba9038b1a3a198deb1b1184}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a3efa83eb9c4e78f8fb6ec159e193877e}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a3efa83eb9c4e78f8fb6ec159e193877e}} 
 \index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!getCelestial@{getCelestial}}
 \index{getCelestial@{getCelestial}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
@@ -159,6 +166,40 @@ Get celestial.
 \begin{DoxyReturn}{Returns}
 A celestial object 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_acfbbe20757d4e0d4b0480915ca8f7789}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_acfbbe20757d4e0d4b0480915ca8f7789}} 
+\index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
+\index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
+\doxysubsubsection{\texorpdfstring{getReadCoordinatesSubsets()}{getReadCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity\+::get\+Read\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance reads from. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance reads from 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a4227a9bf26bde9932c0d818a67972076}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_ab88f4e3145fb9be25acede6aeb85ebf6}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_ab88f4e3145fb9be25acede6aeb85ebf6}} 
+\index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
+\index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}
+\doxysubsubsection{\texorpdfstring{getWriteCoordinatesSubsets()}{getWriteCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity\+::get\+Write\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance writes to. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance writes to 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a0f64bb21af5bc827763a8c3c422d0dbb}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_ad5b8acb98124efefd4a94ae2ed222e7e}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_ad5b8acb98124efefd4a94ae2ed222e7e}} 
 \index{ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}!isDefined@{isDefined}}
 \index{isDefined@{isDefined}!ostk::astro::flight::system::dynamics::ThirdBodyGravity@{ostk::astro::flight::system::dynamics::ThirdBodyGravity}}

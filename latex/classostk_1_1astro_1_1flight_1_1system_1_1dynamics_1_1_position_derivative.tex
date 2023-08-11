@@ -26,8 +26,12 @@ virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_
 \begin{DoxyCompactList}\small\item\em Clone position derivative dynamics. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_ac9b701dffe0b64ce0931e4125e379fa7}{is\+Defined}} () const override
 \begin{DoxyCompactList}\small\item\em Check if position derivative dynamics is defined. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_af19a843af275285e4c9eacfbcd00af50}{apply\+Contribution}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&x, \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&dxdt, const Instant \&an\+Instant) const override
-\begin{DoxyCompactList}\small\item\em Apply contribution to the state derivative. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a840e0857864d8caa0c4dad8304bfbb59}{get\+Read\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a3860c4b65ae4e2841e13716595bdbfe9}{get\+Write\+Coordinates\+Subsets}} () const override
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance writes to. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a7da63a2068fddf10429a2f0d935e15e6}{compute\+Contribution}} (const Instant \&an\+Instant, const Vector\+Xd \&x, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const override
+\begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a7d9b302e022c8b31063a4a7e9fb2ef31}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
@@ -69,29 +73,6 @@ Destructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_af19a843af275285e4c9eacfbcd00af50}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_af19a843af275285e4c9eacfbcd00af50}} 
-\index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!applyContribution@{applyContribution}}
-\index{applyContribution@{applyContribution}!ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}}
-\doxysubsubsection{\texorpdfstring{applyContribution()}{applyContribution()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative\+::apply\+Contribution (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{x,  }\item[{\mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver_af91ffcd9d471c9fe3a093f9c5aa6f448}{Numerical\+Solver\+::\+State\+Vector}} \&}]{dxdt,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Apply contribution to the state derivative. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em x} & A state vector \\
-\hline
-\mbox{\texttt{ out}}  & {\em dxdt} & A state derivative vector \\
-\hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
-\hline
-\end{DoxyParams}
-
-
-Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a96bc85c25ffe90dc88a42335d8ffd433}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
-
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a04a97d45de4a8699ffbbdbd008116257}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a04a97d45de4a8699ffbbdbd008116257}} 
 \index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!clone@{clone}}
 \index{clone@{clone}!ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}}
@@ -108,6 +89,66 @@ Pointer to cloned position derivative dynamics
 
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a7de1a8ce101f3cee59fd624b487de5be}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a7da63a2068fddf10429a2f0d935e15e6}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a7da63a2068fddf10429a2f0d935e15e6}} 
+\index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!computeContribution@{computeContribution}}
+\index{computeContribution@{computeContribution}!ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}}
+\doxysubsubsection{\texorpdfstring{computeContribution()}{computeContribution()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative\+::compute\+Contribution (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{x,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute the contribution to the state derivative. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
+\hline
+{\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+\hline
+{\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The reduced derivative state vector (this vector must follow the structure determined by the \textquotesingle{}write\textquotesingle{} coordinate subsets) expressed in the given frame 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a945e44635ba9038b1a3a198deb1b1184}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a840e0857864d8caa0c4dad8304bfbb59}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a840e0857864d8caa0c4dad8304bfbb59}} 
+\index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
+\index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}}
+\doxysubsubsection{\texorpdfstring{getReadCoordinatesSubsets()}{getReadCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative\+::get\+Read\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance reads from. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance reads from 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a4227a9bf26bde9932c0d818a67972076}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a3860c4b65ae4e2841e13716595bdbfe9}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a3860c4b65ae4e2841e13716595bdbfe9}} 
+\index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
+\index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}}
+\doxysubsubsection{\texorpdfstring{getWriteCoordinatesSubsets()}{getWriteCoordinatesSubsets()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative\+::get\+Write\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Return the coordinates subsets that the instance writes to. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance writes to 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a0f64bb21af5bc827763a8c3c422d0dbb}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_ac9b701dffe0b64ce0931e4125e379fa7}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_ac9b701dffe0b64ce0931e4125e379fa7}} 
 \index{ostk::astro::flight::system::dynamics::PositionDerivative@{ostk::astro::flight::system::dynamics::PositionDerivative}!isDefined@{isDefined}}

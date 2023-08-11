@@ -12,7 +12,7 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a65ac576f687b2ef29325ddb1a7c9fb48}{State}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Coordinates, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ a\+Coordinates\+Broker\+S\+Ptr)
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_abbaa96f2d2b7f388eb073daab94202b3}{State}} (const Instant \&an\+Instant, const Vector\+Xd \&a\+Coordinates, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&a\+Coordinates\+Broker\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a8628aceae903c9492f0fb269888434b0}{State}} (const Instant \&an\+Instant, const Position \&a\+Position, const Velocity \&a\+Velocity)
 \item 
@@ -44,6 +44,8 @@ Velocity \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a1a992dcad4
 \item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}{get\+Coordinates}} () const
 \item 
+Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a9b663e56f050a8980fbda76f0672787b}{extract\+Coordinates}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Subet\+S\+Ptr) const
+\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_aa9c95303df830f9dfed347231961dcf6}{in\+Frame}} (const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const
 \item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_a0072b543bbac1abe5e94609c74491b5d}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
@@ -64,11 +66,11 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state_ab
 \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} state. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a65ac576f687b2ef29325ddb1a7c9fb48}\label{classostk_1_1astro_1_1trajectory_1_1_state_a65ac576f687b2ef29325ddb1a7c9fb48}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_abbaa96f2d2b7f388eb073daab94202b3}\label{classostk_1_1astro_1_1trajectory_1_1_state_abbaa96f2d2b7f388eb073daab94202b3}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!State@{State}}
 \index{State@{State}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
 \doxysubsubsection{\texorpdfstring{State()}{State()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Coordinates,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$}]{a\+Coordinates\+Broker\+S\+Ptr }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+State\+::\+State (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{a\+Coordinates,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \&}]{a\+Coordinates\+Broker\+S\+Ptr }\end{DoxyParamCaption})}
 
 
 
@@ -111,6 +113,12 @@ Constructor.
 \index{accessInstant@{accessInstant}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
 \doxysubsubsection{\texorpdfstring{accessInstant()}{accessInstant()}}
 {\footnotesize\ttfamily const Instant \& ostk\+::astro\+::trajectory\+::\+State\+::access\+Instant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_a9b663e56f050a8980fbda76f0672787b}\label{classostk_1_1astro_1_1trajectory_1_1_state_a9b663e56f050a8980fbda76f0672787b}} 
+\index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!extractCoordinates@{extractCoordinates}}
+\index{extractCoordinates@{extractCoordinates}!ostk::astro::trajectory::State@{ostk::astro::trajectory::State}}
+\doxysubsubsection{\texorpdfstring{extractCoordinates()}{extractCoordinates()}}
+{\footnotesize\ttfamily Vector\+Xd ostk\+::astro\+::trajectory\+::\+State\+::extract\+Coordinates (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&}]{a\+Subet\+S\+Ptr }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}\label{classostk_1_1astro_1_1trajectory_1_1_state_adece3f2dda107d9178b40648dfbc01d0}} 
 \index{ostk::astro::trajectory::State@{ostk::astro::trajectory::State}!getCoordinates@{getCoordinates}}

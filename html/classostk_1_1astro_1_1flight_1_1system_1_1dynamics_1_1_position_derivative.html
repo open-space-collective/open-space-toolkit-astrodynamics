@@ -117,9 +117,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac9b701dffe0b64ce0931e4125e379fa7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#ac9b701dffe0b64ce0931e4125e379fa7">isDefined</a> () const override</td></tr>
 <tr class="memdesc:ac9b701dffe0b64ce0931e4125e379fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if position derivative dynamics is defined.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#ac9b701dffe0b64ce0931e4125e379fa7">More...</a><br /></td></tr>
 <tr class="separator:ac9b701dffe0b64ce0931e4125e379fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af19a843af275285e4c9eacfbcd00af50"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#af19a843af275285e4c9eacfbcd00af50">applyContribution</a> (const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;x, <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;dxdt, const Instant &amp;anInstant) const override</td></tr>
-<tr class="memdesc:af19a843af275285e4c9eacfbcd00af50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#af19a843af275285e4c9eacfbcd00af50">More...</a><br /></td></tr>
-<tr class="separator:af19a843af275285e4c9eacfbcd00af50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a840e0857864d8caa0c4dad8304bfbb59"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a840e0857864d8caa0c4dad8304bfbb59">getReadCoordinatesSubsets</a> () const override</td></tr>
+<tr class="memdesc:a840e0857864d8caa0c4dad8304bfbb59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the coordinates subsets that the instance reads from.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a840e0857864d8caa0c4dad8304bfbb59">More...</a><br /></td></tr>
+<tr class="separator:a840e0857864d8caa0c4dad8304bfbb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3860c4b65ae4e2841e13716595bdbfe9"><td class="memItemLeft" align="right" valign="top">virtual Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a3860c4b65ae4e2841e13716595bdbfe9">getWriteCoordinatesSubsets</a> () const override</td></tr>
+<tr class="memdesc:a3860c4b65ae4e2841e13716595bdbfe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the coordinates subsets that the instance writes to.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a3860c4b65ae4e2841e13716595bdbfe9">More...</a><br /></td></tr>
+<tr class="separator:a3860c4b65ae4e2841e13716595bdbfe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da63a2068fddf10429a2f0d935e15e6"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7da63a2068fddf10429a2f0d935e15e6">computeContribution</a> (const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</td></tr>
+<tr class="memdesc:a7da63a2068fddf10429a2f0d935e15e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution to the state derivative.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7da63a2068fddf10429a2f0d935e15e6">More...</a><br /></td></tr>
+<tr class="separator:a7da63a2068fddf10429a2f0d935e15e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d9b302e022c8b31063a4a7e9fb2ef31"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7d9b302e022c8b31063a4a7e9fb2ef31">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const override</td></tr>
 <tr class="memdesc:a7d9b302e022c8b31063a4a7e9fb2ef31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7d9b302e022c8b31063a4a7e9fb2ef31">More...</a><br /></td></tr>
 <tr class="separator:a7d9b302e022c8b31063a4a7e9fb2ef31"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,12 +149,9 @@ Friends</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">GetDynamicalEquations</a> (const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Instant &amp;anInstant)</td></tr>
-<tr class="memdesc:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get dynamical equations function wrapper (pure virtual)  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#acbbc8eabceede55128ffea0492de9424">More...</a><br /></td></tr>
-<tr class="separator:acbbc8eabceede55128ffea0492de9424 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
-<tr class="memitem:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">const Shared&lt; const Frame &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a980aad3845f4b9ca1a64df4173134e44">gcrfSPtr_</a> = Frame::GCRF()</td></tr>
-<tr class="separator:a980aad3845f4b9ca1a64df4173134e44 inherit pub_attribs_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#aa39593aa5ff747e4f68492708b45bbc5">NumericalSolver::SystemOfEquationsWrapper</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">GetSystemOfEquations</a> (const Array&lt; <a class="el" href="structostk_1_1astro_1_1flight_1_1system_1_1_dynamics_1_1_context.html">Context</a> &gt; &amp;aContextArray, const Instant &amp;anInstant, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</td></tr>
+<tr class="memdesc:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get system of equations wrapper.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">More...</a><br /></td></tr>
+<tr class="separator:ad080ac5f6418af347f74db186052e2f6 inherit pub_static_methods_classostk_1_1astro_1_1flight_1_1system_1_1_dynamics"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Define the contribution to the position due to velocity. </p>
@@ -201,60 +204,6 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af19a843af275285e4c9eacfbcd00af50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af19a843af275285e4c9eacfbcd00af50">&#9670;&nbsp;</a></span>applyContribution()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ostk::astro::flight::system::dynamics::PositionDerivative::applyContribution </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classostk_1_1astro_1_1_numerical_solver.html#af91ffcd9d471c9fe3a093f9c5aa6f448">NumericalSolver::StateVector</a> &amp;&#160;</td>
-          <td class="paramname"><em>dxdt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>anInstant</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Apply contribution to the state derivative. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>A state vector </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">dxdt</td><td>A state derivative vector </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a96bc85c25ffe90dc88a42335d8ffd433">ostk::astro::flight::system::Dynamics</a>.</p>
-
-</div>
-</div>
 <a id="a04a97d45de4a8699ffbbdbd008116257"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a04a97d45de4a8699ffbbdbd008116257">&#9670;&nbsp;</a></span>clone()</h2>
 
@@ -282,6 +231,121 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to cloned position derivative dynamics </dd></dl>
 
 <p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a7de1a8ce101f3cee59fd624b487de5be">ostk::astro::flight::system::Dynamics</a>.</p>
+
+</div>
+</div>
+<a id="a7da63a2068fddf10429a2f0d935e15e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7da63a2068fddf10429a2f0d935e15e6">&#9670;&nbsp;</a></span>computeContribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd ostk::astro::flight::system::dynamics::PositionDerivative::computeContribution </td>
+          <td>(</td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Shared&lt; const Frame &gt; &amp;&#160;</td>
+          <td class="paramname"><em>aFrameSPtr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the contribution to the state derivative. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramname">x</td><td>The reduced state vector (this vector will follow the structure determined by the 'read' coordinate subsets) </td></tr>
+    <tr><td class="paramname">aFrameSPtr</td><td>The frame in which the state vector is expressed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The reduced derivative state vector (this vector must follow the structure determined by the 'write' coordinate subsets) expressed in the given frame </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a945e44635ba9038b1a3a198deb1b1184">ostk::astro::flight::system::Dynamics</a>.</p>
+
+</div>
+</div>
+<a id="a840e0857864d8caa0c4dad8304bfbb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a840e0857864d8caa0c4dad8304bfbb59">&#9670;&nbsp;</a></span>getReadCoordinatesSubsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt; ostk::astro::flight::system::dynamics::PositionDerivative::getReadCoordinatesSubsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the coordinates subsets that the instance reads from. </p>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance reads from </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a4227a9bf26bde9932c0d818a67972076">ostk::astro::flight::system::Dynamics</a>.</p>
+
+</div>
+</div>
+<a id="a3860c4b65ae4e2841e13716595bdbfe9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3860c4b65ae4e2841e13716595bdbfe9">&#9670;&nbsp;</a></span>getWriteCoordinatesSubsets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &gt; ostk::astro::flight::system::dynamics::PositionDerivative::getWriteCoordinatesSubsets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the coordinates subsets that the instance writes to. </p>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates subsets that the instance writes to </dd></dl>
+
+<p>Implements <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a0f64bb21af5bc827763a8c3c422d0dbb">ostk::astro::flight::system::Dynamics</a>.</p>
 
 </div>
 </div>
@@ -415,7 +479,7 @@ Additional Inherited Members</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_html_a25971c7a871c3c4a1bf443510173a765"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a25971c7a871c3c4a1bf443510173a765">ostk::astro::flight::system::dynamics::PositionDerivative::PositionDerivative</a></div><div class="ttdeci">PositionDerivative()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> PositionDerivative.cpp:21</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_html_a25971c7a871c3c4a1bf443510173a765"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a25971c7a871c3c4a1bf443510173a765">ostk::astro::flight::system::dynamics::PositionDerivative::PositionDerivative</a></div><div class="ttdeci">PositionDerivative()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> PositionDerivative.cpp:26</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

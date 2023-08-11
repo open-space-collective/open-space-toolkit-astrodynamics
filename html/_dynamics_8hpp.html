@@ -88,12 +88,18 @@ $(document).ready(function(){initNavTree('_dynamics_8hpp.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;OpenSpaceToolkit/Core/Containers/Array.hpp&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Core/Containers/Pair.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Error.hpp&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Core/Types/Index.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Types/Shared.hpp&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Core/Types/Size.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Mathematics/Objects/Vector.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Physics/Coordinate/Frame.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</code><br />
 <code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_coordinates_broker_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_coordinates_subset_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp</a>&gt;</code><br />
 </div>
 <p><a href="_dynamics_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -101,6 +107,8 @@ $(document).ready(function(){initNavTree('_dynamics_8hpp.html',''); initResizabl
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">ostk::astro::flight::system::Dynamics</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define a dynamical system subject to equations of motion.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1flight_1_1system_1_1_dynamics_1_1_context.html">ostk::astro::flight::system::Dynamics::Context</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
