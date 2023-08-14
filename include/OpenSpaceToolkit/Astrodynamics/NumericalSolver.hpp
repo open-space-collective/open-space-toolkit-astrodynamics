@@ -130,6 +130,12 @@ class NumericalSolver
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief                  Access observed states
+    ///
+    /// @return                 Observed states
+
+    const Array<Solution>& accessObservedStates() const;
+
     /// @brief                  Get integration logging enum
     ///
     /// @code

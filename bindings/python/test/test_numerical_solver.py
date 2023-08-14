@@ -86,6 +86,12 @@ class TestNumericalSolver:
     def test_comparators(self, numerical_solver: NumericalSolver):
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False
+        
+    def test_accessors(
+        self,
+        numerical_solver: NumericalSolver,
+    ):
+        assert numerical_solver.access_observed_states() is not None
 
     def test_get_types(
         self,

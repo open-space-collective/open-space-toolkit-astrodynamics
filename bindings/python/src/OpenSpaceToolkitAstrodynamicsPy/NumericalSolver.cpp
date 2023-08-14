@@ -55,6 +55,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
             .def("is_defined", &NumericalSolver::isDefined)
 
+            .def("access_observed_states", &NumericalSolver::accessObservedStates)
+
             .def("get_stepper_type", &NumericalSolver::getStepperType)
             .def("get_log_type", &NumericalSolver::getLogType)
             .def("get_time_step", &NumericalSolver::getTimeStep)

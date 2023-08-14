@@ -316,6 +316,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Accessors)
+{
+    {
+        EXPECT_NO_THROW(defaultRK54_.accessObservedStates());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 {
     {
