@@ -122,8 +122,10 @@ class TestPropagator:
         assert propagator is not None
         assert isinstance(propagator, Propagator)
         assert propagator.is_defined()
-        
-    def test_access_numerical_solver(self, propagator: Propagator, numerical_solver: NumericalSolver):
+
+    def test_access_numerical_solver(
+        self, propagator: Propagator, numerical_solver: NumericalSolver
+    ):
         assert propagator.access_numerical_solver() == numerical_solver
 
     def test_get_dynamics(self, propagator: Propagator, dynamics: list):

@@ -86,7 +86,7 @@ class TestNumericalSolver:
     def test_comparators(self, numerical_solver: NumericalSolver):
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False
-        
+
     def test_accessors(
         self,
         numerical_solver: NumericalSolver,
@@ -248,7 +248,7 @@ class TestNumericalSolver:
 
     def test_default(self):
         assert NumericalSolver.default() is not None
-    
+
     def test_default(self):
         assert NumericalSolver.default_conditional() is not None
 
