@@ -157,6 +157,16 @@ RootSolver NumericalSolver::getRootSolver() const
     return rootSolver_;
 }
 
+Array<NumericalSolver::Solution> NumericalSolver::getObservedStates() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return observedStates_;
+}
+
 Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const StateVector& anInitialStateVector,
     const Real& aStartTime,
@@ -421,6 +431,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         );
     }
 
+    observedStates_.clear();
+
     if (aDurationInSeconds.isZero())
     {
         return {
@@ -501,7 +513,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         return isSatisfied ? 1.0 : -1.0;
     };
 
-    const RootSolver::Solution solution = rootSolver_.solve(checkCondition, previousTime, currentTime);
+    const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionState(currentState.size());
     const double solutionTime = solution.root;
 
@@ -557,16 +569,35 @@ String NumericalSolver::StringFromStepperType(const NumericalSolver::StepperType
 
 NumericalSolver NumericalSolver::Undefined()
 {
-    return NumericalSolver(
-        LogType::NoLog, StepperType::RungeKuttaCashKarp54, Real::Undefined(), Real::Undefined(), Real::Undefined()
-    );
+    return {
+        LogType::NoLog,
+        StepperType::RungeKuttaCashKarp54,
+        Real::Undefined(),
+        Real::Undefined(),
+        Real::Undefined(),
+    };
 }
 
 NumericalSolver NumericalSolver::Default()
 {
-    return NumericalSolver(
-        NumericalSolver::LogType::NoLog, NumericalSolver::StepperType::RungeKuttaFehlberg78, 5.0, 1.0e-12, 1.0e-12
-    );
+    return {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaFehlberg78,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+    };
+}
+
+NumericalSolver NumericalSolver::DefaultConditional()
+{
+    return {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaDopri5,
+        5.0,
+        1.0e-12,
+        1.0e-12,
+    };
 }
 
 void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVector& x, const double t)
