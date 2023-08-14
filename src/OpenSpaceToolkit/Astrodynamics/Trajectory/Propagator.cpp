@@ -70,17 +70,28 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Propagator& aPropag
 
 bool Propagator::isDefined() const
 {
-    return numericalSolver_.isDefined();
-}
-
-Size Propagator::getNumberOfCoordinates() const
-{
-    return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
+    return this->numericalSolver_.isDefined() && this->coordinatesBrokerSPtr_ != nullptr &&
+           !this->dynamicsContexts_.isEmpty();
 }
 
 const Shared<CoordinatesBroker>& Propagator::accessCoordinatesBroker() const
 {
     return this->coordinatesBrokerSPtr_;
+}
+
+const NumericalSolver& Propagator::accessNumericalSolver() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagator");
+    }
+
+    return this->numericalSolver_;
+}
+
+Size Propagator::getNumberOfCoordinates() const
+{
+    return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
 }
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
@@ -131,7 +142,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     const Instant startInstant = aState.getInstant();
 
     const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
-        extractCoordinatesFromStateVector(aState),
+        extractCoordinatesFromState(aState),
         (anInstant - startInstant).inSeconds(),
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
     );
@@ -151,7 +162,7 @@ State Propagator::calculateStateAt(
     const Instant startInstant = aState.getInstant();
 
     const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
-        extractCoordinatesFromStateVector(aState),
+        extractCoordinatesFromState(aState),
         (anInstant - startInstant).inSeconds(),
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr),
         anEventCondition
@@ -221,7 +232,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const NumericalSolver::StateVector extractedCoordinates = extractCoordinatesFromStateVector(aState);
+    const NumericalSolver::StateVector extractedCoordinates = extractCoordinatesFromState(aState);
 
     // forward propagation only
     Array<NumericalSolver::Solution> forwardPropagatedSolutions;
@@ -366,7 +377,7 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
     this->dynamicsContexts_.add({aDynamicsSPtr, readInfo, writeInfo});
 }
 
-NumericalSolver::StateVector Propagator::extractCoordinatesFromStateVector(const State& aState) const
+NumericalSolver::StateVector Propagator::extractCoordinatesFromState(const State& aState) const
 {
     const State state = aState.inFrame(integrationFrameSPtr);
 

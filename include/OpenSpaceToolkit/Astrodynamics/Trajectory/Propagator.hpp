@@ -104,17 +104,23 @@ class Propagator
 
     bool isDefined() const;
 
-    /// @brief              Get the number of propagated coordinates
-    ///
-    /// @return             The number of propagated coordinates
-
-    Size getNumberOfCoordinates() const;
-
     /// @brief              Access the coordinates broker
     ///
     /// @return             The coordinates broker
 
     const Shared<CoordinatesBroker>& accessCoordinatesBroker() const;
+
+    /// @brief              Access the numerical solver
+    ///
+    /// @return             The numerical solver
+
+    const NumericalSolver& accessNumericalSolver() const;
+
+    /// @brief              Get the number of propagated coordinates
+    ///
+    /// @return             The number of propagated coordinates
+
+    Size getNumberOfCoordinates() const;
 
     /// @brief              Get the dynamics array
     /// @code
@@ -222,7 +228,7 @@ class Propagator
 
     void registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr);
 
-    NumericalSolver::StateVector extractCoordinatesFromStateVector(const State& aState) const;
+    NumericalSolver::StateVector extractCoordinatesFromState(const State& aState) const;
 };
 
 }  // namespace trajectory
