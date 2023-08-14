@@ -97,6 +97,16 @@ void NumericalSolver::print(std::ostream& anOutputStream, bool displayDecorator)
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+const Array<NumericalSolver::Solution>& NumericalSolver::accessObservedStates() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return this->observedStates_;
+}
+
 NumericalSolver::LogType NumericalSolver::getLogType() const
 {
     if (!this->isDefined())
@@ -104,7 +114,7 @@ NumericalSolver::LogType NumericalSolver::getLogType() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return logType_;
+    return this->logType_;
 }
 
 NumericalSolver::StepperType NumericalSolver::getStepperType() const
@@ -114,7 +124,7 @@ NumericalSolver::StepperType NumericalSolver::getStepperType() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return stepperType_;
+    return this->stepperType_;
 }
 
 Real NumericalSolver::getTimeStep() const
@@ -124,7 +134,7 @@ Real NumericalSolver::getTimeStep() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return timeStep_;
+    return this->timeStep_;
 }
 
 Real NumericalSolver::getRelativeTolerance() const
@@ -134,7 +144,7 @@ Real NumericalSolver::getRelativeTolerance() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return relativeTolerance_;
+    return this->relativeTolerance_;
 }
 
 Real NumericalSolver::getAbsoluteTolerance() const
@@ -144,7 +154,7 @@ Real NumericalSolver::getAbsoluteTolerance() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return absoluteTolerance_;
+    return this->absoluteTolerance_;
 }
 
 RootSolver NumericalSolver::getRootSolver() const
@@ -154,17 +164,12 @@ RootSolver NumericalSolver::getRootSolver() const
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return rootSolver_;
+    return this->rootSolver_;
 }
 
 Array<NumericalSolver::Solution> NumericalSolver::getObservedStates() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
-    return observedStates_;
+    return this->accessObservedStates();
 }
 
 Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
@@ -602,7 +607,7 @@ NumericalSolver NumericalSolver::DefaultConditional()
 
 void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVector& x, const double t)
 {
-    observedStates_.push_back({x, t});
+    observedStates_.add({x, t});
 
     switch (logType_)
     {
