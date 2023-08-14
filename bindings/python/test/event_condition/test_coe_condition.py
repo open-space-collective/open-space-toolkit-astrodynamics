@@ -79,9 +79,12 @@ class TestCOECondition:
         ),
     )
     def test_static_constructors(
-        self, static_constructor, target, criteria, gravitational_parameter
+        self, static_constructor, target, criteria, gravitational_parameter, state_vector
     ):
-        assert static_constructor(criteria, target, gravitational_parameter) is not None
+        condition = static_constructor(criteria, target, gravitational_parameter)
+        assert condition is not None
+        
+        condition.evaluate(state_vector, 0.0) is not None
 
     def test_evaluate(self, condition, state_vector, target):
         assert condition.evaluate(state_vector, 0.0) == pytest.approx(
