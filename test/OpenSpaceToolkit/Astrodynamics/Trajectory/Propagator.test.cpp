@@ -249,14 +249,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AccessCoordinatesBroker)
 {
     {
         EXPECT_TRUE(defaultPropagator_.accessCoordinatesBroker() != nullptr);
     }
 
     {
+        EXPECT_ANY_THROW(Propagator::Undefined().accessCoordinatesBroker());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, AccessNumericalSolver)
+{
+    {
         EXPECT_NO_THROW(defaultPropagator_.accessNumericalSolver());
+    }
+
+    {
+        EXPECT_ANY_THROW(Propagator::Undefined().accessNumericalSolver());
     }
 }
 

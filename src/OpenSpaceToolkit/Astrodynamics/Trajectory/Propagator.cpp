@@ -76,6 +76,11 @@ bool Propagator::isDefined() const
 
 const Shared<CoordinatesBroker>& Propagator::accessCoordinatesBroker() const
 {
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Propagator");
+    }
+
     return this->coordinatesBrokerSPtr_;
 }
 
