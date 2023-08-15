@@ -1894,6 +1894,103 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_450km)
+{
+    // Earth with NRLMSISE atmospheric drag compared against OREKit
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00.000"), Scale::UTC);
+
+        // Reference data setup
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+                                   "Orekit_Drag_NRLMSISE00_450km_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
+
+        Array<Instant> instantArray = Array<Instant>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
+
+        for (const auto& referenceRow : referenceData)
+        {
+            instantArray.add(Instant::DateTime(
+                DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+            ));
+
+            referencePositionArrayGCRF.add(
+                Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+            );
+            referenceVelocityArrayGCRF.add(
+                Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+            );
+        }
+
+        // Setup dynamics
+        const Earth earth = Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+        );
+        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+        const Array<Shared<Dynamics>> dynamics = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earthSPtr),
+            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+        };
+
+        // Setup initial conditions
+        const State state = {
+            startInstant,
+            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
+            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
+        };
+
+        // Setup Propagator model and orbit
+        const Propagator propagator = {defaultRK4_, dynamics};
+
+        std::cout.setstate(std::ios_base::failbit); // Temporary due to a debug print left in physics
+        // Propagate all states
+        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
+        std::cout.clear();
+
+        size_t n_points = instantArray.getSize();
+        // Validation loop
+        for (size_t i = 0; i < instantArray.getSize(); i++)
+        {
+            // GCRF Compare
+            const Position positionGCRF = propagatedStateArray[i].getPosition();
+            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
+
+            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+
+            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+
+            double ptol = 0.1;
+            double vtol = 0.001;
+            if (ptol < positionErrorGCRF || vtol < velocityErrorGCRF)
+            {
+                std::cout << String::Format("failed on point {} of {}", i, n_points) << std::endl;
+            }
+            ASSERT_GT(ptol, positionErrorGCRF);
+            ASSERT_GT(vtol, velocityErrorGCRF);
+
+
+            // Results console output
+
+            // std::cout << "**************************************" << std::endl;
+            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
+            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+            // std::cout << "**************************************" << std::endl;
+        }
+    }
+}
+
 /* Propagation Interval validation test */
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_TwoBody_IntervalSelfComparison)
 {
