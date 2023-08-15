@@ -99,7 +99,7 @@ RUN mkdir -p /tmp/open-space-toolkit-core \
 ## Open Space Toolkit ▸ I/O
 
 ARG OSTK_IO_MAJOR="0"
-ARG OSTK_IO_MINOR="6"
+ARG OSTK_IO_MINOR="7"
 
 ## Force an image rebuild when new IO patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-io/git/matching-refs/tags/${OSTK_IO_MAJOR}.${OSTK_IO_MINOR} /tmp/open-space-toolkit-io/versions.json
@@ -130,8 +130,8 @@ RUN mkdir -p /tmp/open-space-toolkit-mathematics \
 
 ## Open Space Toolkit ▸ Physics
 
-ARG OSTK_PHYSICS_MAJOR="1"
-ARG OSTK_PHYSICS_MINOR="2"
+ARG OSTK_PHYSICS_MAJOR="2"
+ARG OSTK_PHYSICS_MINOR="0"
 
 ## Force an image rebuild when new Physics patch versions are detected
 ADD https://api.github.com/repos/open-space-collective/open-space-toolkit-physics/git/matching-refs/tags/${OSTK_PHYSICS_MAJOR}.${OSTK_PHYSICS_MINOR} /tmp/open-space-toolkit-physics/versions.json
@@ -146,12 +146,14 @@ RUN mkdir -p /tmp/open-space-toolkit-physics \
 
 # Install data
 
-COPY --from=us.gcr.io/loft-orbital-public/software/open-space-toolkit/data:0.3.0 /open-space-toolkit/physics /usr/local/share/OpenSpaceToolkit/Physics
+RUN git clone --branch main --single-branch --depth=1 https://github.com/open-space-collective/open-space-toolkit-data.git /usr/local/share/open-space-toolkit-data
 
-ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/coordinate/frame/providers/iers"
-ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/ephemerides/spice"
-ENV OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/gravitational/earth"
-ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/OpenSpaceToolkit/Physics/environment/magnetic/earth"
+ENV OSTK_PHYSICS_COORDINATE_FRAME_PROVIDERS_IERS_MANAGER_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data/coordinate/frame/providers/iers"
+ENV OSTK_PHYSICS_ENVIRONMENT_EPHEMERIDES_SPICE_MANAGER_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data/environment/ephemerides/spice"
+ENV OSTK_PHYSICS_ENVIRONMENT_GRAVITATIONAL_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data/environment/gravitational/earth"
+ENV OSTK_PHYSICS_ENVIRONMENT_MAGNETIC_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data/environment/magnetic/earth"
+ENV OSTK_PHYSICS_ENVIRONMENT_ATMOSPHERIC_EARTH_MANAGER_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data/environment/atmospheric/earth"
+ENV OSTK_PHYSICS_DATA_MANIFEST_LOCAL_REPOSITORY="/usr/local/share/open-space-toolkit-data/data"
 
 # Labels
 

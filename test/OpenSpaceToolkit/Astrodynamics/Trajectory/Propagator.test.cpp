@@ -4,9 +4,11 @@
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Containers/Table.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
@@ -49,12 +51,14 @@
 
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Table;
+using ostk::core::ctnr::Tuple;
 using ostk::core::fs::File;
 using ostk::core::fs::Path;
 using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
+using ostk::core::types::Size;
 
 using ostk::math::geom::d3::objects::Composite;
 using ostk::math::geom::d3::objects::Cuboid;
@@ -2175,4 +2179,152 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEn
         EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[3]).isDefined());
         EXPECT_TRUE(static_cast<const PositionDerivative&>(*propagator.getDynamics()[4]).isDefined());
     }
+}
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Success
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    Input_Data_Spans_Valid,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Success,
+    testing::Values(
+        std::make_tuple(
+            Instant::Now() - Duration::Weeks(52 * 5),
+            Instant::Now() - Duration::Weeks(52 * 4.9),
+            Duration::Days(7),
+            "NRLMSISE Past Data limit pass"
+        ),
+        std::make_tuple(
+            Instant::Now() + Duration::Weeks(52 * 0.9),
+            Instant::Now() + Duration::Weeks(52 * 1.0),
+            Duration::Days(7),
+            "IERS Finals2000A Future Data limit pass"
+        )
+    )
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Success, EdgeCases_Input_Data_Horizon)
+{
+    // long-horizon, low granularity propagation to test input data availability
+
+    // currently limited by:
+    // -5 years in the past due to CSSI space weather data when computing drag
+    // +1 year in the future due to finals2000a prediction span when computing polar motion for frame conversions
+
+    auto parameters = GetParam();
+
+    Instant startInstant = std::get<0>(parameters);
+    Instant endInstant = std::get<1>(parameters);
+    Duration step = std::get<2>(parameters);
+
+    const State state = {
+        startInstant,
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    const NumericalSolver RK4 = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKutta4,
+        step.inSeconds(),
+        1.0e-15,
+        1.0e-15,
+    };
+
+    // Setup dynamics
+    const Earth earth = Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM2008),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    );
+
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+    };
+
+    // Setup Propagator model and orbit
+    const Propagator propagator = {RK4, dynamics};
+
+    // Propagate all states
+    EXPECT_NO_THROW(propagator.calculateStateAt(state, endInstant));
+}
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure
+    : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    Input_Data_Spans_Invalid,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure,
+    testing::Values(
+        std::make_tuple(
+            Instant::Now() - Duration::Weeks(52 * 6.0),
+            Instant::Now() - Duration::Weeks(52 * 5.9),
+            Duration::Days(7),
+            "NRLMSISE Past Data limit fail"
+        ),
+        std::make_tuple(
+            Instant::Now() + Duration::Weeks(52 * 1.0),
+            Instant::Now() + Duration::Weeks(52 * 1.1),
+            Duration::Days(7),
+            "IERS Finals2000A Future Data limit fail"
+        )
+    )
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure, EdgeCases_Input_Data_Horizon)
+{
+    // long-horizon, low granularity propagation to test input data availability
+
+    // currently limited by:
+    // -5 years in the past due to CSSI space weather data when computing drag
+    // +1 year in the future due to finals2000a prediction span when computing polar motion for frame conversions
+
+    auto parameters = GetParam();
+
+    Instant startInstant = std::get<0>(parameters);
+    Instant endInstant = std::get<1>(parameters);
+    Duration step = std::get<2>(parameters);
+
+    const State state = {
+        startInstant,
+        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
+        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+    };
+
+    const NumericalSolver RK4 = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKutta4,
+        step.inSeconds(),
+        1.0e-15,
+        1.0e-15,
+    };
+
+    // Setup dynamics
+    const Earth earth = Earth::FromModels(
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM2008),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+    );
+
+    const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+    const Array<Shared<Dynamics>> dynamics = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSPtr),
+        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+    };
+
+    // Setup Propagator model and orbit
+    const Propagator propagator = {RK4, dynamics};
+
+    // Propagate all states
+    EXPECT_THROW(propagator.calculateStateAt(state, endInstant), ostk::core::error::RuntimeError);
 }
