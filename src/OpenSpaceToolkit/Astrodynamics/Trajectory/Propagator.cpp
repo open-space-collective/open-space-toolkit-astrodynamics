@@ -96,7 +96,7 @@ const NumericalSolver& Propagator::accessNumericalSolver() const
 
 Size Propagator::getNumberOfCoordinates() const
 {
-    return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
+    return this->accessCoordinatesBroker()->getNumberOfCoordinates();
 }
 
 Array<Shared<Dynamics>> Propagator::getDynamics() const
