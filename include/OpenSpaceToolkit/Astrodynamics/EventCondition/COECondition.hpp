@@ -194,7 +194,7 @@ class COECondition : public EventCondition
     COE::Element element_;
     Real target_;
     Derived gravitationalParameter_;
-    std::function<Real(const Vector3d&, const Vector3d&)> evaluator_;
+    std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> evaluator_;
 
     /// @brief                  Get evaluation function from element
     ///
@@ -202,7 +202,9 @@ class COECondition : public EventCondition
     ///
     /// @return                 Evaluation function
 
-    std::function<Real(const Vector3d&, const Vector3d&)> getEvaluator(const COE::Element& anElement) const;
+    static std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> GetEvaluator(
+        const COE::Element& anElement
+    );
 };
 
 }  // namespace eventcondition

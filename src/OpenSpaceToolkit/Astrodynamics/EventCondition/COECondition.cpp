@@ -32,7 +32,7 @@ COECondition::COECondition(
       element_(anElement),
       target_(aTarget),
       gravitationalParameter_(aGravitationalParameter),
-      evaluator_(getEvaluator(anElement))
+      evaluator_(GetEvaluator(anElement))
 {
 }
 
@@ -60,7 +60,7 @@ Real COECondition::evaluate(const VectorXd& aStateVector, const Real& aTime) con
     const Vector3d positionVector = aStateVector.segment(0, 3);
     const Vector3d velocityVector = aStateVector.segment(3, 3);
 
-    return evaluator_(positionVector, velocityVector) - target_;
+    return evaluator_(positionVector, velocityVector, this->gravitationalParameter_) - target_;
 }
 
 String COECondition::StringFromElement(const COE::Element& anElement)
@@ -192,15 +192,19 @@ COECondition COECondition::EccentricAnomaly(
     };
 }
 
-std::function<Real(const Vector3d&, const Vector3d&)> COECondition::getEvaluator(const COE::Element& anElement) const
+std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> COECondition::GetEvaluator(
+    const COE::Element& anElement
+)
 {
-    return [anElement, this](const Vector3d& aPositionVector, const Vector3d& aVelocityVector) -> Real
+    return [anElement](
+               const Vector3d& aPositionVector, const Vector3d& aVelocityVector, const Derived& aGravitationalParameter
+           ) -> Real
     {
         // TBI: Get frame from Broker
         const Position position = Position::Meters(aPositionVector, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond(aVelocityVector, Frame::GCRF());
 
-        const COE coe = COE::Cartesian({position, velocity}, this->gravitationalParameter_);
+        const COE coe = COE::Cartesian({position, velocity}, aGravitationalParameter);
 
         switch (anElement)
         {
