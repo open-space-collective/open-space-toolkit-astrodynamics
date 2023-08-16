@@ -469,16 +469,16 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
-    const auto checkTimeLimit = [&currentTime, &aDurationInSeconds]()
+    const auto checkTimeLimit = [&aDurationInSeconds](const double& aTime)
     {
         if (aDurationInSeconds > 0.0)
         {
-            return currentTime < aDurationInSeconds;
+            return aTime < aDurationInSeconds;
         }
-        return currentTime > aDurationInSeconds;
+        return aTime > aDurationInSeconds;
     };
 
-    while (checkTimeLimit())
+    while (checkTimeLimit(currentTime))
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
@@ -518,11 +518,23 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         return isSatisfied ? 1.0 : -1.0;
     };
 
+    // If the condition is satisfied at both previousTime and currentTime, then the condition
+    // was satisfied at the start of the integration
+    if (checkCondition(previousTime) == checkCondition(currentTime))
+    {
+        return {
+            {aStateVector, 0.0},
+            true,
+            0,
+            true,
+        };
+    }
+
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionState(currentState.size());
     const double solutionTime = solution.root;
 
-    stepper.calc_state(solution.root, solutionState);
+    stepper.calc_state(solutionTime, solutionState);
     observeNumericalIntegration(solutionState, solutionTime);
 
     return {
