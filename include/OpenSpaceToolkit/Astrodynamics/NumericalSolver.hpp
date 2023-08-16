@@ -68,7 +68,7 @@ class NumericalSolver
     ///
     /// @code
     ///                         NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
-    ///                         aRelativeTolerance, anAbsoluteTolerance } ;
+    ///                         aRelativeTolerance, anAbsoluteTolerance };
     /// @endcode
     ///
     /// @param                  [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
@@ -130,10 +130,16 @@ class NumericalSolver
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
+    /// @brief                  Access observed states
+    ///
+    /// @return                 Observed states
+
+    const Array<Solution>& accessObservedStates() const;
+
     /// @brief                  Get integration logging enum
     ///
     /// @code
-    ///                         numericalSolver.getLogType() ;
+    ///                         numericalSolver.getLogType();
     /// @endcode
     ///
     /// @return                 LogType
@@ -143,7 +149,7 @@ class NumericalSolver
     /// @brief                  Get integration stepper enum
     ///
     /// @code
-    ///                         numericalSolver.getStepperType() ;
+    ///                         numericalSolver.getStepperType();
     /// @endcode
     ///
     /// @return                 StepperType
@@ -153,7 +159,7 @@ class NumericalSolver
     /// @brief                  Get initial time step guess
     ///
     /// @code
-    ///                         numericalSolver.getTimeStep() ;
+    ///                         numericalSolver.getTimeStep();
     /// @endcode
     ///
     /// @return                 Real
@@ -163,7 +169,7 @@ class NumericalSolver
     /// @brief                  Get relative integration tolerance
     ///
     /// @code
-    ///                         numericalSolver.getRelativeTolerance() ;
+    ///                         numericalSolver.getRelativeTolerance();
     /// @endcode
     ///
     /// @return                 Real
@@ -173,7 +179,7 @@ class NumericalSolver
     /// @brief                  Get absolute integration tolerance
     ///
     /// @code
-    ///                         numericalSolver.getAbsoluteTolerance() ;
+    ///                         numericalSolver.getAbsoluteTolerance();
     /// @endcode
     ///
     /// @return                 Real
@@ -183,12 +189,22 @@ class NumericalSolver
     /// @brief                  Get root solver
     ///
     /// @code
-    ///                         numericalSolver.getRootSolver() ;
+    ///                         numericalSolver.getRootSolver();
     /// @endcode
     ///
     /// @return                 RootSolver
 
     RootSolver getRootSolver() const;
+
+    /// @brief                  Get observed states
+    ///
+    /// @code
+    ///                         numericalSolver.getObservedStates();
+    /// @endcode
+    ///
+    /// @return                 Observed states
+
+    Array<Solution> getObservedStates() const;
 
     /// @brief                  Perform numerical integration from a start time to an array of times
     ///
@@ -237,7 +253,7 @@ class NumericalSolver
     ///
     /// @code
     ///                         StateVector stateVector = numericalSolver.integrateTime(stateVector,
-    ///                         aStartTime, anEndTime, SystemOfEquations, anEventCondition) ;
+    ///                         aStartTime, anEndTime, SystemOfEquations, anEventCondition);
     /// @endcode
     /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param                  [in] aStartTime A time to begin integrating from
@@ -259,7 +275,7 @@ class NumericalSolver
     ///
     /// @code
     ///                         Solution solution = numericalsolver.integrateTime(stateVector, durationSeconds,
-    ///                         SystemofEquations) ;
+    ///                         SystemofEquations);
     /// @endcode
     /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param                  [in] aDurationInSeconds A duration over which to integrate
@@ -297,7 +313,7 @@ class NumericalSolver
     ///
     /// @code
     ///                         StateVector stateVector = numericalSolver.integrateDuration(stateVector,
-    ///                         aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition) ;
+    ///                         aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition);
     /// @endcode
     /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param                  [in] aDurationInSeconds A duration to integrate for
@@ -316,7 +332,7 @@ class NumericalSolver
     /// @brief                  Get string from the integration stepper type
     ///
     /// @code
-    ///                         NumericalSolver::StringFromStepperType(aStepperType) ;
+    ///                         NumericalSolver::StringFromStepperType(aStepperType);
     /// @endcode
     /// @param                  [in] aStepperType An integration stepper type enum
     /// @return                 StepperType
@@ -326,7 +342,7 @@ class NumericalSolver
     /// @brief                  Get string from the integration log type
     ///
     /// @code
-    ///                         NumericalSolver::StringFromLogType(aLogType) ;
+    ///                         NumericalSolver::StringFromLogType(aLogType);
     /// @endcode
     /// @param                  [in] aLogType An integration log type enum
     /// @return                 LogType
@@ -345,6 +361,12 @@ class NumericalSolver
 
     static NumericalSolver Default();
 
+    /// @brief                  Default conditional
+    ///
+    /// @return                 A default conditional numerical solver
+
+    static NumericalSolver DefaultConditional();
+
    private:
     NumericalSolver::LogType logType_;
     NumericalSolver::StepperType stepperType_;
@@ -353,7 +375,7 @@ class NumericalSolver
     Real absoluteTolerance_;
     RootSolver rootSolver_;
 
-    std::vector<Solution> observedStates_;
+    Array<Solution> observedStates_;
 
     void observeNumericalIntegration(const StateVector& x, const double t);
 

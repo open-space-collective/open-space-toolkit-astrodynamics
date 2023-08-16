@@ -47,7 +47,8 @@ class Conjunctive : public LogicalConnective
 
     ~Conjunctive();
 
-    /// @brief                  Check if all the event conditions are satisfied based on the current state vector and time
+    /// @brief                  Check if all the event conditions are satisfied based on the current state vector and
+    /// time
     ///
     /// @param                  [in] currentStateVector The current state vector
     /// @param                  [in] currentTime The current time

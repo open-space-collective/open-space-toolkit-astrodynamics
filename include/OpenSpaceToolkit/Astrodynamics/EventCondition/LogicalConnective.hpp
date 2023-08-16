@@ -54,8 +54,8 @@ class LogicalConnective : public EventCondition
 
     Array<Shared<EventCondition>> getEventConditions() const;
 
-    /// @brief                  Throw an error as the condition cannot be evaluated based on the current state vector and
-    /// time
+    /// @brief                  Throw an error as the condition cannot be evaluated based on the current state vector
+    /// and time
     ///
     /// @param                  [in] currentValue The current value
     /// @param                  [in] previousValue The previous value
@@ -69,7 +69,8 @@ class LogicalConnective : public EventCondition
     /// @param                  [in] aStateVector The current state vector
     /// @param                  [in] aTime The current time
     ///
-    /// @return                 Real number representing the evaluation result of the Logical Connective Event Condition.
+    /// @return                 Real number representing the evaluation result of the Logical Connective Event
+    /// Condition.
 
     virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
 

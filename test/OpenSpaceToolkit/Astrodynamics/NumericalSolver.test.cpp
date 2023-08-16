@@ -316,6 +316,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Accessors)
+{
+    {
+        EXPECT_NO_THROW(defaultRK54_.accessObservedStates());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetType)
 {
     {
@@ -363,6 +370,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetRootSolver)
 
     {
         EXPECT_ANY_THROW(NumericalSolver::Undefined().getRootSolver());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetObservedStates)
+{
+    {
+        EXPECT_NO_THROW(defaultRK54_.getObservedStates());
+    }
+
+    {
+        EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
+    }
+
+    {
+        EXPECT_ANY_THROW(NumericalSolver::Undefined().getObservedStates());
     }
 }
 
@@ -833,8 +855,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conjunctive
         // Ensure that integration terminates at condition if condition is met
         EXPECT_TRUE(propagatedTime != endTime);
         EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-        std::cout.precision(16);
-        std::cout << propagatedStateVector[0] << std::endl;
 
         EXPECT_GT(2e-10, std::abs(propagatedStateVector[0] - std::sin(propagatedTime)));
         EXPECT_GT(1e-7, std::abs(propagatedStateVector[0] - 0.5));
@@ -901,5 +921,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Default)
 
     {
         EXPECT_TRUE(NumericalSolver::Default().isDefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, DefaultConditional)
+{
+    {
+        EXPECT_NO_THROW(NumericalSolver::DefaultConditional());
+    }
+
+    {
+        EXPECT_TRUE(NumericalSolver::DefaultConditional().isDefined());
     }
 }

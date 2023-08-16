@@ -32,8 +32,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
         .def("is_defined", &Propagator::isDefined)
 
-        .def("get_dynamics", &Propagator::getDynamics)
+        .def("access_numerical_solver", &Propagator::accessNumericalSolver)
+
         .def("get_number_of_coordinates", &Propagator::getNumberOfCoordinates)
+        .def("get_dynamics", &Propagator::getDynamics)
         .def("set_dynamics", &Propagator::setDynamics, arg("dynamics"))
         .def("add_dynamics", &Propagator::addDynamics, arg("dynamics"))
         .def("clear_dynamics", &Propagator::clearDynamics)

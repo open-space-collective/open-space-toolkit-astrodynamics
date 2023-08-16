@@ -55,12 +55,15 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
 
             .def("is_defined", &NumericalSolver::isDefined)
 
+            .def("access_observed_states", &NumericalSolver::accessObservedStates)
+
             .def("get_stepper_type", &NumericalSolver::getStepperType)
             .def("get_log_type", &NumericalSolver::getLogType)
             .def("get_time_step", &NumericalSolver::getTimeStep)
             .def("get_relative_tolerance", &NumericalSolver::getRelativeTolerance)
             .def("get_absolute_tolerance", &NumericalSolver::getAbsoluteTolerance)
             .def("get_root_solver", &NumericalSolver::getRootSolver)
+            .def("get_observed_states", &NumericalSolver::getObservedStates)
 
             .def(
                 "integrate_duration",
@@ -200,6 +203,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(pybind11::module& aM
             .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
             .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))
             .def_static("default", &NumericalSolver::Default)
+            .def_static("default_conditional", &NumericalSolver::DefaultConditional)
             .def_static("undefined", &NumericalSolver::Undefined)
 
             ;

@@ -87,6 +87,12 @@ class TestNumericalSolver:
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False
 
+    def test_accessors(
+        self,
+        numerical_solver: NumericalSolver,
+    ):
+        assert numerical_solver.access_observed_states() is not None
+
     def test_get_types(
         self,
         numerical_solver_default_inputs: tuple[
@@ -108,6 +114,7 @@ class TestNumericalSolver:
         assert numerical_solver.get_relative_tolerance() == relative_tolerance
         assert numerical_solver.get_absolute_tolerance() == absolute_tolerance
         assert numerical_solver.get_root_solver() is not None
+        assert numerical_solver.get_observed_states() is not None
 
     def test_get_string_from_types(self):
         assert (
@@ -241,6 +248,9 @@ class TestNumericalSolver:
 
     def test_default(self):
         assert NumericalSolver.default() is not None
+
+    def test_default_conditional(self):
+        assert NumericalSolver.default_conditional() is not None
 
     def test_undefined(self):
         assert NumericalSolver.undefined() is not None
