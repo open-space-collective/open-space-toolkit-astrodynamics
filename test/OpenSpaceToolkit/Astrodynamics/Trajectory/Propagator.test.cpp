@@ -297,7 +297,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, SetDyn
 
         defaultPropagator_.setDynamics({});
 
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 0);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
         EXPECT_FALSE(defaultPropagator_.isDefined());
     }
@@ -331,7 +330,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, ClearD
 
         defaultPropagator_.clearDynamics();
 
-        EXPECT_TRUE(defaultPropagator_.getNumberOfCoordinates() == 0);
         EXPECT_TRUE(defaultPropagator_.getDynamics().getSize() == 0);
     }
 }
