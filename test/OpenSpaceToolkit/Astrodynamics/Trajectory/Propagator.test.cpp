@@ -2214,11 +2214,11 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
     // -5 years in the past due to CSSI space weather data when computing drag
     // +1 year in the future due to finals2000a prediction span when computing polar motion for frame conversions
 
-    auto parameters = GetParam();
+    const auto parameters = GetParam();
 
-    Instant startInstant = std::get<0>(parameters);
-    Instant endInstant = std::get<1>(parameters);
-    Duration step = std::get<2>(parameters);
+    const Instant startInstant = std::get<0>(parameters);
+    const Instant endInstant = std::get<1>(parameters);
+    const Duration step = std::get<2>(parameters);
 
     const State state = {
         startInstant,
@@ -2249,7 +2249,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
     };
 
     // Setup Propagator model and orbit
-    const Propagator propagator = {RK4, dynamics};
+    const Propagator propagator = {
+        RK4,
+        dynamics,
+    };
 
     // Propagate all states
     EXPECT_NO_THROW(propagator.calculateStateAt(state, endInstant));
