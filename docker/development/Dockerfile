@@ -8,10 +8,10 @@ LABEL maintainer="lucas@loftorbital.com"
 
 # Dependencies
 
-## Zip & jq
+## Zip, jq, & git-lfs
 
 RUN apt-get update \
- && apt-get install -y unzip jq \
+ && apt-get install -y unzip jq git-lfs \
  && rm -rf /var/lib/apt/lists/*
 
 ## {fmt}
