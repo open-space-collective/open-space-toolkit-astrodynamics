@@ -296,6 +296,15 @@ IF (NOT OpenSpaceToolkitPhysics_FOUND)
 
 ENDIF ()
 
+Include(FetchContent)
+
+FetchContent_Declare(
+    magic_enum
+    GIT_REPOSITORY https://github.com/Neargye/magic_enum
+    GIT_TAG        v0.9.3
+)
+FetchContent_MakeAvailable(magic_enum)
+
 #####################################################################################3###########################################################################
 
 ## Versioning
@@ -335,6 +344,7 @@ IF (BUILD_SHARED_LIBRARY)
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
     TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${SHARED_LIBRARY_TARGET} "magic_enum::magic_enum")
 
     SET_TARGET_PROPERTIES (${SHARED_LIBRARY_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} SOVERSION ${PROJECT_VERSION_MAJOR} OUTPUT_NAME ${SHARED_LIBRARY_NAME} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 
@@ -366,6 +376,8 @@ IF (BUILD_STATIC_LIBRARY)
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitIO_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitMathematics_LIBRARIES})
     TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} ${OpenSpaceToolkitPhysics_LIBRARIES})
+    TARGET_LINK_LIBRARIES (${STATIC_LIBRARY_TARGET} "magic_enum::magic_enum")
+
 
     SET_TARGET_PROPERTIES (${STATIC_LIBRARY_TARGET} PROPERTIES VERSION ${PROJECT_VERSION_STRING} OUTPUT_NAME ${STATIC_LIBRARY_NAME} CLEAN_DIRECT_OUTPUT 1 INSTALL_RPATH "$ORIGIN/../lib:$ORIGIN/")
 

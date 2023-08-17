@@ -15,6 +15,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Utilities.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -115,6 +117,8 @@ class COE
     static Angle EccentricAnomalyFromMeanAnomaly(
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
+
+    DEFINE_ENUM_CONVERSIONS(Element)
 
    private:
     Length semiMajorAxis_;

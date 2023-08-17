@@ -297,6 +297,34 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueA
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StringFromElement)
+{
+    {
+        EXPECT_EQ(COE::StringFromElement(COE::Element::SemiMajorAxis), "SemiMajorAxis");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::Eccentricity), "Eccentricity");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::Inclination), "Inclination");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::Aop), "Aop");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::Raan), "Raan");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::TrueAnomaly), "TrueAnomaly");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::MeanAnomaly), "MeanAnomaly");
+        EXPECT_EQ(COE::StringFromElement(COE::Element::EccentricAnomaly), "EccentricAnomaly");
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, ElementFromString)
+{
+    {
+        EXPECT_EQ(COE::ElementFromString("SemiMajorAxis"), COE::Element::SemiMajorAxis);
+        EXPECT_EQ(COE::ElementFromString("Eccentricity"), COE::Element::Eccentricity);
+        EXPECT_EQ(COE::ElementFromString("Inclination"), COE::Element::Inclination);
+        EXPECT_EQ(COE::ElementFromString("Aop"), COE::Element::Aop);
+        EXPECT_EQ(COE::ElementFromString("Raan"), COE::Element::Raan);
+        EXPECT_EQ(COE::ElementFromString("TrueAnomaly"), COE::Element::TrueAnomaly);
+        EXPECT_EQ(COE::ElementFromString("MeanAnomaly"), COE::Element::MeanAnomaly);
+        EXPECT_EQ(COE::ElementFromString("EccentricAnomaly"), COE::Element::EccentricAnomaly);
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
