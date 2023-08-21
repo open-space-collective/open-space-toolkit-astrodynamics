@@ -26,14 +26,10 @@ def initial_state_vec() -> np.ndarray:
 @pytest.fixture
 def custom_condition() -> EventCondition:
     class CustomCondition(EventCondition):
-        def __init__(self, target: float, criteria: EventCondition.Criteria):
-            super().__init__("Custom", criteria)
-            self._target = target
+        def compute(self, state_vector, time: float) -> bool:
+            return time
 
-        def evaluate(self, state_vector, time: float) -> bool:
-            return time - self._target
-
-    return CustomCondition(5.0, EventCondition.Criteria.StrictlyPositive)
+    return CustomCondition("Custom", EventCondition.Criteria.StrictlyPositive, 5.0)
 
 
 @pytest.fixture
@@ -214,7 +210,7 @@ class TestNumericalSolver:
 
         state_vector, time = condition_solution.solution
 
-        assert abs(time - custom_condition._target) < 1e-6
+        assert abs(float(time - custom_condition.get_target())) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
@@ -241,7 +237,7 @@ class TestNumericalSolver:
 
         state_vector, time = condition_solution.solution
 
-        assert abs(time - start_time - custom_condition._target) < 1e-6
+        assert abs(float(time - start_time - custom_condition.get_target())) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))

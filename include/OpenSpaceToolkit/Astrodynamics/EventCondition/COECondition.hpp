@@ -80,7 +80,7 @@ class COECondition : public EventCondition
     /// @param                  [in] aStateVector The current state vector
     /// @param                  [in] aTime The current time
     ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
+    /// @return                 Real number representing the computation result of the Event Condition
 
     virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override;
 

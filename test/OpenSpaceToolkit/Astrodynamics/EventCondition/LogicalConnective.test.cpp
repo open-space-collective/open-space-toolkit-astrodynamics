@@ -37,20 +37,13 @@ class TestCondition : public EventCondition
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective : public ::testing::Test
 {
-    void SetUp() override
-    {
-        logicalConnectiveCondition_ = {
-            "Logical Connective Condition",
-            {
-                std::make_shared<TestCondition>(testCondition_),
-            },
-        };
-    }
-
    protected:
     const String defaultName_ = "test";
     const TestCondition testCondition_ = {defaultName_};
-    LogicalConnective logicalConnectiveCondition_ = {"Logical Connective Condition", {}};
+    const LogicalConnective logicalConnectiveCondition_ = {
+        "Logical Connective Condition",
+        {std::make_shared<TestCondition>(testCondition_)},
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Constructor)
