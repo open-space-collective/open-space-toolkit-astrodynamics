@@ -14,12 +14,16 @@ def name() -> str:
 def criteria() -> EventCondition.Criteria:
     return EventCondition.Criteria.AnyCrossing
 
+
 @pytest.fixture
 def target() -> float:
     return 0.0
 
+
 @pytest.fixture
-def event_condition(name: str, criteria: EventCondition.Criteria, target: float) -> EventCondition:
+def event_condition(
+    name: str, criteria: EventCondition.Criteria, target: float
+) -> EventCondition:
     class MyEventCondition(EventCondition):
         def compute(self, state_vector, time):
             return state_vector[0]
@@ -53,18 +57,22 @@ class TestEventCondition:
     ):
         assert event_condition.get_criteria() == criteria
 
-    def test_get_target(
-        self, event_condition: EventCondition, target: float
-    ):
+    def test_get_target(self, event_condition: EventCondition, target: float):
         assert event_condition.get_target() == target
 
     def test_is_satisfied(self, event_condition: EventCondition):
         assert (
             event_condition.is_satisfied(current_value=1.0, previous_value=-1.0) == True
         )
-        
+
         assert (
-            event_condition.is_satisfied(previous_state_vector=[-1.0], previous_time=0.0, current_state_vector=[1.0], current_time=1.0) == True
+            event_condition.is_satisfied(
+                previous_state_vector=[-1.0],
+                previous_time=0.0,
+                current_state_vector=[1.0],
+                current_time=1.0,
+            )
+            == True
         )
 
     def test_overloaded_is_satisfied(self, event_condition_overloaded: EventCondition):
