@@ -12,7 +12,7 @@ def event_condition() -> EventCondition:
         def evaluate(self, state_vector, time):
             return time
 
-    return MyCondition("My Condition", EventCondition.Criteria.StrictlyNegative)
+    return MyCondition("My Condition", EventCondition.Criteria.StrictlyNegative, 0.0)
 
 
 @pytest.fixture

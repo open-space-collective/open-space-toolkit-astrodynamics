@@ -9,19 +9,19 @@ from ostk.astrodynamics.event_condition import Disjunctive
 @pytest.fixture
 def first_condition() -> EventCondition:
     class FirstCondition(EventCondition):
-        def evaluate(self, state_vector, time):
+        def compute(self, state_vector, time):
             return state_vector[0]
 
-    return FirstCondition("First Condition", EventCondition.Criteria.PositiveCrossing)
+    return FirstCondition("First Condition", EventCondition.Criteria.PositiveCrossing, 0.0)
 
 
 @pytest.fixture
 def second_condition() -> EventCondition:
     class SecondCondition(EventCondition):
-        def evaluate(self, state_vector, time):
-            return state_vector[1] - 0.1
+        def compute(self, state_vector, time):
+            return state_vector[1]
 
-    return SecondCondition("Second condition", EventCondition.Criteria.StrictlyNegative)
+    return SecondCondition("Second condition", EventCondition.Criteria.StrictlyNegative, 0.1)
 
 
 @pytest.fixture
