@@ -258,7 +258,7 @@ COE::CartesianState COE::getCartesianState(
                                RotationMatrix::RX(Angle::Radians(-inclination_rad)) *
                                RotationMatrix::RZ(Angle::Radians(-aop_rad)) * V_pqw;
 
-        const Position position = Position::Metrs(x_ECI, aFrameSPtr);
+        const Position position = Position::Meters(x_ECI, aFrameSPtr);
         const Velocity velocity = Velocity::MetersPerSecond(v_ECI, aFrameSPtr);
 
         return {

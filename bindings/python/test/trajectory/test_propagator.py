@@ -106,10 +106,10 @@ def conditional_numerical_solver() -> NumericalSolver:
 @pytest.fixture
 def event_condition() -> EventCondition:
     class MyEventCondition(EventCondition):
-        def evaluate(self, state_vector, time):
-            return time - 42.0
+        def compute(self, state_vector, time):
+            return time
 
-    return MyEventCondition("42 Seconds", EventCondition.Criteria.StrictlyPositive)
+    return MyEventCondition("42 Seconds", EventCondition.Criteria.StrictlyPositive, 42.0)
 
 
 @pytest.fixture

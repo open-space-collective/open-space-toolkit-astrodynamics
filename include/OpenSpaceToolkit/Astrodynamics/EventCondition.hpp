@@ -42,7 +42,7 @@ class EventCondition
     ///
     /// @param                  [in] aName A string representing the name of the Event Condition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-    ///
+    /// @param                  [in] aTarget A target value associated with the Event Condition
 
     EventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget);
 
