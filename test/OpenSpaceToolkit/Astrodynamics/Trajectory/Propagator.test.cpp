@@ -1864,8 +1864,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
+            Position::Meters(referencePositionArrayGCRF[0], gcrfSPtr_),
+            Velocity::MetersPerSecond(referenceVelocityArrayGCRF[0], gcrfSPtr_),
         };
 
         // Setup Propagator model and orbit
