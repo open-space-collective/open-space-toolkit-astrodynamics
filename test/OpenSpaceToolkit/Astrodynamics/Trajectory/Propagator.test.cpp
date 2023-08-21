@@ -1913,7 +1913,7 @@ TEST_F(
         // Reference data setup
         const Table referenceData = Table::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-                                   "Orekit_Drag_base_plus_drag_test.csv")),
+                                   "Orekit_Drag_NRLMSISE00_450km_2hr_run.csv")),
             Table::Format::CSV,
             true
         );
