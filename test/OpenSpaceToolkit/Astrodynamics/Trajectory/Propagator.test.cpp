@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
-#include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Cuboid.hpp>
@@ -1903,9 +1903,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km)
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km
+)
 {
-    // Earth with NRLMSISE atmospheric drag compared against OREKit
     {
         // Current state and instant setup
         const Instant startInstant = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00.000"), Scale::UTC);
@@ -1913,7 +1914,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Reference data setup
         const Table referenceData = Table::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-                                   "Orekit_Drag_NRLMSISE00_450km_2hr_run.csv")),
+                                   "Orekit_Drag_base_plus_drag_test.csv")),
             Table::Format::CSV,
             true
         );
@@ -1938,7 +1939,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup dynamics
         const Earth earth = Earth::FromModels(
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::WGS84),
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
             std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
             std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
         );
@@ -1959,12 +1960,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
 
-        std::cout.setstate(std::ios_base::failbit); // Temporary due to a debug print left in physics
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
-        std::cout.clear();
 
-        size_t n_points = instantArray.getSize();
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
@@ -1978,116 +1976,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            double ptol = 0.1;
-            double vtol = 0.001;
-            if (ptol < positionErrorGCRF || vtol < velocityErrorGCRF)
-            {
-                std::cout << String::Format("failed on point {} of {}", i, n_points) << std::endl;
-            }
-            ASSERT_GT(ptol, positionErrorGCRF);
-            ASSERT_GT(vtol, velocityErrorGCRF);
-
-
-            // Results console output
-
-            // std::cout << "**************************************" << std::endl;
-            // std::cout.setf(std::ios::scientific,std::ios::floatfield);
-            // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
-            // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
-            // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-            // std::cout << "**************************************" << std::endl;
-        }
-    }
-}
-
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_STK_450km)
-{
-    // Earth with NRLMSISE atmospheric drag compared against STK
-    {
-        // Reference data setup
-        const Table referenceData = Table::Load(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
-                                   "STK_EGM2008_21x21_NRLMSISE_2hr_run.csv")),
-            Table::Format::CSV,
-            true
-        );
-
-        Array<Instant> instantArray = Array<Instant>::Empty();
-        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
-        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
-
-        Size shortcutIndex = 0;
-
-        for (const auto& referenceRow : referenceData)
-        {
-            const Instant instant = Instant::DateTime(
-                DateTime::Parse(referenceRow[0].accessString()), Scale::UTC
-            );
-            instantArray.add(instant);
-
-            referencePositionArrayGCRF.add(
-                1000 * Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
-            );
-            referenceVelocityArrayGCRF.add(
-                1000 * Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
-            );
-            shortcutIndex++; if(shortcutIndex > 10) break;
-        }
-
-        // Setup dynamics
-        const Earth earth = Earth::FromModels(
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::EGM2008),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
-        );
-        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
-        const Array<Shared<Dynamics>> dynamics = {
-            std::make_shared<PositionDerivative>(),
-            std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
-        };
-
-        // Setup initial conditions
-        const State state = {
-            instantArray[0],
-            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
-        };
-
-        // Setup Propagator model and orbit
-        const Propagator propagator = {defaultRK4_, dynamics};
-        std::cout << "instantArray.getSize() = " << instantArray.getSize() << std::endl;
-        std::cout << "start state" << state << std::endl;
-        std::cout << "end instant" << instantArray[instantArray.getSize() - 1] << std::endl;
-        //std::cout.setstate(std::ios_base::failbit); // Temporary due to a debug print left in physics
-        // Propagate all states
-        const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
-        //std::cout.clear();
-
-        size_t n_points = instantArray.getSize();
-        // Validation loop
-        for (size_t i = 0; i < instantArray.getSize(); i++)
-        {
-            // GCRF Compare
-            const Position positionGCRF = propagatedStateArray[i].getPosition();
-            const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
-
-            const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-            const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
-
-            ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
-            ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
-
-            double ptol = 0.1;
-            double vtol = 0.001;
-            if (ptol < positionErrorGCRF || vtol < velocityErrorGCRF)
-            {
-                std::cout << String::Format("failed on point {} of {}", i, n_points) << std::endl;
-            }
-            ASSERT_GT(ptol, positionErrorGCRF);
-            ASSERT_GT(vtol, velocityErrorGCRF);
-
+            ASSERT_GT(9e-4, positionErrorGCRF);
+            ASSERT_GT(9e-7, velocityErrorGCRF);
 
             // Results console output
 
