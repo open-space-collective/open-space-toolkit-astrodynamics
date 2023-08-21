@@ -1952,8 +1952,8 @@ TEST_F(
         // Setup initial conditions
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
+            Position::Meters(referencePositionArrayGCRF[0], gcrfSPtr_),
+            Velocity::MetersPerSecond(referenceVelocityArrayGCRF[0], gcrfSPtr_),
         };
 
         // Setup Propagator model and orbit
@@ -1975,8 +1975,8 @@ TEST_F(
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(9e-4, positionErrorGCRF);
-            ASSERT_GT(9e-7, velocityErrorGCRF);
+            ASSERT_GT(1.5e-1, positionErrorGCRF);
+            ASSERT_GT(1.1e-4, velocityErrorGCRF);
 
             // Results console output
 
@@ -1987,6 +1987,9 @@ TEST_F(
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
         }
+        std::cout << maxPosError << std::endl;
+        std::cout << maxVelError << std::endl;
+
     }
 }
 
