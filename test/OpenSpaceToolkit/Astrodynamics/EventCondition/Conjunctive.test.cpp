@@ -22,11 +22,11 @@ class FirstCondition : public EventCondition
 {
    public:
     FirstCondition()
-        : EventCondition("First", EventCondition::Criteria::PositiveCrossing)
+        : EventCondition("First", EventCondition::Criteria::PositiveCrossing, 0.0)
     {
     }
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
     {
         (void)aTime;
         return aStateVector[0];
@@ -37,11 +37,11 @@ class SecondCondition : public EventCondition
 {
    public:
     SecondCondition()
-        : EventCondition("Second", EventCondition::Criteria::StrictlyNegative)
+        : EventCondition("Second", EventCondition::Criteria::StrictlyNegative, 0.0)
     {
     }
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
     {
         (void)aTime;
         return aStateVector[1] - 0.1;

@@ -43,9 +43,9 @@ class PyEventCondition : public EventCondition
         );
     }
 
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+    Real compute(const VectorXd& aStateVector, const Real& aTime) const override
     {
-        PYBIND11_OVERRIDE_PURE(Real, EventCondition, evaluate, aStateVector, aTime);
+        PYBIND11_OVERRIDE_PURE(Real, EventCondition, compute, aStateVector, aTime);
     }
 };
 
@@ -58,10 +58,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
         eventCondition_class
 
-            .def(init<const String&, const EventCondition::Criteria&>(), arg("name"), arg("criteria"))
+            .def(
+                init<const String&, const EventCondition::Criteria&, const Real&>(),
+                arg("name"),
+                arg("criteria"),
+                arg("target")
+            )
 
             .def("__str__", &(shiftToString<EventCondition>))
             .def("__repr__", &(shiftToString<EventCondition>))
+
+            .def("get_name", &EventCondition::getName)
+            .def("get_criteria", &EventCondition::getCriteria)
+            .def("get_target", &EventCondition::getTarget)
+
+            .def("evaluate", &EventCondition::evaluate, arg("state_vector"), arg("time"))
 
             .def(
                 "is_satisfied",
@@ -80,10 +91,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 arg("previous_time")
             )
 
-            .def("get_name", &EventCondition::getName)
-            .def("get_criteria", &EventCondition::getCriteria)
-
-            .def("evaluate", &EventCondition::evaluate, arg("state_vector"), arg("time"))
+            .def("compute", &EventCondition::compute, arg("state_vector"), arg("time"))
 
             .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"))
 

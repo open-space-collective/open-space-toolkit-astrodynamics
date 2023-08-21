@@ -24,11 +24,11 @@ class TestCondition : public EventCondition
 {
    public:
     TestCondition(const String& aName)
-        : EventCondition(aName, EventCondition::Criteria::PositiveCrossing)
+        : EventCondition(aName, EventCondition::Criteria::PositiveCrossing, 0.0)
     {
     }
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
     {
         (void)aStateVector;
         return aTime;
@@ -48,9 +48,9 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective : public :
     }
 
    protected:
-    LogicalConnective logicalConnectiveCondition_ = {"Logical Connective Condition", {}};
     const String defaultName_ = "test";
     const TestCondition testCondition_ = {defaultName_};
+    LogicalConnective logicalConnectiveCondition_ = {"Logical Connective Condition", {}};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Constructor)
@@ -80,9 +80,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, IsSatisf
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Evaluate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalConnective, Compute)
 {
     {
-        EXPECT_ANY_THROW(logicalConnectiveCondition_.evaluate(VectorXd::Zero(2), 0.0));
+        EXPECT_ANY_THROW(logicalConnectiveCondition_.compute(VectorXd::Zero(2), 0.0));
     }
 }

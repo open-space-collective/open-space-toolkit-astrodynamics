@@ -42,8 +42,9 @@ class EventCondition
     ///
     /// @param                  [in] aName A string representing the name of the Event Condition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
+    ///
 
-    EventCondition(const String& aName, const Criteria& aCriteria);
+    EventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget);
 
     /// @brief                  Virtual destructor
 
@@ -61,7 +62,7 @@ class EventCondition
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const EventCondition& anEventCondition);
 
-    /// @brief                  Get name of the Event Condition
+    /// @brief                  Get the name of the Event Condition
     ///
     /// @return                 String representing the name of the Event Condition
 
@@ -72,6 +73,21 @@ class EventCondition
     /// @return                 Enum representing the criteria of the Event Condition
 
     Criteria getCriteria() const;
+
+    /// @brief                  Get the target of the Event Condition
+    ///
+    /// @return                 Real number representing the target of the Event Condition
+
+    Real getTarget() const;
+
+    /// @brief                  Evaluate the Event Condition
+    ///
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
+    ///
+    /// @return                 Real number representing the evaluation result of the Event Condition
+
+    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
 
     /// @brief                  Print the Event Condition
     ///
@@ -109,14 +125,14 @@ class EventCondition
         const Real& previousTime
     ) const;
 
-    /// @brief                  Evaluate the Event Condition
+    /// @brief                  Compute the value of the Event Condition
     ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
+    /// @param                  [in] aStateVector The state vector
+    /// @param                  [in] aTime The time
     ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
+    /// @return                 Real number representing the value of the Event Condition
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const = 0;
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const = 0;
 
     /// @brief                  Convert criteria to string
     ///
@@ -129,6 +145,7 @@ class EventCondition
    private:
     String name_;
     Criteria criteria_;
+    Real target_;
 
     std::function<bool(const Real&, const Real&)> comparator_;
 

@@ -54,17 +54,14 @@ class DurationCondition : public EventCondition
 
     Duration getDuration() const;
 
-    /// @brief                  Evaluate the Event Condition
+    /// @brief                  Compute the Event Condition
     ///
     /// @param                  [in] aStateVector The current state vector
     /// @param                  [in] aTime The current time
     ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
+    /// @return                 Real number representing the computation result of the Event Condition
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
-
-   private:
-    Real durationInSeconds_;
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override;
 };
 
 }  // namespace eventcondition

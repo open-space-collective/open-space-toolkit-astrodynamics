@@ -19,12 +19,12 @@ using ostk::astro::EventCondition;
 class TestCondition : public EventCondition
 {
    public:
-    TestCondition(const String& aName, const Criteria& aCriteria)
-        : EventCondition(aName, aCriteria)
+    TestCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget)
+        : EventCondition(aName, aCriteria, aTarget)
     {
     }
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
     {
         (void)aStateVector;
         (void)aTime;
@@ -37,23 +37,23 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
    protected:
     const EventCondition::Criteria defaultCriteria_ = EventCondition::Criteria::PositiveCrossing;
     const String defaultName_ = "Test";
+    const Real defaultTarget_ = 5.0;
+    const TestCondition defaultCondition_ = {defaultName_, defaultCriteria_, defaultTarget_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, defaultCriteria_));
+        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, defaultCriteria_, defaultTarget_));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StreamOperator)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << testCondition << std::endl);
+        EXPECT_NO_THROW(std::cout << defaultCondition_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -62,12 +62,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StreamOperator)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Print)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(testCondition.print(std::cout, true));
-        EXPECT_NO_THROW(testCondition.print(std::cout, false));
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
@@ -75,18 +73,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getName)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
-        EXPECT_TRUE(testCondition.getName() == defaultName_);
+        EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getCriteria)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
+        EXPECT_TRUE(defaultCondition_.getCriteria() == defaultCriteria_);
+    }
+}
 
-        EXPECT_TRUE(testCondition.getCriteria() == defaultCriteria_);
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getTarget)
+{
+    {
+        EXPECT_TRUE(defaultCondition_.getCriteria() == defaultCriteria_);
     }
 }
 
@@ -94,7 +95,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 {
     // Positive Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::PositiveCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::PositiveCrossing,
+            defaultTarget_,
+        };
 
         EXPECT_TRUE(testCondition.isSatisfied(5.0, -4.0));
         EXPECT_FALSE(testCondition.isSatisfied(-4.0, 5.0));
@@ -104,7 +109,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Negative Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::NegativeCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::NegativeCrossing,
+            defaultTarget_,
+        };
 
         EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
         EXPECT_FALSE(testCondition.isSatisfied(5.0, -4.0));
@@ -114,7 +123,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Any Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::AnyCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::AnyCrossing,
+            defaultTarget_,
+        };
 
         EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
         EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
@@ -124,7 +137,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Strictly Positive (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyPositive);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::StrictlyPositive,
+            defaultTarget_,
+        };
 
         EXPECT_TRUE(testCondition.isSatisfied(5.0, 4.0));
         EXPECT_TRUE(testCondition.isSatisfied(4.0, 5.0));
@@ -133,7 +150,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
 
     // Strictly Negative (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyNegative);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::StrictlyNegative,
+            defaultTarget_,
+        };
 
         EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
         EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));

@@ -28,20 +28,14 @@ COECondition::COECondition(
     const Real& aTarget,
     const Derived& aGravitationalParameter
 )
-    : EventCondition(aName, aCriteria),
+    : EventCondition(aName, aCriteria, aTarget),
       element_(anElement),
-      target_(aTarget),
       gravitationalParameter_(aGravitationalParameter),
       evaluator_(GetEvaluator(anElement))
 {
 }
 
 COECondition::~COECondition() {}
-
-Real COECondition::getTarget() const
-{
-    return target_;
-}
 
 Derived COECondition::getGravitationalParameter() const
 {
@@ -53,39 +47,14 @@ COE::Element COECondition::getElement() const
     return element_;
 }
 
-Real COECondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+Real COECondition::compute(const VectorXd& aStateVector, const Real& aTime) const
 {
     (void)aTime;
 
     const Vector3d positionVector = aStateVector.segment(0, 3);
     const Vector3d velocityVector = aStateVector.segment(3, 3);
 
-    return evaluator_(positionVector, velocityVector, this->gravitationalParameter_) - target_;
-}
-
-String COECondition::StringFromElement(const COE::Element& anElement)
-{
-    switch (anElement)
-    {
-        case COE::Element::SemiMajorAxis:
-            return "Semi-major axis";
-        case COE::Element::Eccentricity:
-            return "Eccentricity";
-        case COE::Element::Inclination:
-            return "Inclination";
-        case COE::Element::Aop:
-            return "Argument of periapsis";
-        case COE::Element::Raan:
-            return "Right angle of ascending node";
-        case COE::Element::TrueAnomaly:
-            return "True anomaly";
-        case COE::Element::MeanAnomaly:
-            return "Mean anomaly";
-        case COE::Element::EccentricAnomaly:
-            return "Eccentric anomaly";
-    }
-
-    throw ostk::core::error::runtime::Wrong("Element");
+    return evaluator_(positionVector, velocityVector, this->gravitationalParameter_);
 }
 
 COECondition COECondition::SemiMajorAxis(

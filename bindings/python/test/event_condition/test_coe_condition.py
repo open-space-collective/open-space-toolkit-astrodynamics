@@ -90,7 +90,3 @@ class TestCOECondition:
         assert condition.evaluate(state_vector, 0.0) == pytest.approx(
             6904757.8910061345 - target, abs=1e-9
         )
-
-    def test_string_from_element(self):
-        element_str = COECondition.string_from_element(COE.Element.SemiMajorAxis)
-        assert element_str == "Semi-major axis"
