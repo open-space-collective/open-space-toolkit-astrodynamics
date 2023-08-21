@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -31,6 +32,7 @@ namespace kepler
 using ostk::core::ctnr::Pair;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
+using ostk::core::types::String;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -115,6 +117,14 @@ class COE
     static Angle EccentricAnomalyFromMeanAnomaly(
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
+
+    /// @brief                  Convert element to string
+    ///
+    /// @param                  [in] anElement An element
+    ///
+    /// @return                 String representing the element
+
+    static String StringFromElement(const COE::Element& anElement);
 
    private:
     Length semiMajorAxis_;

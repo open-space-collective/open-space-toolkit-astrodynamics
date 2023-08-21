@@ -115,18 +115,6 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_COECondition, evaluate)
     }
 }
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_COECondition, StringFromElement)
-{
-    auto parameters = GetParam();
-
-    const COE::Element element = std::get<0>(parameters);
-    const String expectedString = std::get<3>(parameters);
-
-    {
-        EXPECT_EQ(COECondition::StringFromElement(element), expectedString);
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, SemiMajorAxis)
 {
     COECondition condition =

@@ -83,6 +83,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             arg("tolerance")
         )
 
+        .def_static("string_from_element", &COE::StringFromElement, arg("element"))
+
         ;
 
     enum_<COE::Element>(coe, "Element")

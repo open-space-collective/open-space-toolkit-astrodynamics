@@ -374,19 +374,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         {
            public:
             TestCondition(const Real& aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
-                  target_(aTarget)
+                : EventCondition("test", EventCondition::Criteria::StrictlyPositive, aTarget)
             {
             }
 
-            virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
+            virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
             {
                 (void)aStateVector;
-                return aTime - target_;
+                return aTime;
             }
-
-           private:
-            Real target_ = Real::Undefined();
         };
 
         const Real target = 60.0;

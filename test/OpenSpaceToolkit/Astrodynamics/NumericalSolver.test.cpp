@@ -35,18 +35,15 @@ using ostk::astro::NumericalSolver;
 struct DurationCondition : public EventCondition
 {
     DurationCondition(const Real &aTarget, const EventCondition::Criteria &aCriteria)
-        : EventCondition("test", aCriteria),
-          target_(aTarget)
+        : EventCondition("test", aCriteria, aTarget)
     {
     }
 
-    Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
+    Real compute(const VectorXd &stateVector, const Real &aTime) const override
     {
         (void)stateVector;
-        return aTime - target_;
+        return aTime;
     }
-
-    Real target_;
 };
 
 // Simple value based struct
@@ -54,18 +51,15 @@ struct DurationCondition : public EventCondition
 struct XCrossingCondition : public EventCondition
 {
     XCrossingCondition(const Real &aTarget)
-        : EventCondition("test", XCrossingCondition::Criteria::AnyCrossing),
-          target_(aTarget)
+        : EventCondition("test", XCrossingCondition::Criteria::AnyCrossing, aTarget)
     {
     }
 
-    Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
+    Real compute(const VectorXd &aStateVector, const Real &aTime) const
     {
         (void)aTime;
-        return aStateVector[0] - target_;
+        return aStateVector[0];
     }
-
-    Real target_;
 };
 
 class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
@@ -702,7 +696,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+            EXPECT_NEAR(propagatedTime, condition.getTarget(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
@@ -736,7 +730,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(std::abs(propagatedTime) < std::abs(duration));
-            EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+            EXPECT_NEAR(propagatedTime, std::asin(condition.getTarget()), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
@@ -793,7 +787,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+            EXPECT_NEAR(propagatedTime, startTime + condition.getTarget(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 

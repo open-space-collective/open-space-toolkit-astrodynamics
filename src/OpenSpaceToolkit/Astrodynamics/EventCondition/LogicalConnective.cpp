@@ -9,7 +9,7 @@ namespace astro
 namespace eventcondition
 {
 LogicalConnective::LogicalConnective(const String& aName, const Array<Shared<EventCondition>>& eventConditions)
-    : EventCondition(aName, EventCondition::Criteria::Undefined),
+    : EventCondition(aName, EventCondition::Criteria::Undefined, Real::Undefined()),
       eventConditions_(eventConditions)
 {
 }
@@ -29,12 +29,12 @@ bool LogicalConnective::isSatisfied(const Real& currentValue, const Real& previo
     throw ostk::core::error::runtime::Undefined("LogicalConnective::isSatisfied");
 }
 
-Real LogicalConnective::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+Real LogicalConnective::compute(const VectorXd& aStateVector, const Real& aTime) const
 {
     (void)aStateVector;
     (void)aTime;
 
-    throw ostk::core::error::runtime::Undefined("LogicalConnective::evaluate");
+    throw ostk::core::error::runtime::Undefined("LogicalConnective::compute");
 }
 
 }  // namespace eventcondition

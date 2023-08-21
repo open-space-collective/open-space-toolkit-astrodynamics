@@ -63,12 +63,6 @@ class COECondition : public EventCondition
 
     virtual ~COECondition();
 
-    /// @brief                  Get target
-    ///
-    /// @return                 target
-
-    Real getTarget() const;
-
     /// @brief                  Get gravitational parameter
     ///
     /// @return                 gravitational parameter
@@ -81,22 +75,14 @@ class COECondition : public EventCondition
 
     COE::Element getElement() const;
 
-    /// @brief                  Evaluate the Event Condition
+    /// @brief                  Compute the Event Condition
     ///
     /// @param                  [in] aStateVector The current state vector
     /// @param                  [in] aTime The current time
     ///
     /// @return                 Real number representing the evaluation result of the Event Condition
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
-
-    /// @brief                  Convert element to string
-    ///
-    /// @param                  [in] anElement An element
-    ///
-    /// @return                 String representing the element
-
-    static String StringFromElement(const COE::Element& anElement);
+    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override;
 
     /// @brief                  Semi Major Axis based constructor
     ///
@@ -192,7 +178,6 @@ class COECondition : public EventCondition
 
    private:
     COE::Element element_;
-    Real target_;
     Derived gravitationalParameter_;
     std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> evaluator_;
 

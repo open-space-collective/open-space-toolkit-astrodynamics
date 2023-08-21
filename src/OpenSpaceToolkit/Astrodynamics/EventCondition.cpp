@@ -10,9 +10,10 @@ namespace ostk
 namespace astro
 {
 
-EventCondition::EventCondition(const String& aName, const Criteria& aCriteria)
+EventCondition::EventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget)
     : name_(aName),
       criteria_(aCriteria),
+      target_(aTarget),
       comparator_(getComparator(aCriteria))
 {
 }
@@ -36,12 +37,23 @@ EventCondition::Criteria EventCondition::getCriteria() const
     return criteria_;
 }
 
+Real EventCondition::getTarget() const
+{
+    return target_;
+}
+
+Real EventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+{
+    return compute(aStateVector, aTime) - target_;
+}
+
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
     ostk::core::utils::Print::Line(anOutputStream) << "Criteria:" << StringFromCriteria(getCriteria());
+    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

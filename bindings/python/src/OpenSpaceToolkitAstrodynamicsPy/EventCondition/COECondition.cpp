@@ -29,11 +29,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 arg("gravitational_parameter")
             )
 
-            .def("get_target", &COECondition::getTarget)
             .def("get_gravitational_parameter", &COECondition::getGravitationalParameter)
             .def("get_element", &COECondition::getElement)
-
-            .def_static("string_from_element", &COECondition::StringFromElement, arg("element"))
 
             .def_static(
                 "semi_major_axis",
