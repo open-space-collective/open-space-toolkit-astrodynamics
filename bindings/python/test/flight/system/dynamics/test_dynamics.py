@@ -35,6 +35,3 @@ class TestDynamics:
 
     def test_get_name(self, dynamics: Dynamics, name: str):
         assert dynamics.get_name() == name
-
-    def test_print(self, dynamics: Dynamics):
-        print(dynamics)
