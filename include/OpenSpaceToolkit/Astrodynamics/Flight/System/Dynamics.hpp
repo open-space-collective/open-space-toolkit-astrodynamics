@@ -74,12 +74,6 @@ class Dynamics
 
     virtual ~Dynamics() = 0;
 
-    /// @brief              Clone dynamics (pure virtual)
-    ///
-    /// @return             Pointer to cloned dynamics
-
-    virtual Dynamics* clone() const = 0;
-
     /// @brief              Check if dynamics is defined (pure virtual)
     ///
     /// @return             True if dynamics is defined

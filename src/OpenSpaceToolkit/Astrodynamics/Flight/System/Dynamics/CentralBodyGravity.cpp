@@ -51,11 +51,6 @@ CentralBodyGravity::CentralBodyGravity(const Shared<const Celestial>& aCelestial
 
 CentralBodyGravity::~CentralBodyGravity() {}
 
-CentralBodyGravity* CentralBodyGravity::clone() const
-{
-    return new CentralBodyGravity(*this);
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity& aCentralBodyGravity)
 {
     aCentralBodyGravity.print(anOutputStream);

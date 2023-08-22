@@ -3,6 +3,7 @@
 import pytest
 
 from ostk.astrodynamics.flight.system import Dynamics
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
 
 
 @pytest.fixture
@@ -10,15 +11,14 @@ def name() -> str:
     return "MyDynamics"
 
 
-
 @pytest.fixture
 def dynamics(name: str) -> Dynamics:
     class MyDynamics(Dynamics):
         def get_read_coordinates_subsets(self):
-            return []
+            return [CartesianPosition.default()]
 
         def get_write_coordinates_subsets(self):
-            return []
+            return [CartesianPosition.default()]
 
         def compute_contribution(self, instant, state_vector, frame):
             return state_vector

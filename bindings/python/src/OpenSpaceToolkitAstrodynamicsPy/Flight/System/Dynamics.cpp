@@ -6,46 +6,55 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/CentralBodyGravity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/PositionDerivative.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/ThirdBodyGravity.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset.cpp>
 
 using namespace pybind11;
 
 using ostk::core::types::Shared;
 
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
+
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 // Trampoline class for virtual member functions
-class PyEventCondition : public Dynamics
+class PyDynamics : public Dynamics
 {
    public:
+    using Dynamics::Dynamics;
+
     // Trampoline (need one for each virtual function)
 
     bool isDefined() const override
     {
-        PYBIND11_OVERRIDE(bool, Dynamics::Dynamics, isDefined);
+        PYBIND11_OVERRIDE_PURE(bool, Dynamics, isDefined);
     }
 
-    Array<Shared<const CoordinateSubset>> getReadCoordinatesSubsets() const override
+    Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override
     {
-        PYBIND11_OVERRIDE(bool, Dynamics::Dynamics, getReadCoordinatesSubsets);
+        PYBIND11_OVERRIDE_PURE(Array<Shared<const CoordinatesSubset>>, Dynamics, getReadCoordinatesSubsets);
     }
 
-    Array<Shared<const CoordinateSubset>> getWriteCoordinatesSubsets() const override
+    Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override
     {
-        PYBIND11_OVERRIDE(bool, Dynamics::Dynamics, getWriteCoordinatesSubsets);
+        PYBIND11_OVERRIDE_PURE(Array<Shared<const CoordinatesSubset>>, Dynamics, getWriteCoordinatesSubsets);
     }
 
-    VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr, )
+    VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr)
         const override
     {
-        PYBIND11_OVERRIDE(VectorXd, Dynamics::Dynamics, computeContribution, anInstant, x, aFrameSPtr);
+        PYBIND11_OVERRIDE_PURE(VectorXd, Dynamics, computeContribution, anInstant, x, aFrameSPtr);
     }
 };
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::module& aModule)
 {
-    class_<Dynamics, PyEventCondition, Shared<Dynamics>>(aModule, "Dynamics")
+    class_<Dynamics, PyDynamics, Shared<Dynamics>>(aModule, "Dynamics")
+
+        .def(init<const String&>(), arg("name"))
 
         .def("get_name", &Dynamics::getName)
 

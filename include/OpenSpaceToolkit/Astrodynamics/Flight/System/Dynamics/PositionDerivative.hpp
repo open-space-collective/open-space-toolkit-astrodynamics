@@ -44,12 +44,6 @@ class PositionDerivative : public Dynamics
 
     virtual ~PositionDerivative() override;
 
-    /// @brief              Clone position derivative dynamics
-    ///
-    /// @return             Pointer to cloned position derivative dynamics
-
-    virtual PositionDerivative* clone() const override;
-
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream

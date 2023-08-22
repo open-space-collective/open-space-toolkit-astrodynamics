@@ -62,12 +62,6 @@ class ThirdBodyGravity : public Dynamics
 
     virtual ~ThirdBodyGravity() override;
 
-    /// @brief              Clone third body gravity dynamics
-    ///
-    /// @return             Pointer to cloned third body gravity dynamics
-
-    virtual ThirdBodyGravity* clone() const override;
-
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream

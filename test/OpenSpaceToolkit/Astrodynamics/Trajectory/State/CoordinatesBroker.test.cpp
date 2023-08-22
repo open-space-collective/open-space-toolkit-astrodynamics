@@ -260,9 +260,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_FALSE(broker.hasSubset(subset_1));
         EXPECT_FALSE(broker.hasSubset(subset_2));
         EXPECT_FALSE(broker.hasSubset(subset_3));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_1));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_2));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_3));
 
         // Add subset 1
         EXPECT_EQ(0, broker.addSubset(subset_1));
@@ -272,9 +269,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_FALSE(broker.hasSubset(subset_2));
         EXPECT_FALSE(broker.hasSubset(subset_3));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_2));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_3));
 
         // Add subset 2
         EXPECT_EQ(1, broker.addSubset(subset_2));
@@ -284,9 +278,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subset_2));
         EXPECT_FALSE(broker.hasSubset(subset_3));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(1, broker.getSubsetIndex(subset_2));
-        EXPECT_ANY_THROW(broker.getSubsetIndex(subset_3));
 
         // Add subset 3
         EXPECT_EQ(3, broker.addSubset(subset_3));
@@ -296,9 +287,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subset_2));
         EXPECT_TRUE(broker.hasSubset(subset_3));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(1, broker.getSubsetIndex(subset_2));
-        EXPECT_EQ(3, broker.getSubsetIndex(subset_3));
     }
 
     {
@@ -311,8 +299,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
 
         // Add subset again
         EXPECT_EQ(0, broker.addSubset(subset_1));
@@ -321,8 +307,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
 
         // Add duplicate
         EXPECT_EQ(0, broker.addSubset(subsetDuplicate));
@@ -331,8 +315,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Operat
         EXPECT_EQ(1, broker.getNumberOfSubsets());
         EXPECT_TRUE(broker.hasSubset(subset_1));
         EXPECT_TRUE(broker.hasSubset(subsetDuplicate));
-        EXPECT_EQ(0, broker.getSubsetIndex(subset_1));
-        EXPECT_EQ(0, broker.getSubsetIndex(subsetDuplicate));
     }
 }
 

@@ -31,8 +31,6 @@ class DynamicsMock : public Dynamics
     DynamicsMock(const String& aName)
         : Dynamics(aName) {};
 
-    MOCK_METHOD(Dynamics*, clone, (), (const, override));
-
     MOCK_METHOD(bool, isDefined, (), (const, override));
 
     MOCK_METHOD(Array<Shared<const CoordinatesSubset>>, getReadCoordinatesSubsets, (), (const, override));

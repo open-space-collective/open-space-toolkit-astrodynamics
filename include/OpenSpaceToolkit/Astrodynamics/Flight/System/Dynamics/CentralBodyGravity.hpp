@@ -62,12 +62,6 @@ class CentralBodyGravity : public Dynamics
 
     virtual ~CentralBodyGravity() override;
 
-    /// @brief              Clone central body gravity dynamics
-    ///
-    /// @return             Pointer to cloned central body gravity dynamics
-
-    virtual CentralBodyGravity* clone() const override;
-
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream

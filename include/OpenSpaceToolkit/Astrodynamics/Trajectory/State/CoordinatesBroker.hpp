@@ -110,15 +110,6 @@ class CoordinatesBroker
 
     bool hasSubset(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
-    /// @brief              Return the starting index of a coordinates subset in the state coordinates
-    ///
-    /// @param              [in] aCoordinatesSubsetSPtr the coordinates subset
-    ///
-    /// @return             The starting index of the subset in the state coordinates, throwing an exception if the
-    /// coordinates subset is not present
-
-    Index getSubsetIndex(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
-
     /// @brief              Extract the coordinates of a given subset from the full coordinates vector
     ///
     /// @param              [in] aFullCoordinatesVector the full coordinates vecctor

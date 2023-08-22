@@ -57,11 +57,6 @@ ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObje
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
 
-ThirdBodyGravity* ThirdBodyGravity::clone() const
-{
-    return new ThirdBodyGravity(*this);
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& aThirdBodyGravity)
 {
     aThirdBodyGravity.print(anOutputStream);

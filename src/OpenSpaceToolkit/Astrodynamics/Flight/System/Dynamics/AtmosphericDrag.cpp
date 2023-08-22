@@ -61,11 +61,6 @@ AtmosphericDrag::AtmosphericDrag(
 
 AtmosphericDrag::~AtmosphericDrag() {}
 
-AtmosphericDrag* AtmosphericDrag::clone() const
-{
-    return new AtmosphericDrag(*this);
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag)
 {
     anAtmosphericDrag.print(anOutputStream);
