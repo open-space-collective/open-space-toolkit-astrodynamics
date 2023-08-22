@@ -14,6 +14,9 @@ def name() -> str:
 @pytest.fixture
 def dynamics(name: str) -> Dynamics:
     class MyDynamics(Dynamics):
+        def is_defined():
+            return True
+
         def get_read_coordinates_subsets(self):
             return [CartesianPosition.default()]
 
@@ -32,3 +35,6 @@ class TestDynamics:
 
     def test_get_name(self, dynamics: Dynamics, name: str):
         assert dynamics.get_name() == name
+
+    def test_print(self, dynamics: Dynamics):
+        print(dynamics)

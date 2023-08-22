@@ -9,15 +9,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 {
     using namespace pybind11;
 
+    using ostk::core::types::Shared;
+
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
+    using ostk::physics::coord::Frame;
     using ostk::physics::time::Instant;
 
     using ostk::astro::trajectory::State;
+    using ostk::astro::trajectory::state::CoordinatesBroker;
 
     class_<State>(aModule, "State")
 
         .def(init<const Instant&, const Position&, const Velocity&>(), arg("instant"), arg("position"), arg("velocity"))
+        .def(
+            init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),
+            arg("instant"),
+            arg("coordinates"),
+            arg("frame"),
+            arg("coordinates_broker")
+        )
 
         .def(self == self)
         .def(self != self)

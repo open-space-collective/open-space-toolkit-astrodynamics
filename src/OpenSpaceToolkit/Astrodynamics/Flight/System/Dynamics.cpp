@@ -41,6 +41,13 @@ Dynamics::Dynamics(const String& aName)
 
 Dynamics::~Dynamics() {}
 
+std::ostream& operator<<(std::ostream& anOutputStream, const Dynamics& aDynamics)
+{
+    aDynamics.print(anOutputStream);
+
+    return anOutputStream;
+}
+
 String Dynamics::getName() const
 {
     return name_;

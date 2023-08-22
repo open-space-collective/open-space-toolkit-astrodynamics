@@ -70,21 +70,40 @@ class Dynamics
 
     Dynamics(const String& aName = String::Empty());
 
-    /// @brief              Destructor (pure virtual)
+    /// @brief              Destructor
 
-    virtual ~Dynamics() = 0;
+    virtual ~Dynamics();
 
-    /// @brief              Check if dynamics is defined (pure virtual)
+    /// @brief                  Output stream operator
     ///
-    /// @return             True if dynamics is defined
+    /// @code
+    ///                         std::cout << Dynamics(...) ;
+    /// @endcode
+    ///
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] aDynamics A Dynamics
+    /// @return                 A reference to output stream
 
-    virtual bool isDefined() const = 0;
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Dynamics& aDynamics);
 
     /// @brief              Get name
     ///
     /// @return             Name of Dynamics
 
     String getName() const;
+
+    /// @brief              Print dynamics
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    /// @brief              Check if dynamics is defined (pure virtual)
+    ///
+    /// @return             True if dynamics is defined
+
+    virtual bool isDefined() const = 0;
 
     /// @brief              Return the coordinates subsets that the instance reads from
     ///
@@ -112,13 +131,6 @@ class Dynamics
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const = 0;
 
-    /// @brief              Print dynamics
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
     /// @brief              Get system of equations wrapper
     ///
     /// @param              [in] aContextArray An array of Dynamics Information
@@ -133,17 +145,6 @@ class Dynamics
 
    private:
     const String name_;
-
-    /// @brief              Dynamical Equations
-    ///
-    /// @param              [in] x A state vector
-    /// @param              [out] dxdt A state derivative vector
-    /// @param              [in] t A step duration from anInstant to the next in seconds
-    /// @param              [in] aDynamicsArray A array of shared pointers to dynamics
-    /// @param              [in] anInstant An instant
-    /// @param              [in] aFrameSPtr The reference frame in which dynamic equations are resolved
-    /// @param              [in] readIndexes An array containing read coordinates subsets indexes and sizes
-    /// @param              [in] writeIndexes An array containing write coordinates subsets indexes and sizes
 
     static void DynamicalEquations(
         const NumericalSolver::StateVector& x,

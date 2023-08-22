@@ -28,25 +28,39 @@ class PyDynamics : public Dynamics
 
     // Trampoline (need one for each virtual function)
 
+    void print(std::ostream& anOutputStream, bool displayDecorator) const override
+    {
+        PYBIND11_OVERRIDE(void, Dynamics, print, anOutputStream, displayDecorator);
+    }
+
     bool isDefined() const override
     {
-        PYBIND11_OVERRIDE_PURE(bool, Dynamics, isDefined);
+        PYBIND11_OVERRIDE_PURE_NAME(bool, Dynamics, "is_defined", isDefined);
     }
 
     Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override
     {
-        PYBIND11_OVERRIDE_PURE(Array<Shared<const CoordinatesSubset>>, Dynamics, getReadCoordinatesSubsets);
+        PYBIND11_OVERRIDE_PURE_NAME(
+            Array<Shared<const CoordinatesSubset>>, Dynamics, "get_read_coordinates_subsets", getReadCoordinatesSubsets
+        );
     }
 
     Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override
     {
-        PYBIND11_OVERRIDE_PURE(Array<Shared<const CoordinatesSubset>>, Dynamics, getWriteCoordinatesSubsets);
+        PYBIND11_OVERRIDE_PURE_NAME(
+            Array<Shared<const CoordinatesSubset>>,
+            Dynamics,
+            "get_write_coordinates_subsets",
+            getWriteCoordinatesSubsets
+        );
     }
 
     VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr)
         const override
     {
-        PYBIND11_OVERRIDE_PURE(VectorXd, Dynamics, computeContribution, anInstant, x, aFrameSPtr);
+        PYBIND11_OVERRIDE_PURE_NAME(
+            VectorXd, Dynamics, "compute_contribution", computeContribution, anInstant, x, aFrameSPtr
+        );
     }
 };
 
@@ -58,10 +72,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
 
         .def("get_name", &Dynamics::getName)
 
+        .def("__str__", &(shiftToString<Dynamics>))
+        .def("__repr__", &(shiftToString<Dynamics>))
+
+        .def("is_defined", &Dynamics::isDefined)
         .def("get_read_coordinates_subsets", &Dynamics::getReadCoordinatesSubsets)
         .def("get_write_coordinates_subsets", &Dynamics::getWriteCoordinatesSubsets)
-        .def("is_defined", &Dynamics::isDefined)
-
         .def("compute_contribution", &Dynamics::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
 
         ;
