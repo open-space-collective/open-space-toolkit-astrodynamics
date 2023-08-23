@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
 namespace ostk
 {
@@ -34,8 +35,9 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::units::Mass;
 
 using ostk::astro::flight::System;
+using ostk::astro::flight::system::PropulsionSystem;
 
-/// @brief                      Defines the dynamics system who's motion is being studied, in particular this is a
+/// @brief                      Define the dynamics system who's motion is being studied, in particular this is a
 /// satellite system
 
 class SatelliteSystem : public System
@@ -49,8 +51,9 @@ class SatelliteSystem : public System
     ///                     Matrix3d intertiaTensor ( ... ) ;
     ///                     Real crossSectionalSurfaceArea = 0.8 ;
     ///                     Real dragCoefficient = 2.2 ;
+    ///                     PropulsionSystem propulsionSystem = { ... } ;
     ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
-    ///                     dragCoefficient } ;
+    ///                     dragCoefficient, propulsionSystem } ;
     /// @endcode
     ///
     /// @param              [in] aMass A mass
@@ -58,13 +61,15 @@ class SatelliteSystem : public System
     /// @param              [in] anInertiaTensor An inertia tensor
     /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
     /// @param              [in] aDragCoefficient A drag coefficient
+    /// @param              [in] aPropulsionSystem A propulsion system (optional)
 
     SatelliteSystem(
         const Mass& aMass,
         const Composite& aSatelliteGeometry,
         const Matrix3d& anInertiaTensor,
         const Real& aCrossSectionalSurfaceArea,
-        const Real& aDragCoefficient
+        const Real& aDragCoefficient,
+        const PropulsionSystem& aPropulsionSystem = PropulsionSystem::Undefined()
     );
 
     /// @brief              Destructor
@@ -105,13 +110,6 @@ class SatelliteSystem : public System
 
     virtual bool isDefined() const override;
 
-    /// @brief              Print satellite system
-    ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
-
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
     /// @brief              Get satellite system's inertia tensor
     ///
     /// @code
@@ -142,9 +140,22 @@ class SatelliteSystem : public System
 
     Real getDragCoefficient() const;
 
-    /// @brief              Undefined satellite system
+    /// @brief              Get satellite system's propulsion model
     ///
-    /// @return             Undefined satellite system
+    /// @code
+    ///                     PropulsionSystem propulsionModel = satelliteSystem.getPropulsionSystem() ;
+    /// @endcode
+    ///
+    /// @return             PropulsionSystem
+
+    PropulsionSystem getPropulsionSystem() const;
+
+    /// @brief              Print satellite system
+    ///
+    /// @param              [in] anOutputStream An output stream
+    /// @param              [in] (optional) displayDecorators If true, display decorators
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
     static SatelliteSystem Undefined();
 
@@ -152,6 +163,7 @@ class SatelliteSystem : public System
     Matrix3d inertiaTensor_;
     Real crossSectionalSurfaceArea_;
     Real dragCoefficient_;
+    PropulsionSystem propulsionModel_;
 };
 
 }  // namespace system

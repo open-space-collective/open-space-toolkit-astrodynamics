@@ -14,21 +14,19 @@ namespace flight
 namespace system
 {
 
-using ostk::math::geom::d3::objects::Composite;
-
-using ostk::physics::units::Mass;
-
 SatelliteSystem::SatelliteSystem(
     const Mass& aMass,
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
     const Real& aCrossSectionalSurfaceArea,
-    const Real& aDragCoefficient
+    const Real& aDragCoefficient,
+    const PropulsionSystem& aPropulsionSystem
 )
     : System(aMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
-      dragCoefficient_(aDragCoefficient)
+      dragCoefficient_(aDragCoefficient),
+      propulsionModel_(aPropulsionSystem)
 {
 }
 
@@ -116,11 +114,19 @@ Real SatelliteSystem::getDragCoefficient() const
     return dragCoefficient_;
 }
 
+PropulsionSystem SatelliteSystem::getPropulsionSystem() const
+{
+    if (!propulsionModel_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("PropulsionSystem");
+    }
+
+    return propulsionModel_;
+}
+
 SatelliteSystem SatelliteSystem::Undefined()
 {
-    return SatelliteSystem(
-        Mass::Undefined(), Composite::Undefined(), Matrix3d::Undefined(), Real::Undefined(), Real::Undefined()
-    );
+    return {Mass::Undefined(), Composite::Undefined(), Matrix3d::Zero(), Real::Undefined(), Real::Undefined(), PropulsionSystem::Undefined()};
 }
 
 }  // namespace system
