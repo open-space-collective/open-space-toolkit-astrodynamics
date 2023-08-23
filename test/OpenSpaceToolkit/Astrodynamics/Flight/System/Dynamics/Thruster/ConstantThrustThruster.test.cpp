@@ -231,6 +231,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
         ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_, thrusterDynamicsName);
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
     }
+
+    // TBA
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetSatelliteSystem)
@@ -248,101 +250,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, ComputeContribution)
 {
     ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
-    const VectorXd contribution = constantThrustThrusterDynamics.computeContribution(startInstant_, startStateVector_.segment(3, 3), Frame::Undefined());
+    const VectorXd contribution = constantThrustThrusterDynamics.computeContribution(startInstant_, startStateVector_.segment(3, 4), Frame::GCRF());
 
     EXPECT_EQ(4, contribution.size());
+    // EXPECT_GT(1e-15, -4.620543790697659e-07 - contribution[0]);
+    // EXPECT_GT(1e-15, 2.948717888154649e-07 - contribution[1]);
+    // EXPECT_GT(1e-15, 1.301648617451192e-07 - contribution[2]);
+    // EXPECT_GT(1e-15, 1.301648617451192e-07 - contribution[2]);
 }
-
-// Test data gathered from Orekit
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, OneStepConstantThrustThrusterDynamicsOnly)
-// {
-//     // Setup dynamics
-//     const Array<Shared<Dynamics>> dynamics = {
-//         std::make_shared<ConstantThrustThruster>(ConstantThrustThruster(satelliteSystem_, direction_))};
-
-//     // Perform 1.0s integration step
-//     runge_kutta4<NumericalSolver::StateVector> stepper;
-//     stepper.do_step(Dynamics::GetSystemOfEquations(dynamics, startInstant_), startStateVector_, (0.0), 1.0);
-
-//     // Set reference pull values for the Earth
-//     NumericalSolver::StateVector Earth_ReferencePull = {
-//         7000000.0000000000000000,
-//         0.0,
-//         0.0,
-//         0.0,
-//         7546.0532621292200000,
-//         -00000.0000000000197640,
-//     };
-
-//     EXPECT_GT(5e-11, startStateVector_[0] - Earth_ReferencePull[0]);
-//     EXPECT_GT(5e-11, startStateVector_[1] - Earth_ReferencePull[1]);
-//     EXPECT_GT(5e-11, startStateVector_[2] - Earth_ReferencePull[2]);
-//     EXPECT_GT(5e-11, startStateVector_[3] - Earth_ReferencePull[3]);
-//     EXPECT_GT(5e-11, startStateVector_[4] - Earth_ReferencePull[4]);
-//     EXPECT_GT(5e-11, startStateVector_[5] - Earth_ReferencePull[5]);
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster, OneStepAtmosphereGravity)
-// {
-//     // Setup dynamics
-//     const Earth earth = {
-//         std::make_shared<Analytical>(Frame::ITRF()),
-//         std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-//         std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-//         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
-//     };
-
-//     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
-
-//     const Composite satelliteGeometry(Cuboid {
-//         {0.0, 0.0, 0.0},
-//         {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-//         {1.0, 2.0, 3.0}});
-
-//     const SatelliteSystem satelliteSystem = {
-//         Mass::Kilograms(100.0),
-//         satelliteGeometry,
-//         Matrix3d::Identity(),
-//         1.0,
-//         2.1,
-//     };
-
-//     const Array<Shared<Dynamics>> dynamics = {
-//         std::make_shared<PositionDerivative>(),
-//         std::make_shared<CentralBodyGravity>(earthSPtr),
-//         std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
-//     };
-
-//     // Setup initial conditions
-//     const Instant startInstant = Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC);
-
-//     Dynamics::StateVector startStateVector = {
-//         6878137.0,
-//         0.0,
-//         0.0,
-//         0.0,
-//         7612.608170359118000,
-//         0.0,
-//     };
-
-//     // Perform 1.0s integration step
-//     runge_kutta4<Dynamics::StateVector> stepper;
-//     stepper.do_step(Dynamics::GetDynamicalEquations(dynamics, startInstant), startStateVector, (0.0), 1.0);
-
-//     // Set reference pull values for the Earth
-//     Dynamics::StateVector referenceValues = {
-//         6878132.787246078000000,
-//         7612.606615971900000,
-//         -0.000000000000330,
-//         -8.425506982847088,
-//         7612.603507382901000,
-//         -0.000000000000649,
-//     };
-
-//     EXPECT_GT(1e-12, startStateVector[0] - referenceValues[0]);
-//     EXPECT_GT(1e-12, startStateVector[1] - referenceValues[1]);
-//     EXPECT_GT(1e-12, startStateVector[2] - referenceValues[2]);
-//     EXPECT_GT(1e-12, startStateVector[3] - referenceValues[3]);
-//     EXPECT_GT(1e-12, startStateVector[4] - referenceValues[4]);
-//     EXPECT_GT(1e-12, startStateVector[5] - referenceValues[5]);
-// }
