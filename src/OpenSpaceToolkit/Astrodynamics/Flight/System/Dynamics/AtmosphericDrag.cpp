@@ -27,6 +27,7 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
 
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
@@ -115,16 +116,43 @@ VectorXd AtmosphericDrag::computeContribution(
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
     Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
 
+    const Position position = Position::Meters(positionCoordinates, aFrameSPtr);
+
     // Get atmospheric density
-    const Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
+    Real atmosphericDensity =
+        celestialObjectSPtr_->getAtmosphericDensityAt(position, anInstant)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
+
+    // // Position in the atmosphere frame
+    // const Position positionITRF = position.inFrame(Frame::ITRF(), anInstant);
+
+    // // Null velocity of the atmosphere in Terrestrial frame frame
+    // const Velocity atmosphereVelocityITRF = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF());
+
+    // // Non-null velocity of the atmosphere in inertial propagation frame
+    // const Velocity atmosphereVelocity = atmosphereVelocityITRF.inFrame(positionITRF, aFrameSPtr, anInstant);
+
+    // const Vector3d relativeVelocity = velocityCoordinates - atmosphereVelocity.getCoordinates();
+
+
+
+
+
+    // std::cout << aFrameSPtr->getName() << std::endl;
+    //atmosphericDensity *= 1.005;
+    //std::cout << atmosphericDensity << std::endl;
+    // std::cout << "density: " << atmosphericDensity << std::endl;
+
+
+
 
     const Vector3d earthAngularVelocity =
         aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
+
+
 
     const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
@@ -134,9 +162,14 @@ VectorXd AtmosphericDrag::computeContribution(
     const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
+    // Vector3D(relativeVelocity.getNorm() * density * dragCoeff * crossSection / (2 * mass), relativeVelocity)
+    
     // Compute contribution
     VectorXd contribution(3);
     contribution << dragAccelerationSI[0], dragAccelerationSI[1], dragAccelerationSI[2];
+
+    Real dot = dragAccelerationSI.dot(velocityCoordinates);
+    //std::cout << "dot is: " << dot << std::endl;
 
     return contribution;
 }
