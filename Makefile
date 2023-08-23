@@ -509,6 +509,36 @@ test-coverage-cpp-standalone: ## Run C++ tests with coverage (standalone)
 
 .PHONY: test-coverage-cpp-standalone
 
+benchmark: ## Run benchmarks
+
+	@ echo "Running benchmarks..."
+
+	@ $(MAKE) benchmark-cpp
+
+.PHONY: benchmark
+
+benchmark-cpp: build-development-image ## Run C++ benchmarks
+
+	@ $(MAKE) benchmark-cpp-standalone
+
+.PHONY: benchmark-cpp
+
+benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
+
+	@ echo "Running C++ benchmark..."
+
+	docker run \
+		--rm \
+		--volume="$(CURDIR):/app:delegated" \
+		--volume="/app/build" \
+		--workdir=/app/build \
+		$(docker_development_image_repository):$(docker_image_version) \
+		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
+		&& $(MAKE) -j 4 \
+		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_format=json | tee ./../bin/benchmark_result.json"
+
+.PHONY: benchmark-cpp-standalone
+
 clean: ## Clean
 
 	@ echo "Cleaning up..."
@@ -519,6 +549,7 @@ clean: ## Clean
 	rm -rf "$(CURDIR)/docs/latex"
 	rm -rf "$(CURDIR)/lib/"*.so*
 	rm -rf "$(CURDIR)/coverage"
+	rm -rf "$(CURDIR)/benchmark"
 	rm -rf "$(CURDIR)/packages"
 	rm -rf "$(CURDIR)/.open-space-toolkit"
 

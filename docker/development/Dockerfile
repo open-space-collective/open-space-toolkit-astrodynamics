@@ -80,6 +80,17 @@ RUN git clone --branch v${NLOPT_VERSION} --depth 1 https://github.com/stevengj/n
  && make install \
  && rm -rf /tmp/nlopt
 
+## benchmark
+
+ARG BENCHMARK_VERSION="1.8.2"
+
+RUN git clone --branch v${BENCHMARK_VERSION} https://github.com/google/benchmark.git /tmp/benchmark \
+ && cd /tmp/benchmark \
+ && cmake -E make_directory "build" \
+ && cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ../ \
+ && cmake --build "build" --config Release --target install \
+ && rm -rf /tmp/benchmark
+
 ## Open Space Toolkit ▸ Core
 
 ARG OSTK_CORE_MAJOR="0"
