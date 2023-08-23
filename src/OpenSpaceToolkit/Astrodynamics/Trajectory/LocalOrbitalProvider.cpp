@@ -32,6 +32,8 @@ bool LOFProvider::isDefined() const
 Transform LOFProvider::getTransformAt(const Instant& anInstant) const
 {
     (void)(anInstant);
+
+    // TBI: Not clean
 }
 
 Transform LOFProvider::getTransformAt(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity) const

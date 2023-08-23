@@ -108,14 +108,30 @@ class ConstantThrustThruster : public Thruster
 
     Scalar getThrust() const;  // TBI: Let's see how to improve this a bit later
 
-    /// @brief              Apply contribution to the state derivative
+    /// @brief              Return the coordinates subsets that the instance reads from
     ///
-    /// @param              [in] x A state vector
-    /// @param              [in] dxdt A state derivative vector
-    /// @param              [in] anInstant An instant
+    /// @return             The coordinates subsets that the instance reads from
 
-    virtual void applyContribution(
-        const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const Instant& anInstant
+    virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
+
+    /// @brief              Return the coordinates subsets that the instance writes to
+    ///
+    /// @return             The coordinates subsets that the instance writes to
+
+    virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
+
+    /// @brief              Compute the contribution to the state derivative.
+    ///
+    /// @param anInstant    An instant
+    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
+    /// coordinate subsets)
+    /// @param aFrameSPtr       The frame in which the state vector is expressed
+    ///
+    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
+    /// the 'write' coordinate subsets) expressed in the given frame
+
+    virtual VectorXd computeContribution(
+        const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
     /// @brief              Print constant thrust constant thrust thruster dynamics
