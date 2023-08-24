@@ -512,9 +512,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         };
     }
 
-    // Condition at previousTime => False
-    // Condition at currentTime => True
-    // Search for the exact time of the condition change
     const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
     {
         NumericalSolver::StateVector aState(stepper.current_state());
@@ -525,8 +522,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         return isSatisfied ? 1.0 : -1.0;
     };
 
-    // If the condition is satisfied at both previousTime and currentTime, then the condition
-    // was satisfied at the start of the integration
+    // Condition at previousTime => True
+    // Condition at currentTime => True
+    // Initial state satisfies the condition, return the initial state
     if (checkCondition(previousTime) == checkCondition(currentTime))
     {
         return {
@@ -537,6 +535,9 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         };
     }
 
+    // Condition at previousTime => False
+    // Condition at currentTime => True
+    // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionState(currentState.size());
     const double solutionTime = solution.root;
