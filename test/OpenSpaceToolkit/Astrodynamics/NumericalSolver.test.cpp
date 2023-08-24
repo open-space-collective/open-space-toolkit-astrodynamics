@@ -648,6 +648,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
         EXPECT_FALSE(conditionSolution.rootSolverHasConverged);
     }
 
+    // condition already satisfied
+    {
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateDuration(
+            defaultStateVector_,
+            5.0,
+            systemOfEquations_,
+            DurationCondition(-1.0, EventCondition::Criteria::StrictlyPositive)
+        );
+        const NumericalSolver::Solution solution = conditionSolution.solution;
+
+        EXPECT_TRUE(solution.first == defaultStateVector_);
+        EXPECT_TRUE(solution.second == 0.0);
+        EXPECT_EQ(conditionSolution.iterationCount, 0);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+        EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+    }
+
     {
         const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
             {defaultDuration_, EventCondition::Criteria::StrictlyPositive},

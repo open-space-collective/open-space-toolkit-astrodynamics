@@ -469,16 +469,23 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
-    const auto checkTimeLimit = [&currentTime, &aDurationInSeconds]()
+    std::function<bool(const double&)> checkTimeLimit;
+    if (aDurationInSeconds > 0.0)
     {
-        if (aDurationInSeconds > 0.0)
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
         {
-            return currentTime < aDurationInSeconds;
-        }
-        return currentTime > aDurationInSeconds;
-    };
+            return aTime < aDurationInSeconds;
+        };
+    }
+    else
+    {
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
+        {
+            return aTime > aDurationInSeconds;
+        };
+    }
 
-    while (checkTimeLimit())
+    while (checkTimeLimit(currentTime))
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
         currentState = stepper.current_state();
@@ -505,9 +512,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         };
     }
 
-    // Condition at previousTime => False
-    // Condition at currentTime => True
-    // Search for the exact time of the condition change
     const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
     {
         NumericalSolver::StateVector aState(stepper.current_state());
@@ -518,11 +522,27 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         return isSatisfied ? 1.0 : -1.0;
     };
 
+    // Condition at previousTime => True
+    // Condition at currentTime => True
+    // Initial state satisfies the condition, return the initial state
+    if (checkCondition(previousTime) == checkCondition(currentTime))
+    {
+        return {
+            {aStateVector, 0.0},
+            true,
+            0,
+            true,
+        };
+    }
+
+    // Condition at previousTime => False
+    // Condition at currentTime => True
+    // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
     NumericalSolver::StateVector solutionState(currentState.size());
     const double solutionTime = solution.root;
 
-    stepper.calc_state(solution.root, solutionState);
+    stepper.calc_state(solutionTime, solutionState);
     observeNumericalIntegration(solutionState, solutionTime);
 
     return {
