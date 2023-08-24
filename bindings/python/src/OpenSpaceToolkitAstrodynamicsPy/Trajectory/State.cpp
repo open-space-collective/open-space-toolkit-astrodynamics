@@ -2,19 +2,33 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesBroker.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubset.cpp>
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
 {
     using namespace pybind11;
 
+    using ostk::core::types::Shared;
+
     using ostk::physics::coord::Position;
     using ostk::physics::coord::Velocity;
+    using ostk::physics::coord::Frame;
     using ostk::physics::time::Instant;
 
     using ostk::astro::trajectory::State;
+    using ostk::astro::trajectory::state::CoordinatesBroker;
 
     class_<State>(aModule, "State")
 
         .def(init<const Instant&, const Position&, const Velocity&>(), arg("instant"), arg("position"), arg("velocity"))
+        .def(
+            init<const Instant&, const VectorXd&, const Shared<const Frame>&, const Shared<const CoordinatesBroker>&>(),
+            arg("instant"),
+            arg("coordinates"),
+            arg("frame"),
+            arg("coordinates_broker")
+        )
 
         .def(self == self)
         .def(self != self)
@@ -38,4 +52,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         .def_static("undefined", &State::Undefined)
 
         ;
+
+    // Create "state" python submodule
+    auto state = aModule.def_submodule("state");
+
+    // Add __path__ attribute for "state" submodule
+    state.attr("__path__") = "ostk.astrodynamics.trajectory.state";
+
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(state);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(state);
 }

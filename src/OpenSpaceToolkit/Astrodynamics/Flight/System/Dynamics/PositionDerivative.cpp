@@ -30,11 +30,6 @@ PositionDerivative::PositionDerivative()
 
 PositionDerivative::~PositionDerivative() {}
 
-PositionDerivative* PositionDerivative::clone() const
-{
-    return new PositionDerivative(*this);
-}
-
 bool PositionDerivative::isDefined() const
 {
     return true;

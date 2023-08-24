@@ -106,11 +106,6 @@ bool CoordinatesBroker::hasSubset(const Shared<const CoordinatesSubset>& aCoordi
     return this->hasSubset(aCoordinatesSubsetSPtr->getId());
 }
 
-Index CoordinatesBroker::getSubsetIndex(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
-{
-    return this->getSubsetIndex(aCoordinatesSubsetSPtr->getId());
-}
-
 VectorXd CoordinatesBroker::extractCoordinates(
     const VectorXd& aFullCoordinatesVector, const CoordinatesSubset& aCoordinatesSubset
 ) const

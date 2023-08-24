@@ -12,26 +12,77 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+    CartesianPosition,
+    CartesianVelocity,
+)
+
+
+@pytest.fixture()
+def instant() -> Instant:
+    return Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
 
 @pytest.fixture
-def state_default_inputs() -> tuple[Instant, Position, Velocity, Frame]:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([6371000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
+def frame() -> Frame:
+    return Frame.GCRF()
 
-    instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
-    return (instant, position, velocity, frame)
+@pytest.fixture()
+def position(frame: Frame) -> Position:
+    return Position.meters([6371000.0, 0.0, 0.0], frame)
+
+
+@pytest.fixture()
+def velocity(frame: Frame) -> Velocity:
+    return Velocity.meters_per_second([7600.0, 0.0, 0.0], frame)
 
 
 @pytest.fixture
-def state(state_default_inputs) -> State:
-    return State(*state_default_inputs[0:-1])
+def state(
+    instant: Instant, position: Position, velocity: Velocity, frame: Frame
+) -> State:
+    return State(instant, position, velocity)
+
+
+@pytest.fixture
+def coordinates_broker() -> CoordinatesBroker:
+    return CoordinatesBroker([CartesianPosition.default(), CartesianVelocity.default()])
 
 
 class TestState:
-    def test_constructor(self, state: State):
+    def test_constructor(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+    ):
+        state = State(instant, position, velocity)
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.is_defined()
+
+    def test_explicit_constructor(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+        frame: Frame,
+        coordinates_broker: CoordinatesBroker,
+    ):
+        state = State(instant, position, velocity)
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.is_defined()
+
+        state = State(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+            frame,
+            coordinates_broker,
+        )
+
         assert state is not None
         assert isinstance(state, State)
         assert state.is_defined()
@@ -47,13 +98,15 @@ class TestState:
     def test_getters(
         self,
         state: State,
-        state_default_inputs: tuple[Instant, Position, Velocity, Frame],
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+        frame: Frame,
     ):
-        (instant, position, velocity, _) = state_default_inputs
-
         assert state.get_instant() == instant
         assert state.get_position() == position
         assert state.get_velocity() == velocity
+        assert state.get_frame() == frame
         assert (
             state.get_coordinates()
             == np.append(position.get_coordinates(), velocity.get_coordinates())
@@ -62,9 +115,7 @@ class TestState:
     def test_in_frame(
         self,
         state: State,
-        state_default_inputs: tuple[Instant, Position, Velocity, Frame],
+        frame: Frame,
     ):
-        (_, _, _, frame) = state_default_inputs
-
         assert state.in_frame(frame) == state
         assert state.in_frame(Frame.ITRF()) != state

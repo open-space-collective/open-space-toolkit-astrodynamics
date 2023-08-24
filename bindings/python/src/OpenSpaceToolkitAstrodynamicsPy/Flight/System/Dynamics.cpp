@@ -7,17 +7,78 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/PositionDerivative.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/ThirdBodyGravity.cpp>
 
+using namespace pybind11;
+
+using ostk::core::types::Shared;
+
+using ostk::math::obj::VectorXd;
+
+using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
+
+using ostk::astro::flight::system::Dynamics;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+
+// Trampoline class for virtual member functions
+class PyDynamics : public Dynamics
+{
+   public:
+    using Dynamics::Dynamics;
+
+    // Trampoline (need one for each virtual function)
+
+    void print(std::ostream& anOutputStream, bool displayDecorator) const override
+    {
+        PYBIND11_OVERRIDE(void, Dynamics, print, anOutputStream, displayDecorator);
+    }
+
+    bool isDefined() const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(bool, Dynamics, "is_defined", isDefined);
+    }
+
+    Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(
+            Array<Shared<const CoordinatesSubset>>, Dynamics, "get_read_coordinates_subsets", getReadCoordinatesSubsets
+        );
+    }
+
+    Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(
+            Array<Shared<const CoordinatesSubset>>,
+            Dynamics,
+            "get_write_coordinates_subsets",
+            getWriteCoordinatesSubsets
+        );
+    }
+
+    VectorXd computeContribution(const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr)
+        const override
+    {
+        PYBIND11_OVERRIDE_PURE_NAME(
+            VectorXd, Dynamics, "compute_contribution", computeContribution, anInstant, x, aFrameSPtr
+        );
+    }
+};
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::module& aModule)
 {
-    using namespace pybind11;
+    class_<Dynamics, PyDynamics, Shared<Dynamics>>(aModule, "Dynamics")
 
-    using ostk::core::types::Shared;
-
-    using ostk::astro::flight::system::Dynamics;
-
-    class_<Dynamics, Shared<Dynamics>>(aModule, "Dynamics")
+        .def(init<const String&>(), arg("name"))
 
         .def("get_name", &Dynamics::getName)
+
+        .def("__str__", &(shiftToString<Dynamics>))
+        .def("__repr__", &(shiftToString<Dynamics>))
+
+        .def("is_defined", &Dynamics::isDefined)
+        .def("get_read_coordinates_subsets", &Dynamics::getReadCoordinatesSubsets)
+        .def("get_write_coordinates_subsets", &Dynamics::getWriteCoordinatesSubsets)
+        .def("compute_contribution", &Dynamics::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
 
         ;
 

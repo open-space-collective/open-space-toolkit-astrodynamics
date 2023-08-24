@@ -70,12 +70,6 @@ class AtmosphericDrag : public Dynamics
 
     virtual ~AtmosphericDrag() override;
 
-    /// @brief              Clone atmospheric drag dynamics
-    ///
-    /// @return             Pointer to cloned atmospheric drag dynamics
-
-    virtual AtmosphericDrag* clone() const override;
-
     /// @brief              Output stream operator
     ///
     /// @param              [in] anOutputStream An output stream

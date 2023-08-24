@@ -31,8 +31,6 @@ class DynamicsMock : public Dynamics
     DynamicsMock(const String& aName)
         : Dynamics(aName) {};
 
-    MOCK_METHOD(Dynamics*, clone, (), (const, override));
-
     MOCK_METHOD(bool, isDefined, (), (const, override));
 
     MOCK_METHOD(Array<Shared<const CoordinatesSubset>>, getReadCoordinatesSubsets, (), (const, override));
@@ -47,9 +45,38 @@ class DynamicsMock : public Dynamics
     );
 };
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, Getters)
+class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics : public ::testing::Test
+{
+   protected:
+    const String defaultName_ = "Test";
+    const DynamicsMock defaultDynamics_ = {defaultName_};
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, StreamOperator)
 {
     {
-        EXPECT_EQ("A name", DynamicsMock("A name").getName());
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(std::cout << defaultDynamics_ << std::endl);
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+
+        EXPECT_NO_THROW(defaultDynamics_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultDynamics_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, Getters)
+{
+    {
+        EXPECT_EQ(defaultName_, defaultDynamics_.getName());
     }
 }
