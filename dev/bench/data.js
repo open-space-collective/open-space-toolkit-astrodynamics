@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1692815554839,
+  "lastUpdate": 1692901425032,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -198,6 +198,60 @@ window.BENCHMARK_DATA = {
             "value": 4889282954.29999,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4888205169.999998 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "ecd1027a2192cbce656661e8ad520415c5bc279f",
+          "message": "feat: add python bindings for CoordinatesSubset, CoordinatesBroker etc. (#195)\n\n* wip:\r\n\r\n* feat: add bindings for Coordinates Subsets, Broker and trampoline Dynamics\r\n\r\n* feat: add more tests and update bindings\r\n\r\n* feat: add more tests",
+          "timestamp": "2023-08-24T10:49:30-07:00",
+          "tree_id": "18d6c68cf74bb1f7dd7bbcd5fc44084b8a1ada00",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/ecd1027a2192cbce656661e8ad520415c5bc279f"
+        },
+        "date": 1692901423415,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 708844034.8999882,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 708262450 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1234839830.3000066,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1234568489.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4945417993.499995,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4943303080.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4948516248.800001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4947825280.000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4963226051.300006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4962550759.999998 ns\nthreads: 1"
           }
         ]
       }
