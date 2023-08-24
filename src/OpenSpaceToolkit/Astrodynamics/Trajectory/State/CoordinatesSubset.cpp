@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
@@ -93,8 +94,7 @@ VectorXd CoordinatesSubset::inFrame(
 
 Shared<const CoordinatesSubset> CoordinatesSubset::Mass()
 {
-    static const Shared<const CoordinatesSubset> mass =
-        std::make_shared<CoordinatesSubset>("MASS", 1);
+    static const Shared<const CoordinatesSubset> mass = std::make_shared<CoordinatesSubset>("MASS", 1);
     return mass;
 }
 
