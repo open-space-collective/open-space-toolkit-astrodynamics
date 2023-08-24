@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -31,12 +31,12 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 /// @brief                      A Classical Orbital Element based event condition
 
-class COECondition : public EventCondition
+class COECondition : public RealEventCondition
 {
    public:
     /// @brief                  Constructor
@@ -179,7 +179,7 @@ class COECondition : public EventCondition
    private:
     COE::Element element_;
     Derived gravitationalParameter_;
-    std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> evaluator_;
+    std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> compute_;
 
     /// @brief                  Get evaluation function from element
     ///
@@ -187,7 +187,7 @@ class COECondition : public EventCondition
     ///
     /// @return                 Evaluation function
 
-    static std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> GetEvaluator(
+    static std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> GetComputeFunction(
         const COE::Element& anElement
     );
 };

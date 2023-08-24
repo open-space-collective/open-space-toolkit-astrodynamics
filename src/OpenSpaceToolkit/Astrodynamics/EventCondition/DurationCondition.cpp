@@ -10,7 +10,7 @@ namespace eventcondition
 {
 
 DurationCondition::DurationCondition(const Criteria& aCriteria, const Duration& aDuration)
-    : EventCondition("Duration Condition", aCriteria, aDuration.inSeconds())
+    : RealEventCondition("Duration Condition", aCriteria, aDuration.inSeconds())
 {
 }
 

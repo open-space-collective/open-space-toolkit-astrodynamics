@@ -41,10 +41,10 @@ class EventCondition
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
-    /// @param                  [in] aTarget A target value associated with the Event Condition
+    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Event Condition
+    /// is met
 
-    EventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget);
+    EventCondition(const String& aName, const Criteria& aCriteria);
 
     /// @brief                  Virtual destructor
 
@@ -74,20 +74,11 @@ class EventCondition
 
     Criteria getCriteria() const;
 
-    /// @brief                  Get the target of the Event Condition
+    /// @brief                  Get comparator
     ///
-    /// @return                 Real number representing the target of the Event Condition
+    /// @return                 Comparator
 
-    Real getTarget() const;
-
-    /// @brief                  Evaluate the Event Condition
-    ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
-    ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
-
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
+    std::function<bool(const Real&, const Real&)> getComparator() const;
 
     /// @brief                  Print the Event Condition
     ///
@@ -96,15 +87,6 @@ class EventCondition
     /// printing
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief                  Check if the Event Condition is satisfied based on current value and previous value
-    ///
-    /// @param                  [in] currentValue The current value
-    /// @param                  [in] previousValue The previous value
-    ///
-    /// @return                 Boolean value indicating if the Event Condition is met
-
-    virtual bool isSatisfied(const Real& currentValue, const Real& previousValue) const;
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
@@ -123,16 +105,7 @@ class EventCondition
         const Real& currentTime,
         const VectorXd& previousStateVector,
         const Real& previousTime
-    ) const;
-
-    /// @brief                  Compute the value of the Event Condition
-    ///
-    /// @param                  [in] aStateVector The state vector
-    /// @param                  [in] aTime The time
-    ///
-    /// @return                 Real number representing the value of the Event Condition
-
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const = 0;
+    ) const = 0;
 
     /// @brief                  Convert criteria to string
     ///
@@ -145,8 +118,6 @@ class EventCondition
    private:
     String name_;
     Criteria criteria_;
-    Real target_;
-
     std::function<bool(const Real&, const Real&)> comparator_;
 
     static std::function<bool(const Real&, const Real&)> getComparator(const Criteria& aCriteria);

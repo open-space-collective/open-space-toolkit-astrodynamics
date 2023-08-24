@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/Disjunctive.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 
 #include <Global.test.hpp>
 
@@ -15,14 +16,14 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::eventcondition::Disjunctive;
 
-class FirstCondition : public EventCondition
+class FirstCondition : public RealEventCondition
 {
    public:
     FirstCondition()
-        : EventCondition("First", EventCondition::Criteria::PositiveCrossing, 0.0)
+        : RealEventCondition("First", RealEventCondition::Criteria::PositiveCrossing, 0.0)
     {
     }
 
@@ -33,11 +34,11 @@ class FirstCondition : public EventCondition
     }
 };
 
-class SecondCondition : public EventCondition
+class SecondCondition : public RealEventCondition
 {
    public:
     SecondCondition()
-        : EventCondition("Second", EventCondition::Criteria::StrictlyNegative, 0.0)
+        : RealEventCondition("Second", RealEventCondition::Criteria::StrictlyNegative, 0.0)
     {
     }
 
