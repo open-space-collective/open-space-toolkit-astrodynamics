@@ -130,7 +130,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         };
 
         EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
+        EXPECT_TRUE(testCondition.isSatisfied(5.0, -4.0));
         EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
         EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
     }
