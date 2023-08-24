@@ -469,14 +469,21 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     NumericalSolver::StateVector currentState;
 
     // account for integration direction
-    const auto checkTimeLimit = [&aDurationInSeconds](const double& aTime)
+    std::function<bool(const double&)> checkTimeLimit;
+    if (aDurationInSeconds > 0.0)
     {
-        if (aDurationInSeconds > 0.0)
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
         {
             return aTime < aDurationInSeconds;
-        }
-        return aTime > aDurationInSeconds;
-    };
+        };
+    }
+    else
+    {
+        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
+        {
+            return aTime > aDurationInSeconds;
+        };
+    }
 
     while (checkTimeLimit(currentTime))
     {
