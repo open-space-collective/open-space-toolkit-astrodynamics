@@ -35,7 +35,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
@@ -91,7 +91,7 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
@@ -374,11 +374,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         // Setup instants
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
 
-        class TestCondition : public EventCondition
+        class TestCondition : public RealEventCondition
         {
            public:
             TestCondition(const Real& aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive, aTarget)
+                : RealEventCondition("test", RealEventCondition::Criteria::StrictlyPositive, aTarget)
             {
             }
 

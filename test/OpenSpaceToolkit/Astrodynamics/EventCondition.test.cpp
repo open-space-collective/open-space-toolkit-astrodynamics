@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <gmock/gmock.h>
+
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -19,17 +21,20 @@ using ostk::astro::EventCondition;
 class TestCondition : public EventCondition
 {
    public:
-    TestCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget)
-        : EventCondition(aName, aCriteria, aTarget)
+    TestCondition(const String& aName, const Criteria& aCriteria)
+        : EventCondition(aName, aCriteria)
     {
     }
 
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
-    {
-        (void)aStateVector;
-        (void)aTime;
-        return 5.0;
-    }
+    MOCK_METHOD(
+        bool,
+        isSatisfied,
+        (const VectorXd& currentStateVector,
+         const Real& currentTime,
+         const VectorXd& previousStateVector,
+         const Real& previousTime),
+        (const, override)
+    );
 };
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
@@ -37,14 +42,13 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
    protected:
     const EventCondition::Criteria defaultCriteria_ = EventCondition::Criteria::PositiveCrossing;
     const String defaultName_ = "Test";
-    const Real defaultTarget_ = 5.0;
-    const TestCondition defaultCondition_ = {defaultName_, defaultCriteria_, defaultTarget_};
+    const TestCondition defaultCondition_ = {defaultName_, defaultCriteria_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, defaultCriteria_, defaultTarget_));
+        EXPECT_NO_THROW(TestCondition testCondition(defaultName_, defaultCriteria_));
     }
 }
 
@@ -84,27 +88,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getCriteria)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getTarget)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getComparator)
 {
     {
-        EXPECT_TRUE(defaultCondition_.getCriteria() == defaultCriteria_);
+        EXPECT_NO_THROW(defaultCondition_.getComparator());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, comparator)
 {
     // Positive Crossing
     {
         TestCondition testCondition = {
             defaultName_,
             EventCondition::Criteria::PositiveCrossing,
-            defaultTarget_,
         };
 
-        EXPECT_TRUE(testCondition.isSatisfied(5.0, -4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Negative Crossing
@@ -112,13 +115,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         TestCondition testCondition = {
             defaultName_,
             EventCondition::Criteria::NegativeCrossing,
-            defaultTarget_,
         };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, -4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Any Crossing
@@ -126,13 +128,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         TestCondition testCondition = {
             defaultName_,
             EventCondition::Criteria::AnyCrossing,
-            defaultTarget_,
         };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(5.0, -4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(-5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Strictly Positive (previous value doesn't matter)
@@ -140,12 +141,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         TestCondition testCondition = {
             defaultName_,
             EventCondition::Criteria::StrictlyPositive,
-            defaultTarget_,
         };
 
-        EXPECT_TRUE(testCondition.isSatisfied(5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(-5.0, 5.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(-5.0, 5.0));
     }
 
     // Strictly Negative (previous value doesn't matter)
@@ -153,12 +153,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
         TestCondition testCondition = {
             defaultName_,
             EventCondition::Criteria::StrictlyNegative,
-            defaultTarget_,
         };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, -5.0));
+        EXPECT_TRUE(testCondition.getComparator()(-5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, -5.0));
     }
 }
 

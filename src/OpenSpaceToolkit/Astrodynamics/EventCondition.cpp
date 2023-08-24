@@ -10,10 +10,9 @@ namespace ostk
 namespace astro
 {
 
-EventCondition::EventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget)
+EventCondition::EventCondition(const String& aName, const Criteria& aCriteria)
     : name_(aName),
       criteria_(aCriteria),
-      target_(aTarget),
       comparator_(getComparator(aCriteria))
 {
 }
@@ -37,14 +36,9 @@ EventCondition::Criteria EventCondition::getCriteria() const
     return criteria_;
 }
 
-Real EventCondition::getTarget() const
+std::function<bool(const Real&, const Real&)> EventCondition::getComparator() const
 {
-    return target_;
-}
-
-Real EventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
-{
-    return compute(aStateVector, aTime) - target_;
+    return comparator_;
 }
 
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -53,27 +47,8 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
     ostk::core::utils::Print::Line(anOutputStream) << "Criteria:" << StringFromCriteria(getCriteria());
-    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-bool EventCondition::isSatisfied(const Real& currentValue, const Real& previousValue) const
-{
-    return comparator_(currentValue, previousValue);
-}
-
-bool EventCondition::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
-{
-    const Real currentValue = evaluate(currentStateVector, currentTime);
-    const Real previousValue = evaluate(previousStateVector, previousTime);
-
-    return comparator_(currentValue, previousValue);
 }
 
 String EventCondition::StringFromCriteria(const Criteria& aCriteria)

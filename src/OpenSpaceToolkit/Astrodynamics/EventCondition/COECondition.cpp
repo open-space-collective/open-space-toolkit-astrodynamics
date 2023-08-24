@@ -28,10 +28,10 @@ COECondition::COECondition(
     const Real& aTarget,
     const Derived& aGravitationalParameter
 )
-    : EventCondition(aName, aCriteria, aTarget),
+    : RealEventCondition(aName, aCriteria, aTarget),
       element_(anElement),
       gravitationalParameter_(aGravitationalParameter),
-      evaluator_(GetEvaluator(anElement))
+      compute_(GetComputeFunction(anElement))
 {
 }
 
@@ -54,7 +54,7 @@ Real COECondition::compute(const VectorXd& aStateVector, const Real& aTime) cons
     const Vector3d positionVector = aStateVector.segment(0, 3);
     const Vector3d velocityVector = aStateVector.segment(3, 3);
 
-    return evaluator_(positionVector, velocityVector, this->gravitationalParameter_);
+    return compute_(positionVector, velocityVector, this->gravitationalParameter_);
 }
 
 COECondition COECondition::SemiMajorAxis(
@@ -161,7 +161,7 @@ COECondition COECondition::EccentricAnomaly(
     };
 }
 
-std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> COECondition::GetEvaluator(
+std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> COECondition::GetComputeFunction(
     const COE::Element& anElement
 )
 {
