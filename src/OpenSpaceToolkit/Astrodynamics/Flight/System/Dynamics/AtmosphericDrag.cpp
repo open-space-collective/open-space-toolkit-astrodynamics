@@ -60,6 +60,25 @@ AtmosphericDrag::AtmosphericDrag(
     }
 }
 
+AtmosphericDrag::AtmosphericDrag(
+    const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem, const String& aName, const Shared<const Celestial>& aSunCelestialObjectSPtr
+)
+    : Dynamics(aName),
+      celestialObjectSPtr_(aCelestialSPtr),
+      sunCelestialObjectSPtr_(aSunCelestialObjectSPtr),
+      satelliteSystem_(aSatelliteSystem)
+{
+    if (!celestialObjectSPtr_ || !celestialObjectSPtr_->atmosphericModelIsDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Atmospheric Model");
+    }
+
+    if (!satelliteSystem_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Satellite System");
+    }
+}
+
 AtmosphericDrag::~AtmosphericDrag() {}
 
 std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag)
@@ -118,39 +137,36 @@ VectorXd AtmosphericDrag::computeContribution(
 
     const Position position = Position::Meters(positionCoordinates, aFrameSPtr);
 
+    Position sunPosition = Position::Undefined();
+
+    if (sunCelestialObjectSPtr_){
+        sunPosition = sunCelestialObjectSPtr_->getPositionIn(aFrameSPtr, anInstant);
+    }
+
     // Get atmospheric density
     Real atmosphericDensity =
-        celestialObjectSPtr_->getAtmosphericDensityAt(position, anInstant)
+        celestialObjectSPtr_->getAtmosphericDensityAt(position, anInstant, sunPosition)
             .inUnit(Unit::Derived(Derived::Unit::MassDensity(Mass::Unit::Kilogram, Length::Unit::Meter)))
             .getValue();
 
-    // // Position in the atmosphere frame
-    // const Position positionITRF = position.inFrame(Frame::ITRF(), anInstant);
 
-    // // Null velocity of the atmosphere in Terrestrial frame frame
-    // const Velocity atmosphereVelocityITRF = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF());
+    // Position in the atmosphere frame
+    const Position positionITRF = position.inFrame(Frame::ITRF(), anInstant);
 
-    // // Non-null velocity of the atmosphere in inertial propagation frame
-    // const Velocity atmosphereVelocity = atmosphereVelocityITRF.inFrame(positionITRF, aFrameSPtr, anInstant);
+    // Null velocity of the atmosphere in Terrestrial frame frame
+    const Velocity atmosphereVelocityITRF = Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF());
 
-    // const Vector3d relativeVelocity = velocityCoordinates - atmosphereVelocity.getCoordinates();
+    // Non-null velocity of the atmosphere in inertial propagation frame
+    const Velocity atmosphereVelocity = atmosphereVelocityITRF.inFrame(positionITRF, aFrameSPtr, anInstant);
 
-
-
-
-
-    // std::cout << aFrameSPtr->getName() << std::endl;
-    //atmosphericDensity *= 1.005;
-    //std::cout << atmosphericDensity << std::endl;
-    // std::cout << "density: " << atmosphericDensity << std::endl;
+    const Vector3d relativeVelocity = atmosphereVelocity.getCoordinates() - velocityCoordinates;
 
 
 
+    // const Vector3d earthAngularVelocity =
+    //     aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
-    const Vector3d earthAngularVelocity =
-        aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
-
-    const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
+    // const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
 
 
@@ -161,15 +177,13 @@ VectorXd AtmosphericDrag::computeContribution(
     // Add object's gravity to total gravitational acceleration
     const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
-
-    // Vector3D(relativeVelocity.getNorm() * density * dragCoeff * crossSection / (2 * mass), relativeVelocity)
     
     // Compute contribution
     VectorXd contribution(3);
     contribution << dragAccelerationSI[0], dragAccelerationSI[1], dragAccelerationSI[2];
 
-    Real dot = dragAccelerationSI.dot(velocityCoordinates);
-    //std::cout << "dot is: " << dot << std::endl;
+    // Real dot = dragAccelerationSI.dot(velocityCoordinates);
+    // std::cout << "dot is: " << dot << std::endl;
 
     return contribution;
 }

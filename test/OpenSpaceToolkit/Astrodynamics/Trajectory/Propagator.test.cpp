@@ -50,6 +50,9 @@
 
 
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
+
+
 #include <Global.test.hpp>
 
 using ostk::core::ctnr::Array;
@@ -93,6 +96,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 using SWManager = ostk::physics::environment::atmospheric::earth::Manager;
+using ostk::physics::environment::atmospheric::earth::CSSISpaceWeather;
 
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
@@ -150,7 +154,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     const NumericalSolver defaultRK4_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKutta4,
-        1.0,
+        5.0,
         1.0e-15,
         1.0e-15,
     };
@@ -1919,7 +1923,6 @@ TEST_F(
     {
 
 
-
         // Reference data setup
         const Table referenceData = Table::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
@@ -1935,7 +1938,8 @@ TEST_F(
         int break_index = 0;
         for (const auto& referenceRow : referenceData)
         {
-
+             if(break_index<=3){break_index++; continue;}
+             
             instantArray.add(Instant::DateTime(
                 DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
             ));
@@ -1951,7 +1955,15 @@ TEST_F(
 
         }
 
-        //std::cout << SWManager::Get().getLocalRepository() << std::endl;
+        std::cout << SWManager::Get().getLocalRepository() << std::endl;
+
+        SWManager::Get().reset();
+
+        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"))
+        );
+
+        SWManager::Get().loadCSSISpaceWeather(swData);
 
         // Setup dynamics
         const Earth earth = Earth::FromModels(
@@ -1961,13 +1973,13 @@ TEST_F(
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-        // const Sun sun = Sun::Default();
-        // const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(sun);
+        const Sun sun = Sun::Default();
+        const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(sun);
 
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_) //, "dumb name", sunSPtr),
+            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_, "dumb name", sunSPtr),
         };
 
         // Setup initial conditions
@@ -1978,7 +1990,7 @@ TEST_F(
         };
 
         // Setup Propagator model and orbit
-        const Propagator propagator = {defaultNumericalSolver_, dynamics};
+        const Propagator propagator = {defaultRK4_, dynamics};
         //defaultNumericalSolver_
         // Propagate all states
         //instantArray = {instantArray.begin(), instantArray.begin()+500};
@@ -2016,6 +2028,119 @@ TEST_F(
         std::cout << maxPosError << std::endl;
         std::cout << maxVelError << std::endl;
 
+    }
+}
+
+
+TEST_F(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NRLMSISE_Orekit_450km_Accelerations_Difference
+)
+{
+
+    using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+    {
+
+
+        // Reference data setup
+        const Table referenceData = Table::Load(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+                                   "Orekit_Drag_NRLMSISE00_450km_accelerations_2hr_run.csv")),
+            Table::Format::CSV,
+            true
+        );
+
+        Array<Instant> instantArray = Array<Instant>::Empty();
+        Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
+        Array<Vector3d> referenceAccelerationArrayGCRF = Array<Vector3d>::Empty();
+
+        //int break_index = 0;
+        for (const auto& referenceRow : referenceData)
+        {
+             
+            instantArray.add(Instant::DateTime(
+                DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+            ));
+
+            referencePositionArrayGCRF.add(
+                Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+            );
+            referenceVelocityArrayGCRF.add(
+                Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+            ); 
+            referenceAccelerationArrayGCRF.add(
+                Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
+            ); 
+
+            //break_index++; if(break_index>=5){break;}
+
+        }
+
+        std::cout << SWManager::Get().getLocalRepository() << std::endl;
+
+        SWManager::Get().reset();
+
+        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(
+            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"))
+        );
+
+        SWManager::Get().loadCSSISpaceWeather(swData);
+
+        // Setup dynamics
+        const Earth earth = Earth::FromModels(
+            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::NRLMSISE00)
+        );
+        const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+
+        const Sun sun = Sun::Default();
+        const Shared<Celestial> sunSPtr = std::make_shared<Celestial>(sun);
+
+        const Composite satelliteGeometry(Cuboid(
+            {0.0, 0.0, 0.0},
+            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+            {1.0, 2.0, 3.0}
+        ));
+
+        SatelliteSystem satelliteSystem = {
+            Mass(100.0, Mass::Unit::Kilogram),
+            satelliteGeometry,
+            Matrix3d::Identity(),
+            500.0,
+            2.1,
+        };
+
+        AtmosphericDrag drag(earthSPtr, satelliteSystem, "dumb name", sunSPtr);
+
+        double maxAccelError = 0.0;
+
+        // Validation loop
+        for (size_t i = 0; i < instantArray.getSize(); i++)
+        {
+
+        VectorXd inputState(6);
+        inputState << referencePositionArrayGCRF[i][0],
+                   referencePositionArrayGCRF[i][1],
+                   referencePositionArrayGCRF[i][2],
+                   referenceVelocityArrayGCRF[i][0],
+                   referenceVelocityArrayGCRF[i][1],
+                   referenceVelocityArrayGCRF[i][2];
+
+            const VectorXd OSTKaccel = drag.computeContribution(
+                instantArray[i],
+                inputState,
+                Frame::GCRF()
+            );
+            
+
+            const Vector3d accelError = referenceAccelerationArrayGCRF[i] - OSTKaccel;
+            //std::cout << accelError.norm() << std::endl;
+
+            maxAccelError = std::max(maxAccelError, accelError.norm());
+        }
+
+        std::cout << maxAccelError << std::endl;
     }
 }
 
