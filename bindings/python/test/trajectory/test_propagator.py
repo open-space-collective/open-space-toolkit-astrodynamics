@@ -13,6 +13,7 @@ from ostk.physics.units import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
+from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
@@ -25,7 +26,7 @@ from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
-from ostk.astrodynamics import EventCondition
+from ostk.astrodynamics.event_condition import DurationCondition
 
 
 @pytest.fixture
@@ -104,12 +105,10 @@ def conditional_numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def event_condition() -> EventCondition:
-    class MyEventCondition(EventCondition):
-        def compute(self, state_vector, time):
-            return time
-
-    return MyEventCondition("42 Seconds", EventCondition.Criteria.StrictlyPositive, 42.0)
+def event_condition() -> DurationCondition:
+    return DurationCondition(
+        DurationCondition.Criteria.StrictlyPositive, Duration.seconds(42.0)
+    )
 
 
 @pytest.fixture
@@ -191,7 +190,7 @@ class TestPropagator:
         conditional_numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
         state: State,
-        event_condition: EventCondition,
+        event_condition: DurationCondition,
     ):
         propagator: Propagator = Propagator(conditional_numerical_solver, dynamics)
 

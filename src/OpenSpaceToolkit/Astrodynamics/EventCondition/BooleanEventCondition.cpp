@@ -15,8 +15,9 @@ namespace eventcondition
 BooleanEventCondition::BooleanEventCondition(
     const String& aName,
     const Criteria& aCriteria,
-    const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
-    const bool& anInverseFlag)
+    const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
+    const bool& anInverseFlag
+)
     : EventCondition(aName, aCriteria),
       evaluator_(anEvaluator),
       inverse_(anInverseFlag)
@@ -28,6 +29,11 @@ BooleanEventCondition::~BooleanEventCondition() {}
 bool BooleanEventCondition::isInversed() const
 {
     return inverse_;
+}
+
+bool BooleanEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+{
+    return inverse_ ? !this->evaluator_(aStateVector, aTime) : this->evaluator_(aStateVector, aTime);
 }
 
 bool BooleanEventCondition::isSatisfied(
@@ -43,9 +49,14 @@ bool BooleanEventCondition::isSatisfied(
     return getComparator()(currentValue, previousValue);
 }
 
-bool BooleanEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+void BooleanEventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    return inverse_? this->evaluator_(aStateVector, aTime) ? !this->evaluator_(aStateVector, aTime);
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Boolean Event Condition") : void();
+
+    EventCondition::print(anOutputStream, false);
+    ostk::core::utils::Print::Line(anOutputStream) << "isInversed:" << (isInversed() ? "True" : "False");
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace eventcondition

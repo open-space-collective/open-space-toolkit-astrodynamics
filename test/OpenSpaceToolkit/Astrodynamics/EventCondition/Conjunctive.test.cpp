@@ -19,58 +19,41 @@ using ostk::math::obj::VectorXd;
 using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::eventcondition::Conjunctive;
 
-class FirstCondition : public RealEventCondition
-{
-   public:
-    FirstCondition()
-        : RealEventCondition("First", RealEventCondition::Criteria::PositiveCrossing, 0.0)
-    {
-    }
-
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
-    {
-        (void)aTime;
-        return aStateVector[0];
-    }
-};
-
-class SecondCondition : public RealEventCondition
-{
-   public:
-    SecondCondition()
-        : RealEventCondition("Second", RealEventCondition::Criteria::StrictlyNegative, 0.0)
-    {
-    }
-
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override
-    {
-        (void)aTime;
-        return aStateVector[1] - 0.1;
-    }
-};
-
 class OpenSpaceToolkit_Astrodynamics_EventCondition_Conjunctive : public ::testing::Test
 {
-    void SetUp() override
-    {
-        conjuntionCondition_ = {{
-            std::make_shared<FirstCondition>(firstCondition_),
-            std::make_shared<SecondCondition>(secondCondition_),
-        }};
-    }
-
    protected:
-    const FirstCondition firstCondition_;
-    const SecondCondition secondCondition_;
-    Conjunctive conjuntionCondition_ = {{}};
+    const RealEventCondition firstCondition_ = {
+        "First",
+        RealEventCondition::Criteria::PositiveCrossing,
+        [](const VectorXd& aStateVector, const Real& aTime) -> Real
+        {
+            (void)aTime;
+            return aStateVector[0];
+        },
+        0.0,
+    };
+    const RealEventCondition secondCondition_ = {
+        "Second",
+        RealEventCondition::Criteria::StrictlyNegative,
+        [](const VectorXd& aStateVector, const Real& aTime) -> Real
+        {
+            (void)aTime;
+            return aStateVector[1];
+        },
+        0.1,
+    };
+    Conjunctive conjuntionCondition_ = {{
+        std::make_shared<RealEventCondition>(firstCondition_),
+        std::make_shared<RealEventCondition>(secondCondition_),
+    }};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_Conjunctive, Constructor)
 {
     {
         EXPECT_NO_THROW(Conjunctive conjunction({
-            std::make_shared<FirstCondition>(firstCondition_),
-            std::make_shared<SecondCondition>(secondCondition_),
+            std::make_shared<RealEventCondition>(firstCondition_),
+            std::make_shared<RealEventCondition>(secondCondition_),
         }));
     }
 }

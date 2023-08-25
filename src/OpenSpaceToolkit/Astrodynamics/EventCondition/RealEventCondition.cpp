@@ -16,7 +16,8 @@ RealEventCondition::RealEventCondition(
     const String& aName,
     const Criteria& aCriteria,
     const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
-    const Real& aTarget)
+    const Real& aTarget
+)
     : EventCondition(aName, aCriteria),
       evaluator_(anEvaluator),
       target_(aTarget)
@@ -28,6 +29,11 @@ RealEventCondition::~RealEventCondition() {}
 Real RealEventCondition::getTarget() const
 {
     return target_;
+}
+
+Real RealEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+{
+    return this->evaluator_(aStateVector, aTime) - target_;
 }
 
 bool RealEventCondition::isSatisfied(
@@ -43,9 +49,14 @@ bool RealEventCondition::isSatisfied(
     return getComparator()(currentValue, previousValue);
 }
 
-Real RealEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+void RealEventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    return this->evaluator_(aStateVector, aTime) - target_;
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Real Event Condition") : void();
+
+    EventCondition::print(anOutputStream, false);
+    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
+
+    displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 }  // namespace eventcondition

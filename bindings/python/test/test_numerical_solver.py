@@ -5,7 +5,8 @@ import pytest
 import numpy as np
 import math
 
-from ostk.astrodynamics import NumericalSolver, EventCondition
+from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics.event_condition import RealEventCondition
 
 
 def oscillator(x, dxdt, _):
@@ -24,12 +25,13 @@ def initial_state_vec() -> np.ndarray:
 
 
 @pytest.fixture
-def custom_condition() -> EventCondition:
-    class CustomCondition(EventCondition):
-        def compute(self, state_vector, time: float) -> bool:
-            return time
-
-    return CustomCondition("Custom", EventCondition.Criteria.StrictlyPositive, 5.0)
+def custom_condition() -> RealEventCondition:
+    return RealEventCondition(
+        "Custom",
+        RealEventCondition.Criteria.StrictlyPositive,
+        lambda state_vector, time: time,
+        5.0,
+    )
 
 
 @pytest.fixture
@@ -194,7 +196,7 @@ class TestNumericalSolver:
         self,
         numerical_solver_conditional: NumericalSolver,
         initial_state_vec: np.ndarray,
-        custom_condition: EventCondition,
+        custom_condition: RealEventCondition,
     ):
         integration_duration: float = 100.0
 
@@ -218,7 +220,7 @@ class TestNumericalSolver:
     def test_integrate_time_with_condition(
         self,
         numerical_solver_conditional: NumericalSolver,
-        custom_condition: EventCondition,
+        custom_condition: RealEventCondition,
     ):
         start_time: float = 500.0
         end_time: float = start_time + 100.0

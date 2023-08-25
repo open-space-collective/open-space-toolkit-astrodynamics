@@ -36,30 +36,36 @@ using ostk::astro::NumericalSolver;
 struct DurationCondition : public RealEventCondition
 {
     DurationCondition(const Real &aTarget, const RealEventCondition::Criteria &aCriteria)
-        : RealEventCondition("test", aCriteria, aTarget)
+        : RealEventCondition(
+              "test",
+              aCriteria,
+              [](const VectorXd &aStateVector, const Real &aTime) -> Real
+              {
+                  (void)aStateVector;
+                  return aTime;
+              },
+              aTarget
+          )
     {
-    }
-
-    Real compute(const VectorXd &stateVector, const Real &aTime) const override
-    {
-        (void)stateVector;
-        return aTime;
     }
 };
 
-// Simple value based struct
+// Simple state based condition
 
 struct XCrossingCondition : public RealEventCondition
 {
     XCrossingCondition(const Real &aTarget)
-        : RealEventCondition("test", RealEventCondition::Criteria::AnyCrossing, aTarget)
+        : RealEventCondition(
+              "test",
+              RealEventCondition::Criteria::AnyCrossing,
+              [](const VectorXd &aStateVector, const double &aTime) -> Real
+              {
+                  (void)aTime;
+                  return aStateVector[0];
+              },
+              aTarget
+          )
     {
-    }
-
-    Real compute(const VectorXd &aStateVector, const Real &aTime) const
-    {
-        (void)aTime;
-        return aStateVector[0];
     }
 };
 

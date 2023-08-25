@@ -44,9 +44,10 @@ class RealEventCondition : public EventCondition
 
     RealEventCondition(
         const String& aName,
-        const Criteria& aCriteria, 
+        const Criteria& aCriteria,
         const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
-        const Real& aTarget = 0.0);
+        const Real& aTarget = 0.0
+    );
 
     /// @brief                  Virtual destructor
 
@@ -57,6 +58,15 @@ class RealEventCondition : public EventCondition
     /// @return                 Real number representing the target of the Event Condition
 
     Real getTarget() const;
+
+    /// @brief                  Evaluate the Event Condition
+    ///
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
+    ///
+    /// @return                 Real number representing the evaluation result of the Event Condition
+
+    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
 
     /// @brief                  Check if the Real Event Condition is satisfied based on current state/time and previous
     /// state/time
@@ -75,14 +85,14 @@ class RealEventCondition : public EventCondition
         const Real& previousTime
     ) const override;
 
-    /// @brief                  Evaluate the Event Condition
+    /// @brief                  Print the Real Event Condition
     ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
-    ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
+    /// @param                  [in, out] anOutputStream The output stream where the Real Event Condition will be
+    /// printed
+    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    /// printing
 
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
     std::function<Real(const VectorXd&, const Real&)> evaluator_;

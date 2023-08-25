@@ -59,7 +59,7 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const COE::Element& anElement,
         const Real& aTarget,
-        const Shared<const Frame>& aFrameSPTr,
+        const Shared<const Frame>& aFrameSPtr,
         const Derived& aGravitationalParameter
     );
 
@@ -89,8 +89,10 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition SemiMajorAxis(
-        const Criteria& aCriteria, const Length& aSemiMajorAxis,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Length& aSemiMajorAxis,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentricity based constructor
@@ -103,8 +105,10 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition Eccentricity(
-        const Criteria& aCriteria, const Real& anEccentricity,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Real& anEccentricity,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Inclination based constructor
@@ -117,8 +121,10 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition Inclination(
-        const Criteria& aCriteria, const Angle& aSemiMajorAxis,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Angle& aSemiMajorAxis,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Argument of Periapsis based constructor
@@ -130,8 +136,12 @@ class COECondition : public RealEventCondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Aop(const Criteria& aCriteria, const Angle& anAOP,
-    const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter);
+    static COECondition Aop(
+        const Criteria& aCriteria,
+        const Angle& anAOP,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
+    );
 
     /// @brief                  Right Ascension of Ascending Node based constructor
     ///
@@ -142,8 +152,12 @@ class COECondition : public RealEventCondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Raan(const Criteria& aCriteria, const Angle& aRAAN,
-    const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter);
+    static COECondition Raan(
+        const Criteria& aCriteria,
+        const Angle& aRAAN,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
+    );
 
     /// @brief                  True Anomaly based constructor
     ///
@@ -155,8 +169,10 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition TrueAnomaly(
-        const Criteria& aCriteria, const Angle& aTrueAnomaly,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Angle& aTrueAnomaly,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Mean Anomaly based constructor
@@ -169,8 +185,10 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition MeanAnomaly(
-        const Criteria& aCriteria, const Angle& aMeanAnomaly,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Angle& aMeanAnomaly,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentric Anomaly based constructor
@@ -183,13 +201,15 @@ class COECondition : public RealEventCondition
     /// @return                 COECondition object
 
     static COECondition EccentricAnomaly(
-        const Criteria& aCriteria, const Angle& anEccentricAnomaly,
-        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
+        const Criteria& aCriteria,
+        const Angle& anEccentricAnomaly,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 
    private:
     COE::Element element_;
-    Shared<const Frame>& frameSPtr_;
+    Shared<const Frame> frameSPtr_;
     Derived gravitationalParameter_;
 
     /// @brief                  Get evaluation function from element
@@ -201,9 +221,7 @@ class COECondition : public RealEventCondition
     /// @return                 Evaluation function
 
     static std::function<Real(const VectorXd&, const Real&)> GenerateEvaluator(
-        const COE::Element& anElement,
-        const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
     );
 };
 

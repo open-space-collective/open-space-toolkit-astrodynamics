@@ -10,7 +10,16 @@ namespace eventcondition
 {
 
 DurationCondition::DurationCondition(const Criteria& aCriteria, const Duration& aDuration)
-    : RealEventCondition("Duration Condition", aCriteria, aDuration.inSeconds())
+    : RealEventCondition(
+          "Duration Condition",
+          aCriteria,
+          [](const VectorXd& aStateVector, const Real& aTime) -> Real
+          {
+              (void)aStateVector;
+              return aTime;
+          },
+          aDuration.inSeconds()
+      )
 {
 }
 
@@ -19,12 +28,6 @@ DurationCondition::~DurationCondition() {}
 Duration DurationCondition::getDuration() const
 {
     return Duration::Seconds(getTarget());
-}
-
-Real DurationCondition::compute(const VectorXd& aStateVector, const Real& aTime) const
-{
-    (void)aStateVector;
-    return aTime;
 }
 
 }  // namespace eventcondition
