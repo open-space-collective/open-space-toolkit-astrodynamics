@@ -39,9 +39,14 @@ class BooleanEventCondition : public EventCondition
     /// @param                  [in] aName A string representing the name of the Boolean Event Condition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Boolean Event
     /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] anInverseFlag A flag indicating whether the condition is inverted
 
-    BooleanEventCondition(const String& aName, const Criteria& aCriteria, const bool& anInverseFlag = false);
+    BooleanEventCondition(
+        const String& aName, 
+        const Criteria& aCriteria,
+        const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
+        const bool& anInverseFlag = false);
 
     /// @brief                  Virtual destructor
 
@@ -51,7 +56,7 @@ class BooleanEventCondition : public EventCondition
     ///
     /// @return                 Boolean value indicating whether the condition is inversed
 
-    Real isInversed() const;
+    bool isInversed() const;
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
@@ -70,16 +75,17 @@ class BooleanEventCondition : public EventCondition
         const Real& previousTime
     ) const override;
 
-    /// @brief                  Compute the value of the Boolean Event Condition
+    /// @brief                  Evaluate the Event Condition
     ///
-    /// @param                  [in] aStateVector The state vector
-    /// @param                  [in] aTime The time
+    /// @param                  [in] aStateVector The current state vector
+    /// @param                  [in] aTime The current time
     ///
-    /// @return                 Boolean value representing the value of the Event Condition
+    /// @return                 boolean representing the evaluation result of the Event Condition
 
-    virtual bool compute(const VectorXd& aStateVector, const Real& aTime) const = 0;
+    bool evaluate(const VectorXd& aStateVector, const Real& aTime) const;
 
    private:
+    std::function<bool(const VectorXd&, const Real&)> evaluator_;
     bool inverse_;
 };
 

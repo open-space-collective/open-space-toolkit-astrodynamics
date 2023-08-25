@@ -12,15 +12,20 @@ namespace astro
 namespace eventcondition
 {
 
-BooleanEventCondition::BooleanEventCondition(const String& aName, const Criteria& aCriteria, const bool& anInverseFlag)
+BooleanEventCondition::BooleanEventCondition(
+    const String& aName,
+    const Criteria& aCriteria,
+    const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+    const bool& anInverseFlag)
     : EventCondition(aName, aCriteria),
+      evaluator_(anEvaluator),
       inverse_(anInverseFlag)
 {
 }
 
 BooleanEventCondition::~BooleanEventCondition() {}
 
-Real BooleanEventCondition::isInversed() const
+bool BooleanEventCondition::isInversed() const
 {
     return inverse_;
 }
@@ -32,10 +37,15 @@ bool BooleanEventCondition::isSatisfied(
     const Real& previousTime
 ) const
 {
-    const Real currentValue = compute(currentStateVector, currentTime) != inverse_ ? 1.0 : -1.0;
-    const Real previousValue = compute(previousStateVector, previousTime) != inverse_ ? 1.0 : -1.0;
+    const Real currentValue = evaluate(currentStateVector, currentTime) ? 1.0 : -1.0;
+    const Real previousValue = evaluate(previousStateVector, previousTime) ? 1.0 : -1.0;
 
     return getComparator()(currentValue, previousValue);
+}
+
+bool BooleanEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+{
+    return inverse_? this->evaluator_(aStateVector, aTime) ? !this->evaluator_(aStateVector, aTime);
 }
 
 }  // namespace eventcondition

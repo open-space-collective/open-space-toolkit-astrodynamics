@@ -39,9 +39,14 @@ class RealEventCondition : public EventCondition
     /// @param                  [in] aName A string representing the name of the Real Event Condition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Real Event
     /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    RealEventCondition(const String& aName, const Criteria& aCriteria, const Real& aTarget);
+    RealEventCondition(
+        const String& aName,
+        const Criteria& aCriteria, 
+        const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+        const Real& aTarget = 0.0);
 
     /// @brief                  Virtual destructor
 
@@ -79,16 +84,8 @@ class RealEventCondition : public EventCondition
 
     Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
 
-    /// @brief                  Compute the value of the Real Event Condition
-    ///
-    /// @param                  [in] aStateVector The state vector
-    /// @param                  [in] aTime The time
-    ///
-    /// @return                 Real number representing the value of the Event Condition
-
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const = 0;
-
    private:
+    std::function<Real(const VectorXd&, const Real&)> evaluator_;
     Real target_;
 };
 
