@@ -22,11 +22,13 @@ namespace eventcondition
 {
 
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 using ostk::math::obj::Vector3d;
 
+using ostk::physics::coord::Frame;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
@@ -49,6 +51,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] anElement The Element related to the COECondition
     /// @param                  [in] aTarget A target value associated with the COECondition
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter The derived gravitational parameter
 
     COECondition(
@@ -56,6 +59,7 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const COE::Element& anElement,
         const Real& aTarget,
+        const Shared<const Frame>& aFrameSPTr,
         const Derived& aGravitationalParameter
     );
 
@@ -75,120 +79,131 @@ class COECondition : public RealEventCondition
 
     COE::Element getElement() const;
 
-    /// @brief                  Compute the Event Condition
-    ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
-    ///
-    /// @return                 Real number representing the computation result of the Event Condition
-
-    virtual Real compute(const VectorXd& aStateVector, const Real& aTime) const override;
-
     /// @brief                  Semi Major Axis based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] aSemiMajorAxis A semi major axis
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition SemiMajorAxis(
-        const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Length& aSemiMajorAxis,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentricity based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] anEccentricity An eccentricity
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition Eccentricity(
-        const Criteria& aCriteria, const Real& anEccentricity, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Real& anEccentricity,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Inclination based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] anInclination An inclination
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition Inclination(
-        const Criteria& aCriteria, const Angle& aSemiMajorAxis, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aSemiMajorAxis,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Argument of Periapsis based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] anAOP An argument of periapsis
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
-    static COECondition Aop(const Criteria& aCriteria, const Angle& anAOP, const Derived& aGravitationalParameter);
+    static COECondition Aop(const Criteria& aCriteria, const Angle& anAOP,
+    const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter);
 
     /// @brief                  Right Ascension of Ascending Node based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] aRAAN A right angle of ascending node
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
-    static COECondition Raan(const Criteria& aCriteria, const Angle& aRAAN, const Derived& aGravitationalParameter);
+    static COECondition Raan(const Criteria& aCriteria, const Angle& aRAAN,
+    const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter);
 
     /// @brief                  True Anomaly based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] aTrueAnomaly A true anomaly
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition TrueAnomaly(
-        const Criteria& aCriteria, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aTrueAnomaly,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Mean Anomaly based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] aMeanAnomaly A mean anomaly
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition MeanAnomaly(
-        const Criteria& aCriteria, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aMeanAnomaly,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentric Anomaly based constructor
     ///
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
     /// @param                  [in] anEccentricAnomaly An eccentric anomaly
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
     ///
     /// @return                 COECondition object
 
     static COECondition EccentricAnomaly(
-        const Criteria& aCriteria, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& anEccentricAnomaly,
+        const Shared<const Frame>& aFrameSPTr, const Derived& aGravitationalParameter
     );
 
    private:
     COE::Element element_;
+    Shared<const Frame>& frameSPtr_;
     Derived gravitationalParameter_;
-    std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> compute_;
 
     /// @brief                  Get evaluation function from element
     ///
     /// @param                  [in] anElement The element
+    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
+    /// @param                  [in] aGravitationalParameter The derived gravitational parameter
     ///
     /// @return                 Evaluation function
 
-    static std::function<Real(const Vector3d&, const Vector3d&, const Derived&)> GetComputeFunction(
-        const COE::Element& anElement
+    static std::function<Real(const VectorXd&, const Real&)> GenerateEvaluator(
+        const COE::Element& anElement,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter
     );
 };
 
