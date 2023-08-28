@@ -6,10 +6,10 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 namespace ostk
@@ -75,10 +75,10 @@ class LocalOrbitalFrameTransformProvider : public Provider
     Generator generator_;
 
     LocalOrbitalFrameTransformProvider(
-        const LocalOrbitalFrameTransformProvider::Type& aType, const LocalOrbitalFrameTransformProvider::Generator& aGenerator
+        const LocalOrbitalFrameTransformProvider::Type& aType,
+        const LocalOrbitalFrameTransformProvider::Generator& aGenerator
     );
 };
-
 
 }  // namespace trajectory
 }  // namespace astro

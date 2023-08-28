@@ -8,8 +8,9 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
 namespace ostk
@@ -37,15 +38,10 @@ using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 class LocalOrbitalFrameFactory
 {
    public:
-    Shared<const Frame> generateFrame(
-        const Instant& anInstant,
-        const Vector3d& aPosition,
-        const Vector3d& aVelocity
-    );
+    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity);
 
     static Shared<const LocalOrbitalFrameFactory> Construct(
-        const LocalOrbitalFrameTransformProvider::Type& aType,
-        const Shared<const Frame>& aParentFrame
+        const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
@@ -55,19 +51,14 @@ class LocalOrbitalFrameFactory
     Shared<const Frame> parentFrameSPtr_;
 
     LocalOrbitalFrameFactory(
-        const LocalOrbitalFrameTransformProvider::Type& aType,
-        const Shared<const Frame>& aParentFrame
+        const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
-    String generateFrameName(
-        const Instant& anInstant,
-        const Vector3d& aPosition,
-        const Vector3d& aVelocity
-    );
+    String generateFrameName(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity);
 };
 
-}  // namespace coord
-}  // namespace physics
+}  // namespace trajectory
+}  // namespace astro
 }  // namespace ostk
 
 #endif

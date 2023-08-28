@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
@@ -24,7 +24,10 @@ using ostk::physics::coord::frame::Transform;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
-LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const LocalOrbitalFrameTransformProvider::Type& aType, const LocalOrbitalFrameTransformProvider::Generator& aGenerator)
+LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(
+    const LocalOrbitalFrameTransformProvider::Type& aType,
+    const LocalOrbitalFrameTransformProvider::Generator& aGenerator
+)
     : type_(aType),
       generator_(aGenerator)
 {
@@ -49,8 +52,9 @@ Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvi
                 const Vector3d xAxis = aPosition.getCoordinates().normalized();
                 const Vector3d yAxis = aPosition.getCoordinates().cross(aPosition.getCoordinates()).normalized();
                 const Vector3d zAxis = xAxis.cross(yAxis);
-                const Quaternion transformOrientation = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
-                const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0}; // TBD
+                const Quaternion transformOrientation =
+                    Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+                const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
                 return {
                     anInstant,
@@ -60,13 +64,11 @@ Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvi
                     transformAngularVelocity,
                     Transform::Type::Passive
                 };
-
             };
 
         default:
             throw ostk::core::error::runtime::ToBeImplemented("Generate Transform");
             break;
-
     };
 
     return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(aType, generator));
@@ -96,10 +98,14 @@ LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameTransformProvider::get
 
 Transform LocalOrbitalFrameTransformProvider::getTransformAt([[maybe_unused]] const Instant& anInstant) const
 {
-    throw ostk::core::error::runtime::Wrong("Get Transform At on Local Orbital Frame Transform Provider requires Position and Velocity input");
+    throw ostk::core::error::runtime::Wrong(
+        "Get Transform At on Local Orbital Frame Transform Provider requires Position and Velocity input"
+    );
 }
 
-Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity) const
+Transform LocalOrbitalFrameTransformProvider::getTransformAt(
+    const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity
+) const
 {
     if (!this->isDefined())
     {
