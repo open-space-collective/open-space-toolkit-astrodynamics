@@ -125,9 +125,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab088c1ab9fe73ea29fc017217ada95d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#ab088c1ab9fe73ea29fc017217ada95d0">hasSubset</a> (const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aCoordinatesSubsetSPtr) const</td></tr>
 <tr class="memdesc:ab088c1ab9fe73ea29fc017217ada95d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a coordinates subset has already been considered.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#ab088c1ab9fe73ea29fc017217ada95d0">More...</a><br /></td></tr>
 <tr class="separator:ab088c1ab9fe73ea29fc017217ada95d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a074006e9e1c0108154b648593f7a7022"><td class="memItemLeft" align="right" valign="top">Index&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a074006e9e1c0108154b648593f7a7022">getSubsetIndex</a> (const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aCoordinatesSubsetSPtr) const</td></tr>
-<tr class="memdesc:a074006e9e1c0108154b648593f7a7022"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the starting index of a coordinates subset in the state coordinates.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a074006e9e1c0108154b648593f7a7022">More...</a><br /></td></tr>
-<tr class="separator:a074006e9e1c0108154b648593f7a7022"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac70cf8114aae0dc2510d1b66be875507"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#ac70cf8114aae0dc2510d1b66be875507">extractCoordinates</a> (const VectorXd &amp;aFullCoordinatesVector, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &amp;aCoordinatesSubset) const</td></tr>
 <tr class="memdesc:ac70cf8114aae0dc2510d1b66be875507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates of a given subset from the full coordinates vector.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#ac70cf8114aae0dc2510d1b66be875507">More...</a><br /></td></tr>
 <tr class="separator:ac70cf8114aae0dc2510d1b66be875507"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -346,33 +343,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Return the total number of coordinate subsets. </p>
 <dl class="section return"><dt>Returns</dt><dd>The total number of coordinate subsets </dd></dl>
-
-</div>
-</div>
-<a id="a074006e9e1c0108154b648593f7a7022"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a074006e9e1c0108154b648593f7a7022">&#9670;&nbsp;</a></span>getSubsetIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Index ostk::astro::trajectory::state::CoordinatesBroker::getSubsetIndex </td>
-          <td>(</td>
-          <td class="paramtype">const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>aCoordinatesSubsetSPtr</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return the starting index of a coordinates subset in the state coordinates. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesSubsetSPtr</td><td>the coordinates subset</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The starting index of the subset in the state coordinates, throwing an exception if the coordinates subset is not present </dd></dl>
 
 </div>
 </div>

@@ -32,8 +32,6 @@ Index \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates
 \begin{DoxyCompactList}\small\item\em Add a coordinates subset to be considered, returning the starting index it will occupy (or that it occupies if it was already added) in the state coordinates. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_ab088c1ab9fe73ea29fc017217ada95d0}{has\+Subset}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Coordinates\+Subset\+S\+Ptr) const
 \begin{DoxyCompactList}\small\item\em Check if a coordinates subset has already been considered. \end{DoxyCompactList}\item 
-Index \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_a074006e9e1c0108154b648593f7a7022}{get\+Subset\+Index}} (const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Coordinates\+Subset\+S\+Ptr) const
-\begin{DoxyCompactList}\small\item\em Return the starting index of a coordinates subset in the state coordinates. \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_ac70cf8114aae0dc2510d1b66be875507}{extract\+Coordinates}} (const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} \&a\+Coordinates\+Subset) const
 \begin{DoxyCompactList}\small\item\em Extract the coordinates of a given subset from the full coordinates vector. \end{DoxyCompactList}\item 
 Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_a40d2d28eae16fd0a281be43671541e5a}{extract\+Coordinates}} (const Vector\+Xd \&a\+Full\+Coordinates\+Vector, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&a\+Coordinates\+Subset\+S\+Ptr) const
@@ -178,24 +176,6 @@ Return the total number of coordinate subsets.
 
 \begin{DoxyReturn}{Returns}
 The total number of coordinate subsets 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_a074006e9e1c0108154b648593f7a7022}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_a074006e9e1c0108154b648593f7a7022}} 
-\index{ostk::astro::trajectory::state::CoordinatesBroker@{ostk::astro::trajectory::state::CoordinatesBroker}!getSubsetIndex@{getSubsetIndex}}
-\index{getSubsetIndex@{getSubsetIndex}!ostk::astro::trajectory::state::CoordinatesBroker@{ostk::astro::trajectory::state::CoordinatesBroker}}
-\doxysubsubsection{\texorpdfstring{getSubsetIndex()}{getSubsetIndex()}}
-{\footnotesize\ttfamily Index ostk\+::astro\+::trajectory\+::state\+::\+Coordinates\+Broker\+::get\+Subset\+Index (\begin{DoxyParamCaption}\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ \&}]{a\+Coordinates\+Subset\+S\+Ptr }\end{DoxyParamCaption}) const}
-
-
-
-Return the starting index of a coordinates subset in the state coordinates. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Coordinates\+Subset\+S\+Ptr} & the coordinates subset\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The starting index of the subset in the state coordinates, throwing an exception if the coordinates subset is not present 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_ae64bcdc1eb62eb7b2a3e6b87d7db683a}\label{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_ae64bcdc1eb62eb7b2a3e6b87d7db683a}} 
 \index{ostk::astro::trajectory::state::CoordinatesBroker@{ostk::astro::trajectory::state::CoordinatesBroker}!getSubsets@{getSubsets}}

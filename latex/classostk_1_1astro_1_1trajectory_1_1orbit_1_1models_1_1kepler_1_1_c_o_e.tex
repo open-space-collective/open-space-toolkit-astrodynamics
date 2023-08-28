@@ -75,7 +75,9 @@ static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1model
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_ac45f3543991d1c81a0341e141713126f}{Mean\+Anomaly\+From\+Eccentric\+Anomaly}} (const Angle \&an\+Eccentric\+Anomaly, const Real \&an\+Eccentricity)
 \item 
 static Angle \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a03697221660ff4c30f4eb19ecdc89159}{Eccentric\+Anomaly\+From\+Mean\+Anomaly}} (const Angle \&a\+Mean\+Anomaly, const Real \&an\+Eccentricity, const Real \&a\+Tolerance)
-\end{DoxyCompactItemize}
+\item 
+static String \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}{String\+From\+Element}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&an\+Element)
+\begin{DoxyCompactList}\small\item\em Convert element to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -264,6 +266,24 @@ Eccentric\+Anomaly&\\
 \doxysubsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a226fd03919cb117cc8180bcc8e677f3a}} 
+\index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!StringFromElement@{StringFromElement}}
+\index{StringFromElement@{StringFromElement}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}
+\doxysubsubsection{\texorpdfstring{StringFromElement()}{StringFromElement()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::trajectory\+::orbit\+::models\+::kepler\+::\+C\+O\+E\+::\+String\+From\+Element (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&}]{an\+Element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert element to string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Element} & An element\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String representing the element 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a840b51ad645eee26060462d8ffff83af}\label{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a840b51ad645eee26060462d8ffff83af}} 
 \index{ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}!TrueAnomalyFromEccentricAnomaly@{TrueAnomalyFromEccentricAnomaly}}
 \index{TrueAnomalyFromEccentricAnomaly@{TrueAnomalyFromEccentricAnomaly}!ostk::astro::trajectory::orbit::models::kepler::COE@{ostk::astro::trajectory::orbit::models::kepler::COE}}

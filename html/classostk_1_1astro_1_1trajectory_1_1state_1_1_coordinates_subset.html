@@ -82,9 +82,10 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1st
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ostk::astro::trajectory::state::CoordinatesSubset Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">ostk::astro::trajectory::state::CoordinatesSubset Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -123,15 +124,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a88e08cd16d5dde166c01df3d2b4bba21"><td class="memItemLeft" align="right" valign="top">Size&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a88e08cd16d5dde166c01df3d2b4bba21">getSize</a> () const</td></tr>
 <tr class="memdesc:a88e08cd16d5dde166c01df3d2b4bba21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the size (i.e. dimension) of the instance.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a88e08cd16d5dde166c01df3d2b4bba21">More...</a><br /></td></tr>
 <tr class="separator:a88e08cd16d5dde166c01df3d2b4bba21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3846cddba101f1039d245ecd57b8b41d"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a3846cddba101f1039d245ecd57b8b41d">add</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const =0</td></tr>
-<tr class="memdesc:a3846cddba101f1039d245ecd57b8b41d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two coordinates subsets.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a3846cddba101f1039d245ecd57b8b41d">More...</a><br /></td></tr>
-<tr class="separator:a3846cddba101f1039d245ecd57b8b41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32f87bcda37e5eff5df63965c8a408cd"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a32f87bcda37e5eff5df63965c8a408cd">subtract</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const =0</td></tr>
-<tr class="memdesc:a32f87bcda37e5eff5df63965c8a408cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract two coordinates subsets.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a32f87bcda37e5eff5df63965c8a408cd">More...</a><br /></td></tr>
-<tr class="separator:a32f87bcda37e5eff5df63965c8a408cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac95904b843f0515212381d8819acba1d"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ac95904b843f0515212381d8819acba1d">inFrame</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;fromFrame, const Shared&lt; const Frame &gt; &amp;toFrame, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const =0</td></tr>
-<tr class="memdesc:ac95904b843f0515212381d8819acba1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform the coordinate subset from one frame to another.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ac95904b843f0515212381d8819acba1d">More...</a><br /></td></tr>
-<tr class="separator:ac95904b843f0515212381d8819acba1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2916b940f84aa8c64a469c4a1945b486"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a2916b940f84aa8c64a469c4a1945b486">add</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const</td></tr>
+<tr class="memdesc:a2916b940f84aa8c64a469c4a1945b486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two coordinates subsets.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a2916b940f84aa8c64a469c4a1945b486">More...</a><br /></td></tr>
+<tr class="separator:a2916b940f84aa8c64a469c4a1945b486"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac78eb15d674e9ceb96b83d10e416c7d5"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ac78eb15d674e9ceb96b83d10e416c7d5">subtract</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const VectorXd &amp;anotherFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const</td></tr>
+<tr class="memdesc:ac78eb15d674e9ceb96b83d10e416c7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract two coordinates subsets.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ac78eb15d674e9ceb96b83d10e416c7d5">More...</a><br /></td></tr>
+<tr class="separator:ac78eb15d674e9ceb96b83d10e416c7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45305e29e0e31f9dc346713352f8e778"><td class="memItemLeft" align="right" valign="top">virtual VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a45305e29e0e31f9dc346713352f8e778">inFrame</a> (const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;fromFrameSPtr, const Shared&lt; const Frame &gt; &amp;toFrameSPtr, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;aCoordinatesBrokerSPtr) const</td></tr>
+<tr class="memdesc:a45305e29e0e31f9dc346713352f8e778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform the coordinate subset from one frame to another.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a45305e29e0e31f9dc346713352f8e778">More...</a><br /></td></tr>
+<tr class="separator:a45305e29e0e31f9dc346713352f8e778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8faedc2387293553c635d15b366ec018"><td class="memItemLeft" align="right" valign="top">static Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a8faedc2387293553c635d15b366ec018">Mass</a> ()</td></tr>
+<tr class="memdesc:a8faedc2387293553c635d15b366ec018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a default Mass instance.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a8faedc2387293553c635d15b366ec018">More...</a><br /></td></tr>
+<tr class="separator:a8faedc2387293553c635d15b366ec018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> coordinates subset. It contains information related to a particular group of coordinates. It does not contain the coordinate values. </p>
@@ -163,7 +170,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line">CoordinateSubset coordinateSubset = {aName, aSize};</div>
+<pre class="fragment">                The default CoordinatesSubset instance is frame-invariant and implements element-wise addition/substraction.
+</pre> <div class="fragment"><div class="line">CoordinateSubset coordinateSubset = {aName, aSize};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A name </td></tr>
@@ -175,8 +183,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3846cddba101f1039d245ecd57b8b41d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3846cddba101f1039d245ecd57b8b41d">&#9670;&nbsp;</a></span>add()</h2>
+<a id="a2916b940f84aa8c64a469c4a1945b486"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2916b940f84aa8c64a469c4a1945b486">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,7 +193,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual VectorXd ostk::astro::trajectory::state::CoordinatesSubset::add </td>
+          <td class="memname">VectorXd ostk::astro::trajectory::state::CoordinatesSubset::add </td>
           <td>(</td>
           <td class="paramtype">const Instant &amp;&#160;</td>
           <td class="paramname"><em>anInstant</em>, </td>
@@ -222,7 +230,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -239,8 +247,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value (subset_1 + subset_2) </dd></dl>
-
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#a7e4ee70f049a63d75479d07a0d0c114b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#ac6b96184c2efc526364a74a6ee7a1f79">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>.</p>
 
 </div>
 </div>
@@ -304,8 +310,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac95904b843f0515212381d8819acba1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac95904b843f0515212381d8819acba1d">&#9670;&nbsp;</a></span>inFrame()</h2>
+<a id="a45305e29e0e31f9dc346713352f8e778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45305e29e0e31f9dc346713352f8e778">&#9670;&nbsp;</a></span>inFrame()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,7 +320,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual VectorXd ostk::astro::trajectory::state::CoordinatesSubset::inFrame </td>
+          <td class="memname">VectorXd ostk::astro::trajectory::state::CoordinatesSubset::inFrame </td>
           <td>(</td>
           <td class="paramtype">const Instant &amp;&#160;</td>
           <td class="paramname"><em>anInstant</em>, </td>
@@ -329,13 +335,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Shared&lt; const Frame &gt; &amp;&#160;</td>
-          <td class="paramname"><em>fromFrame</em>, </td>
+          <td class="paramname"><em>fromFrameSPtr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Shared&lt; const Frame &gt; &amp;&#160;</td>
-          <td class="paramname"><em>toFrame</em>, </td>
+          <td class="paramname"><em>toFrameSPtr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -351,7 +357,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -361,15 +367,43 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>the reference frame associated to the coordinates </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aFullCoordinatesVector</td><td>all coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fromFrame</td><td>the reference frame associated to the coordinates </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">toFrame</td><td>the reference frame in which the coordinates are to be transformed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fromFrameSPtr</td><td>the reference frame associated to the coordinates </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">toFrameSPtr</td><td>the reference frame in which the coordinates are to be transformed </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesBrokerSPtr</td><td>a coordinates broker</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value expressed in the desired reference frame </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#aec01ab36d8a242de350dc5ea44720c8b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#af772163bb8a848905c6a2d4d56286723">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>.</p>
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#aec01ab36d8a242de350dc5ea44720c8b">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#af772163bb8a848905c6a2d4d56286723">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>.</p>
+
+</div>
+</div>
+<a id="a8faedc2387293553c635d15b366ec018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8faedc2387293553c635d15b366ec018">&#9670;&nbsp;</a></span>Mass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; ostk::astro::trajectory::state::CoordinatesSubset::Mass </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a default Mass instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>The default Mass shared pointer instance </dd></dl>
 
 </div>
 </div>
@@ -427,8 +461,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a32f87bcda37e5eff5df63965c8a408cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32f87bcda37e5eff5df63965c8a408cd">&#9670;&nbsp;</a></span>subtract()</h2>
+<a id="ac78eb15d674e9ceb96b83d10e416c7d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac78eb15d674e9ceb96b83d10e416c7d5">&#9670;&nbsp;</a></span>subtract()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -437,7 +471,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual VectorXd ostk::astro::trajectory::state::CoordinatesSubset::subtract </td>
+          <td class="memname">VectorXd ostk::astro::trajectory::state::CoordinatesSubset::subtract </td>
           <td>(</td>
           <td class="paramtype">const Instant &amp;&#160;</td>
           <td class="paramname"><em>anInstant</em>, </td>
@@ -474,7 +508,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -491,8 +525,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The resulting coordinates subset value (subset_1 - subset_2) </dd></dl>
-
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_position.html#a99d337d020bd0eeb2bef8832f7f5c6b5">ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition</a>, and <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets_1_1_cartesian_velocity.html#abaaad3f84a39db22990862dd05f2903e">ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity</a>.</p>
 
 </div>
 </div>

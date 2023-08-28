@@ -10,11 +10,10 @@ var classostk_1_1astro_1_1_event_condition =
     ] ],
     [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21", null ],
     [ "~EventCondition", "classostk_1_1astro_1_1_event_condition.html#a8c33b8dc74c54cfeb89e673fa0548de0", null ],
-    [ "evaluate", "classostk_1_1astro_1_1_event_condition.html#ab5996e10828c9b863b8fd140eb112c22", null ],
+    [ "getComparator", "classostk_1_1astro_1_1_event_condition.html#ace20c78b62d6406703bc5b5f80b32102", null ],
     [ "getCriteria", "classostk_1_1astro_1_1_event_condition.html#a94449df1581d2ee07a8bf9b02cd3c5a5", null ],
     [ "getName", "classostk_1_1astro_1_1_event_condition.html#a4059c751030da6877a63a6cff90576e7", null ],
-    [ "isSatisfied", "classostk_1_1astro_1_1_event_condition.html#ad2a69272f4e27baf5a5f70d45e74686c", null ],
-    [ "isSatisfied", "classostk_1_1astro_1_1_event_condition.html#ac547005f98d41268b6ef71ebd898e140", null ],
+    [ "isSatisfied", "classostk_1_1astro_1_1_event_condition.html#acd9c3c36e41344085d354c06c0d84047", null ],
     [ "print", "classostk_1_1astro_1_1_event_condition.html#a72cf3353323b6b21f4406c8e152b2d30", null ],
     [ "operator<<", "classostk_1_1astro_1_1_event_condition.html#a79479aa52401e558f7a2a8137b9b0359", null ]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['generator_567',['Generator',['../classostk_1_1astro_1_1access_1_1_generator.html',1,'ostk::astro::access']]],
-  ['generatorcontext_568',['GeneratorContext',['../classostk_1_1astro_1_1access_1_1_generator_context.html',1,'ostk::astro::access']]]
+  ['eventcondition_580',['EventCondition',['../classostk_1_1astro_1_1_event_condition.html',1,'ostk::astro']]]
 ];

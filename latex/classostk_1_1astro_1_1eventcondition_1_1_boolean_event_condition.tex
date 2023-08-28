@@ -1,0 +1,168 @@
+\hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition}{}\doxysection{ostk\+::astro\+::eventcondition\+::Boolean\+Event\+Condition Class Reference}
+\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition}\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+
+
+A Boolean Event Condition is a condition that is met when the computed value returns true.  
+
+
+
+
+{\ttfamily \#include $<$Boolean\+Event\+Condition.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::eventcondition\+::Boolean\+Event\+Condition\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a2f30cf081d46d9efbbd03ff00c32d649}{Boolean\+Event\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const std\+::function$<$ bool(const Vector\+Xd \&, const Real \&)$>$ an\+Evaluator, const bool \&an\+Inverse\+Flag=false)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ab386f7b4a39ebd6ca95c7699379a85a0}{$\sim$\+Boolean\+Event\+Condition}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a25f320c232f3bc00e4d43d0412c27245}{is\+Inversed}} () const
+\begin{DoxyCompactList}\small\item\em Check if the condition is inversed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ae48c28feccb603f9bf917036385c2ffb}{evaluate}} (const Vector\+Xd \&a\+State\+Vector, const Real \&a\+Time) const
+\begin{DoxyCompactList}\small\item\em Evaluate the Event Condition. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a865a765d195d0f1ea37a158b0ba358fb}{is\+Satisfied}} (const Vector\+Xd \&current\+State\+Vector, const Real \&current\+Time, const Vector\+Xd \&previous\+State\+Vector, const Real \&previous\+Time) const override
+\begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state/time and previous state/time. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a302cacc3642cd5f8c27f533cf0ecb4c9}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print the Boolean Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+A Boolean Event Condition is a condition that is met when the computed value returns true. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a2f30cf081d46d9efbbd03ff00c32d649}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a2f30cf081d46d9efbbd03ff00c32d649}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!BooleanEventCondition@{BooleanEventCondition}}
+\index{BooleanEventCondition@{BooleanEventCondition}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{BooleanEventCondition()}{BooleanEventCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::\+Boolean\+Event\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const std\+::function$<$ bool(const Vector\+Xd \&, const Real \&)$>$}]{an\+Evaluator,  }\item[{const bool \&}]{an\+Inverse\+Flag = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a2f30cf081d46d9efbbd03ff00c32d649}{BooleanEventCondition}} booleanEventCondition = \{aName, aCriteria, anEvaluator,}
+\DoxyCodeLine{anInverseFlag\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Boolean Event Condition \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Criteria} & An enum indicating the criteria used to determine if the Boolean Event Condition is met \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state and a time \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Inverse\+Flag} & A flag indicating whether the condition is inverted \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ab386f7b4a39ebd6ca95c7699379a85a0}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ab386f7b4a39ebd6ca95c7699379a85a0}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!````~BooleanEventCondition@{$\sim$BooleanEventCondition}}
+\index{````~BooleanEventCondition@{$\sim$BooleanEventCondition}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{$\sim$BooleanEventCondition()}{~BooleanEventCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::$\sim$\+Boolean\+Event\+Condition (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ae48c28feccb603f9bf917036385c2ffb}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_ae48c28feccb603f9bf917036385c2ffb}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::evaluate (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{a\+State\+Vector,  }\item[{const Real \&}]{a\+Time }\end{DoxyParamCaption}) const}
+
+
+
+Evaluate the Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State\+Vector} & The current state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Time} & The current time\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean representing the evaluation result of the Event Condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a25f320c232f3bc00e4d43d0412c27245}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a25f320c232f3bc00e4d43d0412c27245}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!isInversed@{isInversed}}
+\index{isInversed@{isInversed}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{isInversed()}{isInversed()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::is\+Inversed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if the condition is inversed. 
+
+\begin{DoxyReturn}{Returns}
+Boolean value indicating whether the condition is inversed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a865a765d195d0f1ea37a158b0ba358fb}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a865a765d195d0f1ea37a158b0ba358fb}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!isSatisfied@{isSatisfied}}
+\index{isSatisfied@{isSatisfied}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{current\+State\+Vector,  }\item[{const Real \&}]{current\+Time,  }\item[{const Vector\+Xd \&}]{previous\+State\+Vector,  }\item[{const Real \&}]{previous\+Time }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if the Event Condition is satisfied based on current state/time and previous state/time. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em current\+State\+Vector} & The current state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em current\+Time} & The current time \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+State\+Vector} & The previous state vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+Time} & The previous time\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean value indicating if the Real Event Condition is met 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_acd9c3c36e41344085d354c06c0d84047}{ostk\+::astro\+::\+Event\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a302cacc3642cd5f8c27f533cf0ecb4c9}\label{classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition_a302cacc3642cd5f8c27f533cf0ecb4c9}} 
+\index{ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}!print@{print}}
+\index{print@{print}!ostk::astro::eventcondition::BooleanEventCondition@{ostk::astro::eventcondition::BooleanEventCondition}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::eventcondition\+::\+Boolean\+Event\+Condition\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print the Boolean Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em an\+Output\+Stream} & The output stream where the Boolean Event Condition will be printed \\
+\hline
+\mbox{\texttt{ in}}  & {\em display\+Decorator} & A boolean indicating whether or not to display decorator during printing \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}{ostk\+::astro\+::\+Event\+Condition}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_boolean_event_condition_8hpp}{Boolean\+Event\+Condition.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_boolean_event_condition_8cpp}{Boolean\+Event\+Condition.\+cpp}}\end{DoxyCompactItemize}

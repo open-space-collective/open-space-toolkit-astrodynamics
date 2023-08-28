@@ -23,11 +23,7 @@ Inheritance diagram for ostk\+::astro\+::eventcondition\+::Logical\+Connective\+
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a5b4ea37c0f28c82a1fc9401b1daa5738}{$\sim$\+Logical\+Connective}} ()
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
 Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a59477fb2a8ab97f11882ee241915fd69}{get\+Event\+Conditions}} () const
-\begin{DoxyCompactList}\small\item\em Get the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\item 
-virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a9bbf861ec75d5e17a8bd0fa8043610e5}{is\+Satisfied}} (const Real \&current\+Value, const Real \&previous\+Value) const override
-\begin{DoxyCompactList}\small\item\em Throw an error as the condition cannot be evaluated based on the current state vector and time. \end{DoxyCompactList}\item 
-virtual Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_aff916086ea60b05a3ecfe8f66f289cf6}{evaluate}} (const Vector\+Xd \&a\+State\+Vector, const Real \&a\+Time) const override
-\begin{DoxyCompactList}\small\item\em Throw an error as the condition cannot be evaluated based on the state vector and time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -76,30 +72,6 @@ Destructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_aff916086ea60b05a3ecfe8f66f289cf6}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_aff916086ea60b05a3ecfe8f66f289cf6}} 
-\index{ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}!evaluate@{evaluate}}
-\index{evaluate@{evaluate}!ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}}
-\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
-{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+Logical\+Connective\+::evaluate (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{a\+State\+Vector,  }\item[{const Real \&}]{a\+Time }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Throw an error as the condition cannot be evaluated based on the state vector and time. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State\+Vector} & The current state vector \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Time} & The current time\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Real number representing the evaluation result of the Logical Connective Event Condition. 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ab5996e10828c9b863b8fd140eb112c22}{ostk\+::astro\+::\+Event\+Condition}}.
-
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a59477fb2a8ab97f11882ee241915fd69}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a59477fb2a8ab97f11882ee241915fd69}} 
 \index{ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}!getEventConditions@{getEventConditions}}
 \index{getEventConditions@{getEventConditions}!ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}}
@@ -113,30 +85,6 @@ Get the individual event conditions composing the Logical Connective Event Condi
 \begin{DoxyReturn}{Returns}
 An Array of shared pointers to \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} instances, representing the individual event conditions. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a9bbf861ec75d5e17a8bd0fa8043610e5}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_connective_a9bbf861ec75d5e17a8bd0fa8043610e5}} 
-\index{ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}!isSatisfied@{isSatisfied}}
-\index{isSatisfied@{isSatisfied}!ostk::astro::eventcondition::LogicalConnective@{ostk::astro::eventcondition::LogicalConnective}}
-\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}}
-{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Logical\+Connective\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const Real \&}]{current\+Value,  }\item[{const Real \&}]{previous\+Value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Throw an error as the condition cannot be evaluated based on the current state vector and time. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em current\+Value} & The current value \\
-\hline
-\mbox{\texttt{ in}}  & {\em previous\+Value} & The previous value\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Boolean value indicating if the condition is met. 
-\end{DoxyReturn}
-
-
-Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ad2a69272f4e27baf5a5f70d45e74686c}{ostk\+::astro\+::\+Event\+Condition}}.
-
 
 
 \doxysubsection{Member Data Documentation}

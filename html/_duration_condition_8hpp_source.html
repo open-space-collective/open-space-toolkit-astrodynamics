@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('_duration_condition_8hpp_source.html',
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;OpenSpaceToolkit/Physics/Time/Duration.hpp&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_event_condition_8hpp.html">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_real_event_condition_8hpp.html">OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespaceostk.html">ostk</a></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
@@ -111,10 +111,10 @@ $(document).ready(function(){initNavTree('_duration_condition_8hpp_source.html',
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> ostk::physics::time::Duration;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1_event_condition.html">ostk::astro::EventCondition</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html">ostk::astro::eventcondition::RealEventCondition</a>;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html">DurationCondition</a> : <span class="keyword">public</span> <a class="code" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html">DurationCondition</a> : <span class="keyword">public</span> <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html">RealEventCondition</a></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
@@ -125,30 +125,23 @@ $(document).ready(function(){initNavTree('_duration_condition_8hpp_source.html',
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    Duration <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#a505eb51a3a2cf6ec932bb49cbc578d69">getDuration</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">virtual</span> Real <a class="code" href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#acfe1faba7322303110b3a582c648af27">evaluate</a>(<span class="keyword">const</span> VectorXd&amp; aStateVector, <span class="keyword">const</span> Real&amp; aTime) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    Real durationInSeconds_;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}  <span class="comment">// namespace eventcondition</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}  <span class="comment">// namespace eventcondition</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_a6c9ab8fe6a64e429af530e26f48ed04d"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#a6c9ab8fe6a64e429af530e26f48ed04d">ostk::astro::eventcondition::DurationCondition::~DurationCondition</a></div><div class="ttdeci">virtual ~DurationCondition()</div><div class="ttdoc">Virtual destructor.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:18</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1_event_condition_html"><div class="ttname"><a href="classostk_1_1astro_1_1_event_condition.html">ostk::astro::EventCondition</a></div><div class="ttdoc">An Event Condition defines a criteria that can be evaluated based on a current/previous state vectors...</div><div class="ttdef"><b>Definition:</b> EventCondition.hpp:24</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_a6c9ab8fe6a64e429af530e26f48ed04d"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#a6c9ab8fe6a64e429af530e26f48ed04d">ostk::astro::eventcondition::DurationCondition::~DurationCondition</a></div><div class="ttdeci">virtual ~DurationCondition()</div><div class="ttdoc">Virtual destructor.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:25</div></div>
+<div class="ttc" id="a_real_event_condition_8hpp_html"><div class="ttname"><a href="_real_event_condition_8hpp.html">RealEventCondition.hpp</a></div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html">ostk::astro::eventcondition::DurationCondition</a></div><div class="ttdoc">A duration based event condition.</div><div class="ttdef"><b>Definition:</b> DurationCondition.hpp:33</div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_acfe1faba7322303110b3a582c648af27"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#acfe1faba7322303110b3a582c648af27">ostk::astro::eventcondition::DurationCondition::evaluate</a></div><div class="ttdeci">virtual Real evaluate(const VectorXd &amp;aStateVector, const Real &amp;aTime) const override</div><div class="ttdoc">Evaluate the Event Condition.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:25</div></div>
-<div class="ttc" id="a_event_condition_8hpp_html"><div class="ttname"><a href="_event_condition_8hpp.html">EventCondition.hpp</a></div></div>
-<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_a505eb51a3a2cf6ec932bb49cbc578d69"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#a505eb51a3a2cf6ec932bb49cbc578d69">ostk::astro::eventcondition::DurationCondition::getDuration</a></div><div class="ttdeci">Duration getDuration() const</div><div class="ttdoc">Get duration.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:20</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_a505eb51a3a2cf6ec932bb49cbc578d69"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#a505eb51a3a2cf6ec932bb49cbc578d69">ostk::astro::eventcondition::DurationCondition::getDuration</a></div><div class="ttdeci">Duration getDuration() const</div><div class="ttdoc">Get duration.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:27</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:23</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_duration_condition_html_ae62349a5120bd738b3e15730beee7268"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html#ae62349a5120bd738b3e15730beee7268">ostk::astro::eventcondition::DurationCondition::DurationCondition</a></div><div class="ttdeci">DurationCondition(const Criteria &amp;aCriteria, const Duration &amp;aDuration)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> DurationCondition.cpp:12</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1_event_condition_html_a6beb68af111da70073cb204186025d7e"><div class="ttname"><a href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">ostk::astro::EventCondition::Criteria</a></div><div class="ttdeci">Criteria</div><div class="ttdef"><b>Definition:</b> EventCondition.hpp:27</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1eventcondition_1_1_real_event_condition_html"><div class="ttname"><a href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html">ostk::astro::eventcondition::RealEventCondition</a></div><div class="ttdoc">A Real Event Condition is a condition that is met when computed value matches the criteria at a targe...</div><div class="ttdef"><b>Definition:</b> RealEventCondition.hpp:30</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

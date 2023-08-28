@@ -20,10 +20,12 @@ bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2f4ddff27
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a52140a4499899dda02e5c73179975e53}{is\+Defined}} () const
 \begin{DoxyCompactList}\small\item\em Check if propagator is defined. \end{DoxyCompactList}\item 
-Size \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}{get\+Number\+Of\+Coordinates}} () const
-\begin{DoxyCompactList}\small\item\em Get the number of propagated coordinates. \end{DoxyCompactList}\item 
 const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker}{Coordinates\+Broker}} $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae462ca0a630a1fb7767b9aa3fe4db6f2}{access\+Coordinates\+Broker}} () const
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the coordinates broker. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a090017c252577a601d3d3b3029078e31}{access\+Numerical\+Solver}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the numerical solver. \end{DoxyCompactList}\item 
+Size \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}{get\+Number\+Of\+Coordinates}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of propagated coordinates. \end{DoxyCompactList}\item 
 Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}{get\+Dynamics}} () const
 \begin{DoxyCompactList}\small\item\em Get the dynamics array. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}{set\+Dynamics}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array)
@@ -100,6 +102,19 @@ Constructor.
 
 \begin{DoxyReturn}{Returns}
 The coordinates broker 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a090017c252577a601d3d3b3029078e31}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a090017c252577a601d3d3b3029078e31}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!accessNumericalSolver@{accessNumericalSolver}}
+\index{accessNumericalSolver@{accessNumericalSolver}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{accessNumericalSolver()}{accessNumericalSolver()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{Numerical\+Solver}} \& ostk\+::astro\+::trajectory\+::\+Propagator\+::access\+Numerical\+Solver (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the numerical solver. 
+
+\begin{DoxyReturn}{Returns}
+The numerical solver 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!addDynamics@{addDynamics}}

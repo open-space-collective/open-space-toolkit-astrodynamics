@@ -3,7 +3,6 @@ var classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag =
     [ "AtmosphericDrag", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a48246b5695d0a98b03d8b8fcdd349814", null ],
     [ "AtmosphericDrag", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a10010287987931403b78a6e2be225637", null ],
     [ "~AtmosphericDrag", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a142ccd348126de8325d940101d53c8c5", null ],
-    [ "clone", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#aff8041b8fd877b854950a4226fdbe101", null ],
     [ "computeContribution", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a427bf34a0302a40163a913c659f230bf", null ],
     [ "getCelestial", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a888e94eb49465f345f65d73928328337", null ],
     [ "getReadCoordinatesSubsets", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a6da1f0ae0221d5cdc9d421711530c73d", null ],

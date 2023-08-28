@@ -12,44 +12,38 @@ A Classical Orbital Element based event condition.
 Inheritance diagram for ostk\+::astro\+::eventcondition\+::C\+O\+E\+Condition\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}
+\includegraphics[height=3.000000cm]{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a278cdbe9ba500f17219e59732481e161}{C\+O\+E\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&an\+Element, const Real \&a\+Target, const Derived \&a\+Gravitational\+Parameter)
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a071e03c296ec35d305cab69990dab991}{C\+O\+E\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&an\+Element, const Real \&a\+Target, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a9757a489cb7d8ea7a6e13d22d0b107dc}{$\sim$\+C\+O\+E\+Condition}} ()
 \begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
-Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_af728a3516325b90d189d351bf50864b4}{get\+Target}} () const
-\begin{DoxyCompactList}\small\item\em Get target. \end{DoxyCompactList}\item 
 Derived \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a9b5126a7f744f442e753c5b6ff5ba224}{get\+Gravitational\+Parameter}} () const
 \begin{DoxyCompactList}\small\item\em Get gravitational parameter. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aab6e684d8b68662678bd618f15cf6553}{get\+Element}} () const
-\begin{DoxyCompactList}\small\item\em Get element. \end{DoxyCompactList}\item 
-virtual Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa7a90bfd60b03c1de7fe7d64e789bf5c}{evaluate}} (const Vector\+Xd \&a\+State\+Vector, const Real \&a\+Time) const override
-\begin{DoxyCompactList}\small\item\em Evaluate the Event Condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get element. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static String \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad67b76e21104b392e45e2524213a31ca}{String\+From\+Element}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&an\+Element)
-\begin{DoxyCompactList}\small\item\em Convert element to string. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a777d31a754d8c106b6cf1f6353f676d3}{Semi\+Major\+Axis}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Length \&a\+Semi\+Major\+Axis, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7da1b5644bac28effdb73b1513efe3cd}{Semi\+Major\+Axis}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Length \&a\+Semi\+Major\+Axis, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Semi Major Axis based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a12887670025bff8a32ec0d6791f14680}{Eccentricity}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Real \&an\+Eccentricity, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a51b1ef84eaf5acf2e69450eac915974b}{Eccentricity}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Real \&an\+Eccentricity, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Eccentricity based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa945d440ab132977556c1c4880a274de}{Inclination}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+Semi\+Major\+Axis, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a40b91396632582dd78e16575c88fb5ac}{Inclination}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+Semi\+Major\+Axis, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Inclination based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a88364deb654deec86c7b6a9d9b0cf57e}{Aop}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&an\+A\+OP, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb1234036adfe4948d3549074ae26aac}{Aop}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&an\+A\+OP, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Argument of Periapsis based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7031e90b29a958c11ffa27e979456dba}{Raan}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+R\+A\+AN, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb9a9ca404873234b9a6b6b7a3415d7b}{Raan}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+R\+A\+AN, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Right Ascension of Ascending Node based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a669e795644511c41ab1799aad49ea7df}{True\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+True\+Anomaly, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a65e26e55204933fea5e06f20a568fdd2}{True\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+True\+Anomaly, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em True Anomaly based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1aa219488f12196251896e0cd020ebd1}{Mean\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+Mean\+Anomaly, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad9da077e6446222d69a4e7e9b5376313}{Mean\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&a\+Mean\+Anomaly, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Mean Anomaly based constructor. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a3e72951957d1acca34dcd34d23d913a5}{Eccentric\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&an\+Eccentric\+Anomaly, const Derived \&a\+Gravitational\+Parameter)
+static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1f26dad2c0165e9cd4813f28af3ad917}{Eccentric\+Anomaly}} (const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&a\+Criteria, const Angle \&an\+Eccentric\+Anomaly, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr, const Derived \&a\+Gravitational\+Parameter)
 \begin{DoxyCompactList}\small\item\em Eccentric Anomaly based constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
@@ -58,11 +52,11 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition
 A Classical Orbital Element based event condition. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a278cdbe9ba500f17219e59732481e161}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a278cdbe9ba500f17219e59732481e161}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a071e03c296ec35d305cab69990dab991}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a071e03c296ec35d305cab69990dab991}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!COECondition@{COECondition}}
 \index{COECondition@{COECondition}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{COECondition()}{COECondition()}}
-{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+C\+O\+E\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&}]{an\+Element,  }\item[{const Real \&}]{a\+Target,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+C\+O\+E\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&}]{an\+Element,  }\item[{const Real \&}]{a\+Target,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})}
 
 
 
@@ -70,7 +64,7 @@ Constructor.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a278cdbe9ba500f17219e59732481e161}{COECondition}} condition = \{aCriteria, aTarget, aGravitationalParameter\};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a071e03c296ec35d305cab69990dab991}{COECondition}} condition = \{aCriteria, aTarget, aGravitationalParameter\};}
 \end{DoxyCode}
 
 
@@ -83,6 +77,8 @@ Constructor.
 \mbox{\texttt{ in}}  & {\em an\+Element} & The Element related to the \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Target} & A target value associated with the \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & The derived gravitational parameter \\
 \hline
@@ -100,11 +96,11 @@ Virtual destructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a88364deb654deec86c7b6a9d9b0cf57e}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a88364deb654deec86c7b6a9d9b0cf57e}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb1234036adfe4948d3549074ae26aac}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb1234036adfe4948d3549074ae26aac}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!Aop@{Aop}}
 \index{Aop@{Aop}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{Aop()}{Aop()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Aop (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{an\+A\+OP,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Aop (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{an\+A\+OP,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -116,17 +112,19 @@ Argument of Periapsis based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em an\+A\+OP} & An argument of periapsis \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a3e72951957d1acca34dcd34d23d913a5}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a3e72951957d1acca34dcd34d23d913a5}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1f26dad2c0165e9cd4813f28af3ad917}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1f26dad2c0165e9cd4813f28af3ad917}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!EccentricAnomaly@{EccentricAnomaly}}
 \index{EccentricAnomaly@{EccentricAnomaly}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{EccentricAnomaly()}{EccentricAnomaly()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Eccentric\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{an\+Eccentric\+Anomaly,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -138,17 +136,19 @@ Eccentric Anomaly based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em an\+Eccentric\+Anomaly} & An eccentric anomaly \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a12887670025bff8a32ec0d6791f14680}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a12887670025bff8a32ec0d6791f14680}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a51b1ef84eaf5acf2e69450eac915974b}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a51b1ef84eaf5acf2e69450eac915974b}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!Eccentricity@{Eccentricity}}
 \index{Eccentricity@{Eccentricity}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{Eccentricity()}{Eccentricity()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Eccentricity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Eccentricity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Real \&}]{an\+Eccentricity,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -160,36 +160,14 @@ Eccentricity based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em an\+Eccentricity} & An eccentricity \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa7a90bfd60b03c1de7fe7d64e789bf5c}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa7a90bfd60b03c1de7fe7d64e789bf5c}} 
-\index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!evaluate@{evaluate}}
-\index{evaluate@{evaluate}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
-\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
-{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::evaluate (\begin{DoxyParamCaption}\item[{const Vector\+Xd \&}]{a\+State\+Vector,  }\item[{const Real \&}]{a\+Time }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
-
-
-
-Evaluate the Event Condition. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State\+Vector} & The current state vector \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Time} & The current time\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Real number representing the evaluation result of the Event Condition 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_ab5996e10828c9b863b8fd140eb112c22}{ostk\+::astro\+::\+Event\+Condition}}.
-
 \mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aab6e684d8b68662678bd618f15cf6553}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aab6e684d8b68662678bd618f15cf6553}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!getElement@{getElement}}
 \index{getElement@{getElement}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
@@ -216,24 +194,11 @@ Get gravitational parameter.
 \begin{DoxyReturn}{Returns}
 gravitational parameter 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_af728a3516325b90d189d351bf50864b4}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_af728a3516325b90d189d351bf50864b4}} 
-\index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!getTarget@{getTarget}}
-\index{getTarget@{getTarget}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
-\doxysubsubsection{\texorpdfstring{getTarget()}{getTarget()}}
-{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::get\+Target (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Get target. 
-
-\begin{DoxyReturn}{Returns}
-target 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa945d440ab132977556c1c4880a274de}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_aa945d440ab132977556c1c4880a274de}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a40b91396632582dd78e16575c88fb5ac}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a40b91396632582dd78e16575c88fb5ac}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!Inclination@{Inclination}}
 \index{Inclination@{Inclination}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{Inclination()}{Inclination()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Inclination (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+Semi\+Major\+Axis,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Inclination (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+Semi\+Major\+Axis,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -245,17 +210,19 @@ Inclination based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em an\+Inclination} & An inclination \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1aa219488f12196251896e0cd020ebd1}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a1aa219488f12196251896e0cd020ebd1}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad9da077e6446222d69a4e7e9b5376313}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad9da077e6446222d69a4e7e9b5376313}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!MeanAnomaly@{MeanAnomaly}}
 \index{MeanAnomaly@{MeanAnomaly}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{MeanAnomaly()}{MeanAnomaly()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Mean\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+Mean\+Anomaly,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Mean\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+Mean\+Anomaly,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -267,17 +234,19 @@ Mean Anomaly based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Mean\+Anomaly} & A mean anomaly \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7031e90b29a958c11ffa27e979456dba}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7031e90b29a958c11ffa27e979456dba}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb9a9ca404873234b9a6b6b7a3415d7b}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_adb9a9ca404873234b9a6b6b7a3415d7b}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!Raan@{Raan}}
 \index{Raan@{Raan}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{Raan()}{Raan()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Raan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+R\+A\+AN,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Raan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+R\+A\+AN,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -289,17 +258,19 @@ Right Ascension of Ascending Node based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em a\+R\+A\+AN} & A right angle of ascending node \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a777d31a754d8c106b6cf1f6353f676d3}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a777d31a754d8c106b6cf1f6353f676d3}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7da1b5644bac28effdb73b1513efe3cd}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a7da1b5644bac28effdb73b1513efe3cd}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!SemiMajorAxis@{SemiMajorAxis}}
 \index{SemiMajorAxis@{SemiMajorAxis}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{SemiMajorAxis()}{SemiMajorAxis()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Semi\+Major\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+Semi\+Major\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Length \&}]{a\+Semi\+Major\+Axis,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -311,35 +282,19 @@ Semi Major Axis based constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Semi\+Major\+Axis} & A semi major axis \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
+\hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} object 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad67b76e21104b392e45e2524213a31ca}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_ad67b76e21104b392e45e2524213a31ca}} 
-\index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!StringFromElement@{StringFromElement}}
-\index{StringFromElement@{StringFromElement}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
-\doxysubsubsection{\texorpdfstring{StringFromElement()}{StringFromElement()}}
-{\footnotesize\ttfamily String ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+String\+From\+Element (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e_a1887b5ac618d22ebe63521063038ad94}{C\+O\+E\+::\+Element}} \&}]{an\+Element }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Convert element to string. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Element} & An element\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-String representing the element 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a669e795644511c41ab1799aad49ea7df}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a669e795644511c41ab1799aad49ea7df}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a65e26e55204933fea5e06f20a568fdd2}\label{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition_a65e26e55204933fea5e06f20a568fdd2}} 
 \index{ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}!TrueAnomaly@{TrueAnomaly}}
 \index{TrueAnomaly@{TrueAnomaly}!ostk::astro::eventcondition::COECondition@{ostk::astro::eventcondition::COECondition}}
 \doxysubsubsection{\texorpdfstring{TrueAnomaly()}{TrueAnomaly()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+True\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+True\+Anomaly,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition}{C\+O\+E\+Condition}} ostk\+::astro\+::eventcondition\+::\+C\+O\+E\+Condition\+::\+True\+Anomaly (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a6beb68af111da70073cb204186025d7e}{Criteria}} \&}]{a\+Criteria,  }\item[{const Angle \&}]{a\+True\+Anomaly,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr,  }\item[{const Derived \&}]{a\+Gravitational\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -350,6 +305,8 @@ True Anomaly based constructor.
 \mbox{\texttt{ in}}  & {\em a\+Criteria} & An enum indicating the criteria used to determine the Event Condition \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+True\+Anomaly} & A true anomaly \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame used to compute the element \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Gravitational\+Parameter} & A gravitational parameter\\
 \hline

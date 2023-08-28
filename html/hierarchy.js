@@ -19,11 +19,14 @@ var hierarchy =
       [ "ostk::astro::flight::system::dynamics::ThirdBodyGravity", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html", null ]
     ] ],
     [ "ostk::astro::EventCondition", "classostk_1_1astro_1_1_event_condition.html", [
-      [ "ostk::astro::eventcondition::COECondition", "classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html", null ],
-      [ "ostk::astro::eventcondition::DurationCondition", "classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html", null ],
+      [ "ostk::astro::eventcondition::BooleanEventCondition", "classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition.html", null ],
       [ "ostk::astro::eventcondition::LogicalConnective", "classostk_1_1astro_1_1eventcondition_1_1_logical_connective.html", [
         [ "ostk::astro::eventcondition::Conjunctive", "classostk_1_1astro_1_1eventcondition_1_1_conjunctive.html", null ],
         [ "ostk::astro::eventcondition::Disjunctive", "classostk_1_1astro_1_1eventcondition_1_1_disjunctive.html", null ]
+      ] ],
+      [ "ostk::astro::eventcondition::RealEventCondition", "classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html", [
+        [ "ostk::astro::eventcondition::COECondition", "classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html", null ],
+        [ "ostk::astro::eventcondition::DurationCondition", "classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html", null ]
       ] ]
     ] ],
     [ "ostk::astro::access::Generator", "classostk_1_1astro_1_1access_1_1_generator.html", null ],
@@ -55,8 +58,8 @@ var hierarchy =
     [ "ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html", null ],
     [ "ostk::astro::RootSolver", "classostk_1_1astro_1_1_root_solver.html", null ],
     [ "ostk::astro::RootSolver::Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", null ],
-    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
+    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::System", "classostk_1_1astro_1_1flight_1_1_system.html", [
       [ "ostk::astro::flight::system::SatelliteSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html", null ]
     ] ],

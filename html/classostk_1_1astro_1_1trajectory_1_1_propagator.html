@@ -109,12 +109,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a52140a4499899dda02e5c73179975e53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a52140a4499899dda02e5c73179975e53">isDefined</a> () const</td></tr>
 <tr class="memdesc:a52140a4499899dda02e5c73179975e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if propagator is defined.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a52140a4499899dda02e5c73179975e53">More...</a><br /></td></tr>
 <tr class="separator:a52140a4499899dda02e5c73179975e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a143da259d23e0beb3689d0325d0668bf"><td class="memItemLeft" align="right" valign="top">Size&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a143da259d23e0beb3689d0325d0668bf">getNumberOfCoordinates</a> () const</td></tr>
-<tr class="memdesc:a143da259d23e0beb3689d0325d0668bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of propagated coordinates.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a143da259d23e0beb3689d0325d0668bf">More...</a><br /></td></tr>
-<tr class="separator:a143da259d23e0beb3689d0325d0668bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae462ca0a630a1fb7767b9aa3fe4db6f2"><td class="memItemLeft" align="right" valign="top">const Shared&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html">CoordinatesBroker</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae462ca0a630a1fb7767b9aa3fe4db6f2">accessCoordinatesBroker</a> () const</td></tr>
 <tr class="memdesc:ae462ca0a630a1fb7767b9aa3fe4db6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> the coordinates broker.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ae462ca0a630a1fb7767b9aa3fe4db6f2">More...</a><br /></td></tr>
 <tr class="separator:ae462ca0a630a1fb7767b9aa3fe4db6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a090017c252577a601d3d3b3029078e31"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a090017c252577a601d3d3b3029078e31">accessNumericalSolver</a> () const</td></tr>
+<tr class="memdesc:a090017c252577a601d3d3b3029078e31"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> the numerical solver.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a090017c252577a601d3d3b3029078e31">More...</a><br /></td></tr>
+<tr class="separator:a090017c252577a601d3d3b3029078e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a143da259d23e0beb3689d0325d0668bf"><td class="memItemLeft" align="right" valign="top">Size&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a143da259d23e0beb3689d0325d0668bf">getNumberOfCoordinates</a> () const</td></tr>
+<tr class="memdesc:a143da259d23e0beb3689d0325d0668bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of propagated coordinates.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a143da259d23e0beb3689d0325d0668bf">More...</a><br /></td></tr>
+<tr class="separator:a143da259d23e0beb3689d0325d0668bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7a67afb98328043eb4496a60f7c5aad"><td class="memItemLeft" align="right" valign="top">Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ac7a67afb98328043eb4496a60f7c5aad">getDynamics</a> () const</td></tr>
 <tr class="memdesc:ac7a67afb98328043eb4496a60f7c5aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dynamics array.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ac7a67afb98328043eb4496a60f7c5aad">More...</a><br /></td></tr>
 <tr class="separator:ac7a67afb98328043eb4496a60f7c5aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,6 +223,26 @@ Friends</h2></td></tr>
 
 <p><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> the coordinates broker. </p>
 <dl class="section return"><dt>Returns</dt><dd>The coordinates broker </dd></dl>
+
+</div>
+</div>
+<a id="a090017c252577a601d3d3b3029078e31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090017c252577a601d3d3b3029078e31">&#9670;&nbsp;</a></span>accessNumericalSolver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classostk_1_1astro_1_1_numerical_solver.html">NumericalSolver</a> &amp; ostk::astro::trajectory::Propagator::accessNumericalSolver </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classostk_1_1astro_1_1_access.html" title="Object-to-object visibility.">Access</a> the numerical solver. </p>
+<dl class="section return"><dt>Returns</dt><dd>The numerical solver </dd></dl>
 
 </div>
 </div>

@@ -16,9 +16,11 @@ var classostk_1_1astro_1_1_numerical_solver =
       [ "RungeKuttaDopri5", "classostk_1_1astro_1_1_numerical_solver.html#afb80f81b2c3cc1d356b0b4749e45b947a3203013d28f8e40a899ed45ede9ad149", null ]
     ] ],
     [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html#a7ee8408e552fdf6173d9315c0e382359", null ],
+    [ "accessObservedStates", "classostk_1_1astro_1_1_numerical_solver.html#aa5e28f28884a156f9944eab0cc6511e0", null ],
     [ "clone", "classostk_1_1astro_1_1_numerical_solver.html#a5b96baffe23b77c14046e4fb7ffc89a1", null ],
     [ "getAbsoluteTolerance", "classostk_1_1astro_1_1_numerical_solver.html#a0f768255c5f2f51f395e4515db245930", null ],
     [ "getLogType", "classostk_1_1astro_1_1_numerical_solver.html#ad0403195d44325cc71a8a19359640329", null ],
+    [ "getObservedStates", "classostk_1_1astro_1_1_numerical_solver.html#a6bd1748db7eeeef1365a31d0e4ef9bc9", null ],
     [ "getRelativeTolerance", "classostk_1_1astro_1_1_numerical_solver.html#acdd27776ff2d4fca2bb6cb4fbb94b547", null ],
     [ "getRootSolver", "classostk_1_1astro_1_1_numerical_solver.html#a22102966485304b7fad6c0dd793362c0", null ],
     [ "getStepperType", "classostk_1_1astro_1_1_numerical_solver.html#adb327bb6a9dc0fc4ab8fca57030b51e6", null ],
