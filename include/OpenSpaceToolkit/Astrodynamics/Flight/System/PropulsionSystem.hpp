@@ -162,7 +162,7 @@ class PropulsionSystem
         {0},
         Angle::Unit::Undefined,
         {0}
-    )); // TBI: Define in ostk physics as proper units
+    ));  // TBI: Define in ostk physics as proper units
 
     Scalar thrust_ = Scalar::Undefined();           /// Thrust [N]
     Scalar specificImpulse_ = Scalar::Undefined();  /// Specific impulse [s]

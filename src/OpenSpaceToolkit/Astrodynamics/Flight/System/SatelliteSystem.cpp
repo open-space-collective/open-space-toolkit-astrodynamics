@@ -126,7 +126,14 @@ PropulsionSystem SatelliteSystem::getPropulsionSystem() const
 
 SatelliteSystem SatelliteSystem::Undefined()
 {
-    return {Mass::Undefined(), Composite::Undefined(), Matrix3d::Zero(), Real::Undefined(), Real::Undefined(), PropulsionSystem::Undefined()};
+    return {
+        Mass::Undefined(),
+        Composite::Undefined(),
+        Matrix3d::Zero(),
+        Real::Undefined(),
+        Real::Undefined(),
+        PropulsionSystem::Undefined()
+    };
 }
 
 }  // namespace system

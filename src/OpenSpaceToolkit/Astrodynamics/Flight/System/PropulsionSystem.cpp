@@ -99,7 +99,10 @@ Scalar PropulsionSystem::getAcceleration(const Mass& aMass) const
         throw ostk::core::error::runtime::Undefined("PropulsionSystem");
     }
 
-    return {thrust_.getValue() / aMass.inKilograms(), Unit::Derived(Derived::Unit::Acceleration(Length::Unit::Meter, Time::Unit::Second))};
+    return {
+        thrust_.getValue() / aMass.inKilograms(),
+        Unit::Derived(Derived::Unit::Acceleration(Length::Unit::Meter, Time::Unit::Second))
+    };
 }
 
 PropulsionSystem PropulsionSystem::Undefined()

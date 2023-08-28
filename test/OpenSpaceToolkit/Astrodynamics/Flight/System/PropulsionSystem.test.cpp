@@ -5,8 +5,8 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
-#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
@@ -72,15 +72,12 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::t
         thrust_ = Scalar(0.01, thrustSIUnit);
         specificImpulse_ = Scalar(100.0, specificImpulseSIUnit);
 
-        propulsionSystem_ = {
-            thrust_, specificImpulse_
-        };
+        propulsionSystem_ = {thrust_, specificImpulse_};
     }
 
     Scalar thrust_ = Scalar::Undefined();
     Scalar specificImpulse_ = Scalar::Undefined();
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
-
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructor)
@@ -201,7 +198,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetSpecifi
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetMassFlowRate)
 {
     {
-        const Scalar massFlowRate = {propulsionSystem_.getThrust().getValue() / (propulsionSystem_.getSpecificImpulse().getValue() * Earth::gravityConstant), massFlowRateSIUnit};
+        const Scalar massFlowRate = {
+            propulsionSystem_.getThrust().getValue() /
+                (propulsionSystem_.getSpecificImpulse().getValue() * Earth::gravityConstant),
+            massFlowRateSIUnit
+        };
         EXPECT_TRUE(propulsionSystem_.getMassFlowRate() == massFlowRate);
     }
 }
