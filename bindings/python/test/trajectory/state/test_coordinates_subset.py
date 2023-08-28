@@ -38,3 +38,6 @@ class TestCoordinatesSubset:
 
     def test_get_size(self, coordinates_subset: CoordinatesSubset, size: int):
         assert coordinates_subset.get_size() == size
+
+    def test_mass(self):
+        assert CoordinatesSubset.mass() is not None

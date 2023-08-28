@@ -124,6 +124,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
             arg("coordinate_broker")
         )
 
+        .def_static("mass", &CoordinatesSubset::Mass)
+
         ;
 
     // Create "coordinates_subset" python submodule
