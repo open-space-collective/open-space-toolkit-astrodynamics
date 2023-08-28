@@ -29,7 +29,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
-/// @brief                      Local orbital reference frame
+/// @brief                      Local orbital frame factory
 ///
 /// @note                       Implementation heavily inspired by (the great!)
 /// https://www.orekit.org/static/apidocs/org/orekit/frames/LocalOrbitalFrameFactory.html
@@ -45,13 +45,14 @@ class LocalOrbitalFrameFactory
 
     static Shared<const LocalOrbitalFrameFactory> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType,
-        const Shared<const Frame>& aParentFrame);
+        const Shared<const Frame>& aParentFrame
+    );
 
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
    private:
-    LocalOrbitalFrameTransformProvider::Type type_;
-    Shared<const Frame> parentFrame_;
+    Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_;
+    Shared<const Frame> parentFrameSPtr_;
 
     LocalOrbitalFrameFactory(
         const LocalOrbitalFrameTransformProvider::Type& aType,
@@ -61,7 +62,8 @@ class LocalOrbitalFrameFactory
     String generateFrameName(
         const Instant& anInstant,
         const Vector3d& aPosition,
-        const Vector3d& aVelocity);
+        const Vector3d& aVelocity
+    );
 };
 
 }  // namespace coord

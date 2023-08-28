@@ -1,7 +1,11 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
+
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
+#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
@@ -12,21 +16,60 @@ namespace astro
 namespace trajectory
 {
 
-static Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
-    const LocalOrbitalFrameTransformProvider::Type& aType,
-    const Instant& anInstant,
-    const Vector3d& aPosition,
-    const Vector3d& aVelocity
+using ostk::math::geom::d3::trf::rot::RotationMatrix;
+using ostk::math::geom::d3::trf::rot::Quaternion;
+
+using ostk::physics::coord::Vector3d;
+using ostk::physics::coord::frame::Transform;
+using ostk::physics::coord::Position;
+using ostk::physics::coord::Velocity;
+
+LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const LocalOrbitalFrameTransformProvider::Type& aType, const LocalOrbitalFrameTransformProvider::Generator& aGenerator)
+    : type_(aType),
+      generator_(aGenerator)
+{
+}
+
+Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvider::Construct(
+    const LocalOrbitalFrameTransformProvider::Type& aType
 )
 {
-    const Transform transform = generateTransform(
-        aType,
-        anInstant,
-        aPosition,
-        aVelocity
-    );
+    LocalOrbitalFrameTransformProvider::Generator generator;
 
-    return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(transform));
+    switch (aType)
+    {
+        case LocalOrbitalFrameTransformProvider::Type::VNC:
+
+            generator = [](const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity) -> Transform
+            {
+                // TBI: Check reference frame
+                // TBI: Refine to use coordinates straight away
+                const Vector3d transformPosition = -aPosition.getCoordinates();
+                const Vector3d transformVelocity = -aVelocity.getCoordinates();
+                const Vector3d xAxis = aPosition.getCoordinates().normalized();
+                const Vector3d yAxis = aPosition.getCoordinates().cross(aPosition.getCoordinates()).normalized();
+                const Vector3d zAxis = xAxis.cross(yAxis);
+                const Quaternion transformOrientation = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+                const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0}; // TBD
+
+                return {
+                    anInstant,
+                    transformPosition,
+                    transformVelocity,
+                    transformOrientation,
+                    transformAngularVelocity,
+                    Transform::Type::Passive
+                };
+
+            };
+
+        default:
+            throw ostk::core::error::runtime::ToBeImplemented("Generate Transform");
+            break;
+
+    };
+
+    return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(aType, generator));
 }
 
 LocalOrbitalFrameTransformProvider::~LocalOrbitalFrameTransformProvider() {}
@@ -38,22 +81,32 @@ LocalOrbitalFrameTransformProvider* LocalOrbitalFrameTransformProvider::clone() 
 
 bool LocalOrbitalFrameTransformProvider::isDefined() const
 {
-    return !!transform_;
+    return !!generator_;
 }
 
-Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant) const
+LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameTransformProvider::getType() const
 {
-    // This is only optional, we can allow it if we want to support "frozen lof concept".
-    if (anInstant != transform_.getInstant()) {
-        throw ostk::core::error::runtime::Wrong("Instant");
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame transform provider");
     }
 
-    return transform_;
+    return type_;
 }
 
-LocalOrbitalFrameTransformProvider LocalOrbitalFrameTransformProvider::Undefined()
+Transform LocalOrbitalFrameTransformProvider::getTransformAt([[maybe_unused]] const Instant& anInstant) const
 {
-    return {{}};
+    throw ostk::core::error::runtime::Wrong("Get Transform At on Local Orbital Frame Transform Provider requires Position and Velocity input");
+}
+
+Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame transform provider");
+    }
+
+    return generator_(anInstant, aPosition, aVelocity);
 }
 
 String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFrameTransformProvider::Type& aType)
@@ -91,40 +144,6 @@ String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFram
 
     return String::Empty();
 }
-
-LocalOrbitalFrameTransformProvider::LocalOrbitalFrameTransformProvider(const Transform& aTransform)
-    : transform_(aTransform)
-{
-}
-
-static Transform LocalOrbitalFrameTransformProvider::generateTransform(
-    const LocalOrbitalFrameTransformProvider::Type& aType,
-    const Instant& anInstant,
-    const Vector3d& aPosition,
-    const Vector3d& aVelocity)
-{
-    switch (aType)
-    {
-        case LocalOrbitalFrameTransformProvider::Type::VNC:
-            const Vector3d transformPosition = -aPosition;
-            const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aPosition.normalized();
-            const Vector3d yAxis = aPosition.cross(aPosition).normalized();
-            const Vector3d zAxis = xAxis.cross(yAxis);
-            const Quaternion transformOrientation = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
-            const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0}; // TBD
-            return {
-                anInstant,
-                transformPosition,
-                transformVelocity,
-                transformOrientation,
-                transformAngularVelocity
-            };
-
-        default:
-            throw ostk::core::error::runtime::ToBeImplemented("Generate Transform")
-    }
-};
 
 }  // namespace trajectory
 }  // namespace astro
