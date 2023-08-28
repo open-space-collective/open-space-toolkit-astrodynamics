@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693249291811,
+  "lastUpdate": 1693252161993,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -360,6 +360,60 @@ window.BENCHMARK_DATA = {
             "value": 4930214636.900007,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4929468599.999995 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1c27e38f0f8db6830f3b56a4e98cd1671102db7a",
+          "message": "refactor: CoordinateSubset class and methods (#196)\n\n* feat: add Invariant coordinatesSubset\r\n\r\n* test: add unit tests for Invariant\r\n\r\n* wip: attempt at removing Invariant\r\n\r\n* feat: include broker in subset.cpp\r\n\r\n* test: add tests for invariant subsets and remove explicit add/subtrac… (#202)\r\n\r\ntest: add tests for invariant subsets and remove explicit add/subtract definition from cartesian position/velocity\r\n\r\n* chore: unit test Mass constructor\r\n\r\n* test: improve tests with feedback\r\n\r\n* chore: style cpp and python\r\n\r\n* docs: improve coordinatesSubset documentation on default ops\r\n\r\n---------\r\n\r\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>\r\nCo-authored-by: kyle-cochran <kyle.ray.cochran@gmail.com>",
+          "timestamp": "2023-08-28T12:16:21-07:00",
+          "tree_id": "1d2b57cf174e6114af9df897c86301139bdff0fc",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/1c27e38f0f8db6830f3b56a4e98cd1671102db7a"
+        },
+        "date": 1693252160953,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 709368231.3000016,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 709292489.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1575911600.3000002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1575737979.9999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4135862968.300006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4135214430 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4125661665.200016,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4125322260.0000014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4134643782.399991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4132970059.9999986 ns\nthreads: 1"
           }
         ]
       }
