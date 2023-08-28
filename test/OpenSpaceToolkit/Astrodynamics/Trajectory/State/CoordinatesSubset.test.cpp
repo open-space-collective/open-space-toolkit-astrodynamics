@@ -31,7 +31,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset : public
         std::make_shared<CoordinatesSubset>(defaultCoordinateSubset_)
     };
 
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(defaultCoordinateSubsets_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Constructor)
