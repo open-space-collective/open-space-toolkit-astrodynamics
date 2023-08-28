@@ -32,7 +32,7 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::Unit;
 
-/// @brief                      Define a propulsion system
+/// @brief                      Define a propulsion system (constant thrust, constant Isp for now)
 
 class PropulsionSystem
 {
@@ -43,21 +43,10 @@ class PropulsionSystem
     ///                     PropulsionSystem propulsion = { ... };
     /// @endcode
     ///
-    /// @param              [in] aThruster Thruster (scalar)
+    /// @param              [in] aThrust Thrust (scalar)
     /// @param              [in] aSpecificImpulse Specific impulse
 
-    PropulsionSystem(const Scalar& aThruster, const Scalar& aSpecificImpulse);
-
-    /// @brief              Constructor
-    ///
-    /// @code
-    ///                     PropulsionSystem propulsion = { ... };
-    /// @endcode
-    ///
-    /// @param              [in] aThruster Thruster (real)
-    /// @param              [in] aSpecificImpulse Specific impulse
-
-    PropulsionSystem(const Real& aThruster, const Real& aSpecificImpulse);
+    PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecificImpulse);
 
     /// @brief              Equal to operator
     ///
@@ -128,12 +117,12 @@ class PropulsionSystem
     /// @brief              Get propulsion system's acceleration
     ///
     /// @code
-    ///                     Real acceleration = propulsionSystem.getAcceleration() ;
+    ///                     Scalar acceleration = propulsionSystem.getAcceleration() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return             Scalar
 
-    Real getAcceleration(const Mass& aMass) const; // TBI: Should return acceleration unit
+    Scalar getAcceleration(const Mass& aMass) const;
 
     static PropulsionSystem Undefined();
 
@@ -173,10 +162,11 @@ class PropulsionSystem
         {0},
         Angle::Unit::Undefined,
         {0}
-    ));
+    )); // TBI: Define in ostk physics as proper units
 
-    Scalar thrust_ = Scalar::Undefined();           /// Thruster [N]
+    Scalar thrust_ = Scalar::Undefined();           /// Thrust [N]
     Scalar specificImpulse_ = Scalar::Undefined();  /// Specific impulse [s]
+    Scalar massFlowRate_ = Scalar::Undefined();     /// Mass flow rate [kg/s]
 };
 
 }  // namespace system

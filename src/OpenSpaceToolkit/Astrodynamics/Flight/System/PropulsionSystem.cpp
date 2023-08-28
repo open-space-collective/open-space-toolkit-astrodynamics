@@ -3,6 +3,8 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
 namespace ostk
@@ -14,15 +16,12 @@ namespace flight
 namespace system
 {
 
-PropulsionSystem::PropulsionSystem(const Scalar& aThruster, const Scalar& aSpecificImpulse)
-    : thrust_(aThruster),
-      specificImpulse_(aSpecificImpulse)
-{
-}
+using ostk::physics::environment::gravitational::Earth;
 
-PropulsionSystem::PropulsionSystem(const Real& aThruster, const Real& aSpecificImpulse)
-    : thrust_({aThruster, thrustSIUnit_}),
-      specificImpulse_({aSpecificImpulse, specificImpulseSIUnit_})
+PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecificImpulse)
+    : thrust_(aThrust),
+      specificImpulse_(aSpecificImpulse),
+      massFlowRate_({aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit_})
 {
 }
 
@@ -90,19 +89,17 @@ Scalar PropulsionSystem::getMassFlowRate() const
         throw ostk::core::error::runtime::Undefined("PropulsionSystem");
     }
 
-    return {
-        thrust_.getValue() / (specificImpulse_.getValue() * 9.80665),
-        massFlowRateSIUnit_};  // TBM: Replace with gravity constant
+    return massFlowRate_;
 }
 
-Real PropulsionSystem::getAcceleration(const Mass& aMass) const  // Should be using Scalar
+Scalar PropulsionSystem::getAcceleration(const Mass& aMass) const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("PropulsionSystem");
     }
 
-    return thrust_.getValue() / aMass.inKilograms();
+    return {thrust_.getValue() / aMass.inKilograms(), Unit::Derived(Derived::Unit::Acceleration(Length::Unit::Meter, Time::Unit::Second))};
 }
 
 PropulsionSystem PropulsionSystem::Undefined()
