@@ -357,6 +357,12 @@ format: ## Run formatting
 
 format-cpp: build-development-image ## Format all of the source code with the rules in .clang-format
 
+	@ $(MAKE) format-cpp-standalone
+
+.PHONY: format
+
+format-cpp-standalone:
+
 	docker run \
 		--rm \
 		--user="$(shell id -u):$(shell id -g)" \
@@ -365,9 +371,15 @@ format-cpp: build-development-image ## Format all of the source code with the ru
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-format-cpp
 
-.PHONY: format
+.PHONY: format-cpp-standalone
 
 format-python: build-development-image ## Run the black format tool against python code
+
+	@ $(MAKE) format-python-standalone
+
+.PHONY: format-python
+
+format-python-standalone:
 
 	docker run \
 		--rm \
@@ -376,7 +388,7 @@ format-python: build-development-image ## Run the black format tool against pyth
 		$(docker_development_image_repository):$(docker_image_version) \
 		ostk-format-python
 
-.PHONY: format-python
+.PHONY: format-python-standalone
 
 format-check: ## Run format checking
 
