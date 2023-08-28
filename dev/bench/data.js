@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693252161993,
+  "lastUpdate": 1693258840217,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -414,6 +414,60 @@ window.BENCHMARK_DATA = {
             "value": 4134643782.399991,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4132970059.9999986 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "9dde83918d23cf05db5785c461651cef30a902ab",
+          "message": "feat: add compute virtual method to Event Condition (#193)\n\n* feat: add a compute method to eventCondition class\r\n\r\n* style: format\r\n\r\n* feat: fix tests\r\n\r\n* feat: fix python tests\r\n\r\n* fix: single unit test on conditions\r\n\r\n* feat: Address Pau's feedback\r\n\r\n* refactor: pau's suggestions (#201)\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\r\n\r\n* feat: add bindings, tests, and fix from suggestions\r\n\r\n* feat: Address Pau's feedback\r\n\r\n---------\r\n\r\nCo-authored-by: vishwa shah <vishwa@loftorbital.com>\r\nCo-authored-by: Remy Derollez <remy@loftorbital.com>\r\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2023-08-28T14:03:24-07:00",
+          "tree_id": "7ea61851371f1efcca97f8c29b22e796586ca95b",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/9dde83918d23cf05db5785c461651cef30a902ab"
+        },
+        "date": 1693258839194,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 1035949288.9000022,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1035582250.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1939464855.7000039,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1939123069.9999993 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 6247115758.600006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6246212659.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 6202138578.099999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6200878389.999997 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 6226550227.100006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 6225410149.999996 ns\nthreads: 1"
           }
         ]
       }
