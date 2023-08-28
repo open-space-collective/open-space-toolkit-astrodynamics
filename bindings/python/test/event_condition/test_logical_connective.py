@@ -9,8 +9,10 @@ from ostk.astrodynamics.event_condition import LogicalConnective
 @pytest.fixture
 def event_condition() -> EventCondition:
     class MyCondition(EventCondition):
-        def evaluate(self, state_vector, time):
-            return time
+        def is_satisfied(
+            self, current_state_vector, current_time, previous_state_vector, previous_time
+        ):
+            return True
 
     return MyCondition("My Condition", EventCondition.Criteria.StrictlyNegative)
 

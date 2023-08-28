@@ -36,6 +36,11 @@ EventCondition::Criteria EventCondition::getCriteria() const
     return criteria_;
 }
 
+std::function<bool(const Real&, const Real&)> EventCondition::getComparator() const
+{
+    return comparator_;
+}
+
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
@@ -44,24 +49,6 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     ostk::core::utils::Print::Line(anOutputStream) << "Criteria:" << StringFromCriteria(getCriteria());
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-bool EventCondition::isSatisfied(const Real& currentValue, const Real& previousValue) const
-{
-    return comparator_(currentValue, previousValue);
-}
-
-bool EventCondition::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
-{
-    const Real currentValue = evaluate(currentStateVector, currentTime);
-    const Real previousValue = evaluate(previousStateVector, previousTime);
-
-    return comparator_(currentValue, previousValue);
 }
 
 String EventCondition::StringFromCriteria(const Criteria& aCriteria)
@@ -98,16 +85,14 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
     switch (aCriteria)
     {
         case EventCondition::Criteria::StrictlyPositive:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)previousValue;
                 return (currentValue > 0.0);
             };
 
         case EventCondition::Criteria::StrictlyNegative:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)previousValue;
                 return (currentValue < 0.0);
             };
 
@@ -130,11 +115,8 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
             };
 
         case EventCondition::Criteria::Undefined:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return []([[maybe_unused]] const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)currentValue;
-                (void)previousValue;
-
                 throw ostk::core::error::runtime::Undefined("Comparator");
 
                 return false;

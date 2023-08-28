@@ -105,3 +105,8 @@ def test_trajectory_orbit_models_kepler_coe_static_methods():
     assert (
         COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
     )
+
+
+def test_string_from_element():
+    element_str = COE.string_from_element(COE.Element.SemiMajorAxis)
+    assert element_str == "SemiMajorAxis"

@@ -17,6 +17,8 @@
 
 using ostk::core::types::Real;
 using ostk::core::types::String;
+using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Tuple;
 
 using ostk::math::obj::Vector3d;
 
@@ -628,5 +630,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Eccentri
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(Angle::Undefined(), eccentricity, tolerance));
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, Real::Undefined(), tolerance));
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, Real::Undefined()));
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StringFromElement)
+{
+    const Array<Tuple<COE::Element, String>> testCases = {
+        {COE::Element::SemiMajorAxis, "SemiMajorAxis"},
+        {COE::Element::Eccentricity, "Eccentricity"},
+        {COE::Element::Inclination, "Inclination"},
+        {COE::Element::Aop, "Aop"},
+        {COE::Element::Raan, "Raan"},
+        {COE::Element::TrueAnomaly, "TrueAnomaly"},
+        {COE::Element::MeanAnomaly, "MeanAnomaly"},
+        {COE::Element::EccentricAnomaly, "EccentricAnomaly"},
+    };
+
+    for (const auto& testCase : testCases)
+    {
+        const COE::Element element = std::get<0>(testCase);
+        const String& expectedString = std::get<1>(testCase);
+
+        EXPECT_EQ(COE::StringFromElement(element), expectedString);
     }
 }

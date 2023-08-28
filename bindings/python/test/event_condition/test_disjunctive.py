@@ -2,42 +2,43 @@
 
 import pytest
 
-from ostk.astrodynamics import EventCondition
-from ostk.astrodynamics.event_condition import Disjunctive
+from ostk.astrodynamics.event_condition import Disjunctive, RealEventCondition
 
 
 @pytest.fixture
-def first_condition() -> EventCondition:
-    class FirstCondition(EventCondition):
-        def evaluate(self, state_vector, time):
-            return state_vector[0]
-
-    return FirstCondition("First Condition", EventCondition.Criteria.PositiveCrossing)
+def first_condition() -> RealEventCondition:
+    return RealEventCondition(
+        "First Condition",
+        RealEventCondition.Criteria.PositiveCrossing,
+        lambda state_vector, time: state_vector[0],
+        0.0,
+    )
 
 
 @pytest.fixture
-def second_condition() -> EventCondition:
-    class SecondCondition(EventCondition):
-        def evaluate(self, state_vector, time):
-            return state_vector[1] - 0.1
-
-    return SecondCondition("Second condition", EventCondition.Criteria.StrictlyNegative)
+def second_condition() -> RealEventCondition:
+    return RealEventCondition(
+        "Second condition",
+        RealEventCondition.Criteria.StrictlyNegative,
+        lambda state_vector, time: state_vector[1],
+        0.1,
+    )
 
 
 @pytest.fixture
 def event_conditions(
-    first_condition: EventCondition, second_condition: EventCondition
-) -> list[EventCondition]:
+    first_condition: RealEventCondition, second_condition: RealEventCondition
+) -> list[RealEventCondition]:
     return [first_condition, second_condition]
 
 
 @pytest.fixture
-def disjunction_condition(event_conditions: list[EventCondition]) -> Disjunctive:
+def disjunction_condition(event_conditions: list[RealEventCondition]) -> Disjunctive:
     return Disjunctive(event_conditions)
 
 
 class TestDisjunctiveCondition:
-    def test_constructor(self, event_conditions: list[EventCondition]):
+    def test_constructor(self, event_conditions: list[RealEventCondition]):
         assert Disjunctive(event_conditions) is not None
 
     def test_is_satisfied(self, disjunction_condition: Disjunctive):

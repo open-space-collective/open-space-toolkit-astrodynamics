@@ -2,11 +2,13 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanEventCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Conjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Disjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalConnective.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealEventCondition.cpp>
 
 using namespace pybind11;
 
@@ -26,11 +28,6 @@ class PyEventCondition : public EventCondition
 
     // Trampoline (need one for each virtual function)
 
-    bool isSatisfied(const Real& currentValue, const Real& previousValue) const override
-    {
-        PYBIND11_OVERRIDE(bool, EventCondition, isSatisfied, currentValue, previousValue);
-    }
-
     bool isSatisfied(
         const VectorXd& currentStateVector,
         const Real& currentTime,
@@ -38,14 +35,16 @@ class PyEventCondition : public EventCondition
         const Real& previousTime
     ) const override
     {
-        PYBIND11_OVERRIDE(
-            bool, EventCondition, isSatisfied, currentStateVector, currentTime, previousStateVector, previousTime
+        PYBIND11_OVERRIDE_PURE_NAME(
+            bool,
+            EventCondition,
+            "is_satisfied",
+            isSatisfied,
+            currentStateVector,
+            currentTime,
+            previousStateVector,
+            previousTime
         );
-    }
-
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
-    {
-        PYBIND11_OVERRIDE_PURE(Real, EventCondition, evaluate, aStateVector, aTime);
     }
 };
 
@@ -63,27 +62,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
             .def("__str__", &(shiftToString<EventCondition>))
             .def("__repr__", &(shiftToString<EventCondition>))
 
+            .def("get_name", &EventCondition::getName)
+            .def("get_criteria", &EventCondition::getCriteria)
+
             .def(
                 "is_satisfied",
-                overload_cast<const Real&, const Real&>(&EventCondition::isSatisfied, const_),
-                arg("current_value"),
-                arg("previous_value")
-            )
-            .def(
-                "is_satisfied",
-                overload_cast<const VectorXd&, const Real&, const VectorXd&, const Real&>(
-                    &EventCondition::isSatisfied, const_
-                ),
+                &EventCondition::isSatisfied,
                 arg("current_state_vector"),
                 arg("current_time"),
                 arg("previous_state_vector"),
                 arg("previous_time")
             )
-
-            .def("get_name", &EventCondition::getName)
-            .def("get_criteria", &EventCondition::getCriteria)
-
-            .def("evaluate", &EventCondition::evaluate, arg("state_vector"), arg("time"))
 
             .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"))
 
@@ -107,6 +96,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     // Add __path__ attribute for "event_condition" submodule
     event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealEventCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanEventCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(event_condition);

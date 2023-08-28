@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <gmock/gmock.h>
+
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -24,12 +26,15 @@ class TestCondition : public EventCondition
     {
     }
 
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
-    {
-        (void)aStateVector;
-        (void)aTime;
-        return 5.0;
-    }
+    MOCK_METHOD(
+        bool,
+        isSatisfied,
+        (const VectorXd& currentStateVector,
+         const Real& currentTime,
+         const VectorXd& previousStateVector,
+         const Real& previousTime),
+        (const, override)
+    );
 };
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
@@ -37,6 +42,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test
    protected:
     const EventCondition::Criteria defaultCriteria_ = EventCondition::Criteria::PositiveCrossing;
     const String defaultName_ = "Test";
+    const TestCondition defaultCondition_ = {defaultName_, defaultCriteria_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
@@ -49,11 +55,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Constructor)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StreamOperator)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << testCondition << std::endl);
+        EXPECT_NO_THROW(std::cout << defaultCondition_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -62,12 +66,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, StreamOperator)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Print)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(testCondition.print(std::cout, true));
-        EXPECT_NO_THROW(testCondition.print(std::cout, false));
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
@@ -75,69 +77,87 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getName)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
-        EXPECT_TRUE(testCondition.getName() == defaultName_);
+        EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getCriteria)
 {
     {
-        TestCondition testCondition(defaultName_, defaultCriteria_);
-
-        EXPECT_TRUE(testCondition.getCriteria() == defaultCriteria_);
+        EXPECT_TRUE(defaultCondition_.getCriteria() == defaultCriteria_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, isSatisfied)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, getComparator)
+{
+    {
+        EXPECT_NO_THROW(defaultCondition_.getComparator());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, comparator)
 {
     // Positive Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::PositiveCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::PositiveCrossing,
+        };
 
-        EXPECT_TRUE(testCondition.isSatisfied(5.0, -4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Negative Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::NegativeCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::NegativeCrossing,
+        };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, -4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Any Crossing
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::AnyCrossing);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::AnyCrossing,
+        };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_FALSE(testCondition.isSatisfied(3.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, 3.0));
+        EXPECT_TRUE(testCondition.getComparator()(-5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, -4.0));
+        EXPECT_FALSE(testCondition.getComparator()(3.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, 3.0));
     }
 
     // Strictly Positive (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyPositive);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::StrictlyPositive,
+        };
 
-        EXPECT_TRUE(testCondition.isSatisfied(5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(-5.0, 5.0));
+        EXPECT_TRUE(testCondition.getComparator()(5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(-5.0, 5.0));
     }
 
     // Strictly Negative (previous value doesn't matter)
     {
-        TestCondition testCondition(defaultName_, EventCondition::Criteria::StrictlyNegative);
+        TestCondition testCondition = {
+            defaultName_,
+            EventCondition::Criteria::StrictlyNegative,
+        };
 
-        EXPECT_TRUE(testCondition.isSatisfied(-5.0, 4.0));
-        EXPECT_TRUE(testCondition.isSatisfied(-4.0, 5.0));
-        EXPECT_FALSE(testCondition.isSatisfied(5.0, -5.0));
+        EXPECT_TRUE(testCondition.getComparator()(-5.0, 4.0));
+        EXPECT_TRUE(testCondition.getComparator()(-4.0, 5.0));
+        EXPECT_FALSE(testCondition.getComparator()(5.0, -5.0));
     }
 }
 

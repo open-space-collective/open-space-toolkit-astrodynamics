@@ -21,22 +21,6 @@ Array<Shared<EventCondition>> LogicalConnective::getEventConditions() const
     return eventConditions_;
 }
 
-bool LogicalConnective::isSatisfied(const Real& currentValue, const Real& previousValue) const
-{
-    (void)currentValue;
-    (void)previousValue;
-
-    throw ostk::core::error::runtime::Undefined("LogicalConnective::isSatisfied");
-}
-
-Real LogicalConnective::evaluate(const VectorXd& aStateVector, const Real& aTime) const
-{
-    (void)aStateVector;
-    (void)aTime;
-
-    throw ostk::core::error::runtime::Undefined("LogicalConnective::evaluate");
-}
-
 }  // namespace eventcondition
 }  // namespace astro
 }  // namespace ostk

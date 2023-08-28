@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/Conjunctive.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/Disjunctive.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -25,47 +26,45 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::eventcondition::Conjunctive;
 using ostk::astro::eventcondition::Disjunctive;
 using ostk::astro::NumericalSolver;
 
 // Simple duration based condition
 
-struct DurationCondition : public EventCondition
+struct DurationCondition : public RealEventCondition
 {
-    DurationCondition(const Real &aTarget, const EventCondition::Criteria &aCriteria)
-        : EventCondition("test", aCriteria),
-          target_(aTarget)
+    DurationCondition(const Real &aTarget, const RealEventCondition::Criteria &aCriteria)
+        : RealEventCondition(
+              "test",
+              aCriteria,
+              []([[maybe_unused]] const VectorXd &aStateVector, const Real &aTime) -> Real
+              {
+                  return aTime;
+              },
+              aTarget
+          )
     {
     }
-
-    Real evaluate(const VectorXd &stateVector, const Real &aTime) const override
-    {
-        (void)stateVector;
-        return aTime - target_;
-    }
-
-    Real target_;
 };
 
-// Simple value based struct
+// Simple state based condition
 
-struct XCrossingCondition : public EventCondition
+struct XCrossingCondition : public RealEventCondition
 {
     XCrossingCondition(const Real &aTarget)
-        : EventCondition("test", XCrossingCondition::Criteria::AnyCrossing),
-          target_(aTarget)
+        : RealEventCondition(
+              "test",
+              RealEventCondition::Criteria::AnyCrossing,
+              [](const VectorXd &aStateVector, [[maybe_unused]] const double &aTime) -> Real
+              {
+                  return aStateVector[0];
+              },
+              aTarget
+          )
     {
     }
-
-    Real evaluate(const VectorXd &aStateVector, const Real &aTime) const
-    {
-        (void)aTime;
-        return aStateVector[0] - target_;
-    }
-
-    Real target_;
 };
 
 class OpenSpaceToolkit_Astrodynamics_NumericalSolver : public ::testing::Test
@@ -616,7 +615,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
                         defaultStateVector_,
                         defaultDuration_,
                         systemOfEquations_,
-                        DurationCondition(0.0, EventCondition::Criteria::StrictlyPositive)
+                        DurationCondition(0.0, RealEventCondition::Criteria::StrictlyPositive)
                     );
                 }
                 catch (const ostk::core::error::runtime::ToBeImplemented &e)
@@ -638,7 +637,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             defaultStateVector_,
             0.0,
             systemOfEquations_,
-            DurationCondition(0.0, EventCondition::Criteria::StrictlyPositive)
+            DurationCondition(0.0, RealEventCondition::Criteria::StrictlyPositive)
         );
         const NumericalSolver::Solution solution = conditionSolution.solution;
 
@@ -654,7 +653,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             defaultStateVector_,
             5.0,
             systemOfEquations_,
-            DurationCondition(-1.0, EventCondition::Criteria::StrictlyPositive)
+            DurationCondition(-1.0, RealEventCondition::Criteria::StrictlyPositive)
         );
         const NumericalSolver::Solution solution = conditionSolution.solution;
 
@@ -666,15 +665,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
     }
 
     {
-        const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
-            {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
-            {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
+        const Array<Tuple<Real, RealEventCondition::Criteria>> testCases = {
+            {defaultDuration_, RealEventCondition::Criteria::StrictlyPositive},
+            {-defaultDuration_, RealEventCondition::Criteria::StrictlyNegative},
         };
 
         for (const auto &testCase : testCases)
         {
             const Real duration = std::get<0>(testCase);
-            const EventCondition::Criteria criteria = std::get<1>(testCase);
+            const RealEventCondition::Criteria criteria = std::get<1>(testCase);
             // Ensure that integration terminates at maximum duration if condition is not met
 
             {
@@ -702,7 +701,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_NEAR(propagatedTime, condition.target_, 1e-6);
+            EXPECT_NEAR(propagatedTime, condition.getTarget(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
@@ -736,7 +735,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateDuration_Conditi
             // Ensure that integration terminates at condition if condition is met
 
             EXPECT_TRUE(std::abs(propagatedTime) < std::abs(duration));
-            EXPECT_NEAR(propagatedTime, std::asin(condition.target_), 1e-6);
+            EXPECT_NEAR(propagatedTime, std::asin(condition.getTarget()), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
@@ -755,15 +754,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
     const NumericalSolver::StateVector stateVector = getStateVector(startTime);
 
     {
-        const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
-            {defaultDuration_, EventCondition::Criteria::AnyCrossing},
-            {-defaultDuration_, EventCondition::Criteria::AnyCrossing},
+        const Array<Tuple<Real, RealEventCondition::Criteria>> testCases = {
+            {defaultDuration_, RealEventCondition::Criteria::AnyCrossing},
+            {-defaultDuration_, RealEventCondition::Criteria::AnyCrossing},
         };
 
         for (const auto &testCase : testCases)
         {
             const Real duration = std::get<0>(testCase);
-            const EventCondition::Criteria criteria = std::get<1>(testCase);
+            const RealEventCondition::Criteria criteria = std::get<1>(testCase);
 
             const Real endTime = startTime + duration;
 
@@ -793,7 +792,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_NEAR(propagatedTime, startTime + condition.target_, 1e-6);
+            EXPECT_NEAR(propagatedTime, startTime + condition.getTarget(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 
@@ -841,15 +840,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conditions)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conjunctive)
 {
-    const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
-        {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
-        {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
+    const Array<Tuple<Real, RealEventCondition::Criteria>> testCases = {
+        {defaultDuration_, RealEventCondition::Criteria::StrictlyPositive},
+        {-defaultDuration_, RealEventCondition::Criteria::StrictlyNegative},
     };
 
     for (const auto testCase : testCases)
     {
         const Real duration = std::get<0>(testCase);
-        const EventCondition::Criteria criteria = std::get<1>(testCase);
+        const RealEventCondition::Criteria criteria = std::get<1>(testCase);
 
         const Real endTime = defaultStartTime_ + duration;
 
@@ -881,15 +880,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Conjunctive
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, IntegrateTime_Disjunctive)
 {
-    const Array<Tuple<Real, EventCondition::Criteria>> testCases = {
-        {defaultDuration_, EventCondition::Criteria::StrictlyPositive},
-        {-defaultDuration_, EventCondition::Criteria::StrictlyNegative},
+    const Array<Tuple<Real, RealEventCondition::Criteria>> testCases = {
+        {defaultDuration_, RealEventCondition::Criteria::StrictlyPositive},
+        {-defaultDuration_, RealEventCondition::Criteria::StrictlyNegative},
     };
 
     for (const auto testCase : testCases)
     {
         const Real duration = std::get<0>(testCase);
-        const EventCondition::Criteria criteria = std::get<1>(testCase);
+        const RealEventCondition::Criteria criteria = std::get<1>(testCase);
 
         const Real endTime = defaultStartTime_ + duration;
 

@@ -35,7 +35,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/DurationCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
@@ -91,7 +91,7 @@ using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::DurationCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
@@ -374,41 +374,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         // Setup instants
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
 
-        class TestCondition : public EventCondition
-        {
-           public:
-            TestCondition(const Real& aTarget)
-                : EventCondition("test", EventCondition::Criteria::StrictlyPositive),
-                  target_(aTarget)
-            {
-            }
-
-            virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override
-            {
-                (void)aStateVector;
-                return aTime - target_;
-            }
-
-           private:
-            Real target_ = Real::Undefined();
-        };
-
         const Real target = 60.0;
 
-        const TestCondition condition(target);
+        const DurationCondition condition = {
+            DurationCondition::Criteria::StrictlyPositive,
+            Duration::Seconds(60.0),
+        };
 
         const Propagator propagator = {defaultRKD5_, defaultDynamics_};
 
         const State endState = propagator.calculateStateAt(state, endInstant, condition);
 
         EXPECT_TRUE(endState.getInstant() < endInstant);
-        EXPECT_NEAR(
-            endState.getInstant().getJulianDate(Scale::UTC),
-            (state.getInstant() + Duration::Seconds(target)).getJulianDate(Scale::UTC),
-            1e-12
-        );
+        EXPECT_LT(endState.getInstant() - (state.getInstant() + Duration::Seconds(target)), 1e-12);
 
-        EXPECT_ANY_THROW(propagator.calculateStateAt(state, endInstant, TestCondition(7000.0)));
+        const DurationCondition failureCondition = {
+            DurationCondition::Criteria::StrictlyPositive,
+            Duration::Seconds(7000.0),
+        };
+
+        EXPECT_ANY_THROW(propagator.calculateStateAt(state, endInstant, failureCondition));
     }
 }
 

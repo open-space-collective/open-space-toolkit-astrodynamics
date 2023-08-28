@@ -8,15 +8,15 @@ using ostk::core::types::Shared;
 
 using ostk::physics::time::Duration;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::eventcondition::DurationCondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(pybind11::module& aModule)
 {
     {
-        class_<DurationCondition, EventCondition, Shared<DurationCondition>>(aModule, "DurationCondition")
+        class_<DurationCondition, RealEventCondition, Shared<DurationCondition>>(aModule, "DurationCondition")
 
-            .def(init<const EventCondition::Criteria&, const Duration&>(), arg("criteria"), arg("duration"))
+            .def(init<const RealEventCondition::Criteria&, const Duration&>(), arg("criteria"), arg("duration"))
 
             .def("get_duration", &DurationCondition::getDuration)
 

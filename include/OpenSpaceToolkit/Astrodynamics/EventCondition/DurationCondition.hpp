@@ -10,7 +10,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 
 namespace ostk
 {
@@ -26,11 +26,11 @@ using ostk::math::obj::VectorXd;
 
 using ostk::physics::time::Duration;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealEventCondition;
 
 /// @brief                      A duration based event condition
 
-class DurationCondition : public EventCondition
+class DurationCondition : public RealEventCondition
 {
    public:
     /// @brief                  Constructor
@@ -53,18 +53,6 @@ class DurationCondition : public EventCondition
     /// @return                 Duration
 
     Duration getDuration() const;
-
-    /// @brief                  Evaluate the Event Condition
-    ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
-    ///
-    /// @return                 Real number representing the evaluation result of the Event Condition
-
-    virtual Real evaluate(const VectorXd& aStateVector, const Real& aTime) const override;
-
-   private:
-    Real durationInSeconds_;
 };
 
 }  // namespace eventcondition
