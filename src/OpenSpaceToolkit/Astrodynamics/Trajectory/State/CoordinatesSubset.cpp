@@ -2,6 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 
 namespace ostk
@@ -52,6 +53,49 @@ String CoordinatesSubset::getName() const
 Size CoordinatesSubset::getSize() const
 {
     return size_;
+}
+
+VectorXd CoordinatesSubset::add(
+    [[maybe_unused]] const Instant& anInstant,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
+    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+) const
+{
+    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) +
+           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
+}
+
+VectorXd CoordinatesSubset::subtract(
+    [[maybe_unused]] const Instant& anInstant,
+    const VectorXd& aFullCoordinatesVector,
+    const VectorXd& anotherFullCoordinatesVector,
+    [[maybe_unused]] const Shared<const Frame>& aFrameSPtr,
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+) const
+{
+    return aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this) -
+           aCoordinatesBrokerSPtr->extractCoordinates(anotherFullCoordinatesVector, *this);
+}
+
+VectorXd CoordinatesSubset::inFrame(
+    [[maybe_unused]] const Instant& anInstant,
+    const VectorXd& aFullCoordinatesVector,
+    [[maybe_unused]] const Shared<const Frame>& fromFrame,
+    [[maybe_unused]] const Shared<const Frame>& toFrame,
+    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+) const
+{
+    VectorXd coordinates = aCoordinatesBrokerSPtr->extractCoordinates(aFullCoordinatesVector, *this);
+
+    return coordinates;
+}
+
+Shared<const CoordinatesSubset> CoordinatesSubset::Mass()
+{
+    static const Shared<const CoordinatesSubset> mass = std::make_shared<CoordinatesSubset>("MASS", 1);
+    return mass;
 }
 
 }  // namespace state

@@ -9,9 +9,11 @@ from ostk.astrodynamics.trajectory.state import CoordinatesSubset
 def name() -> str:
     return "MySubset"
 
+
 @pytest.fixture
 def size() -> int:
     return 3
+
 
 @pytest.fixture
 def coordinates_subset(name: str, size: int) -> CoordinatesSubset:
@@ -37,7 +39,7 @@ class TestCoordinatesSubset:
 
     def test_ne(self, coordinates_subset: CoordinatesSubset):
         assert (coordinates_subset != coordinates_subset) == False
-        
+
     def test_get_id(self, coordinates_subset: CoordinatesSubset):
         assert coordinates_subset.get_id() is not None
 

@@ -40,6 +40,7 @@ class CoordinatesSubset
    public:
     /// @brief              Constructor
     ///
+    ///                     The default CoordinatesSubset instance is frame-invariant and implements element-wise addition/substraction.
     /// @code
     ///                     CoordinateSubset coordinateSubset = {aName, aSize};
     /// @endcode
@@ -99,7 +100,7 @@ class CoordinatesSubset
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
-    ) const = 0;
+    ) const;
 
     /// @brief              Subtract two coordinates subsets
     ///
@@ -117,7 +118,7 @@ class CoordinatesSubset
         const VectorXd& anotherFullCoordinatesVector,
         const Shared<const Frame>& aFrameSPtr,
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
-    ) const = 0;
+    ) const;
 
     /// @brief              Transform the coordinate subset from one frame to another
     ///
@@ -135,7 +136,13 @@ class CoordinatesSubset
         const Shared<const Frame>& fromFrameSPtr,
         const Shared<const Frame>& toFrameSPtr,
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
-    ) const = 0;
+    ) const;
+
+    /// @brief              Return a default Mass instance
+    ///
+    /// @return             The default Mass shared pointer instance
+
+    static Shared<const CoordinatesSubset> Mass();
 
    private:
     String name_;
