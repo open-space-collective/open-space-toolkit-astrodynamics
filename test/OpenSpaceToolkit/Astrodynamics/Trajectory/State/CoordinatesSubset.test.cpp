@@ -150,3 +150,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Subtra
         EXPECT_EQ(expected, actual);
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesSubset, Mass)
+{
+    {
+        EXPECT_NO_THROW(CoordinatesSubset::Mass());
+    }
+}
