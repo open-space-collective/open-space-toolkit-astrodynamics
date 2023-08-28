@@ -17,21 +17,11 @@ def size() -> int:
 
 @pytest.fixture
 def coordinates_subset(name: str, size: int) -> CoordinatesSubset:
-    class MyCoordinatesSubset(CoordinatesSubset):
-        def add(self, **kwargs):
-            return None
-
-        def subtract(self, **kwargs):
-            return None
-
-        def in_frame(self, **kwargs):
-            return None
-
-    return MyCoordinatesSubset(name, size)
+    return CoordinatesSubset(name, size)
 
 
 class TestCoordinatesSubset:
-    def test_subclass(self, coordinates_subset: CoordinatesSubset):
+    def test_constructor(self, coordinates_subset: CoordinatesSubset):
         assert coordinates_subset is not None
 
     def test_eq(self, coordinates_subset: CoordinatesSubset):
@@ -48,3 +38,6 @@ class TestCoordinatesSubset:
 
     def test_get_size(self, coordinates_subset: CoordinatesSubset, size: int):
         assert coordinates_subset.get_size() == size
+
+    def test_mass(self):
+        assert CoordinatesSubset.mass() is not None
