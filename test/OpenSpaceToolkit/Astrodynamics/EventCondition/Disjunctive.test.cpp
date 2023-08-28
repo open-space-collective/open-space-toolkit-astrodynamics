@@ -25,9 +25,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_Disjunctive : public ::testi
     const RealEventCondition firstCondition_ = {
         "First",
         RealEventCondition::Criteria::PositiveCrossing,
-        [](const VectorXd& aStateVector, const Real& aTime) -> Real
+        [](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
         {
-            (void)aTime;
             return aStateVector[0];
         },
         0.0,
@@ -35,9 +34,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_Disjunctive : public ::testi
     const RealEventCondition secondCondition_ = {
         "Second",
         RealEventCondition::Criteria::StrictlyNegative,
-        [](const VectorXd& aStateVector, const Real& aTime) -> Real
+        [](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
         {
-            (void)aTime;
             return aStateVector[1];
         },
         0.1,

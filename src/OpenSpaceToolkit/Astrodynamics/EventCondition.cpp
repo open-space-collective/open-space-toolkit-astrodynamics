@@ -85,16 +85,14 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
     switch (aCriteria)
     {
         case EventCondition::Criteria::StrictlyPositive:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)previousValue;
                 return (currentValue > 0.0);
             };
 
         case EventCondition::Criteria::StrictlyNegative:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)previousValue;
                 return (currentValue < 0.0);
             };
 
@@ -117,11 +115,8 @@ std::function<bool(const Real&, const Real&)> EventCondition::getComparator(cons
             };
 
         case EventCondition::Criteria::Undefined:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return []([[maybe_unused]] const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
-                (void)currentValue;
-                (void)previousValue;
-
                 throw ostk::core::error::runtime::Undefined("Comparator");
 
                 return false;

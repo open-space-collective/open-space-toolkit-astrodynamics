@@ -191,9 +191,10 @@ std::function<Real(const VectorXd&, const Real&)> COECondition::GenerateEvaluato
 )
 {
     // The parameters must be captured by value as the function is being initialized during construction
-    return [anElement, aFrameSPtr, aGravitationalParameter](const VectorXd& aStateVector, const Real& aTime) -> Real
+    return [anElement,
+            aFrameSPtr,
+            aGravitationalParameter](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
     {
-        (void)aTime;
         // TBI: Get frame from Broker
         // TBI: Get pos,vel indexes from broker
         const Position position = Position::Meters(aStateVector.segment(0, 3), aFrameSPtr);

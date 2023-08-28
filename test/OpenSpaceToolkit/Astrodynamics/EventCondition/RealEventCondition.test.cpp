@@ -29,9 +29,9 @@ class OpenSpaceToolkit_Astrodynamics_RealEventCondition : public ::testing::Test
    protected:
     const RealEventCondition::Criteria defaultCriteria_ = RealEventCondition::Criteria::PositiveCrossing;
     const Real defaultTarget_ = 1.0;
-    const std::function<Real(VectorXd, Real)> evaluator_ = [](const VectorXd& aStateVector, const Real& aTime) -> Real
+    const std::function<Real(VectorXd, Real)> evaluator_ = []([[maybe_unused]] const VectorXd& aStateVector,
+                                                              const Real& aTime) -> Real
     {
-        (void)aStateVector;
         return aTime;
     };
     const RealEventCondition defaultCondition_ = {

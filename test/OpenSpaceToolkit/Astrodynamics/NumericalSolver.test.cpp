@@ -39,9 +39,8 @@ struct DurationCondition : public RealEventCondition
         : RealEventCondition(
               "test",
               aCriteria,
-              [](const VectorXd &aStateVector, const Real &aTime) -> Real
+              []([[maybe_unused]] const VectorXd &aStateVector, const Real &aTime) -> Real
               {
-                  (void)aStateVector;
                   return aTime;
               },
               aTarget
@@ -58,9 +57,8 @@ struct XCrossingCondition : public RealEventCondition
         : RealEventCondition(
               "test",
               RealEventCondition::Criteria::AnyCrossing,
-              [](const VectorXd &aStateVector, const double &aTime) -> Real
+              [](const VectorXd &aStateVector, [[maybe_unused]] const double &aTime) -> Real
               {
-                  (void)aTime;
                   return aStateVector[0];
               },
               aTarget

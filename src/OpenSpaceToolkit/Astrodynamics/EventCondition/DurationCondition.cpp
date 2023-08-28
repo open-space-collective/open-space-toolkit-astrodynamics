@@ -13,9 +13,8 @@ DurationCondition::DurationCondition(const Criteria& aCriteria, const Duration& 
     : RealEventCondition(
           "Duration Condition",
           aCriteria,
-          [](const VectorXd& aStateVector, const Real& aTime) -> Real
+          [](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
           {
-              (void)aStateVector;
               return aTime;
           },
           aDuration.inSeconds()

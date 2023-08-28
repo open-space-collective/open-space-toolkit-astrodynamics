@@ -28,9 +28,9 @@ class OpenSpaceToolkit_Astrodynamics_BooleanEventCondition : public ::testing::T
 
    protected:
     const BooleanEventCondition::Criteria defaultCriteria_ = BooleanEventCondition::Criteria::PositiveCrossing;
-    const std::function<bool(VectorXd, Real)> evaluator_ = [](const VectorXd& aStateVector, const Real& aTime) -> Real
+    const std::function<bool(VectorXd, Real)> evaluator_ = [](const VectorXd& aStateVector,
+                                                              [[maybe_unused]] const Real& aTime) -> Real
     {
-        (void)aTime;
         return aStateVector[0] > 0.0 && aStateVector[0] < 1.0;
     };
     const bool isInverse_ = false;
