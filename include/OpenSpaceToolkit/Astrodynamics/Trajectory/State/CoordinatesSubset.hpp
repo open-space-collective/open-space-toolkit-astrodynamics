@@ -40,6 +40,7 @@ class CoordinatesSubset
    public:
     /// @brief              Constructor
     ///
+    ///                     The default CoordinatesSubset instance is frame-invariant and implements element-wise addition/substraction.
     /// @code
     ///                     CoordinateSubset coordinateSubset = {aName, aSize};
     /// @endcode
