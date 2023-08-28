@@ -547,7 +547,7 @@ benchmark-cpp-standalone: ## Run C++ benchmarks (standalone)
 		$(docker_development_image_repository):$(docker_image_version) \
 		/bin/bash -c "cmake -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_BENCHMARK=ON .. \
 		&& $(MAKE) -j 4 \
-		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_format=json | tee ./../bin/benchmark_result.json"
+		&& ./../bin/open-space-toolkit-$(project_name).benchmark --benchmark_out_format=json --benchmark_out=./../bin/benchmark_result.json"
 
 .PHONY: benchmark-cpp-standalone
 
