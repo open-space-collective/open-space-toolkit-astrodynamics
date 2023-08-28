@@ -30,7 +30,7 @@ class PyCoordinatesSubset : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE_PURE(
+        PYBIND11_OVERRIDE(
             VectorXd,
             CoordinatesSubset,
             add,
@@ -50,7 +50,7 @@ class PyCoordinatesSubset : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE_PURE(
+        PYBIND11_OVERRIDE(
             VectorXd,
             CoordinatesSubset,
             subtract,
@@ -70,7 +70,7 @@ class PyCoordinatesSubset : public CoordinatesSubset
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     ) const override
     {
-        PYBIND11_OVERRIDE_PURE(
+        PYBIND11_OVERRIDE(
             VectorXd,
             CoordinatesSubset,
             inFrame,
