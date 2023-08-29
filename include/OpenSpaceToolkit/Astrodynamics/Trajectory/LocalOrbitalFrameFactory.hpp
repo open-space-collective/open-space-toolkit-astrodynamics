@@ -37,7 +37,8 @@ using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 class LocalOrbitalFrameFactory
 {
    public:
-    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
+    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
+        const;
 
     static Shared<const LocalOrbitalFrameFactory> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame

@@ -6,7 +6,6 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
@@ -72,9 +71,7 @@ class LocalOrbitalFrameTransformProvider : public Provider
    private:
     Transform transform_;
 
-    LocalOrbitalFrameTransformProvider(
-        const Transform& aTransform
-    );
+    LocalOrbitalFrameTransformProvider(const Transform& aTransform);
 
     // This is our custom generator function, similar to `generator_` at Dynamic provider in Frame
     static Transform generateTransform(
@@ -83,7 +80,6 @@ class LocalOrbitalFrameTransformProvider : public Provider
         const Vector3d& aPosition,
         const Vector3d& aVelocity
     );
-
 };
 
 }  // namespace trajectory

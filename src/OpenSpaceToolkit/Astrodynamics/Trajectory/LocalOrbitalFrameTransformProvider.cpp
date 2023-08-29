@@ -31,12 +31,8 @@ Shared<const LocalOrbitalFrameTransformProvider> LocalOrbitalFrameTransformProvi
     const Vector3d& aVelocity
 )
 {
-    const Transform transform = LocalOrbitalFrameTransformProvider::generateTransform(
-        aType,
-        anInstant,
-        aPosition,
-        aVelocity
-    );
+    const Transform transform =
+        LocalOrbitalFrameTransformProvider::generateTransform(aType, anInstant, aPosition, aVelocity);
 
     return std::make_shared<LocalOrbitalFrameTransformProvider>(LocalOrbitalFrameTransformProvider(transform));
 }
@@ -56,7 +52,8 @@ bool LocalOrbitalFrameTransformProvider::isDefined() const
 Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant) const
 {
     // This is only optional, we can allow it if we want to support "frozen lof concept".
-    if (anInstant != transform_.getInstant()) {
+    if (anInstant != transform_.getInstant())
+    {
         throw ostk::core::error::runtime::Wrong("Instant");
     }
 
@@ -119,8 +116,9 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
             const Vector3d xAxis = aPosition.normalized();
             const Vector3d yAxis = aPosition.cross(aPosition).normalized();
             const Vector3d zAxis = xAxis.cross(yAxis);
-            const Quaternion transformOrientation = Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
-            const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0}; // TBD
+            const Quaternion transformOrientation =
+                Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
+            const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};  // TBD
 
             return {
                 anInstant,
@@ -133,7 +131,6 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
     }
 
     throw ostk::core::error::runtime::ToBeImplemented("Generate Transform");
-
 }
 
 }  // namespace trajectory

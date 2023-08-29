@@ -57,20 +57,14 @@ struct SharedFrameEnabler : public Frame
 };
 
 Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
-    const Instant& anInstant,
-    const Vector3d& aPosition,
-    const Vector3d& aVelocity
+    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
 ) const
 {
     // Uniqueness clashing risk here (see note in function 'generateFrameName')
     const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
 
-    Shared< const LocalOrbitalFrameTransformProvider> providerSPtr_ = LocalOrbitalFrameTransformProvider::Construct(
-        this->type_,
-        anInstant,
-        aPosition,
-        aVelocity
-    );
+    Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_ =
+        LocalOrbitalFrameTransformProvider::Construct(this->type_, anInstant, aPosition, aVelocity);
 
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
     {
@@ -113,8 +107,7 @@ String LocalOrbitalFrameFactory::generateFrameName(
     // We should use parent frame, type, isntant, pos, vel to ensure uniqueness of the frame name
     // Otherwise, 2 satellites with different parent frame, type, pos, vel will generate a clash in frames
     // just because they are at the same instant
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" +
-           anInstant.toString();
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString();
 }
 
 }  // namespace trajectory

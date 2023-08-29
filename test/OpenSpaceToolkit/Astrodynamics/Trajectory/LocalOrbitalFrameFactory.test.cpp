@@ -7,6 +7,8 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
 #include <OpenSpaceToolkit/Physics/Time/DateTime.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -14,11 +16,8 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 
-#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp>
 
 #include <Global.test.hpp>
 
@@ -56,34 +55,40 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : publi
     const Instant instant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Vector3d positition_ = {7000000.0, 0.0, 0.0};
     const Vector3d velocity_ = {0.0, 5335.865450622126, 5335.865450622126};
-
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Construct)
 {
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::NED, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::NED,
+    //     gcrfSPtr_));
     // }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::LVLH, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::LVLH,
+    //     gcrfSPtr_));
     // }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::VVLH, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::VVLH,
+    //     gcrfSPtr_));
     // }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::LVLHGD, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::LVLHGD,
+    //     gcrfSPtr_));
     // }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::QSW, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::QSW,
+    //     gcrfSPtr_));
     // }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::TNW, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::TNW,
+    //     gcrfSPtr_));
     // }
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::VNC, gcrfSPtr_));
     }
     // {
-    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_));
+    //     EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined,
+    //     gcrfSPtr_));
     // }
 }
 
@@ -97,20 +102,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, GenerateFrame)
 {
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(
-            instant_, positition_, velocity_
-        );
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, positition_, velocity_);
 
         Transform transform = localOrbitalFrame->getTransformTo(gcrfSPtr_, instant_);
         Quaternion quaternion = transform.accessOrientation();
     }
 
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(
-            instant_, positition_, velocity_
-        );
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, positition_, velocity_);
 
         EXPECT_ANY_THROW(localOrbitalFrame->getTransformTo(gcrfSPtr_, Instant::J2000()));
     }
-
 }
