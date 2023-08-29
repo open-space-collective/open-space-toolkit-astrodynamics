@@ -1,63 +1,114 @@
-/// Apache License 2.0
+# Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
+import pytest
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module& aModule)
-{
-    using namespace pybind11;
+from ostk.physics import Environment
+from ostk.physics.time import Instant
+from ostk.physics.time import DateTime
+from ostk.physics.time import Scale
+from ostk.physics.time import Duration
+from ostk.physics.coordinate import Position
+from ostk.physics.coordinate import Velocity
+from ostk.physics.coordinate import Frame
+from ostk.physics.environment.objects.celestial_bodies import Earth
 
-    using ostk::core::ctnr::Array;
-    using ostk::core::types::String;
-    using ostk::core::types::Shared;
+from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory import TrajectorySegment
+from ostk.astrodynamics.event_condition import DurationCondition
 
-    using ostk::astro::NumericalSolver;
-    using ostk::astro::trajectory::Segment;
-    using ostk::astro::flight::system::Dynamics;
 
-    class_<Segment::Solution>(aModule, "SegmentSolution")
+@pytest.fixture
+def environment() -> Environment:
+    return Environment.default()
 
-        .def_readonly("name", &Segment::Solution::name)
-        .def_readonly("dynamics", &Segment::Solution::dynamics)
-        .def_readonly("states", &Segment::Solution::states)
 
-        ;
+@pytest.fixture
+def state() -> State:
+    frame: Frame = Frame.GCRF()
+    position: Position = Position.meters([7500000.0, 0.0, 0.0], frame)
+    velocity: Velocity = Velocity.meters_per_second(
+        [0.0, 5335.865450622126, 5335.865450622126], frame
+    )
 
-    {
-        class_<Segment>(aModule, "Segment")
+    instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    return State(instant, position, velocity)
 
-            .def("__str__", &(shiftToString<Segment>))
-            .def("__repr__", &(shiftToString<Segment>))
 
-            .def("get_name", &Segment::getName)
-            .def("get_event_condition", &Segment::getEventCondition)
-            .def("get_dynamics", &Segment::getDynamics)
-            .def("get_numerical_solver", &Segment::getNumericalSolver)
+@pytest.fixture
+def central_body_gravity() -> CentralBodyGravity:
+    return CentralBodyGravity(Earth.spherical())
 
-            .def(
-                "solve",
-                &Segment::solve,
-                arg("state"),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("numerical_solver") = NumericalSolver::Undefined(),
-                arg("maximum_propagation_duration") = Duration::Days(30.0)
-            )
 
-            .def_static(
-                "coast",
-                &Segment::Coast,
-                arg("event_condition"),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("numerical_solver") = NumericalSolver::Undefined()
-            )
+@pytest.fixture
+def position_derivative() -> PositionDerivative:
+    return PositionDerivative()
 
-            .def_static(
-                "maneuver",
-                &Segment::Maneuver,
-                arg("event_condition"),
-                arg("thruster_dynamics"),
-                arg("numerical_solver") = NumericalSolver::Undefined()
-            )
 
-            ;
-    }
-}
+@pytest.fixture
+def dynamics(
+    position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity
+) -> list:
+    return [
+        position_derivative,
+        central_body_gravity,
+    ]
+
+
+@pytest.fixture
+def numerical_solver() -> NumericalSolver:
+    return NumericalSolver.default_conditional()
+
+
+@pytest.fixture
+def duration() -> Duration:
+    return Duration.minutes(15.0)
+
+
+@pytest.fixture
+def duration_condition(duration: Duration) -> DurationCondition:
+    return DurationCondition(DurationCondition.Criteria.AnyCrossing, duration)
+
+
+@pytest.fixture
+def coast_duration_segment(
+    duration_condition: DurationCondition,
+    dynamics: list,
+    numerical_solver: NumericalSolver,
+):
+    return TrajectorySegment.coast(duration_condition, dynamics, numerical_solver)
+
+
+class TestTrajectorySegment:
+    def test_get_name(self, coast_duration_segment: TrajectorySegment):
+        assert coast_duration_segment.get_name() == "Coast"
+
+    def test_get_event_condition(
+        self,
+        duration_condition: DurationCondition,
+        coast_duration_segment: TrajectorySegment,
+    ):
+        assert coast_duration_segment.get_event_condition() == duration_condition
+
+    def test_get_dynamics(
+        self, dynamics: list, coast_duration_segment: TrajectorySegment
+    ):
+        assert len(coast_duration_segment.get_dynamics()) == len(dynamics)
+
+    def test_get_numerical_solver(
+        self, numerical_solver: NumericalSolver, coast_duration_segment: TrajectorySegment
+    ):
+        assert coast_duration_segment.get_numerical_solver() == numerical_solver
+
+    def test_solve(
+        self, state: State, duration: Duration, coast_duration_segment: TrajectorySegment
+    ):
+        solution = coast_duration_segment.solve(state)
+
+        assert pytest.approx(
+            float((solution.states[-1].get_instant() - state.get_instant()).in_seconds()),
+            1e-3,
+        ) == float(duration.in_seconds())
+        assert len(solution.states) > 0
