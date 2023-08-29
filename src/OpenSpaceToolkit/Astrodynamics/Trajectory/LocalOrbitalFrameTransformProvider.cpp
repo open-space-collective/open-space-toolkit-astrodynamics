@@ -118,18 +118,12 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
     {
         case LocalOrbitalFrameTransformProvider::Type::NED:
         {
-            const LLA lla = LLA::Cartesian(
-                aPosition,
-                Earth::EGM2008.equatorialRadius_,
-                Earth::EGM2008.flattening_
-            );
+            const LLA lla = LLA::Cartesian(aPosition, Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_);
 
             // Compute the NED frame to central body centered, central body fixed frame transform at position
 
             const Transform transform = ostk::physics::coord::frame::utilities::NorthEastDownTransformAt(
-                lla,
-                Earth::EGM2008.equatorialRadius_,
-                Earth::EGM2008.flattening_
+                lla, Earth::EGM2008.equatorialRadius_, Earth::EGM2008.flattening_
             );
 
             return transform;
