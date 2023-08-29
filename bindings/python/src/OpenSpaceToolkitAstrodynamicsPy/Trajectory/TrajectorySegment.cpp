@@ -23,7 +23,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
         ;
 
     {
-        class_<TrajectorySegment>(aModule, "TrajectorySegment")
+        class_<TrajectorySegment> trajectorySegment(aModule, "TrajectorySegment");
+
+        trajectorySegment
 
             .def("__str__", &(shiftToString<TrajectorySegment>))
             .def("__repr__", &(shiftToString<TrajectorySegment>))
@@ -32,32 +34,40 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
             .def("get_event_condition", &TrajectorySegment::getEventCondition)
             .def("get_dynamics", &TrajectorySegment::getDynamics)
             .def("get_numerical_solver", &TrajectorySegment::getNumericalSolver)
+            .def("get_type", &TrajectorySegment::getType)
 
             .def(
                 "solve",
                 &TrajectorySegment::solve,
                 arg("state"),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("numerical_solver") = NumericalSolver::Undefined(),
                 arg("maximum_propagation_duration") = Duration::Days(30.0)
             )
 
             .def_static(
                 "coast",
                 &TrajectorySegment::Coast,
+                arg("name"),
                 arg("event_condition"),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("numerical_solver") = NumericalSolver::Undefined()
+                arg("dynamics"),
+                arg("numerical_solver")
             )
 
             .def_static(
                 "maneuver",
                 &TrajectorySegment::Maneuver,
+                arg("name"),
                 arg("event_condition"),
                 arg("thruster_dynamics"),
-                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
-                arg("numerical_solver") = NumericalSolver::Undefined()
+                arg("dynamics"),
+                arg("numerical_solver")
             )
+
+            ;
+
+        enum_<TrajectorySegment::Type>(trajectorySegment, "Type")
+
+            .value("Coast", TrajectorySegment::Type::Coast)
+            .value("Maneuver", TrajectorySegment::Type::Maneuver)
 
             ;
     }

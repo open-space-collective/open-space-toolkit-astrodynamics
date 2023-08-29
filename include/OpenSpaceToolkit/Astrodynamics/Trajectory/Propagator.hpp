@@ -63,6 +63,8 @@ using ostk::astro::flight::system::SatelliteSystem;
 class Propagator
 {
    public:
+    static const Shared<const Frame> IntegrationFrameSPtr;
+
     /// @brief              Constructor
     ///
     /// @code

@@ -32,15 +32,31 @@ TrajectorySegment::Solution::Solution(
 
 TrajectorySegment::TrajectorySegment(
     const String& aName,
+    const TrajectorySegment::Type& aType,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
     : name_(aName),
+      type_(aType),
       eventCondition_(anEventConditionSPtr),
       dynamics_(aDynamicsArray),
       numericalSolver_(aNumericalSolver)
 {
+    if (eventCondition_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Event condition");
+    }
+
+    if (dynamics_.isEmpty())
+    {
+        throw ostk::core::error::runtime::Undefined("Dynamics");
+    }
+
+    if (!numericalSolver_.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Numerical solver");
+    }
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const TrajectorySegment& aSegment)
@@ -70,6 +86,11 @@ NumericalSolver TrajectorySegment::getNumericalSolver() const
     return accessNumericalSolver();
 }
 
+TrajectorySegment::Type TrajectorySegment::getType() const
+{
+    return type_;
+}
+
 const Shared<EventCondition>& TrajectorySegment::accessEventCondition() const
 {
     return eventCondition_;
@@ -85,30 +106,12 @@ const NumericalSolver& TrajectorySegment::accessNumericalSolver() const
     return numericalSolver_;
 }
 
-TrajectorySegment::Solution TrajectorySegment::solve(
-    const State& aState,
-    const Array<Shared<Dynamics>>& aDynamicsArray,
-    const NumericalSolver& aNumericalSolver,
-    const Duration& maximumPropagationDuration
-) const
+TrajectorySegment::Solution TrajectorySegment::solve(const State& aState, const Duration& maximumPropagationDuration)
+    const
 {
-    const NumericalSolver numericalSolver = aNumericalSolver.isDefined() ? aNumericalSolver : numericalSolver_;
-
-    if (!numericalSolver.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Numerical Solver");
-    }
-
-    const Array<Shared<Dynamics>> dynamics = dynamics_ + aDynamicsArray;
-
-    if (dynamics.isEmpty())
-    {
-        throw ostk::core::error::runtime::Undefined("Dynamics");
-    }
-
     const Propagator propagator = {
-        numericalSolver,
-        dynamics,
+        numericalSolver_,
+        dynamics_,
     };
 
     const Instant startInstant = aState.getInstant();
@@ -125,14 +128,14 @@ TrajectorySegment::Solution TrajectorySegment::solve(
         propagatedStates.add({
             startInstant + Duration::Seconds(solution.second),
             solution.first,
-            Frame::GCRF(),  // TBM: Use the frame the propagator
+            Propagator::IntegrationFrameSPtr,
             propagator.accessCoordinatesBroker(),
         });
     }
 
     return {
         name_,
-        dynamics,
+        dynamics_,
         propagatedStates,
     };
 }
@@ -156,13 +159,15 @@ void TrajectorySegment::print(std::ostream& anOutputStream, bool displayDecorato
 }
 
 TrajectorySegment TrajectorySegment::Coast(
+    const String& aName,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
 {
     return {
-        "Coast",
+        aName,
+        TrajectorySegment::Type::Coast,
         anEventConditionSPtr,
         aDynamicsArray,
         aNumericalSolver,
@@ -170,20 +175,22 @@ TrajectorySegment TrajectorySegment::Coast(
 }
 
 TrajectorySegment TrajectorySegment::Maneuver(
+    const String& aName,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Shared<Dynamics>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
 {
-    (void)anEventConditionSPtr;
-    (void)aThrusterDynamics;
-    (void)aDynamicsArray;
-    (void)aNumericalSolver;
+    throw ostk::core::error::runtime::ToBeImplemented("TrajectorySegment::Maneuver");
 
-    throw ostk::core::error::runtime::ToBeImplemented(
-        "TrajectorySegment: Maneuver(EventCondition, Shared<Dynamics>, NumericalSolver)"
-    );
+    return {
+        aName,
+        TrajectorySegment::Type::Maneuver,
+        anEventConditionSPtr,
+        aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
+        aNumericalSolver,
+    };
 }
 
 }  // namespace trajectory

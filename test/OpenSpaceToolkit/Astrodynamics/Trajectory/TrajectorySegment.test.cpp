@@ -47,6 +47,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::tes
         Velocity::MetersPerSecond({0.0, 7546.05329, 0.0}, Frame::GCRF()),
     };
 
+    const String defaultName_ = "A Segment";
+
     const Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
     const Array<Shared<Dynamics>> defaultDynamics_ = {
         std::make_shared<PositionDerivative>(),
@@ -62,20 +64,53 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::tes
     const Shared<DurationCondition> defaultDurationCondition_ =
         std::make_shared<DurationCondition>(DurationCondition::Criteria::AnyCrossing, Duration::Minutes(15.0));
     const TrajectorySegment defaultCoastSegment_ =
-        TrajectorySegment::Coast(defaultDurationCondition_, defaultDynamics_, defaultNumericalSolver_);
+        TrajectorySegment::Coast(defaultName_, defaultDurationCondition_, defaultDynamics_, defaultNumericalSolver_);
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Coast)
 {
-    EXPECT_NO_THROW(TrajectorySegment::Coast(defaultDurationCondition_, defaultDynamics_, defaultNumericalSolver_));
-    EXPECT_ANY_THROW(TrajectorySegment::Maneuver(
-        defaultDurationCondition_, defaultDynamics_[0], defaultDynamics_, defaultNumericalSolver_
-    ));
+    {
+        EXPECT_NO_THROW(
+            TrajectorySegment::Coast(defaultName_, defaultDurationCondition_, defaultDynamics_, defaultNumericalSolver_)
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            TrajectorySegment::Coast(defaultName_, nullptr, defaultDynamics_, NumericalSolver::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            TrajectorySegment::Coast(defaultName_, defaultDurationCondition_, {}, NumericalSolver::Undefined()),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+
+    {
+        EXPECT_THROW(
+            TrajectorySegment::Coast(
+                defaultName_, defaultDurationCondition_, defaultDynamics_, NumericalSolver::Undefined()
+            ),
+            ostk::core::error::runtime::Undefined
+        );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Maneuver)
+{
+    {
+        EXPECT_ANY_THROW(TrajectorySegment::Maneuver(
+            defaultName_, defaultDurationCondition_, defaultDynamics_[0], defaultDynamics_, defaultNumericalSolver_
+        ));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetName)
 {
-    EXPECT_EQ("Coast", defaultCoastSegment_.getName());
+    EXPECT_EQ(defaultName_, defaultCoastSegment_.getName());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetEventCondition)
@@ -91,6 +126,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetDynamics)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetNumericalSolver)
 {
     EXPECT_EQ(defaultNumericalSolver_, defaultCoastSegment_.getNumericalSolver());
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetType)
+{
+    EXPECT_EQ(TrajectorySegment::Type::Coast, defaultCoastSegment_.getType());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, AccessEventCondition)
@@ -130,20 +170,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Solve)
             1e-12
         );
         EXPECT_TRUE(solution.states.getSize() > 0);
-    }
-
-    {
-        TrajectorySegment segment =
-            TrajectorySegment::Coast(defaultDurationCondition_, defaultDynamics_, NumericalSolver::Undefined());
-
-        EXPECT_THROW(segment.solve(defaultState_), ostk::core::error::runtime::Undefined);
-    }
-
-    {
-        TrajectorySegment segment =
-            TrajectorySegment::Coast(defaultDurationCondition_, {}, NumericalSolver::DefaultConditional());
-
-        EXPECT_THROW(segment.solve(defaultState_), ostk::core::error::runtime::Undefined);
     }
 }
 

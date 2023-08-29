@@ -37,6 +37,12 @@ using ostk::astro::EventCondition;
 class TrajectorySegment
 {
    public:
+    enum class Type
+    {
+        Coast,    ///< Coast
+        Maneuver  ///< Maneuver
+    };
+
     struct Solution
     {
        public:
@@ -55,102 +61,106 @@ class TrajectorySegment
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const TrajectorySegment& aSegment);
 
-    /// @brief                  Get name.
-    /// @return                 Name of the segment.
+    /// @brief                  Get name
+    /// @return                 Name of the segment
 
     String getName() const;
 
-    /// @brief                  Get event condition.
-    /// @return                 Event condition.
+    /// @brief                  Get event condition
+    /// @return                 Event condition
 
     Shared<EventCondition> getEventCondition() const;
 
-    /// @brief                  Get dynamics.
-    /// @return                 Dynamics.
+    /// @brief                  Get dynamics
+    /// @return                 Dynamics
 
     Array<Shared<Dynamics>> getDynamics() const;
 
-    /// @brief                  Get numerical solver.
-    /// @return                 Numerical solver.
+    /// @brief                  Get numerical solver
+    /// @return                 Numerical solver
 
     NumericalSolver getNumericalSolver() const;
 
-    /// @brief                  Access event condition.
-    /// @return                 Event condition.
+    /// @brief                  Get type
+    /// @return                 Type of segment
+
+    Type getType() const;
+
+    /// @brief                  Access event condition
+    /// @return                 Event condition
 
     const Shared<EventCondition>& accessEventCondition() const;
 
-    /// @brief                  Access dynamics.
-    /// @return                 Dynamics.
+    /// @brief                  Access dynamics
+    /// @return                 Dynamics
 
     const Array<Shared<Dynamics>>& accessDynamics() const;
 
-    /// @brief                  Access numerical solver.
-    /// @return                 Numerical solver.
+    /// @brief                  Access numerical solver
+    /// @return                 Numerical solver
 
     const NumericalSolver& accessNumericalSolver() const;
 
     /// @brief                  Solve the segment
     ///
-    /// @param                  [in] aState Initial state for the segment.
-    /// @param                  [in] aDynamicsArray Array of dynamics. Defaults to an empty array.
-    /// @param                  [in] aNumericalSolver Numerical solver to be used. Defaults to undefined.
-    /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days.
-    /// @return                 A Solution representing the result of the solve.
+    /// @param                  [in] aState Initial state for the segment
+    /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 30 days
+    /// @return                 A Solution representing the result of the solve
 
-    Solution solve(
-        const State& aState,
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
-        const Duration& maximumPropagationDuration = Duration::Days(30.0)
-    ) const;
+    Solution solve(const State& aState, const Duration& maximumPropagationDuration = Duration::Days(30.0)) const;
 
-    /// @brief                  Print the segment.
+    /// @brief                  Print the segment
     ///
     /// @param                  [in] anOutputStream An output stream
     /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Create a coasting segment.
+    /// @brief                  Create a coasting segment
     ///
-    /// @param                  [in] anEventConditionSPtr An event condition.
-    /// @param                  [in] aDynamicsArray Array of dynamics. Defaults to an empty array.
-    /// @param                  [in] aNumericalSolver Numerical solver to be used. Defaults to undefined.
-    /// @return                 A TrajectorySegment for coasting.
+    /// @param                  [in] aName A name
+    /// @param                  [in] anEventConditionSPtr An event condition
+    /// @param                  [in] aDynamicsArray Array of dynamics
+    /// @param                  [in] aNumericalSolver Numerical solver
+    /// @return                 A TrajectorySegment for coasting
 
     static TrajectorySegment Coast(
+        const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined()
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const NumericalSolver& aNumericalSolver
     );
 
-    /// @brief                  Create a maneuvering segment.
+    /// @brief                  Create a maneuvering segment
     ///
-    /// @param                  [in] anEventConditionSPtr An event condition.
-    /// @param                  [in] aThrusterDynamics Dynamics for the thruster.
-    /// @param                  [in] aDynamicsArray Array of dynamics. Defaults to an empty array.
-    /// @param                  [in] aNumericalSolver Numerical solver to be used. Defaults to undefined.
-    /// @return                 A TrajectorySegment for maneuvering.
+    /// @param                  [in] aName A name
+    /// @param                  [in] anEventConditionSPtr An event condition
+    /// @param                  [in] aThrusterDynamics Dynamics for the thruster
+    /// @param                  [in] aDynamicsArray Array of dynamics
+    /// @param                  [in] aNumericalSolver Numerical solver
+    /// @return                 A TrajectorySegment for maneuvering
 
     static TrajectorySegment Maneuver(
+        const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Shared<Dynamics>& aThrusterDynamics,  // TBM: This should be specifically ThrusterDynamics parent
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined()
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const NumericalSolver& aNumericalSolver
     );
 
    private:
     String name_;
+    Type type_;
     Shared<EventCondition> eventCondition_;
     Array<Shared<Dynamics>> dynamics_;
     NumericalSolver numericalSolver_;
 
     TrajectorySegment(
         const String& aName,
+        const Type& aType,
         const Shared<EventCondition>& anEventConditionSPtr,
-        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
-        const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined()
+        const Array<Shared<Dynamics>>& aDynamicsArray,
+        const NumericalSolver& aNumericalSolver
     );
 };
 

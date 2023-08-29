@@ -73,17 +73,23 @@ def duration_condition(duration: Duration) -> DurationCondition:
 
 
 @pytest.fixture
+def name() -> str:
+    return "A Segment"
+
+
+@pytest.fixture
 def coast_duration_segment(
+    name: str,
     duration_condition: DurationCondition,
     dynamics: list,
     numerical_solver: NumericalSolver,
 ):
-    return TrajectorySegment.coast(duration_condition, dynamics, numerical_solver)
+    return TrajectorySegment.coast(name, duration_condition, dynamics, numerical_solver)
 
 
 class TestTrajectorySegment:
-    def test_get_name(self, coast_duration_segment: TrajectorySegment):
-        assert coast_duration_segment.get_name() == "Coast"
+    def test_get_name(self, coast_duration_segment: TrajectorySegment, name: str):
+        assert coast_duration_segment.get_name() == name
 
     def test_get_event_condition(
         self,
@@ -93,17 +99,30 @@ class TestTrajectorySegment:
         assert coast_duration_segment.get_event_condition() == duration_condition
 
     def test_get_dynamics(
-        self, dynamics: list, coast_duration_segment: TrajectorySegment
+        self,
+        dynamics: list,
+        coast_duration_segment: TrajectorySegment,
     ):
         assert len(coast_duration_segment.get_dynamics()) == len(dynamics)
 
     def test_get_numerical_solver(
-        self, numerical_solver: NumericalSolver, coast_duration_segment: TrajectorySegment
+        self,
+        numerical_solver: NumericalSolver,
+        coast_duration_segment: TrajectorySegment,
     ):
         assert coast_duration_segment.get_numerical_solver() == numerical_solver
 
+    def test_get_type(
+        self,
+        coast_duration_segment: TrajectorySegment,
+    ):
+        assert coast_duration_segment.get_type() == TrajectorySegment.Type.Coast
+
     def test_solve(
-        self, state: State, duration: Duration, coast_duration_segment: TrajectorySegment
+        self,
+        state: State,
+        duration: Duration,
+        coast_duration_segment: TrajectorySegment,
     ):
         solution = coast_duration_segment.solve(state)
 

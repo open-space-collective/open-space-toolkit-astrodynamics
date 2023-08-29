@@ -30,7 +30,7 @@ using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
-static const Shared<const Frame> integrationFrameSPtr = Frame::GCRF();
+const Shared<const Frame> Propagator::IntegrationFrameSPtr = Frame::GCRF();
 
 Propagator::Propagator(const NumericalSolver& aNumericalSolver, const Array<Shared<Dynamics>>& aDynamicsArray)
     : dynamicsContexts_(),
@@ -371,7 +371,7 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
 
 NumericalSolver::StateVector Propagator::extractCoordinatesFromState(const State& aState) const
 {
-    const State state = aState.inFrame(integrationFrameSPtr);
+    const State state = aState.inFrame(Propagator::IntegrationFrameSPtr);
 
     Index offset = 0;
     NumericalSolver::StateVector extractedStateVector = NumericalSolver::StateVector(this->getNumberOfCoordinates());
