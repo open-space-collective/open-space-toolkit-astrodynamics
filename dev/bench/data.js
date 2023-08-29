@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693329467010,
+  "lastUpdate": 1693337147311,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -576,6 +576,60 @@ window.BENCHMARK_DATA = {
             "value": 4288829189.000001,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4287522889.999997 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5663707d5a9bb5b52f880fd49e551191f7cadbfd",
+          "message": "feat: add simple PropulsionSystem class (#199)\n\n* feat: add propulsionSystem class to hold thruster subsystem info\r\n\r\n* chore: refactor tests using fixture\r\n\r\n* feat: address feedback and improve\r\n\r\n* test: add unit tests for propulsion system\r\n\r\n* chore: style\r\n\r\n* chore: address feedback and improve\r\n\r\n* chore: style\r\n\r\n* chore: fixes and style\r\n\r\n* chore: address comments\r\n\r\n* chore: style",
+          "timestamp": "2023-08-29T20:42:07+02:00",
+          "tree_id": "5cf9f6aae4d7f41af4db48548b876c85a6eaf6c5",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/5663707d5a9bb5b52f880fd49e551191f7cadbfd"
+        },
+        "date": 1693337145745,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 991863344.5000012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 991731210 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1954156540.8000226,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1953378070 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4978625907.800012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4977926319.999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 5094304425.70001,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5093303379.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 5192987858.499987,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5191379460.000002 ns\nthreads: 1"
           }
         ]
       }
