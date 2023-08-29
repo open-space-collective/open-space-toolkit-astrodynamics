@@ -15,22 +15,84 @@
 
 #include <Global.test.hpp>
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
+using ostk::core::types::Integer;
+using ostk::core::types::Real;
+using ostk::core::types::String;
+
+using ostk::math::geom::d3::objects::Composite;
+using ostk::math::geom::d3::objects::Cuboid;
+using ostk::math::geom::d3::objects::Point;
+using ostk::math::obj::Matrix3d;
+using ostk::math::obj::Vector3d;
+
+using ostk::physics::data::Scalar;
+using ostk::physics::units::Length;
+using ostk::physics::units::Mass;
+using ostk::physics::units::Time;
+using ostk::physics::units::ElectricCurrent;
+using ostk::physics::units::Angle;
+using ostk::physics::units::Derived;
+using ostk::physics::Unit;
+
+using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::flight::system::PropulsionSystem;
+
+class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::testing::Test
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+   protected:
+    void SetUp() override
+    {
+        // Define satellite mass
+        mass_ = {100.0, Mass::Unit::Kilogram};
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
+        // Define satellite intertia tensor
+        satelliteInertiaTensor_ = Matrix3d::Identity();
 
-    using ostk::physics::units::Mass;
+        // Define satellite geometry
+        const Point center = {0.0, 0.0, 0.0};
+        const std::array<Vector3d, 3> axes = {
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
+        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
 
-    using ostk::astro::flight::system::SatelliteSystem;
+        const Cuboid satelliteCuboid = {center, axes, extent};
+        const Composite satelliteGeometry_(satelliteCuboid);
 
+        // Define satellite cross sectional surface area
+        crossSectionalSurfaceArea_ = 0.8;
+
+        // Define satellite coefficient of drag
+        dragCoefficient_ = 1.2;
+
+        // Define propulsion system
+        const Scalar thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit);
+        const Scalar specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit);
+
+        propulsionSystem_ = {
+            thrust_,
+            specificImpulse_,
+        };
+
+        satelliteSystem_ = {
+            mass_,
+            satelliteGeometry_,
+            satelliteInertiaTensor_,
+            crossSectionalSurfaceArea_,
+            dragCoefficient_,
+            propulsionSystem_,
+        };
+    }
+
+    Mass mass_ = Mass::Undefined();
+    Matrix3d satelliteInertiaTensor_ = Matrix3d::Identity();
+    Real crossSectionalSurfaceArea_ = Real::Undefined();
+    Real dragCoefficient_ = Real::Undefined();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
+};
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
+{
     // Normal constructor
     {
         // Define satellite mass
@@ -56,77 +118,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Constructor)
         const Real dragCoefficient = 1.2;
 
         // Construct SatelliteSystem object
-        EXPECT_NO_THROW(SatelliteSystem satellitesystem(
+        EXPECT_NO_THROW(SatelliteSystem satelliteSystem(
             satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient
         ));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, CopyConstructor)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
-    // Copy constructor
     {
-        // Define satellite mass
-        const Mass satelliteMass = {100.0, Mass::Unit::Kilogram};
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Define satellite cross sectional surface area
-        const Real crossSectionalSurfaceArea = 0.8;
-
-        // Define satellite coefficient of drag
-        const Real dragCoefficient = 1.2;
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satellitesystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, crossSectionalSurfaceArea, dragCoefficient
-        };
-
-        EXPECT_NO_THROW(SatelliteSystem satellitesystemCopy(satellitesystem));
+        EXPECT_NO_THROW(SatelliteSystem satelliteSystemCopy(satelliteSystem_));
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
         // Test for all same parameters
         // Define satellite mass
@@ -186,22 +192,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOperat
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
         // Test for all same parameters
         // Define satellite mass
@@ -262,190 +254,44 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToOpe
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-
-        EXPECT_TRUE(satelliteSystem.isDefined());
+        EXPECT_TRUE(satelliteSystem_.isDefined());
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, StreamOperator)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << satelliteSystem << std::endl);
+        EXPECT_NO_THROW(std::cout << satelliteSystem_ << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Print)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(satelliteSystem.print(std::cout, true));
-        EXPECT_NO_THROW(satelliteSystem.print(std::cout, false));
+        EXPECT_NO_THROW(satelliteSystem_.print(std::cout, true));
+        EXPECT_NO_THROW(satelliteSystem_.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getMass)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetMass)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-
-        EXPECT_EQ(satelliteSystem.getMass(), satelliteMass);
+        EXPECT_EQ(satelliteSystem_.getMass(), mass_);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getGeometry)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetGeometry)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
         // Define satellite mass
         const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
@@ -470,132 +316,41 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getGeometry)
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getInertiaTensor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetInertiaTensor)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, 2.2};
-
-        EXPECT_EQ(satelliteSystem.getInertiaTensor(), satelliteInertiaTensor);
+        EXPECT_EQ(satelliteSystem_.getInertiaTensor(), satelliteInertiaTensor_);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getCrossSectionalSurfaceArea)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetCrossSectionalSurfaceArea)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
-
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
-
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
-
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Define satellite coefficient of drag
-        const Real surfaceArea = 0.8;
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, surfaceArea, 2.2
-        };
-
-        EXPECT_EQ(satelliteSystem.getCrossSectionalSurfaceArea(), surfaceArea);
+        EXPECT_EQ(satelliteSystem_.getCrossSectionalSurfaceArea(), crossSectionalSurfaceArea_);
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, getDragCoefficient)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetDragCoefficient)
 {
-    using ostk::core::types::Integer;
-    using ostk::core::types::Real;
-    using ostk::core::types::String;
+    {
+        EXPECT_EQ(satelliteSystem_.getDragCoefficient(), dragCoefficient_);
+    }
+}
 
-    using ostk::math::geom::d3::objects::Composite;
-    using ostk::math::geom::d3::objects::Cuboid;
-    using ostk::math::geom::d3::objects::Point;
-    using ostk::math::obj::Matrix3d;
-    using ostk::math::obj::Vector3d;
-
-    using ostk::physics::units::Mass;
-
-    using ostk::astro::flight::system::SatelliteSystem;
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsionSystem)
+{
+    {
+        EXPECT_EQ(satelliteSystem_.getPropulsionSystem(), propulsionSystem_);
+    }
 
     {
-        // Define satellite mass
-        const Mass satelliteMass(90.0, Mass::Unit::Kilogram);
+        EXPECT_ANY_THROW(SatelliteSystem::Undefined().getPropulsionSystem());
+    }
+}
 
-        // Define satellite intertia tensor
-        const Matrix3d satelliteInertiaTensor = Matrix3d::Identity();
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid satelliteCuboid = {center, axes, extent};
-        const Composite satelliteGeometry(satelliteCuboid);
-
-        // Define satellite coefficient of drag
-        const Real dragCoefficient = 2.2;
-
-        // Construct SatelliteSystem object
-        const SatelliteSystem satelliteSystem = {
-            satelliteMass, satelliteGeometry, satelliteInertiaTensor, 0.8, dragCoefficient
-        };
-
-        EXPECT_EQ(satelliteSystem.getDragCoefficient(), dragCoefficient);
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Undefined)
+{
+    {
+        EXPECT_NO_THROW(SatelliteSystem::Undefined());
     }
 }
