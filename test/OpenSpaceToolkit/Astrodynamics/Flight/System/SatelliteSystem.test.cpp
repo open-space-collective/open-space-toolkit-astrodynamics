@@ -37,30 +37,6 @@ using ostk::physics::Unit;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 
-Unit thrustSIUnit_ = Unit::Derived(Derived::Unit(
-    Length::Unit::Meter,
-    {1},
-    Mass::Unit::Kilogram,
-    {1},
-    Time::Unit::Second,
-    {-2},
-    ElectricCurrent::Unit::Undefined,
-    {0},
-    Angle::Unit::Undefined,
-    {0}
-));
-Unit specificImpulseSIUnit_ = Unit::Derived(Derived::Unit(
-    Length::Unit::Undefined,
-    {0},
-    Mass::Unit::Undefined,
-    {0},
-    Time::Unit::Second,
-    {1},
-    ElectricCurrent::Unit::Undefined,
-    {0},
-    Angle::Unit::Undefined,
-    {0}
-));
 
 class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::testing::Test
 {
@@ -90,8 +66,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         dragCoefficient_ = 1.2;
 
         // Define propulsion system
-        const Scalar thrust_ = Scalar(0.01, thrustSIUnit_);
-        const Scalar specificImpulse_ = Scalar(100.0, specificImpulseSIUnit_);
+        const Scalar thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         propulsionSystem_ = {
             thrust_,

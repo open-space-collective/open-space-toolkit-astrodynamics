@@ -110,6 +110,16 @@ class SatelliteSystem : public System
 
     virtual bool isDefined() const override;
 
+    /// @brief              Access satellite system's propulsion model
+    ///
+    /// @code
+    ///                     PropulsionSystem propulsionModel = satelliteSystem.accessPropulsionSystem() ;
+    /// @endcode
+    ///
+    /// @return             PropulsionSystem
+
+    const PropulsionSystem& accessPropulsionSystem() const;
+
     /// @brief              Get satellite system's inertia tensor
     ///
     /// @code

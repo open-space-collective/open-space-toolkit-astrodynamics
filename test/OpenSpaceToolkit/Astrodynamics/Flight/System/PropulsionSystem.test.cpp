@@ -27,43 +27,6 @@ using ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::flight::system::PropulsionSystem;
 
-Unit thrustSIUnit = Unit::Derived(Derived::Unit(
-    Length::Unit::Meter,
-    {1},
-    Mass::Unit::Kilogram,
-    {1},
-    Time::Unit::Second,
-    {-2},
-    ElectricCurrent::Unit::Undefined,
-    {0},
-    Angle::Unit::Undefined,
-    {0}
-));
-Unit specificImpulseSIUnit = Unit::Derived(Derived::Unit(
-    Length::Unit::Undefined,
-    {0},
-    Mass::Unit::Undefined,
-    {0},
-    Time::Unit::Second,
-    {1},
-    ElectricCurrent::Unit::Undefined,
-    {0},
-    Angle::Unit::Undefined,
-    {0}
-));
-Unit massFlowRateSIUnit = Unit::Derived(Derived::Unit(
-    Length::Unit::Undefined,
-    {0},
-    Mass::Unit::Kilogram,
-    {1},
-    Time::Unit::Second,
-    {-1},
-    ElectricCurrent::Unit::Undefined,
-    {0},
-    Angle::Unit::Undefined,
-    {0}
-));
-
 class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::testing::Test
 {
    protected:
@@ -75,9 +38,9 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::t
         propulsionSystem_ = {thrust_, specificImpulse_};
     }
 
-    Scalar thrust_ = Scalar::Undefined();
-    Scalar specificImpulse_ = Scalar::Undefined();
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    const Scalar thrust_ = Scalar(0.01, thrustSIUnit);
+    const Scalar specificImpulse_ = Scalar(100.0, specificImpulseSIUnit);
+    const PropulsionSystem propulsionSystem_ = {thrust_, specificImpulse_};
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructor)
@@ -87,8 +50,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructo
     }
 
     {
-        const Scalar thrust = Scalar(0.01, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.0, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         EXPECT_NO_THROW(PropulsionSystem propulsionSystem(thrust, specificImpulse));
     }
@@ -97,8 +60,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructo
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, EqualToOperator)
 {
     {
-        const Scalar thrust = Scalar(0.01, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.0, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
@@ -106,8 +69,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, EqualToOpe
     }
 
     {
-        const Scalar thrust = Scalar(0.02, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.0, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.02, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
@@ -115,20 +78,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, EqualToOpe
     }
 
     {
-        const Scalar thrust = Scalar(0.01, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.45, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.45, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
         EXPECT_FALSE(propulsionSystem == propulsionSystem_);
+    }
+
+    {
+	    EXPECT_ANY_THROW(PropulsionSystem::Undefined() == propulsionSystem_);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, NotEqualToOperator)
 {
     {
-        const Scalar thrust = Scalar(0.01, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.0, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
@@ -136,8 +103,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, NotEqualTo
     }
 
     {
-        const Scalar thrust = Scalar(0.02, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.0, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.02, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
@@ -145,12 +112,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, NotEqualTo
     }
 
     {
-        const Scalar thrust = Scalar(0.01, thrustSIUnit);
-        const Scalar specificImpulse = Scalar(100.45, specificImpulseSIUnit);
+        const Scalar thrust = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        const Scalar specificImpulse = Scalar(100.45, PropulsionSystem::specificImpulseSIUnit_);
 
         const PropulsionSystem propulsionSystem = {thrust, specificImpulse};
 
         EXPECT_TRUE(propulsionSystem != propulsionSystem_);
+    }
+
+    {
+	    EXPECT_ANY_THROW(PropulsionSystem::Undefined() != propulsionSystem_);
     }
 }
 
@@ -181,38 +152,36 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetThrust)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Getters)
 {
     {
         EXPECT_TRUE(propulsionSystem_.getThrust() == thrust_);
     }
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetSpecificImpulse)
-{
     {
         EXPECT_TRUE(propulsionSystem_.getSpecificImpulse() == specificImpulse_);
     }
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetMassFlowRate)
-{
     {
         const Scalar massFlowRate = {
             propulsionSystem_.getThrust().getValue() /
                 (propulsionSystem_.getSpecificImpulse().getValue() * Earth::gravityConstant),
-            massFlowRateSIUnit
+            PropulsionSystem::massFlowRateSIUnit_
         };
         EXPECT_TRUE(propulsionSystem_.getMassFlowRate() == massFlowRate);
     }
-}
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, GetAcceleration)
-{
     {
         const Mass mass = Mass(0.05, Mass::Unit::Kilogram);
         EXPECT_NO_THROW(propulsionSystem_.getAcceleration(mass));
     }
+
+    {
+	    EXPECT_ANY_THROW(PropulsionSystem::Undefined().getThrust());
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined().getSpecificImpulse());
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined().getMassFlowRate());
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined().getAcceleration(Mass(0.05, Mass::Unit::Kilogram)));
+	}
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Undefined)

@@ -37,6 +37,10 @@ using ostk::physics::Unit;
 class PropulsionSystem
 {
    public:
+    static Unit thrustSIUnit_;
+    static Unit specificImpulseSIUnit_;
+    static Unit massFlowRateSIUnit_;  // TBI: Define in ostk physics as proper units
+
     /// @brief              Constructor
     ///
     /// @code
@@ -127,43 +131,6 @@ class PropulsionSystem
     static PropulsionSystem Undefined();
 
    private:
-    Unit thrustSIUnit_ = Unit::Derived(Derived::Unit(
-        Length::Unit::Meter,
-        {1},
-        Mass::Unit::Kilogram,
-        {1},
-        Time::Unit::Second,
-        {-2},
-        ElectricCurrent::Unit::Undefined,
-        {0},
-        Angle::Unit::Undefined,
-        {0}
-    ));
-    Unit specificImpulseSIUnit_ = Unit::Derived(Derived::Unit(
-        Length::Unit::Undefined,
-        {0},
-        Mass::Unit::Undefined,
-        {0},
-        Time::Unit::Second,
-        {1},
-        ElectricCurrent::Unit::Undefined,
-        {0},
-        Angle::Unit::Undefined,
-        {0}
-    ));
-    Unit massFlowRateSIUnit_ = Unit::Derived(Derived::Unit(
-        Length::Unit::Undefined,
-        {0},
-        Mass::Unit::Kilogram,
-        {1},
-        Time::Unit::Second,
-        {-1},
-        ElectricCurrent::Unit::Undefined,
-        {0},
-        Angle::Unit::Undefined,
-        {0}
-    ));  // TBI: Define in ostk physics as proper units
-
     Scalar thrust_ = Scalar::Undefined();           /// Thrust [N]
     Scalar specificImpulse_ = Scalar::Undefined();  /// Specific impulse [s]
     Scalar massFlowRate_ = Scalar::Undefined();     /// Mass flow rate [kg/s]

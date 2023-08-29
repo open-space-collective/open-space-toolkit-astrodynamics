@@ -18,11 +18,68 @@ namespace system
 
 using ostk::physics::environment::gravitational::Earth;
 
+ostk::physics::Unit PropulsionSystem::thrustSIUnit_ = Unit::Derived(Derived::Unit(
+    Length::Unit::Meter,
+    {1},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-2},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+));
+
+ostk::physics::Unit PropulsionSystem::specificImpulseSIUnit_ = Unit::Derived(Derived::Unit(
+    Length::Unit::Undefined,
+    {0},
+    Mass::Unit::Undefined,
+    {0},
+    Time::Unit::Second,
+    {1},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+));
+
+ostk::physics::Unit PropulsionSystem::massFlowRateSIUnit_ = Unit::Derived(Derived::Unit(
+    Length::Unit::Undefined,
+    {0},
+    Mass::Unit::Kilogram,
+    {1},
+    Time::Unit::Second,
+    {-1},
+    ElectricCurrent::Unit::Undefined,
+    {0},
+    Angle::Unit::Undefined,
+    {0}
+));
+
 PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecificImpulse)
-    : thrust_(aThrust),
-      specificImpulse_(aSpecificImpulse),
-      massFlowRate_({aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit_})
 {
+    if (aThrust.getUnit() != thrustSIUnit_)
+    {
+        throw ostk::core::error::RuntimeError("Thrust unit [{}], does not match SI unit [{}].", aThrust.getUnit().toString(), thrustSIUnit_.toString());
+    }
+
+    if (aSpecificImpulse.getUnit() != specificImpulseSIUnit_)
+    {
+        throw ostk::core::error::RuntimeError("Specific impulse unit [{}], does not match SI unit [{}].", aSpecificImpulse.getUnit().toString(), specificImpulseSIUnit_.toString());
+    }
+
+    thrust_ = aThrust;
+    specificImpulse_ = aSpecificImpulse;
+
+    if (aThrust.isDefined() && aSpecificImpulse.isDefined())
+    {
+        massFlowRate_ = {aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit_};
+    }
+    else
+    {
+        massFlowRate_ = Scalar(Real::Undefined(), massFlowRateSIUnit_);
+    }
 }
 
 bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) const
@@ -32,7 +89,7 @@ bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) con
         return false;
     }
 
-    return (thrust_ == aPropulsionSystem.thrust_) && (specificImpulse_ == aPropulsionSystem.specificImpulse_);
+    return (thrust_ == aPropulsionSystem.thrust_) && (specificImpulse_ == aPropulsionSystem.specificImpulse_ && massFlowRate_ == aPropulsionSystem.massFlowRate_);
 }
 
 bool PropulsionSystem::operator!=(const PropulsionSystem& aPropulsionSystem) const
@@ -49,7 +106,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const PropulsionSystem& a
 
 bool PropulsionSystem::isDefined() const
 {
-    return thrust_.isDefined() && specificImpulse_.isDefined();
+    return thrust_.isDefined() && specificImpulse_.isDefined() && massFlowRate_.isDefined();
 }
 
 void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -101,13 +158,16 @@ Scalar PropulsionSystem::getAcceleration(const Mass& aMass) const
 
     return {
         thrust_.getValue() / aMass.inKilograms(),
-        Unit::Derived(Derived::Unit::Acceleration(Length::Unit::Meter, Time::Unit::Second))
+        Unit::Derived(Derived::Unit::Acceleration(Length::Unit::Meter, Time::Unit::Second)),
     };
 }
 
 PropulsionSystem PropulsionSystem::Undefined()
 {
-    return {Scalar::Undefined(), Scalar::Undefined()};
+    return {
+        Scalar(Real::Undefined(), thrustSIUnit_),
+        Scalar(Real::Undefined(), specificImpulseSIUnit_),
+    };
 }
 
 }  // namespace system
