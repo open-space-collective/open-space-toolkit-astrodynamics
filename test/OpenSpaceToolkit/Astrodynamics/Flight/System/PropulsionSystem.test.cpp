@@ -32,15 +32,15 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::t
    protected:
     void SetUp() override
     {
-        thrust_ = Scalar(0.01, thrustSIUnit);
-        specificImpulse_ = Scalar(100.0, specificImpulseSIUnit);
+        thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
+        specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
 
         propulsionSystem_ = {thrust_, specificImpulse_};
     }
 
-    const Scalar thrust_ = Scalar(0.01, thrustSIUnit);
-    const Scalar specificImpulse_ = Scalar(100.0, specificImpulseSIUnit);
-    const PropulsionSystem propulsionSystem_ = {thrust_, specificImpulse_};
+    Scalar thrust_ = Scalar::Undefined();
+    Scalar specificImpulse_ = Scalar::Undefined();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructor)
@@ -87,7 +87,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, EqualToOpe
     }
 
     {
-        EXPECT_ANY_THROW(PropulsionSystem::Undefined() == propulsionSystem_);
+        EXPECT_NO_THROW(PropulsionSystem::Undefined() == propulsionSystem_);
     }
 }
 
@@ -121,7 +121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, NotEqualTo
     }
 
     {
-        EXPECT_ANY_THROW(PropulsionSystem::Undefined() != propulsionSystem_);
+        EXPECT_NO_THROW(PropulsionSystem::Undefined() != propulsionSystem_);
     }
 }
 

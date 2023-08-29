@@ -97,8 +97,8 @@ bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) con
         return false;
     }
 
-    return (thrust_ == aPropulsionSystem.thrust_) &&
-           (specificImpulse_ == aPropulsionSystem.specificImpulse_ && massFlowRate_ == aPropulsionSystem.massFlowRate_);
+    return (thrust_ == aPropulsionSystem.thrust_) && (specificImpulse_ == aPropulsionSystem.specificImpulse_) &&
+           (massFlowRate_ == aPropulsionSystem.massFlowRate_);
 }
 
 bool PropulsionSystem::operator!=(const PropulsionSystem& aPropulsionSystem) const
