@@ -57,15 +57,30 @@ String TrajectorySegment::getName() const
 
 Shared<EventCondition> TrajectorySegment::getEventCondition() const
 {
-    return eventCondition_;
+    return accessEventCondition();
 }
 
 Array<Shared<Dynamics>> TrajectorySegment::getDynamics() const
 {
-    return dynamics_;
+    return accessDynamics();
 }
 
 NumericalSolver TrajectorySegment::getNumericalSolver() const
+{
+    return accessNumericalSolver();
+}
+
+const Shared<EventCondition>& TrajectorySegment::accessEventCondition() const
+{
+    return eventCondition_;
+}
+
+const Array<Shared<Dynamics>>& TrajectorySegment::accessDynamics() const
+{
+    return dynamics_;
+}
+
+const NumericalSolver& TrajectorySegment::accessNumericalSolver() const
 {
     return numericalSolver_;
 }
@@ -157,11 +172,13 @@ TrajectorySegment TrajectorySegment::Coast(
 TrajectorySegment TrajectorySegment::Maneuver(
     const Shared<EventCondition>& anEventConditionSPtr,
     const Shared<Dynamics>& aThrusterDynamics,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
 {
     (void)anEventConditionSPtr;
     (void)aThrusterDynamics;
+    (void)aDynamicsArray;
     (void)aNumericalSolver;
 
     throw ostk::core::error::runtime::ToBeImplemented(

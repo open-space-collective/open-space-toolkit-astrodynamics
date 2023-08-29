@@ -55,6 +55,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
                 &TrajectorySegment::Maneuver,
                 arg("event_condition"),
                 arg("thruster_dynamics"),
+                arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
                 arg("numerical_solver") = NumericalSolver::Undefined()
             )
 

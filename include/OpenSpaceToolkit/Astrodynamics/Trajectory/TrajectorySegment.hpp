@@ -32,7 +32,8 @@ using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::EventCondition;
 
-/// @brief                                  Represents a segment for astrodynamic calculations.
+/// @brief                                  Represent a propagation segment for astrodynamics purposes
+
 class TrajectorySegment
 {
    public:
@@ -54,7 +55,7 @@ class TrajectorySegment
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const TrajectorySegment& aSegment);
 
-    /// @brief                  Get name
+    /// @brief                  Get name.
     /// @return                 Name of the segment.
 
     String getName() const;
@@ -73,6 +74,21 @@ class TrajectorySegment
     /// @return                 Numerical solver.
 
     NumericalSolver getNumericalSolver() const;
+
+    /// @brief                  Access event condition.
+    /// @return                 Event condition.
+
+    const Shared<EventCondition>& accessEventCondition() const;
+
+    /// @brief                  Access dynamics.
+    /// @return                 Dynamics.
+
+    const Array<Shared<Dynamics>>& accessDynamics() const;
+
+    /// @brief                  Access numerical solver.
+    /// @return                 Numerical solver.
+
+    const NumericalSolver& accessNumericalSolver() const;
 
     /// @brief                  Solve the segment
     ///
@@ -113,12 +129,14 @@ class TrajectorySegment
     ///
     /// @param                  [in] anEventConditionSPtr An event condition.
     /// @param                  [in] aThrusterDynamics Dynamics for the thruster.
+    /// @param                  [in] aDynamicsArray Array of dynamics. Defaults to an empty array.
     /// @param                  [in] aNumericalSolver Numerical solver to be used. Defaults to undefined.
     /// @return                 A TrajectorySegment for maneuvering.
 
     static TrajectorySegment Maneuver(
         const Shared<EventCondition>& anEventConditionSPtr,
         const Shared<Dynamics>& aThrusterDynamics,  // TBM: This should be specifically ThrusterDynamics parent
+        const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined()
     );
 
