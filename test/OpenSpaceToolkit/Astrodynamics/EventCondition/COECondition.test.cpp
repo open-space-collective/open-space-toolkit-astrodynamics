@@ -14,6 +14,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -33,6 +35,9 @@ using ostk::physics::environment::gravitational::Earth;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 class OpenSpaceToolkit_Astrodynamics_COECondition
     : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real, String>>
@@ -50,10 +55,21 @@ class OpenSpaceToolkit_Astrodynamics_COECondition
     const Real defaultTarget_ = 7000000.0;
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
+    const Shared<CoordinatesBroker> defaultCoordinatesBrokerSPtr_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+        }));
 
-    const COECondition defaultCondition_ = COECondition(
-        "COE Condition", defaultCriteria_, defaultElement_, defaultTarget_, defaultFrameSPtr_, gravitationalParameter_
-    );
+    const COECondition defaultCondition_ = {
+        "COE Condition",
+        defaultCriteria_,
+        defaultElement_,
+        defaultTarget_,
+        defaultFrameSPtr_,
+        gravitationalParameter_,
+        defaultCoordinatesBrokerSPtr_,
+    };
 
     VectorXd defaultStateVector_;
 };
@@ -83,7 +99,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_COECondition, Constructor)
             std::get<0>(parameters),
             std::get<1>(parameters),
             defaultFrameSPtr_,
-            gravitationalParameter_
+            gravitationalParameter_,
+            defaultCoordinatesBrokerSPtr_
         ));
     }
 }
@@ -124,6 +141,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_COECondition, evaluate)
         target,
         defaultFrameSPtr_,
         gravitationalParameter_,
+        defaultCoordinatesBrokerSPtr_,
     };
 
     {
@@ -134,57 +152,67 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_COECondition, evaluate)
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, SemiMajorAxis)
 {
     COECondition condition = COECondition::SemiMajorAxis(
-        defaultCriteria_, Length::Meters(7000000.0), defaultFrameSPtr_, gravitationalParameter_
+        defaultCriteria_,
+        Length::Meters(7000000.0),
+        defaultFrameSPtr_,
+        gravitationalParameter_,
+        defaultCoordinatesBrokerSPtr_
     );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, Eccentricity)
 {
-    COECondition condition =
-        COECondition::Eccentricity(defaultCriteria_, 0.0, defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::Eccentricity(
+        defaultCriteria_, 0.0, defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, Inclination)
 {
-    COECondition condition =
-        COECondition::Inclination(defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::Inclination(
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, Aop)
 {
-    COECondition condition =
-        COECondition::Aop(defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::Aop(
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, Raan)
 {
-    COECondition condition =
-        COECondition::Raan(defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::Raan(
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, TrueAnomaly)
 {
-    COECondition condition =
-        COECondition::TrueAnomaly(defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::TrueAnomaly(
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, MeanAnomaly)
 {
-    COECondition condition =
-        COECondition::MeanAnomaly(defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_);
+    COECondition condition = COECondition::MeanAnomaly(
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
+    );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_COECondition, EccentricAnomaly)
 {
     COECondition condition = COECondition::EccentricAnomaly(
-        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_
+        defaultCriteria_, Angle::Degrees(0.0), defaultFrameSPtr_, gravitationalParameter_, defaultCoordinatesBrokerSPtr_
     );
     EXPECT_NO_THROW(condition.evaluate(defaultStateVector_, 0.0));
 }

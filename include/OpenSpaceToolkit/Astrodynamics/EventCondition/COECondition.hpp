@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_EventConditions_COECondition__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
@@ -13,6 +14,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 namespace ostk
 {
@@ -24,6 +26,7 @@ namespace eventcondition
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 using ostk::math::obj::Vector3d;
@@ -35,6 +38,7 @@ using ostk::physics::units::Length;
 
 using ostk::astro::eventcondition::RealEventCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 /// @brief                      A Classical Orbital Element based event condition
 
@@ -53,6 +57,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aTarget A target value associated with the COECondition
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter The derived gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A coordinates broker
 
     COECondition(
         const String& aName,
@@ -60,7 +65,8 @@ class COECondition : public RealEventCondition
         const COE::Element& anElement,
         const Real& aTarget,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Virtual destructor
@@ -85,6 +91,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aSemiMajorAxis A semi major axis
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -92,7 +99,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Length& aSemiMajorAxis,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Eccentricity based constructor
@@ -101,6 +109,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] anEccentricity An eccentricity
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -108,7 +117,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Real& anEccentricity,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Inclination based constructor
@@ -117,6 +127,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] anInclination An inclination
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -124,7 +135,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& aSemiMajorAxis,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Argument of Periapsis based constructor
@@ -133,6 +145,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] anAOP An argument of periapsis
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -140,7 +153,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& anAOP,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Right Ascension of Ascending Node based constructor
@@ -149,6 +163,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aRAAN A right angle of ascending node
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -156,7 +171,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& aRAAN,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  True Anomaly based constructor
@@ -165,6 +181,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aTrueAnomaly A true anomaly
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -172,7 +189,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& aTrueAnomaly,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Mean Anomaly based constructor
@@ -181,6 +199,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] aMeanAnomaly A mean anomaly
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -188,7 +207,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& aMeanAnomaly,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Eccentric Anomaly based constructor
@@ -197,6 +217,7 @@ class COECondition : public RealEventCondition
     /// @param                  [in] anEccentricAnomaly An eccentric anomaly
     /// @param                  [in] aFrameSPtr The reference frame used to compute the element
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aCoordinatesBrokerSPtr A Coordinates Broker
     ///
     /// @return                 COECondition object
 
@@ -204,7 +225,8 @@ class COECondition : public RealEventCondition
         const Criteria& aCriteria,
         const Angle& anEccentricAnomaly,
         const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter
+        const Derived& aGravitationalParameter,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
    private:
@@ -212,16 +234,11 @@ class COECondition : public RealEventCondition
     Shared<const Frame> frameSPtr_;
     Derived gravitationalParameter_;
 
-    /// @brief                  Get evaluation function from element
-    ///
-    /// @param                  [in] anElement The element
-    /// @param                  [in] aFrameSPtr The reference frame used to compute the element
-    /// @param                  [in] aGravitationalParameter The derived gravitational parameter
-    ///
-    /// @return                 Evaluation function
-
     static std::function<Real(const VectorXd&, const Real&)> GenerateEvaluator(
-        const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
+        const COE::Element& anElement,
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr,
+        const Derived& aGravitationalParameter
     );
 };
 
