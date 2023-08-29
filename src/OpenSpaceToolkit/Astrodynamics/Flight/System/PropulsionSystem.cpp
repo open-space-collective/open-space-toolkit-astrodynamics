@@ -61,7 +61,6 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
 {
     if (aThrust.isDefined() && aSpecificImpulse.isDefined())
     {
-
         thrust_ = aThrust.inUnit(thrustSIUnit);
         specificImpulse_ = aSpecificImpulse.inUnit(specificImpulseSIUnit);
 

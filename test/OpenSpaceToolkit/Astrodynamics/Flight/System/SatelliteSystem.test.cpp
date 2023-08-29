@@ -342,7 +342,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsi
     {
         EXPECT_EQ(satelliteSystem_.getPropulsionSystem(), propulsionSystem_);
     }
-    
+
     {
         EXPECT_ANY_THROW(SatelliteSystem::Undefined().getPropulsionSystem());
     }
