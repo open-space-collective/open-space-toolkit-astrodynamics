@@ -87,7 +87,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, EqualToOpe
     }
 
     {
-	    EXPECT_ANY_THROW(PropulsionSystem::Undefined() == propulsionSystem_);
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined() == propulsionSystem_);
     }
 }
 
@@ -121,7 +121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, NotEqualTo
     }
 
     {
-	    EXPECT_ANY_THROW(PropulsionSystem::Undefined() != propulsionSystem_);
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined() != propulsionSystem_);
     }
 }
 
@@ -177,11 +177,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Getters)
     }
 
     {
-	    EXPECT_ANY_THROW(PropulsionSystem::Undefined().getThrust());
+        EXPECT_ANY_THROW(PropulsionSystem::Undefined().getThrust());
         EXPECT_ANY_THROW(PropulsionSystem::Undefined().getSpecificImpulse());
         EXPECT_ANY_THROW(PropulsionSystem::Undefined().getMassFlowRate());
         EXPECT_ANY_THROW(PropulsionSystem::Undefined().getAcceleration(Mass(0.05, Mass::Unit::Kilogram)));
-	}
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Undefined)

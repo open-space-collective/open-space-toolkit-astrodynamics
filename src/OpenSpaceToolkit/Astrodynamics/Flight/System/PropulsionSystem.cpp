@@ -61,12 +61,18 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
 {
     if (aThrust.getUnit() != thrustSIUnit_)
     {
-        throw ostk::core::error::RuntimeError("Thrust unit [{}], does not match SI unit [{}].", aThrust.getUnit().toString(), thrustSIUnit_.toString());
+        throw ostk::core::error::RuntimeError(
+            "Thrust unit [{}], does not match SI unit [{}].", aThrust.getUnit().toString(), thrustSIUnit_.toString()
+        );
     }
 
     if (aSpecificImpulse.getUnit() != specificImpulseSIUnit_)
     {
-        throw ostk::core::error::RuntimeError("Specific impulse unit [{}], does not match SI unit [{}].", aSpecificImpulse.getUnit().toString(), specificImpulseSIUnit_.toString());
+        throw ostk::core::error::RuntimeError(
+            "Specific impulse unit [{}], does not match SI unit [{}].",
+            aSpecificImpulse.getUnit().toString(),
+            specificImpulseSIUnit_.toString()
+        );
     }
 
     thrust_ = aThrust;
@@ -74,7 +80,9 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
 
     if (aThrust.isDefined() && aSpecificImpulse.isDefined())
     {
-        massFlowRate_ = {aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit_};
+        massFlowRate_ = {
+            aThrust.getValue() / (aSpecificImpulse.getValue() * Earth::gravityConstant), massFlowRateSIUnit_
+        };
     }
     else
     {
@@ -89,7 +97,8 @@ bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) con
         return false;
     }
 
-    return (thrust_ == aPropulsionSystem.thrust_) && (specificImpulse_ == aPropulsionSystem.specificImpulse_ && massFlowRate_ == aPropulsionSystem.massFlowRate_);
+    return (thrust_ == aPropulsionSystem.thrust_) &&
+           (specificImpulse_ == aPropulsionSystem.specificImpulse_ && massFlowRate_ == aPropulsionSystem.massFlowRate_);
 }
 
 bool PropulsionSystem::operator!=(const PropulsionSystem& aPropulsionSystem) const
