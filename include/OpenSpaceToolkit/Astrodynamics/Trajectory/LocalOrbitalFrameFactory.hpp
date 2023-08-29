@@ -32,13 +32,12 @@ using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
 /// @brief                      Local orbital frame factory
 ///
-/// @note                       Implementation heavily inspired by (the great!)
-/// https://www.orekit.org/static/apidocs/org/orekit/frames/LocalOrbitalFrameFactory.html
+/// @note                       Allows to generate Frame based on instant, position, velocity
 
 class LocalOrbitalFrameFactory
 {
    public:
-    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity);
+    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
 
     static Shared<const LocalOrbitalFrameFactory> Construct(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
@@ -47,14 +46,14 @@ class LocalOrbitalFrameFactory
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
    private:
-    Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_;
+    LocalOrbitalFrameTransformProvider::Type type_;
     Shared<const Frame> parentFrameSPtr_;
 
     LocalOrbitalFrameFactory(
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
-    String generateFrameName(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity);
+    String generateFrameName(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
 };
 
 }  // namespace trajectory

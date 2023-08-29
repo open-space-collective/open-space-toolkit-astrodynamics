@@ -57,25 +57,33 @@ struct SharedFrameEnabler : public Frame
 };
 
 Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
-    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
-)
+    const Instant& anInstant,
+    const Vector3d& aPosition,
+    const Vector3d& aVelocity
+) const
 {
     // Uniqueness clashing risk here (see note in function 'generateFrameName')
     const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
+
+    Shared< const LocalOrbitalFrameTransformProvider> providerSPtr_ = LocalOrbitalFrameTransformProvider::Construct(
+        this->type_,
+        anInstant,
+        aPosition,
+        aVelocity
+    );
 
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
     {
         return frameSPtr;
     }
 
-    const Shared<const Frame> frameSPtr = std::make_shared<const SharedFrameEnabler>(
-        name, false, parentFrameSPtr_, std::dynamic_pointer_cast<const Provider>(providerSPtr_)
-    );
+    const Shared<const Frame> frameSPtr =
+        std::make_shared<const SharedFrameEnabler>(name, false, parentFrameSPtr_, providerSPtr_);
 
     FrameManager::Get().addFrame(frameSPtr);
 
     return frameSPtr;
-}
+};
 
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
@@ -93,19 +101,19 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
 )
 {
-    this->providerSPtr_ = LocalOrbitalFrameTransformProvider::Construct(aType);
+    this->type_ = aType;
     this->parentFrameSPtr_ = aParentFrame;
 }
 
 String LocalOrbitalFrameFactory::generateFrameName(
     const Instant& anInstant, [[maybe_unused]] const Vector3d& aPosition, [[maybe_unused]] const Vector3d& aVelocity
-)
+) const
 {
     // !! Since frames are being emplaced using only the instant and type is not 100% robust
     // We should use parent frame, type, isntant, pos, vel to ensure uniqueness of the frame name
     // Otherwise, 2 satellites with different parent frame, type, pos, vel will generate a clash in frames
     // just because they are at the same instant
-    return LocalOrbitalFrameTransformProvider::StringFromType(this->providerSPtr_->getType()) + "@" +
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" +
            anInstant.toString();
 }
 
