@@ -86,6 +86,31 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
     return std::make_shared<LocalOrbitalFrameFactory>(LocalOrbitalFrameFactory(aType, aParentFrame));
 }
 
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::NED, aParentFrame);
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::LVLH(const Shared<const Frame>& aParentFrame)
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::LVLH, aParentFrame);
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::VVLH(const Shared<const Frame>& aParentFrame)
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::VVLH, aParentFrame);
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::QSW(const Shared<const Frame>& aParentFrame)
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::QSW, aParentFrame);
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::TNW(const Shared<const Frame>& aParentFrame)
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::TNW, aParentFrame);
+}
+
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::VNC(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::VNC, aParentFrame);

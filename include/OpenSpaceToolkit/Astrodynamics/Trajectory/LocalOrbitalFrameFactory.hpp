@@ -44,6 +44,16 @@ class LocalOrbitalFrameFactory
         const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
     );
 
+    static Shared<const LocalOrbitalFrameFactory> NED(const Shared<const Frame>& aParentFrame);
+
+    static Shared<const LocalOrbitalFrameFactory> LVLH(const Shared<const Frame>& aParentFrame);
+
+    static Shared<const LocalOrbitalFrameFactory> VVLH(const Shared<const Frame>& aParentFrame);
+
+    static Shared<const LocalOrbitalFrameFactory> QSW(const Shared<const Frame>& aParentFrame);
+
+    static Shared<const LocalOrbitalFrameFactory> TNW(const Shared<const Frame>& aParentFrame);
+
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
    private:
