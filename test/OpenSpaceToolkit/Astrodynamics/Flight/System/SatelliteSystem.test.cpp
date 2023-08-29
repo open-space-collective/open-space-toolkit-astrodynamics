@@ -65,8 +65,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         dragCoefficient_ = 1.2;
 
         // Define propulsion system
-        const Scalar thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit_);
-        const Scalar specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit_);
+        const Scalar thrust_ = Scalar(0.01, PropulsionSystem::thrustSIUnit);
+        const Scalar specificImpulse_ = Scalar(100.0, PropulsionSystem::specificImpulseSIUnit);
 
         propulsionSystem_ = {
             thrust_,
@@ -341,6 +341,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsi
 {
     {
         EXPECT_EQ(satelliteSystem_.getPropulsionSystem(), propulsionSystem_);
+    }
+    
+    {
+        EXPECT_ANY_THROW(SatelliteSystem::Undefined().getPropulsionSystem());
     }
 }
 

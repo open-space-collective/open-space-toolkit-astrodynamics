@@ -37,9 +37,9 @@ using ostk::physics::Unit;
 class PropulsionSystem
 {
    public:
-    static Unit thrustSIUnit_;
-    static Unit specificImpulseSIUnit_;
-    static Unit massFlowRateSIUnit_;  // TBI: Define in ostk physics as proper units
+    static Unit thrustSIUnit;
+    static Unit specificImpulseSIUnit;
+    static Unit massFlowRateSIUnit;  // TBI: Define in ostk physics as proper units
 
     /// @brief              Constructor
     ///
