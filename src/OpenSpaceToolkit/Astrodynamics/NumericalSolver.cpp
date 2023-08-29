@@ -6,8 +6,12 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -18,7 +22,11 @@ using namespace boost::numeric::odeint;
 
 using ostk::core::types::Index;
 
+using ostk::physics::coord::Frame;
+using ostk::physics::time::Duration;
+
 using ostk::astro::RootSolver;
+using ostk::astro::trajectory::State;
 
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
@@ -400,15 +408,22 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
 
 NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     const NumericalSolver::StateVector& anInitialStateVector,
-    const Real& aStartTime,
-    const Real& anEndTime,
+    const Instant& aStartInstant,
+    const Instant& anEndInstant,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
+    const EventCondition& anEventCondition,
+    const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
 )
 {
-    NumericalSolver::ConditionSolution conditionSolution =
-        integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, anEventCondition);
-    conditionSolution.solution.second += aStartTime;
+    NumericalSolver::ConditionSolution conditionSolution = integrateDuration(
+        anInitialStateVector,
+        (anEndInstant - aStartInstant).inSeconds(),
+        aStartInstant,
+        aSystemOfEquations,
+        anEventCondition,
+        aCoordinatesBrokerSPtr
+    );
+    conditionSolution.solution.second += (aStartInstant - Instant::J2000()).inSeconds();  // TBM: This is broken
 
     return conditionSolution;
 }
@@ -425,8 +440,10 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
 NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     const StateVector& anInitialStateVector,
     const Real& aDurationInSeconds,
+    const Instant& startInstant,
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
+    const EventCondition& anEventCondition,
+    const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
 )
 {
     if (stepperType_ != NumericalSolver::StepperType::RungeKuttaDopri5)
@@ -466,7 +483,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     observeNumericalIntegration(stepper.current_state(), stepper.current_time());
 
     bool conditionSatisfied = false;
-    NumericalSolver::StateVector currentState;
+    NumericalSolver::StateVector currentStateVector;
 
     // account for integration direction
     std::function<bool(const double&)> checkTimeLimit;
@@ -485,40 +502,69 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
         };
     }
 
+    const Shared<const Frame> frameSPtr = Frame::GCRF();
+
     while (checkTimeLimit(currentTime))
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-        currentState = stepper.current_state();
+        currentStateVector = stepper.current_state();
 
-        conditionSatisfied =
-            anEventCondition.isSatisfied(currentState, currentTime, stepper.previous_state(), previousTime);
+        const State currentState = {
+            startInstant + Duration::Seconds(currentTime),
+            currentStateVector,
+            frameSPtr,
+            aCoordinatesBrokerSPtr,
+        };
+
+        const State previousState = {
+            startInstant + Duration::Seconds(previousTime),
+            stepper.previous_state(),
+            frameSPtr,
+            aCoordinatesBrokerSPtr,
+        };
+
+        conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 
         if (conditionSatisfied)
         {
             break;
         }
 
-        observeNumericalIntegration(currentState, currentTime);
+        observeNumericalIntegration(currentStateVector, currentTime);
     }
 
     if (!conditionSatisfied)
     {
-        stepper.calc_state(aDurationInSeconds, currentState);
+        stepper.calc_state(aDurationInSeconds, currentStateVector);
         return {
-            {currentState, aDurationInSeconds},
+            {currentStateVector, aDurationInSeconds},
             false,
             0,
             false,
         };
     }
 
-    const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
+    const auto checkCondition =
+        [&anEventCondition, &stepper, &frameSPtr, &aCoordinatesBrokerSPtr, &startInstant](const double& aTime) -> double
     {
         NumericalSolver::StateVector aState(stepper.current_state());
         stepper.calc_state(aTime, aState);
 
-        const bool isSatisfied =
-            anEventCondition.isSatisfied(aState, aTime, stepper.previous_state(), stepper.previous_time());
+        const State currentState = {
+            startInstant + Duration::Seconds(aTime),
+            aState,
+            frameSPtr,
+            aCoordinatesBrokerSPtr,
+        };
+
+        const State previousState = {
+            startInstant + Duration::Seconds(stepper.previous_time()),
+            stepper.previous_state(),
+            frameSPtr,
+            aCoordinatesBrokerSPtr,
+        };
+
+        const bool isSatisfied = anEventCondition.isSatisfied(currentState, previousState);
         return isSatisfied ? 1.0 : -1.0;
     };
 
@@ -539,7 +585,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
     // Condition at currentTime => True
     // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
-    NumericalSolver::StateVector solutionState(currentState.size());
+    NumericalSolver::StateVector solutionState(currentStateVector.size());
     const double solutionTime = solution.root;
 
     stepper.calc_state(solutionTime, solutionState);

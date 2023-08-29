@@ -8,6 +8,8 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -17,6 +19,8 @@ using ostk::core::types::Real;
 using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
+
+using ostk::astro::trajectory::State;
 
 /// @brief                      An Event Condition defines a criteria that can be evaluated
 ///                             based on a current/previous state vectors and times
@@ -100,12 +104,7 @@ class EventCondition
     ///
     /// @return                 Boolean value indicating if the Event Condition is met
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const = 0;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
     /// @brief                  Convert criteria to string
     ///

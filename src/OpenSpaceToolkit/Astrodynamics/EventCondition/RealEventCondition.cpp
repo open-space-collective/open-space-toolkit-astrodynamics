@@ -15,7 +15,7 @@ namespace eventcondition
 RealEventCondition::RealEventCondition(
     const String& aName,
     const Criteria& aCriteria,
-    const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+    const std::function<Real(const State& aState)> anEvaluator,
     const Real& aTarget
 )
     : EventCondition(aName, aCriteria),
@@ -31,20 +31,15 @@ Real RealEventCondition::getTarget() const
     return target_;
 }
 
-Real RealEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+Real RealEventCondition::evaluate(const State& aState) const
 {
-    return this->evaluator_(aStateVector, aTime) - target_;
+    return this->evaluator_(aState) - target_;
 }
 
-bool RealEventCondition::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
+bool RealEventCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    const Real currentValue = evaluate(currentStateVector, currentTime);
-    const Real previousValue = evaluate(previousStateVector, previousTime);
+    const Real currentValue = evaluate(currentState);
+    const Real previousValue = evaluate(previousState);
 
     return getComparator()(currentValue, previousValue);
 }

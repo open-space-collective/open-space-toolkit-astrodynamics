@@ -57,12 +57,7 @@ class Conjunctive : public LogicalConnective
     ///
     /// @return                 Boolean value indicating if the Conjunctive Event Condition is met.
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 };
 
 }  // namespace eventcondition

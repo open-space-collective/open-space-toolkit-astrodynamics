@@ -28,12 +28,10 @@ COECondition::COECondition(
     const Criteria& aCriteria,
     const COE::Element& anElement,
     const Real& aTarget,
-    const Shared<const Frame>& aFrameSPtr,
     const Derived& aGravitationalParameter
 )
-    : RealEventCondition(aName, aCriteria, GenerateEvaluator(anElement, aFrameSPtr, aGravitationalParameter), aTarget),
+    : RealEventCondition(aName, aCriteria, GenerateEvaluator(anElement, aGravitationalParameter), aTarget),
       element_(anElement),
-      frameSPtr_(aFrameSPtr),
       gravitationalParameter_(aGravitationalParameter)
 {
 }
@@ -51,10 +49,7 @@ COE::Element COECondition::getElement() const
 }
 
 COECondition COECondition::SemiMajorAxis(
-    const Criteria& aCriteria,
-    const Length& aSemiMajorAxis,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -62,16 +57,12 @@ COECondition COECondition::SemiMajorAxis(
         aCriteria,
         COE::Element::SemiMajorAxis,
         aSemiMajorAxis.inMeters(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::Eccentricity(
-    const Criteria& aCriteria,
-    const Real& anEccentricity,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Real& anEccentricity, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -79,16 +70,12 @@ COECondition COECondition::Eccentricity(
         aCriteria,
         COE::Element::Eccentricity,
         anEccentricity,
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::Inclination(
-    const Criteria& aCriteria,
-    const Angle& anInclination,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anInclination, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -96,16 +83,12 @@ COECondition COECondition::Inclination(
         aCriteria,
         COE::Element::Inclination,
         anInclination.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::Aop(
-    const Criteria& aCriteria,
-    const Angle& anArgumentOfPeriapsis,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -113,16 +96,12 @@ COECondition COECondition::Aop(
         aCriteria,
         COE::Element::Aop,
         anArgumentOfPeriapsis.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::Raan(
-    const Criteria& aCriteria,
-    const Angle& aRightAscensionOfAscendingNode,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aRightAscensionOfAscendingNode, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -130,16 +109,12 @@ COECondition COECondition::Raan(
         aCriteria,
         COE::Element::Raan,
         aRightAscensionOfAscendingNode.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::TrueAnomaly(
-    const Criteria& aCriteria,
-    const Angle& aTrueAnomaly,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -147,16 +122,12 @@ COECondition COECondition::TrueAnomaly(
         aCriteria,
         COE::Element::TrueAnomaly,
         aTrueAnomaly.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::MeanAnomaly(
-    const Criteria& aCriteria,
-    const Angle& aMeanAnomaly,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -164,16 +135,12 @@ COECondition COECondition::MeanAnomaly(
         aCriteria,
         COE::Element::MeanAnomaly,
         aMeanAnomaly.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
 COECondition COECondition::EccentricAnomaly(
-    const Criteria& aCriteria,
-    const Angle& anEccentricAnomaly,
-    const Shared<const Frame>& aFrameSPtr,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -181,24 +148,19 @@ COECondition COECondition::EccentricAnomaly(
         aCriteria,
         COE::Element::EccentricAnomaly,
         anEccentricAnomaly.inRadians(),
-        aFrameSPtr,
         aGravitationalParameter,
     };
 }
 
-std::function<Real(const VectorXd&, const Real&)> COECondition::GenerateEvaluator(
-    const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
+std::function<Real(const State&)> COECondition::GenerateEvaluator(
+    const COE::Element& anElement, const Derived& aGravitationalParameter
 )
 {
     // The parameters must be captured by value as the function is being initialized during construction
-    return [anElement,
-            aFrameSPtr,
-            aGravitationalParameter](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+    return [anElement, aGravitationalParameter](const State& aState) -> Real
     {
-        // TBI: Get frame from Broker
-        // TBI: Get pos,vel indexes from broker
-        const Position position = Position::Meters(aStateVector.segment(0, 3), aFrameSPtr);
-        const Velocity velocity = Velocity::MetersPerSecond(aStateVector.segment(3, 3), aFrameSPtr);
+        const Position position = aState.getPosition();
+        const Velocity velocity = aState.getVelocity();
 
         const COE coe = COE::Cartesian({position, velocity}, aGravitationalParameter);
 

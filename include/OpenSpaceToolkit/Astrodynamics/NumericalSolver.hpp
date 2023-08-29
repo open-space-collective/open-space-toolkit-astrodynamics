@@ -7,12 +7,16 @@
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 namespace ostk
 {
@@ -25,10 +29,14 @@ using ostk::core::types::Integer;
 using ostk::core::types::Real;
 using ostk::core::types::Size;
 using ostk::core::types::String;
+using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::time::Instant;
+
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 /// @brief                      Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be
 /// moved into OSTk-math in the future.
@@ -265,10 +273,11 @@ class NumericalSolver
 
     ConditionSolution integrateTime(
         const StateVector& anInitialStateVector,
-        const Real& aStartTime,
-        const Real& anEndTime,
+        const Instant& aStartInstant,
+        const Instant& anEndInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const Shared<CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
     /// @brief                  Perform numerical integration for a specified duration
@@ -317,16 +326,20 @@ class NumericalSolver
     /// @endcode
     /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
     /// @param                  [in] aDurationInSeconds A duration to integrate for
+    /// @param                  [in] startInstant Start time of the integration
     /// @param                  [in] aSystemOfEquations An std::function wrapper with a particular signature that
     ///                         boost::odeint accepts to perform numerical integration
     /// @param                  [in] anEventCondition An event condition
+    /// @param                  [in] aCoordinatesBroker A coordinates broker
     /// @return                 Solution
 
     ConditionSolution integrateDuration(
         const StateVector& anInitialStateVector,
         const Real& aDurationInSeconds,
+        const Instant& startInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const Shared<CoordinatesBroker>& aCoordinatesBroker
     );
 
     /// @brief                  Get string from the integration stepper type

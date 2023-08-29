@@ -22,9 +22,8 @@ using ostk::core::ctnr::Array;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::VectorXd;
-
 using ostk::astro::eventcondition::LogicalConnective;
+using ostk::astro::trajectory::State;
 
 /// @brief                      Logical Disjunctive of provided Event Conditions
 ///
@@ -56,12 +55,7 @@ class Disjunctive : public LogicalConnective
     ///
     /// @return                 Boolean value indicating if the Disjunctive Event Condition is met.
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 };
 
 }  // namespace eventcondition

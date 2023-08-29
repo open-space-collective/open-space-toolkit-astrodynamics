@@ -166,11 +166,13 @@ State Propagator::calculateStateAt(
 
     const Instant startInstant = aState.getInstant();
 
-    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
+    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
         extractCoordinatesFromState(aState),
-        (anInstant - startInstant).inSeconds(),
+        startInstant,
+        anInstant,
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr),
-        anEventCondition
+        anEventCondition,
+        this->accessCoordinatesBroker()
     );
 
     if (!conditionSolution.conditionIsSatisfied)

@@ -9,6 +9,7 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -23,6 +24,7 @@ using ostk::core::types::String;
 using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::State;
 
 /// @brief                      A Real Event Condition is a condition that is met when computed value matches the
 /// criteria at a target value
@@ -45,7 +47,7 @@ class RealEventCondition : public EventCondition
     RealEventCondition(
         const String& aName,
         const Criteria& aCriteria,
-        const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+        const std::function<Real(const State&)> anEvaluator,
         const Real& aTarget = 0.0
     );
 
@@ -66,7 +68,7 @@ class RealEventCondition : public EventCondition
     ///
     /// @return                 Real number representing the evaluation result of the Event Condition
 
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
+    Real evaluate(const State& aState) const;
 
     /// @brief                  Check if the Real Event Condition is satisfied based on current state/time and previous
     /// state/time
@@ -78,12 +80,7 @@ class RealEventCondition : public EventCondition
     ///
     /// @return                 Boolean value indicating if the Real Event Condition is met
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
     /// @brief                  Print the Real Event Condition
     ///
@@ -95,7 +92,7 @@ class RealEventCondition : public EventCondition
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    std::function<Real(const VectorXd&, const Real&)> evaluator_;
+    std::function<Real(const State&)> evaluator_;
     Real target_;
 };
 

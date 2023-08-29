@@ -15,21 +15,14 @@ Conjunctive::Conjunctive(const Array<Shared<EventCondition>>& eventConditions)
 
 Conjunctive::~Conjunctive() {}
 
-bool Conjunctive::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
+bool Conjunctive::isSatisfied(const State& currentState, const State& previousState) const
 {
     return std::all_of(
         eventConditions_.begin(),
         eventConditions_.end(),
-        [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
-            const Shared<EventCondition>& eventCondition
-        ) -> bool
+        [&currentState, &previousState](const Shared<EventCondition>& eventCondition) -> bool
         {
-            return eventCondition->isSatisfied(currentStateVector, currentTime, previousStateVector, previousTime);
+            return eventCondition->isSatisfied(currentState, previousState);
         }
     );
 }

@@ -46,7 +46,7 @@ class BooleanEventCondition : public EventCondition
     BooleanEventCondition(
         const String& aName,
         const Criteria& aCriteria,
-        const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
+        const std::function<bool(const State&)> anEvaluator,
         const bool& anInverseFlag = false
     );
 
@@ -67,7 +67,7 @@ class BooleanEventCondition : public EventCondition
     ///
     /// @return                 Boolean representing the evaluation result of the Event Condition
 
-    bool evaluate(const VectorXd& aStateVector, const Real& aTime) const;
+    bool evaluate(const State& aState) const;
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
@@ -79,12 +79,7 @@ class BooleanEventCondition : public EventCondition
     ///
     /// @return                 Boolean value indicating if the Real Event Condition is met
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
     /// @brief                  Print the Boolean Event Condition
     ///
@@ -96,7 +91,7 @@ class BooleanEventCondition : public EventCondition
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    std::function<bool(const VectorXd&, const Real&)> evaluator_;
+    std::function<bool(const State&)> evaluator_;
     bool inverse_;
 };
 
