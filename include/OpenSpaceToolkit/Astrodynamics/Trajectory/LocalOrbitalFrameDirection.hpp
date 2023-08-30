@@ -33,7 +33,9 @@ using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 class LocalOrbitalFrameDirection
 {
    public:
-    LocalOrbitalFrameDirection(const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr);
+    LocalOrbitalFrameDirection(
+        const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+    );
 
     bool operator==(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const;
 

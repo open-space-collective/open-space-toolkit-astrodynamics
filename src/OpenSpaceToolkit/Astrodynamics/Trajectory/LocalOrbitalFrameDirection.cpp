@@ -15,7 +15,9 @@ namespace trajectory
 
 using ostk::core::types::Real;
 
-LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr)
+LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(
+    const Vector3d& aValue, const Shared<const LocalOrbitalFrameFactory>& aLocalOrbitalFrameFactorySPtr
+)
     : value_(aValue.normalized()),
       localOrbitalFrameFactorySPtr_(aLocalOrbitalFrameFactorySPtr)
 {
@@ -32,7 +34,8 @@ bool LocalOrbitalFrameDirection::operator==(const LocalOrbitalFrameDirection& aL
         return false;
     }
 
-    return (value_ == aLocalOrbitalFrameDirection.value_) && (localOrbitalFrameFactorySPtr_ == aLocalOrbitalFrameDirection.localOrbitalFrameFactorySPtr_);
+    return (value_ == aLocalOrbitalFrameDirection.value_) &&
+           (localOrbitalFrameFactorySPtr_ == aLocalOrbitalFrameDirection.localOrbitalFrameFactorySPtr_);
 }
 
 bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const
@@ -42,7 +45,8 @@ bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aL
 
 bool LocalOrbitalFrameDirection::isDefined() const
 {
-    return value_.isDefined() && (localOrbitalFrameFactorySPtr_ != nullptr);   // && localOrbitalFrameFactorySPtr_->isDefined();
+    return value_.isDefined() &&
+           (localOrbitalFrameFactorySPtr_ != nullptr);  // && localOrbitalFrameFactorySPtr_->isDefined();
 }
 
 const Shared<const LocalOrbitalFrameFactory>& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
@@ -65,6 +69,6 @@ LocalOrbitalFrameDirection LocalOrbitalFrameDirection::Undefined()
     return {Vector3d::Undefined(), LocalOrbitalFrameFactory::Undefined()};
 }
 
-}  // namespace data
+}  // namespace trajectory
 }  // namespace astro
 }  // namespace ostk
