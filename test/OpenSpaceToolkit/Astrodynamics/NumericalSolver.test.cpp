@@ -318,7 +318,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, Accessors)
 {
     {
-        EXPECT_NO_THROW(defaultRK54_.accessObservedStates());
+        EXPECT_NO_THROW(defaultRK54_.accessObservedStateVectors());
     }
 }
 
@@ -375,15 +375,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetRootSolver)
 TEST_F(OpenSpaceToolkit_Astrodynamics_NumericalSolver, GetObservedStates)
 {
     {
-        EXPECT_NO_THROW(defaultRK54_.getObservedStates());
+        EXPECT_NO_THROW(defaultRK54_.getObservedStateVectors());
     }
 
     {
-        EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
+        EXPECT_TRUE(defaultRK54_.getObservedStateVectors().isEmpty());
     }
 
     {
-        EXPECT_ANY_THROW(NumericalSolver::Undefined().getObservedStates());
+        EXPECT_ANY_THROW(NumericalSolver::Undefined().getObservedStateVectors());
     }
 }
 

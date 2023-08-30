@@ -7,7 +7,6 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 
 namespace ostk
 {
@@ -17,8 +16,6 @@ namespace astro
 using namespace boost::numeric::odeint;
 
 using ostk::core::types::Index;
-
-using ostk::astro::RootSolver;
 
 typedef runge_kutta4<NumericalSolver::StateVector> stepper_type_4;
 typedef runge_kutta_cash_karp54<NumericalSolver::StateVector> error_stepper_type_54;
@@ -30,16 +27,14 @@ NumericalSolver::NumericalSolver(
     const NumericalSolver::StepperType& aStepperType,
     const Real& aTimeStep,
     const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance,
-    const RootSolver& aRootSolver
+    const Real& anAbsoluteTolerance
 )
     : logType_(aLogType),
       stepperType_(aStepperType),
       timeStep_(aTimeStep),
       relativeTolerance_(aRelativeTolerance),
       absoluteTolerance_(anAbsoluteTolerance),
-      rootSolver_(aRootSolver),
-      observedStates_()
+      observedStateVectors_()
 {
 }
 
@@ -97,14 +92,14 @@ void NumericalSolver::print(std::ostream& anOutputStream, bool displayDecorator)
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-const Array<NumericalSolver::Solution>& NumericalSolver::accessObservedStates() const
+const Array<NumericalSolver::Solution>& NumericalSolver::accessObservedStateVectors() const
 {
     if (!this->isDefined())
     {
         throw ostk::core::error::runtime::Undefined("NumericalSolver");
     }
 
-    return this->observedStates_;
+    return this->observedStateVectors_;
 }
 
 NumericalSolver::LogType NumericalSolver::getLogType() const
@@ -157,19 +152,9 @@ Real NumericalSolver::getAbsoluteTolerance() const
     return this->absoluteTolerance_;
 }
 
-RootSolver NumericalSolver::getRootSolver() const
+Array<NumericalSolver::Solution> NumericalSolver::getObservedStateVectors() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
-    return this->rootSolver_;
-}
-
-Array<NumericalSolver::Solution> NumericalSolver::getObservedStates() const
-{
-    return this->accessObservedStates();
+    return this->accessObservedStateVectors();
 }
 
 Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
@@ -179,7 +164,7 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    observedStates_.clear();
+    observedStateVectors_.clear();
 
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
@@ -245,12 +230,25 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateTime(
             break;
         }
 
+        case NumericalSolver::StepperType::RungeKuttaDopri5:
+        {
+            integrate_times(
+                make_controlled(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5()),
+                aSystemOfEquations,
+                aStateVector,
+                durationArray,
+                adjustedTimeStep,
+                observer
+            );
+            break;
+        }
+
         default:
             throw ostk::core::error::runtime::Wrong("Stepper type");
     }
 
     // Return array of StateVectors excluding first element which is a repeat of the startState
-    return Array<NumericalSolver::Solution>(observedStates_.begin() + 1, observedStates_.end());
+    return Array<NumericalSolver::Solution>(observedStateVectors_.begin() + 1, observedStateVectors_.end());
 }
 
 NumericalSolver::Solution NumericalSolver::integrateDuration(
@@ -261,7 +259,7 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
 {
     NumericalSolver::StateVector aStateVector = anInitialStateVector;
 
-    observedStates_.clear();
+    observedStateVectors_.clear();
 
     if (aDurationInSeconds.isZero())  // If integration duration is zero seconds long, skip integration
     {
@@ -379,6 +377,43 @@ NumericalSolver::Solution NumericalSolver::integrateDuration(
             }
         }
 
+        case NumericalSolver::StepperType::RungeKuttaDopri5:
+        {
+            switch (logType_)
+            {
+                case NumericalSolver::LogType::NoLog:
+                case NumericalSolver::LogType::LogAdaptive:
+                {
+                    integrate_adaptive(
+                        make_controlled(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5()),
+                        aSystemOfEquations,
+                        aStateVector,
+                        (0.0),
+                        (double)aDurationInSeconds,
+                        adjustedTimeStep,
+                        observer
+                    );
+                    return {aStateVector, aDurationInSeconds};
+                }
+
+                case NumericalSolver::LogType::LogConstant:
+                {
+                    integrate_const(
+                        make_controlled(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5()),
+                        aSystemOfEquations,
+                        aStateVector,
+                        (0.0),
+                        (double)aDurationInSeconds,
+                        adjustedTimeStep,
+                        observer
+                    );
+                    return {aStateVector, aDurationInSeconds};
+                }
+                default:
+                    throw ostk::core::error::runtime::Wrong("Log type");
+            }
+        }
+
         default:
             throw ostk::core::error::runtime::Wrong("Stepper type");
     }
@@ -398,21 +433,6 @@ NumericalSolver::Solution NumericalSolver::integrateTime(
     return this->integrateDuration(anInitialStateVector, (anEndTime - aStartTime), aSystemOfEquations);
 }
 
-NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
-    const NumericalSolver::StateVector& anInitialStateVector,
-    const Real& aStartTime,
-    const Real& anEndTime,
-    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
-)
-{
-    NumericalSolver::ConditionSolution conditionSolution =
-        integrateDuration(anInitialStateVector, anEndTime - aStartTime, aSystemOfEquations, anEventCondition);
-    conditionSolution.solution.second += aStartTime;
-
-    return conditionSolution;
-}
-
 Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
     const NumericalSolver::StateVector& anInitialStateVector,
     const Array<Real>& aDurationArray,
@@ -420,137 +440,6 @@ Array<NumericalSolver::Solution> NumericalSolver::integrateDuration(
 )
 {
     return integrateTime(anInitialStateVector, 0.0, aDurationArray, aSystemOfEquations);
-}
-
-NumericalSolver::ConditionSolution NumericalSolver::integrateDuration(
-    const StateVector& anInitialStateVector,
-    const Real& aDurationInSeconds,
-    const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations,
-    const EventCondition& anEventCondition
-)
-{
-    if (stepperType_ != NumericalSolver::StepperType::RungeKuttaDopri5)
-    {
-        throw ostk::core::error::runtime::ToBeImplemented(
-            "Integrating with conditions is only supported with RungeKuttaDopri5 stepper type."
-        );
-    }
-
-    observedStates_.clear();
-
-    if (aDurationInSeconds.isZero())
-    {
-        return {
-            {anInitialStateVector, 0.0},
-            false,
-            0,
-            false,
-        };
-    }
-
-    NumericalSolver::StateVector aStateVector = anInitialStateVector;
-
-    // Ensure that the time step is the correct sign
-    const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
-
-    // TBI: Adapt this to any dense stepper type
-    auto stepper = make_dense_output(absoluteTolerance_, relativeTolerance_, dense_stepper_type_5());
-
-    // initialize stepper
-    double currentTime = 0.0;
-    stepper.initialize(aStateVector, currentTime, signedTimeStep);
-
-    // do first step
-    double previousTime;
-    std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-    observeNumericalIntegration(stepper.current_state(), stepper.current_time());
-
-    bool conditionSatisfied = false;
-    NumericalSolver::StateVector currentState;
-
-    // account for integration direction
-    std::function<bool(const double&)> checkTimeLimit;
-    if (aDurationInSeconds > 0.0)
-    {
-        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
-        {
-            return aTime < aDurationInSeconds;
-        };
-    }
-    else
-    {
-        checkTimeLimit = [&aDurationInSeconds](const double& aTime) -> bool
-        {
-            return aTime > aDurationInSeconds;
-        };
-    }
-
-    while (checkTimeLimit(currentTime))
-    {
-        std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-        currentState = stepper.current_state();
-
-        conditionSatisfied =
-            anEventCondition.isSatisfied(currentState, currentTime, stepper.previous_state(), previousTime);
-
-        if (conditionSatisfied)
-        {
-            break;
-        }
-
-        observeNumericalIntegration(currentState, currentTime);
-    }
-
-    if (!conditionSatisfied)
-    {
-        stepper.calc_state(aDurationInSeconds, currentState);
-        return {
-            {currentState, aDurationInSeconds},
-            false,
-            0,
-            false,
-        };
-    }
-
-    const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
-    {
-        NumericalSolver::StateVector aState(stepper.current_state());
-        stepper.calc_state(aTime, aState);
-
-        const bool isSatisfied =
-            anEventCondition.isSatisfied(aState, aTime, stepper.previous_state(), stepper.previous_time());
-        return isSatisfied ? 1.0 : -1.0;
-    };
-
-    // Condition at previousTime => True
-    // Condition at currentTime => True
-    // Initial state satisfies the condition, return the initial state
-    if (checkCondition(previousTime) == checkCondition(currentTime))
-    {
-        return {
-            {aStateVector, 0.0},
-            true,
-            0,
-            true,
-        };
-    }
-
-    // Condition at previousTime => False
-    // Condition at currentTime => True
-    // Search for the exact time of the condition change
-    const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
-    NumericalSolver::StateVector solutionState(currentState.size());
-    const double solutionTime = solution.root;
-
-    stepper.calc_state(solutionTime, solutionState);
-    observeNumericalIntegration(solutionState, solutionTime);
-
-    return {
-        {solutionState, solutionTime},
-        true,
-        solution.iterationCount,
-        solution.hasConverged,
-    };
 }
 
 String NumericalSolver::StringFromLogType(const NumericalSolver::LogType& aLogType)
@@ -627,7 +516,7 @@ NumericalSolver NumericalSolver::DefaultConditional()
 
 void NumericalSolver::observeNumericalIntegration(const NumericalSolver::StateVector& x, const double t)
 {
-    observedStates_.add({x, t});
+    observedStateVectors_.add({x, t});
 
     switch (logType_)
     {

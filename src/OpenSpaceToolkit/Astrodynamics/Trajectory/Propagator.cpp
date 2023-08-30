@@ -146,13 +146,9 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const Instant startInstant = aState.getInstant();
 
-    const NumericalSolver::Solution solution = numericalSolver_.integrateDuration(
-        extractCoordinatesFromState(aState),
-        (anInstant - startInstant).inSeconds(),
-        Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
+    return numericalSolver_.integrateTime(
+        aState, anInstant, Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
     );
-
-    return State(anInstant, solution.first, integrationFrameSPtr, this->coordinatesBrokerSPtr_);
 }
 
 State Propagator::calculateStateAt(
@@ -166,9 +162,9 @@ State Propagator::calculateStateAt(
 
     const Instant startInstant = aState.getInstant();
 
-    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
-        extractCoordinatesFromState(aState),
-        (anInstant - startInstant).inSeconds(),
+    const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
+        aState,
+        anInstant,
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr),
         anEventCondition
     );
@@ -178,17 +174,7 @@ State Propagator::calculateStateAt(
         throw ostk::core::error::RuntimeError("Condition not satisfied.");
     }
 
-    const NumericalSolver::Solution solution = conditionSolution.solution;
-
-    const NumericalSolver::StateVector endStateVector = solution.first;
-    const Instant endInstant = startInstant + Duration::Seconds(solution.second);
-
-    return {
-        endInstant,
-        endStateVector,
-        integrationFrameSPtr,
-        this->coordinatesBrokerSPtr_,
-    };
+    return conditionSolution.state;
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const
@@ -218,69 +204,50 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
 
     const Instant startInstant = aState.accessInstant();
 
-    Array<Real> forwardDurations;
-    forwardDurations.reserve(anInstantArray.getSize());
-    Array<Real> backwardDurations;
-    backwardDurations.reserve(anInstantArray.getSize());
+    Array<Instant> forwardInstants;
+    forwardInstants.reserve(anInstantArray.getSize());
+    Array<Instant> backwardInstants;
+    backwardInstants.reserve(anInstantArray.getSize());
 
     for (const Instant& anInstant : anInstantArray)
     {
-        const Real durationInSeconds = (anInstant - startInstant).inSeconds();
-
         if (anInstant <= startInstant)
         {
-            backwardDurations.add(durationInSeconds);
+            backwardInstants.add(anInstant);
         }
         else
         {
-            forwardDurations.add(durationInSeconds);
+            forwardInstants.add(anInstant);
         }
     }
 
-    const NumericalSolver::StateVector extractedCoordinates = extractCoordinatesFromState(aState);
-
     // forward propagation only
-    Array<NumericalSolver::Solution> forwardPropagatedSolutions;
-    if (!forwardDurations.isEmpty())
+    Array<State> forwardPropagatedStates;
+    if (!forwardInstants.isEmpty())
     {
-        forwardPropagatedSolutions = numericalSolver_.integrateDuration(
-            extractedCoordinates,
-            forwardDurations,
+        forwardPropagatedStates = numericalSolver_.integrateTime(
+            aState,
+            forwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
         );
     }
 
     // backward propagation only
-    Array<NumericalSolver::Solution> backwardPropagatedSolutions;
-    if (!backwardDurations.isEmpty())
+    Array<State> backwardPropagatedStates;
+    if (!backwardInstants.isEmpty())
     {
-        std::reverse(backwardDurations.begin(), backwardDurations.end());
+        std::reverse(backwardInstants.begin(), backwardInstants.end());
 
-        backwardPropagatedSolutions = numericalSolver_.integrateDuration(
-            extractedCoordinates,
-            backwardDurations,
+        backwardPropagatedStates = numericalSolver_.integrateTime(
+            aState,
+            backwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
         );
 
-        std::reverse(backwardPropagatedSolutions.begin(), backwardPropagatedSolutions.end());
+        std::reverse(backwardPropagatedStates.begin(), backwardPropagatedStates.end());
     }
 
-    Array<State> propagatedStates;
-    propagatedStates.reserve(anInstantArray.getSize());
-
-    Size k = 0;
-    for (const NumericalSolver::Solution& solution : (backwardPropagatedSolutions + forwardPropagatedSolutions))
-    {
-        propagatedStates.add({
-            anInstantArray[k],
-            solution.first,
-            integrationFrameSPtr,
-            this->coordinatesBrokerSPtr_,
-        });
-        ++k;
-    }
-
-    return propagatedStates;
+    return backwardPropagatedStates + forwardPropagatedStates;
 }
 
 void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) const

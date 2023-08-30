@@ -1,0 +1,192 @@
+/// Apache License 2.0
+
+#ifndef __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
+#define __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
+
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Real.hpp>
+
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
+namespace ostk
+{
+namespace astro
+{
+namespace trajectory
+{
+namespace state
+{
+
+using ostk::core::ctnr::Array;
+
+using ostk::physics::time::Instant;
+
+using ostk::astro::trajectory::State;
+using ostk::astro::RootSolver;
+using MathNumericalSolver = ostk::astro::NumericalSolver;
+
+/// @brief                      Defines an astrodynamics state contextual Numerical Solver. This class inherits from the
+///                             OSTk Mathematics Numerical Solver.
+
+class NumericalSolver : public MathNumericalSolver
+{
+   public:
+    /// @brief                  Constructor
+    ///
+    /// @code
+    ///                         NumericalSolver numericalSolver = { aLogType, aStepperType, aTimeStep,
+    ///                         aRelativeTolerance, anAbsoluteTolerance };
+    /// @endcode
+    ///
+    /// @param                  [in] aLogType An enum indicating the amount of verbosity wanted to be logged during
+    ///                         numerical integration
+    /// @param                  [in] aStepperType An enum indicating the type of numerical stepper used to perform
+    ///                         integration
+    /// @param                  [in] aTimeStep A number indicating the initial guess time step the numerical solver will
+    ///                         take
+    /// @param                  [in] aRelativeTolerance A number indicating the relative integration tolerance
+    /// @param                  [in] anAbsoluteTolerance A number indicating the absolute integration tolerance
+    /// @param                  [in] aRootSolver A root solver to be used to solve the event condition
+
+    NumericalSolver(
+        const NumericalSolver::LogType& aLogType,
+        const NumericalSolver::StepperType& aStepperType,
+        const Real& aTimeStep,
+        const Real& aRelativeTolerance,
+        const Real& anAbsoluteTolerance,
+        const RootSolver& aRootSolver = RootSolver::Default()
+    );
+
+    /// @brief                  Structure to hold the condition solution.
+
+    struct ConditionSolution
+    {
+        State state;                  ///< Final state after integration.
+        bool conditionIsSatisfied;    ///< Whether the condition is met.
+        Size iterationCount;          ///< Number of iterations performed.
+        bool rootSolverHasConverged;  ///< Whether the root solver has converged.
+    };
+
+    /// @brief                  Clone numerical solver
+    ///
+    /// @return                 Pointer to cloned numerical solver
+
+    NumericalSolver* clone() const;
+
+    /// @brief                  Access observed states
+    ///
+    /// @code
+    ///                         numericalSolver.accessObservedStates();
+    /// @endcode
+    ///
+    /// @return                 Observed states
+
+    const Array<State>& accessObservedStates() const;
+
+    /// @brief                  Get root solver
+    ///
+    /// @code
+    ///                         numericalSolver.getRootSolver();
+    /// @endcode
+    ///
+    /// @return                 RootSolver
+
+    RootSolver getRootSolver() const;
+
+    /// @brief                  Get observed states
+    ///
+    /// @code
+    ///                         numericalSolver.getObservedStates();
+    /// @endcode
+    ///
+    /// @return                 Observed states
+
+    Array<State> getObservedStates() const;
+
+    /// @brief                  Perform numerical integration for a given array of time instants.
+    ///
+    /// @param                  [in] aState Initial state for integration.
+    /// @param                  [in] aTimeArray Array of time instants.
+    /// @param                  [in] aSystemOfEquations System of equations to integrate.
+    /// @return                 Array of states for each time instant.
+
+    Array<State> integrateTime(
+        const State& aState, const Array<Instant>& aTimeArray, const SystemOfEquationsWrapper& aSystemOfEquations
+    );
+
+    /// @brief                  Perform numerical integration from a start time to an end time.
+    ///
+    /// @param                  [in] aState Initial state for integration.
+    /// @param                  [in] anInstant Time to integrate to.
+    /// @param                  [in] aSystemOfEquations System of equations to integrate.
+    /// @return                 Final state after integration.
+
+    State integrateTime(
+        const State& aState, const Instant& anInstant, const SystemOfEquationsWrapper& aSystemOfEquations
+    );
+
+    /// @brief                  Perform numerical integration from a start time until either a condition or an end time
+    /// is reached.
+    ///
+    /// @param                  [in] aState Initial state for integration.
+    /// @param                  [in] anInstant Maximum time to integrate to.
+    /// @param                  [in] aSystemOfEquations System of equations to integrate.
+    /// @param                  [in] anEventCondition Condition to be checked.
+    /// @return                 Structure containing the final state and condition-related information.
+
+    ConditionSolution integrateTime(
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const EventCondition& anEventCondition
+    );
+
+    /// Delete undesired methods from parent
+
+    Array<MathNumericalSolver::Solution> integrateTime(
+        const MathNumericalSolver::StateVector& anInitialStateVector,
+        const Real& aStartTime,
+        const Array<Real>& aTimeArray,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    ) = delete;
+
+    MathNumericalSolver::Solution integrateTime(
+        const MathNumericalSolver::StateVector& anInitialStateVector,
+        const Real& aStartTime,
+        const Real& anEndTime,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    ) = delete;
+
+    MathNumericalSolver::Solution integrateDuration(
+        const MathNumericalSolver::StateVector& anInitialStateVector,
+        const Real& aDurationInSeconds,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    ) = delete;
+
+    Array<MathNumericalSolver::Solution> integrateDuration(
+        const MathNumericalSolver::StateVector& anInitialStateVector,
+        const Array<Real>& aDurationArray,
+        const SystemOfEquationsWrapper& aSystemOfEquations
+    ) = delete;
+
+    Array<MathNumericalSolver::Solution> getObservedStateVectors() const = delete;
+
+    const Array<MathNumericalSolver::Solution>& accessObservedStateVectors() const = delete;
+
+   private:
+    RootSolver rootSolver_;
+
+    Array<State> observedStates_;
+};
+
+}  // namespace state
+}  // namespace trajectory
+}  // namespace astro
+}  // namespace ostk
+
+#endif

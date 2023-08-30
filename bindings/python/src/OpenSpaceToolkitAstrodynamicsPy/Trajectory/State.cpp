@@ -4,6 +4,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesBroker.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinatesSubset.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/NumericalSolver.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
 {
@@ -61,4 +62,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(state);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(state);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(state);
 }

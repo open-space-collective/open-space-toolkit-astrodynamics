@@ -9,10 +9,10 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -31,7 +31,7 @@ using ostk::core::types::Real;
 
 using ostk::physics::time::Instant;
 
-using ostk::astro::NumericalSolver;
+using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::orbit::Model;

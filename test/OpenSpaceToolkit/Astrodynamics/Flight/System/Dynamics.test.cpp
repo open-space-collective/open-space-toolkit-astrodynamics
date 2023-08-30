@@ -20,7 +20,7 @@ using ostk::math::obj::VectorXd;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
-using ostk::astro::NumericalSolver;
+using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;

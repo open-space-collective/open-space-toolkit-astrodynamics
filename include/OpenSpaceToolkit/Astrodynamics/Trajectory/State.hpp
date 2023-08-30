@@ -77,6 +77,8 @@ class State
 
     const VectorXd& accessCoordinates() const;
 
+    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+
     Size getSize() const;
 
     Instant getInstant() const;

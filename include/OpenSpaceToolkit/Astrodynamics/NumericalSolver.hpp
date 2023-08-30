@@ -11,9 +11,6 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
-
 namespace ostk
 {
 namespace astro
@@ -27,8 +24,6 @@ using ostk::core::types::Size;
 using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
-
-using ostk::astro::EventCondition;
 
 /// @brief                      Defines a numerical ODE solver that use the Boost Odeint libraries. This class will be
 /// moved into OSTk-math in the future.
@@ -56,14 +51,6 @@ class NumericalSolver
     typedef std::function<void(const StateVector&, StateVector&, const double)>
         SystemOfEquationsWrapper;  // Function pointer type for returning dynamical equation's pointers
 
-    struct ConditionSolution
-    {
-        Solution solution;
-        bool conditionIsSatisfied;
-        Size iterationCount;
-        bool rootSolverHasConverged;
-    };
-
     /// @brief                  Constructor
     ///
     /// @code
@@ -85,8 +72,7 @@ class NumericalSolver
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver = RootSolver::Default()
+        const Real& anAbsoluteTolerance
     );
 
     /// @brief                  Clone numerical solver
@@ -130,11 +116,11 @@ class NumericalSolver
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Access observed states
+    /// @brief                  Access observed state vectors
     ///
-    /// @return                 Observed states
+    /// @return                 Observed state vectors
 
-    const Array<Solution>& accessObservedStates() const;
+    const Array<Solution>& accessObservedStateVectors() const;
 
     /// @brief                  Get integration logging enum
     ///
@@ -186,25 +172,15 @@ class NumericalSolver
 
     Real getAbsoluteTolerance() const;
 
-    /// @brief                  Get root solver
+    /// @brief                  Get observed state vectors
     ///
     /// @code
-    ///                         numericalSolver.getRootSolver();
+    ///                         numericalSolver.getObservedStateVectors();
     /// @endcode
     ///
-    /// @return                 RootSolver
+    /// @return                 Observed state vectors
 
-    RootSolver getRootSolver() const;
-
-    /// @brief                  Get observed states
-    ///
-    /// @code
-    ///                         numericalSolver.getObservedStates();
-    /// @endcode
-    ///
-    /// @return                 Observed states
-
-    Array<Solution> getObservedStates() const;
+    Array<Solution> getObservedStateVectors() const;
 
     /// @brief                  Perform numerical integration from a start time to an array of times
     ///
@@ -247,30 +223,6 @@ class NumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     );
 
-    /// @brief                  Perform numerical integration from a start time
-    ///                         until either a condition or the end time is reached
-    ///
-    ///
-    /// @code
-    ///                         StateVector stateVector = numericalSolver.integrateTime(stateVector,
-    ///                         aStartTime, anEndTime, SystemOfEquations, anEventCondition);
-    /// @endcode
-    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param                  [in] aStartTime A time to begin integrating from
-    /// @param                  [in] anEndTime A maximum time to to integrate to
-    /// @param                  [in] aSystemOfEquations An std::function wrapper with a particular signature that
-    ///                         boost::odeint accepts to perform numerical integration
-    /// @param                  [in] anEventCondition An event condition
-    /// @return                 Solution
-
-    ConditionSolution integrateTime(
-        const StateVector& anInitialStateVector,
-        const Real& aStartTime,
-        const Real& anEndTime,
-        const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
-    );
-
     /// @brief                  Perform numerical integration for a specified duration
     ///
     /// @code
@@ -305,28 +257,6 @@ class NumericalSolver
         const StateVector& anInitialStateVector,
         const Array<Real>& aDurationArray,
         const SystemOfEquationsWrapper& aSystemOfEquations
-    );
-
-    /// @brief                  Perform numerical integration from a start time
-    ///                         until either a condition or duration is met.
-    ///
-    ///
-    /// @code
-    ///                         StateVector stateVector = numericalSolver.integrateDuration(stateVector,
-    ///                         aStartTime, aDurationInSeconds, SystemOfEquations, anEventCondition);
-    /// @endcode
-    /// @param                  [in] anInitialStateVector An initial n-dimensional state vector to begin integrating at
-    /// @param                  [in] aDurationInSeconds A duration to integrate for
-    /// @param                  [in] aSystemOfEquations An std::function wrapper with a particular signature that
-    ///                         boost::odeint accepts to perform numerical integration
-    /// @param                  [in] anEventCondition An event condition
-    /// @return                 Solution
-
-    ConditionSolution integrateDuration(
-        const StateVector& anInitialStateVector,
-        const Real& aDurationInSeconds,
-        const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
     );
 
     /// @brief                  Get string from the integration stepper type
@@ -367,19 +297,19 @@ class NumericalSolver
 
     static NumericalSolver DefaultConditional();
 
-   private:
+   protected:
     NumericalSolver::LogType logType_;
     NumericalSolver::StepperType stepperType_;
     Real timeStep_;
     Real relativeTolerance_;
     Real absoluteTolerance_;
-    RootSolver rootSolver_;
-
-    Array<Solution> observedStates_;
-
-    void observeNumericalIntegration(const StateVector& x, const double t);
 
     double getSignedTimeStep(const Real& aReal) const;
+
+   private:
+    Array<Solution> observedStateVectors_;
+
+    void observeNumericalIntegration(const StateVector& x, const double t);
 };
 
 }  // namespace astro
