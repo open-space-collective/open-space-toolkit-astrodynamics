@@ -33,10 +33,11 @@ using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
-ConstantThrustThruster::ConstantThrustThruster(const SatelliteSystem& aSatelliteSystem, const Direction& aThrustDirection, const String& aName)
+ConstantThrustThruster::ConstantThrustThruster(const SatelliteSystem& aSatelliteSystem, const LocalOrbitalFrameDirection& aThrustDirection, const String& aName)
     : Thruster(aSatelliteSystem, aName),
-      direction_(aThrustDirection)
+      localOrbitalFrameDirection_(aThrustDirection)
 {
 }
 
@@ -56,7 +57,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrustThrus
 
 bool ConstantThrustThruster::isDefined() const
 {
-    return direction_.isDefined();
+    return localOrbitalFrameDirection_.isDefined();
 }
 
 Scalar ConstantThrustThruster::getThrust() const
@@ -87,7 +88,7 @@ Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getWriteCoordinat
 }
 
 VectorXd ConstantThrustThruster::computeContribution(
-    [[maybe_unused]] const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
 ) const
 {
     const Vector3d positionCoordinates = {x[0], x[1], x[2]};
@@ -97,10 +98,8 @@ VectorXd ConstantThrustThruster::computeContribution(
     const Velocity velocity_GCRF = {velocityCoordinates, Velocity::Unit::MeterPerSecond, Frame::GCRF()};
 
     // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to GCRF (ECI)
-    Shared<const Frame> frameSPtr = this->direction_.getFrame();
-    Shared<const LOFProvider> providerSPtr = std::dynamic_pointer_cast<const LOFProvider>(frameSPtr->accessProvider());
-
-    Quaternion q_GCRF_LOF = providerSPtr->getTransformAt(anInstant, position_GCRF, velocity_GCRF).getOrientation();
+    Shared<const Frame> frameSPtr = this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(anInstant, positionCoordinates, velocityCoordinates);
+    Quaternion q_GCRF_LOF = frameSPtr->getTransformTo(Frame::GCRF(), anInstant).getOrientation();
 
     // TBImproved
     if (x[6] <= 0.0)
@@ -111,15 +110,15 @@ VectorXd ConstantThrustThruster::computeContribution(
     const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
 
     const Vector3d acceleration_LOF = satelliteSystem.getPropulsionSystem().getAcceleration(
-                                          Mass::Kilograms(x[6] + satelliteSystem.getMass().inKilograms())
-                                      ) *
-                                      this->direction_.getValue();
+                                          Mass::Kilograms(x[6])
+                                      ).getValue() *
+                                      this->localOrbitalFrameDirection_.getValue();
 
     const Vector3d acceleration_GCRF = q_GCRF_LOF.rotateVector(acceleration_LOF);
 
     // Compute contribution
     VectorXd contribution(4);
-    contribution << acceleration_GCRF[0], acceleration_GCRF[1], acceleration_GCRF[2], -satelliteSystem.getPropulsionSystem().getMassFlowRate().getValue(); // TBI: Everything is constant anyway as it comes from PropulsionSystem
+    contribution << acceleration_GCRF[0], acceleration_GCRF[1], acceleration_GCRF[2], -satelliteSystem.getPropulsionSystem().getMassFlowRate().getValue();
 
     return contribution;
 }

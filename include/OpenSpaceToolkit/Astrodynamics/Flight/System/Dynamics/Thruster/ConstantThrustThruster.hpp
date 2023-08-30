@@ -15,6 +15,8 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -33,7 +35,6 @@ using ostk::core::types::Real;
 using ostk::math::obj::Vector3d;
 using ostk::math::geom::d3::trf::rot::RotationMatrix;
 
-using ostk::physics::data::Direction;
 using ostk::physics::time::Instant;
 using ostk::physics::units::Mass;
 
@@ -41,6 +42,7 @@ using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
 /// @brief                      Define the acceleration experienced by a point mass due to a constant thrust thruster dynamics
 
@@ -58,7 +60,7 @@ class ConstantThrustThruster : public Thruster
     ///
     /// @param              [in] aDirection A direction
 
-    ConstantThrustThruster(const SatelliteSystem& aSatelliteSystem, const Direction& aThrustDirection, const String& aName = String::Empty());
+    ConstantThrustThruster(const SatelliteSystem& aSatelliteSystem, const LocalOrbitalFrameDirection& aThrustDirection, const String& aName = String::Empty());
 
     /// @brief              Destructor
 
@@ -142,7 +144,7 @@ class ConstantThrustThruster : public Thruster
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
    private:
-    Direction direction_;  // TBI: Orekit uses the Satellite frame (usually defined wrt Local Orbital Frame implementation) for Thrust direction
+    LocalOrbitalFrameDirection localOrbitalFrameDirection_;  // TBI: Orekit uses the Satellite frame (usually defined wrt Local Orbital Frame implementation) for Thrust direction
     // TBI: Check if we should constrain the Frame for direction_ to be a LOF and not Frame
 };
 

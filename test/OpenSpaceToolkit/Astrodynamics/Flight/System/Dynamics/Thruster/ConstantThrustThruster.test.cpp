@@ -22,8 +22,9 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Direction.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
@@ -40,6 +41,8 @@ using ostk::math::geom::d3::objects::Point;
 using ostk::math::obj::VectorXd;
 using ostk::math::obj::Matrix3d;
 using ostk::math::obj::Vector3d;
+
+using ostk::physics::data::Scalar;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -61,6 +64,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
@@ -84,36 +88,29 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             {1.0, 2.0, 3.0}
         ));
 
-        const PropulsionSystem propulsionSystem = PropulsionSystem(
-            100.0,  // Thrust
-            200.0   // Isp
-        );
+        const Scalar thrust_ = Scalar(1.0, PropulsionSystem::thrustSIUnit);
+        const Scalar specificImpulse_ = Scalar(1000.0, PropulsionSystem::specificImpulseSIUnit);
 
-        const PropulsionSystem uselessPropulsionSystem = PropulsionSystem(
-            0.0001,  // Thrust
-            0.00001   // Isp
+        propulsionSystem_ = PropulsionSystem(
+            thrust_,  // Thrust
+            specificImpulse_  // Isp
         );
 
         satelliteSystem_ = {
             Mass::Kilograms(100.0),
             satelliteGeometry,
             Matrix3d::Identity(),
-            500.0,
+            1.2,
             2.1,
-            propulsionSystem
+            propulsionSystem_,
         };
 
-        // Define local orbital frame for thrust direction definition
-        const Shared<const Frame> localOrbitalFrameSPtr = LocalOrbitalFrame::VNC();
-
-        direction_ = {{-1.0, 0.0, 0.0}, localOrbitalFrameSPtr};  // Not used by Thruster for now
+        localOrbitalFrameDirection_ = LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
         startStateVector_.resize(7);
-        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 100.0;
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
-
-        Frame::Destruct("VNCC");
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
@@ -132,9 +129,10 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
+    LocalOrbitalFrameDirection localOrbitalFrameDirection_ = LocalOrbitalFrameDirection::Undefined();
 
-    Direction direction_ = Direction::Undefined();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 
     NumericalSolver::StateVector startStateVector_;
 
@@ -144,59 +142,18 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Constructor)
 {
     {
-        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_, "aThrusterDynamicsName"));
+        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_, "aThrusterDynamicsName"));
     }
 
     {
-        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_));
+        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_));
     }
-
-    // {
-
-    //     const Composite satelliteGeometry(Cuboid(
-    //         {0.0, 0.0, 0.0},
-    //         {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-    //         {1.0, 2.0, 3.0}
-    //     ));
-
-    //     const SatelliteSystem satelliteSystem({
-    //         Mass::Kilograms(100.0),
-    //         satelliteGeometry,
-    //         Matrix3d::Identity(),
-    //         500.0,
-    //         2.1
-    //     });
-
-    //     const String expectedString = "{Propulsion System} is undefined.";
-
-    //     // Test the throw and the message that is thrown
-    //     EXPECT_THROW(
-    //         {
-    //             try
-    //             {
-    //                 ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
-    //             }
-    //             catch (const ostk::core::error::runtime::Undefined& e)
-    //             {
-    //                 EXPECT_EQ(expectedString, e.getMessage());
-    //                 throw;
-    //             }
-    //         },
-    //         ostk::core::error::runtime::Undefined
-    //     );
-    // }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, IsDefined)
-{
-    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
-    EXPECT_TRUE(constantThrustThrusterDynamics.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, StreamOperator)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
@@ -206,10 +163,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, IsDefined)
+{
+    {
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        EXPECT_TRUE(constantThrustThrusterDynamics.isDefined());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Print)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
@@ -219,42 +184,32 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetName)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Getters)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == String::Empty());
+        EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
+        EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
     }
 
     {
         const String thrusterDynamicsName = "aThrusterDynamicsName";
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_, thrusterDynamicsName);
+        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_, thrusterDynamicsName);
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
+        EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
+        EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
     }
-
-    // TBA
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetSatelliteSystem)
-{
-    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
-    EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, GetThrust)
-{
-    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
-    EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, ComputeContribution)
 {
-    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, direction_);
+    ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
     const VectorXd contribution = constantThrustThrusterDynamics.computeContribution(startInstant_, startStateVector_.segment(3, 4), Frame::GCRF());
 
     EXPECT_EQ(4, contribution.size());
-    // EXPECT_GT(1e-15, -4.620543790697659e-07 - contribution[0]);
-    // EXPECT_GT(1e-15, 2.948717888154649e-07 - contribution[1]);
-    // EXPECT_GT(1e-15, 1.301648617451192e-07 - contribution[2]);
-    // EXPECT_GT(1e-15, 1.301648617451192e-07 - contribution[2]);
+    EXPECT_GT(1e-15, contribution[0]);
+    EXPECT_GT(1e-15, contribution[1]);
+    EXPECT_GT(1e-15, contribution[2]);
+    EXPECT_GT(1e-15, -0.000101972 - contribution[3]);
 }
