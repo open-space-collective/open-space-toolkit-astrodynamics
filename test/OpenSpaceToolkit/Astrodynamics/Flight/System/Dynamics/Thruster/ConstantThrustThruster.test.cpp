@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
+#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Objects/CelestialBodies/Earth.hpp>
@@ -22,12 +23,11 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
-#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
 #include <Global.test.hpp>
 
@@ -92,7 +92,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
         const Scalar specificImpulse_ = Scalar(1000.0, PropulsionSystem::specificImpulseSIUnit);
 
         propulsionSystem_ = PropulsionSystem(
-            thrust_,  // Thrust
+            thrust_,          // Thrust
             specificImpulse_  // Isp
         );
 
@@ -105,7 +105,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             propulsionSystem_,
         };
 
-        localOrbitalFrameDirection_ = LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
+        localOrbitalFrameDirection_ =
+            LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
         startStateVector_.resize(7);
         startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
@@ -142,11 +143,15 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Constructor)
 {
     {
-        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_, "aThrusterDynamicsName"));
+        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(
+            satelliteSystem_, localOrbitalFrameDirection_, "aThrusterDynamicsName"
+        ));
     }
 
     {
-        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_));
+        EXPECT_NO_THROW(
+            ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_)
+        );
     }
 }
 
@@ -195,7 +200,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 
     {
         const String thrusterDynamicsName = "aThrusterDynamicsName";
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_, thrusterDynamicsName);
+        ConstantThrustThruster constantThrustThrusterDynamics(
+            satelliteSystem_, localOrbitalFrameDirection_, thrusterDynamicsName
+        );
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
         EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
         EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
@@ -205,7 +212,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, ComputeContribution)
 {
     ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
-    const VectorXd contribution = constantThrustThrusterDynamics.computeContribution(startInstant_, startStateVector_.segment(3, 4), Frame::GCRF());
+    const VectorXd contribution = constantThrustThrusterDynamics.computeContribution(
+        startInstant_, startStateVector_.segment(3, 4), Frame::GCRF()
+    );
 
     EXPECT_EQ(4, contribution.size());
     EXPECT_GT(1e-15, contribution[0]);
