@@ -66,10 +66,6 @@ class AtmosphericDrag : public Dynamics
         const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName
     );
 
-    AtmosphericDrag(
-        const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName, const Shared<const Celestial>& aSunCelestialObjectSPtr
-    );
-
     /// @brief              Destructor
 
     virtual ~AtmosphericDrag() override;
@@ -135,7 +131,6 @@ class AtmosphericDrag : public Dynamics
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;
-    Shared<const Celestial> sunCelestialObjectSPtr_;
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
