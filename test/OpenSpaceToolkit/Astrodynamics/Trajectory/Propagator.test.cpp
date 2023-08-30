@@ -16,6 +16,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Objects/Point.hpp>
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
@@ -42,6 +43,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
@@ -67,6 +69,7 @@ using ostk::math::obj::Matrix3d;
 using ostk::math::obj::Vector3d;
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::data::Scalar;
 using ostk::physics::Environment;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -96,12 +99,18 @@ using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+using ostk::astro::trajectory::Propagator;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::flight::system::dynamics::thruster::ConstantThrustThruster;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
@@ -118,12 +127,18 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             {1.0, 2.0, 3.0}
         ));
 
+        propulsionSystem_ = {
+            Scalar(0.1, PropulsionSystem::thrustSIUnit),
+            Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
+        };
+
         this->satelliteSystem_ = {
             Mass(100.0, Mass::Unit::Kilogram),
             satelliteGeometry,
             Matrix3d::Identity(),
             1.0,
             2.1,
+            propulsionSystem_,
         };
 
         this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
@@ -162,6 +177,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
@@ -1897,6 +1913,312 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
+        }
+    }
+}
+
+// TBI: Split in-plane vs out-of-plane test cases
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_ConstantThrustThruster_Maneuver)
+{
+    // Earth with no atmospheric drag and constant thrust maneuver for 1 hour
+    // Multiple test cases (thrust direction, local orbital frame)
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00.000"), Scale::UTC);
+
+        // Test Case (thrust direction, local orbital frame, reference data)
+        const Array<Tuple<Shared<const LocalOrbitalFrameFactory>, Vector3d, String>> testCases = {
+            {
+                LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_ConstantThrustManeuver_VNC_1hr_run.csv"
+            },
+            {
+                LocalOrbitalFrameFactory::TNW(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_ConstantThrustManeuver_TNW_1hr_run.csv"
+            },
+            {
+                LocalOrbitalFrameFactory::QSW(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_ConstantThrustManeuver_QSW_1hr_run.csv"
+            }
+        };
+
+        // Loop through test cases
+        for (const auto testCase : testCases)
+        {
+            // Extract test case input data
+            const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory = std::get<0>(testCase);
+            const Vector3d localOrbitalFrameThrustVector = std::get<1>(testCase);
+            const String referenceDataFileName = std::get<2>(testCase);
+
+            // Reference data setup
+            const Table referenceData = Table::Load(
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/" + referenceDataFileName)),
+                Table::Format::CSV,
+                true
+            );
+
+            // Initialize reference data arrays
+            Array<Instant> instantArray = Array<Instant>::Empty();
+            Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+            Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
+            Array<Vector3d> referenceAccelerationArrayGCRF = Array<Vector3d>::Empty();
+            Array<double> referenceMassArray = Array<double>::Empty();
+
+            for (const auto& referenceRow : referenceData)
+            {
+                instantArray.add(Instant::DateTime(
+                    DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+                ));
+
+                referencePositionArrayGCRF.add(
+                    Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+                );
+                referenceVelocityArrayGCRF.add(
+                    Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+                );
+                referenceAccelerationArrayGCRF.add(
+                    Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
+                );
+                referenceMassArray.add(
+                    referenceRow[10].accessReal()
+                );
+            }
+
+            // Setup dynamics
+            const Earth earth = Earth::FromModels(
+                std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+                std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined)
+            );
+            const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+
+            LocalOrbitalFrameDirection thrustDirection = LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
+
+            const Array<Shared<Dynamics>> dynamics = {
+                std::make_shared<PositionDerivative>(),
+                std::make_shared<CentralBodyGravity>(earthSPtr),
+                std::make_shared<ConstantThrustThruster>(satelliteSystem_, thrustDirection),
+            };
+
+            // Setup state and initial conditions
+            double initialPropellantMassInKilograms = 15.0;
+            VectorXd initialCoordinates(7);
+
+            initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], initialPropellantMassInKilograms + 100.0; // Add dry satellite mass
+
+            const Shared<const CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(
+                CoordinatesBroker(
+                    {
+                        CartesianPosition::Default(),
+                        CartesianVelocity::Default(),
+                        CoordinatesSubset::Mass(),
+                    }
+                )
+            );
+
+            const State state = {
+                startInstant,
+                initialCoordinates,
+                gcrfSPtr_,
+                coordinatesBrokerSPtr_,
+            };
+
+            // Setup Propagator model and orbit
+            const Propagator propagator = {defaultRK4_, dynamics};
+
+            // Propagate all states
+            const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
+
+            // Validation loop
+            for (size_t i = 0; i < instantArray.getSize(); i++)
+            {
+                // GCRF Compare
+                const Position positionGCRF = propagatedStateArray[i].getPosition();
+                const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
+                const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
+
+                const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+                const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+                const double massError = (mass - referenceMassArray[i]);
+
+                ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+
+                ASSERT_GT(5e-2, positionErrorGCRF); // TBRefined
+                ASSERT_GT(5e-5, velocityErrorGCRF); // TBRefined
+                ASSERT_GT(1e-9, massError);
+
+                // Results console output
+
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position OSTk is: " << positionGCRF.accessCoordinates() << "m" << std::endl;
+                // std::cout << "Position Orekit is: " << referencePositionArrayGCRF[i] << "m" << std::endl;
+                // std::cout << "Velocity OSTk is: " << velocityGCRF.accessCoordinates() << "m/s" << std::endl;
+                // std::cout << "Velocity Orekit is: " << referenceVelocityArrayGCRF[i] << "m/s" << std::endl;
+                // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityErrorGCRF << "m/s" << std::endl;
+                // std::cout << "Mass error is: " << massError << "kg" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+            }
+
+        }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Exponential_ConstantThrustThruster_Maneuver)
+{
+    // Earth with no atmospheric drag and constant thrust maneuver for 1h
+    // Multiple test cases (thrust direction, local orbital frame)
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2023-01-01 00:00:00.000"), Scale::UTC);
+
+        // Test Case (thrust direction, local orbital frame, reference data)
+        const Array<Tuple<Shared<const LocalOrbitalFrameFactory>, Vector3d, String>> testCases = {
+            {
+                LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_Drag_Exponential_ConstantThrustManeuver_VNC_1hr_run.csv"
+            },
+            {
+                LocalOrbitalFrameFactory::TNW(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_Drag_Exponential_ConstantThrustManeuver_TNW_1hr_run.csv"
+            },
+            {
+                LocalOrbitalFrameFactory::QSW(gcrfSPtr_),
+                Vector3d({1.0, 0.0, 0.0}),
+                "Orekit_Drag_Exponential_ConstantThrustManeuver_QSW_1hr_run.csv"
+            }
+        };
+
+        // Loop through test cases
+        for (const auto testCase : testCases)
+        {
+            // Extract test case input data
+            const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory = std::get<0>(testCase);
+            const Vector3d localOrbitalFrameThrustVector = std::get<1>(testCase);
+            const String referenceDataFileName = std::get<2>(testCase);
+
+            // Reference data setup
+            const Table referenceData = Table::Load(
+                File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/" + referenceDataFileName)),
+                Table::Format::CSV,
+                true
+            );
+
+            // Initialize reference data arrays
+            Array<Instant> instantArray = Array<Instant>::Empty();
+            Array<Vector3d> referencePositionArrayGCRF = Array<Vector3d>::Empty();
+            Array<Vector3d> referenceVelocityArrayGCRF = Array<Vector3d>::Empty();
+            Array<Vector3d> referenceAccelerationArrayGCRF = Array<Vector3d>::Empty();
+            Array<double> referenceMassArray = Array<double>::Empty();
+
+            for (const auto& referenceRow : referenceData)
+            {
+                instantArray.add(Instant::DateTime(
+                    DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
+                ));
+
+                referencePositionArrayGCRF.add(
+                    Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
+                );
+                referenceVelocityArrayGCRF.add(
+                    Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
+                );
+                referenceAccelerationArrayGCRF.add(
+                    Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
+                );
+                referenceMassArray.add(
+                    referenceRow[10].accessReal()
+                );
+            }
+
+            // Setup dynamics
+            const Earth earth = Earth::FromModels(
+                std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
+                std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+                std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
+            );
+            const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
+
+            LocalOrbitalFrameDirection thrustDirection = LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
+
+            const Array<Shared<Dynamics>> dynamics = {
+                std::make_shared<PositionDerivative>(),
+                std::make_shared<CentralBodyGravity>(earthSPtr),
+                std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+                std::make_shared<ConstantThrustThruster>(satelliteSystem_, thrustDirection),
+            };
+
+            // Setup state and initial conditions
+            double initialPropellantMassInKilograms = 15.0;
+            VectorXd initialCoordinates(7);
+
+            initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], initialPropellantMassInKilograms + 100.0; // Add dry satellite mass
+
+            const Shared<const CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(
+                CoordinatesBroker(
+                    {
+                        CartesianPosition::Default(),
+                        CartesianVelocity::Default(),
+                        CoordinatesSubset::Mass(),
+                    }
+                )
+            );
+
+            const State state = {
+                startInstant,
+                initialCoordinates,
+                gcrfSPtr_,
+                coordinatesBrokerSPtr_,
+            };
+
+            // Setup Propagator model and orbit
+            const Propagator propagator = {defaultRK4_, dynamics};
+
+            // Propagate all states
+            const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
+
+            // Validation loop
+            for (size_t i = 0; i < instantArray.getSize(); i++)
+            {
+                // GCRF Compare
+                const Position positionGCRF = propagatedStateArray[i].getPosition();
+                const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
+                const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
+
+                const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+                const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+                const double massError = (mass - referenceMassArray[i]);
+
+                ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
+                ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
+
+                ASSERT_GT(1e-1, positionErrorGCRF); // TBRefined
+                ASSERT_GT(1e-3, velocityErrorGCRF); // TBRefined
+                ASSERT_GT(1e-9, massError);
+
+                // Results console output
+
+                // std::cout << "**************************************" << std::endl;
+                // std::cout.setf(std::ios::scientific,std::ios::floatfield);
+                // std::cout << "Position OSTk is: " << positionGCRF.accessCoordinates() << "m" << std::endl;
+                // std::cout << "Position Orekit is: " << referencePositionArrayGCRF[i] << "m" << std::endl;
+                // std::cout << "Velocity OSTk is: " << velocityGCRF.accessCoordinates() << "m/s" << std::endl;
+                // std::cout << "Velocity Orekit is: " << referenceVelocityArrayGCRF[i] << "m/s" << std::endl;
+                // std::cout << "Position error is: " << positionErrorGCRF << "m" << std::endl;
+                // std::cout << "Velocity error is: " << velocityErrorGCRF << "m/s" << std::endl;
+                // std::cout << "Mass error is: " << massError << "kg" << std::endl;
+                // std::cout.setf(std::ios::fixed,std::ios::floatfield);
+                // std::cout << "**************************************" << std::endl;
+            }
+
         }
     }
 }
