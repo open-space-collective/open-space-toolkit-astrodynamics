@@ -229,7 +229,7 @@ Transform LocalOrbitalFrameTransformProvider::generateTransform(
             // Y axis along orbital momentum
             const Vector3d transformPosition = -aPosition;
             const Vector3d transformVelocity = -aVelocity;
-            const Vector3d xAxis = aPosition.normalized();
+            const Vector3d xAxis = aVelocity.normalized();
             const Vector3d yAxis = aPosition.cross(aVelocity).normalized();
             const Vector3d zAxis = xAxis.cross(yAxis);
             const Quaternion transformOrientation =
