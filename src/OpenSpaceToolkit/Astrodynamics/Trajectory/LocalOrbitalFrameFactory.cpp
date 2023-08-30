@@ -77,7 +77,7 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
     FrameManager::Get().addFrame(frameSPtr);
 
     return frameSPtr;
-};
+}
 
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
@@ -114,6 +114,11 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::TNW(const Share
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::VNC(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::VNC, aParentFrame);
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Undefined()
+{
+    return Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, nullptr);
 }
 
 LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(

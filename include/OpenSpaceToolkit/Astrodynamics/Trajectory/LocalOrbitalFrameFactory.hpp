@@ -56,6 +56,8 @@ class LocalOrbitalFrameFactory
 
     static Shared<const LocalOrbitalFrameFactory> VNC(const Shared<const Frame>& aParentFrame);
 
+    static Shared<const LocalOrbitalFrameFactory> Undefined();
+
    private:
     LocalOrbitalFrameTransformProvider::Type type_;
     Shared<const Frame> parentFrameSPtr_;
