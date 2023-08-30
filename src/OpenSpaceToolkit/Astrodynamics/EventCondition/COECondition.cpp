@@ -2,8 +2,13 @@
 
 #include <iostream>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Transform.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+
 
 namespace ostk
 {
@@ -14,14 +19,19 @@ namespace eventcondition
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Frame;
+using ostk::physics::coord::Transform;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
+using ostk::physics::time::Instant;
 
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 COECondition::COECondition(
     const String& aName,
@@ -31,7 +41,7 @@ COECondition::COECondition(
     const Shared<const Frame>& aFrameSPtr,
     const Derived& aGravitationalParameter
 )
-    : RealEventCondition(aName, aCriteria, GenerateEvaluator(anElement, aFrameSPtr, aGravitationalParameter), aTarget),
+    : AstroCondition(aName, aCriteria, GenerateEvaluator(anElement, aFrameSPtr, aGravitationalParameter), aTarget),
       element_(anElement),
       frameSPtr_(aFrameSPtr),
       gravitationalParameter_(aGravitationalParameter)
@@ -48,6 +58,15 @@ Derived COECondition::getGravitationalParameter() const
 COE::Element COECondition::getElement() const
 {
     return element_;
+}
+
+VectorXd& COECondition::transformStateVector(
+        const VectorXd& aStateVector,
+        const Real& currentTime
+) const
+{
+    const Instant currentInstant = this->referenceInstant_ + Duration::Seconds(currentTime);
+    const Transform transform = this->referenceFrameSPtr_->getTransformTo(this->frameSPtr_, currentInstant);
 }
 
 COECondition COECondition::SemiMajorAxis(
@@ -186,21 +205,33 @@ COECondition COECondition::EccentricAnomaly(
     };
 }
 
-std::function<Real(const VectorXd&, const Real&)> COECondition::GenerateEvaluator(
+std::function<Real(const VectorXd, const Real&, const Instant&, const Shared<const Frame>&, Shared<const CoordinatesBroker>&)> COECondition::GenerateEvaluator(
     const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
 )
 {
     // The parameters must be captured by value as the function is being initialized during construction
-    return [anElement,
+    return [
+            anElement,
             aFrameSPtr,
-            aGravitationalParameter](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+            aGravitationalParameter
+        ]
+        (
+            const VectorXd& aStateVector,
+            const Real& aTime,
+            const Instant& aReferenceInstant,
+            const Shared<const Frame>& aReferenceFrameSPtr,
+            Shared<const CoordinatesBroker>& aReferenceCoordinatesBrokerSPtr
+            ) -> Real
     {
-        // TBI: Get frame from Broker
-        // TBI: Get pos,vel indexes from broker
-        const Position position = Position::Meters(aStateVector.segment(0, 3), aFrameSPtr);
-        const Velocity velocity = Velocity::MetersPerSecond(aStateVector.segment(3, 3), aFrameSPtr);
+        const Instant currentInstant = aReferenceInstant + Duration::Seconds(aTime);   
+        const Transform transform = aReferenceFrameSPtr->getTransformTo(aFrameSPtr, currentInstant);
+        const Position position = Position::Meters(aReferenceCoordinatesBrokerSPtr->extractCoordinates(CartesianPosition::Default()), aReferenceFrameSPtr);
+        const Velocity velocity = Velocity::MetersPerSecond(aReferenceCoordinatesBrokerSPtr->extractCoordinates(CartesianVelocity::Default()), aReferenceFrameSPtr);
 
-        const COE coe = COE::Cartesian({position, velocity}, aGravitationalParameter);
+        const Position transformedPosition = transform.applyToPosition(position);
+        const Position trasnformedVelocity = transform.applyToVelocity(position, velocity); // <-- IMPORTATN!! (I don't know if the first argument should be transformed position or not)
+
+        const COE coe = COE::Cartesian({transformedPosition, trasnformedVelocity}, aGravitationalParameter);
 
         switch (anElement)
         {

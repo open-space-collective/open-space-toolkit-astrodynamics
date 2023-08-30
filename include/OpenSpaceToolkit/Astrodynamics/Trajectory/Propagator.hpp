@@ -52,7 +52,7 @@ using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
 
 using ostk::astro::NumericalSolver;
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::AstroCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
@@ -165,14 +165,14 @@ class Propagator
 
     /// @brief              Calculate the state subject to an Event Condition, given initial state and maximum end time
     /// @code
-    ///                     State state = propagator.calculateStateAt(aState, anInstant, anEventCondition);
+    ///                     State state = propagator.calculateStateAt(aState, anInstant, anAstroCondition);
     /// @endcode
     /// @param              [in] aState An initial state
     /// @param              [in] anInstant An instant
-    /// @param              [in] anEventCondition An event condition
+    /// @param              [in] anAstroCondition An event condition
     /// @return             State
 
-    State calculateStateAt(const State& aState, const Instant& anInstant, const EventCondition& anEventCondition) const;
+    State calculateStateAt(const State& aState, const Instant& anInstant, const AstroCondition& anAstroCondition) const;
 
     /// @brief              Calculate the states at an array of instants, given an initial state
     /// @brief              Can only be used with sorted instants array

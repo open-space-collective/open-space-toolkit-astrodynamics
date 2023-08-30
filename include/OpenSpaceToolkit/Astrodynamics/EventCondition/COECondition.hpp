@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/AstroCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -33,12 +33,12 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::eventcondition::RealEventCondition;
+using ostk::astro::eventcondition::AstroCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 /// @brief                      A Classical Orbital Element based event condition
 
-class COECondition : public RealEventCondition
+class COECondition : public AstroCondition
 {
    public:
     /// @brief                  Constructor
@@ -78,6 +78,11 @@ class COECondition : public RealEventCondition
     /// @return                 element
 
     COE::Element getElement() const;
+
+    VectorXd& transformStateVector(
+        const VectorXd& aStateVector,
+        const Real& currentTime
+    ) const override;
 
     /// @brief                  Semi Major Axis based constructor
     ///
@@ -220,7 +225,7 @@ class COECondition : public RealEventCondition
     ///
     /// @return                 Evaluation function
 
-    static std::function<Real(const VectorXd&, const Real&)> GenerateEvaluator(
+    static std::function<VectorXd(const VectorXd, const Real&, const Instant&, const Shared<const Frame>&, Shared<const CoordinatesBroker>&)> GenerateEvaluator(
         const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
     );
 };

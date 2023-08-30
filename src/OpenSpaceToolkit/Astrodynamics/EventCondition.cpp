@@ -10,9 +10,15 @@ namespace ostk
 namespace astro
 {
 
-EventCondition::EventCondition(const String& aName, const Criteria& aCriteria)
+EventCondition::EventCondition(
+    const String& aName,
+    const Criteria& aCriteria,
+    const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+    const Real& aTarget)
     : name_(aName),
       criteria_(aCriteria),
+      evaluator_(anEvaluator),
+      target_(aTarget),
       comparator_(getComparator(aCriteria))
 {
 }
@@ -39,6 +45,24 @@ EventCondition::Criteria EventCondition::getCriteria() const
 std::function<bool(const Real&, const Real&)> EventCondition::getComparator() const
 {
     return comparator_;
+}
+
+Real RealEventCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+{
+    return this->evaluator_(aStateVector, aTime) - this->target_;
+}
+
+bool EventCondition::isSatisfied(
+    const VectorXd& currentStateVector,
+    const Real& currentTime,
+    const VectorXd& previousStateVector,
+    const Real& previousTime
+) const
+{
+    const Real currentValue = evaluate(currentStateVector, currentTime);
+    const Real previousValue = evaluate(previousStateVector, previousTime);
+
+    this->comparator_(currentValue, previousValue);
 }
 
 void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) const

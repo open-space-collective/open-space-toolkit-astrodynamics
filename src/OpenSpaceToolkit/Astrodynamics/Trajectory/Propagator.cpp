@@ -156,7 +156,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 }
 
 State Propagator::calculateStateAt(
-    const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
+    const State& aState, const Instant& anInstant, const AstroCondition& anAstroCondition
 ) const
 {
     if (!this->isDefined())
@@ -165,6 +165,12 @@ State Propagator::calculateStateAt(
     }
 
     const Instant startInstant = aState.getInstant();
+
+    anAstroCondition.setReferenceParameters(
+        startInstant,
+        integrationFrameSPtr,
+        this->coordinatesBrokerSPtr_
+    );
 
     const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateDuration(
         extractCoordinatesFromState(aState),

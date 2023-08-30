@@ -43,8 +43,15 @@ class EventCondition
     /// @param                  [in] aName A string representing the name of the Event Condition
     /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Event Condition
     /// is met
+    /// @param                  [in] anEvaluator A function evaluating a state and a time
+    /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    EventCondition(const String& aName, const Criteria& aCriteria);
+    EventCondition(
+        const String& aName,
+        const Criteria& aCriteria,
+        const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+        const Real& aTarget = 0.0
+    );
 
     /// @brief                  Virtual destructor
 
@@ -73,6 +80,7 @@ class EventCondition
     /// @return                 Enum representing the criteria of the Event Condition
 
     Criteria getCriteria() const;
+    
 
     /// @brief                  Get comparator
     ///
@@ -100,12 +108,12 @@ class EventCondition
     ///
     /// @return                 Boolean value indicating if the Event Condition is met
 
-    virtual bool isSatisfied(
+    bool isSatisfied(
         const VectorXd& currentStateVector,
         const Real& currentTime,
         const VectorXd& previousStateVector,
         const Real& previousTime
-    ) const = 0;
+    ) const;
 
     /// @brief                  Convert criteria to string
     ///
@@ -118,6 +126,8 @@ class EventCondition
    private:
     String name_;
     Criteria criteria_;
+    std::function<Real(const VectorXd&, const Real&)> evaluator_;
+    Real target_;
     std::function<bool(const Real&, const Real&)> comparator_;
 
     static std::function<bool(const Real&, const Real&)> getComparator(const Criteria& aCriteria);
