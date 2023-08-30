@@ -25,12 +25,6 @@ LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(const Vector3d& aValue, c
     }
 }
 
-bool LocalOrbitalFrameDirection::isDefined() const
-{
-    return value_.isDefined() && (localOrbitalFrameFactorySPtr_ != nullptr);   // && localOrbitalFrameFactorySPtr_->isDefined();
-}
-
-
 bool LocalOrbitalFrameDirection::operator==(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const
 {
     if ((!this->isDefined()) || (!aLocalOrbitalFrameDirection.isDefined()))
@@ -44,6 +38,26 @@ bool LocalOrbitalFrameDirection::operator==(const LocalOrbitalFrameDirection& aL
 bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const
 {
     return !((*this) == aLocalOrbitalFrameDirection);
+}
+
+bool LocalOrbitalFrameDirection::isDefined() const
+{
+    return value_.isDefined() && (localOrbitalFrameFactorySPtr_ != nullptr);   // && localOrbitalFrameFactorySPtr_->isDefined();
+}
+
+const Shared<const LocalOrbitalFrameFactory>& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
+{
+    return localOrbitalFrameFactorySPtr_;
+}
+
+Vector3d LocalOrbitalFrameDirection::getValue() const
+{
+    return value_;
+}
+
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory() const
+{
+    return this->accessLocalOrbitalFrameFactory();
 }
 
 LocalOrbitalFrameDirection LocalOrbitalFrameDirection::Undefined()

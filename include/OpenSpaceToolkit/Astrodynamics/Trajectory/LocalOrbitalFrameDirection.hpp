@@ -28,6 +28,8 @@ using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 ///
 ///                             A unit vector, expressed along a Local Orbital Frame Factory
 
+// Add docstrings
+
 class LocalOrbitalFrameDirection
 {
    public:
@@ -38,6 +40,12 @@ class LocalOrbitalFrameDirection
     bool operator!=(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const;
 
     bool isDefined() const;
+
+    const Shared<const LocalOrbitalFrameFactory>& accessLocalOrbitalFrameFactory() const;
+
+    Vector3d getValue() const;
+
+    Shared<const LocalOrbitalFrameFactory> getLocalOrbitalFrameFactory() const;
 
     static LocalOrbitalFrameDirection Undefined();
 
