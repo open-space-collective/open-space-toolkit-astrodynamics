@@ -9,7 +9,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
@@ -24,7 +23,6 @@ using ostk::math::obj::VectorXd;
 using ostk::physics::coord::Frame;
 using ostk::physics::time::Instant;
 
-using ostk::astro::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::trajectory::state::CoordinatesSubset;
@@ -43,7 +41,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative :
     const PositionDerivative positionDerivative_;
     const Instant startInstant_ = Instant::J2000();
 
-    NumericalSolver::StateVector startStateVector_;
+    VectorXd startStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_PositionDerivative, Constructor)

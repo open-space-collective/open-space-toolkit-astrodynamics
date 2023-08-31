@@ -12,7 +12,6 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/NumericalSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Solvers.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory.cpp>
@@ -35,14 +34,14 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
     m.attr("__version__") = "dev";
 #endif
 
+    // [TBI] These modules will likely be moved to ostk-mathematics in a future version
+    OpenSpaceToolkitAstrodynamicsPy_Solvers(m);
+    OpenSpaceToolkitAstrodynamicsPy_RootSolver(m);
+
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
     OpenSpaceToolkitAstrodynamicsPy_Flight(m);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);
-    // [TBI] These modules will likely be moved to ostk-mathematics in a future version
-    OpenSpaceToolkitAstrodynamicsPy_Solvers(m);
-    OpenSpaceToolkitAstrodynamicsPy_NumericalSolver(m);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition(m);
-    OpenSpaceToolkitAstrodynamicsPy_RootSolver(m);
 }

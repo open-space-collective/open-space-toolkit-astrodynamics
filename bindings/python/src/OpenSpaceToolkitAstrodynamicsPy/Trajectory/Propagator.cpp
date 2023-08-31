@@ -12,7 +12,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
     using ostk::physics::Environment;
     using ostk::physics::time::Instant;
 
-    using ostk::astro::NumericalSolver;
+    using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::EventCondition;
     using ostk::astro::flight::system::Dynamics;
     using ostk::astro::flight::system::SatelliteSystem;

@@ -22,4 +22,4 @@ class TestImport:
         from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
         from ostk.astrodynamics import Access
         from ostk.astrodynamics.access import Generator
-        from ostk.astrodynamics import NumericalSolver
+        from ostk.astrodynamics.trajectory.state import NumericalSolver

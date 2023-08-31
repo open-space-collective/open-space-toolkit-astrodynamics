@@ -238,6 +238,16 @@ const VectorXd& State::accessCoordinates() const
     return this->coordinates_;
 }
 
+const Shared<const CoordinatesBroker>& State::accessCoordinatesBroker() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->coordinatesBrokerSPtr_;
+}
+
 Size State::getSize() const
 {
     if (!this->isDefined())

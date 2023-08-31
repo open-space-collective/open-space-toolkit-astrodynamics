@@ -5,7 +5,15 @@ import pytest
 import numpy as np
 import math
 
-from ostk.astrodynamics import NumericalSolver
+from ostk.physics.time import Instant, Duration
+from ostk.physics.coordinate import Frame
+
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import (
+    NumericalSolver,
+    CoordinatesBroker,
+    CoordinatesSubset,
+)
 from ostk.astrodynamics.event_condition import RealEventCondition
 
 
@@ -20,8 +28,32 @@ def get_state_vec(time: float) -> np.ndarray:
 
 
 @pytest.fixture
-def initial_state_vec() -> np.ndarray:
-    return get_state_vec(0.0)
+def coordinates_subsets() -> list[CoordinatesSubset]:
+    return [CoordinatesSubset("Subset", 2)]
+
+
+@pytest.fixture
+def coordinates_broker(coordinates_subsets: list[CoordinatesSubset]) -> CoordinatesBroker:
+    return CoordinatesBroker(coordinates_subsets)
+
+
+@pytest.fixture
+def start_instant() -> Instant:
+    return Instant.J2000()
+
+
+@pytest.fixture
+def frame() -> Frame:
+    return Frame.GCRF()
+
+
+@pytest.fixture
+def initial_state(
+    start_instant: Instant,
+    frame: Frame,
+    coordinates_broker: CoordinatesBroker,
+) -> State:
+    return State(start_instant, get_state_vec(0.0), frame, coordinates_broker)
 
 
 @pytest.fixture
@@ -75,21 +107,9 @@ class TestNumericalSolver:
         assert isinstance(numerical_solver, NumericalSolver)
         assert numerical_solver.is_defined()
 
-        numericalsolver_2: NumericalSolver = NumericalSolver(numerical_solver)
-
-        assert numericalsolver_2 is not None
-        assert isinstance(numericalsolver_2, NumericalSolver)
-        assert numericalsolver_2.is_defined()
-
     def test_comparators(self, numerical_solver: NumericalSolver):
         assert numerical_solver == numerical_solver
         assert (numerical_solver != numerical_solver) is False
-
-    def test_accessors(
-        self,
-        numerical_solver: NumericalSolver,
-    ):
-        assert numerical_solver.access_observed_states() is not None
 
     def test_get_types(
         self,
@@ -145,90 +165,53 @@ class TestNumericalSolver:
             == "LogAdaptive"
         )
 
-    def test_integrate_duration(
-        self, numerical_solver: NumericalSolver, initial_state_vec: np.ndarray
-    ):
-        integration_duration: float = 100.0
-
-        state_vector, _ = numerical_solver.integrate_duration(
-            initial_state_vec, integration_duration, oscillator
-        )
-
-        assert 5e-9 >= abs(state_vector[0] - math.sin(integration_duration))
-        assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
-
-        integration_durations = np.arange(100.0, 1000.0, 50.0)
-        solutions = numerical_solver.integrate_duration(
-            initial_state_vec, integration_durations, oscillator
-        )
-
-        for solution, integration_duration in zip(solutions, integration_durations):
-            state_vector, _ = solution
-
-            assert 5e-9 >= abs(state_vector[0] - math.sin(integration_duration))
-            assert 5e-9 >= abs(state_vector[1] - math.cos(integration_duration))
-
-    def test_integrate_time(self, numerical_solver: NumericalSolver):
-        start_time: float = 500.0
-        end_time: float = start_time + 100.0
-
-        initial_state_vec = get_state_vec(start_time)
-
-        state_vector, _ = numerical_solver.integrate_time(
-            initial_state_vec, start_time, end_time, oscillator
-        )
-
-        assert 5e-9 >= abs(state_vector[0] - math.sin(end_time))
-        assert 5e-9 >= abs(state_vector[1] - math.cos(end_time))
-
-        end_times = np.arange(600.0, 1000.0, 50.0)
-        solutions = numerical_solver.integrate_time(
-            initial_state_vec, start_time, end_times, oscillator
-        )
-
-        for solution, end_time in zip(solutions, end_times):
-            state_vector, _ = solution
-
-            assert 5e-9 >= abs(state_vector[0] - math.sin(end_time))
-            assert 5e-9 >= abs(state_vector[1] - math.cos(end_time))
-
-    def test_integrate_duration_with_condition(
+    def test_integrate_time(
         self,
-        numerical_solver_conditional: NumericalSolver,
-        initial_state_vec: np.ndarray,
-        custom_condition: RealEventCondition,
+        initial_state: State,
+        numerical_solver: NumericalSolver,
     ):
-        integration_duration: float = 100.0
-
-        condition_solution = numerical_solver_conditional.integrate_duration(
-            initial_state_vec, integration_duration, oscillator, custom_condition
+        duration_seconds: float = 100.0
+        end_instant: Instant = initial_state.get_instant() + Duration.seconds(
+            duration_seconds
         )
 
-        assert condition_solution.condition_is_satisfied
-        assert (
-            condition_solution.iteration_count
-            < numerical_solver_conditional.get_root_solver().get_maximum_iteration_count()
+        state_vector: np.ndarray = numerical_solver.integrate_time(
+            initial_state, end_instant, oscillator
+        ).get_coordinates()
+
+        assert 5e-9 >= abs(state_vector[0] - math.sin(duration_seconds))
+        assert 5e-9 >= abs(state_vector[1] - math.cos(duration_seconds))
+
+        end_instants: list[Instant] = [
+            initial_state.get_instant() + Duration.seconds(duration)
+            for duration in np.arange(600.0, 1000.0, 50.0)
+        ]
+        states: list[State] = numerical_solver.integrate_time(
+            initial_state, end_instants, oscillator
         )
 
-        state_vector, time = condition_solution.solution
+        for state, end_instant in zip(states, end_instants):
+            state_vector: np.ndarray = state.get_coordinates()
 
-        assert abs(float(time - custom_condition.get_target())) < 1e-6
-
-        assert 5e-9 >= abs(state_vector[0] - math.sin(time))
-        assert 5e-9 >= abs(state_vector[1] - math.cos(time))
+            assert 5e-9 >= abs(
+                state_vector[0]
+                - math.sin((end_instant - initial_state.get_instant()).in_seconds())
+            )
+            assert 5e-9 >= abs(
+                state_vector[1]
+                - math.cos((end_instant - initial_state.get_instant()).in_seconds())
+            )
 
     def test_integrate_time_with_condition(
         self,
+        initial_state: State,
         numerical_solver_conditional: NumericalSolver,
         custom_condition: RealEventCondition,
     ):
-        start_time: float = 500.0
-        end_time: float = start_time + 100.0
-
-        initial_state_vec = get_state_vec(start_time)
+        end_time: float = initial_state.get_instant() + Duration.seconds(100.0)
 
         condition_solution = numerical_solver_conditional.integrate_time(
-            initial_state_vec, start_time, end_time, oscillator, custom_condition
+            initial_state, end_time, oscillator, custom_condition
         )
 
         assert condition_solution.condition_is_satisfied
@@ -236,10 +219,14 @@ class TestNumericalSolver:
             condition_solution.iteration_count
             < numerical_solver_conditional.get_root_solver().get_maximum_iteration_count()
         )
+        assert condition_solution.root_solver_has_converged
 
-        state_vector, time = condition_solution.solution
+        state_vector = condition_solution.state.get_coordinates()
+        time = (
+            condition_solution.state.get_instant() - initial_state.get_instant()
+        ).in_seconds()
 
-        assert abs(float(time - start_time - custom_condition.get_target())) < 1e-6
+        assert abs(float(time - custom_condition.get_target())) < 1e-6
 
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
