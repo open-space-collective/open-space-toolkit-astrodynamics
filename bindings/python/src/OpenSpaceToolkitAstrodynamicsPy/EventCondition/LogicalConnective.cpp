@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalConnective.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 
 using namespace pybind11;
 
@@ -10,13 +10,13 @@ using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::LogicalConnective;
+using ostk::astro::eventcondition::LogicalCondition;
 
 // Trampoline class for virtual member functions
-class PyLogicalConnective : public LogicalConnective
+class PyLogicalCondition : public LogicalCondition
 {
    public:
-    using LogicalConnective::LogicalConnective;
+    using LogicalCondition::LogicalCondition;
 
     // Trampoline (need one for each virtual function)
 
@@ -29,7 +29,7 @@ class PyLogicalConnective : public LogicalConnective
     {
         PYBIND11_OVERRIDE_PURE_NAME(
             bool,
-            LogicalConnective,
+            LogicalCondition,
             "is_satisfied",
             isSatisfied,
             currentStateVector,
@@ -40,16 +40,16 @@ class PyLogicalConnective : public LogicalConnective
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybind11::module& aModule)
 {
     {
-        class_<LogicalConnective, EventCondition, PyLogicalConnective, Shared<LogicalConnective>>(
-            aModule, "LogicalConnective"
+        class_<LogicalCondition, EventCondition, PyLogicalCondition, Shared<LogicalCondition>>(
+            aModule, "LogicalCondition"
         )
 
             .def(init<const String&, const Array<Shared<EventCondition>>&>(), arg("name"), arg("event_conditions"))
 
-            .def("get_event_conditions", &LogicalConnective::getEventConditions)
+            .def("get_event_conditions", &LogicalCondition::getEventConditions)
 
             ;
     }

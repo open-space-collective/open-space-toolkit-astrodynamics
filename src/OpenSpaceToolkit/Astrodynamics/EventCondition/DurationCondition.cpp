@@ -10,7 +10,7 @@ namespace eventcondition
 {
 
 DurationCondition::DurationCondition(const Criteria& aCriteria, const Duration& aDuration)
-    : RealEventCondition(
+    : RealCondition(
           "Duration Condition",
           aCriteria,
           []([[maybe_unused]] const VectorXd& aStateVector, const Real& aTime) -> Real

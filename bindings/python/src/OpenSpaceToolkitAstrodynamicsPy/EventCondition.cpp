@@ -2,12 +2,12 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanEventCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Conjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Disjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalConnective.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealEventCondition.cpp>
 
 using namespace pybind11;
@@ -97,10 +97,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealEventCondition(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanEventCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_Conjunctive(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_Disjunctive(event_condition);
 }

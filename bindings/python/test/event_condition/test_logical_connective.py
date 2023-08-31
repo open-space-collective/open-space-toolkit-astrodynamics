@@ -3,7 +3,7 @@
 import pytest
 
 from ostk.astrodynamics import EventCondition
-from ostk.astrodynamics.event_condition import LogicalConnective
+from ostk.astrodynamics.event_condition import LogicalCondition
 
 
 @pytest.fixture
@@ -23,17 +23,17 @@ def event_conditions(event_condition: EventCondition) -> list[EventCondition]:
 
 
 @pytest.fixture
-def logical_connective(event_conditions: list[EventCondition]) -> LogicalConnective:
-    return LogicalConnective("Logical Conjunctive", event_conditions)
+def logical_connective(event_conditions: list[EventCondition]) -> LogicalCondition:
+    return LogicalCondition("Logical Conjunctive", event_conditions)
 
 
-class TestLogicalConnective:
+class TestLogicalCondition:
     def test_constructor(self, event_conditions: list[EventCondition]):
-        assert LogicalConnective("Logical Conjunctive", event_conditions) is not None
+        assert LogicalCondition("Logical Conjunctive", event_conditions) is not None
 
     def test_get_event_conditions(
         self,
-        logical_connective: LogicalConnective,
+        logical_connective: LogicalCondition,
         event_conditions: list[EventCondition],
     ):
         assert logical_connective.get_event_conditions() == event_conditions

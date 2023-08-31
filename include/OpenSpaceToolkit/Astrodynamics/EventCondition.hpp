@@ -24,27 +24,21 @@ using ostk::math::obj::VectorXd;
 class EventCondition
 {
    public:
-    enum class Criteria
-    {
-        PositiveCrossing,
-        NegativeCrossing,
-        AnyCrossing,
-        StrictlyPositive,
-        StrictlyNegative,
-        Undefined
-    };
-
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, aCriteria};
+    ///                         EventCondition eventCondition = {aName, aCriteria, anEvaluatro, aTarget};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Event Condition
-    /// is met
+    /// @param                  [in] aName A string representing the name of the Real Event Condition
+    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Real Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state and a time
+    /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    EventCondition(const String& aName, const Criteria& aCriteria);
+    EventCondition(
+        const String& aName
+    );
 
     /// @brief                  Virtual destructor
 
@@ -67,18 +61,6 @@ class EventCondition
     /// @return                 String representing the name of the Event Condition
 
     String getName() const;
-
-    /// @brief                  Get the criteria of the Event Condition
-    ///
-    /// @return                 Enum representing the criteria of the Event Condition
-
-    Criteria getCriteria() const;
-
-    /// @brief                  Get comparator
-    ///
-    /// @return                 Comparator
-
-    std::function<bool(const Real&, const Real&)> getComparator() const;
 
     /// @brief                  Print the Event Condition
     ///
@@ -107,20 +89,8 @@ class EventCondition
         const Real& previousTime
     ) const = 0;
 
-    /// @brief                  Convert criteria to string
-    ///
-    /// @param                  [in] aCriteria An enum representing the criteria
-    ///
-    /// @return                 String representing the given criteria
-
-    static String StringFromCriteria(const Criteria& aCriteria);
-
    private:
     String name_;
-    Criteria criteria_;
-    std::function<bool(const Real&, const Real&)> comparator_;
-
-    static std::function<bool(const Real&, const Real&)> getComparator(const Criteria& aCriteria);
 };
 
 }  // namespace astro

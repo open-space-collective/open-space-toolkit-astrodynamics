@@ -2,7 +2,7 @@
 
 import pytest
 
-from ostk.astrodynamics.event_condition import BooleanEventCondition
+from ostk.astrodynamics.event_condition import BooleanCondition
 
 
 @pytest.fixture
@@ -16,23 +16,23 @@ def is_inversed() -> bool:
 
 
 @pytest.fixture
-def event_condition(evaluator, is_inversed: bool) -> BooleanEventCondition:
-    return BooleanEventCondition(
+def event_condition(evaluator, is_inversed: bool) -> BooleanCondition:
+    return BooleanCondition(
         "My Condition",
-        BooleanEventCondition.Criteria.StrictlyPositive,
+        BooleanCondition.Criteria.StrictlyPositive,
         evaluator,
         is_inversed,
     )
 
 
-class TestBooleanEventCondition:
-    def test_is_inversed(self, event_condition: BooleanEventCondition, is_inversed: bool):
+class TestBooleanCondition:
+    def test_is_inversed(self, event_condition: BooleanCondition, is_inversed: bool):
         assert event_condition.is_inversed() == is_inversed
 
-    def test_evaluate(self, event_condition: BooleanEventCondition):
+    def test_evaluate(self, event_condition: BooleanCondition):
         assert event_condition.evaluate(state_vector=[0.0], time=10.0) is not None
 
-    def test_is_satisfied(self, event_condition: BooleanEventCondition):
+    def test_is_satisfied(self, event_condition: BooleanCondition):
         assert (
             event_condition.is_satisfied(
                 previous_state_vector=[-1.0],

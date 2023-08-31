@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanEventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 
 using namespace pybind11;
 
@@ -13,11 +13,11 @@ using ostk::core::types::Shared;
 using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
-using ostk::astro::eventcondition::BooleanEventCondition;
+using ostk::astro::eventcondition::BooleanCondition;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanEventCondition(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
 {
-    class_<BooleanEventCondition, EventCondition, Shared<BooleanEventCondition>>(aModule, "BooleanEventCondition")
+    class_<BooleanCondition, EventCondition, Shared<BooleanCondition>>(aModule, "BooleanCondition")
 
         .def(
             init<
@@ -31,16 +31,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanEventCondition
             arg("is_inverse")
         )
 
-        .def("__str__", &(shiftToString<BooleanEventCondition>))
-        .def("__repr__", &(shiftToString<BooleanEventCondition>))
+        .def("__str__", &(shiftToString<BooleanCondition>))
+        .def("__repr__", &(shiftToString<BooleanCondition>))
 
-        .def("is_inversed", &BooleanEventCondition::isInversed)
+        .def("is_inversed", &BooleanCondition::isInversed)
 
-        .def("evaluate", &BooleanEventCondition::evaluate, arg("state_vector"), arg("time"))
+        .def("evaluate", &BooleanCondition::evaluate, arg("state_vector"), arg("time"))
 
         .def(
             "is_satisfied",
-            &BooleanEventCondition::isSatisfied,
+            &BooleanCondition::isSatisfied,
             arg("current_state_vector"),
             arg("current_time"),
             arg("previous_state_vector"),
