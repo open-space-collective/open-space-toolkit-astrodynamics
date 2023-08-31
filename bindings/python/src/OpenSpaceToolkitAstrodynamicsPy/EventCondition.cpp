@@ -4,7 +4,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/InstantCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealCondition.cpp>
 
@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(event_condition);
 }

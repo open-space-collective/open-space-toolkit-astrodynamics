@@ -5,8 +5,6 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 #include <Global.test.hpp>
@@ -14,9 +12,8 @@
 using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
-
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::State;
 
 class TestCondition : public EventCondition
 {
@@ -26,15 +23,7 @@ class TestCondition : public EventCondition
     {
     }
 
-    MOCK_METHOD(
-        bool,
-        isSatisfied,
-        (const VectorXd& currentStateVector,
-         const Real& currentTime,
-         const VectorXd& previousStateVector,
-         const Real& previousTime),
-        (const, override)
-    );
+    MOCK_METHOD(bool, isSatisfied, (const State& currentState, const State& previousState), (const, override));
 };
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition : public ::testing::Test

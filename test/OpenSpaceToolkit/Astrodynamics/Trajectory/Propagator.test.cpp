@@ -35,7 +35,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/DurationCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
@@ -90,7 +90,7 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using EarthMagneticModel = ostk::physics::environment::magnetic::Earth;
 using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
-using ostk::astro::eventcondition::DurationCondition;
+using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::NumericalSolver;
@@ -376,8 +376,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
 
         const Real target = 60.0;
 
-        const DurationCondition condition = {
-            DurationCondition::Criterion::StrictlyPositive,
+        const InstantCondition condition = {
+            InstantCondition::Criterion::StrictlyPositive,
             Duration::Seconds(60.0),
         };
 
@@ -388,8 +388,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         EXPECT_TRUE(endState.getInstant() < endInstant);
         EXPECT_LT(endState.getInstant() - (state.getInstant() + Duration::Seconds(target)), 1e-12);
 
-        const DurationCondition failureCondition = {
-            DurationCondition::Criterion::StrictlyPositive,
+        const InstantCondition failureCondition = {
+            InstantCondition::Criterion::StrictlyPositive,
             Duration::Seconds(7000.0),
         };
 

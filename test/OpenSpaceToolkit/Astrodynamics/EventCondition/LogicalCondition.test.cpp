@@ -9,10 +9,14 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 #include <Global.test.hpp>
 
@@ -23,9 +27,14 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
+
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::LogicalCondition;
 using ostk::astro::eventcondition::BooleanCondition;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::testing::Test
 {
@@ -35,7 +44,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     Shared<BooleanCondition> alwaysTrueBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
         "Always True",
         BooleanCondition::Criterion::StrictlyPositive,
-        []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+        []([[maybe_unused]] const State& aState) -> bool
         {
             return true;
         }
@@ -43,7 +52,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     Shared<BooleanCondition> alwaysFalseBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
         "Always False",
         BooleanCondition::Criterion::StrictlyPositive,
-        []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+        []([[maybe_unused]] const State& aState) -> bool
         {
             return false;
         }
@@ -53,8 +62,11 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     };
     const LogicalCondition defaultLogicalCondition_ =
         LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
-    const VectorXd defaultStateVector_;
-    const Real defaultTime_ = 0.0;
+    const Instant defaultInstant_ = Instant::J2000();
+    const Shared<const Frame> defaultFrame_ = Frame::GCRF();
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = CoordinatesBroker({});
+    const VectorXd defaultCoordinates_;
+    const State defaultState_ = State(defaultInstant_, defaultCoordinates_, defaultFrame_, defaultCoordinatesBroker_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Constructor)
@@ -83,7 +95,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -92,8 +104,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
-        );
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -104,8 +115,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
-        );
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -116,7 +126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -127,8 +137,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
-        );
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 }
 
@@ -140,7 +149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -149,8 +158,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
-        );
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -161,7 +169,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -172,7 +180,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 
     {
@@ -183,7 +191,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
         const LogicalCondition logicalCondition =
             LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
-        );
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultState_, defaultState_));
     }
 }

@@ -15,15 +15,15 @@ namespace eventcondition
 BooleanCondition::BooleanCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
+    const std::function<bool(const State&)> anEvaluator,
     const bool& anInverseFlag
 )
     : RealCondition(
           aName,
           aCriterion,
-          [anInverseFlag, anEvaluator](const VectorXd& aStateVector, const Real& aTime) -> Real
+          [anInverseFlag, anEvaluator](const State& aState) -> Real
           {
-              const bool boolean = anEvaluator(aStateVector, aTime);
+              const bool boolean = anEvaluator(aState);
               return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);
           },
           0.0

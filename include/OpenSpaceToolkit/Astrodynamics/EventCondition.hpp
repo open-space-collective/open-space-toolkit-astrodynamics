@@ -8,15 +8,16 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+
 namespace ostk
 {
 namespace astro
 {
 
-using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
+using ostk::astro::trajectory::State;
 
 /// @brief                      An Event Condition defines a criterion that can be evaluated
 ///                             based on a current/previous state vectors and times
@@ -64,26 +65,19 @@ class EventCondition
     ///
     /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
     /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
-    /// printing
+    ///                         printing
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
-    /// state/time
+    /// @brief                  Check if the Event Condition is satisfied based on current state and previous
+    ///                         state/time
     ///
-    /// @param                  [in] currentStateVector The current state vector
-    /// @param                  [in] currentTime The current time
-    /// @param                  [in] previousStateVector The previous state vector
-    /// @param                  [in] previousTime The previous time
+    /// @param                  [in] currentState The current state
+    /// @param                  [in] previousState The previous state
     ///
     /// @return                 Boolean value indicating if the Event Condition is met
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const = 0;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
    private:
     String name_;

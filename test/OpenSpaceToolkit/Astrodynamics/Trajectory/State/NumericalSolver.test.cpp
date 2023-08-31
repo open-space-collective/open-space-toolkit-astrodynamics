@@ -39,9 +39,9 @@ using ostk::astro::trajectory::State;
 
 // Simple duration based condition
 
-struct DurationCondition : public RealCondition
+struct InstantCondition : public RealCondition
 {
-    DurationCondition(const Duration &aDuration, const RealCondition::Criterion &aCriterion)
+    InstantCondition(const Duration &aDuration, const RealCondition::Criterion &aCriterion)
         : RealCondition(
               "test",
               aCriterion,
@@ -249,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 state,
                 defaultStartInstant_,
                 systemOfEquations_,
-                DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
+                InstantCondition(0.0, RealCondition::Criterion::AnyCrossing)
             ),
             ostk::core::error::RuntimeError
         );
@@ -261,7 +261,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             state.accessInstant(),
             systemOfEquations_,
-            DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
+            InstantCondition(0.0, RealCondition::Criterion::AnyCrossing)
         );
 
         EXPECT_EQ(state, solution.state);
@@ -276,7 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            DurationCondition(-1.0, RealCondition::Criterion::StrictlyPositive)
+            InstantCondition(-1.0, RealCondition::Criterion::StrictlyPositive)
         );
 
         EXPECT_EQ(conditionSolution.state, state);
@@ -303,7 +303,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                     state,
                     endInstant,
                     systemOfEquations_,
-                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criterion)
+                    InstantCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criterion)
                 );
                 const State finalState = conditionSolution.state;
 
@@ -313,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
-            const DurationCondition condition = DurationCondition(duration / 2.0, criterion);
+            const InstantCondition condition = InstantCondition(duration / 2.0, criterion);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);

@@ -26,7 +26,7 @@ from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
-from ostk.astrodynamics.event_condition import DurationCondition
+from ostk.astrodynamics.event_condition import InstantCondition
 
 
 @pytest.fixture
@@ -105,9 +105,9 @@ def conditional_numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def event_condition() -> DurationCondition:
-    return DurationCondition(
-        DurationCondition.Criterion.StrictlyPositive, Duration.seconds(42.0)
+def event_condition() -> InstantCondition:
+    return InstantCondition(
+        InstantCondition.Criterion.StrictlyPositive, Duration.seconds(42.0)
     )
 
 
@@ -190,7 +190,7 @@ class TestPropagator:
         conditional_numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
         state: State,
-        event_condition: DurationCondition,
+        event_condition: InstantCondition,
     ):
         propagator: Propagator = Propagator(conditional_numerical_solver, dynamics)
 

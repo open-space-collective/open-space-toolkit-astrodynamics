@@ -31,14 +31,9 @@ Array<Shared<EventCondition>> LogicalCondition::getEventConditions() const
     return eventConditions_;
 }
 
-bool LogicalCondition::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
+bool LogicalCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return evaluator_(eventConditions_, currentStateVector, currentTime, previousStateVector, previousTime);
+    return evaluator_(eventConditions_, currentState, previousState);
 }
 
 LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const LogicalCondition::Type& aType)
@@ -47,42 +42,30 @@ LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const 
     {
         case LogicalCondition::Type::And:
             return [](const Array<Shared<EventCondition>>& eventConditions,
-                      const VectorXd& currentStateVector,
-                      const Real& currentTime,
-                      const VectorXd& previousStateVector,
-                      const Real& previousTime) -> bool
+                      const State& currentState,
+                      const State& previousState) -> bool
             {
                 return std::all_of(
                     eventConditions.begin(),
                     eventConditions.end(),
-                    [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
-                        const Shared<EventCondition>& eventCondition
-                    ) -> bool
+                    [&currentState, &previousState](const Shared<EventCondition>& eventCondition) -> bool
                     {
-                        return eventCondition->isSatisfied(
-                            currentStateVector, currentTime, previousStateVector, previousTime
-                        );
+                        return eventCondition->isSatisfied(currentState, previousState);
                     }
                 );
             };
 
         case LogicalCondition::Type::Or:
             return [](const Array<Shared<EventCondition>>& eventConditions,
-                      const VectorXd& currentStateVector,
-                      const Real& currentTime,
-                      const VectorXd& previousStateVector,
-                      const Real& previousTime) -> bool
+                      const State& currentState,
+                      const State& previousState) -> bool
             {
                 return std::any_of(
                     eventConditions.begin(),
                     eventConditions.end(),
-                    [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
-                        const Shared<EventCondition>& eventCondition
-                    ) -> bool
+                    [&currentState, &previousState](const Shared<EventCondition>& eventCondition) -> bool
                     {
-                        return eventCondition->isSatisfied(
-                            currentStateVector, currentTime, previousStateVector, previousTime
-                        );
+                        return eventCondition->isSatisfied(currentState, previousState);
                     }
                 );
             };
