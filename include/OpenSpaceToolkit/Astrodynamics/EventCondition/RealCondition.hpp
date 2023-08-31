@@ -26,7 +26,7 @@ using ostk::astro::EventCondition;
 
 /// @brief                      An Event Condition that can evaluate each state to a real number.
 
-class RealCondition: public EventCondition
+class RealCondition : public EventCondition
 {
    public:
     enum class Criteria
@@ -61,12 +61,6 @@ class RealCondition: public EventCondition
     /// @brief                  Virtual destructor
 
     virtual ~RealCondition();
-
-    /// @brief                  Get the name of the Event Condition
-    ///
-    /// @return                 String representing the name of the Event Condition
-
-    String getName() const;
 
     /// @brief                  Get the criteria of the Event Condition
     ///
@@ -105,8 +99,6 @@ class RealCondition: public EventCondition
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
-    ///                         This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several
-    ///                         conditions
     ///
     /// @param                  [in] currentStateVector The current state vector
     /// @param                  [in] currentTime The current time
@@ -115,7 +107,7 @@ class RealCondition: public EventCondition
     ///
     /// @return                 Boolean value indicating if the Event Condition is met
 
-    bool isSatisfied(
+    virtual bool isSatisfied(
         const VectorXd& currentStateVector,
         const Real& currentTime,
         const VectorXd& previousStateVector,

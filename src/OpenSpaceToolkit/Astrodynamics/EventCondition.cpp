@@ -10,9 +10,7 @@ namespace ostk
 namespace astro
 {
 
-EventCondition::EventCondition(
-    const String& aName
-)
+EventCondition::EventCondition(const String& aName)
     : name_(aName)
 {
 }

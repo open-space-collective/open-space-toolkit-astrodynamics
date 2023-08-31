@@ -19,13 +19,14 @@ BooleanCondition::BooleanCondition(
     const bool& anInverseFlag
 )
     : RealCondition(
-        aName,
-        aCriteria,
-        [anInverseFlag, anEvaluator](const VectorXd& aStateVector, const Real& aTime) -> Real {
-            const bool boolean = anEvaluator(aStateVector, aTime);
-            return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);
-        },
-        0.0
+          aName,
+          aCriteria,
+          [anInverseFlag, anEvaluator](const VectorXd& aStateVector, const Real& aTime) -> Real
+          {
+              const bool boolean = anEvaluator(aStateVector, aTime);
+              return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);
+          },
+          0.0
       ),
       inverse_(anInverseFlag)
 {

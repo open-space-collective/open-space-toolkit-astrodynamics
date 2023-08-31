@@ -23,9 +23,8 @@ class OpenSpaceToolkit_Astrodynamics_BooleanCondition : public ::testing::Test
    protected:
     const BooleanCondition::Criteria defaultCriteria_ = BooleanCondition::Criteria::PositiveCrossing;
     const String defaultName_ = "Test Boolean Condition";
-    const std::function<bool(VectorXd, Real)> defaultEvaluator_ = [](
-        [[maybe_unused]] const VectorXd& aStateVector,
-        const Real& aTime) -> Real
+    const std::function<bool(VectorXd, Real)> defaultEvaluator_ = []([[maybe_unused]] const VectorXd& aStateVector,
+                                                                     const Real& aTime) -> Real
     {
         return aTime > 0.0;
     };
@@ -63,11 +62,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Print)
 TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Getters)
 {
     {
-        EXPECT_TRUE(defaultCondition_.isInversed() == defaultInverseFlag_);
+        EXPECT_EQ(defaultCondition_.isInversed(), defaultInverseFlag_);
     }
     {
         BooleanCondition booleanCondition = BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_);
-        EXPECT_TRUE(defaultCondition_.isInversed() == false);
+        EXPECT_EQ(booleanCondition.isInversed(), false);
     }
 }
 
@@ -79,11 +78,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Evaluate)
     }
 
     {
-        BooleanCondition booleanCondition = BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_, !defaultInverseFlag_);
+        BooleanCondition booleanCondition =
+            BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_, !defaultInverseFlag_);
 
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, -1.0), -1.0);
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 1.0), 1.0);
+        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, -1.0), 1.0);
+        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 1.0), -1.0);
     }
 }
-
-

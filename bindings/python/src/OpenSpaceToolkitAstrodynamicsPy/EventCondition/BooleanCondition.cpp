@@ -12,17 +12,17 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
-using ostk::astro::EventCondition;
+using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::BooleanCondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
 {
-    class_<BooleanCondition, EventCondition, Shared<BooleanCondition>>(aModule, "BooleanCondition")
+    class_<BooleanCondition, RealCondition, Shared<BooleanCondition>>(aModule, "BooleanCondition")
 
         .def(
             init<
                 const String&,
-                const EventCondition::Criteria&,
+                const RealCondition::Criteria&,
                 std::function<bool(const VectorXd&, const Real&)>,
                 const bool&>(),
             arg("name"),

@@ -36,9 +36,7 @@ class EventCondition
     /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    EventCondition(
-        const String& aName
-    );
+    EventCondition(const String& aName);
 
     /// @brief                  Virtual destructor
 
@@ -72,8 +70,6 @@ class EventCondition
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
-    ///                         This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several
-    ///                         conditions
     ///
     /// @param                  [in] currentStateVector The current state vector
     /// @param                  [in] currentTime The current time

@@ -10,9 +10,9 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 
 #include <Global.test.hpp>
 
@@ -27,42 +27,32 @@ using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::LogicalCondition;
 using ostk::astro::eventcondition::BooleanCondition;
 
-
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::testing::Test
 {
    protected:
     const String defaultName_ = "Test Logical Condition";
-    const LogicalCondition::Connective defaultConnective_ = LogicalCondition::Connective::Conjunction;
-    Shared<BooleanCondition> alwaysTrueBooleanCondition_ = std::make_shared<BooleanCondition>(
-        BooleanCondition(
-            "Always True",
-            BooleanCondition::Criteria::StrictlyPositive,
-            []( [[maybe_unused]] const VectorXd& aStateVector,
-                [[maybe_unused]] const Real& aTime) -> Real
-                {
-                    return true;
-                }
-        )
-    );
-    Shared<BooleanCondition>  alwaysFalseBooleanCondition_ = std::make_shared<BooleanCondition>(
-        BooleanCondition(
-            "Always False",
-            BooleanCondition::Criteria::StrictlyPositive,
-            []( [[maybe_unused]] const VectorXd& aStateVector,
-                [[maybe_unused]] const Real& aTime) -> Real
-                {
-                    return false;
-                }
-        )
-    );
+    const LogicalCondition::Type defaultType_ = LogicalCondition::Type::And;
+    Shared<BooleanCondition> alwaysTrueBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
+        "Always True",
+        BooleanCondition::Criteria::StrictlyPositive,
+        []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+        {
+            return true;
+        }
+    ));
+    Shared<BooleanCondition> alwaysFalseBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
+        "Always False",
+        BooleanCondition::Criteria::StrictlyPositive,
+        []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+        {
+            return false;
+        }
+    ));
     const Array<Shared<EventCondition>> defaultEventConditions_ = {
         alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_
     };
-    const LogicalCondition defaultLogicalCondition_ = LogicalCondition(
-        defaultName_,
-        defaultConnective_,
-        defaultEventConditions_
-    );
+    const LogicalCondition defaultLogicalCondition_ =
+        LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
     const VectorXd defaultStateVector_;
     const Real defaultTime_ = 0.0;
 };
@@ -70,7 +60,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(LogicalCondition(defaultName_, defaultConnective_, defaultEventConditions_));
+        EXPECT_NO_THROW(LogicalCondition(defaultName_, defaultType_, defaultEventConditions_));
     }
 }
 
@@ -79,118 +69,121 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Getters)
     {
         EXPECT_EQ(defaultLogicalCondition_.getEventConditions().getSize(), defaultEventConditions_.getSize());
     }
+
+    {
+        EXPECT_EQ(defaultLogicalCondition_.getType(), defaultType_);
+    }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Conjunction)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, And)
 {
     {
+        const Array<Shared<EventCondition>> eventConditions = {alwaysTrueBooleanCondition_};
+
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
+
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+    }
+
+    {
+        const Array<Shared<EventCondition>> eventConditions = {alwaysFalseBooleanCondition_};
+
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
+
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
+        );
+    }
+
+    {
         const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_
+            alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_
         };
 
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Conjunction, eventConditions);
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
+
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
+        );
+    }
+
+    {
+        const Array<Shared<EventCondition>> eventConditions = {
+            alwaysTrueBooleanCondition_, alwaysTrueBooleanCondition_
+        };
+
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
         EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
     }
 
     {
         const Array<Shared<EventCondition>> eventConditions = {
-            alwaysFalseBooleanCondition_
+            alwaysFalseBooleanCondition_, alwaysFalseBooleanCondition_
         };
 
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Conjunction, eventConditions);
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::And, eventConditions);
 
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
-    }
-
-    {
-        const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_,
-            alwaysFalseBooleanCondition_
-        };
-
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Conjunction, eventConditions);
-
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
-    }
-
-    {
-        const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_,
-            alwaysTrueBooleanCondition_
-        };
-
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Conjunction, eventConditions);
-
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
-    }
-
-    {
-        const Array<Shared<EventCondition>> eventConditions = {
-            alwaysFalseBooleanCondition_,
-            alwaysFalseBooleanCondition_
-        };
-
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Conjunction, eventConditions);
-
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
+        );
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Disjunction)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition, Or)
 {
     {
+        const Array<Shared<EventCondition>> eventConditions = {alwaysTrueBooleanCondition_};
+
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
+
+        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+    }
+
+    {
+        const Array<Shared<EventCondition>> eventConditions = {alwaysFalseBooleanCondition_};
+
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
+
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
+        );
+    }
+
+    {
         const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_
+            alwaysTrueBooleanCondition_, alwaysFalseBooleanCondition_
         };
 
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Disjunction, eventConditions);
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
         EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
     }
 
     {
         const Array<Shared<EventCondition>> eventConditions = {
-            alwaysFalseBooleanCondition_
+            alwaysTrueBooleanCondition_, alwaysTrueBooleanCondition_
         };
 
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Disjunction, eventConditions);
-
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
-    }
-
-    {
-        const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_,
-            alwaysFalseBooleanCondition_
-        };
-
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Disjunction, eventConditions);
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
         EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
     }
 
     {
         const Array<Shared<EventCondition>> eventConditions = {
-            alwaysTrueBooleanCondition_,
-            alwaysTrueBooleanCondition_
+            alwaysFalseBooleanCondition_, alwaysFalseBooleanCondition_
         };
 
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Disjunction, eventConditions);
+        const LogicalCondition logicalCondition =
+            LogicalCondition(defaultName_, LogicalCondition::Type::Or, eventConditions);
 
-        EXPECT_TRUE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
-    }
-
-    {
-        const Array<Shared<EventCondition>> eventConditions = {
-            alwaysFalseBooleanCondition_,
-            alwaysFalseBooleanCondition_
-        };
-
-        const LogicalCondition logicalCondition = LogicalCondition(defaultName_, LogicalCondition::Connective::Disjunction, eventConditions);
-
-        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_));
+        EXPECT_FALSE(logicalCondition.isSatisfied(defaultStateVector_, defaultTime_, defaultStateVector_, defaultTime_)
+        );
     }
 }
-
-

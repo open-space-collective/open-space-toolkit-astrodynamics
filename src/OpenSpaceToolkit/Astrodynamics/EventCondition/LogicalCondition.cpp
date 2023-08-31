@@ -10,19 +10,20 @@ namespace eventcondition
 {
 
 LogicalCondition::LogicalCondition(
-    const String& aName,
-    const LogicalCondition::Connective& aConnective,
-    const Array<Shared<EventCondition>>& eventConditions)
+    const String& aName, const LogicalCondition::Type& aType, const Array<Shared<EventCondition>>& eventConditions
+)
     : EventCondition(aName),
-      connective_(aConnective),
-      eventConditions_(eventConditions)
+      type_(aType),
+      eventConditions_(eventConditions),
+      evaluator_(LogicalCondition::GenerateEvaluator(aType))
 {
 }
 
 LogicalCondition::~LogicalCondition() {}
 
-LogicalCondition::Connective LogicalCondition::getConnective() const {
-    return connective_;
+LogicalCondition::Type LogicalCondition::getType() const
+{
+    return type_;
 }
 
 Array<Shared<EventCondition>> LogicalCondition::getEventConditions() const
@@ -37,37 +38,57 @@ bool LogicalCondition::isSatisfied(
     const Real& previousTime
 ) const
 {
-    switch (connective_)
+    return evaluator_(eventConditions_, currentStateVector, currentTime, previousStateVector, previousTime);
+}
+
+LogicalCondition::evaluationSignature LogicalCondition::GenerateEvaluator(const LogicalCondition::Type& aType)
+{
+    switch (aType)
     {
-        case Connective::Conjunction:
-            return std::all_of(
-                eventConditions_.begin(),
-                eventConditions_.end(),
-                [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
-                    const Shared<EventCondition>& eventCondition
-                ) -> bool
-                {
-                    return eventCondition->isSatisfied(currentStateVector, currentTime, previousStateVector, previousTime);
-                }
-            );
-        
-        case Connective::Disjunction:
-            return std::any_of(
-                eventConditions_.begin(),
-                eventConditions_.end(),
-                [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
-                    const Shared<EventCondition>& eventCondition
-                ) -> bool
-                {
-                    return eventCondition->isSatisfied(currentStateVector, currentTime, previousStateVector, previousTime);
-                }
-            );
-        
-        case Connective::Undefined:
-            throw ostk::core::error::runtime::Undefined("Connective");
-        
+        case LogicalCondition::Type::And:
+            return [](const Array<Shared<EventCondition>>& eventConditions,
+                      const VectorXd& currentStateVector,
+                      const Real& currentTime,
+                      const VectorXd& previousStateVector,
+                      const Real& previousTime) -> bool
+            {
+                return std::all_of(
+                    eventConditions.begin(),
+                    eventConditions.end(),
+                    [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
+                        const Shared<EventCondition>& eventCondition
+                    ) -> bool
+                    {
+                        return eventCondition->isSatisfied(
+                            currentStateVector, currentTime, previousStateVector, previousTime
+                        );
+                    }
+                );
+            };
+
+        case LogicalCondition::Type::Or:
+            return [](const Array<Shared<EventCondition>>& eventConditions,
+                      const VectorXd& currentStateVector,
+                      const Real& currentTime,
+                      const VectorXd& previousStateVector,
+                      const Real& previousTime) -> bool
+            {
+                return std::any_of(
+                    eventConditions.begin(),
+                    eventConditions.end(),
+                    [&currentStateVector, &currentTime, &previousStateVector, &previousTime](
+                        const Shared<EventCondition>& eventCondition
+                    ) -> bool
+                    {
+                        return eventCondition->isSatisfied(
+                            currentStateVector, currentTime, previousStateVector, previousTime
+                        );
+                    }
+                );
+            };
+
         default:
-            throw ostk::core::error::runtime::Wrong("Connective");
+            throw ostk::core::error::runtime::Wrong("Type");
     }
 }
 

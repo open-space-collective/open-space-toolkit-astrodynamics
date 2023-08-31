@@ -11,11 +11,6 @@ from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 
 
 @pytest.fixture
-def frame() -> Frame:
-    return Frame.GCRF()
-
-
-@pytest.fixture
 def criteria() -> COECondition.Criteria:
     return COECondition.Criteria.AnyCrossing
 
@@ -40,11 +35,10 @@ def condition(
     criteria: COECondition.Criteria,
     element: COE.Element,
     target: float,
-    frame: Frame,
     gravitational_parameter: Derived,
 ) -> COECondition:
     return COECondition(
-        "Test COECondition", criteria, element, target, frame, gravitational_parameter
+        "Test COECondition", criteria, element, target, gravitational_parameter
     )
 
 
@@ -66,13 +60,10 @@ class TestCOECondition:
         criteria: COECondition.Criteria,
         element: COE.Element,
         target: float,
-        frame: Frame,
         gravitational_parameter: Derived,
     ):
         name = "Test COECondition"
-        condition = COECondition(
-            name, criteria, element, target, frame, gravitational_parameter
-        )
+        condition = COECondition(name, criteria, element, target, gravitational_parameter)
 
         assert condition is not None
 
@@ -105,11 +96,10 @@ class TestCOECondition:
         static_constructor,
         target: float,
         criteria: COECondition.Criteria,
-        frame: Frame,
         gravitational_parameter: Derived,
         state_vector: list[float],
     ):
-        condition = static_constructor(criteria, target, frame, gravitational_parameter)
+        condition = static_constructor(criteria, target, gravitational_parameter)
         assert condition is not None
 
         assert condition.evaluate(state_vector, 0.0) is not None

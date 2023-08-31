@@ -49,9 +49,7 @@ COE::Element COECondition::getElement() const
 }
 
 COECondition COECondition::SemiMajorAxis(
-    const Criteria& aCriteria,
-    const Length& aSemiMajorAxis,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -64,9 +62,7 @@ COECondition COECondition::SemiMajorAxis(
 }
 
 COECondition COECondition::Eccentricity(
-    const Criteria& aCriteria,
-    const Real& anEccentricity,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Real& anEccentricity, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -79,9 +75,7 @@ COECondition COECondition::Eccentricity(
 }
 
 COECondition COECondition::Inclination(
-    const Criteria& aCriteria,
-    const Angle& anInclination,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anInclination, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -94,9 +88,7 @@ COECondition COECondition::Inclination(
 }
 
 COECondition COECondition::Aop(
-    const Criteria& aCriteria,
-    const Angle& anArgumentOfPeriapsis,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -109,9 +101,7 @@ COECondition COECondition::Aop(
 }
 
 COECondition COECondition::Raan(
-    const Criteria& aCriteria,
-    const Angle& aRightAscensionOfAscendingNode,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aRightAscensionOfAscendingNode, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -124,9 +114,7 @@ COECondition COECondition::Raan(
 }
 
 COECondition COECondition::TrueAnomaly(
-    const Criteria& aCriteria,
-    const Angle& aTrueAnomaly,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -139,9 +127,7 @@ COECondition COECondition::TrueAnomaly(
 }
 
 COECondition COECondition::MeanAnomaly(
-    const Criteria& aCriteria,
-    const Angle& aMeanAnomaly,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -154,9 +140,7 @@ COECondition COECondition::MeanAnomaly(
 }
 
 COECondition COECondition::EccentricAnomaly(
-    const Criteria& aCriteria,
-    const Angle& anEccentricAnomaly,
-    const Derived& aGravitationalParameter
+    const Criteria& aCriteria, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
@@ -173,8 +157,8 @@ std::function<Real(const VectorXd&, const Real&)> COECondition::GenerateEvaluato
 )
 {
     // The parameters must be captured by value as the function is being initialized during construction
-    return [anElement,
-            aGravitationalParameter](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
+    return
+        [anElement, aGravitationalParameter](const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
     {
         // TBI: get frame and coordinate positions from state
         // TBI: specify a frame in which the COE is to be computed

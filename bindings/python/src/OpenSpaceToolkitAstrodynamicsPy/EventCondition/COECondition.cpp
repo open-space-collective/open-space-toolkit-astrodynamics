@@ -12,27 +12,20 @@ using ostk::physics::units::Derived;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::eventcondition::RealEventCondition;
+using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::COECondition;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition, RealEventCondition, Shared<COECondition>>(aModule, "COECondition")
+        class_<COECondition, RealCondition, Shared<COECondition>>(aModule, "COECondition")
 
             .def(
-                init<
-                    const String&,
-                    const RealEventCondition::Criteria&,
-                    const COE::Element&,
-                    const Real&,
-                    const Shared<const Frame>&,
-                    const Derived&>(),
+                init<const String&, const RealCondition::Criteria&, const COE::Element&, const Real&, const Derived&>(),
                 arg("name"),
                 arg("criteria"),
                 arg("element"),
                 arg("target"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 
@@ -44,7 +37,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::SemiMajorAxis,
                 arg("criteria"),
                 arg("semi_major_axis"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 
@@ -53,7 +45,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::Eccentricity,
                 arg("criteria"),
                 arg("eccentricity"),
-                arg("frame"),
                 arg("gravitational_parameter")
 
             )
@@ -63,17 +54,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::Inclination,
                 arg("criteria"),
                 arg("inclination"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 
             .def_static(
-                "aop", &COECondition::Aop, arg("criteria"), arg("aop"), arg("frame"), arg("gravitational_parameter")
+                "aop", &COECondition::Aop, arg("criteria"), arg("aop"), arg("gravitational_parameter")
 
             )
 
             .def_static(
-                "raan", &COECondition::Raan, arg("criteria"), arg("raan"), arg("frame"), arg("gravitational_parameter")
+                "raan", &COECondition::Raan, arg("criteria"), arg("raan"), arg("gravitational_parameter")
 
             )
 
@@ -82,7 +72,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::TrueAnomaly,
                 arg("criteria"),
                 arg("true_anomaly"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 
@@ -91,7 +80,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::MeanAnomaly,
                 arg("criteria"),
                 arg("mean_anomaly"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 
@@ -100,7 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11
                 &COECondition::EccentricAnomaly,
                 arg("criteria"),
                 arg("eccentric_anomaly"),
-                arg("frame"),
                 arg("gravitational_parameter")
             )
 

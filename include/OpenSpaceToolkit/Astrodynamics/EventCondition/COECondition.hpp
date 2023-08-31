@@ -85,9 +85,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition SemiMajorAxis(
-        const Criteria& aCriteria,
-        const Length& aSemiMajorAxis,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentricity based constructor
@@ -99,9 +97,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition Eccentricity(
-        const Criteria& aCriteria,
-        const Real& anEccentricity,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Real& anEccentricity, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Inclination based constructor
@@ -113,9 +109,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition Inclination(
-        const Criteria& aCriteria,
-        const Angle& aSemiMajorAxis,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aSemiMajorAxis, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Argument of Periapsis based constructor
@@ -126,11 +120,7 @@ class COECondition : public RealCondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Aop(
-        const Criteria& aCriteria,
-        const Angle& anAOP,
-        const Derived& aGravitationalParameter
-    );
+    static COECondition Aop(const Criteria& aCriteria, const Angle& anAOP, const Derived& aGravitationalParameter);
 
     /// @brief                  Right Ascension of Ascending Node based constructor
     ///
@@ -140,11 +130,7 @@ class COECondition : public RealCondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Raan(
-        const Criteria& aCriteria,
-        const Angle& aRAAN,
-        const Derived& aGravitationalParameter
-    );
+    static COECondition Raan(const Criteria& aCriteria, const Angle& aRAAN, const Derived& aGravitationalParameter);
 
     /// @brief                  True Anomaly based constructor
     ///
@@ -155,9 +141,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition TrueAnomaly(
-        const Criteria& aCriteria,
-        const Angle& aTrueAnomaly,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Mean Anomaly based constructor
@@ -169,9 +153,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition MeanAnomaly(
-        const Criteria& aCriteria,
-        const Angle& aMeanAnomaly,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
     );
 
     /// @brief                  Eccentric Anomaly based constructor
@@ -183,9 +165,7 @@ class COECondition : public RealCondition
     /// @return                 COECondition object
 
     static COECondition EccentricAnomaly(
-        const Criteria& aCriteria,
-        const Angle& anEccentricAnomaly,
-        const Derived& aGravitationalParameter
+        const Criteria& aCriteria, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
     );
 
    private:

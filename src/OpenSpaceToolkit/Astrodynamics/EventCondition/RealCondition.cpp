@@ -48,6 +48,7 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     EventCondition::print(anOutputStream, false);
+    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
     ostk::core::utils::Print::Line(anOutputStream) << "Criteria:" << StringFromCriteria(getCriteria());
     ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
 
@@ -66,9 +67,7 @@ bool RealCondition::isSatisfied(
     const Real& previousTime
 ) const
 {
-    return comparator_(
-        evaluate(currentStateVector, currentTime),
-        evaluate(previousStateVector, previousTime));
+    return comparator_(evaluate(currentStateVector, currentTime), evaluate(previousStateVector, previousTime));
 }
 
 String RealCondition::StringFromCriteria(const Criteria& aCriteria)
@@ -100,7 +99,8 @@ String RealCondition::StringFromCriteria(const Criteria& aCriteria)
     return String::Empty();
 }
 
-std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(const RealCondition::Criteria& aCriteria)
+std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(const RealCondition::Criteria& aCriteria
+)
 {
     switch (aCriteria)
     {
