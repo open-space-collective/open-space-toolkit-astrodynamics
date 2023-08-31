@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693342701261,
+  "lastUpdate": 1693449231139,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -684,6 +684,60 @@ window.BENCHMARK_DATA = {
             "value": 3918175659.299993,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 3917348119.999997 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "lucas.bremond@gmail.com",
+            "name": "Lucas",
+            "username": "lucas-bremond"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "376154bb859df8eceb168ae49ab5bd14a43f1cdd",
+          "message": "fix: Viewer ConicSensor half-hangle (#215)\n\nCo-authored-by: Lucas Brémond <lucas@loftorbital.com>",
+          "timestamp": "2023-08-30T18:58:34-07:00",
+          "tree_id": "e9304c6eaca55086c67c838bc84a1bcc22730f23",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/376154bb859df8eceb168ae49ab5bd14a43f1cdd"
+        },
+        "date": 1693449229985,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 947447357.2000078,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 947328379.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1894379631.4999928,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1893904010.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 5526280577.799997,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5525548130 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 5388950638.299991,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5388047689.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 5361167419.899994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 5360297560.000001 ns\nthreads: 1"
           }
         ]
       }
