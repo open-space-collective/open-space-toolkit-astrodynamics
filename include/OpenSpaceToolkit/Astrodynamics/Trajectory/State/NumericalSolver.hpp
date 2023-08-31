@@ -199,7 +199,6 @@ class NumericalSolver : public MathNumericalSolver
 
    private:
     RootSolver rootSolver_;
-
     Array<State> observedStates_;
 };
 

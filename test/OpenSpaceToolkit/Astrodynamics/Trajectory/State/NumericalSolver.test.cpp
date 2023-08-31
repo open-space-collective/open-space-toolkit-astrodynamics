@@ -74,7 +74,7 @@ struct XCrossingCondition : public RealEventCondition
     }
 };
 
-class OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public ::testing::Test
 {
     void SetUp() override
     {
@@ -90,25 +90,17 @@ class OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver : public ::testing::Te
     }
 
    protected:
-    NumericalSolver defaultRK54_ = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaCashKarp54,
-        5.0,
-        1.0e-15,
-        1.0e-15,
-    };
-
-    NumericalSolver defaultRKF78_ = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaFehlberg78,
-        5.0,
-        1.0e-15,
-        1.0e-15,
-    };
-
     NumericalSolver defaultRKD5_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaDopri5,
+        1e-3,
+        1.0e-15,
+        1.0e-15,
+    };
+
+    NumericalSolver defaultRK54_ = {
+        NumericalSolver::LogType::NoLog,
+        NumericalSolver::StepperType::RungeKuttaCashKarp54,
         1e-3,
         1.0e-15,
         1.0e-15,
@@ -165,24 +157,31 @@ class OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver : public ::testing::Te
     }
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
 {
-    NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaCashKarp54,
-        1e-3,
-        1.0e-15,
-        1.0e-15,
-    };
+    {
+        EXPECT_NO_THROW(defaultRKD5_.getRootSolver());
+    }
 
+    {
+        EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime)
+{
     const Array<Instant> endInstants = {
         defaultState_.accessInstant() + defaultDuration_,
         defaultState_.accessInstant() - defaultDuration_,
     };
 
+    EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
+
     for (const Instant &endInstant : endInstants)
     {
-        const State propagatedState = numericalSolver.integrateTime(defaultState_, endInstant, systemOfEquations_);
+        const State propagatedState = defaultRK54_.integrateTime(defaultState_, endInstant, systemOfEquations_);
+
+        EXPECT_FALSE(defaultRK54_.getObservedStates().isEmpty());
 
         // Validate the output against an analytical function
 
@@ -197,16 +196,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime_Array)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Array)
 {
-    NumericalSolver numericalSolver = {
-        NumericalSolver::LogType::NoLog,
-        NumericalSolver::StepperType::RungeKuttaCashKarp54,
-        1e-3,
-        1.0e-15,
-        1.0e-15,
-    };
-
     const Array<Array<Instant>> instantsArray = {
         {
             defaultState_.accessInstant() + Duration::Seconds(100.0),
@@ -222,18 +213,24 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime_Array)
         },
     };
 
+    EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
+
     for (const Array<Instant> &instants : instantsArray)
     {
         const Array<State> propagatedStateVectorArray =
-            numericalSolver.integrateTime(defaultState_, instants, systemOfEquations_);
+            defaultRK54_.integrateTime(defaultState_, instants, systemOfEquations_);
+
+        EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
 
         validatePropagatedStates(instants, propagatedStateVectorArray, 2e-8);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime_Conditions)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions)
 {
     const State state = getStateVector(defaultStartInstant_);
+
+    EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
 
     {
         const Array<Tuple<Duration, RealEventCondition::Criteria>> testCases = {
@@ -260,6 +257,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_AstroNumericalSolver, IntegrateTime_Condit
                 EXPECT_LT((finalState.accessInstant() - endInstant).inSeconds(), 1e-12);
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
                 EXPECT_EQ(conditionSolution.iterationCount, 0);
+                EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
             const DurationCondition condition = DurationCondition(duration / 2.0, criteria);

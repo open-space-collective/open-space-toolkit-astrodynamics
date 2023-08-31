@@ -769,6 +769,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         EXPECT_EQ(instant, state.accessInstant());
         EXPECT_EQ(coordinates, state.accessCoordinates());
         EXPECT_EQ(Frame::GCRF(), state.accessFrame());
+        EXPECT_EQ(brokerSPtr, state.accessCoordinatesBroker());
     }
 
     {
@@ -785,6 +786,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Accessors)
         EXPECT_ANY_THROW(State::Undefined().accessInstant());
         EXPECT_ANY_THROW(State::Undefined().accessCoordinates());
         EXPECT_ANY_THROW(State::Undefined().accessFrame());
+        EXPECT_ANY_THROW(State::Undefined().accessCoordinatesBroker());
     }
 }
 

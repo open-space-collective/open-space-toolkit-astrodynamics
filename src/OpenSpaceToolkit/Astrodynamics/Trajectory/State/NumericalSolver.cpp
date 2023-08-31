@@ -106,6 +106,8 @@ State NumericalSolver::integrateTime(
     const State& aState, const Instant& anEndTime, const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
+    observedStates_.clear();
+
     const NumericalSolver::Solution solution = MathNumericalSolver::integrateDuration(
         aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
     );

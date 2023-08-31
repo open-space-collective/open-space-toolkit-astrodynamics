@@ -30,7 +30,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
         ;
 
     {
-        class_<NumericalSolver, MathNumericalSolver>(aModule, "NumericalSolver")
+        class_<NumericalSolver> numericalSolver(aModule, "NumericalSolver");
+
+        numericalSolver
 
             .def(
                 init<
@@ -46,6 +48,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("absolute_tolerance")
             )
 
+            .def(self == self)
+            .def(self != self)
+
+            .def("__str__", &(shiftToString<NumericalSolver>))
+            .def("__repr__", &(shiftToString<NumericalSolver>))
+
+            .def("is_defined", &NumericalSolver::isDefined)
+
+            .def("get_stepper_type", &NumericalSolver::getStepperType)
+            .def("get_log_type", &NumericalSolver::getLogType)
+            .def("get_time_step", &NumericalSolver::getTimeStep)
+            .def("get_relative_tolerance", &NumericalSolver::getRelativeTolerance)
+            .def("get_absolute_tolerance", &NumericalSolver::getAbsoluteTolerance)
             .def("get_observed_states", &NumericalSolver::getObservedStates)
             .def("get_root_solver", &NumericalSolver::getRootSolver)
 
@@ -123,9 +138,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("event_condition")
             )
 
+            .def_static("string_from_stepper_type", &NumericalSolver::StringFromStepperType, arg("stepper_type"))
+            .def_static("string_from_log_type", &NumericalSolver::StringFromLogType, arg("log_type"))
             .def_static("default", &NumericalSolver::Default)
             .def_static("undefined", &NumericalSolver::Undefined)
             .def_static("default_conditional", &NumericalSolver::DefaultConditional)
+
+            ;
+
+        enum_<NumericalSolver::StepperType>(numericalSolver, "StepperType")
+
+            .value("RungeKutta4", NumericalSolver::StepperType::RungeKutta4)
+            .value("RungeKuttaCashKarp54", NumericalSolver::StepperType::RungeKuttaCashKarp54)
+            .value("RungeKuttaFehlberg78", NumericalSolver::StepperType::RungeKuttaFehlberg78)
+            .value("RungeKuttaDopri5", NumericalSolver::StepperType::RungeKuttaDopri5)
+
+            ;
+
+        enum_<NumericalSolver::LogType>(numericalSolver, "LogType")
+
+            .value("NoLog", NumericalSolver::LogType::NoLog)
+            .value("LogConstant", NumericalSolver::LogType::LogConstant)
+            .value("LogAdaptive", NumericalSolver::LogType::LogAdaptive)
 
             ;
     }
