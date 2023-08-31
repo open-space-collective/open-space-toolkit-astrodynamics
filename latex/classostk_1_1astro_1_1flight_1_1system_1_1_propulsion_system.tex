@@ -1,0 +1,329 @@
+\hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{}\doxysection{ostk\+::astro\+::flight\+::system\+::Propulsion\+System Class Reference}
+\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+
+
+Define a propulsion system (constant thrust, constant Isp for now)  
+
+
+
+
+{\ttfamily \#include $<$Propulsion\+System.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a671f6f571429914305eec11f90bab452}{Propulsion\+System}} (const Scalar \&a\+Thrust, const Scalar \&a\+Specific\+Impulse)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad774fbc3870c13fe05308dcd7adf2a04}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_abc97cb2152b617d21d7e7174fdb15fbe}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a98e1b63a5d28bcf49e725df61cdae23b}{is\+Defined}} () const
+\begin{DoxyCompactList}\small\item\em Check if propulsion system is defined. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad0d3d57d2cb264ccfb6fa99d6647c245}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print propulsion system. \end{DoxyCompactList}\item 
+Scalar \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aa017bf07b19fcd65f9719e62ba72d718}{get\+Thrust}} () const
+\begin{DoxyCompactList}\small\item\em Get propulsion system\textquotesingle{}s thrust. \end{DoxyCompactList}\item 
+Scalar \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a41f180c90124e255df448d712314a465}{get\+Specific\+Impulse}} () const
+\begin{DoxyCompactList}\small\item\em Get propulsion system\textquotesingle{}s specific impulse \href{https://en.wikipedia.org/wiki/Specific_impulse}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Specific\+\_\+impulse}}. \end{DoxyCompactList}\item 
+Scalar \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1a4d93ddac6c64334a619178a6f78669}{get\+Mass\+Flow\+Rate}} () const
+\begin{DoxyCompactList}\small\item\em Get propulsion system\textquotesingle{}s mass flow rate. \end{DoxyCompactList}\item 
+Scalar \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a4843f2e4d62a6f457dc3edbd61ed6e3e}{get\+Acceleration}} (const Mass \&a\+Mass) const
+\begin{DoxyCompactList}\small\item\em Get propulsion system\textquotesingle{}s acceleration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1bccf402afccdcfdaf7445fc25e64bf4}{Undefined}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Unit \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a39f76e83f8b8108117124af6623da03d}{thrust\+S\+I\+Unit}}
+\item 
+static Unit \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a8dbf6a90b6ccf8ee328378b28d6b5e17}{specific\+Impulse\+S\+I\+Unit}}
+\item 
+static Unit \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad1be3acb99584c2eea0ef2eb8441e51f}{mass\+Flow\+Rate\+S\+I\+Unit}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aecc9048ab6de59f78a491c3548fd0e86}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define a propulsion system (constant thrust, constant Isp for now) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a671f6f571429914305eec11f90bab452}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a671f6f571429914305eec11f90bab452}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!PropulsionSystem@{PropulsionSystem}}
+\index{PropulsionSystem@{PropulsionSystem}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{PropulsionSystem()}{PropulsionSystem()}}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::\+Propulsion\+System (\begin{DoxyParamCaption}\item[{const Scalar \&}]{a\+Thrust,  }\item[{const Scalar \&}]{a\+Specific\+Impulse }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a671f6f571429914305eec11f90bab452}{PropulsionSystem}} propulsion = \{ ... \};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Thrust} & Thrust (scalar) \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Specific\+Impulse} & Specific impulse \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a4843f2e4d62a6f457dc3edbd61ed6e3e}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a4843f2e4d62a6f457dc3edbd61ed6e3e}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!getAcceleration@{getAcceleration}}
+\index{getAcceleration@{getAcceleration}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{getAcceleration()}{getAcceleration()}}
+{\footnotesize\ttfamily Scalar ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::get\+Acceleration (\begin{DoxyParamCaption}\item[{const Mass \&}]{a\+Mass }\end{DoxyParamCaption}) const}
+
+
+
+Get propulsion system\textquotesingle{}s acceleration. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Scalar acceleration = propulsionSystem.getAcceleration() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Scalar 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1a4d93ddac6c64334a619178a6f78669}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1a4d93ddac6c64334a619178a6f78669}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!getMassFlowRate@{getMassFlowRate}}
+\index{getMassFlowRate@{getMassFlowRate}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{getMassFlowRate()}{getMassFlowRate()}}
+{\footnotesize\ttfamily Scalar ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::get\+Mass\+Flow\+Rate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get propulsion system\textquotesingle{}s mass flow rate. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Scalar massFlowRate = propulsionSystem.getMassFlowRate() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Scalar 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a41f180c90124e255df448d712314a465}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a41f180c90124e255df448d712314a465}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!getSpecificImpulse@{getSpecificImpulse}}
+\index{getSpecificImpulse@{getSpecificImpulse}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{getSpecificImpulse()}{getSpecificImpulse()}}
+{\footnotesize\ttfamily Scalar ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::get\+Specific\+Impulse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get propulsion system\textquotesingle{}s specific impulse \href{https://en.wikipedia.org/wiki/Specific_impulse}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Specific\+\_\+impulse}}. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Scalar specificImpulse = propulsionSystem.getSpecificImpulse() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Scalar 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aa017bf07b19fcd65f9719e62ba72d718}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aa017bf07b19fcd65f9719e62ba72d718}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!getThrust@{getThrust}}
+\index{getThrust@{getThrust}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{getThrust()}{getThrust()}}
+{\footnotesize\ttfamily Scalar ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::get\+Thrust (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get propulsion system\textquotesingle{}s thrust. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Scalar thrust = propulsionSystem.getThrust() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Scalar 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a98e1b63a5d28bcf49e725df61cdae23b}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a98e1b63a5d28bcf49e725df61cdae23b}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if propulsion system is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if propulsion system is defined 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_abc97cb2152b617d21d7e7174fdb15fbe}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_abc97cb2152b617d21d7e7174fdb15fbe}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A propulsion system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if propulsion systems are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad774fbc3870c13fe05308dcd7adf2a04}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad774fbc3870c13fe05308dcd7adf2a04}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A propulsion system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if propulsion systems are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad0d3d57d2cb264ccfb6fa99d6647c245}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad0d3d57d2cb264ccfb6fa99d6647c245}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!print@{print}}
+\index{print@{print}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print propulsion system. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1bccf402afccdcfdaf7445fc25e64bf4}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1bccf402afccdcfdaf7445fc25e64bf4}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aecc9048ab6de59f78a491c3548fd0e86}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_aecc9048ab6de59f78a491c3548fd0e86}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A propulsion system \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad1be3acb99584c2eea0ef2eb8441e51f}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_ad1be3acb99584c2eea0ef2eb8441e51f}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!massFlowRateSIUnit@{massFlowRateSIUnit}}
+\index{massFlowRateSIUnit@{massFlowRateSIUnit}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{massFlowRateSIUnit}{massFlowRateSIUnit}}
+{\footnotesize\ttfamily ostk\+::physics\+::\+Unit ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::mass\+Flow\+Rate\+S\+I\+Unit\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= Unit::Derived(Derived::Unit(}
+\DoxyCodeLine{    Length::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Mass::Unit::Kilogram,}
+\DoxyCodeLine{    \{1\},}
+\DoxyCodeLine{    Time::Unit::Second,}
+\DoxyCodeLine{    \{-\/1\},}
+\DoxyCodeLine{    ElectricCurrent::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Angle::Unit::Undefined,}
+\DoxyCodeLine{    \{0\}}
+\DoxyCodeLine{))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a8dbf6a90b6ccf8ee328378b28d6b5e17}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a8dbf6a90b6ccf8ee328378b28d6b5e17}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!specificImpulseSIUnit@{specificImpulseSIUnit}}
+\index{specificImpulseSIUnit@{specificImpulseSIUnit}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{specificImpulseSIUnit}{specificImpulseSIUnit}}
+{\footnotesize\ttfamily ostk\+::physics\+::\+Unit ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::specific\+Impulse\+S\+I\+Unit\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= Unit::Derived(Derived::Unit(}
+\DoxyCodeLine{    Length::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Mass::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Time::Unit::Second,}
+\DoxyCodeLine{    \{1\},}
+\DoxyCodeLine{    ElectricCurrent::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Angle::Unit::Undefined,}
+\DoxyCodeLine{    \{0\}}
+\DoxyCodeLine{))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a39f76e83f8b8108117124af6623da03d}\label{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a39f76e83f8b8108117124af6623da03d}} 
+\index{ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}!thrustSIUnit@{thrustSIUnit}}
+\index{thrustSIUnit@{thrustSIUnit}!ostk::astro::flight::system::PropulsionSystem@{ostk::astro::flight::system::PropulsionSystem}}
+\doxysubsubsection{\texorpdfstring{thrustSIUnit}{thrustSIUnit}}
+{\footnotesize\ttfamily ostk\+::physics\+::\+Unit ostk\+::astro\+::flight\+::system\+::\+Propulsion\+System\+::thrust\+S\+I\+Unit\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= Unit::Derived(Derived::Unit(}
+\DoxyCodeLine{    Length::Unit::Meter,}
+\DoxyCodeLine{    \{1\},}
+\DoxyCodeLine{    Mass::Unit::Kilogram,}
+\DoxyCodeLine{    \{1\},}
+\DoxyCodeLine{    Time::Unit::Second,}
+\DoxyCodeLine{    \{-\/2\},}
+\DoxyCodeLine{    ElectricCurrent::Unit::Undefined,}
+\DoxyCodeLine{    \{0\},}
+\DoxyCodeLine{    Angle::Unit::Undefined,}
+\DoxyCodeLine{    \{0\}}
+\DoxyCodeLine{))}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\mbox{\hyperlink{_propulsion_system_8hpp}{Propulsion\+System.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Flight/\+System/\mbox{\hyperlink{_propulsion_system_8cpp}{Propulsion\+System.\+cpp}}\end{DoxyCompactItemize}

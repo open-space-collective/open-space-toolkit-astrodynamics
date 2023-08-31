@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}\index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}}
 
 
-Defines the dynamics system who\textquotesingle{}s motion is being studied, in particular this is a satellite system.  
+Define the dynamics system who\textquotesingle{}s motion is being studied, in particular this is a satellite system.  
 
 
 
@@ -18,7 +18,7 @@ Inheritance diagram for ostk\+::astro\+::flight\+::system\+::Satellite\+System\+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a92a2ae75e146b82f198b909e2c2787d7}{Satellite\+System}} (const Mass \&a\+Mass, const Composite \&a\+Satellite\+Geometry, const Matrix3d \&an\+Inertia\+Tensor, const Real \&a\+Cross\+Sectional\+Surface\+Area, const Real \&a\+Drag\+Coefficient)
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a73ed5c43db59480f81d15012522aa21c}{Satellite\+System}} (const Mass \&a\+Mass, const Composite \&a\+Satellite\+Geometry, const Matrix3d \&an\+Inertia\+Tensor, const Real \&a\+Cross\+Sectional\+Surface\+Area, const Real \&a\+Drag\+Coefficient, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System=\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1bccf402afccdcfdaf7445fc25e64bf4}{Propulsion\+System\+::\+Undefined}}())
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a9d49e1a03773c4d78ba6dc579b24b713}{$\sim$\+Satellite\+System}} () override
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
@@ -30,19 +30,23 @@ bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_syste
 \begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
 virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a6d10fc37776cc87a74fe8b7e2ccb9843}{is\+Defined}} () const override
 \begin{DoxyCompactList}\small\item\em Check if satellite system is defined. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a0d4ca06c426773f667018581945dbf57}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
-\begin{DoxyCompactList}\small\item\em Print satellite system. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_abe34f4724424acccb7e9a2033c72d133}{access\+Propulsion\+System}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} satellite system\textquotesingle{}s propulsion model. \end{DoxyCompactList}\item 
 Matrix3d \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a5b4919deec7bbc637878f553542490b2}{get\+Inertia\+Tensor}} () const
 \begin{DoxyCompactList}\small\item\em Get satellite system\textquotesingle{}s inertia tensor. \end{DoxyCompactList}\item 
 Real \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_ac857e04d890280e233c89037a61044d9}{get\+Cross\+Sectional\+Surface\+Area}} () const
 \begin{DoxyCompactList}\small\item\em Get satellite system\textquotesingle{}s surface area. \end{DoxyCompactList}\item 
 Real \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a4e6dcdae45be7ead5fe0924a540ae2cd}{get\+Drag\+Coefficient}} () const
-\begin{DoxyCompactList}\small\item\em Get satellite system\textquotesingle{}s drag coefficient. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get satellite system\textquotesingle{}s drag coefficient. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a3fd043e5e7c2dd4bcf19f00d4c9b429d}{get\+Propulsion\+System}} () const
+\begin{DoxyCompactList}\small\item\em Get satellite system\textquotesingle{}s propulsion model. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a0d4ca06c426773f667018581945dbf57}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
+\begin{DoxyCompactList}\small\item\em Print satellite system. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Undefined}} ()
-\begin{DoxyCompactList}\small\item\em Undefined satellite system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -51,14 +55,14 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_sa
 
 
 \doxysubsection{Detailed Description}
-Defines the dynamics system who\textquotesingle{}s motion is being studied, in particular this is a satellite system. 
+Define the dynamics system who\textquotesingle{}s motion is being studied, in particular this is a satellite system. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a92a2ae75e146b82f198b909e2c2787d7}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a92a2ae75e146b82f198b909e2c2787d7}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a73ed5c43db59480f81d15012522aa21c}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a73ed5c43db59480f81d15012522aa21c}} 
 \index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!SatelliteSystem@{SatelliteSystem}}
 \index{SatelliteSystem@{SatelliteSystem}!ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}}
 \doxysubsubsection{\texorpdfstring{SatelliteSystem()}{SatelliteSystem()}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+::\+Satellite\+System (\begin{DoxyParamCaption}\item[{const Mass \&}]{a\+Mass,  }\item[{const Composite \&}]{a\+Satellite\+Geometry,  }\item[{const Matrix3d \&}]{an\+Inertia\+Tensor,  }\item[{const Real \&}]{a\+Cross\+Sectional\+Surface\+Area,  }\item[{const Real \&}]{a\+Drag\+Coefficient }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+::\+Satellite\+System (\begin{DoxyParamCaption}\item[{const Mass \&}]{a\+Mass,  }\item[{const Composite \&}]{a\+Satellite\+Geometry,  }\item[{const Matrix3d \&}]{an\+Inertia\+Tensor,  }\item[{const Real \&}]{a\+Cross\+Sectional\+Surface\+Area,  }\item[{const Real \&}]{a\+Drag\+Coefficient,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system_a1bccf402afccdcfdaf7445fc25e64bf4}{Propulsion\+System\+::\+Undefined}}()} }\end{DoxyParamCaption})}
 
 
 
@@ -71,8 +75,9 @@ Constructor.
 \DoxyCodeLine{Matrix3d intertiaTensor ( ... ) ;}
 \DoxyCodeLine{Real crossSectionalSurfaceArea = 0.8 ;}
 \DoxyCodeLine{Real dragCoefficient = 2.2 ;}
+\DoxyCodeLine{PropulsionSystem propulsionSystem = \{ ... \} ;}
 \DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system_afac17c0d5e2b1fb9416babf240a1aa65}{System}} system = \{ mass, composite, intertiaTensor, crossSectionalSurfaceArea,}
-\DoxyCodeLine{dragCoefficient \} ;}
+\DoxyCodeLine{dragCoefficient, propulsionSystem \} ;}
 \end{DoxyCode}
 
 
@@ -88,6 +93,8 @@ Constructor.
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Drag\+Coefficient} & A drag coefficient \\
 \hline
+\mbox{\texttt{ in}}  & {\em a\+Propulsion\+System} & A propulsion system (optional) \\
+\hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a9d49e1a03773c4d78ba6dc579b24b713}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a9d49e1a03773c4d78ba6dc579b24b713}} 
 \index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!````~SatelliteSystem@{$\sim$SatelliteSystem}}
@@ -102,6 +109,25 @@ Destructor.
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_abe34f4724424acccb7e9a2033c72d133}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_abe34f4724424acccb7e9a2033c72d133}} 
+\index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!accessPropulsionSystem@{accessPropulsionSystem}}
+\index{accessPropulsionSystem@{accessPropulsionSystem}!ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}}
+\doxysubsubsection{\texorpdfstring{accessPropulsionSystem()}{accessPropulsionSystem()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \& ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+::access\+Propulsion\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} satellite system\textquotesingle{}s propulsion model. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{PropulsionSystem propulsionModel = satelliteSystem.accessPropulsionSystem() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_ab72eb53f29c3f6f9839eaefd5667f218}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_ab72eb53f29c3f6f9839eaefd5667f218}} 
 \index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!clone@{clone}}
 \index{clone@{clone}!ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}}
@@ -171,6 +197,25 @@ Get satellite system\textquotesingle{}s inertia tensor.
 
 \begin{DoxyReturn}{Returns}
 Matrix3d 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a3fd043e5e7c2dd4bcf19f00d4c9b429d}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a3fd043e5e7c2dd4bcf19f00d4c9b429d}} 
+\index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!getPropulsionSystem@{getPropulsionSystem}}
+\index{getPropulsionSystem@{getPropulsionSystem}!ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}}
+\doxysubsubsection{\texorpdfstring{getPropulsionSystem()}{getPropulsionSystem()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+::get\+Propulsion\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get satellite system\textquotesingle{}s propulsion model. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{PropulsionSystem propulsionModel = satelliteSystem.getPropulsionSystem() ;}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a6d10fc37776cc87a74fe8b7e2ccb9843}\label{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a6d10fc37776cc87a74fe8b7e2ccb9843}} 
 \index{ostk::astro::flight::system::SatelliteSystem@{ostk::astro::flight::system::SatelliteSystem}!isDefined@{isDefined}}
@@ -252,13 +297,6 @@ Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1_system_a24d
 \doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} ostk\+::astro\+::flight\+::system\+::\+Satellite\+System\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-
-
-Undefined satellite system. 
-
-\begin{DoxyReturn}{Returns}
-Undefined satellite system 
-\end{DoxyReturn}
 
 
 \doxysubsection{Friends And Related Function Documentation}
