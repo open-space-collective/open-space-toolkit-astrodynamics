@@ -73,12 +73,6 @@ class NumericalSolver : public MathNumericalSolver
         bool rootSolverHasConverged;  ///< Whether the root solver has converged.
     };
 
-    /// @brief                  Clone numerical solver
-    ///
-    /// @return                 Pointer to cloned numerical solver
-
-    NumericalSolver* clone() const;
-
     /// @brief                  Access observed states
     ///
     /// @code

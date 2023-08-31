@@ -40,11 +40,6 @@ NumericalSolver::NumericalSolver(
 {
 }
 
-NumericalSolver* NumericalSolver::clone() const
-{
-    return new NumericalSolver(*this);
-}
-
 const Array<State>& NumericalSolver::accessObservedStates() const
 {
     if (!this->isDefined())

@@ -161,10 +161,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
 {
     {
         EXPECT_NO_THROW(defaultRKD5_.getRootSolver());
+        EXPECT_THROW(NumericalSolver::Undefined().getRootSolver(), ostk::core::error::runtime::Undefined);
     }
 
     {
         EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Accessors)
+{
+    {
+        EXPECT_NO_THROW(defaultRKD5_.accessObservedStates());
+    }
+
+    {
+        EXPECT_THROW(NumericalSolver::Undefined().accessObservedStates(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -230,7 +242,49 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 {
     const State state = getStateVector(defaultStartInstant_);
 
-    EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+    {
+        EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+
+        EXPECT_THROW(
+            defaultRK54_.integrateTime(
+                state,
+                defaultStartInstant_,
+                systemOfEquations_,
+                DurationCondition(0.0, RealEventCondition::Criteria::AnyCrossing)
+            ),
+            ostk::core::error::RuntimeError
+        );
+    }
+
+    // trivial case, zero second integration
+    {
+        NumericalSolver::ConditionSolution solution = defaultRKD5_.integrateTime(
+            state,
+            state.accessInstant(),
+            systemOfEquations_,
+            DurationCondition(0.0, RealEventCondition::Criteria::AnyCrossing)
+        );
+
+        EXPECT_EQ(state, solution.state);
+        EXPECT_FALSE(solution.conditionIsSatisfied);
+        EXPECT_EQ(solution.iterationCount, 0);
+        EXPECT_FALSE(solution.rootSolverHasConverged);
+    }
+
+    // condition already satisfied
+    {
+        const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
+            state,
+            defaultStartInstant_ + defaultDuration_,
+            systemOfEquations_,
+            DurationCondition(-1.0, RealEventCondition::Criteria::StrictlyPositive)
+        );
+
+        EXPECT_EQ(conditionSolution.state, state);
+        EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
+        EXPECT_EQ(conditionSolution.iterationCount, 0);
+        EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
+    }
 
     {
         const Array<Tuple<Duration, RealEventCondition::Criteria>> testCases = {
@@ -315,5 +369,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             EXPECT_NEAR(propagatedStateVector[0], std::sin(propagatedTime), 1e-9);
             EXPECT_NEAR(propagatedStateVector[1], std::cos(propagatedTime), 1e-9);
         }
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, DefaultConditional)
+{
+    {
+        EXPECT_NO_THROW(NumericalSolver::DefaultConditional());
     }
 }
