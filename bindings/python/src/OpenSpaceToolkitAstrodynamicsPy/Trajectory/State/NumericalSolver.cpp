@@ -47,6 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             )
 
             .def("get_observed_states", &NumericalSolver::getObservedStates)
+            .def("get_root_solver", &NumericalSolver::getRootSolver)
 
             .def(
                 "integrate_time",
@@ -121,6 +122,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("system_of_equations"),
                 arg("event_condition")
             )
+
+            .def_static("default", &NumericalSolver::Default)
+            .def_static("undefined", &NumericalSolver::Undefined)
+            .def_static("default_conditional", &NumericalSolver::DefaultConditional)
 
             ;
     }
