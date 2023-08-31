@@ -12,7 +12,7 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
-from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
