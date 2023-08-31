@@ -6,10 +6,11 @@
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Solvers/NumericalSolver.hpp>
+
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/RootSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
@@ -28,7 +29,7 @@ using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::RootSolver;
-using MathNumericalSolver = ostk::astro::NumericalSolver;
+using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
 
 /// @brief                      Defines an astrodynamics state contextual Numerical Solver. This class inherits from the
 ///                             OSTk Mathematics Numerical Solver.
@@ -145,6 +146,24 @@ class NumericalSolver : public MathNumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations,
         const EventCondition& anEventCondition
     );
+
+    /// @brief                  Undefined
+    ///
+    /// @return                 An undefined numerical solver
+
+    static NumericalSolver Undefined();
+
+    /// @brief                  Default
+    ///
+    /// @return                 A default numerical solver
+
+    static NumericalSolver Default();
+
+    /// @brief                  Default conditional
+    ///
+    /// @return                 A default conditional numerical solver
+
+    static NumericalSolver DefaultConditional();
 
     /// Delete undesired methods from parent
 

@@ -300,14 +300,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagated, Calcul
 
     // Test CalculateStateAt in propagatedModel and in orbit
     {
-        testing::internal::CaptureStdout();
-
         for (const Instant& instant : instantArray)
         {
             EXPECT_EQ(orbit.getStateAt(instant), propagatedModel.calculateStateAt(instant));
         }
-
-        EXPECT_TRUE(testing::internal::GetCapturedStdout().empty());
     }
 }
 

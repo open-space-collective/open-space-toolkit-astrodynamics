@@ -18,8 +18,7 @@ namespace trajectory
 
 using ostk::core::ctnr::Array;
 using ostk::core::types::Index;
-using ostk::core::types::Shared;
-using ostk::core::types::Size;
+using ostk::core::ctnr::Pair;
 
 using ostk::math::obj::VectorXd;
 
@@ -144,10 +143,17 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
         throw ostk::core::error::runtime::Undefined("Propagator");
     }
 
-    const Instant startInstant = aState.getInstant();
+    const State state = {
+        aState.accessInstant(),
+        extractCoordinatesFromState(aState.inFrame(integrationFrameSPtr)),
+        aState.accessFrame(),
+        this->coordinatesBrokerSPtr_,
+    };
 
     return numericalSolver_.integrateTime(
-        aState, anInstant, Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
+        state,
+        anInstant,
+        Dynamics::GetSystemOfEquations(this->dynamicsContexts_, state.accessInstant(), integrationFrameSPtr)
     );
 }
 
@@ -162,8 +168,15 @@ State Propagator::calculateStateAt(
 
     const Instant startInstant = aState.getInstant();
 
+    const State state = {
+        aState.accessInstant(),
+        extractCoordinatesFromState(aState.inFrame(integrationFrameSPtr)),
+        aState.accessFrame(),
+        this->coordinatesBrokerSPtr_,
+    };
+
     const NumericalSolver::ConditionSolution conditionSolution = numericalSolver_.integrateTime(
-        aState,
+        state,
         anInstant,
         Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr),
         anEventCondition
@@ -202,7 +215,14 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         }
     }
 
-    const Instant startInstant = aState.accessInstant();
+    const State state = {
+        aState.accessInstant(),
+        extractCoordinatesFromState(aState.inFrame(integrationFrameSPtr)),
+        aState.accessFrame(),
+        this->coordinatesBrokerSPtr_,
+    };
+
+    const Instant startInstant = state.accessInstant();
 
     Array<Instant> forwardInstants;
     forwardInstants.reserve(anInstantArray.getSize());
@@ -226,7 +246,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
     if (!forwardInstants.isEmpty())
     {
         forwardPropagatedStates = numericalSolver_.integrateTime(
-            aState,
+            state,
             forwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
         );
@@ -239,7 +259,7 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
         std::reverse(backwardInstants.begin(), backwardInstants.end());
 
         backwardPropagatedStates = numericalSolver_.integrateTime(
-            aState,
+            state,
             backwardInstants,
             Dynamics::GetSystemOfEquations(this->dynamicsContexts_, startInstant, integrationFrameSPtr)
         );

@@ -577,7 +577,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
-    ASSERT_TRUE((residuals.array() < 1e-7).all()) << String::Format("Residual: {}", residuals.maxCoeff());
+    EXPECT_TRUE((residuals.array() < 1e-7).all()) << String::Format("Residual: {}", residuals.maxCoeff());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, OrekitExponential)

@@ -10,7 +10,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
     using ostk::physics::time::Instant;
 
-    using MathNumericalSolver = ostk::astro::NumericalSolver;
+    using MathNumericalSolver = ostk::math::solvers::NumericalSolver;
     using ostk::astro::EventCondition;
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::state::NumericalSolver;
