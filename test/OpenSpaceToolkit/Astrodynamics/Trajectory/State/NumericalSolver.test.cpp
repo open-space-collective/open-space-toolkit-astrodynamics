@@ -257,7 +257,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 EXPECT_LT((finalState.accessInstant() - endInstant).inSeconds(), 1e-12);
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
                 EXPECT_EQ(conditionSolution.iterationCount, 0);
-                EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+                EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
             const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
