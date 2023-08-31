@@ -303,7 +303,7 @@ def _cesium_from_ostk_sensor(sensor: Sensor) -> cesiumpy.ConicSensor:
     return cesiumpy.ConicSensor(
         name=sensor.name,
         direction=cesiumpy.Cartesian3(*sensor.direction),
-        half_angle=cesiumpy.math.to_radians(float(sensor.half_angle.in_radians())),
+        half_angle=float(sensor.half_angle.in_radians()),
         length=float(sensor.length.in_meters()),
         material=sensor.color or cesiumpy.color.RED,
     )
