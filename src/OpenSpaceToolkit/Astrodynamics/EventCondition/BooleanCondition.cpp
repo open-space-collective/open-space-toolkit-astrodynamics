@@ -14,13 +14,13 @@ namespace eventcondition
 
 BooleanCondition::BooleanCondition(
     const String& aName,
-    const Criteria& aCriteria,
+    const Criterion& aCriterion,
     const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
     const bool& anInverseFlag
 )
     : RealCondition(
           aName,
-          aCriteria,
+          aCriterion,
           [anInverseFlag, anEvaluator](const VectorXd& aStateVector, const Real& aTime) -> Real
           {
               const bool boolean = anEvaluator(aStateVector, aTime);

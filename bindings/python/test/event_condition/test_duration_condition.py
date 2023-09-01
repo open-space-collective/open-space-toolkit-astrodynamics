@@ -13,15 +13,15 @@ def duration() -> Duration:
 
 
 @pytest.fixture
-def criteria() -> DurationCondition.Criteria:
-    return DurationCondition.Criteria.StrictlyPositive
+def criterion() -> DurationCondition.Criterion:
+    return DurationCondition.Criterion.StrictlyPositive
 
 
 @pytest.fixture
 def duration_condition(
-    criteria: DurationCondition.Criteria, duration: Duration
+    criterion: DurationCondition.Criterion, duration: Duration
 ) -> DurationCondition:
-    return DurationCondition(criteria, duration)
+    return DurationCondition(criterion, duration)
 
 
 class TestDurationCondition:

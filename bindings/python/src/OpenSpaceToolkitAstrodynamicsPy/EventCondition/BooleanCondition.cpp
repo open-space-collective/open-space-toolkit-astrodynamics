@@ -22,11 +22,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
         .def(
             init<
                 const String&,
-                const RealCondition::Criteria&,
+                const RealCondition::Criterion&,
                 std::function<bool(const VectorXd&, const Real&)>,
                 const bool&>(),
             arg("name"),
-            arg("criteria"),
+            arg("criterion"),
             arg("evaluator"),
             arg("is_inverse")
         )

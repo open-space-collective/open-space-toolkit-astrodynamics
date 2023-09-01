@@ -41,10 +41,10 @@ using ostk::astro::trajectory::State;
 
 struct DurationCondition : public RealCondition
 {
-    DurationCondition(const Duration &aDuration, const RealCondition::Criteria &aCriteria)
+    DurationCondition(const Duration &aDuration, const RealCondition::Criterion &aCriterion)
         : RealCondition(
               "test",
-              aCriteria,
+              aCriterion,
               []([[maybe_unused]] const VectorXd &aStateVector, const Real &aTime) -> Real
               {
                   return aTime;
@@ -62,7 +62,7 @@ struct XCrossingCondition : public RealCondition
     XCrossingCondition(const Real &aTarget)
         : RealCondition(
               "test",
-              RealCondition::Criteria::AnyCrossing,
+              RealCondition::Criterion::AnyCrossing,
               [](const VectorXd &aStateVector, [[maybe_unused]] const double &aTime) -> Real
               {
                   return aStateVector[0];
@@ -249,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 state,
                 defaultStartInstant_,
                 systemOfEquations_,
-                DurationCondition(0.0, RealCondition::Criteria::AnyCrossing)
+                DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
             ),
             ostk::core::error::RuntimeError
         );
@@ -261,7 +261,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             state.accessInstant(),
             systemOfEquations_,
-            DurationCondition(0.0, RealCondition::Criteria::AnyCrossing)
+            DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
         );
 
         EXPECT_EQ(state, solution.state);
@@ -276,7 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            DurationCondition(-1.0, RealCondition::Criteria::StrictlyPositive)
+            DurationCondition(-1.0, RealCondition::Criterion::StrictlyPositive)
         );
 
         EXPECT_EQ(conditionSolution.state, state);
@@ -286,15 +286,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     }
 
     {
-        const Array<Tuple<Duration, RealCondition::Criteria>> testCases = {
-            {defaultDuration_, RealCondition::Criteria::AnyCrossing},
-            {-defaultDuration_, RealCondition::Criteria::AnyCrossing},
+        const Array<Tuple<Duration, RealCondition::Criterion>> testCases = {
+            {defaultDuration_, RealCondition::Criterion::AnyCrossing},
+            {-defaultDuration_, RealCondition::Criterion::AnyCrossing},
         };
 
         for (const auto &testCase : testCases)
         {
             const Duration duration = std::get<0>(testCase);
-            const RealCondition::Criteria criteria = std::get<1>(testCase);
+            const RealCondition::Criterion criterion = std::get<1>(testCase);
 
             const Instant endInstant = defaultStartInstant_ + duration;
 
@@ -303,7 +303,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                     state,
                     endInstant,
                     systemOfEquations_,
-                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criteria)
+                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criterion)
                 );
                 const State finalState = conditionSolution.state;
 
@@ -313,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
-            const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
+            const DurationCondition condition = DurationCondition(duration / 2.0, criterion);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);

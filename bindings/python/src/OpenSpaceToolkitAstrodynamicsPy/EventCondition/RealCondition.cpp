@@ -25,11 +25,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             .def(
                 init<
                     const String&,
-                    const RealCondition::Criteria&,
+                    const RealCondition::Criterion&,
                     std::function<Real(const VectorXd&, const Real&)>,
                     const Real&>(),
                 arg("name"),
-                arg("criteria"),
+                arg("criterion"),
                 arg("evaluator"),
                 arg("target") = 0.0
             )
@@ -38,7 +38,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             .def("__repr__", &(shiftToString<RealCondition>))
 
             .def("get_target", &RealCondition::getTarget)
-            .def("get_criteria", &RealCondition::getCriteria)
+            .def("get_criterion", &RealCondition::getCriterion)
             .def("get_evaluator", &RealCondition::getEvaluator)
 
             .def("evaluate", &RealCondition::evaluate, arg("state_vector"), arg("time"))
@@ -52,17 +52,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 arg("previous_time")
             )
 
-            .def_static("string_from_criteria", &RealCondition::StringFromCriteria, arg("criteria"))
+            .def_static("string_from_criterion", &RealCondition::StringFromCriterion, arg("criterion"))
 
             ;
 
-        enum_<RealCondition::Criteria>(realCondition, "Criteria")
+        enum_<RealCondition::Criterion>(realCondition, "Criterion")
 
-            .value("PositiveCrossing", RealCondition::Criteria::PositiveCrossing)
-            .value("NegativeCrossing", RealCondition::Criteria::NegativeCrossing)
-            .value("AnyCrossing", RealCondition::Criteria::AnyCrossing)
-            .value("StrictlyPositive", RealCondition::Criteria::StrictlyPositive)
-            .value("StrictlyNegative", RealCondition::Criteria::StrictlyNegative)
+            .value("PositiveCrossing", RealCondition::Criterion::PositiveCrossing)
+            .value("NegativeCrossing", RealCondition::Criterion::NegativeCrossing)
+            .value("AnyCrossing", RealCondition::Criterion::AnyCrossing)
+            .value("StrictlyPositive", RealCondition::Criterion::StrictlyPositive)
+            .value("StrictlyNegative", RealCondition::Criterion::StrictlyNegative)
 
             ;
     }

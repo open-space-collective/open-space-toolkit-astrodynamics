@@ -21,7 +21,7 @@ using ostk::astro::eventcondition::BooleanCondition;
 class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::testing::Test
 {
    protected:
-    const BooleanCondition::Criteria defaultCriteria_ = BooleanCondition::Criteria::PositiveCrossing;
+    const BooleanCondition::Criterion defaultCriterion_ = BooleanCondition::Criterion::PositiveCrossing;
     const String defaultName_ = "Test Boolean Condition";
     const std::function<bool(VectorXd, Real)> defaultEvaluator_ = []([[maybe_unused]] const VectorXd& aStateVector,
                                                                      const Real& aTime) -> Real
@@ -31,7 +31,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
     const bool defaultInverseFlag_ = true;
     const BooleanCondition defaultCondition_ = {
         "test",
-        defaultCriteria_,
+        defaultCriterion_,
         defaultEvaluator_,
         defaultInverseFlag_,
     };
@@ -41,10 +41,10 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_));
+        EXPECT_NO_THROW(BooleanCondition(defaultName_, defaultCriterion_, defaultEvaluator_));
     }
     {
-        EXPECT_NO_THROW(BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_, defaultInverseFlag_));
+        EXPECT_NO_THROW(BooleanCondition(defaultName_, defaultCriterion_, defaultEvaluator_, defaultInverseFlag_));
     }
 }
 
@@ -65,7 +65,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Getters)
         EXPECT_EQ(defaultCondition_.isInversed(), defaultInverseFlag_);
     }
     {
-        BooleanCondition booleanCondition = BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_);
+        BooleanCondition booleanCondition = BooleanCondition(defaultName_, defaultCriterion_, defaultEvaluator_);
         EXPECT_EQ(booleanCondition.isInversed(), false);
     }
 }
@@ -79,7 +79,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Evaluate)
 
     {
         BooleanCondition booleanCondition =
-            BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_, !defaultInverseFlag_);
+            BooleanCondition(defaultName_, defaultCriterion_, defaultEvaluator_, !defaultInverseFlag_);
 
         EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, -1.0), 1.0);
         EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 1.0), -1.0);

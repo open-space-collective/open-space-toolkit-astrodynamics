@@ -29,7 +29,7 @@ using ostk::astro::EventCondition;
 class RealCondition : public EventCondition
 {
    public:
-    enum class Criteria
+    enum class Criterion
     {
         PositiveCrossing,
         NegativeCrossing,
@@ -41,18 +41,18 @@ class RealCondition : public EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RealCondition RealCondition = {aName, aCriteria, anEvaluatro, aTarget};
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluatro, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Real Event
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
     RealCondition(
         const String& aName,
-        const Criteria& aCriteria,
+        const Criterion& aCriterion,
         const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
         const Real& aTarget = 0.0
     );
@@ -61,11 +61,11 @@ class RealCondition : public EventCondition
 
     virtual ~RealCondition();
 
-    /// @brief                  Get the criteria of the Event Condition
+    /// @brief                  Get the criterion of the Event Condition
     ///
-    /// @return                 Enum representing the criteria of the Event Condition
+    /// @return                 Enum representing the criterion of the Event Condition
 
-    Criteria getCriteria() const;
+    Criterion getCriterion() const;
 
     /// @brief                  Get evaluator
     ///
@@ -113,21 +113,21 @@ class RealCondition : public EventCondition
         const Real& previousTime
     ) const override;
 
-    /// @brief                  Convert criteria to string
+    /// @brief                  Convert criterion to string
     ///
-    /// @param                  [in] aCriteria An enum representing the criteria
+    /// @param                  [in] aCriterion An enum representing the criterion
     ///
-    /// @return                 String representing the given criteria
+    /// @return                 String representing the given criterion
 
-    static String StringFromCriteria(const Criteria& aCriteria);
+    static String StringFromCriterion(const Criterion& aCriterion);
 
    private:
-    Criteria criteria_;
+    Criterion criterion_;
     std::function<Real(const VectorXd&, const Real&)> evaluator_;
     Real target_;
     std::function<bool(const Real&, const Real&)> comparator_;
 
-    static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criteria& aCriteria);
+    static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
 };
 
 }  // namespace eventcondition

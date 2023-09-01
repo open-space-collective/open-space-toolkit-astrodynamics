@@ -16,7 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(pyb
     {
         class_<DurationCondition, RealCondition, Shared<DurationCondition>>(aModule, "DurationCondition")
 
-            .def(init<const RealCondition::Criteria&, const Duration&>(), arg("criteria"), arg("duration"))
+            .def(init<const RealCondition::Criterion&, const Duration&>(), arg("criterion"), arg("duration"))
 
             .def("get_duration", &DurationCondition::getDuration)
 

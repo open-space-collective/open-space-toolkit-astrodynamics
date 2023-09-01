@@ -60,7 +60,7 @@ def initial_state(
 def custom_condition() -> RealCondition:
     return RealCondition(
         "Custom",
-        RealCondition.Criteria.StrictlyPositive,
+        RealCondition.Criterion.StrictlyPositive,
         lambda state_vector, time: time,
         5.0,
     )

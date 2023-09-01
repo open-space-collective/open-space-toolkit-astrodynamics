@@ -14,23 +14,23 @@ namespace eventcondition
 
 RealCondition::RealCondition(
     const String& aName,
-    const Criteria& aCriteria,
+    const Criterion& aCriterion,
     const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
     const Real& aTarget
 )
     : EventCondition(aName),
-      criteria_(aCriteria),
+      criterion_(aCriterion),
       evaluator_(anEvaluator),
       target_(aTarget),
-      comparator_(GenerateComparator(aCriteria))
+      comparator_(GenerateComparator(aCriterion))
 {
 }
 
 RealCondition::~RealCondition() {}
 
-RealCondition::Criteria RealCondition::getCriteria() const
+RealCondition::Criterion RealCondition::getCriterion() const
 {
-    return criteria_;
+    return criterion_;
 }
 
 std::function<Real(const VectorXd&, const Real&)> RealCondition::getEvaluator() const
@@ -49,7 +49,7 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
-    ostk::core::utils::Print::Line(anOutputStream) << "Criteria:" << StringFromCriteria(getCriteria());
+    ostk::core::utils::Print::Line(anOutputStream) << "Criterion:" << StringFromCriterion(getCriterion());
     ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
@@ -70,69 +70,70 @@ bool RealCondition::isSatisfied(
     return comparator_(evaluate(currentStateVector, currentTime), evaluate(previousStateVector, previousTime));
 }
 
-String RealCondition::StringFromCriteria(const Criteria& aCriteria)
+String RealCondition::StringFromCriterion(const Criterion& aCriterion)
 {
-    switch (aCriteria)
+    switch (aCriterion)
     {
-        case Criteria::PositiveCrossing:
+        case Criterion::PositiveCrossing:
             return "Positive Crossing";
 
-        case Criteria::NegativeCrossing:
+        case Criterion::NegativeCrossing:
             return "Negative Crossing";
 
-        case Criteria::AnyCrossing:
+        case Criterion::AnyCrossing:
             return "Any Crossing";
 
-        case Criteria::StrictlyPositive:
+        case Criterion::StrictlyPositive:
             return "Strictly Positive";
 
-        case Criteria::StrictlyNegative:
+        case Criterion::StrictlyNegative:
             return "Strictly Negative";
 
         default:
-            throw ostk::core::error::runtime::Wrong("Criteria");
+            throw ostk::core::error::runtime::Wrong("Criterion");
     }
 
     return String::Empty();
 }
 
-std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(const RealCondition::Criteria& aCriteria
+std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(
+    const RealCondition::Criterion& aCriterion
 )
 {
-    switch (aCriteria)
+    switch (aCriterion)
     {
-        case RealCondition::Criteria::StrictlyPositive:
+        case RealCondition::Criterion::StrictlyPositive:
             return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
                 return (currentValue > 0.0);
             };
 
-        case RealCondition::Criteria::StrictlyNegative:
+        case RealCondition::Criterion::StrictlyNegative:
             return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
             {
                 return (currentValue < 0.0);
             };
 
-        case RealCondition::Criteria::PositiveCrossing:
+        case RealCondition::Criterion::PositiveCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 return (previousValue < 0.0) && (currentValue > 0.0);
             };
 
-        case RealCondition::Criteria::NegativeCrossing:
+        case RealCondition::Criterion::NegativeCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 return (previousValue > 0.0) && (currentValue < 0.0);
             };
 
-        case RealCondition::Criteria::AnyCrossing:
+        case RealCondition::Criterion::AnyCrossing:
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 return (currentValue > 0.0) == (previousValue < 0.0);
             };
 
         default:
-            throw ostk::core::error::runtime::Wrong("Criteria");
+            throw ostk::core::error::runtime::Wrong("Criterion");
     }
 }
 

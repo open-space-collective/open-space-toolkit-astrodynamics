@@ -32,19 +32,19 @@ class BooleanCondition : public RealCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         BooleanCondition booleanCondition = {aName, aCriteria, anEvaluator,
+    ///                         BooleanCondition booleanCondition = {aName, aCriterion, anEvaluator,
     ///                         anInverseFlag};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Boolean Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Boolean Event
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Boolean Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] anInverseFlag A flag indicating whether the condition is inverted
 
     BooleanCondition(
         const String& aName,
-        const Criteria& aCriteria,
+        const Criterion& aCriterion,
         const std::function<bool(const VectorXd&, const Real&)> anEvaluator,
         const bool& anInverseFlag = false
     );

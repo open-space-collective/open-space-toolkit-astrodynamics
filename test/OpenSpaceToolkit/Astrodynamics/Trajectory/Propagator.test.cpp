@@ -377,7 +377,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const Real target = 60.0;
 
         const DurationCondition condition = {
-            DurationCondition::Criteria::StrictlyPositive,
+            DurationCondition::Criterion::StrictlyPositive,
             Duration::Seconds(60.0),
         };
 
@@ -389,7 +389,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         EXPECT_LT(endState.getInstant() - (state.getInstant() + Duration::Seconds(target)), 1e-12);
 
         const DurationCondition failureCondition = {
-            DurationCondition::Criteria::StrictlyPositive,
+            DurationCondition::Criterion::StrictlyPositive,
             Duration::Seconds(7000.0),
         };
 

@@ -18,7 +18,7 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
-/// @brief                      An Event Condition defines a criteria that can be evaluated
+/// @brief                      An Event Condition defines a criterion that can be evaluated
 ///                             based on a current/previous state vectors and times
 
 class EventCondition
@@ -27,11 +27,11 @@ class EventCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, aCriteria, anEvaluatro, aTarget};
+    ///                         EventCondition eventCondition = {aName, aCriterion, anEvaluatro, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Real Event
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] aTarget A target value associated with the Real Event Condition

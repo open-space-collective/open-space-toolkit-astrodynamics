@@ -25,12 +25,12 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 COECondition::COECondition(
     const String& aName,
-    const Criteria& aCriteria,
+    const Criterion& aCriterion,
     const COE::Element& anElement,
     const Real& aTarget,
     const Derived& aGravitationalParameter
 )
-    : RealCondition(aName, aCriteria, GenerateEvaluator(anElement, aGravitationalParameter), aTarget),
+    : RealCondition(aName, aCriterion, GenerateEvaluator(anElement, aGravitationalParameter), aTarget),
       element_(anElement),
       gravitationalParameter_(aGravitationalParameter)
 {
@@ -49,12 +49,12 @@ COE::Element COECondition::getElement() const
 }
 
 COECondition COECondition::SemiMajorAxis(
-    const Criteria& aCriteria, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Length& aSemiMajorAxis, const Derived& aGravitationalParameter
 )
 {
     return {
         "Semi-major axis Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::SemiMajorAxis,
         aSemiMajorAxis.inMeters(),
         aGravitationalParameter,
@@ -62,12 +62,12 @@ COECondition COECondition::SemiMajorAxis(
 }
 
 COECondition COECondition::Eccentricity(
-    const Criteria& aCriteria, const Real& anEccentricity, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Real& anEccentricity, const Derived& aGravitationalParameter
 )
 {
     return {
         "Eccentricity Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::Eccentricity,
         anEccentricity,
         aGravitationalParameter,
@@ -75,12 +75,12 @@ COECondition COECondition::Eccentricity(
 }
 
 COECondition COECondition::Inclination(
-    const Criteria& aCriteria, const Angle& anInclination, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& anInclination, const Derived& aGravitationalParameter
 )
 {
     return {
         "Inclination Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::Inclination,
         anInclination.inRadians(),
         aGravitationalParameter,
@@ -88,12 +88,12 @@ COECondition COECondition::Inclination(
 }
 
 COECondition COECondition::Aop(
-    const Criteria& aCriteria, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& anArgumentOfPeriapsis, const Derived& aGravitationalParameter
 )
 {
     return {
         "Argument of periapsis Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::Aop,
         anArgumentOfPeriapsis.inRadians(),
         aGravitationalParameter
@@ -101,12 +101,12 @@ COECondition COECondition::Aop(
 }
 
 COECondition COECondition::Raan(
-    const Criteria& aCriteria, const Angle& aRightAscensionOfAscendingNode, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& aRightAscensionOfAscendingNode, const Derived& aGravitationalParameter
 )
 {
     return {
         "Right angle of ascending node Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::Raan,
         aRightAscensionOfAscendingNode.inRadians(),
         aGravitationalParameter
@@ -114,12 +114,12 @@ COECondition COECondition::Raan(
 }
 
 COECondition COECondition::TrueAnomaly(
-    const Criteria& aCriteria, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& aTrueAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
         "True anomaly Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::TrueAnomaly,
         aTrueAnomaly.inRadians(),
         aGravitationalParameter
@@ -127,12 +127,12 @@ COECondition COECondition::TrueAnomaly(
 }
 
 COECondition COECondition::MeanAnomaly(
-    const Criteria& aCriteria, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& aMeanAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
         "Mean anomaly Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::MeanAnomaly,
         aMeanAnomaly.inRadians(),
         aGravitationalParameter
@@ -140,12 +140,12 @@ COECondition COECondition::MeanAnomaly(
 }
 
 COECondition COECondition::EccentricAnomaly(
-    const Criteria& aCriteria, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
+    const Criterion& aCriterion, const Angle& anEccentricAnomaly, const Derived& aGravitationalParameter
 )
 {
     return {
         "Eccentric anomaly Condition",
-        aCriteria,
+        aCriterion,
         COE::Element::EccentricAnomaly,
         anEccentricAnomaly.inRadians(),
         aGravitationalParameter

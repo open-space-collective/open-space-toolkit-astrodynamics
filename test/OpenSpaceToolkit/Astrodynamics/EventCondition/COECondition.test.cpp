@@ -33,7 +33,8 @@ using ostk::physics::environment::gravitational::Earth;
 using ostk::astro::eventcondition::COECondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>
+class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
+    : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>
 {
     void SetUp() override
     {
@@ -44,13 +45,13 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition : public ::test
 
    protected:
     const String defaultName_ = "COE Condition";
-    const COECondition::Criteria defaultCriteria_ = COECondition::Criteria::AnyCrossing;
+    const COECondition::Criterion defaultCriterion_ = COECondition::Criterion::AnyCrossing;
     const COE::Element defaultElement_ = COE::Element::SemiMajorAxis;
     const Real defaultTarget_ = 7000000.0;
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
 
     const COECondition defaultCondition_ =
-        COECondition(defaultName_, defaultCriteria_, defaultElement_, defaultTarget_, gravitationalParameter_);
+        COECondition(defaultName_, defaultCriterion_, defaultElement_, defaultTarget_, gravitationalParameter_);
 
     VectorXd defaultStateVector_;
     Real defaultTime_ = 0.0;
@@ -75,7 +76,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Constructor)
 {
     {
         EXPECT_NO_THROW(
-            COECondition(defaultName_, defaultCriteria_, defaultElement_, defaultTarget_, gravitationalParameter_)
+            COECondition(defaultName_, defaultCriterion_, defaultElement_, defaultTarget_, gravitationalParameter_)
         );
     }
 }
@@ -111,7 +112,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, evaluate)
 
     const COECondition condition = {
         defaultName_,
-        defaultCriteria_,
+        defaultCriterion_,
         element,
         target,
         gravitationalParameter_,
@@ -125,10 +126,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, evaluate)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, SemiMajorAxis)
 {
     COECondition condition =
-        COECondition::SemiMajorAxis(defaultCriteria_, Length::Meters(7000000.0), gravitationalParameter_);
+        COECondition::SemiMajorAxis(defaultCriterion_, Length::Meters(7000000.0), gravitationalParameter_);
 
     EXPECT_EQ(condition.getName(), "Semi-major axis Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::SemiMajorAxis);
     EXPECT_EQ(condition.getTarget(), 7000000.0);
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 6904757.8910061345 - 7000000.0);
@@ -136,10 +137,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, SemiMajorAxis
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
 {
-    COECondition condition = COECondition::Eccentricity(defaultCriteria_, 0.0005, gravitationalParameter_);
+    COECondition condition = COECondition::Eccentricity(defaultCriterion_, 0.0005, gravitationalParameter_);
 
     EXPECT_EQ(condition.getName(), "Eccentricity Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::Eccentricity);
     EXPECT_EQ(condition.getTarget(), 0.0005);
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 0.0010116019825255468 - 0.0005);
@@ -147,9 +148,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
 {
-    COECondition condition = COECondition::Inclination(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+    COECondition condition = COECondition::Inclination(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "Inclination Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::Inclination);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 1.6989221681582849 - Angle::HalfPi().inRadians());
@@ -157,9 +158,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
 {
-    COECondition condition = COECondition::Aop(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+    COECondition condition = COECondition::Aop(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "Argument of periapsis Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::Aop);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 2.4052654657377115 - Angle::HalfPi().inRadians());
@@ -167,9 +168,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
 {
-    COECondition condition = COECondition::Raan(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+    COECondition condition = COECondition::Raan(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "Right angle of ascending node Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::Raan);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 4.8172172435680096 - Angle::HalfPi().inRadians());
@@ -177,9 +178,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
 {
-    COECondition condition = COECondition::TrueAnomaly(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+    COECondition condition = COECondition::TrueAnomaly(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "True anomaly Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::TrueAnomaly);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 3.8846577046593076 - Angle::HalfPi().inRadians());
@@ -187,9 +188,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
 {
-    COECondition condition = COECondition::MeanAnomaly(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+    COECondition condition = COECondition::MeanAnomaly(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "Mean anomaly Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::MeanAnomaly);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 3.8860272646567751 - Angle::HalfPi().inRadians());
@@ -198,9 +199,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnomaly)
 {
     COECondition condition =
-        COECondition::EccentricAnomaly(defaultCriteria_, Angle::Degrees(90), gravitationalParameter_);
+        COECondition::EccentricAnomaly(defaultCriterion_, Angle::Degrees(90), gravitationalParameter_);
     EXPECT_EQ(condition.getName(), "Eccentric anomaly Condition");
-    EXPECT_EQ(condition.getCriteria(), defaultCriteria_);
+    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
     EXPECT_EQ(condition.getElement(), COE::Element::EccentricAnomaly);
     EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
     EXPECT_EQ(condition.evaluate(defaultStateVector_, defaultTime_), 3.8853423573058397 - Angle::HalfPi().inRadians());

@@ -19,7 +19,7 @@ def is_inversed() -> bool:
 def event_condition(evaluator, is_inversed: bool) -> BooleanCondition:
     return BooleanCondition(
         "My Condition",
-        BooleanCondition.Criteria.StrictlyPositive,
+        BooleanCondition.Criterion.StrictlyPositive,
         evaluator,
         is_inversed,
     )

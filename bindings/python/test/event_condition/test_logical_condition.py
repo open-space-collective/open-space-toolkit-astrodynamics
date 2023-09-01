@@ -9,7 +9,7 @@ from ostk.astrodynamics.event_condition import RealCondition, LogicalCondition
 def event_condition() -> RealCondition:
     return RealCondition(
         "My Condition",
-        RealCondition.Criteria.StrictlyNegative,
+        RealCondition.Criterion.StrictlyNegative,
         lambda x, t: t,
         1.0,
     )
@@ -19,7 +19,7 @@ def event_condition() -> RealCondition:
 def another_event_condition() -> RealCondition:
     return RealCondition(
         "Another Condition",
-        RealCondition.Criteria.StrictlyPositive,
+        RealCondition.Criterion.StrictlyPositive,
         lambda x, t: t,
         2.0,
     )

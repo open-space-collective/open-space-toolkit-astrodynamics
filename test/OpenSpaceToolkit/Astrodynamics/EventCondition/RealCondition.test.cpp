@@ -21,7 +21,7 @@ using ostk::astro::eventcondition::RealCondition;
 class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::testing::Test
 {
    protected:
-    const RealCondition::Criteria defaultCriteria_ = RealCondition::Criteria::StrictlyPositive;
+    const RealCondition::Criterion defaultCriterion_ = RealCondition::Criterion::StrictlyPositive;
     const String defaultName_ = "Test Real Condition";
     const std::function<Real(const VectorXd&, const Real&)> defaultEvaluator_ =
         []([[maybe_unused]] const VectorXd& aStateVector, const Real& aTime) -> Real
@@ -29,18 +29,18 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
         return aTime;
     };
     const Real defaultTarget_ = 1.0;
-    const RealCondition defaultCondition_ = {defaultName_, defaultCriteria_, defaultEvaluator_, defaultTarget_};
+    const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};
     const VectorXd defaultStateVector_;
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(RealCondition(defaultName_, defaultCriteria_, defaultEvaluator_, defaultTarget_));
+        EXPECT_NO_THROW(RealCondition(defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_));
     }
 
     {
-        EXPECT_NO_THROW(RealCondition(defaultName_, defaultCriteria_, defaultEvaluator_));
+        EXPECT_NO_THROW(RealCondition(defaultName_, defaultCriterion_, defaultEvaluator_));
     }
 }
 
@@ -70,13 +70,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
 {
     {
         EXPECT_TRUE(defaultCondition_.getName() == defaultName_);
-        EXPECT_TRUE(defaultCondition_.getCriteria() == defaultCriteria_);
+        EXPECT_TRUE(defaultCondition_.getCriterion() == defaultCriterion_);
         EXPECT_NO_THROW(defaultCondition_.getEvaluator());  // Cannot compare equality for std::function
         EXPECT_TRUE(defaultCondition_.getTarget() == defaultTarget_);
     }
 
     {
-        const RealCondition condition = RealCondition(defaultName_, defaultCriteria_, defaultEvaluator_);
+        const RealCondition condition = RealCondition(defaultName_, defaultCriterion_, defaultEvaluator_);
         EXPECT_EQ(condition.getTarget(), 0.0);
     }
 }
@@ -97,7 +97,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     {
         RealCondition condition = {
             "name",
-            RealCondition::Criteria::PositiveCrossing,
+            RealCondition::Criterion::PositiveCrossing,
             defaultEvaluator_,
             defaultTarget_,
         };
@@ -112,7 +112,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     {
         RealCondition condition = {
             "name",
-            RealCondition::Criteria::NegativeCrossing,
+            RealCondition::Criterion::NegativeCrossing,
             defaultEvaluator_,
             defaultTarget_,
         };
@@ -127,7 +127,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     {
         RealCondition condition = {
             "name",
-            RealCondition::Criteria::AnyCrossing,
+            RealCondition::Criterion::AnyCrossing,
             defaultEvaluator_,
             defaultTarget_,
         };
@@ -142,7 +142,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     {
         RealCondition condition = {
             "name",
-            RealCondition::Criteria::StrictlyPositive,
+            RealCondition::Criterion::StrictlyPositive,
             defaultEvaluator_,
             defaultTarget_,
         };
@@ -157,7 +157,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     {
         RealCondition condition = {
             "name",
-            RealCondition::Criteria::StrictlyNegative,
+            RealCondition::Criterion::StrictlyNegative,
             defaultEvaluator_,
             defaultTarget_,
         };
@@ -169,21 +169,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, StringFromCriteria)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, StringFromCriterion)
 {
     {
         EXPECT_TRUE(
-            RealCondition::StringFromCriteria(RealCondition::Criteria::PositiveCrossing) == "Positive Crossing"
+            RealCondition::StringFromCriterion(RealCondition::Criterion::PositiveCrossing) == "Positive Crossing"
         );
         EXPECT_TRUE(
-            RealCondition::StringFromCriteria(RealCondition::Criteria::NegativeCrossing) == "Negative Crossing"
+            RealCondition::StringFromCriterion(RealCondition::Criterion::NegativeCrossing) == "Negative Crossing"
         );
-        EXPECT_TRUE(RealCondition::StringFromCriteria(RealCondition::Criteria::AnyCrossing) == "Any Crossing");
+        EXPECT_TRUE(RealCondition::StringFromCriterion(RealCondition::Criterion::AnyCrossing) == "Any Crossing");
         EXPECT_TRUE(
-            RealCondition::StringFromCriteria(RealCondition::Criteria::StrictlyPositive) == "Strictly Positive"
+            RealCondition::StringFromCriterion(RealCondition::Criterion::StrictlyPositive) == "Strictly Positive"
         );
         EXPECT_TRUE(
-            RealCondition::StringFromCriteria(RealCondition::Criteria::StrictlyNegative) == "Strictly Negative"
+            RealCondition::StringFromCriterion(RealCondition::Criterion::StrictlyNegative) == "Strictly Negative"
         );
     }
 }

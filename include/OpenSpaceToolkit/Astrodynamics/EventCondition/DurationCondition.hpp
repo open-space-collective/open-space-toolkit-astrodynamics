@@ -36,13 +36,13 @@ class DurationCondition : public RealCondition
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         DurationCondition durationCondition = {aCriteria, aDuration};
+    ///                         DurationCondition durationCondition = {aCriterion, aDuration};
     /// @endcode
     ///
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine the Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
     /// @param                  [in] aDuration A duration
 
-    DurationCondition(const Criteria& aCriteria, const Duration& aDuration);
+    DurationCondition(const Criterion& aCriterion, const Duration& aDuration);
 
     /// @brief                  Virtual destructor
 

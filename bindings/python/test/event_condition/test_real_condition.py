@@ -18,7 +18,7 @@ def target() -> float:
 @pytest.fixture
 def event_condition(evaluator, target: float) -> RealCondition:
     return RealCondition(
-        "My Condition", RealCondition.Criteria.PositiveCrossing, evaluator, target
+        "My Condition", RealCondition.Criterion.PositiveCrossing, evaluator, target
     )
 
 

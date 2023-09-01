@@ -23,11 +23,11 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition : public :
 {
     void SetUp() override
     {
-        defaultCondition_ = std::make_shared<DurationCondition>(defaultCriteria_, defaultDuration_);
+        defaultCondition_ = std::make_shared<DurationCondition>(defaultCriterion_, defaultDuration_);
     }
 
    protected:
-    const DurationCondition::Criteria defaultCriteria_ = DurationCondition::Criteria::StrictlyPositive;
+    const DurationCondition::Criterion defaultCriterion_ = DurationCondition::Criterion::StrictlyPositive;
     const Duration defaultDuration_ = Duration::Seconds(5.0);
     Shared<DurationCondition> defaultCondition_ = nullptr;
 };
@@ -35,7 +35,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition : public :
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(DurationCondition durationCondition(defaultCriteria_, defaultDuration_));
+        EXPECT_NO_THROW(DurationCondition durationCondition(defaultCriterion_, defaultDuration_));
     }
 }
 

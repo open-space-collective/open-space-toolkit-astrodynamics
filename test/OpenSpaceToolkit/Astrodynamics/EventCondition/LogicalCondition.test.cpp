@@ -34,7 +34,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     const LogicalCondition::Type defaultType_ = LogicalCondition::Type::And;
     Shared<BooleanCondition> alwaysTrueBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
         "Always True",
-        BooleanCondition::Criteria::StrictlyPositive,
+        BooleanCondition::Criterion::StrictlyPositive,
         []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
         {
             return true;
@@ -42,7 +42,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
     ));
     Shared<BooleanCondition> alwaysFalseBooleanCondition_ = std::make_shared<BooleanCondition>(BooleanCondition(
         "Always False",
-        BooleanCondition::Criteria::StrictlyPositive,
+        BooleanCondition::Criterion::StrictlyPositive,
         []([[maybe_unused]] const VectorXd& aStateVector, [[maybe_unused]] const Real& aTime) -> Real
         {
             return false;
