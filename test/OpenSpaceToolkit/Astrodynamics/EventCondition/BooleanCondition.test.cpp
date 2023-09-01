@@ -18,7 +18,7 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::eventcondition::BooleanCondition;
 
-class OpenSpaceToolkit_Astrodynamics_BooleanCondition : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::testing::Test
 {
    protected:
     const BooleanCondition::Criteria defaultCriteria_ = BooleanCondition::Criteria::PositiveCrossing;
@@ -38,7 +38,7 @@ class OpenSpaceToolkit_Astrodynamics_BooleanCondition : public ::testing::Test
     VectorXd defaultStateVector_;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Constructor)
 {
     {
         EXPECT_NO_THROW(BooleanCondition(defaultName_, defaultCriteria_, defaultEvaluator_));
@@ -48,7 +48,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Print)
 {
     {
         testing::internal::CaptureStdout();
@@ -59,7 +59,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Getters)
 {
     {
         EXPECT_EQ(defaultCondition_.isInversed(), defaultInverseFlag_);
@@ -70,7 +70,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_BooleanCondition, Evaluate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition, Evaluate)
 {
     {
         EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, -1.0), 1.0);

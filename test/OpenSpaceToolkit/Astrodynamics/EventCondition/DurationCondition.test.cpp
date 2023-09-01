@@ -19,7 +19,7 @@ using ostk::physics::time::Duration;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::DurationCondition;
 
-class OpenSpaceToolkit_Astrodynamics_DurationCondition : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition : public ::testing::Test
 {
     void SetUp() override
     {
@@ -32,21 +32,21 @@ class OpenSpaceToolkit_Astrodynamics_DurationCondition : public ::testing::Test
     Shared<DurationCondition> defaultCondition_ = nullptr;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, Constructor)
 {
     {
         EXPECT_NO_THROW(DurationCondition durationCondition(defaultCriteria_, defaultDuration_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, getDuration)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, getDuration)
 {
     {
         EXPECT_TRUE(defaultCondition_->getDuration() == defaultDuration_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, evaluate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, evaluate)
 {
     {
         EXPECT_TRUE(defaultCondition_->evaluate(VectorXd::Zero(6), defaultDuration_.inSeconds()) == 0.0);

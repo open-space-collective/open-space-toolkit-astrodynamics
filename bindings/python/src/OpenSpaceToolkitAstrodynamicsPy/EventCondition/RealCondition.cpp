@@ -63,7 +63,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             .value("AnyCrossing", RealCondition::Criteria::AnyCrossing)
             .value("StrictlyPositive", RealCondition::Criteria::StrictlyPositive)
             .value("StrictlyNegative", RealCondition::Criteria::StrictlyNegative)
-            .value("Undefined", RealCondition::Criteria::Undefined)
 
             ;
     }

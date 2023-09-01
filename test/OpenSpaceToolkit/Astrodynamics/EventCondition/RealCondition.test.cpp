@@ -74,6 +74,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
         EXPECT_NO_THROW(defaultCondition_.getEvaluator());  // Cannot compare equality for std::function
         EXPECT_TRUE(defaultCondition_.getTarget() == defaultTarget_);
     }
+
+    {
+        const RealCondition condition = RealCondition(defaultName_, defaultCriteria_, defaultEvaluator_);
+        EXPECT_EQ(condition.getTarget(), 0.0);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, evaluate)
@@ -180,6 +185,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, StringFromCr
         EXPECT_TRUE(
             RealCondition::StringFromCriteria(RealCondition::Criteria::StrictlyNegative) == "Strictly Negative"
         );
-        EXPECT_TRUE(RealCondition::StringFromCriteria(RealCondition::Criteria::Undefined) == "Undefined");
     }
 }

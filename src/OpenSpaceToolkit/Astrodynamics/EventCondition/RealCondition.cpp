@@ -89,9 +89,6 @@ String RealCondition::StringFromCriteria(const Criteria& aCriteria)
         case Criteria::StrictlyNegative:
             return "Strictly Negative";
 
-        case Criteria::Undefined:
-            return "Undefined";
-
         default:
             throw ostk::core::error::runtime::Wrong("Criteria");
     }
@@ -132,14 +129,6 @@ std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(
             return [](const Real& currentValue, const Real& previousValue) -> bool
             {
                 return (currentValue > 0.0) == (previousValue < 0.0);
-            };
-
-        case RealCondition::Criteria::Undefined:
-            return []([[maybe_unused]] const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
-            {
-                throw ostk::core::error::runtime::Undefined("Comparator");
-
-                return false;
             };
 
         default:

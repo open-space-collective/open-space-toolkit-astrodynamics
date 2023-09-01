@@ -35,8 +35,7 @@ class RealCondition : public EventCondition
         NegativeCrossing,
         AnyCrossing,
         StrictlyPositive,
-        StrictlyNegative,
-        Undefined
+        StrictlyNegative
     };
 
     /// @brief                  Constructor
