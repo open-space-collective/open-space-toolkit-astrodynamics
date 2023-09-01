@@ -18,33 +18,25 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
-/// @brief                      An Event Condition defines a criteria that can be evaluated
+/// @brief                      An Event Condition defines a criterion that can be evaluated
 ///                             based on a current/previous state vectors and times
 
 class EventCondition
 {
    public:
-    enum class Criteria
-    {
-        PositiveCrossing,
-        NegativeCrossing,
-        AnyCrossing,
-        StrictlyPositive,
-        StrictlyNegative,
-        Undefined
-    };
-
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         EventCondition eventCondition = {aName, aCriteria};
+    ///                         EventCondition eventCondition = {aName, aCriterion, anEvaluatro, aTarget};
     /// @endcode
     ///
-    /// @param                  [in] aName A string representing the name of the Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Event Condition
-    /// is met
+    /// @param                  [in] aName A string representing the name of the Real Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
+    /// Condition is met
+    /// @param                  [in] anEvaluator A function evaluating a state and a time
+    /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    EventCondition(const String& aName, const Criteria& aCriteria);
+    EventCondition(const String& aName);
 
     /// @brief                  Virtual destructor
 
@@ -68,18 +60,6 @@ class EventCondition
 
     String getName() const;
 
-    /// @brief                  Get the criteria of the Event Condition
-    ///
-    /// @return                 Enum representing the criteria of the Event Condition
-
-    Criteria getCriteria() const;
-
-    /// @brief                  Get comparator
-    ///
-    /// @return                 Comparator
-
-    std::function<bool(const Real&, const Real&)> getComparator() const;
-
     /// @brief                  Print the Event Condition
     ///
     /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
@@ -90,8 +70,6 @@ class EventCondition
 
     /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
-    ///                         This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several
-    ///                         conditions
     ///
     /// @param                  [in] currentStateVector The current state vector
     /// @param                  [in] currentTime The current time
@@ -107,20 +85,8 @@ class EventCondition
         const Real& previousTime
     ) const = 0;
 
-    /// @brief                  Convert criteria to string
-    ///
-    /// @param                  [in] aCriteria An enum representing the criteria
-    ///
-    /// @return                 String representing the given criteria
-
-    static String StringFromCriteria(const Criteria& aCriteria);
-
    private:
     String name_;
-    Criteria criteria_;
-    std::function<bool(const Real&, const Real&)> comparator_;
-
-    static std::function<bool(const Real&, const Real&)> getComparator(const Criteria& aCriteria);
 };
 
 }  // namespace astro

@@ -11,13 +11,8 @@ from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
 
 
 @pytest.fixture
-def frame() -> Frame:
-    return Frame.GCRF()
-
-
-@pytest.fixture
-def criteria() -> COECondition.Criteria:
-    return COECondition.Criteria.AnyCrossing
+def criterion() -> COECondition.Criterion:
+    return COECondition.Criterion.AnyCrossing
 
 
 @pytest.fixture
@@ -37,14 +32,13 @@ def target() -> float:
 
 @pytest.fixture
 def condition(
-    criteria: COECondition.Criteria,
+    criterion: COECondition.Criterion,
     element: COE.Element,
     target: float,
-    frame: Frame,
     gravitational_parameter: Derived,
 ) -> COECondition:
     return COECondition(
-        "Test COECondition", criteria, element, target, frame, gravitational_parameter
+        "Test COECondition", criterion, element, target, gravitational_parameter
     )
 
 
@@ -63,15 +57,14 @@ def state_vector() -> list[float]:
 class TestCOECondition:
     def test_constructor(
         self,
-        criteria: COECondition.Criteria,
+        criterion: COECondition.Criterion,
         element: COE.Element,
         target: float,
-        frame: Frame,
         gravitational_parameter: Derived,
     ):
         name = "Test COECondition"
         condition = COECondition(
-            name, criteria, element, target, frame, gravitational_parameter
+            name, criterion, element, target, gravitational_parameter
         )
 
         assert condition is not None
@@ -104,12 +97,11 @@ class TestCOECondition:
         self,
         static_constructor,
         target: float,
-        criteria: COECondition.Criteria,
-        frame: Frame,
+        criterion: COECondition.Criterion,
         gravitational_parameter: Derived,
         state_vector: list[float],
     ):
-        condition = static_constructor(criteria, target, frame, gravitational_parameter)
+        condition = static_constructor(criterion, target, gravitational_parameter)
         assert condition is not None
 
         assert condition.evaluate(state_vector, 0.0) is not None

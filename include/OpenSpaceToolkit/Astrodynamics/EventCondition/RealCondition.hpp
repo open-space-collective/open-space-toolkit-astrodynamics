@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_RealEventCondition__
-#define __OpenSpaceToolkit_Astrodynamics_EventCondition_RealEventCondition__
+#ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
+#define __OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
@@ -24,40 +24,68 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
 
-/// @brief                      A Real Event Condition is a condition that is met when computed value matches the
-/// criteria at a target value
+/// @brief                      An Event Condition that can evaluate each state to a real number.
 
-class RealEventCondition : public EventCondition
+class RealCondition : public EventCondition
 {
    public:
+    enum class Criterion
+    {
+        PositiveCrossing,
+        NegativeCrossing,
+        AnyCrossing,
+        StrictlyPositive,
+        StrictlyNegative
+    };
+
     /// @brief                  Constructor
     ///
     /// @code
-    ///                         RealEventCondition realEventCondition = {aName, aCriteria};
+    ///                         RealCondition RealCondition = {aName, aCriterion, anEvaluatro, aTarget};
     /// @endcode
     ///
     /// @param                  [in] aName A string representing the name of the Real Event Condition
-    /// @param                  [in] aCriteria An enum indicating the criteria used to determine if the Real Event
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
     /// @param                  [in] anEvaluator A function evaluating a state and a time
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
-    RealEventCondition(
+    RealCondition(
         const String& aName,
-        const Criteria& aCriteria,
+        const Criterion& aCriterion,
         const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
         const Real& aTarget = 0.0
     );
 
     /// @brief                  Virtual destructor
 
-    virtual ~RealEventCondition();
+    virtual ~RealCondition();
+
+    /// @brief                  Get the criterion of the Event Condition
+    ///
+    /// @return                 Enum representing the criterion of the Event Condition
+
+    Criterion getCriterion() const;
+
+    /// @brief                  Get evaluator
+    ///
+    /// @return                 Evaluator
+
+    std::function<Real(const VectorXd&, const Real&)> getEvaluator() const;
 
     /// @brief                  Get the target of the Event Condition
     ///
     /// @return                 Real number representing the target of the Event Condition
 
     Real getTarget() const;
+
+    /// @brief                  Print the Event Condition
+    ///
+    /// @param                  [in, out] anOutputStream The output stream where the Event Condition will be printed
+    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
+    /// printing
+
+    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief                  Evaluate the Event Condition
     ///
@@ -68,7 +96,7 @@ class RealEventCondition : public EventCondition
 
     Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
 
-    /// @brief                  Check if the Real Event Condition is satisfied based on current state/time and previous
+    /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
     /// state/time
     ///
     /// @param                  [in] currentStateVector The current state vector
@@ -76,7 +104,7 @@ class RealEventCondition : public EventCondition
     /// @param                  [in] previousStateVector The previous state vector
     /// @param                  [in] previousTime The previous time
     ///
-    /// @return                 Boolean value indicating if the Real Event Condition is met
+    /// @return                 Boolean value indicating if the Event Condition is met
 
     virtual bool isSatisfied(
         const VectorXd& currentStateVector,
@@ -85,18 +113,21 @@ class RealEventCondition : public EventCondition
         const Real& previousTime
     ) const override;
 
-    /// @brief                  Print the Real Event Condition
+    /// @brief                  Convert criterion to string
     ///
-    /// @param                  [in, out] anOutputStream The output stream where the Real Event Condition will be
-    /// printed
-    /// @param                  [in] displayDecorator A boolean indicating whether or not to display decorator during
-    /// printing
+    /// @param                  [in] aCriterion An enum representing the criterion
+    ///
+    /// @return                 String representing the given criterion
 
-    virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+    static String StringFromCriterion(const Criterion& aCriterion);
 
    private:
+    Criterion criterion_;
     std::function<Real(const VectorXd&, const Real&)> evaluator_;
     Real target_;
+    std::function<bool(const Real&, const Real&)> comparator_;
+
+    static std::function<bool(const Real&, const Real&)> GenerateComparator(const Criterion& aCriterion);
 };
 
 }  // namespace eventcondition

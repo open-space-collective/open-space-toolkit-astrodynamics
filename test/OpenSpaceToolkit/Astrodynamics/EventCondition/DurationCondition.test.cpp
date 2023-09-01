@@ -19,34 +19,34 @@ using ostk::physics::time::Duration;
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::DurationCondition;
 
-class OpenSpaceToolkit_Astrodynamics_DurationCondition : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition : public ::testing::Test
 {
     void SetUp() override
     {
-        defaultCondition_ = std::make_shared<DurationCondition>(defaultCriteria_, defaultDuration_);
+        defaultCondition_ = std::make_shared<DurationCondition>(defaultCriterion_, defaultDuration_);
     }
 
    protected:
-    const DurationCondition::Criteria defaultCriteria_ = DurationCondition::Criteria::StrictlyPositive;
+    const DurationCondition::Criterion defaultCriterion_ = DurationCondition::Criterion::StrictlyPositive;
     const Duration defaultDuration_ = Duration::Seconds(5.0);
     Shared<DurationCondition> defaultCondition_ = nullptr;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, Constructor)
 {
     {
-        EXPECT_NO_THROW(DurationCondition durationCondition(defaultCriteria_, defaultDuration_));
+        EXPECT_NO_THROW(DurationCondition durationCondition(defaultCriterion_, defaultDuration_));
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, getDuration)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, getDuration)
 {
     {
         EXPECT_TRUE(defaultCondition_->getDuration() == defaultDuration_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_DurationCondition, evaluate)
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_DurationCondition, evaluate)
 {
     {
         EXPECT_TRUE(defaultCondition_->evaluate(VectorXd::Zero(6), defaultDuration_.inSeconds()) == 0.0);

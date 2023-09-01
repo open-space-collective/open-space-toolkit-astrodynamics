@@ -107,7 +107,7 @@ def conditional_numerical_solver() -> NumericalSolver:
 @pytest.fixture
 def event_condition() -> DurationCondition:
     return DurationCondition(
-        DurationCondition.Criteria.StrictlyPositive, Duration.seconds(42.0)
+        DurationCondition.Criterion.StrictlyPositive, Duration.seconds(42.0)
     )
 
 

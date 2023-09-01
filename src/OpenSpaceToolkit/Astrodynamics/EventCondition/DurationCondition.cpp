@@ -9,10 +9,10 @@ namespace astro
 namespace eventcondition
 {
 
-DurationCondition::DurationCondition(const Criteria& aCriteria, const Duration& aDuration)
-    : RealEventCondition(
+DurationCondition::DurationCondition(const Criterion& aCriterion, const Duration& aDuration)
+    : RealCondition(
           "Duration Condition",
-          aCriteria,
+          aCriterion,
           []([[maybe_unused]] const VectorXd& aStateVector, const Real& aTime) -> Real
           {
               return aTime;

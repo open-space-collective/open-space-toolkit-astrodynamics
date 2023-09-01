@@ -2,13 +2,11 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanEventCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/BooleanCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/COECondition.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Conjunctive.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/Disjunctive.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/DurationCondition.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalConnective.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealEventCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/LogicalCondition.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/EventCondition/RealCondition.cpp>
 
 using namespace pybind11;
 
@@ -57,13 +55,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
         eventCondition_class
 
-            .def(init<const String&, const EventCondition::Criteria&>(), arg("name"), arg("criteria"))
+            .def(init<const String&>(), arg("name"))
 
             .def("__str__", &(shiftToString<EventCondition>))
             .def("__repr__", &(shiftToString<EventCondition>))
 
             .def("get_name", &EventCondition::getName)
-            .def("get_criteria", &EventCondition::getCriteria)
 
             .def(
                 "is_satisfied",
@@ -74,19 +71,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
                 arg("previous_time")
             )
 
-            .def_static("string_from_criteria", &EventCondition::StringFromCriteria, arg("criteria"))
-
-            ;
-
-        enum_<EventCondition::Criteria>(eventCondition_class, "Criteria")
-
-            .value("PositiveCrossing", EventCondition::Criteria::PositiveCrossing)
-            .value("NegativeCrossing", EventCondition::Criteria::NegativeCrossing)
-            .value("AnyCrossing", EventCondition::Criteria::AnyCrossing)
-            .value("StrictlyPositive", EventCondition::Criteria::StrictlyPositive)
-            .value("StrictlyNegative", EventCondition::Criteria::StrictlyNegative)
-            .value("Undefined", EventCondition::Criteria::Undefined)
-
             ;
     }
 
@@ -96,11 +80,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
     // Add __path__ attribute for "event_condition" submodule
     event_condition.attr("__path__") = "ostk.astrodynamics.event_condition";
 
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealEventCondition(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanEventCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_DurationCondition(event_condition);
     OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalConnective(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Conjunctive(event_condition);
-    OpenSpaceToolkitAstrodynamicsPy_EventCondition_Disjunctive(event_condition);
+    OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(event_condition);
 }

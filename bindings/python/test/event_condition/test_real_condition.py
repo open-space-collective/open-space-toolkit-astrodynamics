@@ -2,7 +2,7 @@
 
 import pytest
 
-from ostk.astrodynamics.event_condition import RealEventCondition
+from ostk.astrodynamics.event_condition import RealCondition
 
 
 @pytest.fixture
@@ -16,20 +16,20 @@ def target() -> float:
 
 
 @pytest.fixture
-def event_condition(evaluator, target: float) -> RealEventCondition:
-    return RealEventCondition(
-        "My Condition", RealEventCondition.Criteria.PositiveCrossing, evaluator, target
+def event_condition(evaluator, target: float) -> RealCondition:
+    return RealCondition(
+        "My Condition", RealCondition.Criterion.PositiveCrossing, evaluator, target
     )
 
 
 class TestRealEventCondition:
-    def test_get_target(self, event_condition: RealEventCondition, target: float):
+    def test_get_target(self, event_condition: RealCondition, target: float):
         assert event_condition.get_target() == target
 
-    def test_evaluate(self, event_condition: RealEventCondition):
+    def test_evaluate(self, event_condition: RealCondition):
         assert event_condition.evaluate(state_vector=[0.0], time=10.0) is not None
 
-    def test_is_satisfied(self, event_condition: RealEventCondition):
+    def test_is_satisfied(self, event_condition: RealCondition):
         assert (
             event_condition.is_satisfied(
                 previous_state_vector=[-1.0],

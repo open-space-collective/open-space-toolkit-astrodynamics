@@ -9,8 +9,7 @@
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealEventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -34,18 +33,18 @@ using ostk::physics::coord::Frame;
 
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::eventcondition::RealEventCondition;
+using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::State;
 
 // Simple duration based condition
 
-struct DurationCondition : public RealEventCondition
+struct DurationCondition : public RealCondition
 {
-    DurationCondition(const Duration &aDuration, const RealEventCondition::Criteria &aCriteria)
-        : RealEventCondition(
+    DurationCondition(const Duration &aDuration, const RealCondition::Criterion &aCriterion)
+        : RealCondition(
               "test",
-              aCriteria,
+              aCriterion,
               []([[maybe_unused]] const VectorXd &aStateVector, const Real &aTime) -> Real
               {
                   return aTime;
@@ -58,12 +57,12 @@ struct DurationCondition : public RealEventCondition
 
 // Simple state based condition
 
-struct XCrossingCondition : public RealEventCondition
+struct XCrossingCondition : public RealCondition
 {
     XCrossingCondition(const Real &aTarget)
-        : RealEventCondition(
+        : RealCondition(
               "test",
-              RealEventCondition::Criteria::AnyCrossing,
+              RealCondition::Criterion::AnyCrossing,
               [](const VectorXd &aStateVector, [[maybe_unused]] const double &aTime) -> Real
               {
                   return aStateVector[0];
@@ -250,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 state,
                 defaultStartInstant_,
                 systemOfEquations_,
-                DurationCondition(0.0, RealEventCondition::Criteria::AnyCrossing)
+                DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
             ),
             ostk::core::error::RuntimeError
         );
@@ -262,7 +261,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             state.accessInstant(),
             systemOfEquations_,
-            DurationCondition(0.0, RealEventCondition::Criteria::AnyCrossing)
+            DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
         );
 
         EXPECT_EQ(state, solution.state);
@@ -277,7 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            DurationCondition(-1.0, RealEventCondition::Criteria::StrictlyPositive)
+            DurationCondition(-1.0, RealCondition::Criterion::StrictlyPositive)
         );
 
         EXPECT_EQ(conditionSolution.state, state);
@@ -287,15 +286,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     }
 
     {
-        const Array<Tuple<Duration, RealEventCondition::Criteria>> testCases = {
-            {defaultDuration_, RealEventCondition::Criteria::AnyCrossing},
-            {-defaultDuration_, RealEventCondition::Criteria::AnyCrossing},
+        const Array<Tuple<Duration, RealCondition::Criterion>> testCases = {
+            {defaultDuration_, RealCondition::Criterion::AnyCrossing},
+            {-defaultDuration_, RealCondition::Criterion::AnyCrossing},
         };
 
         for (const auto &testCase : testCases)
         {
             const Duration duration = std::get<0>(testCase);
-            const RealEventCondition::Criteria criteria = std::get<1>(testCase);
+            const RealCondition::Criterion criterion = std::get<1>(testCase);
 
             const Instant endInstant = defaultStartInstant_ + duration;
 
@@ -304,7 +303,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                     state,
                     endInstant,
                     systemOfEquations_,
-                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criteria)
+                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criterion)
                 );
                 const State finalState = conditionSolution.state;
 
@@ -314,7 +313,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
-            const DurationCondition condition = DurationCondition(duration / 2.0, criteria);
+            const DurationCondition condition = DurationCondition(duration / 2.0, criterion);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);

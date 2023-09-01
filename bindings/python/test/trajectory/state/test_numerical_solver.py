@@ -14,7 +14,7 @@ from ostk.astrodynamics.trajectory.state import (
     CoordinatesBroker,
     CoordinatesSubset,
 )
-from ostk.astrodynamics.event_condition import RealEventCondition
+from ostk.astrodynamics.event_condition import RealCondition
 
 
 def oscillator(x, dxdt, _):
@@ -57,10 +57,10 @@ def initial_state(
 
 
 @pytest.fixture
-def custom_condition() -> RealEventCondition:
-    return RealEventCondition(
+def custom_condition() -> RealCondition:
+    return RealCondition(
         "Custom",
-        RealEventCondition.Criteria.StrictlyPositive,
+        RealCondition.Criterion.StrictlyPositive,
         lambda state_vector, time: time,
         5.0,
     )
@@ -206,7 +206,7 @@ class TestNumericalSolver:
         self,
         initial_state: State,
         numerical_solver_conditional: NumericalSolver,
-        custom_condition: RealEventCondition,
+        custom_condition: RealCondition,
     ):
         end_time: float = initial_state.get_instant() + Duration.seconds(100.0)
 
