@@ -16,6 +16,7 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
@@ -28,6 +29,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::eventcondition::BooleanCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::testing::Test
 {
@@ -47,7 +49,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
     };
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = CoordinatesBroker({});
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
 
     const State generateState(const Real& coordinate)
     {

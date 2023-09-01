@@ -6,7 +6,7 @@ using namespace pybind11;
 
 using ostk::core::types::Shared;
 
-using ostk::physics::time::Duration;
+using ostk::physics::time::Instant;
 
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::InstantCondition;
@@ -16,9 +16,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_InstantCondition(pybi
     {
         class_<InstantCondition, RealCondition, Shared<InstantCondition>>(aModule, "InstantCondition")
 
-            .def(init<const RealCondition::Criterion&, const Duration&>(), arg("criterion"), arg("duration"))
+            .def(init<const RealCondition::Criterion&, const Instant&>(), arg("criterion"), arg("instant"))
 
-            .def("get_duration", &InstantCondition::getDuration)
+            .def("get_instant", &InstantCondition::getInstant)
 
             ;
     }

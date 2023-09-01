@@ -14,6 +14,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::types::Shared;
+using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
 
@@ -24,6 +25,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::testing::Test
 {
@@ -32,7 +34,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition : public ::
     const Instant defaultInstant_ = Instant::J2000();
     const VectorXd defaultCoordinates_;
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = CoordinatesBroker({});
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(Array<Shared<const CoordinatesSubset>>::Empty());
     const InstantCondition defaultCondition_ = InstantCondition(defaultCriterion_, defaultInstant_);
 
     const State generateState(const Instant& anInstant)
@@ -62,10 +65,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_InstantCondition, evaluate)
     }
 
     {
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(defaultInstant_ + Duration::Seconds(10)), 10.0));
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(defaultInstant_ + Duration::Seconds(10))), 10.0);
     }
 
     {
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(defaultInstant_ - Duration::Hours(1)), -3600));
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(defaultInstant_ - Duration::Hours(1))), -3600.0);
     }
 }

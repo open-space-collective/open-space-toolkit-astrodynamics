@@ -25,9 +25,7 @@ def duration_condition(
 
 
 class TestInstantCondition:
-    def test_get_duration(
-        self, duration_condition: InstantCondition, duration: Duration
-    ):
+    def test_get_duration(self, duration_condition: InstantCondition, duration: Duration):
         assert duration_condition.get_duration() == duration
 
     def test_evaluate(self, duration_condition: InstantCondition, duration: Duration):

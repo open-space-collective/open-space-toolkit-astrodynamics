@@ -51,6 +51,11 @@ COE::Element COECondition::getElement() const
     return element_;
 }
 
+Shared<const Frame> COECondition::getFrame() const
+{
+    return frameSPtr_;
+}
+
 COECondition COECondition::SemiMajorAxis(
     const Criterion& aCriterion,
     const Shared<const Frame>& aFrameSPtr,
@@ -62,6 +67,7 @@ COECondition COECondition::SemiMajorAxis(
         "Semi-major axis Condition",
         aCriterion,
         COE::Element::SemiMajorAxis,
+        aFrameSPtr,
         aSemiMajorAxis.inMeters(),
         aGravitationalParameter,
     };
@@ -78,6 +84,7 @@ COECondition COECondition::Eccentricity(
         "Eccentricity Condition",
         aCriterion,
         COE::Element::Eccentricity,
+        aFrameSPtr,
         anEccentricity,
         aGravitationalParameter,
     };
@@ -94,6 +101,7 @@ COECondition COECondition::Inclination(
         "Inclination Condition",
         aCriterion,
         COE::Element::Inclination,
+        aFrameSPtr,
         anInclination.inRadians(),
         aGravitationalParameter,
     };
@@ -110,8 +118,9 @@ COECondition COECondition::Aop(
         "Argument of periapsis Condition",
         aCriterion,
         COE::Element::Aop,
+        aFrameSPtr,
         anArgumentOfPeriapsis.inRadians(),
-        aGravitationalParameter
+        aGravitationalParameter,
     };
 }
 
@@ -126,8 +135,9 @@ COECondition COECondition::Raan(
         "Right angle of ascending node Condition",
         aCriterion,
         COE::Element::Raan,
+        aFrameSPtr,
         aRightAscensionOfAscendingNode.inRadians(),
-        aGravitationalParameter
+        aGravitationalParameter,
     };
 }
 
@@ -142,8 +152,9 @@ COECondition COECondition::TrueAnomaly(
         "True anomaly Condition",
         aCriterion,
         COE::Element::TrueAnomaly,
+        aFrameSPtr,
         aTrueAnomaly.inRadians(),
-        aGravitationalParameter
+        aGravitationalParameter,
     };
 }
 
@@ -158,8 +169,9 @@ COECondition COECondition::MeanAnomaly(
         "Mean anomaly Condition",
         aCriterion,
         COE::Element::MeanAnomaly,
+        aFrameSPtr,
         aMeanAnomaly.inRadians(),
-        aGravitationalParameter
+        aGravitationalParameter,
     };
 }
 
@@ -174,8 +186,9 @@ COECondition COECondition::EccentricAnomaly(
         "Eccentric anomaly Condition",
         aCriterion,
         COE::Element::EccentricAnomaly,
+        aFrameSPtr,
         anEccentricAnomaly.inRadians(),
-        aGravitationalParameter
+        aGravitationalParameter,
     };
 }
 

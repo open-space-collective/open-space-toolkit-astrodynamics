@@ -35,6 +35,7 @@ using ostk::astro::eventcondition::LogicalCondition;
 using ostk::astro::eventcondition::BooleanCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::testing::Test
 {
@@ -64,7 +65,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition : public ::
         LogicalCondition(defaultName_, defaultType_, defaultEventConditions_);
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = CoordinatesBroker({});
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
     const VectorXd defaultCoordinates_;
     const State defaultState_ = State(defaultInstant_, defaultCoordinates_, defaultFrame_, defaultCoordinatesBroker_);
 };

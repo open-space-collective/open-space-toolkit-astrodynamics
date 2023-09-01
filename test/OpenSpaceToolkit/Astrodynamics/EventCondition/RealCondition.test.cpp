@@ -16,6 +16,7 @@
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
 using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
@@ -28,6 +29,7 @@ using ostk::physics::coord::Frame;
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::testing::Test
 {
@@ -42,7 +44,8 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
     const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ = CoordinatesBroker({});
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
 
     const State generateState(const Real& coordinate)
     {
@@ -104,10 +107,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, evaluate)
 {
     {
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(-2.0), -3.0));
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(0.0), -1.0));
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(1.0), 0.0));
-        EXPECT_EQ(defaultCondition_.evaluate(generateState(2.0), 1.0));
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(-2.0)), -3.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(0.0)), -1.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(1.0)), 0.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(2.0)), 1.0);
     }
 }
 

@@ -14,17 +14,14 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::eventcondition::BooleanCondition;
+using ostk::astro::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybind11::module& aModule)
 {
     class_<BooleanCondition, RealCondition, Shared<BooleanCondition>>(aModule, "BooleanCondition")
 
         .def(
-            init<
-                const String&,
-                const RealCondition::Criterion&,
-                std::function<bool(const VectorXd&, const Real&)>,
-                const bool&>(),
+            init<const String&, const RealCondition::Criterion&, std::function<bool(const State&)>, const bool&>(),
             arg("name"),
             arg("criterion"),
             arg("evaluator"),
@@ -36,16 +33,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_BooleanCondition(pybi
 
         .def("is_inversed", &BooleanCondition::isInversed)
 
-        .def("evaluate", &BooleanCondition::evaluate, arg("state_vector"), arg("time"))
+        .def("evaluate", &BooleanCondition::evaluate, arg("state"))
 
-        .def(
-            "is_satisfied",
-            &BooleanCondition::isSatisfied,
-            arg("current_state_vector"),
-            arg("current_time"),
-            arg("previous_state_vector"),
-            arg("previous_time")
-        )
+        .def("is_satisfied", &BooleanCondition::isSatisfied, arg("current_state"), arg("previous_state"))
 
         ;
 }

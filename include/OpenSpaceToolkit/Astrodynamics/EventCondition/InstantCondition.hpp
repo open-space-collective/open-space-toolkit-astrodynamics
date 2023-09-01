@@ -43,9 +43,6 @@ class InstantCondition : public RealCondition
     /// @return                 Instant
 
     Instant getInstant() const;
-
-   private:
-    Instant instant_;
 };
 
 }  // namespace eventcondition

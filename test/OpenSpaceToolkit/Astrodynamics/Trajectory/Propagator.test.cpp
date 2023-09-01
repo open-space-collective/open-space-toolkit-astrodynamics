@@ -374,23 +374,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         // Setup instants
         const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
 
-        const Real target = 60.0;
-
         const InstantCondition condition = {
             InstantCondition::Criterion::StrictlyPositive,
-            Duration::Seconds(60.0),
+            state.accessInstant() + Duration::Seconds(60.0),
         };
 
         const Propagator propagator = {defaultRKD5_, defaultDynamics_};
 
         const State endState = propagator.calculateStateAt(state, endInstant, condition);
 
-        EXPECT_TRUE(endState.getInstant() < endInstant);
-        EXPECT_LT(endState.getInstant() - (state.getInstant() + Duration::Seconds(target)), 1e-12);
+        EXPECT_TRUE(endState.accessInstant() < endInstant);
+        EXPECT_LT((endState.accessInstant() - condition.getInstant()).inSeconds(), 1e-7);
 
         const InstantCondition failureCondition = {
             InstantCondition::Criterion::StrictlyPositive,
-            Duration::Seconds(7000.0),
+            state.accessInstant() + Duration::Seconds(7000.0),
         };
 
         EXPECT_ANY_THROW(propagator.calculateStateAt(state, endInstant, failureCondition));

@@ -105,9 +105,10 @@ def conditional_numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def event_condition() -> InstantCondition:
+def event_condition(state: State) -> InstantCondition:
     return InstantCondition(
-        InstantCondition.Criterion.StrictlyPositive, Duration.seconds(42.0)
+        InstantCondition.Criterion.StrictlyPositive,
+        state.get_instant() + Duration.seconds(42.0),
     )
 
 

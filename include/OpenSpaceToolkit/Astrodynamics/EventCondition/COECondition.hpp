@@ -30,6 +30,7 @@ using ostk::math::obj::Vector3d;
 using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
+using ostk::physics::coord::Frame;
 
 using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
@@ -57,7 +58,8 @@ class COECondition : public RealCondition
         const String& aName,
         const Criterion& aCriterion,
         const COE::Element& anElement,
-        const Shared<const Frame>& aFrameSPtr const Real& aTarget,
+        const Shared<const Frame>& aFrameSPtr,
+        const Real& aTarget,
         const Derived& aGravitationalParameter
     );
 
@@ -156,7 +158,12 @@ class COECondition : public RealCondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Raan(const Criterion& aCriterion, const Angle& aRAAN, const Derived& aGravitationalParameter);
+    static COECondition Raan(
+        const Criterion& aCriterion,
+        const Shared<const Frame>& aFrameSPtr,
+        const Angle& aRAAN,
+        const Derived& aGravitationalParameter
+    );
 
     /// @brief                  True Anomaly based constructor
     ///

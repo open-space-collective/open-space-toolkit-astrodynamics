@@ -9,17 +9,18 @@ namespace astro
 namespace eventcondition
 {
 
+using ostk::physics::time::Duration;
+
 InstantCondition::InstantCondition(const Criterion& aCriterion, const Instant& anInstant)
     : RealCondition(
           "Instant Condition",
           aCriterion,
-          [anInstant](const State& aState) -> Real
+          [](const State& aState) -> Real
           {
-              return (aState.getInstant() - anInstant).inSeconds();
+              return (aState.accessInstant() - Instant::J2000()).inSeconds();
           },
-          0.0
-      ),
-      instant_(anInstant)
+          (anInstant - Instant::J2000()).inSeconds()
+      )
 {
 }
 
@@ -27,7 +28,7 @@ InstantCondition::~InstantCondition() {}
 
 Instant InstantCondition::getInstant() const
 {
-    return instant_;
+    return Instant::J2000() + Duration::Seconds(getTarget());
 }
 
 }  // namespace eventcondition

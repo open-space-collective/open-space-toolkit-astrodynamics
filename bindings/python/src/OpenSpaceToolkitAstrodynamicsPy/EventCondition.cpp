@@ -17,6 +17,7 @@ using ostk::core::types::Shared;
 using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::State;
 
 // Trampoline class for virtual member functions
 class PyEventCondition : public EventCondition
@@ -26,23 +27,9 @@ class PyEventCondition : public EventCondition
 
     // Trampoline (need one for each virtual function)
 
-    bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override
+    bool isSatisfied(const State& currentState, const State& previousState) const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            bool,
-            EventCondition,
-            "is_satisfied",
-            isSatisfied,
-            currentStateVector,
-            currentTime,
-            previousStateVector,
-            previousTime
-        );
+        PYBIND11_OVERRIDE_PURE_NAME(bool, EventCondition, "is_satisfied", isSatisfied, currentState, previousState);
     }
 };
 
@@ -62,14 +49,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
             .def("get_name", &EventCondition::getName)
 
-            .def(
-                "is_satisfied",
-                &EventCondition::isSatisfied,
-                arg("current_state_vector"),
-                arg("current_time"),
-                arg("previous_state_vector"),
-                arg("previous_time")
-            )
+            .def("is_satisfied", &EventCondition::isSatisfied, arg("current_state"), arg("previous_state"))
 
             ;
     }
