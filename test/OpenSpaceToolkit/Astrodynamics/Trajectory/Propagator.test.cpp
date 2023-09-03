@@ -8,7 +8,6 @@
 #include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
@@ -19,7 +18,9 @@
 
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
@@ -47,11 +48,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-
-
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
-
 
 #include <Global.test.hpp>
 
@@ -1881,9 +1877,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
 
-        
-        double maxPosError = 0.0; 
-        double maxVelError = 0.0;
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
@@ -1896,10 +1889,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
-            maxPosError = std::max(maxPosError, positionErrorGCRF);
-            maxVelError = std::max(maxVelError, velocityErrorGCRF);
-            // ASSERT_GT(2e-3, positionErrorGCRF);
-            // ASSERT_GT(2e-6, velocityErrorGCRF);
+
+            ASSERT_GT(2e-3, positionErrorGCRF);
+            ASSERT_GT(2e-6, velocityErrorGCRF);
 
             // Results console output
 
@@ -1909,15 +1901,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             // std::cout << "Velocity error is: " << velocityErrorGCRF <<  "m/s" << std::endl;
             // std::cout.setf(std::ios::fixed,std::ios::floatfield);
             // std::cout << "**************************************" << std::endl;
-        }        
-        std::cout << maxPosError << std::endl;
-        std::cout << maxVelError << std::endl;
-
+        }
     }
 }
 
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km_Large_Surface
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
+    PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km_Large_Surface
 )
 {
     // Test data generated with GenerateNRLMSISEDragAccelerationLargeSurface.java
@@ -1946,17 +1936,17 @@ TEST_F(
             );
             referenceVelocityArrayGCRF.add(
                 Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
-            ); 
+            );
             referenceAccelerationArrayGCRF.add(
                 Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
-            ); 
+            );
         }
 
         // Use the same space weather input file that Orekit uses
         SWManager::Get().reset();
-        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"))
-        );
+        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(File::Path(Path::Parse(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"
+        )));
         SWManager::Get().loadCSSISpaceWeather(swData);
 
         const Sun sun = Sun::Default();
@@ -1972,7 +1962,7 @@ TEST_F(
                 EarthGravitationalModel::WGS84.equatorialRadius_,
                 EarthGravitationalModel::WGS84.flattening_,
                 sunSPtr
-                )
+            )
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
@@ -1989,7 +1979,6 @@ TEST_F(
             500.0,
             2.2,
         };
-
 
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
@@ -2029,12 +2018,11 @@ TEST_F(
     }
 }
 
-
 TEST_F(
-    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km_Small_Surface
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
+    PropAccuracy_Drag_Constant_NRLMSISE_Orekit_450km_Small_Surface
 )
 {
-
     // Test data generated with GenerateNRLMSISEDragAccelerationSmallSurface.java
     {
         // Reference data setup
@@ -2061,17 +2049,17 @@ TEST_F(
             );
             referenceVelocityArrayGCRF.add(
                 Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
-            ); 
+            );
             referenceAccelerationArrayGCRF.add(
                 Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
-            ); 
+            );
         }
 
         // Use the same space weather input file that Orekit uses
         SWManager::Get().reset();
-        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"))
-        );
+        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(File::Path(Path::Parse(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"
+        )));
         SWManager::Get().loadCSSISpaceWeather(swData);
 
         const Sun sun = Sun::Default();
@@ -2087,7 +2075,7 @@ TEST_F(
                 EarthGravitationalModel::WGS84.equatorialRadius_,
                 EarthGravitationalModel::WGS84.flattening_,
                 sunSPtr
-                )
+            )
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
@@ -2104,7 +2092,6 @@ TEST_F(
             1.0,
             2.2,
         };
-
 
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
@@ -2148,7 +2135,6 @@ TEST_F(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, NRLMSISE_Orekit_450km_Accelerations_Difference
 )
 {
-
     // Test data generated with GenerateNRLMSISEDragAccelerationLargeSurface.java
     {
         // Reference data setup
@@ -2175,17 +2161,17 @@ TEST_F(
             );
             referenceVelocityArrayGCRF.add(
                 Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
-            ); 
+            );
             referenceAccelerationArrayGCRF.add(
                 Vector3d(referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal())
-            ); 
+            );
         }
 
         // Use the same space weather input file that Orekit uses
         SWManager::Get().reset();
-        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(
-            File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"))
-        );
+        CSSISpaceWeather swData = CSSISpaceWeather::LoadLegacy(File::Path(Path::Parse(
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/SpaceWeather-All-v1.2.txt"
+        )));
         SWManager::Get().loadCSSISpaceWeather(swData);
 
         const Sun sun = Sun::Default();
@@ -2201,7 +2187,7 @@ TEST_F(
                 EarthGravitationalModel::WGS84.equatorialRadius_,
                 EarthGravitationalModel::WGS84.flattening_,
                 sunSPtr
-                )
+            )
         );
         const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
@@ -2224,26 +2210,17 @@ TEST_F(
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
+            VectorXd inputState(6);
+            inputState << referencePositionArrayGCRF[i][0], referencePositionArrayGCRF[i][1],
+                referencePositionArrayGCRF[i][2], referenceVelocityArrayGCRF[i][0], referenceVelocityArrayGCRF[i][1],
+                referenceVelocityArrayGCRF[i][2];
 
-        VectorXd inputState(6);
-        inputState << referencePositionArrayGCRF[i][0],
-                   referencePositionArrayGCRF[i][1],
-                   referencePositionArrayGCRF[i][2],
-                   referenceVelocityArrayGCRF[i][0],
-                   referenceVelocityArrayGCRF[i][1],
-                   referenceVelocityArrayGCRF[i][2];
-
-            const VectorXd OSTKaccel = drag.computeContribution(
-                instantArray[i],
-                inputState,
-                Frame::GCRF()
-            );
+            const VectorXd OSTKaccel = drag.computeContribution(instantArray[i], inputState, Frame::GCRF());
 
             const Real accelError = (referenceAccelerationArrayGCRF[i] - OSTKaccel).norm();
 
             ASSERT_GT(2.67e-4, accelError);
         }
-
     }
 }
 

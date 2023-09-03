@@ -145,7 +145,7 @@ VectorXd AtmosphericDrag::computeContribution(
     // Add object's gravity to total gravitational acceleration
     const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
-    
+
     // Compute contribution
     VectorXd contribution(3);
     contribution << dragAccelerationSI[0], dragAccelerationSI[1], dragAccelerationSI[2];

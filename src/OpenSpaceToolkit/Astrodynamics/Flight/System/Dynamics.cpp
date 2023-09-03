@@ -100,8 +100,6 @@ void Dynamics::DynamicalEquations(
 
         Dynamics::applyContribution(dxdt, contribution, dynamicsContext.writeIndexes);
     }
-    // std::cout.precision(16);
-    // std::cout << t << "    " << dxdt.transpose() << std::endl;
 }
 
 VectorXd Dynamics::extractReadState(
