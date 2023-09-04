@@ -2,39 +2,57 @@
 
 import pytest
 
+from ostk.physics.coordinate import Frame, Position, Velocity
+from ostk.physics.time import DateTime, Instant, Scale
+
 from ostk.astrodynamics.event_condition import RealCondition, LogicalCondition
+from ostk.astrodynamics.trajectory import State
 
 
 @pytest.fixture
-def event_condition() -> RealCondition:
+def always_true() -> RealCondition:
     return RealCondition(
-        "My Condition",
-        RealCondition.Criterion.StrictlyNegative,
-        lambda x, t: t,
-        1.0,
+        "Always True Condition",
+        RealCondition.Criterion.StrictlyPositive,
+        lambda state: 1.0,
+        0.0,
     )
 
 
 @pytest.fixture
-def another_event_condition() -> RealCondition:
+def always_false() -> RealCondition:
     return RealCondition(
-        "Another Condition",
+        "Always False Condition",
         RealCondition.Criterion.StrictlyPositive,
-        lambda x, t: t,
-        2.0,
+        lambda state: -1.0,
+        0.0,
     )
 
 
 @pytest.fixture
 def event_conditions(
-    event_condition: RealCondition, another_event_condition: RealCondition
+    always_true: RealCondition, always_false: RealCondition
 ) -> list[RealCondition]:
-    return [event_condition, another_event_condition]
+    return [always_true, always_false]
 
 
 @pytest.fixture
 def logical_condition_type() -> LogicalCondition.Type:
     return LogicalCondition.Type.And
+
+
+@pytest.fixture
+def state() -> State:
+    frame: Frame = Frame.GCRF()
+    position: Position = Position.meters(
+        [717094.039086306, -6872433.2241124, 46175.9696673281], frame
+    )
+    velocity: Velocity = Velocity.meters_per_second(
+        [-970.650826004612, -45.4598114773158, 7529.82424886455], frame
+    )
+
+    instant: Instant = Instant.date_time(DateTime(2023, 1, 1, 0, 1, 0), Scale.UTC)
+    return State(instant, position, velocity)
 
 
 @pytest.fixture
@@ -90,17 +108,13 @@ class TestLogicalCondition:
         logical_condition_type: LogicalCondition.Type,
         expected_result: bool,
         event_conditions: list[RealCondition],
+        state: State,
     ):
         logical_condition: LogicalCondition = LogicalCondition(
             "Logical Condition", logical_condition_type, event_conditions
         )
 
         assert (
-            logical_condition.is_satisfied(
-                previous_state_vector=[-1.0],
-                previous_time=-1.0,
-                current_state_vector=[1.0],
-                current_time=10.0,
-            )
+            logical_condition.is_satisfied(previous_state=state, current_state=state)
             == expected_result
         )
