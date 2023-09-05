@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693583629414,
+  "lastUpdate": 1693932694500,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 4153234966.599996,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4152175950 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dec31d6b0056d88609a9d80a887389faacff8fb9",
+          "message": "feat: make EventCondition state aware (#218)\n\n* refactor: clean-up event condition tree\r\n\r\n* feat: finishing tests, add bindings\r\n\r\n* test: fix python tests\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\r\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>",
+          "timestamp": "2023-09-05T16:19:26Z",
+          "tree_id": "fc2367d28f3d94b62346b0ca3a7d304515f10d54",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/dec31d6b0056d88609a9d80a887389faacff8fb9"
+        },
+        "date": 1693932693686,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 674653524.5000075,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 674084369.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1431606025.0999897,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1431501480 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4132936613.5999975,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4132440830 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4133553011.2999945,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4133324709.9999976 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4133106191.5000024,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4132924420.000003 ns\nthreads: 1"
           }
         ]
       }
