@@ -54,6 +54,12 @@ class LocalOrbitalFrameFactory
 
     bool isDefined() const;
 
+    /// @brief                  Check if local orbital frame factory is defined
+    ///
+    /// @return                 True if local orbital frame factory is defined
+
+    bool isDefined() const;
+
     /// @brief                  NED Constructor
     ///
     /// @param                  [in] aParentFrame A parent frame
