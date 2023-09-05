@@ -75,48 +75,54 @@ Scalar ConstantThrustThruster::getThrust() const
 
 Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getReadCoordinatesSubsets() const
 {
-    return {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()};
+    return {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default(),
+        CoordinatesSubset::Mass(),
+    };
 }
 
 Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getWriteCoordinatesSubsets() const
 {
-    return {CartesianVelocity::Default(), CoordinatesSubset::Mass()};
+    return {
+        CartesianVelocity::Default(),
+        CoordinatesSubset::Mass(),
+    };
 }
 
 VectorXd ConstantThrustThruster::computeContribution(
-    const Instant& anInstant, const VectorXd& x, [[maybe_unused]] const Shared<const Frame>& aFrameSPtr
+    const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
     const Vector3d positionCoordinates = {x[0], x[1], x[2]};
     const Vector3d velocityCoordinates = {x[3], x[4], x[5]};
 
-    const Position position_GCRF = {positionCoordinates, Position::Unit::Meter, Frame::GCRF()};
-    const Velocity velocity_GCRF = {velocityCoordinates, Velocity::Unit::MeterPerSecond, Frame::GCRF()};
-
-    // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to GCRF (ECI)
+    // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to Requested Frame
     Shared<const Frame> frameSPtr = this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
         anInstant, positionCoordinates, velocityCoordinates
-    );
-    Quaternion q_GCRF_LOF = frameSPtr->getTransformTo(Frame::GCRF(), anInstant).getOrientation();
+    ); // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
+    Quaternion q_requestedFrame_LOF = frameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
 
-    // TBImproved
+
+    // TBI: Need to represent propellant mass only here
     if (x[6] <= 0.0)
     {
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
     const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
+    const PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem();
 
     const Vector3d acceleration_LOF =
-        satelliteSystem.getPropulsionSystem().getAcceleration(Mass::Kilograms(x[6])).getValue() *
+        propulsionSystem.getAcceleration(Mass::Kilograms(x[6])).getValue() *
         this->localOrbitalFrameDirection_.getValue();
 
-    const Vector3d acceleration_GCRF = q_GCRF_LOF.rotateVector(acceleration_LOF);
+    const Vector3d acceleration_requestedFrame = q_requestedFrame_LOF.rotateVector(acceleration_LOF);
 
     // Compute contribution
     VectorXd contribution(4);
-    contribution << acceleration_GCRF[0], acceleration_GCRF[1], acceleration_GCRF[2],
-        -satelliteSystem.getPropulsionSystem().getMassFlowRate().getValue();
+    contribution << acceleration_requestedFrame[0], acceleration_requestedFrame[1], acceleration_requestedFrame[2],
+        -propulsionSystem.getMassFlowRate().getValue();
 
     return contribution;
 }
