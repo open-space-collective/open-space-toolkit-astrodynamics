@@ -16,21 +16,17 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
     return LocalOrbitalFrameFactory.VNC(Frame.GCRF())
 
-
 @pytest.fixture
 def instant() -> Instant:
     return Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-
 
 @pytest.fixture
 def position_vector() -> list:
     return [7500000.0, 0.0, 0.0]
 
-
 @pytest.fixture
 def velocity_vector() -> list:
     return [0.0, 5335.865450622126, 5335.865450622126]
-
 
 class TestLocalOrbitalFrameFactory:
     def test_constructors(self):
