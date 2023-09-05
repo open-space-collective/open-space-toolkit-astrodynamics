@@ -8,6 +8,10 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/TrajectorySegment.cpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameTransformProvider.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameFactory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameDirection.cpp>
+
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {
     using namespace pybind11;
@@ -52,4 +56,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(trajectory);
+
+    // TBI: Likely to be moved in Physics
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(trajectory);
 }
