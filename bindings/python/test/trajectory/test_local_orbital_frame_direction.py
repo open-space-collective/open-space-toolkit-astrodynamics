@@ -13,9 +13,11 @@ from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 def local_orbital_frame_factory() -> LocalOrbitalFrameFactory:
     return LocalOrbitalFrameFactory.VNC(Frame.GCRF())
 
+
 @pytest.fixture
 def direction_vector() -> list:
     return [1.0, 0.0, 0.0]
+
 
 @pytest.fixture
 def local_orbital_frame_direction(
@@ -26,6 +28,7 @@ def local_orbital_frame_direction(
         direction_vector,
         local_orbital_frame_factory,
     )
+
 
 class TestLocalOrbitalFrameDirection:
     def test_constructor(

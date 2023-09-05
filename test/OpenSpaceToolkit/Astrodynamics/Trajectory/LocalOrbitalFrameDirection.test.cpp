@@ -122,7 +122,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Get
         EXPECT_EQ(direction_, localOrbitalFrameDirection_.getValue());
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection_.getLocalOrbitalFrameFactory());
     }
-
     {
         LocalOrbitalFrameDirection localOrbitalFrameDirection =
             LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_);
