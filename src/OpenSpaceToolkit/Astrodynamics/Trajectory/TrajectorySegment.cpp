@@ -1,9 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
-
-#include <OpenSpaceToolkit/Astrodynamics/EventCondition/DurationCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
 
@@ -14,12 +10,9 @@ namespace astro
 namespace trajectory
 {
 
-using ostk::physics::time::Interval;
 using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::Propagator;
-using ostk::astro::eventcondition::DurationCondition;
-using ostk::astro::trajectory::models::Tabulated;
 
 TrajectorySegment::Solution::Solution(
     const String& aName, const Array<Shared<Dynamics>>& aDynamicsArray, const Array<State>& aStates
@@ -120,23 +113,10 @@ TrajectorySegment::Solution TrajectorySegment::solve(const State& aState, const 
     const State finalState =
         propagator.calculateStateAt(aState, startInstant + maximumPropagationDuration, *eventCondition_);
 
-    Array<State> propagatedStates = Array<State>::Empty();
-    propagatedStates.reserve(propagator.accessNumericalSolver().getObservedStates().getSize());
-
-    for (const auto& solution : propagator.accessNumericalSolver().getObservedStates())
-    {
-        propagatedStates.add({
-            startInstant + Duration::Seconds(solution.second),
-            solution.first,
-            Propagator::IntegrationFrameSPtr,
-            propagator.accessCoordinatesBroker(),
-        });
-    }
-
     return {
         name_,
         dynamics_,
-        propagatedStates,
+        propagator.accessNumericalSolver().accessObservedStates(),
     };
 }
 

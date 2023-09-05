@@ -12,12 +12,12 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
-from ostk.astrodynamics import NumericalSolver
+from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import TrajectorySegment
-from ostk.astrodynamics.event_condition import DurationCondition
+from ostk.astrodynamics.event_condition import InstantCondition
 
 
 @pytest.fixture
@@ -63,13 +63,13 @@ def numerical_solver() -> NumericalSolver:
 
 
 @pytest.fixture
-def duration() -> Duration:
-    return Duration.minutes(15.0)
+def end_instant(state: State) -> Instant:
+    return state.get_instant() + Duration.minutes(15.0)
 
 
 @pytest.fixture
-def duration_condition(duration: Duration) -> DurationCondition:
-    return DurationCondition(DurationCondition.Criteria.AnyCrossing, duration)
+def instant_condition(end_instant: Instant) -> InstantCondition:
+    return InstantCondition(InstantCondition.Criterion.AnyCrossing, end_instant)
 
 
 @pytest.fixture
@@ -80,11 +80,11 @@ def name() -> str:
 @pytest.fixture
 def coast_duration_segment(
     name: str,
-    duration_condition: DurationCondition,
+    instant_condition: InstantCondition,
     dynamics: list,
     numerical_solver: NumericalSolver,
 ):
-    return TrajectorySegment.coast(name, duration_condition, dynamics, numerical_solver)
+    return TrajectorySegment.coast(name, instant_condition, dynamics, numerical_solver)
 
 
 class TestTrajectorySegment:
@@ -93,10 +93,10 @@ class TestTrajectorySegment:
 
     def test_get_event_condition(
         self,
-        duration_condition: DurationCondition,
+        instant_condition: InstantCondition,
         coast_duration_segment: TrajectorySegment,
     ):
-        assert coast_duration_segment.get_event_condition() == duration_condition
+        assert coast_duration_segment.get_event_condition() == instant_condition
 
     def test_get_dynamics(
         self,
@@ -121,13 +121,16 @@ class TestTrajectorySegment:
     def test_solve(
         self,
         state: State,
-        duration: Duration,
+        end_instant: Instant,
         coast_duration_segment: TrajectorySegment,
     ):
         solution = coast_duration_segment.solve(state)
 
-        assert pytest.approx(
-            float((solution.states[-1].get_instant() - state.get_instant()).in_seconds()),
-            1e-3,
-        ) == float(duration.in_seconds())
+        assert (
+            pytest.approx(
+                float((solution.states[-1].get_instant() - end_instant).in_seconds()),
+                abs=1e-7,
+            )
+            == 0.0
+        )
         assert len(solution.states) > 0

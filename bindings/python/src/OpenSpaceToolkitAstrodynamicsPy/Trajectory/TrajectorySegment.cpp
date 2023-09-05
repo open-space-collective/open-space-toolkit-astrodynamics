@@ -10,7 +10,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
     using ostk::core::types::String;
     using ostk::core::types::Shared;
 
-    using ostk::astro::NumericalSolver;
+    using ostk::physics::time::Duration;
+
+    using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::trajectory::TrajectorySegment;
     using ostk::astro::flight::system::Dynamics;
 

@@ -13,6 +13,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 namespace ostk
 {
@@ -29,6 +30,7 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::EventCondition;
 
