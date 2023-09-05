@@ -66,6 +66,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Con
     {
         EXPECT_NO_THROW(LocalOrbitalFrameDirection(direction_, LOFFactorySPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_));
     }
@@ -91,6 +92,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Not
     {
         EXPECT_FALSE(localOrbitalFrameDirection_ != localOrbitalFrameDirection_);
     }
+
     {
         EXPECT_TRUE(localOrbitalFrameDirection_ != LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_));
     }
@@ -101,6 +103,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, isD
     {
         EXPECT_TRUE(localOrbitalFrameDirection_.isDefined());
     }
+
     {
         EXPECT_FALSE(LocalOrbitalFrameDirection(anotherDirection_, nullptr).isDefined());
     }
@@ -111,6 +114,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Acc
     {
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory());
     }
+
     {
         EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, nullptr).accessLocalOrbitalFrameFactory());
     }
@@ -122,6 +126,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Get
         EXPECT_EQ(direction_, localOrbitalFrameDirection_.getValue());
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection_.getLocalOrbitalFrameFactory());
     }
+
     {
         LocalOrbitalFrameDirection localOrbitalFrameDirection =
             LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_);
@@ -129,10 +134,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Get
         EXPECT_EQ(anotherDirection_.normalized(), localOrbitalFrameDirection.getValue());
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection.getLocalOrbitalFrameFactory());
     }
+
     {
         EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, nullptr).getValue());
         EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, nullptr).getLocalOrbitalFrameFactory());
     }
+
     {
         EXPECT_ANY_THROW(LocalOrbitalFrameDirection::Undefined().getValue());
         EXPECT_ANY_THROW(LocalOrbitalFrameDirection::Undefined().getLocalOrbitalFrameFactory());
