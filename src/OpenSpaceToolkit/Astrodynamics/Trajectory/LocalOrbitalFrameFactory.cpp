@@ -79,13 +79,6 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
     return frameSPtr;
 }
 
-Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
-    const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
-)
-{
-    return std::make_shared<LocalOrbitalFrameFactory>(LocalOrbitalFrameFactory(aType, aParentFrame));
-}
-
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::NED, aParentFrame);
@@ -121,6 +114,13 @@ Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Undefined()
     return Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, nullptr);
 }
 
+Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::Construct(
+    const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
+)
+{
+    return std::make_shared<LocalOrbitalFrameFactory>(LocalOrbitalFrameFactory(aType, aParentFrame));
+}
+
 LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
 )
@@ -130,7 +130,7 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
 }
 
 String LocalOrbitalFrameFactory::generateFrameName(
-    const Instant& anInstant, [[maybe_unused]] const Vector3d& aPosition, [[maybe_unused]] const Vector3d& aVelocity
+    const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
 ) const
 {
     return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() +
