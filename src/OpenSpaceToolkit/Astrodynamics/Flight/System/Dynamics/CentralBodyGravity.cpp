@@ -95,7 +95,7 @@ VectorXd CentralBodyGravity::computeContribution(
 
     // Obtain gravitational acceleration from current object
     const Vector3d gravitationalAccelerationSI =
-        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant)
+        celestialObjectSPtr_->getGravitationalFieldAt(Position::Meters(positionCoordinates, aFrameSPtr), anInstant) // TBI: Assumes x is given in GCRF
             .inFrame(aFrameSPtr, anInstant)
             .getValue();
 
