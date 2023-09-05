@@ -2,15 +2,14 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameDirection.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameFactory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameTransformProvider.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/TrajectorySegment.cpp>
-
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameTransformProvider.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameFactory.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameDirection.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {

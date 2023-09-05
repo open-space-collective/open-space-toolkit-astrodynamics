@@ -45,8 +45,8 @@ bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aL
 
 bool LocalOrbitalFrameDirection::isDefined() const
 {
-    return value_.isDefined() &&
-           (localOrbitalFrameFactorySPtr_ != nullptr) && localOrbitalFrameFactorySPtr_->isDefined();
+    return value_.isDefined() && (localOrbitalFrameFactorySPtr_ != nullptr) &&
+           localOrbitalFrameFactorySPtr_->isDefined();
 }
 
 const Shared<const LocalOrbitalFrameFactory>& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const

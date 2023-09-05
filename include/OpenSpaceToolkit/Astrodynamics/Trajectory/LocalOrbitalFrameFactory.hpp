@@ -45,7 +45,8 @@ class LocalOrbitalFrameFactory
     ///
     /// @return                 A shared pointer to the frame created
 
-    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
+    Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity)
+        const;
 
     /// @brief                  Check if local orbital frame factory is defined
     ///

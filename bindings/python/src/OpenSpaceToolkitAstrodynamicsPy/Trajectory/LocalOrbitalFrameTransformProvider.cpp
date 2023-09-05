@@ -12,7 +12,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransfor
 
     using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 
-    class_<LocalOrbitalFrameTransformProvider, Shared<LocalOrbitalFrameTransformProvider>> localOrbitalFrameTransformProviderClass(aModule, "LocalOrbitalFrameTransformProvider");
+    class_<LocalOrbitalFrameTransformProvider, Shared<LocalOrbitalFrameTransformProvider>>
+        localOrbitalFrameTransformProviderClass(aModule, "LocalOrbitalFrameTransformProvider");
     // TBI: can't make this linked with Shared<Provider>
 
     localOrbitalFrameTransformProviderClass

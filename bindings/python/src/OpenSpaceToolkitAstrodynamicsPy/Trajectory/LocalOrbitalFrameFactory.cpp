@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(pybind11::module& aModule)
@@ -17,7 +18,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
         .def("is_defined", &LocalOrbitalFrameFactory::isDefined)
 
-        .def("generate_frame", &LocalOrbitalFrameFactory::generateFrame, arg("instant"), arg("position_vector"), arg("velocity_vector"))
+        .def(
+            "generate_frame",
+            &LocalOrbitalFrameFactory::generateFrame,
+            arg("instant"),
+            arg("position_vector"),
+            arg("velocity_vector")
+        )
 
         .def_static("undefined", &LocalOrbitalFrameFactory::Undefined)
         .def_static("NED", &LocalOrbitalFrameFactory::NED, arg("parent_frame"))

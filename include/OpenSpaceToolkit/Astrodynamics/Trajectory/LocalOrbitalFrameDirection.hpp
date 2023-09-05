@@ -31,7 +31,6 @@ using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 class LocalOrbitalFrameDirection
 {
    public:
-
     /// @brief                  Constructor
     ///
     /// @param                  [in] aValue A vector value

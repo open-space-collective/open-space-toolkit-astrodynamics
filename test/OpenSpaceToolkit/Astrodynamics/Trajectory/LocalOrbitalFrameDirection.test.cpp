@@ -61,8 +61,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection : pub
     // const Vector3d positition_ = {7000000.0, 0.0, 0.0};
     // const Vector3d velocity_ = {0.0, 5335.865450622126, 5335.865450622126};
 
-    const LocalOrbitalFrameDirection localOrbitalFrameDirection_ = LocalOrbitalFrameDirection(direction_, LOFFactorySPtr_);
-
+    const LocalOrbitalFrameDirection localOrbitalFrameDirection_ =
+        LocalOrbitalFrameDirection(direction_, LOFFactorySPtr_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Constructor)
@@ -122,8 +122,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Get
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection_.getLocalOrbitalFrameFactory());
     }
     {
-
-        LocalOrbitalFrameDirection localOrbitalFrameDirection = LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_);
+        LocalOrbitalFrameDirection localOrbitalFrameDirection =
+            LocalOrbitalFrameDirection(anotherDirection_, LOFFactorySPtr_);
 
         EXPECT_EQ(anotherDirection_.normalized(), localOrbitalFrameDirection.getValue());
         EXPECT_EQ(LOFFactorySPtr_, localOrbitalFrameDirection.getLocalOrbitalFrameFactory());
