@@ -25,11 +25,11 @@ from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 
 from ostk.astrodynamics import NumericalSolver
-from ostk.astrodynamics.event_condition import DurationCondition
+from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import COECondition
 from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Segment
 from ostk.astrodynamics.trajectory import Sequence
+from ostk.astrodynamics.trajectory.state import TrajectorySegment
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
 
@@ -97,8 +97,10 @@ def duration() -> Duration:
 
 
 @pytest.fixture
-def duration_condition(duration: Duration) -> DurationCondition:
-    return DurationCondition(DurationCondition.Criteria.AnyCrossing, duration)
+def instant_condition(state: State, duration: Duration) -> InstantCondition:
+    return InstantCondition(
+        InstantCondition.Criteria.AnyCrossing, state.get_instant() + duration
+    )
 
 
 @pytest.fixture
@@ -121,19 +123,19 @@ def sma_condition(sma: Length, gravitational_parameter: Derived) -> COECondition
 
 
 @pytest.fixture
-def coast_duration_segment(duration_condition: DurationCondition):
-    return Segment.Coast(duration_condition)
+def coast_duration_segment(instant_condition: InstantCondition):
+    return TrajectorySegment.Coast(instant_condition)
 
 
 @pytest.fixture
 def coast_sma_segment(sma_condition: COECondition):
-    return Segment.Coast(sma_condition)
+    return TrajectorySegment.Coast(sma_condition)
 
 
 @pytest.fixture
 def segments(
-    coast_duration_segment: Segment, coast_sma_segment: Segment
-) -> list[Segment]:
+    coast_duration_segment: TrajectorySegment, coast_sma_segment: TrajectorySegment
+) -> list[TrajectorySegment]:
     return [coast_sma_segment, coast_duration_segment]
 
 
@@ -144,7 +146,7 @@ def maximum_propagation_duration() -> Duration:
 
 @pytest.fixture
 def sequence(
-    segments: list[Segment],
+    segments: list[TrajectorySegment],
     dynamics: list,
     numerical_solver: NumericalSolver,
     maximum_propagation_duration: Duration,
@@ -153,7 +155,7 @@ def sequence(
 
 
 class TestSequence:
-    def test_get_segments(self, sequence: Sequence, segments: list[Segment]):
+    def test_get_segments(self, sequence: Sequence, segments: list[TrajectorySegment]):
         assert len(sequence.get_segments()) == len(segments)
 
     def test_get_dynamics(self, sequence: Sequence, dynamics: list):

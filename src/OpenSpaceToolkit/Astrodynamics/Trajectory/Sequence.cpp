@@ -15,7 +15,7 @@ Array<State> Sequence::Solution::getStates() const
 {
     Array<State> states = Array<State>::Empty();
 
-    for (const Segment::Solution& segmentSolution : segmentSolutions)
+    for (const TrajectorySegment::Solution& segmentSolution : segmentSolutions)
     {
         states.add(segmentSolution.states);
     }
@@ -24,22 +24,17 @@ Array<State> Sequence::Solution::getStates() const
 }
 
 Sequence::Sequence(
-    const Array<Segment>& aSegmentArray,
     const Size& aRepetitionCount,
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& maximumPropagationDuration
 )
-    : segments_(aSegmentArray),
+    : segments_(Array<TrajectorySegment>::Empty()),
       repetitionCount_(aRepetitionCount),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
       maximumPropagationDuration_(maximumPropagationDuration)
 {
-    if (segments_.isEmpty())
-    {
-        throw ostk::core::error::runtime::Undefined("Segments");
-    }
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence)
@@ -49,7 +44,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence
     return anOutputStream;
 }
 
-Array<Segment> Sequence::getSegments() const
+Array<TrajectorySegment> Sequence::getSegments() const
 {
     return segments_;
 }
@@ -69,20 +64,44 @@ Duration Sequence::getMaximumPropagationDuration() const
     return maximumPropagationDuration_;
 }
 
+void Sequence::addSegment(const TrajectorySegment& aSegment)
+{
+    segments_.add(aSegment);
+}
+
+void Sequence::addSegment(const Array<TrajectorySegment>& someSegments)
+{
+    segments_.add(someSegments);
+}
+
+void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPtr)
+{
+    segments_.add(TrajectorySegment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
+}
+
+void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Dynamics>& aThruster)
+{
+    segments_.add(TrajectorySegment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_)
+    );
+}
+
 Sequence::Solution Sequence::solve(const State& aState) const
 {
-    Array<Segment::Solution> segmentSolutions;
+    Array<TrajectorySegment::Solution> segmentSolutions;
 
     State initialState = aState;
     State finalState = State::Undefined();
 
+    std::cout << "Sequence::solve: " << initialState << std::endl;
+
     for (Size i = 0; i < repetitionCount_; ++i)
     {
-        for (const Segment& segment : segments_)
+        for (const TrajectorySegment& segment : segments_)
         {
-            Segment::Solution segmentSolution =
-                segment.solve(initialState, dynamics_, numericalSolver_, maximumPropagationDuration_);
+            std::cout << "Sequence::solve: " << i << ": " << segment << std::endl;
+            TrajectorySegment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
+            std::cout << "solved" << std::endl;
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 

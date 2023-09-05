@@ -76,7 +76,7 @@ class Sequence
     ///
     /// @return                 Array of segments.
 
-    Array<Segment> getSegments() const;
+    Array<TrajectorySegment> getSegments() const;
 
     /// @brief                  Get numerical solver.
     ///
@@ -100,26 +100,26 @@ class Sequence
     ///
     /// @param                  [in] aTrajectorySegment A trajectory segment.
 
-    void addSegment(const Segment& aTrajectorySegment);
+    void addSegment(const TrajectorySegment& aTrajectorySegment);
 
     /// @brief                  Add multiple segments.
     ///
     /// @param                  [in] aTrajectorySegmentArray An array of trajectory segments.
 
-    void addSegment(const Array<Segment>& aTrajectorySegmentArray);
+    void addSegment(const Array<TrajectorySegment>& aTrajectorySegmentArray);
 
     /// @brief                  Add a coast segment.
     ///
-    /// @param                  [in] anEventCondition An event condition.
+    /// @param                  [in] anEventConditionSPtr An event condition.
 
-    void addCoastSegment(const EventCondition& anEventCondition);
+    void addCoastSegment(const Shared<EventCondition>& anEventConditionSPtr);
 
     /// @brief                  Add a maneuver segment.
     ///
-    /// @param                  [in] anEventCondition An event condition.
+    /// @param                  [in] anEventConditionSPtr An event condition.
     /// @param                  [in] aThruster A thruster dynamics.
 
-    void addManeuverSegment(const EventCondition& anEventCondition, const Shared<Thruster>& aThruster);
+    void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Dynamics>& aThruster);
 
     /// @brief                  Solve the sequence given an initial state.
     ///
