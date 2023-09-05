@@ -226,31 +226,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     {
         // Test Case (thrust direction, local orbital frame, reference data)
         const Array<Tuple<Shared<const LocalOrbitalFrameFactory>, Vector3d, String>> testCases = {
-            {
-                LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
-                Vector3d({1.0, 0.0, 0.0}),
-                "Orekit_ConstantThrustManeuver_VNC_inclined_1hr_run.csv"
-            },
-            {
-                LocalOrbitalFrameFactory::QSW(gcrfSPtr_),
-                Vector3d({0.0, 1.0, 0.0}),
-                "Orekit_ConstantThrustManeuver_QSW_inclined_1hr_run.csv"
-            },
-            {
-                LocalOrbitalFrameFactory::TNW(gcrfSPtr_),
-                Vector3d({1.0, 0.0, 0.0}),
-                "Orekit_ConstantThrustManeuver_TNW_inclined_1hr_run.csv"
-            },
-            {
-                LocalOrbitalFrameFactory::LVLH(gcrfSPtr_),
-                Vector3d({1.0, 0.0, 0.0}),
-                "Orekit_ConstantThrustManeuver_LVLH_inclined_1hr_run.csv"
-            },
-            {
-                LocalOrbitalFrameFactory::VVLH(gcrfSPtr_),
-                Vector3d({1.0, 0.0, 0.0}),
-                "Orekit_ConstantThrustManeuver_VVLH_inclined_1hr_run.csv"
-            }
+            {LocalOrbitalFrameFactory::VNC(gcrfSPtr_),
+             Vector3d({1.0, 0.0, 0.0}),
+             "Orekit_ConstantThrustManeuver_VNC_inclined_1hr_run.csv"},
+            {LocalOrbitalFrameFactory::QSW(gcrfSPtr_),
+             Vector3d({0.0, 1.0, 0.0}),
+             "Orekit_ConstantThrustManeuver_QSW_inclined_1hr_run.csv"},
+            {LocalOrbitalFrameFactory::TNW(gcrfSPtr_),
+             Vector3d({1.0, 0.0, 0.0}),
+             "Orekit_ConstantThrustManeuver_TNW_inclined_1hr_run.csv"},
+            {LocalOrbitalFrameFactory::LVLH(gcrfSPtr_),
+             Vector3d({1.0, 0.0, 0.0}),
+             "Orekit_ConstantThrustManeuver_LVLH_inclined_1hr_run.csv"},
+            {LocalOrbitalFrameFactory::VVLH(gcrfSPtr_),
+             Vector3d({1.0, 0.0, 0.0}),
+             "Orekit_ConstantThrustManeuver_VVLH_inclined_1hr_run.csv"}
         };
 
         // Loop through test cases
@@ -262,14 +252,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
             const String referenceDataFileName = std::get<2>(testCase);
 
             // Define constant thrust thruster dynamics
-            LocalOrbitalFrameDirection localOrbitalFrameDirection = LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
-            Shared<ConstantThrustThruster> thrusterDynamicsSPtr = std::make_shared<ConstantThrustThruster>(satelliteSystem_, localOrbitalFrameDirection);
+            LocalOrbitalFrameDirection localOrbitalFrameDirection =
+                LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
+            Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
+                std::make_shared<ConstantThrustThruster>(satelliteSystem_, localOrbitalFrameDirection);
 
             // Reference data setup
             const Table referenceData = Table::Load(
                 File::Path(Path::Parse(
-                    "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/" +
-                    referenceDataFileName
+                    "/app/test/OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/" + referenceDataFileName
                 )),
                 Table::Format::CSV,
                 true
@@ -293,9 +284,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
                 referenceVelocityArrayGCRF.add(
                     Vector3d(referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal())
                 );
-                referenceManeuverAccelerationArrayGCRF.add(
-                    Vector3d(referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal())
-                );
+                referenceManeuverAccelerationArrayGCRF.add(Vector3d(
+                    referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()
+                ));
                 referenceMassArray.add(referenceRow[22].accessReal());
             }
 
@@ -304,17 +295,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
             {
                 // Current state and instant setup from Orekit test case
                 VectorXd OrekitStateCoordinates(7);
-                OrekitStateCoordinates << referencePositionArrayGCRF[i], referenceVelocityArrayGCRF[i], referenceMassArray[i]; // Check size input Dynamics
+                OrekitStateCoordinates << referencePositionArrayGCRF[i], referenceVelocityArrayGCRF[i],
+                    referenceMassArray[i];  // Check size input Dynamics
 
-                const VectorXd maneuverContributionFromOrekitStateGCRF = thrusterDynamicsSPtr->computeContribution(instantArray[i], OrekitStateCoordinates, gcrfSPtr_);
+                const VectorXd maneuverContributionFromOrekitStateGCRF =
+                    thrusterDynamicsSPtr->computeContribution(instantArray[i], OrekitStateCoordinates, gcrfSPtr_);
 
                 const double referenceStepSize = 30.0;
 
-                const double maneuverComputationErrorAccelerationContributionXGCRF = std::abs(maneuverContributionFromOrekitStateGCRF[0] - referenceManeuverAccelerationArrayGCRF[i][0]);
-                const double maneuverComputationErrorAccelerationContributionYGCRF = std::abs(maneuverContributionFromOrekitStateGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1]);
-                const double maneuverComputationErrorAccelerationContributionZGCRF = std::abs(maneuverContributionFromOrekitStateGCRF[2] - referenceManeuverAccelerationArrayGCRF[i][2]);
-                const double maneuverComputationErrorMassContributionGCRF = std::abs(maneuverContributionFromOrekitStateGCRF[3] - ((referenceMassArray[i+1] - referenceMassArray[i]) / referenceStepSize));
-                const double maneuverComputationAccelerationContributionErrorGCRF = (maneuverContributionFromOrekitStateGCRF.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
+                const double maneuverComputationErrorAccelerationContributionXGCRF =
+                    std::abs(maneuverContributionFromOrekitStateGCRF[0] - referenceManeuverAccelerationArrayGCRF[i][0]);
+                const double maneuverComputationErrorAccelerationContributionYGCRF =
+                    std::abs(maneuverContributionFromOrekitStateGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1]);
+                const double maneuverComputationErrorAccelerationContributionZGCRF =
+                    std::abs(maneuverContributionFromOrekitStateGCRF[2] - referenceManeuverAccelerationArrayGCRF[i][2]);
+                const double maneuverComputationErrorMassContributionGCRF = std::abs(
+                    maneuverContributionFromOrekitStateGCRF[3] -
+                    ((referenceMassArray[i + 1] - referenceMassArray[i]) / referenceStepSize)
+                );
+                const double maneuverComputationAccelerationContributionErrorGCRF =
+                    (maneuverContributionFromOrekitStateGCRF.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i])
+                        .norm();
 
                 ASSERT_GT(5e-10, maneuverComputationErrorAccelerationContributionXGCRF);
                 ASSERT_GT(5e-10, maneuverComputationErrorAccelerationContributionYGCRF);
@@ -326,11 +327,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
                 // std::cout << "**************************************" << std::endl;
                 // std::cout.setf(std::ios::scientific,std::ios::floatfield);
                 // std::cout << "Instant is: " << instantArray[i] << std::endl;
-                // std::cout << "Maneuver contribution computation X GCRF error is: " << maneuverComputationErrorAccelerationContributionXGCRF << "m/s^2" << std::endl;
-                // std::cout << "Maneuver contribution computation Y GCRF error is: " << maneuverComputationErrorAccelerationContributionYGCRF << "m/s^2" << std::endl;
-                // std::cout << "Maneuver contribution computation Z GCRF error is: " << maneuverComputationErrorAccelerationContributionZGCRF << "m/s^2" << std::endl;
-                // std::cout << "Maneuver contribution computation Mass error is: " << maneuverComputationErrorMassContributionGCRF << "kg" << std::endl;
-                // std::cout << "Maneuver contribution computation Acceleration GCRF Norm error is: " << maneuverComputationAccelerationContributionErrorGCRF << "m/s^2" << std::endl;
+                // std::cout << "Maneuver contribution computation X GCRF error is: " <<
+                // maneuverComputationErrorAccelerationContributionXGCRF << "m/s^2" << std::endl; std::cout << "Maneuver
+                // contribution computation Y GCRF error is: " << maneuverComputationErrorAccelerationContributionYGCRF
+                // << "m/s^2" << std::endl; std::cout << "Maneuver contribution computation Z GCRF error is: " <<
+                // maneuverComputationErrorAccelerationContributionZGCRF << "m/s^2" << std::endl; std::cout << "Maneuver
+                // contribution computation Mass error is: " << maneuverComputationErrorMassContributionGCRF << "kg" <<
+                // std::endl; std::cout << "Maneuver contribution computation Acceleration GCRF Norm error is: " <<
+                // maneuverComputationAccelerationContributionErrorGCRF << "m/s^2" << std::endl;
                 // std::cout.setf(std::ios::fixed,std::ios::floatfield);
                 // std::cout << "**************************************" << std::endl;
             }

@@ -100,9 +100,8 @@ VectorXd ConstantThrustThruster::computeContribution(
     // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to Requested Frame
     Shared<const Frame> frameSPtr = this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
         anInstant, positionCoordinates, velocityCoordinates
-    ); // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
+    );  // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
     Quaternion q_requestedFrame_LOF = frameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
-
 
     // TBI: Need to represent propellant mass only here
     if (x[6] <= 0.0)
@@ -113,9 +112,8 @@ VectorXd ConstantThrustThruster::computeContribution(
     const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
     const PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem();
 
-    const Vector3d acceleration_LOF =
-        propulsionSystem.getAcceleration(Mass::Kilograms(x[6])).getValue() *
-        this->localOrbitalFrameDirection_.getValue();
+    const Vector3d acceleration_LOF = propulsionSystem.getAcceleration(Mass::Kilograms(x[6])).getValue() *
+                                      this->localOrbitalFrameDirection_.getValue();
 
     const Vector3d acceleration_requestedFrame = q_requestedFrame_LOF.rotateVector(acceleration_LOF);
 

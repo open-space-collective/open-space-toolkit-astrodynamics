@@ -42,7 +42,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -135,7 +134,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
         };
 
-        this->satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);;
+        this->satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
+        ;
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
 
@@ -1927,9 +1927,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 }
 
 // TBI: Specific class for parameterized tests on thruster dynamics, could inherit from base fixture for common inputs
-// error: 'testing::Test' is an ambiguous base of 'OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Test'
+// error: 'testing::Test' is an ambiguous base of
+// 'OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Test'
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
-    : public ::testing::TestWithParam<Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
+    : public ::testing::TestWithParam<
+          Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
 {
    protected:
     void SetUp() override
@@ -1983,7 +1985,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     Propagator defaultPropagator_ = Propagator::Undefined();
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster, PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster)
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster,
+    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster
+)
 {
     // Improvements:
     // percentage diff to add
@@ -2002,11 +2007,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     const Real specificImpulseReal = std::get<5>(parameters);
 
     // Reference data setup
-    const Table referenceData = Table::Load(
-        File::Path(Path::Parse(referenceDataFileName)),
-        Table::Format::CSV,
-        true
-    );
+    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV, true);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -2022,9 +2023,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
 
     for (const auto& referenceRow : referenceData)
     {
-        instantArray.add(Instant::DateTime(
-            DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
-        ));
+        instantArray.add(
+            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC)
+        );
 
         referencePositionArrayGCRF.add(
             Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
@@ -2053,7 +2054,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     }
 
     // Local Orbital Frame Direction
-    const LocalOrbitalFrameDirection thrustDirection = LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
+    const LocalOrbitalFrameDirection thrustDirection =
+        LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
     const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
@@ -2068,7 +2070,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
 
     VectorXd initialCoordinates(7);
 
-    initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], initialPropellantMassInKilograms + satelliteDryMassReal ;
+    initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
+        initialPropellantMassInKilograms + satelliteDryMassReal;
 
     const State initialState = {
         instantArray[0],
@@ -2084,9 +2087,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     };
 
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0},
-        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     SatelliteSystem satelliteSystem = {
@@ -2111,13 +2112,12 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrustThruster> thrusterDynamicsSPtr = std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
+        std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<PositionDerivative>(),
-        centralBodyGravitySPtr,
-        thrusterDynamicsSPtr
+        std::make_shared<PositionDerivative>(), centralBodyGravitySPtr, thrusterDynamicsSPtr
     };
 
     // Setup Propagator model and orbit
@@ -2137,35 +2137,40 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
         VectorXd OSTkStateCoordinatesGCRF(7);
         OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass;
 
-        const VectorXd maneuverContributionGCRF = thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
-        const VectorXd centralBodyGravityContributionGCRF = centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
-        const VectorXd totalAccelerationGCRF = maneuverContributionGCRF.segment(0, 3) + centralBodyGravityContributionGCRF;
+        const VectorXd maneuverContributionGCRF =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
+        const VectorXd centralBodyGravityContributionGCRF =
+            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
+        const VectorXd totalAccelerationGCRF =
+            maneuverContributionGCRF.segment(0, 3) + centralBodyGravityContributionGCRF;
 
-        const Vector3d OrekitCentralBodyGravityContributionGCRF = referenceTotalAccelerationArrayGCRF[i] - referenceManeuverAccelerationArrayGCRF[i];
+        const Vector3d OrekitCentralBodyGravityContributionGCRF =
+            referenceTotalAccelerationArrayGCRF[i] - referenceManeuverAccelerationArrayGCRF[i];
 
         // LOF Compare
-        Shared<const Frame> lofSPtr = localOrbitalFrameFactory->generateFrame(instantArray[i], positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates());
+        Shared<const Frame> lofSPtr = localOrbitalFrameFactory->generateFrame(
+            instantArray[i], positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates()
+        );
         State lofState = propagatedStateArray[i].inFrame(lofSPtr);
 
-        const VectorXd maneuverContributionLOF = thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, lofSPtr);
+        const VectorXd maneuverContributionLOF =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, lofSPtr);
 
         const Position positionLOF = lofState.getPosition();
         const Velocity velocityLOF = lofState.getVelocity();
 
-        const double positionErrorGCRF =
-            (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-        const double velocityErrorGCRF =
-            (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+        const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+        const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
         const double maneuverAccelerationContributionErrorGCRF =
             (maneuverContributionGCRF.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
-        const double positionErrorLOF =
-            (positionLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
-        const double velocityErrorLOF =
-            (velocityLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double positionErrorLOF = (positionLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double velocityErrorLOF = (velocityLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
         const double maneuverAccelerationContributionErrorLOF =
             (maneuverContributionLOF.segment(0, 3) - referenceManeuverAccelerationArrayLOF[i]).norm();
-        const double totalAccelerationErrorGCRF = (totalAccelerationGCRF - referenceTotalAccelerationArrayGCRF[i]).norm();
-        const double centralBodyGravityContributionErrorGCRF = (OrekitCentralBodyGravityContributionGCRF - centralBodyGravityContributionGCRF).norm();
+        const double totalAccelerationErrorGCRF =
+            (totalAccelerationGCRF - referenceTotalAccelerationArrayGCRF[i]).norm();
+        const double centralBodyGravityContributionErrorGCRF =
+            (OrekitCentralBodyGravityContributionGCRF - centralBodyGravityContributionGCRF).norm();
         const double massError = std::abs(mass - referenceMassArray[i]);
 
         ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
@@ -2206,18 +2211,22 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
         // std::cout << "Mass OSTk is: " << mass << "kg" << std::endl;
         // std::cout << "Mass Orekit is: " << referenceMassArray[i] << "kg" << std::endl;
         // std::cout << "Mass error is: " << massError << "kg" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] - referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] - referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] - referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF is: " << maneuverAccelerationContributionErrorGCRF << "m/s^2" << std::endl;  // Do it in percentage
-        // std::cout << "Maneuver acceleration error LOF is: " << maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl;
-        // std::cout << "Total acceleration (central body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl;
-        // std::cout << "Central body acceleration contribution error GCRF is: " << centralBodyGravityContributionErrorGCRF << "m/s^2" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
+        // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
+        // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2"
+        // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
+        // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2" <<
+        // std::endl; std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] -
+        // referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2" <<
+        // std::endl; std::cout << "Maneuver acceleration error GCRF is: " << maneuverAccelerationContributionErrorGCRF
+        // << "m/s^2" << std::endl;  // Do it in percentage std::cout << "Maneuver acceleration error LOF is: " <<
+        // maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl; std::cout << "Total acceleration (central
+        // body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl; std::cout <<
+        // "Central body acceleration contribution error GCRF is: " << centralBodyGravityContributionErrorGCRF <<
+        // "m/s^2" << std::endl; std::cout.setf(std::ios::fixed,std::ios::floatfield); std::cout <<
+        // "**************************************" << std::endl;
     }
 }
 
@@ -2228,191 +2237,230 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         // Test Case 0
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 1: Start date in 2021
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2021-05-13T12:34:13.345_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2021-05-13T12:34:13.345_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 2: QSW LOF
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_1.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::QSW(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({0.0, 1.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_QSW_0.0_1.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::QSW(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({0.0, 1.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 3: TNW LOF
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_TNW_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::TNW(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_TNW_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::TNW(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 4: LVLH LOF
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_"
+            "0.0_30.0.csv",                                 // Scenario validation data file path
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            100.0,                                          // Satellite dry mass [kg]
+            0.1,                                            // Thrust [N]
+            1500.0,                                         // Specific impulse [s]
+            7e-4,                                           // Position error GCRF tolerance [m]
+            2e-6,                                           // Velocity error GCRF tolerance [m/s]
+            1e-9                                            // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 5: VVLH LOF
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VVLH_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VVLH(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VVLH_1.0_0.0_"
+            "0.0_30.0.csv",                                 // Scenario validation data file path
+            LocalOrbitalFrameFactory::VVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            100.0,                                          // Satellite dry mass [kg]
+            0.1,                                            // Thrust [N]
+            1500.0,                                         // Specific impulse [s]
+            7e-4,                                           // Position error GCRF tolerance [m]
+            2e-6,                                           // Velocity error GCRF tolerance [m/s]
+            1e-9                                            // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 6: Increase spacecraft mass to 1000kg
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            1000.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            1000.0,                                        // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 7: Increase maneuver duration to 4h
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            1e-2, // Position error GCRF tolerance [m]
-            2e-5, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            1e-2,                                          // Position error GCRF tolerance [m]
+            2e-5,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 8: Increase spacecraft mass to 1000kg and LVLH
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_LVLH_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            1000.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_1015.0_0.1_1500.0_3600.0_LVLH_1.0_0."
+            "0_0.0_30.0.csv",                               // Scenario validation data file path
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            1000.0,                                         // Satellite dry mass [kg]
+            0.1,                                            // Thrust [N]
+            1500.0,                                         // Specific impulse [s]
+            7e-4,                                           // Position error GCRF tolerance [m]
+            2e-6,                                           // Velocity error GCRF tolerance [m/s]
+            1e-9                                            // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 9: Increase maneuver duration to 4h and LVLH
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_LVLH_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            1e-2, // Position error GCRF tolerance [m]
-            2e-5, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_14400.0_LVLH_1.0_0."
+            "0_0.0_30.0.csv",                               // Scenario validation data file path
+            LocalOrbitalFrameFactory::LVLH(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                      // Thrust direction in Local Orbital Frame
+            100.0,                                          // Satellite dry mass [kg]
+            0.1,                                            // Thrust [N]
+            1500.0,                                         // Specific impulse [s]
+            1e-2,                                           // Position error GCRF tolerance [m]
+            2e-5,                                           // Velocity error GCRF tolerance [m/s]
+            1e-9                                            // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 10: Increase thrust to 10N
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_10.0_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            10.0, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_10.0_1500.0_3600.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            10.0,                                          // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 11: Equatorial orbit
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0."
+            "0_30.0.csv",                                  // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 12: Thrust Vector on +Z and Equatorial
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_0.0_0.0_1.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({0.0, 0.0, 1.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7000000.0_0.0_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_0.0_0.0_1."
+            "0_30.0.csv",                                  // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({0.0, 0.0, 1.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         ),
         // Test Case 13: Higher altitude orbit (~1000km)
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_7500000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            7e-4, // Position error GCRF tolerance [m]
-            2e-6, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_7500000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_"
+            "0.0_30.0.csv",                                // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            7e-4,                                          // Position error GCRF tolerance [m]
+            2e-6,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         )
     )
 );
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential
-    : public ::testing::TestWithParam<Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real, Real, Real>>
+    : public ::testing::TestWithParam<Tuple<
+          String,
+          Shared<const LocalOrbitalFrameFactory>,
+          Vector3d,
+          Real,
+          Real,
+          Real,
+          Real,
+          Real,
+          Real,
+          Real,
+          Real>>
 {
    protected:
     void SetUp() override
@@ -2466,7 +2514,10 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     Propagator defaultPropagator_ = Propagator::Undefined();
 };
 
-TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential, PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Drag_Exponential)
+TEST_P(
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential,
+    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Drag_Exponential
+)
 {
     // Setup environment
 
@@ -2483,11 +2534,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     const Real dragCoefficientReal = std::get<7>(parameters);
 
     // Reference data setup
-    const Table referenceData = Table::Load(
-        File::Path(Path::Parse(referenceDataFileName)),
-        Table::Format::CSV,
-        true
-    );
+    const Table referenceData = Table::Load(File::Path(Path::Parse(referenceDataFileName)), Table::Format::CSV, true);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -2503,9 +2550,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
 
     for (const auto& referenceRow : referenceData)
     {
-        instantArray.add(Instant::DateTime(
-            DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC
-        ));
+        instantArray.add(
+            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString(), DateTime::Format::ISO8601), Scale::UTC)
+        );
 
         referencePositionArrayGCRF.add(
             Vector3d(referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal())
@@ -2534,7 +2581,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     }
 
     // Local Orbital Frame Direction
-    const LocalOrbitalFrameDirection thrustDirection = LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
+    const LocalOrbitalFrameDirection thrustDirection =
+        LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
 
     // Coordinates Broker (scenario-independent)
     const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
@@ -2549,7 +2597,8 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
 
     VectorXd initialCoordinates(7);
 
-    initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], initialPropellantMassInKilograms + satelliteDryMassReal ;
+    initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
+        initialPropellantMassInKilograms + satelliteDryMassReal;
 
     const State initialState = {
         instantArray[0],
@@ -2565,9 +2614,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     };
 
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0},
-        {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     SatelliteSystem satelliteSystem = {
@@ -2592,15 +2639,13 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrustThruster> thrusterDynamicsSPtr = std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
+        std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
     Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem);
 
     const Array<Shared<Dynamics>> dynamics = {
-        std::make_shared<PositionDerivative>(),
-        centralBodyGravitySPtr,
-        atmosphericDragSPtr,
-        thrusterDynamicsSPtr
+        std::make_shared<PositionDerivative>(), centralBodyGravitySPtr, atmosphericDragSPtr, thrusterDynamicsSPtr
     };
 
     // Setup Propagator model and orbit
@@ -2620,31 +2665,36 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
         VectorXd OSTkStateCoordinatesGCRF(7);
         OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass;
 
-        const VectorXd maneuverContributionGCRF = thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
-        const VectorXd centralBodyGravityContributionGCRF = centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
-        const VectorXd dragContributionGCRF = atmosphericDragSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF.segment(0, 6), gcrfSPtr_); // Remove mass from state for drag
-        const VectorXd totalAccelerationGCRF = maneuverContributionGCRF.segment(0, 3) + centralBodyGravityContributionGCRF;
+        const VectorXd maneuverContributionGCRF =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
+        const VectorXd centralBodyGravityContributionGCRF =
+            centralBodyGravitySPtr->computeContribution(instantArray[i], positionGCRF.accessCoordinates(), gcrfSPtr_);
+        const VectorXd dragContributionGCRF = atmosphericDragSPtr->computeContribution(
+            instantArray[i], OSTkStateCoordinatesGCRF.segment(0, 6), gcrfSPtr_
+        );  // Remove mass from state for drag
+        const VectorXd totalAccelerationGCRF =
+            maneuverContributionGCRF.segment(0, 3) + centralBodyGravityContributionGCRF;
 
         // LOF Compare
-        Shared<const Frame> lofSPtr = localOrbitalFrameFactory->generateFrame(instantArray[i], positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates());
+        Shared<const Frame> lofSPtr = localOrbitalFrameFactory->generateFrame(
+            instantArray[i], positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates()
+        );
         State lofState = propagatedStateArray[i].inFrame(lofSPtr);
 
-        const VectorXd maneuverContributionLOF = thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, lofSPtr);
+        const VectorXd maneuverContributionLOF =
+            thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, lofSPtr);
 
         const Position positionLOF = lofState.getPosition();
         const Velocity velocityLOF = lofState.getVelocity();
 
-        const double positionErrorGCRF =
-            (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
-        const double velocityErrorGCRF =
-            (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
+        const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
+        const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
         const double maneuverAccelerationContributionErrorGCRF =
             (maneuverContributionGCRF.segment(0, 3) - referenceManeuverAccelerationArrayGCRF[i]).norm();
-        const double positionErrorLOF =
-            (positionLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
-        const double velocityErrorLOF =
-            (velocityLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
-        const double totalAccelerationErrorGCRF = (totalAccelerationGCRF - referenceTotalAccelerationArrayGCRF[i]).norm();
+        const double positionErrorLOF = (positionLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double velocityErrorLOF = (velocityLOF.accessCoordinates() - referencePositionArrayLOF[i]).norm();
+        const double totalAccelerationErrorGCRF =
+            (totalAccelerationGCRF - referenceTotalAccelerationArrayGCRF[i]).norm();
         const double massError = std::abs(mass - referenceMassArray[i]);
 
         ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
@@ -2683,18 +2733,22 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruste
         // std::cout << "Mass OSTk is: " << mass << "kg" << std::endl;
         // std::cout << "Mass Orekit is: " << referenceMassArray[i] << "kg" << std::endl;
         // std::cout << "Mass error is: " << massError << "kg" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] - referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] - referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] - referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2" << std::endl;
-        // std::cout << "Maneuver acceleration error GCRF is: " << maneuverAccelerationContributionErrorGCRF << "m/s^2" << std::endl;  // Do it in percentage
-        // std::cout << "Maneuver acceleration error LOF is: " << maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl;
-        // std::cout << "Total acceleration (central body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl;
-        // std::cout << "Central body acceleration contribution error GCRF is: " << centralBodyGravityContributionErrorGCRF << "m/s^2" << std::endl;
-        // std::cout.setf(std::ios::fixed,std::ios::floatfield);
-        // std::cout << "**************************************" << std::endl;
+        // std::cout << "Maneuver acceleration error GCRF X is: " << maneuverContributionGCRF[0] -
+        // referenceManeuverAccelerationArrayGCRF[i][0] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error GCRF Y is: " << maneuverContributionGCRF[1] - referenceManeuverAccelerationArrayGCRF[i][1] << "m/s^2"
+        // << std::endl; std::cout << "Maneuver acceleration error GCRF Z is: " << maneuverContributionGCRF[2] -
+        // referenceManeuverAccelerationArrayGCRF[i][2] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error LOF X is: " << maneuverContributionLOF[0] - referenceManeuverAccelerationArrayLOF[i][0] << "m/s^2" <<
+        // std::endl; std::cout << "Maneuver acceleration error LOF Y is: " << maneuverContributionLOF[1] -
+        // referenceManeuverAccelerationArrayLOF[i][1] << "m/s^2" << std::endl; std::cout << "Maneuver acceleration
+        // error LOF Z is: " << maneuverContributionLOF[2] - referenceManeuverAccelerationArrayLOF[i][2] << "m/s^2" <<
+        // std::endl; std::cout << "Maneuver acceleration error GCRF is: " << maneuverAccelerationContributionErrorGCRF
+        // << "m/s^2" << std::endl;  // Do it in percentage std::cout << "Maneuver acceleration error LOF is: " <<
+        // maneuverAccelerationContributionErrorLOF << "m/s^2" << std::endl; std::cout << "Total acceleration (central
+        // body + maneuver) error GCRF is: " << totalAccelerationErrorGCRF << "m/s^2" << std::endl; std::cout <<
+        // "Central body acceleration contribution error GCRF is: " << centralBodyGravityContributionErrorGCRF <<
+        // "m/s^2" << std::endl; std::cout.setf(std::ios::fixed,std::ios::floatfield); std::cout <<
+        // "**************************************" << std::endl;
     }
 }
 
@@ -2705,32 +2759,29 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         // Test Case 0
         std::make_tuple(
-            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1.csv",  // Scenario validation data file path
-            LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-            Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-            100.0, // Satellite dry mass [kg]
-            0.1, // Thrust [N]
-            1500.0, // Specific impulse [s]
-            1.0, // Cross section [m^2]
-            2.1, // Drag coefficient
-            2e-3, // Position error GCRF tolerance [m]
-            3e-5, // Velocity error GCRF tolerance [m/s]
-            1e-9 // Mass error tolerance [kg]
+            "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/"
+            "Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_"
+            "0.0_0.0_30.0_EXPONENTIAL_1.0_2.1.csv",        // Scenario validation data file path
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),  // Local Orbital Frame Factory to express thrust direction
+            Vector3d({1.0, 0.0, 0.0}),                     // Thrust direction in Local Orbital Frame
+            100.0,                                         // Satellite dry mass [kg]
+            0.1,                                           // Thrust [N]
+            1500.0,                                        // Specific impulse [s]
+            1.0,                                           // Cross section [m^2]
+            2.1,                                           // Drag coefficient
+            2e-3,                                          // Position error GCRF tolerance [m]
+            3e-5,                                          // Velocity error GCRF tolerance [m/s]
+            1e-9                                           // Mass error tolerance [kg]
             // Acceleration errors
         )
         // // Test Case 1:
         // std::make_tuple(
-        //     "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1.csv",  // Scenario validation data file path
-        //     LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital Frame Factory to express thrust direction
-        //     Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital Frame
-        //     100.0, // Satellite dry mass [kg]
-        //     0.1, // Thrust [N]
-        //     1500.0, // Specific impulse [s]
-        //     1.0, // Cross section [m^2]
-        //     2.1, // Drag coefficient
-        //     2e-3, // Position error GCRF tolerance [m]
-        //     3e-5, // Velocity error GCRF tolerance [m/s]
-        //     1e-9 // Mass error tolerance [kg]
+        //     "/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated/Orekit_ConstantThrustThruster_Drag_7000000.0_98.1_2023-01-01T00:00:00.000_115.0_0.1_1500.0_3600.0_VNC_1.0_0.0_0.0_30.0_EXPONENTIAL_1.0_2.1.csv",
+        //     // Scenario validation data file path LocalOrbitalFrameFactory::VNC(Frame::GCRF()), // Local Orbital
+        //     Frame Factory to express thrust direction Vector3d({1.0, 0.0, 0.0}), // Thrust direction in Local Orbital
+        //     Frame 100.0, // Satellite dry mass [kg] 0.1, // Thrust [N] 1500.0, // Specific impulse [s] 1.0, // Cross
+        //     section [m^2] 2.1, // Drag coefficient 2e-3, // Position error GCRF tolerance [m] 3e-5, // Velocity error
+        //     GCRF tolerance [m/s] 1e-9 // Mass error tolerance [kg]
         //     // Acceleration errors
         // )
     )
