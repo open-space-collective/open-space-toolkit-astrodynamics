@@ -39,8 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_LogicalCondition(pybi
             .value("And", LogicalCondition::Type::And)
             .value("Or", LogicalCondition::Type::Or)
 
-            .export_values()
-
             ;
     }
 }

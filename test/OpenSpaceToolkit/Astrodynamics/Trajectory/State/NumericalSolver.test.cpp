@@ -39,17 +39,17 @@ using ostk::astro::trajectory::State;
 
 // Simple duration based condition
 
-struct DurationCondition : public RealCondition
+struct InstantCondition : public RealCondition
 {
-    DurationCondition(const Duration &aDuration, const RealCondition::Criterion &aCriterion)
+    InstantCondition(const Instant &anInstant, const RealCondition::Criterion &aCriterion)
         : RealCondition(
               "test",
               aCriterion,
-              []([[maybe_unused]] const VectorXd &aStateVector, const Real &aTime) -> Real
+              [](const State &aState) -> Real
               {
-                  return aTime;
+                  return (aState.accessInstant() - Instant::J2000()).inSeconds();
               },
-              aDuration.inSeconds()
+              (anInstant - Instant::J2000()).inSeconds()
           )
     {
     }
@@ -63,9 +63,9 @@ struct XCrossingCondition : public RealCondition
         : RealCondition(
               "test",
               RealCondition::Criterion::AnyCrossing,
-              [](const VectorXd &aStateVector, [[maybe_unused]] const double &aTime) -> Real
+              [](const State &aState) -> Real
               {
-                  return aStateVector[0];
+                  return aState.accessCoordinates()[0];
               },
               aTarget
           )
@@ -249,7 +249,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 state,
                 defaultStartInstant_,
                 systemOfEquations_,
-                DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
+                InstantCondition(state.accessInstant(), RealCondition::Criterion::AnyCrossing)
             ),
             ostk::core::error::RuntimeError
         );
@@ -261,7 +261,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             state.accessInstant(),
             systemOfEquations_,
-            DurationCondition(0.0, RealCondition::Criterion::AnyCrossing)
+            InstantCondition(state.accessInstant() + Duration::Seconds(60.0), RealCondition::Criterion::AnyCrossing)
         );
 
         EXPECT_EQ(state, solution.state);
@@ -276,7 +276,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            DurationCondition(-1.0, RealCondition::Criterion::StrictlyPositive)
+            InstantCondition(state.accessInstant() - Duration::Seconds(1.0), RealCondition::Criterion::StrictlyPositive)
         );
 
         EXPECT_EQ(conditionSolution.state, state);
@@ -300,10 +300,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
             {
                 const NumericalSolver::ConditionSolution conditionSolution = defaultRKD5_.integrateTime(
-                    state,
-                    endInstant,
-                    systemOfEquations_,
-                    DurationCondition(((endInstant - defaultStartInstant_) + duration / 2.0), criterion)
+                    state, endInstant, systemOfEquations_, InstantCondition((endInstant + duration / 2.0), criterion)
                 );
                 const State finalState = conditionSolution.state;
 
@@ -313,7 +310,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
             }
 
-            const DurationCondition condition = DurationCondition(duration / 2.0, criterion);
+            const Instant targetInstant = defaultStartInstant_ + duration / 2.0;
+
+            const InstantCondition condition = InstantCondition(targetInstant, criterion);
 
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
@@ -323,7 +322,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_NEAR(propagatedTime, condition.getTarget(), 1e-6);
+            EXPECT_LT((conditionSolution.state.accessInstant() - targetInstant).inSeconds(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
 

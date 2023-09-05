@@ -14,6 +14,7 @@ using ostk::math::obj::VectorXd;
 
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::trajectory::State;
 
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind11::module& aModule)
 {
@@ -23,11 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
         realCondition
 
             .def(
-                init<
-                    const String&,
-                    const RealCondition::Criterion&,
-                    std::function<Real(const VectorXd&, const Real&)>,
-                    const Real&>(),
+                init<const String&, const RealCondition::Criterion&, std::function<Real(const State&)>, const Real&>(),
                 arg("name"),
                 arg("criterion"),
                 arg("evaluator"),
@@ -41,16 +38,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
             .def("get_criterion", &RealCondition::getCriterion)
             .def("get_evaluator", &RealCondition::getEvaluator)
 
-            .def("evaluate", &RealCondition::evaluate, arg("state_vector"), arg("time"))
+            .def("evaluate", &RealCondition::evaluate, arg("state"))
 
-            .def(
-                "is_satisfied",
-                &RealCondition::isSatisfied,
-                arg("current_state_vector"),
-                arg("current_time"),
-                arg("previous_state_vector"),
-                arg("previous_time")
-            )
+            .def("is_satisfied", &RealCondition::isSatisfied, arg("current_state"), arg("previous_state"))
 
             .def_static("string_from_criterion", &RealCondition::StringFromCriterion, arg("criterion"))
 

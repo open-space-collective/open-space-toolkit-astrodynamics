@@ -3,34 +3,57 @@
 #include <gmock/gmock.h>
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
+#include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
+#include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
 #include <Global.test.hpp>
 
+using ostk::core::ctnr::Array;
 using ostk::core::types::Real;
+using ostk::core::types::Shared;
 using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::time::Instant;
+using ostk::physics::coord::Frame;
+
 using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::testing::Test
 {
    protected:
     const RealCondition::Criterion defaultCriterion_ = RealCondition::Criterion::StrictlyPositive;
     const String defaultName_ = "Test Real Condition";
-    const std::function<Real(const VectorXd&, const Real&)> defaultEvaluator_ =
-        []([[maybe_unused]] const VectorXd& aStateVector, const Real& aTime) -> Real
+    const std::function<Real(const State&)> defaultEvaluator_ = [](const State& aState) -> Real
     {
-        return aTime;
+        return aState.accessCoordinates()[0];
     };
     const Real defaultTarget_ = 1.0;
     const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};
-    const VectorXd defaultStateVector_;
+    const Instant defaultInstant_ = Instant::J2000();
+    const Shared<const Frame> defaultFrame_ = Frame::GCRF();
+    const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
+
+    const State generateState(const Real& coordinate)
+    {
+        VectorXd coordinates;
+        coordinates.resize(1);
+        coordinates << coordinate;
+        return State(defaultInstant_, coordinates, defaultFrame_, defaultCoordinatesBroker_);
+    }
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Constructor)
@@ -84,10 +107,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, Getters)
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, evaluate)
 {
     {
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, -2.0), -3.0);
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 0.0), -1.0);
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 1.0), 0.0);
-        EXPECT_EQ(defaultCondition_.evaluate(defaultStateVector_, 2.0), 1.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(-2.0)), -3.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(0.0)), -1.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(1.0)), 0.0);
+        EXPECT_EQ(defaultCondition_.evaluate(generateState(2.0)), 1.0);
     }
 }
 
@@ -102,10 +125,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
             defaultTarget_,
         };
 
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 2.0, defaultStateVector_, 0.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, 2.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, -1.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 3.0, defaultStateVector_, 2.0));
+        EXPECT_TRUE(condition.isSatisfied(generateState(2.0), generateState(0.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
     }
 
     // Negative Crossing
@@ -117,10 +140,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
             defaultTarget_,
         };
 
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 2.0, defaultStateVector_, 0.0));
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, 2.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, -1.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 3.0, defaultStateVector_, 2.0));
+        EXPECT_FALSE(condition.isSatisfied(generateState(2.0), generateState(0.0)));
+        EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
     }
 
     // Any Crossing
@@ -132,10 +155,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
             defaultTarget_,
         };
 
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 2.0, defaultStateVector_, 0.0));
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, 2.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, -1.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 3.0, defaultStateVector_, 2.0));
+        EXPECT_TRUE(condition.isSatisfied(generateState(2.0), generateState(0.0)));
+        EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
     }
 
     // Strictly Positive (previous value doesn't matter)
@@ -147,10 +170,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
             defaultTarget_,
         };
 
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 2.0, defaultStateVector_, 0.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, 2.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, -1.0));
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 3.0, defaultStateVector_, 2.0));
+        EXPECT_TRUE(condition.isSatisfied(generateState(2.0), generateState(0.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
+        EXPECT_TRUE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
     }
 
     // Strictly Negative (previous value doesn't matter)
@@ -162,10 +185,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition, isSatisfied)
             defaultTarget_,
         };
 
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 2.0, defaultStateVector_, 0.0));
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, 2.0));
-        EXPECT_TRUE(condition.isSatisfied(defaultStateVector_, 0.0, defaultStateVector_, -1.0));
-        EXPECT_FALSE(condition.isSatisfied(defaultStateVector_, 3.0, defaultStateVector_, 2.0));
+        EXPECT_FALSE(condition.isSatisfied(generateState(2.0), generateState(0.0)));
+        EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(2.0)));
+        EXPECT_TRUE(condition.isSatisfied(generateState(0.0), generateState(-1.0)));
+        EXPECT_FALSE(condition.isSatisfied(generateState(3.0), generateState(2.0)));
     }
 }
 

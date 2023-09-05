@@ -15,7 +15,7 @@ namespace eventcondition
 RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+    const std::function<Real(const State&)> anEvaluator,
     const Real& aTarget
 )
     : EventCondition(aName),
@@ -33,7 +33,7 @@ RealCondition::Criterion RealCondition::getCriterion() const
     return criterion_;
 }
 
-std::function<Real(const VectorXd&, const Real&)> RealCondition::getEvaluator() const
+std::function<Real(const State&)> RealCondition::getEvaluator() const
 {
     return evaluator_;
 }
@@ -55,19 +55,14 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Real RealCondition::evaluate(const VectorXd& aStateVector, const Real& aTime) const
+Real RealCondition::evaluate(const State& aState) const
 {
-    return this->evaluator_(aStateVector, aTime) - target_;
+    return this->evaluator_(aState) - target_;
 }
 
-bool RealCondition::isSatisfied(
-    const VectorXd& currentStateVector,
-    const Real& currentTime,
-    const VectorXd& previousStateVector,
-    const Real& previousTime
-) const
+bool RealCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluate(currentStateVector, currentTime), evaluate(previousStateVector, previousTime));
+    return comparator_(evaluate(currentState), evaluate(previousState));
 }
 
 String RealCondition::StringFromCriterion(const Criterion& aCriterion)

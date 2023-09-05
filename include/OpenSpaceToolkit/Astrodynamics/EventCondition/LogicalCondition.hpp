@@ -4,12 +4,10 @@
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_LogicalCondition__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
-#include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -19,12 +17,10 @@ namespace eventcondition
 {
 
 using ostk::core::ctnr::Array;
-using ostk::core::types::Real;
 using ostk::core::types::Shared;
 
-using ostk::math::obj::VectorXd;
-
 using ostk::astro::EventCondition;
+using ostk::astro::trajectory::State;
 
 /// @brief                      A logical connective event condition.
 ///
@@ -33,15 +29,6 @@ using ostk::astro::EventCondition;
 class LogicalCondition : public EventCondition
 {
    public:
-    typedef std::function<bool(
-        const Array<Shared<EventCondition>>&,
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    )>
-        evaluationSignature;
-
     enum class Type
     {
         And,
@@ -82,14 +69,13 @@ class LogicalCondition : public EventCondition
 
     Array<Shared<EventCondition>> getEventConditions() const;
 
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
    private:
+    typedef std::function<
+        bool(const Array<Shared<EventCondition>>&, const State& currentState, const State& previousState)>
+        evaluationSignature;
+
     Type type_;
     Array<Shared<EventCondition>> eventConditions_;
     evaluationSignature evaluator_;

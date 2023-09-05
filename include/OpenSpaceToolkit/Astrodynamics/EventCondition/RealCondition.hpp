@@ -6,8 +6,6 @@
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
-
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 
 namespace ostk
@@ -20,9 +18,7 @@ namespace eventcondition
 using ostk::core::types::Real;
 using ostk::core::types::String;
 
-using ostk::math::obj::VectorXd;
-
-using ostk::astro::EventCondition;
+using ostk::astro::trajectory::State;
 
 /// @brief                      An Event Condition that can evaluate each state to a real number.
 
@@ -47,13 +43,13 @@ class RealCondition : public EventCondition
     /// @param                  [in] aName A string representing the name of the Real Event Condition
     /// @param                  [in] aCriterion An enum indicating the criterion used to determine if the Real Event
     /// Condition is met
-    /// @param                  [in] anEvaluator A function evaluating a state and a time
+    /// @param                  [in] anEvaluator A function evaluating a state
     /// @param                  [in] aTarget A target value associated with the Real Event Condition
 
     RealCondition(
         const String& aName,
         const Criterion& aCriterion,
-        const std::function<Real(const VectorXd&, const Real&)> anEvaluator,
+        const std::function<Real(const State&)> anEvaluator,
         const Real& aTarget = 0.0
     );
 
@@ -71,7 +67,7 @@ class RealCondition : public EventCondition
     ///
     /// @return                 Evaluator
 
-    std::function<Real(const VectorXd&, const Real&)> getEvaluator() const;
+    std::function<Real(const State&)> getEvaluator() const;
 
     /// @brief                  Get the target of the Event Condition
     ///
@@ -89,29 +85,13 @@ class RealCondition : public EventCondition
 
     /// @brief                  Evaluate the Event Condition
     ///
-    /// @param                  [in] aStateVector The current state vector
-    /// @param                  [in] aTime The current time
+    /// @param                  [in] aState The current state
     ///
     /// @return                 Real number representing the evaluation result of the Event Condition
 
-    Real evaluate(const VectorXd& aStateVector, const Real& aTime) const;
+    Real evaluate(const State& state) const;
 
-    /// @brief                  Check if the Event Condition is satisfied based on current state/time and previous
-    /// state/time
-    ///
-    /// @param                  [in] currentStateVector The current state vector
-    /// @param                  [in] currentTime The current time
-    /// @param                  [in] previousStateVector The previous state vector
-    /// @param                  [in] previousTime The previous time
-    ///
-    /// @return                 Boolean value indicating if the Event Condition is met
-
-    virtual bool isSatisfied(
-        const VectorXd& currentStateVector,
-        const Real& currentTime,
-        const VectorXd& previousStateVector,
-        const Real& previousTime
-    ) const override;
+    virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
     /// @brief                  Convert criterion to string
     ///
@@ -123,7 +103,7 @@ class RealCondition : public EventCondition
 
    private:
     Criterion criterion_;
-    std::function<Real(const VectorXd&, const Real&)> evaluator_;
+    std::function<Real(const State&)> evaluator_;
     Real target_;
     std::function<bool(const Real&, const Real&)> comparator_;
 

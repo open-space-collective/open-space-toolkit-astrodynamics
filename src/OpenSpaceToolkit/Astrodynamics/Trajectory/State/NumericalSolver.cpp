@@ -143,6 +143,16 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
 
     const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
+    const auto createState = [&aState](const VectorXd& aStateVector, const double& aTime) -> State
+    {
+        return {
+            aState.accessInstant() + Duration::Seconds(aTime),
+            aStateVector,
+            aState.accessFrame(),
+            aState.accessCoordinatesBroker(),
+        };
+    };
+
     if (aDurationInSeconds.isZero())
     {
         return {
@@ -168,15 +178,11 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // do first step
     double previousTime;
     std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-    observedStates_.add({
-        aState.accessInstant() + Duration::Seconds(stepper.current_time()),
-        stepper.current_state(),
-        aState.accessFrame(),
-        aState.accessCoordinatesBroker(),
-    });
+
+    State previousState = createState(stepper.current_state(), stepper.current_time());
+    observedStates_.add(previousState);
 
     bool conditionSatisfied = false;
-    NumericalSolver::StateVector currentState;
 
     // account for integration direction
     std::function<bool(const double&)> checkTimeLimit;
@@ -195,51 +201,46 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         };
     }
 
+    State currentState = State::Undefined();
+
     while (checkTimeLimit(currentTime))
     {
         std::tie(previousTime, currentTime) = stepper.do_step(aSystemOfEquations);
-        currentState = stepper.current_state();
+        currentState = createState(stepper.current_state(), currentTime);
 
-        conditionSatisfied =
-            anEventCondition.isSatisfied(currentState, currentTime, stepper.previous_state(), previousTime);
+        conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 
         if (conditionSatisfied)
         {
             break;
         }
 
-        observedStates_.add({
-            aState.accessInstant() + Duration::Seconds(currentTime),
-            currentState,
-            aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
-        });
+        observedStates_.add(currentState);
+        previousState = currentState;
     }
 
     if (!conditionSatisfied)
     {
-        stepper.calc_state(aDurationInSeconds, currentState);
+        NumericalSolver::StateVector currentStateVector(stepper.current_state());
+        stepper.calc_state(aDurationInSeconds, currentStateVector);
 
         return {
-            {
-                aState.accessInstant() + Duration::Seconds(aDurationInSeconds),
-                currentState,
-                aState.accessFrame(),
-                aState.accessCoordinatesBroker(),
-            },
+            createState(currentStateVector, aDurationInSeconds),
             false,
             0,
             false,
         };
     }
 
-    const auto checkCondition = [&anEventCondition, &stepper](const double& aTime) -> double
+    const auto checkCondition = [&anEventCondition, &stepper, &createState](const double& aTime) -> double
     {
-        NumericalSolver::StateVector state(stepper.current_state());
-        stepper.calc_state(aTime, state);
+        NumericalSolver::StateVector stateVector(stepper.current_state());
+        stepper.calc_state(aTime, stateVector);
 
-        const bool isSatisfied =
-            anEventCondition.isSatisfied(state, aTime, stepper.previous_state(), stepper.previous_time());
+        const bool isSatisfied = anEventCondition.isSatisfied(
+            createState(stateVector, aTime), createState(stepper.previous_state(), stepper.previous_time())
+        );
+
         return isSatisfied ? 1.0 : -1.0;
     };
 
@@ -260,24 +261,15 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     // Condition at currentTime => True
     // Search for the exact time of the condition change
     const RootSolver::Solution solution = rootSolver_.bisection(checkCondition, previousTime, currentTime);
-    NumericalSolver::StateVector solutionState(currentState.size());
+    NumericalSolver::StateVector solutionStateVector(aState.accessCoordinates().size());
     const double solutionTime = solution.root;
 
-    stepper.calc_state(solutionTime, solutionState);
-    observedStates_.add({
-        aState.accessInstant() + Duration::Seconds(solutionTime),
-        solutionState,
-        aState.accessFrame(),
-        aState.accessCoordinatesBroker(),
-    });
+    stepper.calc_state(solutionTime, solutionStateVector);
+    const State solutionState = createState(solutionStateVector, solutionTime);
+    observedStates_.add(solutionState);
 
     return {
-        {
-            aState.accessInstant() + Duration::Seconds(solutionTime),
-            solutionState,
-            aState.accessFrame(),
-            aState.accessCoordinatesBroker(),
-        },
+        solutionState,
         true,
         solution.iterationCount,
         solution.hasConverged,

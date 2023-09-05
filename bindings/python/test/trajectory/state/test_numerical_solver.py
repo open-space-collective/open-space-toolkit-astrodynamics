@@ -61,7 +61,7 @@ def custom_condition() -> RealCondition:
     return RealCondition(
         "Custom",
         RealCondition.Criterion.StrictlyPositive,
-        lambda state_vector, time: time,
+        lambda state: (state.get_instant() - Instant.J2000()).in_seconds(),
         5.0,
     )
 
