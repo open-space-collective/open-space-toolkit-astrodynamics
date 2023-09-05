@@ -47,6 +47,12 @@ class LocalOrbitalFrameFactory
 
     Shared<const Frame> generateFrame(const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity) const;
 
+    /// @brief                  Check if local orbital frame factory is defined
+    ///
+    /// @return                 True if local orbital frame factory is defined
+
+    bool isDefined() const;
+
     /// @brief                  NED Constructor
     ///
     /// @param                  [in] aParentFrame A parent frame

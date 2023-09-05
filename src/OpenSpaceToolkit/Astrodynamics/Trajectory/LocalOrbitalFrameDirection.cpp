@@ -21,7 +21,7 @@ LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(
     : value_(aValue.normalized()),
       localOrbitalFrameFactorySPtr_(aLocalOrbitalFrameFactorySPtr)
 {
-    if (std::abs(aValue.norm() - 1.0) > Real::Epsilon())
+    if (std::abs(value_.norm() - 1.0) > Real::Epsilon())
     {
         throw ostk::core::error::RuntimeError("LocalOrbitalFrameDirection vector is not unitary [{}].", aValue.norm());
     }
@@ -46,16 +46,26 @@ bool LocalOrbitalFrameDirection::operator!=(const LocalOrbitalFrameDirection& aL
 bool LocalOrbitalFrameDirection::isDefined() const
 {
     return value_.isDefined() &&
-           (localOrbitalFrameFactorySPtr_ != nullptr);  // && localOrbitalFrameFactorySPtr_->isDefined();
+           (localOrbitalFrameFactorySPtr_ != nullptr) && localOrbitalFrameFactorySPtr_->isDefined();
 }
 
 const Shared<const LocalOrbitalFrameFactory>& LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory() const
 {
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame direction");
+    }
+
     return localOrbitalFrameFactorySPtr_;
 }
 
 Vector3d LocalOrbitalFrameDirection::getValue() const
 {
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Local orbital frame direction");
+    }
+
     return value_;
 }
 

@@ -7,9 +7,6 @@
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
-#include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationVector.hpp>
-
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame/Providers/Dynamic.hpp>
@@ -28,9 +25,6 @@ namespace trajectory
 
 using ostk::core::types::String;
 using ostk::core::types::Shared;
-using ostk::math::geom::d3::trf::rot::Quaternion;
-using ostk::math::geom::d3::trf::rot::RotationMatrix;
-using ostk::math::geom::d3::trf::rot::RotationVector;
 using ostk::math::obj::Vector3d;
 
 using ostk::physics::coord::Frame;
@@ -60,7 +54,6 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
     const Instant& anInstant, const Vector3d& aPosition, const Vector3d& aVelocity
 ) const
 {
-    // Uniqueness clashing risk here (see note in function 'generateFrameName')
     const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
 
     Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_ =
@@ -77,6 +70,12 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
     FrameManager::Get().addFrame(frameSPtr);
 
     return frameSPtr;
+}
+
+bool LocalOrbitalFrameFactory::isDefined() const
+{
+    return (parentFrameSPtr_ != nullptr) && parentFrameSPtr_->isDefined() &&
+           (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
 }
 
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
