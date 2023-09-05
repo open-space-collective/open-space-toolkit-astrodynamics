@@ -133,11 +133,7 @@ String LocalOrbitalFrameFactory::generateFrameName(
     const Instant& anInstant, [[maybe_unused]] const Vector3d& aPosition, [[maybe_unused]] const Vector3d& aVelocity
 ) const
 {
-    // !! Since frames are being emplaced using only the instant and type is not 100% robust
-    // We should use parent frame, type, isntant, pos, vel to ensure uniqueness of the frame name
-    // Otherwise, 2 satellites with different parent frame, type, pos, vel will generate a clash in frames
-    // just because they are at the same instant
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString();
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() + aPosition.toString() + aVelocity.toString();
 }
 
 }  // namespace trajectory
