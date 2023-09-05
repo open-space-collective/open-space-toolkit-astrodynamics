@@ -1,24 +1,32 @@
-\hypertarget{_numerical_solver_8hpp}{}\doxysection{include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Numerical\+Solver.hpp File Reference}
-\label{_numerical_solver_8hpp}\index{include/OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp@{include/OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp}}
+\hypertarget{_numerical_solver_8hpp}{}\doxysection{include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State/\+Numerical\+Solver.hpp File Reference}
+\label{_numerical_solver_8hpp}\index{include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp@{include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp}}
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Array.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Containers/\+Pair.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Integer.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+Real.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Core/\+Types/\+String.\+hpp$>$}\newline
-{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Objects/\+Vector.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Mathematics/\+Solvers/\+Numerical\+Solver.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Physics/\+Time/\+Instant.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition.\+hpp$>$}\newline
 {\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Root\+Solver.\+hpp$>$}\newline
+{\ttfamily \#include $<$Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\+State.\+hpp$>$}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{classostk_1_1astro_1_1_numerical_solver}{ostk\+::astro\+::\+Numerical\+Solver}}
-\begin{DoxyCompactList}\small\item\em Defines a numerical O\+DE solver that use the Boost Odeint libraries. This class will be moved into O\+S\+Tk-\/math in the future. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution}{ostk\+::astro\+::\+Numerical\+Solver\+::\+Condition\+Solution}}
-\end{DoxyCompactItemize}
+class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver}}
+\begin{DoxyCompactList}\small\item\em Defines an astrodynamics state contextual Numerical Solver. This class inherits from the O\+S\+Tk Mathematics Numerical Solver. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution}{ostk\+::astro\+::trajectory\+::state\+::\+Numerical\+Solver\+::\+Condition\+Solution}}
+\begin{DoxyCompactList}\small\item\em Structure to hold the condition solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
  \mbox{\hyperlink{namespaceostk}{ostk}}
 \begin{DoxyCompactList}\small\item\em Apache License 2.\+0. \end{DoxyCompactList}\item 
  \mbox{\hyperlink{namespaceostk_1_1astro}{ostk\+::astro}}
+\item 
+ \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory}{ostk\+::astro\+::trajectory}}
+\item 
+ \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_1_1state}{ostk\+::astro\+::trajectory\+::state}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_1_1state_a46fc561b22920faa369a72e3714a50ed}{ostk\+::astro\+::trajectory\+::state\+::\+Math\+Numerical\+Solver}} = ostk\+::math\+::solvers\+::\+Numerical\+Solver
 \end{DoxyCompactItemize}

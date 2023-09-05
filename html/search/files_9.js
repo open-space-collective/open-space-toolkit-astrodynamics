@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['model_2ecpp_684',['Model.cpp',['../_flight_2_profile_2_model_8cpp.html',1,'(Global Namespace)'],['../_trajectory_2_model_8cpp.html',1,'(Global Namespace)'],['../_trajectory_2_orbit_2_model_8cpp.html',1,'(Global Namespace)']]],
-  ['model_2ehpp_685',['Model.hpp',['../_flight_2_profile_2_model_8hpp.html',1,'(Global Namespace)'],['../_trajectory_2_model_8hpp.html',1,'(Global Namespace)'],['../_trajectory_2_orbit_2_model_8hpp.html',1,'(Global Namespace)']]]
+  ['logicalcondition_2ecpp_652',['LogicalCondition.cpp',['../_logical_condition_8cpp.html',1,'']]],
+  ['logicalcondition_2ehpp_653',['LogicalCondition.hpp',['../_logical_condition_8hpp.html',1,'']]]
 ];

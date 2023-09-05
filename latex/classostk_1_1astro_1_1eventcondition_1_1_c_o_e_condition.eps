@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 214.285714
+%%BoundingBox: 0 0 500 240.000000
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,7 +19,7 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 2.333333 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 2.083333 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
@@ -174,7 +174,7 @@
 boxfont setfont
 1 boundaspect scale
 (ostk::astro::eventcondition::COECondition) cw
-(ostk::astro::eventcondition::RealEventCondition) cw
+(ostk::astro::eventcondition::RealCondition) cw
 (ostk::astro::EventCondition) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
@@ -188,7 +188,7 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (ostk::astro::eventcondition::COECondition) 0.000000 0.000000 box
- (ostk::astro::eventcondition::RealEventCondition) 0.000000 1.000000 box
+ (ostk::astro::eventcondition::RealCondition) 0.000000 1.000000 box
  (ostk::astro::EventCondition) 0.000000 2.000000 box
 
 % ----- relations -----

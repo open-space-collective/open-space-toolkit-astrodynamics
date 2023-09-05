@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['dense_5fstepper_5ftype_5f5_1128',['dense_stepper_type_5',['../namespaceostk_1_1astro.html#a8e2de4e00612914a22fea6f2aefee421',1,'ostk::astro']]],
-  ['dynamicprovider_1129',['DynamicProvider',['../namespaceostk_1_1astro_1_1flight_1_1profile_1_1models.html#a7e9732cb31adb5d5c1f85f7bad1f3424',1,'ostk::astro::flight::profile::models']]]
+  ['dense_5fstepper_5ftype_5f5_1088',['dense_stepper_type_5',['../namespaceostk_1_1astro_1_1trajectory_1_1state.html#a22e26a3ad8fa922860ff22816342544c',1,'ostk::astro::trajectory::state']]],
+  ['dynamicprovider_1089',['DynamicProvider',['../namespaceostk_1_1astro_1_1flight_1_1profile_1_1models.html#a7e9732cb31adb5d5c1f85f7bad1f3424',1,'ostk::astro::flight::profile::models']]]
 ];

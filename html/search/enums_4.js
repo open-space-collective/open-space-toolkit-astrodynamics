@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logtype_1140',['LogType',['../classostk_1_1astro_1_1_numerical_solver.html#a23e9e3f7d630f3097b4cbd91d9a2aa4c',1,'ostk::astro::NumericalSolver']]]
+  ['objecttype_1095',['ObjectType',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#a9ef446f2327904fc0516249120ec9d71',1,'ostk::astro::conjunction::messages::ccsds::CDM']]]
 ];

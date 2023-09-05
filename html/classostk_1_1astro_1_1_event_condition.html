@@ -81,9 +81,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1_event_condition
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classostk_1_1astro_1_1_event_condition-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -91,7 +89,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1_event_condition
 </div><!--header-->
 <div class="contents">
 
-<p>An Event Condition defines a criteria that can be evaluated based on a current/previous state vectors and times.  
+<p>An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times.  
  <a href="classostk_1_1astro_1_1_event_condition.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_event_condition_8hpp_source.html">EventCondition.hpp</a>&gt;</code></p>
@@ -101,59 +99,31 @@ Inheritance diagram for ostk::astro::EventCondition:</div>
  <div class="center">
   <img src="classostk_1_1astro_1_1_event_condition.png" usemap="#ostk::astro::EventCondition_map" alt=""/>
   <map id="ostk::astro::EventCondition_map" name="ostk::astro::EventCondition_map">
-<area href="classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition.html" title="A Boolean Event Condition is a condition that is met when the computed value returns true." alt="ostk::astro::eventcondition::BooleanEventCondition" shape="rect" coords="0,56,293,80"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_logical_connective.html" title="Define the abstract parent class for Logical Connective Event Conditions." alt="ostk::astro::eventcondition::LogicalConnective" shape="rect" coords="303,56,596,80"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html" title="A Real Event Condition is a condition that is met when computed value matches the criteria at a targe..." alt="ostk::astro::eventcondition::RealEventCondition" shape="rect" coords="909,56,1202,80"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_conjunctive.html" title="Logical Conjunctive of provided Event Conditions." alt="ostk::astro::eventcondition::Conjunctive" shape="rect" coords="151,112,444,136"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_disjunctive.html" title="Logical Disjunctive of provided Event Conditions." alt="ostk::astro::eventcondition::Disjunctive" shape="rect" coords="454,112,747,136"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html" title="A Classical Orbital Element based event condition." alt="ostk::astro::eventcondition::COECondition" shape="rect" coords="757,112,1050,136"/>
-<area href="classostk_1_1astro_1_1eventcondition_1_1_duration_condition.html" title="A duration based event condition." alt="ostk::astro::eventcondition::DurationCondition" shape="rect" coords="1060,112,1353,136"/>
+<area href="classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html" title="A logical connective event condition." alt="ostk::astro::eventcondition::LogicalCondition" shape="rect" coords="0,56,261,80"/>
+<area href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html" title="An Event Condition that can evaluate each state to a real number." alt="ostk::astro::eventcondition::RealCondition" shape="rect" coords="271,56,532,80"/>
+<area href="classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html" title="An Event Condition that can evaluate each state to a boolean." alt="ostk::astro::eventcondition::BooleanCondition" shape="rect" coords="0,112,261,136"/>
+<area href="classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html" title="A Classical Orbital Element based event condition." alt="ostk::astro::eventcondition::COECondition" shape="rect" coords="271,112,532,136"/>
+<area href="classostk_1_1astro_1_1eventcondition_1_1_instant_condition.html" title="A duration based event condition." alt="ostk::astro::eventcondition::InstantCondition" shape="rect" coords="542,112,803,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a6beb68af111da70073cb204186025d7e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a> { <br />
-&#160;&#160;<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7ea35f12699e9d62145f3a7222ef63e496d">Criteria::PositiveCrossing</a>, 
-<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7ea9b59d568492405fa7baf90ef51c09a2b">Criteria::NegativeCrossing</a>, 
-<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7ea87074e622d8fecce2c96877e39ac8e8a">Criteria::AnyCrossing</a>, 
-<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7eac22bb2097157729ad509b291eac0ad26">Criteria::StrictlyPositive</a>, 
-<br />
-&#160;&#160;<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7ea75008dd95d534f22e007967f1fcd067e">Criteria::StrictlyNegative</a>, 
-<a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7eaec0fc0100c4fc1ce4eea230c3dc10360">Criteria::Undefined</a>
-<br />
- }</td></tr>
-<tr class="separator:a6beb68af111da70073cb204186025d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0410b97ae4db12cd7e5b00b0464d9b21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21">EventCondition</a> (const String &amp;aName, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a> &amp;aCriteria)</td></tr>
-<tr class="memdesc:a0410b97ae4db12cd7e5b00b0464d9b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21">More...</a><br /></td></tr>
-<tr class="separator:a0410b97ae4db12cd7e5b00b0464d9b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a051bb385c0004d76bcc96da67bc37255"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a051bb385c0004d76bcc96da67bc37255">EventCondition</a> (const String &amp;aName)</td></tr>
+<tr class="memdesc:a051bb385c0004d76bcc96da67bc37255"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1_event_condition.html#a051bb385c0004d76bcc96da67bc37255">More...</a><br /></td></tr>
+<tr class="separator:a051bb385c0004d76bcc96da67bc37255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c33b8dc74c54cfeb89e673fa0548de0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a8c33b8dc74c54cfeb89e673fa0548de0">~EventCondition</a> ()</td></tr>
 <tr class="memdesc:a8c33b8dc74c54cfeb89e673fa0548de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor.  <a href="classostk_1_1astro_1_1_event_condition.html#a8c33b8dc74c54cfeb89e673fa0548de0">More...</a><br /></td></tr>
 <tr class="separator:a8c33b8dc74c54cfeb89e673fa0548de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4059c751030da6877a63a6cff90576e7"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a4059c751030da6877a63a6cff90576e7">getName</a> () const</td></tr>
 <tr class="memdesc:a4059c751030da6877a63a6cff90576e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the Event Condition.  <a href="classostk_1_1astro_1_1_event_condition.html#a4059c751030da6877a63a6cff90576e7">More...</a><br /></td></tr>
 <tr class="separator:a4059c751030da6877a63a6cff90576e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94449df1581d2ee07a8bf9b02cd3c5a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a94449df1581d2ee07a8bf9b02cd3c5a5">getCriteria</a> () const</td></tr>
-<tr class="memdesc:a94449df1581d2ee07a8bf9b02cd3c5a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the criteria of the Event Condition.  <a href="classostk_1_1astro_1_1_event_condition.html#a94449df1581d2ee07a8bf9b02cd3c5a5">More...</a><br /></td></tr>
-<tr class="separator:a94449df1581d2ee07a8bf9b02cd3c5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace20c78b62d6406703bc5b5f80b32102"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const Real &amp;, const Real &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#ace20c78b62d6406703bc5b5f80b32102">getComparator</a> () const</td></tr>
-<tr class="memdesc:ace20c78b62d6406703bc5b5f80b32102"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get comparator.  <a href="classostk_1_1astro_1_1_event_condition.html#ace20c78b62d6406703bc5b5f80b32102">More...</a><br /></td></tr>
-<tr class="separator:ace20c78b62d6406703bc5b5f80b32102"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72cf3353323b6b21f4406c8e152b2d30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a72cf3353323b6b21f4406c8e152b2d30">print</a> (std::ostream &amp;anOutputStream, bool displayDecorator=true) const</td></tr>
 <tr class="memdesc:a72cf3353323b6b21f4406c8e152b2d30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the Event Condition.  <a href="classostk_1_1astro_1_1_event_condition.html#a72cf3353323b6b21f4406c8e152b2d30">More...</a><br /></td></tr>
 <tr class="separator:a72cf3353323b6b21f4406c8e152b2d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd9c3c36e41344085d354c06c0d84047"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#acd9c3c36e41344085d354c06c0d84047">isSatisfied</a> (const VectorXd &amp;currentStateVector, const Real &amp;currentTime, const VectorXd &amp;previousStateVector, const Real &amp;previousTime) const =0</td></tr>
-<tr class="memdesc:acd9c3c36e41344085d354c06c0d84047"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the Event Condition is satisfied based on current state/time and previous state/time This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several conditions.  <a href="classostk_1_1astro_1_1_event_condition.html#acd9c3c36e41344085d354c06c0d84047">More...</a><br /></td></tr>
-<tr class="separator:acd9c3c36e41344085d354c06c0d84047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a9660aa1396dd05d9093dbc2aba212671"><td class="memItemLeft" align="right" valign="top">static String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a9660aa1396dd05d9093dbc2aba212671">StringFromCriteria</a> (const <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a> &amp;aCriteria)</td></tr>
-<tr class="memdesc:a9660aa1396dd05d9093dbc2aba212671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert criteria to string.  <a href="classostk_1_1astro_1_1_event_condition.html#a9660aa1396dd05d9093dbc2aba212671">More...</a><br /></td></tr>
-<tr class="separator:a9660aa1396dd05d9093dbc2aba212671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a957cc41bd3695b9f84f8a5cb6c1277e8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a957cc41bd3695b9f84f8a5cb6c1277e8">isSatisfied</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;currentState, const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;previousState) const =0</td></tr>
+<tr class="memdesc:a957cc41bd3695b9f84f8a5cb6c1277e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the Event Condition is satisfied based on current state and previous state/time.  <a href="classostk_1_1astro_1_1_event_condition.html#a957cc41bd3695b9f84f8a5cb6c1277e8">More...</a><br /></td></tr>
+<tr class="separator:a957cc41bd3695b9f84f8a5cb6c1277e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -162,41 +132,10 @@ Friends</h2></td></tr>
 <tr class="separator:a79479aa52401e558f7a2a8137b9b0359"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>An Event Condition defines a criteria that can be evaluated based on a current/previous state vectors and times. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a6beb68af111da70073cb204186025d7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6beb68af111da70073cb204186025d7e">&#9670;&nbsp;</a></span>Criteria</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">ostk::astro::EventCondition::Criteria</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7ea35f12699e9d62145f3a7222ef63e496d"></a>PositiveCrossing&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7ea9b59d568492405fa7baf90ef51c09a2b"></a>NegativeCrossing&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7ea87074e622d8fecce2c96877e39ac8e8a"></a>AnyCrossing&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7eac22bb2097157729ad509b291eac0ad26"></a>StrictlyPositive&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7ea75008dd95d534f22e007967f1fcd067e"></a>StrictlyNegative&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a6beb68af111da70073cb204186025d7eaec0fc0100c4fc1ce4eea230c3dc10360"></a>Undefined&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0410b97ae4db12cd7e5b00b0464d9b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0410b97ae4db12cd7e5b00b0464d9b21">&#9670;&nbsp;</a></span>EventCondition()</h2>
+<div class="textblock"><p>An Event Condition defines a criterion that can be evaluated based on a current/previous state vectors and times. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a051bb385c0004d76bcc96da67bc37255"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a051bb385c0004d76bcc96da67bc37255">&#9670;&nbsp;</a></span>EventCondition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,28 +144,20 @@ Friends</h2></td></tr>
           <td class="memname">ostk::astro::EventCondition::EventCondition </td>
           <td>(</td>
           <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>aName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>aName</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a> &amp;&#160;</td>
-          <td class="paramname"><em>aCriteria</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21">EventCondition</a> eventCondition = {aName, aCriteria};</div>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1_event_condition.html#a051bb385c0004d76bcc96da67bc37255">EventCondition</a> eventCondition = {aName, aCriterion, anEvaluatro, aTarget};</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A string representing the name of the Event Condition </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriteria</td><td>An enum indicating the criteria used to determine if the Event Condition is met </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aName</td><td>A string representing the name of the Real Event Condition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCriterion</td><td>An enum indicating the criterion used to determine if the Real Event Condition is met </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEvaluator</td><td>A function evaluating a state and a time </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aTarget</td><td>A target value associated with the Real Event Condition </td></tr>
   </table>
   </dd>
 </dl>
@@ -261,46 +192,6 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ace20c78b62d6406703bc5b5f80b32102"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace20c78b62d6406703bc5b5f80b32102">&#9670;&nbsp;</a></span>getComparator()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::function&lt; bool(const Real &amp;, const Real &amp;)&gt; ostk::astro::EventCondition::getComparator </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get comparator. </p>
-<dl class="section return"><dt>Returns</dt><dd>Comparator </dd></dl>
-
-</div>
-</div>
-<a id="a94449df1581d2ee07a8bf9b02cd3c5a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94449df1581d2ee07a8bf9b02cd3c5a5">&#9670;&nbsp;</a></span>getCriteria()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">EventCondition::Criteria</a> ostk::astro::EventCondition::getCriteria </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the criteria of the Event Condition. </p>
-<dl class="section return"><dt>Returns</dt><dd>Enum representing the criteria of the Event Condition </dd></dl>
-
-</div>
-</div>
 <a id="a4059c751030da6877a63a6cff90576e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4059c751030da6877a63a6cff90576e7">&#9670;&nbsp;</a></span>getName()</h2>
 
@@ -321,8 +212,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="acd9c3c36e41344085d354c06c0d84047"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd9c3c36e41344085d354c06c0d84047">&#9670;&nbsp;</a></span>isSatisfied()</h2>
+<a id="a957cc41bd3695b9f84f8a5cb6c1277e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a957cc41bd3695b9f84f8a5cb6c1277e8">&#9670;&nbsp;</a></span>isSatisfied()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -333,26 +224,14 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">virtual bool ostk::astro::EventCondition::isSatisfied </td>
           <td>(</td>
-          <td class="paramtype">const VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>currentStateVector</em>, </td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>currentState</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Real &amp;&#160;</td>
-          <td class="paramname"><em>currentTime</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>previousStateVector</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Real &amp;&#160;</td>
-          <td class="paramname"><em>previousTime</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>previousState</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -367,19 +246,17 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Check if the Event Condition is satisfied based on current state/time and previous state/time This overload is useful when the Event Condition is a Conjunctive/Disjunctive of several conditions. </p>
+<p>Check if the Event Condition is satisfied based on current state and previous state/time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">currentStateVector</td><td>The current state vector </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">currentTime</td><td>The current time </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">previousStateVector</td><td>The previous state vector </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">previousTime</td><td>The previous time</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">currentState</td><td>The current state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">previousState</td><td>The previous state</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Boolean value indicating if the Event Condition is met </dd></dl>
 
-<p>Implemented in <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition.html#a865a765d195d0f1ea37a158b0ba358fb">ostk::astro::eventcondition::BooleanEventCondition</a>, <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html#a669dbf27c7dc0f314bd9f0c8a8e4f8b6">ostk::astro::eventcondition::RealEventCondition</a>, <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_conjunctive.html#a6742d78c5ef4ea3a7193816639941dd5">ostk::astro::eventcondition::Conjunctive</a>, and <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_disjunctive.html#a0a4269d0c0a3800e88660799c25ae417">ostk::astro::eventcondition::Disjunctive</a>.</p>
+<p>Implemented in <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a047da3ea2d08c3ecde4982bdce33930f">ostk::astro::eventcondition::RealCondition</a>, and <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aa8f6d2cc1732d240e22a196afe81d815">ostk::astro::eventcondition::LogicalCondition</a>.</p>
 
 </div>
 </div>
@@ -426,42 +303,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_boolean_event_condition.html#a302cacc3642cd5f8c27f533cf0ecb4c9">ostk::astro::eventcondition::BooleanEventCondition</a>, and <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_event_condition.html#a12ec30363f901ec4407c7b234cd166d8">ostk::astro::eventcondition::RealEventCondition</a>.</p>
-
-</div>
-</div>
-<a id="a9660aa1396dd05d9093dbc2aba212671"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9660aa1396dd05d9093dbc2aba212671">&#9670;&nbsp;</a></span>StringFromCriteria()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">String ostk::astro::EventCondition::StringFromCriteria </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a6beb68af111da70073cb204186025d7e">Criteria</a> &amp;&#160;</td>
-          <td class="paramname"><em>aCriteria</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Convert criteria to string. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aCriteria</td><td>An enum representing the criteria</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>String representing the given criteria </dd></dl>
+<p>Reimplemented in <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a1ef4b1c7ae1b5fefed815dc72d59187e">ostk::astro::eventcondition::RealCondition</a>, and <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html#a7286d3264f19497cef2d4070266f397e">ostk::astro::eventcondition::BooleanCondition</a>.</p>
 
 </div>
 </div>
@@ -501,11 +343,11 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Output stream operator. </p>
-<div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21">EventCondition</a>(...) ;</div>
+<div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="classostk_1_1astro_1_1_event_condition.html#a051bb385c0004d76bcc96da67bc37255">EventCondition</a>(...) ;</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">anOutputStream</td><td>An output stream </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An <a class="el" href="classostk_1_1astro_1_1_event_condition.html" title="An Event Condition defines a criteria that can be evaluated based on a current/previous state vectors...">EventCondition</a> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An <a class="el" href="classostk_1_1astro_1_1_event_condition.html" title="An Event Condition defines a criterion that can be evaluated based on a current/previous state vector...">EventCondition</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -519,7 +361,7 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1_event_condition_html_a0410b97ae4db12cd7e5b00b0464d9b21"><div class="ttname"><a href="classostk_1_1astro_1_1_event_condition.html#a0410b97ae4db12cd7e5b00b0464d9b21">ostk::astro::EventCondition::EventCondition</a></div><div class="ttdeci">EventCondition(const String &amp;aName, const Criteria &amp;aCriteria)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> EventCondition.cpp:13</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1_event_condition_html_a051bb385c0004d76bcc96da67bc37255"><div class="ttname"><a href="classostk_1_1astro_1_1_event_condition.html#a051bb385c0004d76bcc96da67bc37255">ostk::astro::EventCondition::EventCondition</a></div><div class="ttdeci">EventCondition(const String &amp;aName)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> EventCondition.cpp:13</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

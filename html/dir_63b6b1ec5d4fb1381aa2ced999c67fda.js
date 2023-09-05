@@ -13,10 +13,6 @@ var dir_63b6b1ec5d4fb1381aa2ced999c67fda =
       [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html", "classostk_1_1astro_1_1_event_condition" ]
     ] ],
     [ "Flight.hpp", "_flight_8hpp.html", null ],
-    [ "NumericalSolver.hpp", "_numerical_solver_8hpp.html", [
-      [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", "classostk_1_1astro_1_1_numerical_solver" ],
-      [ "ConditionSolution", "structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution.html", "structostk_1_1astro_1_1_numerical_solver_1_1_condition_solution" ]
-    ] ],
     [ "RootSolver.hpp", "_root_solver_8hpp.html", [
       [ "RootSolver", "classostk_1_1astro_1_1_root_solver.html", "classostk_1_1astro_1_1_root_solver" ],
       [ "Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", "structostk_1_1astro_1_1_root_solver_1_1_solution" ]

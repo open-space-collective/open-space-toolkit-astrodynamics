@@ -82,8 +82,7 @@ $(document).ready(function(){initNavTree('_numerical_solver_8cpp.html',''); init
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">NumericalSolver.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -92,8 +91,8 @@ $(document).ready(function(){initNavTree('_numerical_solver_8cpp.html',''); init
 <code>#include &lt;boost/numeric/odeint/external/eigen/eigen.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Error.hpp&gt;</code><br />
 <code>#include &lt;OpenSpaceToolkit/Core/Utilities.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/NumericalSolver.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_root_solver_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/RootSolver.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</a>&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -102,22 +101,15 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceostk_1_1astro"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html">ostk::astro</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1trajectory"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory.html">ostk::astro::trajectory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceostk_1_1astro_1_1trajectory_1_1state"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory_1_1state.html">ostk::astro::trajectory::state</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a60ad55c3b6d885619737be7886f78802"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta4&lt; NumericalSolver::StateVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a60ad55c3b6d885619737be7886f78802">ostk::astro::stepper_type_4</a></td></tr>
-<tr class="separator:a60ad55c3b6d885619737be7886f78802"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0e87d949c5bf8265860957bc3e551a4"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_cash_karp54&lt; NumericalSolver::StateVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#ae0e87d949c5bf8265860957bc3e551a4">ostk::astro::error_stepper_type_54</a></td></tr>
-<tr class="separator:ae0e87d949c5bf8265860957bc3e551a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac65cff551d02047f499131307bd5f688"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_fehlberg78&lt; NumericalSolver::StateVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#ac65cff551d02047f499131307bd5f688">ostk::astro::error_stepper_type_78</a></td></tr>
-<tr class="separator:ac65cff551d02047f499131307bd5f688"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e2de4e00612914a22fea6f2aefee421"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_dopri5&lt; NumericalSolver::StateVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a8e2de4e00612914a22fea6f2aefee421">ostk::astro::dense_stepper_type_5</a></td></tr>
-<tr class="separator:a8e2de4e00612914a22fea6f2aefee421"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a1504859af3ff5ed6cea30697522bbf4e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro.html#a1504859af3ff5ed6cea30697522bbf4e">ostk::astro::operator&lt;&lt;</a> (std::ostream &amp;anOutputStream, const NumericalSolver &amp;aNumericalSolver)</td></tr>
-<tr class="separator:a1504859af3ff5ed6cea30697522bbf4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22e26a3ad8fa922860ff22816342544c"><td class="memItemLeft" align="right" valign="top">typedef runge_kutta_dopri5&lt; NumericalSolver::StateVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceostk_1_1astro_1_1trajectory_1_1state.html#a22e26a3ad8fa922860ff22816342544c">ostk::astro::trajectory::state::dense_stepper_type_5</a></td></tr>
+<tr class="separator:a22e26a3ad8fa922860ff22816342544c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -125,7 +117,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdc2ce6839bd9a3b87630c53f2ae038b.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_168f0d47388952730fc4bc2bc6e393cf.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="_numerical_solver_8cpp.html">NumericalSolver.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdc2ce6839bd9a3b87630c53f2ae038b.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_168f0d47388952730fc4bc2bc6e393cf.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_2297ca1089d47f29cc83c62b59047703.html">Trajectory</a></li><li class="navelem"><a class="el" href="dir_bfc1e2f48a5706e313c8de56a97c2c35.html">State</a></li><li class="navelem"><a class="el" href="_numerical_solver_8cpp.html">NumericalSolver.cpp</a></li>
   </ul>
 </div>
 </body>

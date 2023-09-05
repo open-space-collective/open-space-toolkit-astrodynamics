@@ -8,7 +8,6 @@ var namespaceostk_1_1astro =
     [ "trajectory", "namespaceostk_1_1astro_1_1trajectory.html", "namespaceostk_1_1astro_1_1trajectory" ],
     [ "Access", "classostk_1_1astro_1_1_access.html", "classostk_1_1astro_1_1_access" ],
     [ "EventCondition", "classostk_1_1astro_1_1_event_condition.html", "classostk_1_1astro_1_1_event_condition" ],
-    [ "NumericalSolver", "classostk_1_1astro_1_1_numerical_solver.html", "classostk_1_1astro_1_1_numerical_solver" ],
     [ "RootSolver", "classostk_1_1astro_1_1_root_solver.html", "classostk_1_1astro_1_1_root_solver" ],
     [ "Trajectory", "classostk_1_1astro_1_1_trajectory.html", "classostk_1_1astro_1_1_trajectory" ]
 ];

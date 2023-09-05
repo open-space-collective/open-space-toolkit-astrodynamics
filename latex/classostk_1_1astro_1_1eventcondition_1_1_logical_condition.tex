@@ -1,0 +1,158 @@
+\hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition}{}\doxysection{ostk\+::astro\+::eventcondition\+::Logical\+Condition Class Reference}
+\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition}\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+
+
+A logical connective event condition.  
+
+
+
+
+{\ttfamily \#include $<$Logical\+Condition.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::eventcondition\+::Logical\+Condition\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classostk_1_1astro_1_1eventcondition_1_1_logical_condition}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Type}} \{ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101ac33315685a0cba3ce53be378b3c7874b}{Type\+::\+And}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101a3a2d5fe857d8f9541136a124c2edec6c}{Type\+::\+Or}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ade3df53a80cc4ee994d5718abb62ff67}{Logical\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Logical\+Condition\+::\+Type}} \&a\+Connective, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$$>$ \&event\+Conditions)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ac79f9d61b68f2a5f19fd365cdedea4e9}{$\sim$\+Logical\+Condition}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Logical\+Condition\+::\+Type}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_afb23a1cb522cbed81db776fd8b00c3f4}{get\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Get the type of the logical connective. \end{DoxyCompactList}\item 
+Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aab9c41f8d984d91f568f7fcc2fc18e29}{get\+Event\+Conditions}} () const
+\begin{DoxyCompactList}\small\item\em Get the individual event conditions composing the Logical Connective Event Condition. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aa8f6d2cc1732d240e22a196afe81d815}{is\+Satisfied}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&current\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&previous\+State) const override
+\begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state and previous state/time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A logical connective event condition. 
+
+\href{https://en.wikipedia.org/wiki/Logical_connective}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Logical\+\_\+connective}} 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!Type@{Type}}
+\index{Type@{Type}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{And@{And}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!And@{And}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101ac33315685a0cba3ce53be378b3c7874b}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101ac33315685a0cba3ce53be378b3c7874b}} 
+And&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Or@{Or}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!Or@{Or}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101a3a2d5fe857d8f9541136a124c2edec6c}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101a3a2d5fe857d8f9541136a124c2edec6c}} 
+Or&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ade3df53a80cc4ee994d5718abb62ff67}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ade3df53a80cc4ee994d5718abb62ff67}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!LogicalCondition@{LogicalCondition}}
+\index{LogicalCondition@{LogicalCondition}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{LogicalCondition()}{LogicalCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::\+Logical\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Logical\+Condition\+::\+Type}} \&}]{a\+Connective,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$$>$ \&}]{event\+Conditions }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ade3df53a80cc4ee994d5718abb62ff67}{LogicalCondition}} logicalCondition = \{aName, eventConditions, aConnective\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Logical Connective Event Condition. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Connective} & A logical connective to apply to the Event Condition instances. \\
+\hline
+\mbox{\texttt{ in}}  & {\em event\+Conditions} & An Array of shared pointers to Event Condition instances, representing the individual event conditions to be evaluated. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ac79f9d61b68f2a5f19fd365cdedea4e9}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ac79f9d61b68f2a5f19fd365cdedea4e9}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!````~LogicalCondition@{$\sim$LogicalCondition}}
+\index{````~LogicalCondition@{$\sim$LogicalCondition}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{$\sim$LogicalCondition()}{~LogicalCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::$\sim$\+Logical\+Condition (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aab9c41f8d984d91f568f7fcc2fc18e29}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aab9c41f8d984d91f568f7fcc2fc18e29}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!getEventConditions@{getEventConditions}}
+\index{getEventConditions@{getEventConditions}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{getEventConditions()}{getEventConditions()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} $>$ $>$ ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::get\+Event\+Conditions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the individual event conditions composing the Logical Connective Event Condition. 
+
+\begin{DoxyReturn}{Returns}
+An Array of shared pointers to \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} instances, representing the individual event conditions. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_afb23a1cb522cbed81db776fd8b00c3f4}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_afb23a1cb522cbed81db776fd8b00c3f4}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!getType@{getType}}
+\index{getType@{getType}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_ad58255a624646da35d3c83b39c57c101}{Logical\+Condition\+::\+Type}} ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the type of the logical connective. 
+
+\begin{DoxyReturn}{Returns}
+The type. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aa8f6d2cc1732d240e22a196afe81d815}\label{classostk_1_1astro_1_1eventcondition_1_1_logical_condition_aa8f6d2cc1732d240e22a196afe81d815}} 
+\index{ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}!isSatisfied@{isSatisfied}}
+\index{isSatisfied@{isSatisfied}!ostk::astro::eventcondition::LogicalCondition@{ostk::astro::eventcondition::LogicalCondition}}
+\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Logical\+Condition\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{current\+State,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{previous\+State }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if the Event Condition is satisfied based on current state and previous state/time. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em current\+State} & The current state \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+State} & The previous state\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean value indicating if the Event Condition is met 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}{ostk\+::astro\+::\+Event\+Condition}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_logical_condition_8hpp}{Logical\+Condition.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_logical_condition_8cpp}{Logical\+Condition.\+cpp}}\end{DoxyCompactItemize}

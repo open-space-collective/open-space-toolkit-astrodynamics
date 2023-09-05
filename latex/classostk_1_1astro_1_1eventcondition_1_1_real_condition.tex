@@ -1,0 +1,260 @@
+\hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition}{}\doxysection{ostk\+::astro\+::eventcondition\+::Real\+Condition Class Reference}
+\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+
+
+An Event Condition that can evaluate each state to a real number.  
+
+
+
+
+{\ttfamily \#include $<$Real\+Condition.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::eventcondition\+::Real\+Condition\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.081784cm]{classostk_1_1astro_1_1eventcondition_1_1_real_condition}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \{ \newline
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a35f12699e9d62145f3a7222ef63e496d}{Criterion\+::\+Positive\+Crossing}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a9b59d568492405fa7baf90ef51c09a2b}{Criterion\+::\+Negative\+Crossing}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a87074e622d8fecce2c96877e39ac8e8a}{Criterion\+::\+Any\+Crossing}}, 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4ac22bb2097157729ad509b291eac0ad26}{Criterion\+::\+Strictly\+Positive}}, 
+\newline
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a75008dd95d534f22e007967f1fcd067e}{Criterion\+::\+Strictly\+Negative}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9a02f861d61bd823a1860a77cb6d6e05}{Real\+Condition}} (const String \&a\+Name, const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \&a\+Criterion, const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ an\+Evaluator, const Real \&a\+Target=0.\+0)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_aa59bb79ad941e3c97e0c1015d8be5e3b}{$\sim$\+Real\+Condition}} ()
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ae095e7af5faeec5076780456ee2f9284}{get\+Criterion}} () const
+\begin{DoxyCompactList}\small\item\em Get the criterion of the Event Condition. \end{DoxyCompactList}\item 
+std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a8ad0fb78151e60e0796d77330feb90a5}{get\+Evaluator}} () const
+\begin{DoxyCompactList}\small\item\em Get evaluator. \end{DoxyCompactList}\item 
+Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9e90174b43f07a28f6193694b15f9813}{get\+Target}} () const
+\begin{DoxyCompactList}\small\item\em Get the target of the Event Condition. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a1ef4b1c7ae1b5fefed815dc72d59187e}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print the Event Condition. \end{DoxyCompactList}\item 
+Real \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a71ad6fe1232b143a8fa2de9ec3cf845b}{evaluate}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&state) const
+\begin{DoxyCompactList}\small\item\em Evaluate the Event Condition. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a047da3ea2d08c3ecde4982bdce33930f}{is\+Satisfied}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&current\+State, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&previous\+State) const override
+\begin{DoxyCompactList}\small\item\em Check if the Event Condition is satisfied based on current state and previous state/time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ad9e546dec9a7ad9f2046faa57569162d}{String\+From\+Criterion}} (const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \&a\+Criterion)
+\begin{DoxyCompactList}\small\item\em Convert criterion to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An Event Condition that can evaluate each state to a real number. 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!Criterion@{Criterion}}
+\index{Criterion@{Criterion}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{Criterion}{Criterion}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::\+Criterion}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PositiveCrossing@{PositiveCrossing}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!PositiveCrossing@{PositiveCrossing}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a35f12699e9d62145f3a7222ef63e496d}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a35f12699e9d62145f3a7222ef63e496d}} 
+Positive\+Crossing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NegativeCrossing@{NegativeCrossing}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!NegativeCrossing@{NegativeCrossing}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a9b59d568492405fa7baf90ef51c09a2b}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a9b59d568492405fa7baf90ef51c09a2b}} 
+Negative\+Crossing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AnyCrossing@{AnyCrossing}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!AnyCrossing@{AnyCrossing}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a87074e622d8fecce2c96877e39ac8e8a}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a87074e622d8fecce2c96877e39ac8e8a}} 
+Any\+Crossing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StrictlyPositive@{StrictlyPositive}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!StrictlyPositive@{StrictlyPositive}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4ac22bb2097157729ad509b291eac0ad26}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4ac22bb2097157729ad509b291eac0ad26}} 
+Strictly\+Positive&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StrictlyNegative@{StrictlyNegative}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!StrictlyNegative@{StrictlyNegative}}}\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a75008dd95d534f22e007967f1fcd067e}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4a75008dd95d534f22e007967f1fcd067e}} 
+Strictly\+Negative&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9a02f861d61bd823a1860a77cb6d6e05}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9a02f861d61bd823a1860a77cb6d6e05}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!RealCondition@{RealCondition}}
+\index{RealCondition@{RealCondition}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{RealCondition()}{RealCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::\+Real\+Condition (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \&}]{a\+Criterion,  }\item[{const std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$}]{an\+Evaluator,  }\item[{const Real \&}]{a\+Target = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9a02f861d61bd823a1860a77cb6d6e05}{RealCondition}} \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9a02f861d61bd823a1860a77cb6d6e05}{RealCondition}} = \{aName, aCriterion, anEvaluatro, aTarget\};}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A string representing the name of the Real Event Condition \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Criterion} & An enum indicating the criterion used to determine if the Real Event Condition is met \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Evaluator} & A function evaluating a state \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Target} & A target value associated with the Real Event Condition \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_aa59bb79ad941e3c97e0c1015d8be5e3b}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_aa59bb79ad941e3c97e0c1015d8be5e3b}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!````~RealCondition@{$\sim$RealCondition}}
+\index{````~RealCondition@{$\sim$RealCondition}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{$\sim$RealCondition()}{~RealCondition()}}
+{\footnotesize\ttfamily ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::$\sim$\+Real\+Condition (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Virtual destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a71ad6fe1232b143a8fa2de9ec3cf845b}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a71ad6fe1232b143a8fa2de9ec3cf845b}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::evaluate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{state }\end{DoxyParamCaption}) const}
+
+
+
+Evaluate the Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & The current state\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Real number representing the evaluation result of the Event Condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ae095e7af5faeec5076780456ee2f9284}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ae095e7af5faeec5076780456ee2f9284}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!getCriterion@{getCriterion}}
+\index{getCriterion@{getCriterion}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{getCriterion()}{getCriterion()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Real\+Condition\+::\+Criterion}} ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::get\+Criterion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the criterion of the Event Condition. 
+
+\begin{DoxyReturn}{Returns}
+Enum representing the criterion of the Event Condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a8ad0fb78151e60e0796d77330feb90a5}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a8ad0fb78151e60e0796d77330feb90a5}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!getEvaluator@{getEvaluator}}
+\index{getEvaluator@{getEvaluator}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{getEvaluator()}{getEvaluator()}}
+{\footnotesize\ttfamily std\+::function$<$ Real(const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&)$>$ ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::get\+Evaluator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get evaluator. 
+
+\begin{DoxyReturn}{Returns}
+Evaluator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9e90174b43f07a28f6193694b15f9813}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a9e90174b43f07a28f6193694b15f9813}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!getTarget@{getTarget}}
+\index{getTarget@{getTarget}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{getTarget()}{getTarget()}}
+{\footnotesize\ttfamily Real ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::get\+Target (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the target of the Event Condition. 
+
+\begin{DoxyReturn}{Returns}
+Real number representing the target of the Event Condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a047da3ea2d08c3ecde4982bdce33930f}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a047da3ea2d08c3ecde4982bdce33930f}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!isSatisfied@{isSatisfied}}
+\index{isSatisfied@{isSatisfied}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{isSatisfied()}{isSatisfied()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::is\+Satisfied (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{current\+State,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{previous\+State }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check if the Event Condition is satisfied based on current state and previous state/time. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em current\+State} & The current state \\
+\hline
+\mbox{\texttt{ in}}  & {\em previous\+State} & The previous state\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean value indicating if the Event Condition is met 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a957cc41bd3695b9f84f8a5cb6c1277e8}{ostk\+::astro\+::\+Event\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a1ef4b1c7ae1b5fefed815dc72d59187e}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_a1ef4b1c7ae1b5fefed815dc72d59187e}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!print@{print}}
+\index{print@{print}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print the Event Condition. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em an\+Output\+Stream} & The output stream where the Event Condition will be printed \\
+\hline
+\mbox{\texttt{ in}}  & {\em display\+Decorator} & A boolean indicating whether or not to display decorator during printing \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition_a72cf3353323b6b21f4406c8e152b2d30}{ostk\+::astro\+::\+Event\+Condition}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_boolean_condition_a7286d3264f19497cef2d4070266f397e}{ostk\+::astro\+::eventcondition\+::\+Boolean\+Condition}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ad9e546dec9a7ad9f2046faa57569162d}\label{classostk_1_1astro_1_1eventcondition_1_1_real_condition_ad9e546dec9a7ad9f2046faa57569162d}} 
+\index{ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}!StringFromCriterion@{StringFromCriterion}}
+\index{StringFromCriterion@{StringFromCriterion}!ostk::astro::eventcondition::RealCondition@{ostk::astro::eventcondition::RealCondition}}
+\doxysubsubsection{\texorpdfstring{StringFromCriterion()}{StringFromCriterion()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::eventcondition\+::\+Real\+Condition\+::\+String\+From\+Criterion (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1eventcondition_1_1_real_condition_add85672374b2a981e6a1ec27321fa3e4}{Criterion}} \&}]{a\+Criterion }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert criterion to string. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Criterion} & An enum representing the criterion\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String representing the given criterion 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_real_condition_8hpp}{Real\+Condition.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Event\+Condition/\mbox{\hyperlink{_real_condition_8cpp}{Real\+Condition.\+cpp}}\end{DoxyCompactItemize}

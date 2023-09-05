@@ -6,5 +6,6 @@ var dir_a6d61640a8fa2f47d1be301a69ee7bfb =
     ] ],
     [ "CoordinatesSubset.hpp", "_coordinates_subset_8hpp.html", [
       [ "CoordinatesSubset", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html", "classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset" ]
-    ] ]
+    ] ],
+    [ "NumericalSolver.hpp", "_numerical_solver_8hpp.html", "_numerical_solver_8hpp" ]
 ];
