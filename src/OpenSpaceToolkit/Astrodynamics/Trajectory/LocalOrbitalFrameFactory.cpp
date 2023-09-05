@@ -133,7 +133,8 @@ String LocalOrbitalFrameFactory::generateFrameName(
     const Instant& anInstant, [[maybe_unused]] const Vector3d& aPosition, [[maybe_unused]] const Vector3d& aVelocity
 ) const
 {
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() + aPosition.toString() + aVelocity.toString();
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + anInstant.toString() +
+           aPosition.toString() + aVelocity.toString();
 }
 
 }  // namespace trajectory
