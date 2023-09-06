@@ -50,14 +50,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     trajectory.attr("__path__") = "ostk.astrodynamics.trajectory";
 
     // Add objects to python submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(trajectory);
+
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(trajectory);
-
-    // TBI: Likely to be moved in Physics
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(trajectory);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(trajectory);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(trajectory);
 }

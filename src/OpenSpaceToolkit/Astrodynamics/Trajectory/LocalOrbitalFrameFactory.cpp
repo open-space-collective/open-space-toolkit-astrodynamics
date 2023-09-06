@@ -56,7 +56,7 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(
 {
     const String name = this->generateFrameName(anInstant, aPosition, aVelocity);
 
-    Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_ =
+    const Shared<const LocalOrbitalFrameTransformProvider> providerSPtr_ =
         LocalOrbitalFrameTransformProvider::Construct(this->type_, anInstant, aPosition, aVelocity);
 
     if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
