@@ -62,21 +62,27 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::NED, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::LVLH, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::VVLH, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::QSW, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::TNW, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::VNC, gcrfSPtr_));
     }
+
     {
         EXPECT_NO_THROW(
             LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
