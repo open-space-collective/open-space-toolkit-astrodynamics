@@ -2,6 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
 
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameDirection.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameFactory.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/LocalOrbitalFrameTransformProvider.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
@@ -47,6 +50,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     trajectory.attr("__path__") = "ostk.astrodynamics.trajectory";
 
     // Add objects to python submodule
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameTransformProvider(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(trajectory);
+
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
