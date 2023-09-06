@@ -91,6 +91,11 @@ String RealCondition::StringFromCriterion(const Criterion& aCriterion)
     return String::Empty();
 }
 
+Real RealCondition::GetCrossZDelta(const Real& anAngle, const Real& aTarget)
+{
+    return (std::sin(anAngle) * std::cos(aTarget) - std::cos(anAngle) * std::sin(aTarget)) + aTarget;
+}
+
 std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(
     const RealCondition::Criterion& aCriterion
 )

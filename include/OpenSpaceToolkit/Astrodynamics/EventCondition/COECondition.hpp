@@ -87,7 +87,8 @@ class COECondition : public RealCondition
 
     /// @brief                  Semi Major Axis based constructor
     ///
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
+    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event
+    /// Condition
     /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
     /// @param                  [in] aSemiMajorAxis A semi major axis
     /// @param                  [in] aGravitationalParameter A gravitational parameter
@@ -218,16 +219,11 @@ class COECondition : public RealCondition
     Shared<const Frame> frameSPtr_;
     Derived gravitationalParameter_;
 
-    /// @brief                  Get evaluation function from element
-    ///
-    /// @param                  [in] anElement The element
-    /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aGravitationalParameter The derived gravitational parameter
-    ///
-    /// @return                 Evaluation function
-
     static std::function<Real(const State&)> GenerateEvaluator(
-        const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
+        const COE::Element& anElement,
+        const Shared<const Frame>& aFrameSPtr,
+        const Derived& aGravitationalParameter,
+        const Real& aTarget
     );
 };
 

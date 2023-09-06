@@ -101,6 +101,9 @@ class RealCondition : public EventCondition
 
     static String StringFromCriterion(const Criterion& aCriterion);
 
+   protected:
+    static Real GetCrossZDelta(const Real& anAngle, const Real& aTarget);
+
    private:
     Criterion criterion_;
     std::function<Real(const State&)> evaluator_;

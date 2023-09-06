@@ -45,6 +45,11 @@ using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
+const auto getCrossZ = [](const Real& anAngle, const Real& aTarget) -> Real
+{
+    return (std::sin(anAngle) * std::cos(aTarget) - std::cos(anAngle) * std::sin(aTarget));
+};
+
 class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
     : public ::testing::TestWithParam<Tuple<COE::Element, Real, Real>>
 {
@@ -58,6 +63,32 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
             State(defaultInstant_, posVelInFrame, defaultFrame_, defaultCoordinatesBroker_);
 
         defaultStateInIntegrationFrame_ = defaultStateInFrame.inFrame(defaultIntegrationFrame_);
+
+        Position currentPosition = Position::Undefined();
+        Position previousPosition = Position::Undefined();
+        Velocity currentVelocity = Velocity::Undefined();
+        Velocity previousVelocity = Velocity::Undefined();
+
+        std::tie(currentPosition, currentVelocity) =
+            COE(Length::Kilometers(550.0) + Earth::EGM2008.equatorialRadius_,
+                0.2,
+                Angle::Degrees(16.0),
+                Angle::Degrees(1.0),
+                Angle::Degrees(1.0),
+                Angle::Degrees(1.0))
+                .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
+
+        std::tie(previousPosition, previousVelocity) =
+            COE(Length::Kilometers(550.0) + Earth::EGM2008.equatorialRadius_,
+                0.2,
+                Angle::Degrees(15.0),
+                Angle::Degrees(359.0),
+                Angle::Degrees(359.0),
+                Angle::Degrees(359.0))
+                .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
+
+        currentState_ = {defaultInstant_, currentPosition, currentVelocity};
+        previousState_ = {defaultInstant_, previousPosition, previousVelocity};
     }
 
    protected:
@@ -76,20 +107,22 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition
         defaultName_, defaultCriterion_, defaultElement_, defaultFrame_, defaultTarget_, gravitationalParameter_
     );
     State defaultStateInIntegrationFrame_ = State::Undefined();
+    State currentState_ = State::Undefined();
+    State previousState_ = State::Undefined();
 };
 
 INSTANTIATE_TEST_SUITE_P(
     COECondition,
     OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition,
     ::testing::Values(
-        std::make_tuple(COE::Element::SemiMajorAxis, 7000000.0, 6904757.8910061345),
+        std::make_tuple(COE::Element::SemiMajorAxis, 7000000.0, -95242.10899386555),
         std::make_tuple(COE::Element::Eccentricity, 0.0, 0.0010116019825255468),
-        std::make_tuple(COE::Element::Inclination, 1.5, 1.6989221681582849),
-        std::make_tuple(COE::Element::Aop, 2.4, 2.4052654657377115),
-        std::make_tuple(COE::Element::Raan, 4.8, 4.8172172435680096),
-        std::make_tuple(COE::Element::TrueAnomaly, 3.8, 3.8846577046593076),
-        std::make_tuple(COE::Element::MeanAnomaly, 3.8, 3.8860272646567751),
-        std::make_tuple(COE::Element::EccentricAnomaly, 3.8, 3.8853423573058397)
+        std::make_tuple(COE::Element::Inclination, 1.5, getCrossZ(1.6989221681582849, 1.5)),
+        std::make_tuple(COE::Element::Aop, 2.4, getCrossZ(2.4052654657377115, 2.4)),
+        std::make_tuple(COE::Element::Raan, 4.8, getCrossZ(4.8172172435680096, 4.8)),
+        std::make_tuple(COE::Element::TrueAnomaly, 3.8, getCrossZ(3.8846577046593076, 3.8)),
+        std::make_tuple(COE::Element::MeanAnomaly, 3.8, getCrossZ(3.8860272646567751, 3.8)),
+        std::make_tuple(COE::Element::EccentricAnomaly, 3.8, getCrossZ(3.8853423573058397, 3.8))
     )
 );
 
@@ -138,9 +171,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, evaluate)
         gravitationalParameter_,
     };
 
-    {
-        EXPECT_NEAR(condition.evaluate(defaultStateInIntegrationFrame_), expectedValue - target, 1e-14);
-    }
+    EXPECT_NEAR(condition.evaluate(defaultStateInIntegrationFrame_), expectedValue, 1e-14);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, SemiMajorAxis)
@@ -170,78 +201,144 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Eccentricity)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Inclination)
 {
-    COECondition condition =
-        COECondition::Inclination(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "Inclination Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::Inclination);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 1.6989221681582849 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 1.6989221681582849;
+        COECondition condition =
+            COECondition::Inclination(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "Inclination Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::Inclination);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::Inclination(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(15.5), gravitationalParameter_
+        );
+        EXPECT_LT(condition.evaluate(previousState_), 0.0);
+        EXPECT_GT(condition.evaluate(currentState_), 0.0);
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Aop)
 {
-    COECondition condition =
-        COECondition::Aop(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "Argument of periapsis Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::Aop);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 2.4052654657377115 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 2.4052654657377115;
+        COECondition condition = COECondition::Aop(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "Argument of periapsis Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::Aop);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::Aop(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
 {
-    COECondition condition =
-        COECondition::Raan(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "Right angle of ascending node Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::Raan);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 4.8172172435680096 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 4.8172172435680096;
+        COECondition condition = COECondition::Raan(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "Right angle of ascending node Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::Raan);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::Raan(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
 {
-    COECondition condition =
-        COECondition::TrueAnomaly(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "True anomaly Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::TrueAnomaly);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 3.8846577046593076 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 3.8846577046593076;
+        COECondition condition =
+            COECondition::TrueAnomaly(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "True anomaly Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::TrueAnomaly);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::TrueAnomaly(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, MeanAnomaly)
 {
-    COECondition condition =
-        COECondition::MeanAnomaly(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "Mean anomaly Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::MeanAnomaly);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 3.8860272646567751 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 3.8860272646567751;
+        COECondition condition =
+            COECondition::MeanAnomaly(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "Mean anomaly Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::MeanAnomaly);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::MeanAnomaly(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnomaly)
 {
-    COECondition condition =
-        COECondition::EccentricAnomaly(defaultCriterion_, defaultFrame_, Angle::Degrees(90), gravitationalParameter_);
-    EXPECT_EQ(condition.getName(), "Eccentric anomaly Condition");
-    EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
-    EXPECT_EQ(condition.getElement(), COE::Element::EccentricAnomaly);
-    EXPECT_EQ(condition.getTarget(), Angle::HalfPi().inRadians());
-    EXPECT_NEAR(
-        condition.evaluate(defaultStateInIntegrationFrame_), 3.8853423573058397 - Angle::HalfPi().inRadians(), 1e-14
-    );
+    {
+        const Angle target = Angle::Degrees(90.0);
+        const Real currentAngle = 3.8853423573058397;
+        COECondition condition =
+            COECondition::EccentricAnomaly(defaultCriterion_, defaultFrame_, target, gravitationalParameter_);
+        EXPECT_EQ(condition.getName(), "Eccentric anomaly Condition");
+        EXPECT_EQ(condition.getCriterion(), defaultCriterion_);
+        EXPECT_EQ(condition.getElement(), COE::Element::EccentricAnomaly);
+        EXPECT_EQ(condition.getTarget(), target.inRadians());
+        EXPECT_NEAR(
+            condition.evaluate(defaultStateInIntegrationFrame_), getCrossZ(currentAngle, target.inRadians()), 1e-14
+        );
+    }
+
+    {
+        COECondition condition = COECondition::EccentricAnomaly(
+            COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
 }
