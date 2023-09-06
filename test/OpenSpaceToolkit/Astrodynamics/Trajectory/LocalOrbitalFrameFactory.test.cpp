@@ -53,7 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : publi
     Shared<const LocalOrbitalFrameFactory> LOFFactorySPtr_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
 
     const Instant instant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
-    const Vector3d positition_ = {7000000.0, 0.0, 0.0};
+    const Vector3d position_ = {7000000.0, 0.0, 0.0};
     const Vector3d velocity_ = {0.0, 5335.865450622126, 5335.865450622126};
 };
 
@@ -114,14 +114,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, GenerateFrame)
 {
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, positition_, velocity_);
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, position_, velocity_);
 
         Transform transform = localOrbitalFrame->getTransformTo(gcrfSPtr_, instant_);
         transform.accessOrientation();
     }
 
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, positition_, velocity_);
+        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(instant_, position_, velocity_);
 
         EXPECT_ANY_THROW(localOrbitalFrame->getTransformTo(gcrfSPtr_, Instant::J2000()));
     }
