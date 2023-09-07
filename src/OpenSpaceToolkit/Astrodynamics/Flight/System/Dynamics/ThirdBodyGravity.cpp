@@ -104,7 +104,6 @@ VectorXd ThirdBodyGravity::computeContribution(
              .inFrame(aFrameSPtr, anInstant)
              .getValue();
 
-    // Add celestial's gravity to total gravitational acceleration
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
 
     gravitationalAccelerationSI +=
