@@ -28,8 +28,6 @@ using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 ///
 /// @note                       A unit vector, expressed with a Local Orbital Frame Factory.
 
-// Add docstrings
-
 class LocalOrbitalFrameDirection
 {
    public:
