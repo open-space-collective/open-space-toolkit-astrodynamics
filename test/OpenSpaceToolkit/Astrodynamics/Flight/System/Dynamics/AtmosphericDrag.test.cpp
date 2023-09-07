@@ -257,8 +257,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
 {
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
 
-    const VectorXd contribution =
-        atmosphericDrag.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
+    const VectorXd contribution = atmosphericDrag.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, 0.0 - contribution[0]);

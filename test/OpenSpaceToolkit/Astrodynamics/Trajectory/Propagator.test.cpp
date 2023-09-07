@@ -199,9 +199,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinatesSubset::Mass(),
-        })
-    );
-
+        }));
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
@@ -1816,14 +1814,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 
         // Setup initial conditions
         VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], satelliteDryMass_.inKilograms();
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
+            satelliteDryMass_.inKilograms();
 
-        const State state = {
-            startInstant,
-            initialCoordinates,
-            gcrfSPtr_,
-            coordinatesBrokerSPtr_
-        };
+        const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
@@ -1905,16 +1899,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
         };
 
-       // Setup initial conditions
+        // Setup initial conditions
         VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], satelliteDryMass_.inKilograms();
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
+            satelliteDryMass_.inKilograms();
 
-        const State state = {
-            startInstant,
-            initialCoordinates,
-            gcrfSPtr_,
-            coordinatesBrokerSPtr_
-        };
+        const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
@@ -3306,14 +3296,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
 
     // Setup initial conditions
     VectorXd initialCoordinates(7);
-    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, satelliteDryMass_.inKilograms();
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126,
+        satelliteDryMass_.inKilograms();
 
-    const State state = {
-        startInstant,
-        initialCoordinates,
-        gcrfSPtr_,
-        coordinatesBrokerSPtr_
-    };
+    const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,
@@ -3388,14 +3374,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Fa
 
     // Setup initial conditions
     VectorXd initialCoordinates(7);
-    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, satelliteDryMass_.inKilograms();
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126,
+        satelliteDryMass_.inKilograms();
 
-    const State state = {
-        startInstant,
-        initialCoordinates,
-        gcrfSPtr_,
-        coordinatesBrokerSPtr_
-    };
+    const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,
