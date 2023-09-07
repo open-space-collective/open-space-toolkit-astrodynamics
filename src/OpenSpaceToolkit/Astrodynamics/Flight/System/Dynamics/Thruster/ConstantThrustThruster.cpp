@@ -103,8 +103,7 @@ VectorXd ConstantThrustThruster::computeContribution(
     );  // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
     Quaternion q_requestedFrame_LOF = frameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
 
-    // TBI: Need to represent propellant mass only here
-    if (x[6] <= 0.0)
+    if (x[6] <= this->getSatelliteSystem().getMass().getValue())
     {
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
