@@ -38,7 +38,7 @@ using ostk::astro::trajectory::State;
 
 /// @brief                      A Classical Orbital Element based event condition
 
-class COECondition : public RealCondition
+class COECondition
 {
    public:
     /// @brief                  Constructor

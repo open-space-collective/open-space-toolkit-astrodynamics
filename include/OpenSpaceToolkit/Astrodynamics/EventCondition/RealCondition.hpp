@@ -91,6 +91,14 @@ class RealCondition : public EventCondition
 
     Real evaluate(const State& state) const;
 
+    /// @brief                  Check if the Event Condition is satisfied based on current state and previous
+    ///                         state/time
+    ///
+    /// @param                  [in] currentState The current state
+    /// @param                  [in] previousState The previous state
+    ///
+    /// @return                 Boolean value indicating if the Event Condition is met
+
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
     /// @brief                  Convert criterion to string
@@ -100,9 +108,6 @@ class RealCondition : public EventCondition
     /// @return                 String representing the given criterion
 
     static String StringFromCriterion(const Criterion& aCriterion);
-
-   protected:
-    static Real GetCrossZDelta(const Real& anAngle, const Real& aTarget);
 
    private:
     Criterion criterion_;

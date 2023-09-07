@@ -48,9 +48,8 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     EventCondition::print(anOutputStream, false);
-    ostk::core::utils::Print::Line(anOutputStream) << "Name:" << getName();
-    ostk::core::utils::Print::Line(anOutputStream) << "Criterion:" << StringFromCriterion(getCriterion());
-    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << getTarget();
+    ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
+    ostk::core::utils::Print::Line(anOutputStream) << "Target: " << getTarget();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -89,11 +88,6 @@ String RealCondition::StringFromCriterion(const Criterion& aCriterion)
     }
 
     return String::Empty();
-}
-
-Real RealCondition::GetCrossZDelta(const Real& anAngle, const Real& aTarget)
-{
-    return (std::sin(anAngle) * std::cos(aTarget) - std::cos(anAngle) * std::sin(aTarget)) + aTarget;
 }
 
 std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(

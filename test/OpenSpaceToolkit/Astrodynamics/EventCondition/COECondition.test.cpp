@@ -269,6 +269,50 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, Raan)
         );
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
     }
+
+    {
+        Position currentPosition = Position::Undefined();
+        Position previousPosition = Position::Undefined();
+        Velocity currentVelocity = Velocity::Undefined();
+        Velocity previousVelocity = Velocity::Undefined();
+
+        std::tie(currentPosition, currentVelocity) =
+            COE(Length::Kilometers(550.0) + Earth::EGM2008.equatorialRadius_,
+                0.2,
+                Angle::Degrees(16.0),
+                Angle::Degrees(181.0),
+                Angle::Degrees(1.0),
+                Angle::Degrees(1.0))
+                .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
+
+        std::tie(previousPosition, previousVelocity) =
+            COE(Length::Kilometers(550.0) + Earth::EGM2008.equatorialRadius_,
+                0.2,
+                Angle::Degrees(15.0),
+                Angle::Degrees(179.0),
+                Angle::Degrees(359.0),
+                Angle::Degrees(359.0))
+                .getCartesianState(Earth::EGM2008.gravitationalParameter_, defaultFrame_);
+
+        const State currentState = {defaultInstant_, currentPosition, currentVelocity};
+        const State previousState = {defaultInstant_, previousPosition, previousVelocity};
+
+        {
+            COECondition condition = COECondition::Raan(
+                COECondition::Criterion::AnyCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+            );
+            EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+            EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+        }
+
+        {
+            COECondition condition = COECondition::Raan(
+                COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+            );
+            EXPECT_FALSE(condition.isSatisfied(currentState_, previousState_));
+            EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+        }
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, TrueAnomaly)
@@ -339,6 +383,21 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_COECondition, EccentricAnom
         COECondition condition = COECondition::EccentricAnomaly(
             COECondition::Criterion::PositiveCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
         );
+        EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
+    }
+
+    {
+        COECondition condition = COECondition::EccentricAnomaly(
+            COECondition::Criterion::NegativeCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
+    }
+
+    {
+        COECondition condition = COECondition::EccentricAnomaly(
+            COECondition::Criterion::AnyCrossing, defaultFrame_, Angle::Degrees(0.0), gravitationalParameter_
+        );
+        EXPECT_TRUE(condition.isSatisfied(previousState_, currentState_));
         EXPECT_TRUE(condition.isSatisfied(currentState_, previousState_));
     }
 }
