@@ -138,7 +138,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
         };
 
         this->satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
-        ;
+
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
 
@@ -193,6 +193,15 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
+
+    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr_ =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+            CoordinatesSubset::Mass(),
+        })
+    );
+
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
@@ -608,11 +617,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, OrekitExponential)
 {
-    // Current state and instant setup
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.053290, 0.0, satelliteDryMass_.inKilograms();
+
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 7546.053290, 0.0}, gcrfSPtr_),
+        initialCoordinates,
+        gcrfSPtr_,
+        coordinatesBrokerSPtr_,
     };
 
     // Setup Propagator
@@ -633,13 +645,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
     const State finalState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
-    VectorXd expectedCoordinates(6);
+    VectorXd expectedCoordinates(7);
     expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
-        -05576.414764013522, -00000.000000010687;
+        -05576.414764013522, -00000.000000010687, satelliteDryMass_.inKilograms();
 
     VectorXd actualCoordinates(6);
     actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
     actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
+    actualCoordinates.segment(6, 1) = finalState.extractCoordinates(CoordinatesSubset::Mass());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
@@ -1802,10 +1815,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         };
 
         // Setup initial conditions
+        VectorXd initialCoordinates(7);
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], satelliteDryMass_.inKilograms();
+
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
+            initialCoordinates,
+            gcrfSPtr_,
+            coordinatesBrokerSPtr_
         };
 
         // Setup Propagator model and orbit
@@ -1888,11 +1905,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
         };
 
-        // Setup initial conditions
+       // Setup initial conditions
+        VectorXd initialCoordinates(7);
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], satelliteDryMass_.inKilograms();
+
         const State state = {
             startInstant,
-            Position::Meters({referencePositionArrayGCRF[0]}, gcrfSPtr_),
-            Velocity::MetersPerSecond({referenceVelocityArrayGCRF[0]}, gcrfSPtr_),
+            initialCoordinates,
+            gcrfSPtr_,
+            coordinatesBrokerSPtr_
         };
 
         // Setup Propagator model and orbit
@@ -1930,8 +1951,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 }
 
 // TBI: Specific class for parameterized tests on thruster dynamics, could inherit from base fixture for common inputs
-// error: 'testing::Test' is an ambiguous base of
-// 'OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Test'
+// error: 'testing::Test' is an ambiguous base
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     : public ::testing::TestWithParam<
           Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
@@ -3284,10 +3304,15 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
     const Instant endInstant = std::get<1>(parameters);
     const Duration step = std::get<2>(parameters);
 
+    // Setup initial conditions
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, satelliteDryMass_.inKilograms();
+
     const State state = {
         startInstant,
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        initialCoordinates,
+        gcrfSPtr_,
+        coordinatesBrokerSPtr_
     };
 
     const NumericalSolver RK4 = {
@@ -3361,10 +3386,15 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Fa
     Instant endInstant = std::get<1>(parameters);
     Duration step = std::get<2>(parameters);
 
+    // Setup initial conditions
+    VectorXd initialCoordinates(7);
+    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, satelliteDryMass_.inKilograms();
+
     const State state = {
         startInstant,
-        Position::Meters({7000000.0, 0.0, 0.0}, gcrfSPtr_),
-        Velocity::MetersPerSecond({0.0, 5335.865450622126, 5335.865450622126}, gcrfSPtr_),
+        initialCoordinates,
+        gcrfSPtr_,
+        coordinatesBrokerSPtr_
     };
 
     const NumericalSolver RK4 = {
