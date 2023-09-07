@@ -20,6 +20,11 @@ from ostk.physics.environment.gravitational import Earth as EarthGravitationalMo
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
@@ -60,12 +65,22 @@ def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDrag
 
 
 @pytest.fixture
-def state() -> State:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([7000000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second([0.0, 7546.05329, 0.0], frame)
-    instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
-    return State(instant, position, velocity)
+def coordinates_broker() -> CoordinatesBroker:
+    return CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
+    )
+
+
+@pytest.fixture
+def state(coordinates_broker: CoordinatesBroker) -> State:
+    instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
+    coordinates: list = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 100.0]
+
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 
 class TestAtmosphericDrag:
