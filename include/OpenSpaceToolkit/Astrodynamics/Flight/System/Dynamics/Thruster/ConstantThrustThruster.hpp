@@ -52,14 +52,16 @@ class ConstantThrustThruster : public Thruster
     /// @brief              Constructor
     ///
     /// @code
-    ///                     const String aName = { ... };
+    ///                     const LocalOrbitalFrameDirection aThrustDirection = { ... };
     ///                     const SatelliteSystem aSatelliteSystem = { ... };
-    ///                     const Direction aThrustDirection = { ... };
+    ///                     const String aName = { ... };
     ///                     ConstantThrustThruster constantThrustThrusterDynamics = { aName, aSatelliteSystem,
     ///                     aThrustDirection};
     /// @endcode
     ///
-    /// @param              [in] aDirection A direction
+    /// @param              [in] aSatelliteSystem A satellite system
+    /// @param              [in] aThrustDirection A local orbital frame thrust direction
+    /// @param              [in] aName A name
 
     ConstantThrustThruster(
         const SatelliteSystem& aSatelliteSystem,
@@ -107,7 +109,7 @@ class ConstantThrustThruster : public Thruster
 
     virtual bool isDefined() const override;
 
-    /// @brief              Get constant thrust thruster dynamics' thrust
+    /// @brief              Get thrust
     ///
     /// @code
     ///                     Scalar thrust = constantThrustThruster.getThrust() ;
@@ -154,7 +156,7 @@ class ConstantThrustThruster : public Thruster
     LocalOrbitalFrameDirection
         localOrbitalFrameDirection_;  // TBI: Orekit uses the Satellite frame (usually defined wrt Local Orbital Frame
                                       // implementation) for Thrust direction
-    // TBI: Check if we should constrain the Frame for direction_ to be a LOF and not Frame
+    // TBI: We currently support Local Orbital Frame Direction definition only for thrust direction.
 };
 
 }  // namespace thruster
