@@ -98,6 +98,7 @@ Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubset
     return {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
+        CoordinatesSubset::Mass(),
     };
 }
 
@@ -126,11 +127,11 @@ VectorXd AtmosphericDrag::computeContribution(
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
-    const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
+    const Real mass = x[6];
     const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
     const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 
-    // Add object's gravity to total gravitational acceleration
+    // Compute drag contribution to state derivative
     const Vector3d dragAccelerationSI =
         -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
