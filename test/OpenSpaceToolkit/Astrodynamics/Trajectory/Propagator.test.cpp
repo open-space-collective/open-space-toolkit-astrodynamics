@@ -647,7 +647,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
         -05576.414764013522, -00000.000000010687, satelliteDryMass_.inKilograms();
 
-    VectorXd actualCoordinates(6);
+    VectorXd actualCoordinates(7);
     actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
     actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
     actualCoordinates.segment(6, 1) = finalState.extractCoordinates(CoordinatesSubset::Mass());
