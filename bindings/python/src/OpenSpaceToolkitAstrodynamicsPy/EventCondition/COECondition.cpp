@@ -18,27 +18,7 @@ using ostk::astro::eventcondition::COECondition;
 inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_COECondition(pybind11::module& aModule)
 {
     {
-        class_<COECondition, RealCondition, Shared<COECondition>>(aModule, "COECondition")
-
-            .def(
-                init<
-                    const String&,
-                    const RealCondition::Criterion&,
-                    const COE::Element&,
-                    const Shared<const Frame>&,
-                    const Real&,
-                    const Derived&>(),
-                arg("name"),
-                arg("criterion"),
-                arg("element"),
-                arg("frame"),
-                arg("target"),
-                arg("gravitational_parameter")
-            )
-
-            .def("get_gravitational_parameter", &COECondition::getGravitationalParameter)
-            .def("get_element", &COECondition::getElement)
-            .def("get_frame", &COECondition::getFrame)
+        class_<COECondition>(aModule, "COECondition")
 
             .def_static(
                 "semi_major_axis",

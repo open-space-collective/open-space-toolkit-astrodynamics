@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/AngularCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
@@ -33,6 +34,7 @@ using ostk::physics::units::Length;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::eventcondition::RealCondition;
+using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 using ostk::astro::trajectory::State;
 
@@ -41,62 +43,8 @@ using ostk::astro::trajectory::State;
 class COECondition
 {
    public:
-    /// @brief                  Constructor
-    ///
-    /// @code
-    ///                         COECondition condition = {aCriterion, aTarget, aGravitationalParameter};
-    /// @endcode
-    ///
-    /// @param                  [in] aName The name of the COECondition (optional, can be an empty string)
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event Condition
-    /// @param                  [in] anElement The Element related to the COECondition
-    /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aTarget A target value associated with the COECondition
-    /// @param                  [in] aGravitationalParameter The derived gravitational parameter
-
-    COECondition(
-        const String& aName,
-        const Criterion& aCriterion,
-        const COE::Element& anElement,
-        const Shared<const Frame>& aFrameSPtr,
-        const Real& aTarget,
-        const Derived& aGravitationalParameter
-    );
-
-    /// @brief                  Virtual destructor
-
-    virtual ~COECondition();
-
-    /// @brief                  Get gravitational parameter
-    ///
-    /// @return                 gravitational parameter
-
-    Derived getGravitationalParameter() const;
-
-    /// @brief                  Get element
-    ///
-    /// @return                 element
-
-    COE::Element getElement() const;
-
-    /// @brief                  Get frame
-    ///
-    /// @return                 frame
-
-    Shared<const Frame> getFrame() const;
-
-    /// @brief                  Semi Major Axis based constructor
-    ///
-    /// @param                  [in] aCriterion An enum indicating the criterion used to determine the Event
-    /// Condition
-    /// @param                  [in] aFrameSPtr A frame in which the Element is to be computed
-    /// @param                  [in] aSemiMajorAxis A semi major axis
-    /// @param                  [in] aGravitationalParameter A gravitational parameter
-    ///
-    /// @return                 COECondition object
-
-    static COECondition SemiMajorAxis(
-        const Criterion& aCriterion,
+    static RealCondition SemiMajorAxis(
+        const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Length& aSemiMajorAxis,
         const Derived& aGravitationalParameter
@@ -111,8 +59,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Eccentricity(
-        const Criterion& aCriterion,
+    static RealCondition Eccentricity(
+        const RealCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Real& anEccentricity,
         const Derived& aGravitationalParameter
@@ -127,8 +75,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Inclination(
-        const Criterion& aCriterion,
+    static AngularCondition Inclination(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aSemiMajorAxis,
         const Derived& aGravitationalParameter
@@ -143,8 +91,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Aop(
-        const Criterion& aCriterion,
+    static AngularCondition Aop(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& anAOP,
         const Derived& aGravitationalParameter
@@ -159,8 +107,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition Raan(
-        const Criterion& aCriterion,
+    static AngularCondition Raan(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aRAAN,
         const Derived& aGravitationalParameter
@@ -175,8 +123,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition TrueAnomaly(
-        const Criterion& aCriterion,
+    static AngularCondition TrueAnomaly(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aTrueAnomaly,
         const Derived& aGravitationalParameter
@@ -191,8 +139,8 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition MeanAnomaly(
-        const Criterion& aCriterion,
+    static AngularCondition MeanAnomaly(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& aMeanAnomaly,
         const Derived& aGravitationalParameter
@@ -207,23 +155,16 @@ class COECondition
     ///
     /// @return                 COECondition object
 
-    static COECondition EccentricAnomaly(
-        const Criterion& aCriterion,
+    static AngularCondition EccentricAnomaly(
+        const AngularCondition::Criterion& aCriterion,
         const Shared<const Frame>& aFrameSPtr,
         const Angle& anEccentricAnomaly,
         const Derived& aGravitationalParameter
     );
 
    private:
-    COE::Element element_;
-    Shared<const Frame> frameSPtr_;
-    Derived gravitationalParameter_;
-
     static std::function<Real(const State&)> GenerateEvaluator(
-        const COE::Element& anElement,
-        const Shared<const Frame>& aFrameSPtr,
-        const Derived& aGravitationalParameter,
-        const Real& aTarget
+        const COE::Element& anElement, const Shared<const Frame>& aFrameSPtr, const Derived& aGravitationalParameter
     );
 };
 

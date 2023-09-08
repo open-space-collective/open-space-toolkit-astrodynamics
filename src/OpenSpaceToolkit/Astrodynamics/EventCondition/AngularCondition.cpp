@@ -48,7 +48,7 @@ Angle AngularCondition::getTargetAngle() const
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Radians(target_);
+    return Angle::Degrees(target_);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
@@ -58,7 +58,7 @@ Pair<Angle, Angle> AngularCondition::getTargetRange() const
         throw ostk::core::error::runtime::Undefined("Target Range");
     }
 
-    return Pair<Angle, Angle>(Angle::Radians(targetRange_.first), Angle::Radians(targetRange_.second));
+    return Pair<Angle, Angle>(Angle::Degrees(targetRange_.first), Angle::Degrees(targetRange_.second));
 }
 
 void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -112,7 +112,7 @@ String AngularCondition::StringFromCriterion(const Criterion& aCriterion)
 bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 540.0, 360.0) - 180.0;
+    const Real deltaAngle = std::fmod(currentValue - previousValue + 3 * M_PI, 2 * M_PI) - M_PI;
 
     if (deltaAngle <= 0.0)
     {
@@ -130,7 +130,7 @@ bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& 
 bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 540.0, 360.0) - 180.0;
+    const Real deltaAngle = std::fmod(currentValue - previousValue + 3 * M_PI, 2 * M_PI) - M_PI;
 
     if (deltaAngle >= 0.0)
     {
