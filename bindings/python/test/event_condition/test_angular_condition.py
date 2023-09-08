@@ -57,11 +57,9 @@ def event_condition(
 
 @pytest.fixture
 def within_range_condition(
-    criterion: AngularCondition.Criterion, evaluator, target_range: tuple[Angle, Angle]
+    evaluator, target_range: tuple[Angle, Angle]
 ) -> AngularCondition:
-    return AngularCondition(
-        "My Condition", criterion, lambda state: state.get_coordinates()[0], target_range
-    )
+    return AngularCondition.within_range("My Condition", evaluator, target_range)
 
 
 class TestAngularCondition:
