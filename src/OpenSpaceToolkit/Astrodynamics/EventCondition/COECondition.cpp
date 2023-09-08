@@ -164,17 +164,17 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
             case COE::Element::Eccentricity:
                 return coe.getEccentricity();
             case COE::Element::Inclination:
-                return coe.getInclination().inRadians();
+                return coe.getInclination().inRadians(0.0, Real::TwoPi());
             case COE::Element::Aop:
-                return coe.getAop().inRadians();
+                return coe.getAop().inRadians(0.0, Real::TwoPi());
             case COE::Element::Raan:
-                return coe.getRaan().inRadians();
+                return coe.getRaan().inRadians(0.0, Real::TwoPi());
             case COE::Element::TrueAnomaly:
-                return coe.getTrueAnomaly().inRadians();
+                return coe.getTrueAnomaly().inRadians(0.0, Real::TwoPi());
             case COE::Element::MeanAnomaly:
-                return coe.getMeanAnomaly().inRadians();
+                return coe.getMeanAnomaly().inRadians(0.0, Real::TwoPi());
             case COE::Element::EccentricAnomaly:
-                return coe.getEccentricAnomaly().inRadians();
+                return coe.getEccentricAnomaly().inRadians(0.0, Real::TwoPi());
         }
 
         throw ostk::core::error::RuntimeError("Invalid element.");

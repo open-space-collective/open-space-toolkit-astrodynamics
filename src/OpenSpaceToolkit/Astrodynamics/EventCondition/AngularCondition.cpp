@@ -23,8 +23,8 @@ AngularCondition::AngularCondition(
     : EventCondition(aName),
       criterion_(aCriterion),
       evaluator_(anEvaluator),
-      comparator_(GenerateComparator(aCriterion, aTargetAngle.inRadians())),
-      target_(aTargetAngle.inRadians()),
+      comparator_(GenerateComparator(aCriterion, aTargetAngle.inRadians(0.0, Real::TwoPi()))),
+      target_(aTargetAngle.inRadians(0.0, Real::TwoPi())),
       targetRange_(std::make_pair(Real::Undefined(), Real::Undefined()))
 {
 }
@@ -48,7 +48,7 @@ Angle AngularCondition::getTargetAngle() const
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Degrees(target_);
+    return Angle::Radians(target_);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
@@ -58,7 +58,7 @@ Pair<Angle, Angle> AngularCondition::getTargetRange() const
         throw ostk::core::error::runtime::Undefined("Target Range");
     }
 
-    return Pair<Angle, Angle>(Angle::Degrees(targetRange_.first), Angle::Degrees(targetRange_.second));
+    return Pair<Angle, Angle>(Angle::Radians(targetRange_.first), Angle::Radians(targetRange_.second));
 }
 
 void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -112,7 +112,7 @@ String AngularCondition::StringFromCriterion(const Criterion& aCriterion)
 bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3 * M_PI, 2 * M_PI) - M_PI;
+    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
 
     if (deltaAngle <= 0.0)
     {
@@ -130,7 +130,7 @@ bool AngularCondition::IsPositiveCrossing(const Real& currentValue, const Real& 
 bool AngularCondition::IsNegativeCrossing(const Real& currentValue, const Real& previousValue, const Real& targetValue)
 {
     // Calculate angular differences
-    const Real deltaAngle = std::fmod(currentValue - previousValue + 3 * M_PI, 2 * M_PI) - M_PI;
+    const Real deltaAngle = std::fmod(currentValue - previousValue + 3.0 * Real::Pi(), Real::TwoPi()) - Real::Pi();
 
     if (deltaAngle >= 0.0)
     {
@@ -186,7 +186,8 @@ AngularCondition::AngularCondition(
       criterion_(aCriterion),
       evaluator_(anEvaluator),
       comparator_(
-          [lowerBound = aTargetRange.first.inRadians(), upperBound = aTargetRange.second.inRadians()](
+          [lowerBound = aTargetRange.first.inRadians(0.0, Real::TwoPi()),
+           upperBound = aTargetRange.second.inRadians(0.0, Real::TwoPi())](
               const Real& currentValue, [[maybe_unused]] const Real& previousValue
           ) -> bool
           {
@@ -194,7 +195,9 @@ AngularCondition::AngularCondition(
           }
       ),
       target_(Real::Undefined()),
-      targetRange_(std::make_pair(aTargetRange.first.inRadians(), aTargetRange.second.inRadians()))
+      targetRange_(std::make_pair(
+          aTargetRange.first.inRadians(0.0, Real::TwoPi()), aTargetRange.second.inRadians(0.0, Real::TwoPi())
+      ))
 {
 }
 
