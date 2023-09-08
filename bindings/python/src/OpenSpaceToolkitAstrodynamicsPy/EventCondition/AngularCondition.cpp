@@ -12,6 +12,8 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::units::Angle;
+
 using ostk::astro::EventCondition;
 using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::State;
@@ -26,8 +28,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
         angularCondition
 
             .def(
-                init<const String&, const AngularCondition::Criterion&, std::function<Real(const State&)>, const Real&>(
-                ),
+                init<
+                    const String&,
+                    const AngularCondition::Criterion&,
+                    std::function<Real(const State&)>,
+                    const Angle&>(),
                 arg("name"),
                 arg("criterion"),
                 arg("evaluator"),
@@ -37,7 +42,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             .def("__str__", &(shiftToString<AngularCondition>))
             .def("__repr__", &(shiftToString<AngularCondition>))
 
-            .def("get_target", &AngularCondition::getTarget)
             .def("get_criterion", &AngularCondition::getCriterion)
             .def("get_evaluator", &AngularCondition::getEvaluator)
             .def("get_target_angle", &AngularCondition::getTargetAngle)
@@ -46,7 +50,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
             .def("is_satisfied", &AngularCondition::isSatisfied, arg("current_state"), arg("previous_state"))
 
             .def_static(
-                "within_range", &AngularCondition::WithinRange, arg("name", arg("evaluator"), arg("target_range"))
+                "within_range", &AngularCondition::WithinRange, arg("name"), arg("evaluator"), arg("target_range")
             )
             .def_static("string_from_criterion", &AngularCondition::StringFromCriterion, arg("criterion"))
 
