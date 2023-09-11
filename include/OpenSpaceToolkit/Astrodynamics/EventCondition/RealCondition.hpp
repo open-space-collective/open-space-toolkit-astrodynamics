@@ -20,7 +20,8 @@ using ostk::core::types::String;
 
 using ostk::astro::trajectory::State;
 
-/// @brief                      An Event Condition that can evaluate each state to a real number.
+/// @brief                      An Event Condition that can evaluate each state to a real number. Meant for non-cyclic
+/// continuous real numbers. For cyclic numbers (like angles), use AngularCondition.
 
 class RealCondition : public EventCondition
 {
@@ -90,6 +91,14 @@ class RealCondition : public EventCondition
     /// @return                 Real number representing the evaluation result of the Event Condition
 
     Real evaluate(const State& state) const;
+
+    /// @brief                  Check if the Event Condition is satisfied based on current state and previous
+    ///                         state/time
+    ///
+    /// @param                  [in] currentState The current state
+    /// @param                  [in] previousState The previous state
+    ///
+    /// @return                 Boolean value indicating if the Event Condition is met
 
     virtual bool isSatisfied(const State& currentState, const State& previousState) const override;
 
