@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
@@ -28,6 +29,7 @@ using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using ostk::physics::coord::Position;
 
+using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
@@ -95,10 +97,12 @@ SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
 
 Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubsets() const
 {
+    
+
     return {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-        CoordinatesSubset::Mass(),
+        std::make_shared<CoordinatesSubset>("inverseBC", 1),
     };
 }
 
@@ -115,6 +119,8 @@ VectorXd AtmosphericDrag::computeContribution(
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
     Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
+    Real inverseBC = x[6];
+    std::cout << "computing drag with bc: " << inverseBC << std::endl;
 
     // Get atmospheric density
     const Real atmosphericDensity =
@@ -126,14 +132,20 @@ VectorXd AtmosphericDrag::computeContribution(
         aFrameSPtr->getTransformTo(Frame::ITRF(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
-
-    const Real mass = x[6];
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    // const Real mass = satelliteSystem_.getMass().inKilograms();  // TBI: Add wet mass from state vector
+    // const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+    // const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
 
     // Compute drag contribution to state derivative
     const Vector3d dragAccelerationSI =
-        -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
+        -(0.5 / inverseBC) * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
+
+    std::cout << "drag acceleration: " << dragAccelerationSI << std::endl;
+
+    const Vector3d dragAccelerationSI2 =
+        -(0.5 / inverseBC) * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
+
+    std::cout << "drag acceleration: " << dragAccelerationSI2 << std::endl;
 
     // Compute contribution
     VectorXd contribution(3);

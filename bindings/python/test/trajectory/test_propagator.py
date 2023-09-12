@@ -17,7 +17,10 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial_bodies import Earth, Sun
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
+from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
@@ -34,7 +37,10 @@ from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
+from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition, CartesianVelocity
 from ostk.astrodynamics.trajectory import Propagator
 
 from ostk.astrodynamics.event_condition import InstantCondition
@@ -60,7 +66,7 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
     )
     inertia_tensor = np.identity(3)
     surface_area = 0.8
-    drag_coefficient = 0.0
+    drag_coefficient = 2.2
 
     return SatelliteSystem(
         mass,
@@ -74,8 +80,22 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 
 @pytest.fixture
 def environment() -> Environment:
-    return Environment.default()
 
+    sun = Sun.default()
+
+    earth: Earth = Earth.from_models(
+        EarthGravitationalModel(EarthGravitationalModel.Type.EGM96),
+        EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+        EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
+    )
+
+    return Environment(Instant.J2000(), [earth, sun])
+
+@pytest.fixture
+def coordinates_broker():
+    return CoordinatesBroker(
+        [CartesianPosition.default(), CartesianVelocity.default(), CoordinatesSubset("inverseBC", 1)]
+        )
 
 @pytest.fixture
 def coordinates_broker() -> CoordinatesBroker:
@@ -111,6 +131,10 @@ def state(
 def central_body_gravity() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
 
+@pytest.fixture
+def atmospheric_drag(environment, satellite_system) -> AtmosphericDrag:
+    return AtmosphericDrag(environment.access_celestial_object_with_name("Earth"), satellite_system)
+
 
 @pytest.fixture
 def position_derivative() -> PositionDerivative:
@@ -135,9 +159,11 @@ def constant_thrust(
 
 @pytest.fixture
 def dynamics(
-    position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity
+    position_derivative: PositionDerivative, 
+    central_body_gravity: CentralBodyGravity,
+    atmospheric_drag: AtmosphericDrag,
 ) -> list:
-    return [position_derivative, central_body_gravity]
+    return [position_derivative, central_body_gravity, atmospheric_drag]
 
 
 @pytest.fixture
@@ -213,13 +239,13 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 0
 
-    def test_calculate_state_at(self, propagator: Propagator, state: State):
+    def test_calculate_state_at(self, propagator: Propagator, state: State, coordinates_broker):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagator_state = propagator.calculate_state_at(state, instant)
 
         propagator_state_position_ref = np.array(
-            [6265892.25765909, 3024770.94961259, 3024359.72137468]
+            [62652.25765909, 30270.94961259, 30259.72137468]
         )
         propagator_state_velocity_ref = np.array(
             [-3974.49168221, 4468.16996776, 4466.19232746]
@@ -244,7 +270,7 @@ class TestPropagator:
         )
         assert propagator_state.get_instant() == instant
 
-    def test_calculate_state_at(
+    def test_calculate_state_at2(
         self,
         conditional_numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
