@@ -94,7 +94,7 @@ def environment() -> Environment:
 @pytest.fixture
 def coordinates_broker():
     return CoordinatesBroker(
-        [CartesianPosition.default(), CartesianVelocity.default(), CoordinatesSubset("inverseBC", 1)]
+        [CartesianPosition.default(), CartesianVelocity.default(), CoordinatesSubset.mass(), CoordinatesSubset("Surface Area", 1), CoordinatesSubset("Drag Coefficient", 1)]
         )
 
 @pytest.fixture
@@ -107,13 +107,18 @@ def coordinates_broker() -> CoordinatesBroker:
         ]
     )
 
-
 @pytest.fixture
 def state(
     satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    
     propellant_mass: float = 10.0
+    area: float  = 1
+    cd: float = 2.2
+
+    coordinates = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass, area, cd]
+
     coordinates: list = [
         7500000.0,
         0.0,
@@ -122,6 +127,8 @@ def state(
         5335.865450622126,
         5335.865450622126,
         satellite_system.get_mass().in_kilograms() + propellant_mass,
+        area,
+        cd,
     ]
 
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)

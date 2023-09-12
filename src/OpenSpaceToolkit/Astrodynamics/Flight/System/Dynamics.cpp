@@ -92,10 +92,6 @@ void Dynamics::DynamicalEquations(
 
     for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
-        std::cout << "computing contributions" << std::endl;
-        //std::cout << "read indexes" << dynamicsContext.readIndexes << std::endl;
-        std::cout << "read state size" << dynamicsContext.readStateSize << std::endl;
-        //std::cout << "write indexes" << dynamicsContext.writeIndexes << std::endl;
 
         const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
             nextInstant,

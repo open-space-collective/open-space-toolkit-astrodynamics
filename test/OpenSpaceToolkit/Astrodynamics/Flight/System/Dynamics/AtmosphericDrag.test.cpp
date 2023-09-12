@@ -41,6 +41,7 @@ using ostk::core::types::Index;
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
+using ostk::core::types::Real;
 
 using ostk::math::geom::d3::objects::Composite;
 using ostk::math::geom::d3::objects::Cuboid;
@@ -90,24 +91,13 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
             {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
             {1.0, 2.0, 3.0}
         ));
-
-        const Mass satelliteDryMass = Mass::Kilograms(100.0);
-        const Mass propellantMass = Mass::Kilograms(0.0);
-
-        satelliteSystem_ = {
-            satelliteDryMass,
-            satelliteGeometry,
-            Matrix3d::Identity(),
-            500.0,
-            2.1,
-        };
         
         const Real mass = 100;
         const Real area = 1;
         const Real cd = 2.2;
 
-        startStateVector_.resize(7);
-        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, satelliteDryMass.inKilograms() + propellantMass.inKilograms(), area, cd;
+        startStateVector_.resize(9);
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass, area, cd;
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
     }
@@ -242,7 +232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
     const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getReadCoordinatesSubsets();
 
-    EXPECT_EQ(3, subsets.size());
+    EXPECT_EQ(5, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
     EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
     EXPECT_EQ(CoordinatesSubset::Mass(), subsets[2]);
