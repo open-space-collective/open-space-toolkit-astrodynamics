@@ -77,6 +77,20 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
     }
 }
 
+PropulsionSystem::PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit)
+{
+    thrust_ = Scalar(aThrustInSIUnit, thrustSIUnit);
+    specificImpulse_ = Scalar(aSpecificImpulseInSIUnit, specificImpulseSIUnit);
+
+    if (aThrustInSIUnit.isDefined() && aSpecificImpulseInSIUnit.isDefined())
+    {
+        massFlowRate_ = {
+            aThrustInSIUnit / (aSpecificImpulseInSIUnit * Earth::gravityConstant), massFlowRateSIUnit
+        };
+    }
+
+}
+
 bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) const
 {
     if ((!this->isDefined()) || (!aPropulsionSystem.isDefined()))
