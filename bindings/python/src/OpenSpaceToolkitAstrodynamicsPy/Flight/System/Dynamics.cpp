@@ -6,6 +6,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/CentralBodyGravity.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/PositionDerivative.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/ThirdBodyGravity.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/Thruster.cpp>
 
 using namespace pybind11;
 
@@ -93,4 +94,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_CentralBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_ThirdBodyGravity(dynamics);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_AtmosphericDrag(dynamics);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster(dynamics);
 }
