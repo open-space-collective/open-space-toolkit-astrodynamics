@@ -119,3 +119,14 @@ class TestState:
     ):
         assert state.in_frame(frame) == state
         assert state.in_frame(Frame.ITRF()) != state
+
+    def test_extract_coordinates(
+        self,
+        state: State,
+    ):
+        position_coordinates = state.extract_coordinates(CartesianPosition.default())
+        velocity_coordinates = state.extract_coordinates(CartesianVelocity.default())
+        len(position_coordinates) == 3
+        len(velocity_coordinates) == 3
+        assert (position_coordinates == state.get_position().get_coordinates()).all()
+        assert (velocity_coordinates == state.get_velocity().get_coordinates()).all()
