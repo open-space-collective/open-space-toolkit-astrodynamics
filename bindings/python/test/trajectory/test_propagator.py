@@ -89,10 +89,20 @@ def coordinates_broker() -> CoordinatesBroker:
 
 
 @pytest.fixture
-def state(satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker) -> State:
+def state(
+    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     propellant_mass: float = 10.0
-    coordinates: list = [7500000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, satellite_system.get_mass().in_kilograms() + propellant_mass]
+    coordinates: list = [
+        7500000.0,
+        0.0,
+        0.0,
+        0.0,
+        5335.865450622126,
+        5335.865450622126,
+        satellite_system.get_mass().in_kilograms() + propellant_mass,
+    ]
 
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
@@ -118,7 +128,7 @@ def local_orbital_frame_direction() -> LocalOrbitalFrameDirection:
 @pytest.fixture
 def constant_thrust_thruster(
     satellite_system: SatelliteSystem,
-     local_orbital_frame_direction: LocalOrbitalFrameDirection
+    local_orbital_frame_direction: LocalOrbitalFrameDirection,
 ) -> ConstantThrustThruster:
     return ConstantThrustThruster(satellite_system, local_orbital_frame_direction)
 
@@ -268,9 +278,11 @@ class TestPropagator:
         numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
         constant_thrust_thruster: ConstantThrustThruster,
-        state: State
+        state: State,
     ):
-        propagator: Propagator = Propagator(numerical_solver, dynamics + [constant_thrust_thruster])
+        propagator: Propagator = Propagator(
+            numerical_solver, dynamics + [constant_thrust_thruster]
+        )
 
         instant_array = [
             Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),

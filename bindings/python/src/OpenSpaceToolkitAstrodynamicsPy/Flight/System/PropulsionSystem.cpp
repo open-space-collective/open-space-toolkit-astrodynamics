@@ -20,9 +20,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
         class_<PropulsionSystem>(aModule, "PropulsionSystem")
 
             // .def(
-            //     init([](const Real& thrust, const Unit& thrustUnit, const Real& specificImpulse, const Unit& specificImpulseUnit)
+            //     init([](const Real& thrust, const Unit& thrustUnit, const Real& specificImpulse, const Unit&
+            //     specificImpulseUnit)
             //     {
-            //         return PropulsionSystem(Scalar(thrust, thrustUnit), Scalar(specificImpulse, specificImpulseUnit));
+            //         return PropulsionSystem(Scalar(thrust, thrustUnit), Scalar(specificImpulse,
+            //         specificImpulseUnit));
             //     }
             //     ),
             //     arg("thrust"),
@@ -30,7 +32,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             //     arg("specific_impulse"),
             //     arg("specific_unit")
             // )
-
 
             .def(init<const Real&, const Real&>(), arg("thrust_si_unit"), arg("specific_impulse_si_unit"))
 

@@ -2,7 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_ConstantThrustThruster(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_ConstantThrustThruster(
+    pybind11::module& aModule
+)
 {
     using namespace pybind11;
 
@@ -35,6 +37,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_Cons
             .def("get_read_coordinates_subsets", &ConstantThrustThruster::getReadCoordinatesSubsets)
             .def("get_write_coordinates_subsets", &ConstantThrustThruster::getWriteCoordinatesSubsets)
 
-            .def("compute_contribution", &ConstantThrustThruster::computeContribution, arg("instant"), arg("x"), arg("frame"));
+            .def(
+                "compute_contribution",
+                &ConstantThrustThruster::computeContribution,
+                arg("instant"),
+                arg("x"),
+                arg("frame")
+            );
     }
 }

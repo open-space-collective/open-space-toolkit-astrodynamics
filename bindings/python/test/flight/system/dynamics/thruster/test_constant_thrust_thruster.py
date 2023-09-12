@@ -109,7 +109,9 @@ class TestConstantThrustThruster:
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_compute_contribution_success(self, dynamics: ConstantThrustThruster, state: State):
+    def test_compute_contribution_success(
+        self, dynamics: ConstantThrustThruster, state: State
+    ):
         contribution = dynamics.compute_contribution(
             state.get_instant(), state.get_coordinates(), state.get_frame()
         )
@@ -126,7 +128,15 @@ class TestConstantThrustThruster:
         dynamics: ConstantThrustThruster,
     ):
         instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
-        coordinates: list = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, satellite_system.get_mass().in_kilograms()]
+        coordinates: list = [
+            7000000.0,
+            0.0,
+            0.0,
+            0.0,
+            7546.05329,
+            0.0,
+            satellite_system.get_mass().in_kilograms(),
+        ]
         state = State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
         with pytest.raises(RuntimeError):

@@ -22,6 +22,7 @@ def propulsion_system() -> PropulsionSystem:
         150.0,
     )
 
+
 class TestPropulsionSystem:
     def test_constructors(
         self,

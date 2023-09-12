@@ -41,18 +41,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster(pybi
 {
     class_<Thruster, Dynamics, Shared<Thruster>>(aModule, "Thruster");
 
-        // .def(init<const String&>(), arg("name"))
+    // .def(init<const String&>(), arg("name"))
 
-        // .def("get_name", &Thruster::getName)
-        // .def("get_satelltite_system", &Thruster::getSatelliteSystem)
+    // .def("get_name", &Thruster::getName)
+    // .def("get_satelltite_system", &Thruster::getSatelliteSystem)
 
-        // .def("__str__", &(shiftToString<Thruster>))
-        // .def("__repr__", &(shiftToString<Thruster>))
+    // .def("__str__", &(shiftToString<Thruster>))
+    // .def("__repr__", &(shiftToString<Thruster>))
 
-        // .def("is_defined", &Thruster::isDefined)
-        // .def("compute_contribution", &Thruster::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
+    // .def("is_defined", &Thruster::isDefined)
+    // .def("compute_contribution", &Thruster::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
 
-        // ;
+    // ;
 
     // Create "thruster" python submodule
     auto thruster = aModule.def_submodule("thruster");

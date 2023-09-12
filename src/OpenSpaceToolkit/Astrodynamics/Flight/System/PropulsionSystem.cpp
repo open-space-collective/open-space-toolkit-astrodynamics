@@ -84,11 +84,8 @@ PropulsionSystem::PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpe
 
     if (aThrustInSIUnit.isDefined() && aSpecificImpulseInSIUnit.isDefined())
     {
-        massFlowRate_ = {
-            aThrustInSIUnit / (aSpecificImpulseInSIUnit * Earth::gravityConstant), massFlowRateSIUnit
-        };
+        massFlowRate_ = {aThrustInSIUnit / (aSpecificImpulseInSIUnit * Earth::gravityConstant), massFlowRateSIUnit};
     }
-
 }
 
 bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) const
