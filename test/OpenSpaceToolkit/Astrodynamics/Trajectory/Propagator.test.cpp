@@ -3003,7 +3003,7 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_Drag_Inverse_BC)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Test_Drag_Mass_Area_Cd)
 {
     // Earth with Exponential atmospheric drag compared against OREKit
     {
