@@ -48,9 +48,20 @@ class PropulsionSystem
     /// @endcode
     ///
     /// @param              [in] aThrust Thrust (scalar)
-    /// @param              [in] aSpecificImpulse Specific impulse
+    /// @param              [in] aSpecificImpulse Specific impulse (scalar)
 
     PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecificImpulse);
+
+    /// @brief              Constructor
+    ///
+    /// @code
+    ///                     PropulsionSystem propulsion = { ... };
+    /// @endcode
+    ///
+    /// @param              [in] aThrustInSIUnit Thrust value in SI Unit
+    /// @param              [in] aSpecificImpulseInSIUnit Specific impulse in SI Unit
+
+    PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit);
 
     /// @brief              Equal to operator
     ///

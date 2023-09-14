@@ -54,6 +54,12 @@ class LocalOrbitalFrameFactory
 
     bool isDefined() const;
 
+    /// @brief                  Get type
+    ///
+    /// @return                 Type
+
+    LocalOrbitalFrameTransformProvider::Type getProviderType() const;
+
     /// @brief                  NED Constructor
     ///
     /// @param                  [in] aParentFrame A parent frame

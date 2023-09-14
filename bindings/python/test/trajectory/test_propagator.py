@@ -19,18 +19,37 @@ from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
+
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 from ostk.astrodynamics.trajectory.state import NumericalSolver
+
+from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
+from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Propagator
+
 from ostk.astrodynamics.event_condition import InstantCondition
 
 
 @pytest.fixture
-def satellite_system() -> SatelliteSystem:
+def propulsion_system() -> PropulsionSystem:
+    return PropulsionSystem(
+        1.0,
+        150.0,
+    )
+
+
+@pytest.fixture
+def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
     mass = Mass(90.0, Mass.Unit.Kilogram)
     satellite_geometry = Composite(
         Cuboid(
@@ -44,7 +63,12 @@ def satellite_system() -> SatelliteSystem:
     drag_coefficient = 0.0
 
     return SatelliteSystem(
-        mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
+        mass,
+        satellite_geometry,
+        inertia_tensor,
+        surface_area,
+        drag_coefficient,
+        propulsion_system,
     )
 
 
@@ -54,15 +78,33 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def state() -> State:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([7500000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second(
-        [0.0, 5335.865450622126, 5335.865450622126], frame
+def coordinates_broker() -> CoordinatesBroker:
+    return CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
     )
 
+
+@pytest.fixture
+def state(
+    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    return State(instant, position, velocity)
+    propellant_mass: float = 10.0
+    coordinates: list = [
+        7500000.0,
+        0.0,
+        0.0,
+        0.0,
+        5335.865450622126,
+        5335.865450622126,
+        satellite_system.get_mass().in_kilograms() + propellant_mass,
+    ]
+
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 
 @pytest.fixture
@@ -73,6 +115,22 @@ def central_body_gravity() -> CentralBodyGravity:
 @pytest.fixture
 def position_derivative() -> PositionDerivative:
     return PositionDerivative()
+
+
+@pytest.fixture
+def local_orbital_frame_direction() -> LocalOrbitalFrameDirection:
+    return LocalOrbitalFrameDirection(
+        [1.0, 0.0, 0.0],
+        LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
+    )
+
+
+@pytest.fixture
+def constant_thrust(
+    satellite_system: SatelliteSystem,
+    local_orbital_frame_direction: LocalOrbitalFrameDirection,
+) -> ConstantThrust:
+    return ConstantThrust(satellite_system, local_orbital_frame_direction)
 
 
 @pytest.fixture
@@ -214,6 +272,26 @@ class TestPropagator:
         with pytest.raises(RuntimeError):
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
+
+    def test_calculate_states_at_with_thrust(
+        self,
+        numerical_solver: NumericalSolver,
+        dynamics: list[Dynamics],
+        constant_thrust: ConstantThrust,
+        state: State,
+    ):
+        propagator: Propagator = Propagator(
+            numerical_solver, dynamics + [constant_thrust]
+        )
+
+        instant_array = [
+            Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC),
+        ]
+
+        _ = propagator.calculate_states_at(state, instant_array)
 
     def test_from_environment(
         self,

@@ -64,13 +64,13 @@ class Dynamics
         Size readStateSize;
     };
 
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
-    /// @param              [in] aName A name
+    /// @param                  [in] aName A name
 
     Dynamics(const String& aName = String::Empty());
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     virtual ~Dynamics();
 
@@ -86,58 +86,58 @@ class Dynamics
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Dynamics& aDynamics);
 
-    /// @brief              Get name
+    /// @brief                  Get name
     ///
-    /// @return             Name of Dynamics
+    /// @return                 Name of Dynamics
 
     String getName() const;
 
-    /// @brief              Print dynamics
+    /// @brief                  Print dynamics
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief              Check if dynamics is defined (pure virtual)
+    /// @brief                  Check if dynamics is defined (pure virtual)
     ///
-    /// @return             True if dynamics is defined
+    /// @return                 True if dynamics is defined
 
     virtual bool isDefined() const = 0;
 
-    /// @brief              Return the coordinates subsets that the instance reads from
+    /// @brief                  Return the coordinates subsets that the instance reads from
     ///
-    /// @return             The coordinates subsets that the instance reads from
+    /// @return                 The coordinates subsets that the instance reads from
 
     virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const = 0;
 
-    /// @brief              Return the coordinates subsets that the instance writes to
+    /// @brief                  Return the coordinates subsets that the instance writes to
     ///
-    /// @return             The coordinates subsets that the instance writes to
+    /// @return                 The coordinates subsets that the instance writes to
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const = 0;
 
-    /// @brief              Compute the contribution to the state derivative.
+    /// @brief                  Compute the contribution to the state derivative.
     ///
-    /// @param anInstant    An instant
-    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
+    /// @param anInstant        An instant
+    /// @param x                The reduced state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
     /// @param aFrameSPtr       The frame in which the state vector is expressed
     ///
-    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
+    /// @return                 The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const = 0;
 
-    /// @brief              Get system of equations wrapper
+    /// @brief                  Get system of equations wrapper
     ///
-    /// @param              [in] aContextArray An array of Dynamics Information
-    /// @param              [in] anInstant An instant
-    /// @param              [in] aFrameSPtr The reference frame in which dynamic equations are resolved
+    /// @param                  [in] aContextArray An array of Dynamics Information
+    /// @param                  [in] anInstant An instant
+    /// @param                  [in] aFrameSPtr The reference frame in which dynamic equations are resolved
     ///
-    /// @return             std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
+    /// @return                 std::function<void(const std::vector<double>&, std::vector<double>&, const double)>
 
     static NumericalSolver::SystemOfEquationsWrapper GetSystemOfEquations(
         const Array<Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr

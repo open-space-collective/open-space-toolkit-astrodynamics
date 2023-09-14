@@ -36,26 +36,26 @@ using ostk::astro::flight::system::Dynamics;
 class AtmosphericDrag : public Dynamics
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     const Celestial = { ... };
-    ///                     const SatelliteSystem = { ... };
-    ///                     AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem };
+    ///                         const Celestial = { ... };
+    ///                         const SatelliteSystem = { ... };
+    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A celestial object
-    /// @param              [in] aSatelliteSystem A satellite system
+    /// @param                  [in] aCelestial A celestial object
+    /// @param                  [in] aSatelliteSystem A satellite system
 
     AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
 
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     const Celestial = { ... };
-    ///                     const SatelliteSystem = { ... };
-    ///                     const aName = { ... };
-    ///                     AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem, aName };
+    ///                         const Celestial = { ... };
+    ///                         const SatelliteSystem = { ... };
+    ///                         const aName = { ... };
+    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem, aName };
     /// @endcode
     ///
     /// @param              [in] aCelestial A celestial object
@@ -66,66 +66,66 @@ class AtmosphericDrag : public Dynamics
         const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName
     );
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     virtual ~AtmosphericDrag() override;
 
-    /// @brief              Output stream operator
+    /// @brief                  Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] anAtmosphericDrag An atmospheric drag dynamics
-    /// @return             A reference to output stream
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] anAtmosphericDrag An atmospheric drag dynamics
+    /// @return                 A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& anAtmosphericDrag);
 
-    /// @brief              Check if atmospheric drag dynamics is defined
+    /// @brief                  Check if atmospheric drag dynamics is defined
     ///
-    /// @return             True if atmospheric drag dynamics is defined
+    /// @return                 True if atmospheric drag dynamics is defined
 
     virtual bool isDefined() const override;
 
-    /// @brief              Get celestial
+    /// @brief                  Get celestial
     ///
-    /// @return             A celestial object
+    /// @return                 A celestial object
 
     Shared<const Celestial> getCelestial() const;
 
-    /// @brief              Get satellite system
+    /// @brief                  Get satellite system
     ///
-    /// @return             A satellite system
+    /// @return                 A satellite system
 
     SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Return the coordinates subsets that the instance reads from
+    /// @brief                  Return the coordinates subsets that the instance reads from
     ///
-    /// @return             The coordinates subsets that the instance reads from
+    /// @return                 The coordinates subsets that the instance reads from
 
     virtual Array<Shared<const CoordinatesSubset>> getReadCoordinatesSubsets() const override;
 
-    /// @brief              Return the coordinates subsets that the instance writes to
+    /// @brief                  Return the coordinates subsets that the instance writes to
     ///
-    /// @return             The coordinates subsets that the instance writes to
+    /// @return                 The coordinates subsets that the instance writes to
 
     virtual Array<Shared<const CoordinatesSubset>> getWriteCoordinatesSubsets() const override;
 
-    /// @brief              Compute the contribution to the state derivative.
+    /// @brief                  Compute the contribution to the state derivative.
     ///
-    /// @param anInstant    An instant
-    /// @param x            The reduced state vector (this vector will follow the structure determined by the 'read'
+    /// @param anInstant        An instant
+    /// @param x                The reduced state vector (this vector will follow the structure determined by the 'read'
     /// coordinate subsets)
     /// @param aFrameSPtr       The frame in which the state vector is expressed
     ///
-    /// @return             The reduced derivative state vector (this vector must follow the structure determined by
+    /// @return                 The reduced derivative state vector (this vector must follow the structure determined by
     /// the 'write' coordinate subsets) expressed in the given frame
 
     virtual VectorXd computeContribution(
         const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
     ) const override;
 
-    /// @brief              Print atmospheric drag dynamics
+    /// @brief                  Print atmospheric drag dynamics
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 

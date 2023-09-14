@@ -77,6 +77,17 @@ PropulsionSystem::PropulsionSystem(const Scalar& aThrust, const Scalar& aSpecifi
     }
 }
 
+PropulsionSystem::PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit)
+{
+    thrust_ = Scalar(aThrustInSIUnit, thrustSIUnit);
+    specificImpulse_ = Scalar(aSpecificImpulseInSIUnit, specificImpulseSIUnit);
+
+    if (aThrustInSIUnit.isDefined() && aSpecificImpulseInSIUnit.isDefined())
+    {
+        massFlowRate_ = {aThrustInSIUnit / (aSpecificImpulseInSIUnit * Earth::gravityConstant), massFlowRateSIUnit};
+    }
+}
+
 bool PropulsionSystem::operator==(const PropulsionSystem& aPropulsionSystem) const
 {
     if ((!this->isDefined()) || (!aPropulsionSystem.isDefined()))
@@ -109,8 +120,12 @@ void PropulsionSystem::print(std::ostream& anOutputStream, bool displayDecorator
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Propulsion") : void();
 
-    anOutputStream << "[Thruster = " << thrust_ << ", Specific Impulse = " << specificImpulse_
-                   << ", Mass Flow Rate = " << getMassFlowRate() << "]";
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Thrust:" << (thrust_.isDefined() ? thrust_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Specific Impulse:" << (specificImpulse_.isDefined() ? specificImpulse_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Mass Flow Rate:" << (getMassFlowRate().isDefined() ? getMassFlowRate().toString() : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

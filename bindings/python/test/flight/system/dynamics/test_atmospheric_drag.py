@@ -20,6 +20,11 @@ from ostk.physics.environment.gravitational import Earth as EarthGravitationalMo
 from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 from ostk.physics.environment.objects.celestial_bodies import Earth
 
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
@@ -36,8 +41,13 @@ def earth() -> Earth:
 
 
 @pytest.fixture
-def satellite_system() -> SatelliteSystem:
-    mass = Mass(100.0, Mass.Unit.Kilogram)
+def dry_mass() -> float:
+    return 100.0
+
+
+@pytest.fixture
+def satellite_system(dry_mass: float) -> SatelliteSystem:
+    mass = Mass(dry_mass, Mass.Unit.Kilogram)
     satellite_geometry = Composite(
         Cuboid(
             Point(0.0, 0.0, 0.0),
@@ -60,12 +70,42 @@ def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDrag
 
 
 @pytest.fixture
-def state() -> State:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters([7000000.0, 0.0, 0.0], frame)
-    velocity: Velocity = Velocity.meters_per_second([0.0, 7546.05329, 0.0], frame)
-    instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
-    return State(instant, position, velocity)
+def coordinates_broker() -> CoordinatesBroker:
+    return CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
+    )
+
+
+@pytest.fixture
+def instant() -> Instant:
+    return Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
+
+
+@pytest.fixture
+def position_coordinates() -> list:
+    return [7000000.0, 0.0, 0.0]
+
+
+@pytest.fixture
+def velocity_coordinates() -> list:
+    return [0.0, 7546.05329, 0.0]
+
+
+@pytest.fixture
+def state(
+    instant: Instant,
+    position_coordinates: list,
+    velocity_coordinates: list,
+    dry_mass: float,
+    coordinates_broker: CoordinatesBroker,
+) -> State:
+    wet_mass = dry_mass + 10.0
+    coordinates = position_coordinates + velocity_coordinates + [wet_mass]
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 
 class TestAtmosphericDrag:
@@ -85,5 +125,5 @@ class TestAtmosphericDrag:
 
         assert len(contribution) == 3
         assert contribution == pytest.approx(
-            [0.0, -0.0000278707803890, -0.0000000000197640], abs=5e-11
+            [0.0, -2.53370345e-05, 3.57473816e-12], abs=5e-11
         )

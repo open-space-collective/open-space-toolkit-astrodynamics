@@ -15,18 +15,18 @@ namespace system
 {
 
 SatelliteSystem::SatelliteSystem(
-    const Mass& aMass,
+    const Mass& aDryMass,
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
     const Real& aCrossSectionalSurfaceArea,
     const Real& aDragCoefficient,
     const PropulsionSystem& aPropulsionSystem
 )
-    : System(aMass, aSatelliteGeometry),
+    : System(aDryMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient),
-      propulsionModel_(aPropulsionSystem)
+      propulsionSystem_(aPropulsionSystem)
 {
 }
 
@@ -81,17 +81,20 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
     ostk::core::utils::Print::Line(anOutputStream)
         << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined");
 
+    ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
+    propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
+
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
 {
-    if (!propulsionModel_.isDefined())
+    if (!propulsionSystem_.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("PropulsionSystem");
     }
 
-    return this->propulsionModel_;
+    return this->propulsionSystem_;
 }
 
 Matrix3d SatelliteSystem::getInertiaTensor() const

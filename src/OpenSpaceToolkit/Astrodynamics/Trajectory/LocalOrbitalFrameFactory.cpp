@@ -78,6 +78,11 @@ bool LocalOrbitalFrameFactory::isDefined() const
            (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
 }
 
+LocalOrbitalFrameTransformProvider::Type LocalOrbitalFrameFactory::getProviderType() const
+{
+    return type_;
+}
+
 Shared<const LocalOrbitalFrameFactory> LocalOrbitalFrameFactory::NED(const Shared<const Frame>& aParentFrame)
 {
     return Construct(LocalOrbitalFrameTransformProvider::Type::NED, aParentFrame);

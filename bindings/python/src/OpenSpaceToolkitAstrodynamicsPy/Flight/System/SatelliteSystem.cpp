@@ -14,18 +14,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
     using ostk::physics::units::Mass;
 
     using ostk::astro::flight::System;
+    using ostk::astro::flight::system::PropulsionSystem;
     using ostk::astro::flight::system::SatelliteSystem;
 
     {
         class_<SatelliteSystem, System>(aModule, "SatelliteSystem")
 
             .def(
-                init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&>(),
+                init<const Mass&, const Composite&, const Matrix3d&, const Real&, const Real&, const PropulsionSystem&>(
+                ),
                 arg("mass"),
                 arg("satellite_geometry"),
                 arg("inertia_tensor"),
                 arg("cross_sectional_surface_area"),
-                arg("drag_coefficient")
+                arg("drag_coefficient"),
+                arg("propulsion_system") = PropulsionSystem::Undefined()
             )
 
             .def(self == self)

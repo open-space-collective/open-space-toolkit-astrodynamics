@@ -91,16 +91,20 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
             {1.0, 2.0, 3.0}
         ));
 
+        const Mass satelliteDryMass = Mass::Kilograms(100.0);
+        const Mass propellantMass = Mass::Kilograms(0.0);
+
         satelliteSystem_ = {
-            Mass::Kilograms(100.0),
+            satelliteDryMass,
             satelliteGeometry,
             Matrix3d::Identity(),
             500.0,
             2.1,
         };
 
-        startStateVector_.resize(6);
-        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0;
+        startStateVector_.resize(7);
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0,
+            satelliteDryMass.inKilograms() + propellantMass.inKilograms();
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
     }
@@ -235,9 +239,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
     const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getReadCoordinatesSubsets();
 
-    EXPECT_EQ(2, subsets.size());
+    EXPECT_EQ(3, subsets.size());
     EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
     EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
+    EXPECT_EQ(CoordinatesSubset::Mass(), subsets[2]);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetWriteCoordinatesSubsets)
@@ -254,8 +259,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
 {
     AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
 
-    const VectorXd contribution =
-        atmosphericDrag.computeContribution(startInstant_, startStateVector_.segment(0, 6), Frame::GCRF());
+    const VectorXd contribution = atmosphericDrag.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, 0.0 - contribution[0]);
