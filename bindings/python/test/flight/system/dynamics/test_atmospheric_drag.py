@@ -27,7 +27,10 @@ from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition, CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+    CartesianPosition,
+    CartesianVelocity,
+)
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
@@ -80,7 +83,6 @@ def coordinates_broker() -> CoordinatesBroker:
             CoordinatesSubset.mass(),
         ]
     )
-
 
 @pytest.fixture
 def instant() -> Instant:

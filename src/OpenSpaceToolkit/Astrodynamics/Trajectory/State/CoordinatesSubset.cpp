@@ -98,6 +98,19 @@ Shared<const CoordinatesSubset> CoordinatesSubset::Mass()
     return mass;
 }
 
+Shared<const CoordinatesSubset> CoordinatesSubset::SurfaceArea()
+{
+    static const Shared<const CoordinatesSubset> surfaceArea = std::make_shared<CoordinatesSubset>("SURFACE_AREA", 1);
+    return surfaceArea;
+}
+
+Shared<const CoordinatesSubset> CoordinatesSubset::DragCoefficient()
+{
+    static const Shared<const CoordinatesSubset> dragCoefficient =
+        std::make_shared<CoordinatesSubset>("DRAG_COEFFICIENT", 1);
+    return dragCoefficient;
+}
+
 }  // namespace state
 }  // namespace trajectory
 }  // namespace astro

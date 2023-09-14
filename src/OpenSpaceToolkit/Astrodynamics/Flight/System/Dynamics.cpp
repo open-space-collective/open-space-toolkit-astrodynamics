@@ -92,7 +92,6 @@ void Dynamics::DynamicalEquations(
 
     for (const Dynamics::Context& dynamicsContext : aContextArray)
     {
-
         const VectorXd contribution = dynamicsContext.dynamics->computeContribution(
             nextInstant,
             Dynamics::extractReadState(x, dynamicsContext.readIndexes, dynamicsContext.readStateSize),

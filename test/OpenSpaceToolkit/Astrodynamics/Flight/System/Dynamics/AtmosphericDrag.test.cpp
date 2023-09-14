@@ -86,12 +86,6 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
    protected:
     void SetUp() override
     {
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
-        
         const Real mass = 100;
         const Real area = 1;
         const Real cd = 2.2;
@@ -118,8 +112,6 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential),
     };
 
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-
     VectorXd startStateVector_;
 
     Shared<Celestial> earthSPtr_ = nullptr;
@@ -128,11 +120,11 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Constructor)
 {
     {
-        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_));
+        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_));
     }
 
     {
-        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_, "test"));
+        EXPECT_NO_THROW(AtmosphericDrag atmosphericDrag(earthSPtr_, "test"));
     }
 
     {
@@ -155,7 +147,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
             {
                 try
                 {
-                    AtmosphericDrag atmosphericDrag(std::make_shared<Celestial>(earth), satelliteSystem_);
+                    AtmosphericDrag atmosphericDrag(std::make_shared<Celestial>(earth));
                 }
                 catch (const ostk::core::error::runtime::Undefined& e)
                 {
@@ -170,14 +162,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Co
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, IsDefined)
 {
-    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_);
     EXPECT_TRUE(atmosphericDynamics.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, StreamOperator)
 {
     {
-        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+        AtmosphericDrag atmosphericDynamics(earthSPtr_);
 
         testing::internal::CaptureStdout();
 
@@ -190,7 +182,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, St
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Print)
 {
     {
-        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+        AtmosphericDrag atmosphericDynamics(earthSPtr_);
 
         testing::internal::CaptureStdout();
 
@@ -203,32 +195,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Pr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetName)
 {
     {
-        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+        AtmosphericDrag atmosphericDynamics(earthSPtr_);
         EXPECT_TRUE(atmosphericDynamics.getName() != String::Empty());
     }
 
     {
         const String name = "test";
-        AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_, name);
+        AtmosphericDrag atmosphericDynamics(earthSPtr_, name);
         EXPECT_TRUE(atmosphericDynamics.getName() == name);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetCelestial)
 {
-    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDynamics(earthSPtr_);
     EXPECT_TRUE(atmosphericDynamics.getCelestial() == earthSPtr_);
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetSatelliteSystem)
-{
-    AtmosphericDrag atmosphericDynamics(earthSPtr_, satelliteSystem_);
-    EXPECT_TRUE(atmosphericDynamics.getSatelliteSystem() == satelliteSystem_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetReadCoordinatesSubsets)
 {
-    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDrag(earthSPtr_);
 
     const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getReadCoordinatesSubsets();
 
@@ -240,7 +226,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, GetWriteCoordinatesSubsets)
 {
-    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDrag(earthSPtr_);
 
     const Array<Shared<const CoordinatesSubset>> subsets = atmosphericDrag.getWriteCoordinatesSubsets();
 
@@ -250,9 +236,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, Ge
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag, ComputeContribution)
 {
-    AtmosphericDrag atmosphericDrag(earthSPtr_, satelliteSystem_);
+    AtmosphericDrag atmosphericDrag(earthSPtr_);
 
-    const VectorXd contribution = atmosphericDrag.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
+    const VectorXd contribution =
+        atmosphericDrag.computeContribution(startInstant_, startStateVector_, Frame::GCRF());
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_GT(1e-15, 0.0 - contribution[0]);

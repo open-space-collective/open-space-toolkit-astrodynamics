@@ -323,7 +323,7 @@ Propagator Propagator::FromEnvironment(
 
         if (aCelestial->atmosphericModelIsDefined())
         {
-            dynamics.add(std::make_shared<AtmosphericDrag>(aCelestial, aSatelliteSystem));
+            dynamics.add(std::make_shared<AtmosphericDrag>(aCelestial));
         }
 
         return dynamics;

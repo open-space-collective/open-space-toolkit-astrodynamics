@@ -40,7 +40,10 @@ from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
 from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
-from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition, CartesianVelocity
+from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+    CartesianPosition,
+    CartesianVelocity,
+)
 from ostk.astrodynamics.trajectory import Propagator
 
 from ostk.astrodynamics.event_condition import InstantCondition
@@ -80,7 +83,6 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 
 @pytest.fixture
 def environment() -> Environment:
-
     sun = Sun.default()
 
     earth: Earth = Earth.from_models(
@@ -91,11 +93,19 @@ def environment() -> Environment:
 
     return Environment(Instant.J2000(), [earth, sun])
 
+
 @pytest.fixture
 def coordinates_broker():
     return CoordinatesBroker(
-        [CartesianPosition.default(), CartesianVelocity.default(), CoordinatesSubset.mass(), CoordinatesSubset("Surface Area", 1), CoordinatesSubset("Drag Coefficient", 1)]
-        )
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+            CoordinatesSubset("Surface Area", 1),
+            CoordinatesSubset("Drag Coefficient", 1),
+        ]
+    )
+
 
 @pytest.fixture
 def coordinates_broker() -> CoordinatesBroker:
@@ -138,9 +148,12 @@ def state(
 def central_body_gravity() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
 
+
 @pytest.fixture
 def atmospheric_drag(environment, satellite_system) -> AtmosphericDrag:
-    return AtmosphericDrag(environment.access_celestial_object_with_name("Earth"), satellite_system)
+    return AtmosphericDrag(
+        environment.access_celestial_object_with_name("Earth"), satellite_system
+    )
 
 
 @pytest.fixture
@@ -166,7 +179,7 @@ def constant_thrust(
 
 @pytest.fixture
 def dynamics(
-    position_derivative: PositionDerivative, 
+    position_derivative: PositionDerivative,
     central_body_gravity: CentralBodyGravity,
     atmospheric_drag: AtmosphericDrag,
 ) -> list:
@@ -246,7 +259,9 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 0
 
-    def test_calculate_state_at(self, propagator: Propagator, state: State, coordinates_broker):
+    def test_calculate_state_at(
+        self, propagator: Propagator, state: State, coordinates_broker
+    ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagator_state = propagator.calculate_state_at(state, instant)
