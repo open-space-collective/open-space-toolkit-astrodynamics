@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1694688218311,
+  "lastUpdate": 1694715602349,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -216,6 +216,60 @@ window.BENCHMARK_DATA = {
             "value": 4888389588.100017,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4887096260.000002 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "43561754+Derollez@users.noreply.github.com",
+            "name": "Remy Derollez",
+            "username": "Derollez"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "1e6a87f9c23149016f5fadc093d9e8758c34f9d4",
+          "message": "feat: add Constant Thrust Thruster Dynamics  (#210)\n\n* feat: add dummy local orbital frame and provider classes\r\n\r\n* refactor: simplify Local Orbital Frame addition (#200)\r\n\r\n* refactor: attempt to simplify\r\n\r\n* feat:  update models and design\r\n\r\n* chore: style\r\n\r\n* feat: go back to no generator and provider instantiation at each Frame generation\r\n\r\n* test: add unit tests on frame factory\r\n\r\n* chore: style\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\r\nCo-authored-by: Remy Derollez <remy@loftorbital.com>\r\n\r\n* feat: add other LOF types\r\n\r\n* feat: add getters to frame direction\r\n\r\n* feat: first pass on bindings addition\r\n\r\n* test: add unit tests for LOFdirection\r\n\r\n* chore: minor tweaks and improvements\r\n\r\n* test: add python tests\r\n\r\n* chore: style\r\n\r\n* chore: style and 1 test\r\n\r\n* feat: add thruster dynamics\r\n\r\n* feat: leverage frame direction in constant thrust thruster\r\n\r\n* test: add validation tests against Orekit for simple maneuver\r\n\r\n* chore: style\r\n\r\n* test: add validation tests with Orekit on computation contribution for thruster dynamics\r\n\r\n* chore: comment to central body gravity\r\n\r\n* feat: make propulsion contribution more generic depending on Frame\r\n\r\n* test: add validation tests from Orekit and put in place parameterized tests for constant thrust thruster\r\n\r\n* chore: apply style\r\n\r\n* test: add validation data from Orekit for thruster and multi-layer exponential drag test cases\r\n\r\n* test: add test cases and structure for drag exponential + thruster test cases validation\r\n\r\n* fix: out of fuel condition in thruster taking into account dry mass\r\n\r\n* chore: clean\r\n\r\n* refactor: use mass from state input for atmospheric drag contribution computation\r\n\r\n* clean: cleaning from rebase de lespace\r\n\r\n* clean: first cleaning pass\r\n\r\n* chore: clean from rebase\r\n\r\n* test: adapt tests following atm drag state write function modification\r\n\r\n* chore: style\r\n\r\n* test: adapt python tests following atm drag state input change\r\n\r\n* fix: mismatch on vectorXd size caught on CI but not locally\r\n\r\n* docs: update orbit propagation demo notebook\r\n\r\n* feat: add real input constructor instead of scalar for PropulsionSystem\r\n\r\n* feat: add extract_coordinates method to State bindings to get mass extraction\r\n\r\n* feat: add bindings and tests for propulsion system\r\n\r\n* chore: more prop system bindings addition\r\n\r\n* feat: add thruster and constant thrust thruster dynamics bindings and tests\r\n\r\n* chore: style\r\n\r\n* feat: remove clone methods from thruster classes and improve bindings for thruster parent class\r\n\r\n* chore: make mass of satellite system, dry mass\r\n\r\n* clean: apply Pau suggestion on naming frame\r\n\r\n* chore: rename ConstantThrustThruster to ConstantThrust\r\n\r\n* chore: implement suggestions\r\n\r\n* chore: style\r\n\r\n* docs: align docstrings\r\n\r\n* fix: printing methods\r\n\r\n* chore: more alignment and change propulsionModel field name on satellite suystem\r\n\r\n* chore: style\r\n\r\n* fix: tests and initialization error on python import\r\n\r\n---------\r\n\r\nCo-authored-by: Pau Hebrero <65550121+phc1990@users.noreply.github.com>\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>\r\nCo-authored-by: vishwa shah <vishwa2710@gmail.com>",
+          "timestamp": "2023-09-14T19:46:39+02:00",
+          "tree_id": "efbd70399c95270c88fc470e4855758ce647f75f",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/1e6a87f9c23149016f5fadc093d9e8758c34f9d4"
+        },
+        "date": 1694715601102,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 839099627.1000006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 838746600 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1902061935.1999984,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1901256500.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4811938794.300005,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4810682349.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4818636039.200004,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4817770120 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4808409427.099992,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4806949690.000001 ns\nthreads: 1"
           }
         ]
       }
