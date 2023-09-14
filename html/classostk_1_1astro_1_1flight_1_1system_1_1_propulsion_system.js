@@ -1,6 +1,7 @@
 var classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system =
 [
     [ "PropulsionSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a671f6f571429914305eec11f90bab452", null ],
+    [ "PropulsionSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#abb95b82001d2bad30b30d71f23769928", null ],
     [ "getAcceleration", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a4843f2e4d62a6f457dc3edbd61ed6e3e", null ],
     [ "getMassFlowRate", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a1a4d93ddac6c64334a619178a6f78669", null ],
     [ "getSpecificImpulse", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a41f180c90124e255df448d712314a465", null ],

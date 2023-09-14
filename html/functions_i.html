@@ -84,7 +84,7 @@ $(document).ready(function(){initNavTree('functions_i.html',''); initResizable()
 
 <h3><a id="index_i"></a>- i -</h3><ul>
 <li>Inclination()
-: <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html#ae326d4940cb7bd472b7dc4620546dc57">ostk::astro::eventcondition::COECondition</a>
+: <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_c_o_e_condition.html#a9fcf574c4d86982d24df0dd657abc889">ostk::astro::eventcondition::COECondition</a>
 </li>
 <li>InertialPointing()
 : <a class="el" href="classostk_1_1astro_1_1flight_1_1_profile.html#a17e61fe4527fb08c012c56a01fa23292">ostk::astro::flight::Profile</a>
@@ -105,6 +105,9 @@ $(document).ready(function(){initNavTree('functions_i.html',''); initResizable()
 </li>
 <li>integrateTime()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a74faee412834d086009f1a963576d56a">ostk::astro::trajectory::state::NumericalSolver</a>
+</li>
+<li>IntegrationFrameSPtr
+: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a975ad28433106b8685f0cdcb4c9200e9">ostk::astro::trajectory::Propagator</a>
 </li>
 <li>internationalDesignator
 : <a class="el" href="structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_metadata.html#ac11a59f1a624a5e7ada91a82b24bde2c">ostk::astro::conjunction::messages::ccsds::CDM::Metadata</a>
@@ -140,10 +143,15 @@ $(document).ready(function(){initNavTree('functions_i.html',''); initResizable()
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a13160e001990a6ce8db807e39b8f97df">ostk::astro::flight::system::Dynamics</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#ac9b701dffe0b64ce0931e4125e379fa7">ostk::astro::flight::system::dynamics::PositionDerivative</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#ad5b8acb98124efefd4a94ae2ed222e7e">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>
+, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#ad4841b0ee3d279cd7fac05a2cdb7ec03">ostk::astro::flight::system::dynamics::thruster::ConstantThrust</a>
+, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_thruster.html#aa4c53c7aae3f9073954b7e3475f70e13">ostk::astro::flight::system::dynamics::Thruster</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1_system.html#a45d6ad6bca50c0d9cb9b50135ed2efa3">ostk::astro::flight::System</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a98e1b63a5d28bcf49e725df61cdae23b">ostk::astro::flight::system::PropulsionSystem</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html#a6d10fc37776cc87a74fe8b7e2ccb9843">ostk::astro::flight::system::SatelliteSystem</a>
 , <a class="el" href="classostk_1_1astro_1_1_trajectory.html#ab0c02a9844e584b50da35df710b71e81">ostk::astro::Trajectory</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction.html#a03ef3658196abe71af31c818aa713be7">ostk::astro::trajectory::LocalOrbitalFrameDirection</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory.html#a990fdc99d8a9c4f77554eee7b37a6801">ostk::astro::trajectory::LocalOrbitalFrameFactory</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider.html#aab943c081381326981b8cdda21b73857">ostk::astro::trajectory::LocalOrbitalFrameTransformProvider</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_model.html#a0d5cf6f754905f06c0ec1e39618c20a1">ostk::astro::trajectory::Model</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_static.html#a5a80d75c9215af9b198c9f8653c5bc17">ostk::astro::trajectory::models::Static</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1models_1_1_tabulated.html#a379da4c10a738c3f4578042c9bae0c91">ostk::astro::trajectory::models::Tabulated</a>
@@ -164,7 +172,8 @@ $(document).ready(function(){initNavTree('functions_i.html',''); initResizable()
 : <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_boolean_condition.html#a19a236c19ed2149434f4833eb896e1d1">ostk::astro::eventcondition::BooleanCondition</a>
 </li>
 <li>isSatisfied()
-: <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a957cc41bd3695b9f84f8a5cb6c1277e8">ostk::astro::EventCondition</a>
+: <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_angular_condition.html#a3cceb7b525a6f3d3d3cf4ac5cd95dec8">ostk::astro::eventcondition::AngularCondition</a>
+, <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a957cc41bd3695b9f84f8a5cb6c1277e8">ostk::astro::EventCondition</a>
 , <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aa8f6d2cc1732d240e22a196afe81d815">ostk::astro::eventcondition::LogicalCondition</a>
 , <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a047da3ea2d08c3ecde4982bdce33930f">ostk::astro::eventcondition::RealCondition</a>
 </li>

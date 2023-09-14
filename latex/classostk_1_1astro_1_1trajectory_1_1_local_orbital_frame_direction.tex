@@ -1,0 +1,221 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{}\doxysection{ostk\+::astro\+::trajectory\+::Local\+Orbital\+Frame\+Direction Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+
+
+Local Orbital Frame Direction.  
+
+
+
+
+{\ttfamily \#include $<$Local\+Orbital\+Frame\+Direction.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_aef52e0feaeea27af07f330895aa1b681}{Local\+Orbital\+Frame\+Direction}} (const Vector3d \&a\+Value, const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \&a\+Local\+Orbital\+Frame\+Factory\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a5d025b156c0d397a27e1f069437e0fb9}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&a\+Local\+Orbital\+Frame\+Direction) const
+\begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_af45cf8c9c35bb98537c628df1cb7e1cf}{operator!=}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&a\+Local\+Orbital\+Frame\+Direction) const
+\begin{DoxyCompactList}\small\item\em Not equal to operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a03ef3658196abe71af31c818aa713be7}{is\+Defined}} () const
+\begin{DoxyCompactList}\small\item\em Check if local orbital frame direction is defined. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a87ba73b0e4a7f6a73626210ade7f9264}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print local orbital frame direction. \end{DoxyCompactList}\item 
+const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a323cedaaa746a0206ded6749fc129276}{access\+Local\+Orbital\+Frame\+Factory}} () const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} local orbital frame factory. \end{DoxyCompactList}\item 
+Vector3d \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ade245816038b56adb075c4861c9799e0}{get\+Value}} () const
+\begin{DoxyCompactList}\small\item\em Get vector value. \end{DoxyCompactList}\item 
+Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ab0a048414a67b28fa41560c094cb8ff8}{get\+Local\+Orbital\+Frame\+Factory}} () const
+\begin{DoxyCompactList}\small\item\em Get local orbital frame factory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a7b1ae504f8444e86e9b1d4df1aabfb56}{Undefined}} ()
+\begin{DoxyCompactList}\small\item\em Undefined local orbital frame direction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ad41f2f4095231786f669e6746793c1cf}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&a\+Local\+Orbital\+Frame\+Direction)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Local Orbital Frame Direction. 
+
+\begin{DoxyNote}{Note}
+A unit vector, expressed with a Local Orbital Frame Factory. 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_aef52e0feaeea27af07f330895aa1b681}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_aef52e0feaeea27af07f330895aa1b681}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!LocalOrbitalFrameDirection@{LocalOrbitalFrameDirection}}
+\index{LocalOrbitalFrameDirection@{LocalOrbitalFrameDirection}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{LocalOrbitalFrameDirection()}{LocalOrbitalFrameDirection()}}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::\+Local\+Orbital\+Frame\+Direction (\begin{DoxyParamCaption}\item[{const Vector3d \&}]{a\+Value,  }\item[{const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \&}]{a\+Local\+Orbital\+Frame\+Factory\+S\+Ptr }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Value} & A vector value \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Local\+Orbital\+Frame\+Factory\+S\+Ptr} & A local orbital frame factory shared pointer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Local orbital frame direction 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a323cedaaa746a0206ded6749fc129276}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a323cedaaa746a0206ded6749fc129276}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!accessLocalOrbitalFrameFactory@{accessLocalOrbitalFrameFactory}}
+\index{accessLocalOrbitalFrameFactory@{accessLocalOrbitalFrameFactory}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{accessLocalOrbitalFrameFactory()}{accessLocalOrbitalFrameFactory()}}
+{\footnotesize\ttfamily const Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \& ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::access\+Local\+Orbital\+Frame\+Factory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} local orbital frame factory. 
+
+\begin{DoxyReturn}{Returns}
+The local orbital frame factory 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ab0a048414a67b28fa41560c094cb8ff8}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ab0a048414a67b28fa41560c094cb8ff8}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!getLocalOrbitalFrameFactory@{getLocalOrbitalFrameFactory}}
+\index{getLocalOrbitalFrameFactory@{getLocalOrbitalFrameFactory}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{getLocalOrbitalFrameFactory()}{getLocalOrbitalFrameFactory()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::get\+Local\+Orbital\+Frame\+Factory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get local orbital frame factory. 
+
+\begin{DoxyReturn}{Returns}
+The local orbital frame factory 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ade245816038b56adb075c4861c9799e0}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ade245816038b56adb075c4861c9799e0}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!getValue@{getValue}}
+\index{getValue@{getValue}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}}
+{\footnotesize\ttfamily Vector3d ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::get\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get vector value. 
+
+\begin{DoxyReturn}{Returns}
+The vector value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a03ef3658196abe71af31c818aa713be7}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a03ef3658196abe71af31c818aa713be7}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if local orbital frame direction is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if local orbital frame direction is defined 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_af45cf8c9c35bb98537c628df1cb7e1cf}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_af45cf8c9c35bb98537c628df1cb7e1cf}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&}]{a\+Local\+Orbital\+Frame\+Direction }\end{DoxyParamCaption}) const}
+
+
+
+Not equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Local\+Orbital\+Frame\+Direction} & A local orbital frame direction\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if local orbital frame directions are not equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a5d025b156c0d397a27e1f069437e0fb9}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a5d025b156c0d397a27e1f069437e0fb9}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!operator==@{operator==}}
+\index{operator==@{operator==}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&}]{a\+Local\+Orbital\+Frame\+Direction }\end{DoxyParamCaption}) const}
+
+
+
+Equal to operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Local\+Orbital\+Frame\+Direction} & A local orbital frame direction\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if local orbital frame directions are equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a87ba73b0e4a7f6a73626210ade7f9264}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a87ba73b0e4a7f6a73626210ade7f9264}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!print@{print}}
+\index{print@{print}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const}
+
+
+
+Print local orbital frame direction. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a7b1ae504f8444e86e9b1d4df1aabfb56}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_a7b1ae504f8444e86e9b1d4df1aabfb56}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Direction\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Undefined local orbital frame direction. 
+
+\begin{DoxyReturn}{Returns}
+The undefined local orbital frame direction 
+\end{DoxyReturn}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ad41f2f4095231786f669e6746793c1cf}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction_ad41f2f4095231786f669e6746793c1cf}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory::LocalOrbitalFrameDirection@{ostk::astro::trajectory::LocalOrbitalFrameDirection}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&}]{a\+Local\+Orbital\+Frame\+Direction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Local\+Orbital\+Frame\+Direction} & A local orbital frame direction \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\mbox{\hyperlink{_local_orbital_frame_direction_8hpp}{Local\+Orbital\+Frame\+Direction.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\mbox{\hyperlink{_local_orbital_frame_direction_8cpp}{Local\+Orbital\+Frame\+Direction.\+cpp}}\end{DoxyCompactItemize}

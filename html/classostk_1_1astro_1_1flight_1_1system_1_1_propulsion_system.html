@@ -101,6 +101,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a671f6f571429914305eec11f90bab452"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a671f6f571429914305eec11f90bab452">PropulsionSystem</a> (const Scalar &amp;aThrust, const Scalar &amp;aSpecificImpulse)</td></tr>
 <tr class="memdesc:a671f6f571429914305eec11f90bab452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a671f6f571429914305eec11f90bab452">More...</a><br /></td></tr>
 <tr class="separator:a671f6f571429914305eec11f90bab452"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb95b82001d2bad30b30d71f23769928"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#abb95b82001d2bad30b30d71f23769928">PropulsionSystem</a> (const Real &amp;aThrustInSIUnit, const Real &amp;aSpecificImpulseInSIUnit)</td></tr>
+<tr class="memdesc:abb95b82001d2bad30b30d71f23769928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#abb95b82001d2bad30b30d71f23769928">More...</a><br /></td></tr>
+<tr class="separator:abb95b82001d2bad30b30d71f23769928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad774fbc3870c13fe05308dcd7adf2a04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#ad774fbc3870c13fe05308dcd7adf2a04">operator==</a> (const <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html">PropulsionSystem</a> &amp;aPropulsionSystem) const</td></tr>
 <tr class="memdesc:ad774fbc3870c13fe05308dcd7adf2a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equal to operator.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#ad774fbc3870c13fe05308dcd7adf2a04">More...</a><br /></td></tr>
 <tr class="separator:ad774fbc3870c13fe05308dcd7adf2a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +153,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Define a propulsion system (constant thrust, constant Isp for now) </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a671f6f571429914305eec11f90bab452"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a671f6f571429914305eec11f90bab452">&#9670;&nbsp;</a></span>PropulsionSystem()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a671f6f571429914305eec11f90bab452">&#9670;&nbsp;</a></span>PropulsionSystem() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +183,45 @@ Friends</h2></td></tr>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aThrust</td><td>Thrust (scalar) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">aSpecificImpulse</td><td>Specific impulse </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSpecificImpulse</td><td>Specific impulse (scalar) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abb95b82001d2bad30b30d71f23769928"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb95b82001d2bad30b30d71f23769928">&#9670;&nbsp;</a></span>PropulsionSystem() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostk::astro::flight::system::PropulsionSystem::PropulsionSystem </td>
+          <td>(</td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aThrustInSIUnit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Real &amp;&#160;</td>
+          <td class="paramname"><em>aSpecificImpulseInSIUnit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor. </p>
+<div class="fragment"><div class="line"><a class="code" href="classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html#a671f6f571429914305eec11f90bab452">PropulsionSystem</a> propulsion = { ... };</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aThrustInSIUnit</td><td>Thrust value in SI Unit </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aSpecificImpulseInSIUnit</td><td>Specific impulse in SI Unit </td></tr>
   </table>
   </dd>
 </dl>

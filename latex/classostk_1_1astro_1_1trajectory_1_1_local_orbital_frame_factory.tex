@@ -1,0 +1,242 @@
+\hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{}\doxysection{ostk\+::astro\+::trajectory\+::Local\+Orbital\+Frame\+Factory Class Reference}
+\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+
+
+A local orbital frame factory.  
+
+
+
+
+{\ttfamily \#include $<$Local\+Orbital\+Frame\+Factory.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Shared$<$ const Frame $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a016af050fdc3d012bccf8dd3f7390915}{generate\+Frame}} (const Instant \&an\+Instant, const Vector3d \&a\+Position, const Vector3d \&a\+Velocity) const
+\begin{DoxyCompactList}\small\item\em Generate a frame shared pointer based on current state input. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a990fdc99d8a9c4f77554eee7b37a6801}{is\+Defined}} () const
+\begin{DoxyCompactList}\small\item\em Check if local orbital frame factory is defined. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider_a0622a7a71418e856d6ed1e8bb4f7c62c}{Local\+Orbital\+Frame\+Transform\+Provider\+::\+Type}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a651d1a2cdb53c4884fcba82035146e7b}{get\+Provider\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Get type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a03aea6a2fce261f84e1965738a8b0c22}{N\+ED}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em N\+ED Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a542b44117a73f5038dee6860c4817f02}{L\+V\+LH}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em L\+V\+LH Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a09ab39c69117d548db2dbaf1d6a72e8c}{V\+V\+LH}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em V\+V\+LH Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ad49fc226882b07e278ebadb1053c33cc}{Q\+SW}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em Q\+SW Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ae57661a83667c24565082c32057e3b69}{T\+NW}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em T\+NW Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a0a43eb1dee4e0abd66f8d814a0a0e3f4}{V\+NC}} (const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em V\+NC Constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a39995f851b56afcc995e3db4d2fe4b28}{Undefined}} ()
+\begin{DoxyCompactList}\small\item\em Undefined local orbital frame factory constructor. \end{DoxyCompactList}\item 
+static Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a79b5944030214e8470fd1c2e2f09add2}{Construct}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider_a0622a7a71418e856d6ed1e8bb4f7c62c}{Local\+Orbital\+Frame\+Transform\+Provider\+::\+Type}} \&a\+Type, const Shared$<$ const Frame $>$ \&a\+Parent\+Frame)
+\begin{DoxyCompactList}\small\item\em Construct function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A local orbital frame factory. 
+
+\begin{DoxyNote}{Note}
+Allows to generate Frames based on instant, position, velocity. 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a79b5944030214e8470fd1c2e2f09add2}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a79b5944030214e8470fd1c2e2f09add2}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!Construct@{Construct}}
+\index{Construct@{Construct}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{Construct()}{Construct()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+Construct (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider_a0622a7a71418e856d6ed1e8bb4f7c62c}{Local\+Orbital\+Frame\+Transform\+Provider\+::\+Type}} \&}]{a\+Type,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Construct function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Type} & The type of local orbital frame transform provider \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & The parent frame of the local orbital frame factory \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a016af050fdc3d012bccf8dd3f7390915}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a016af050fdc3d012bccf8dd3f7390915}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!generateFrame@{generateFrame}}
+\index{generateFrame@{generateFrame}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{generateFrame()}{generateFrame()}}
+{\footnotesize\ttfamily Shared$<$ const Frame $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::generate\+Frame (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector3d \&}]{a\+Position,  }\item[{const Vector3d \&}]{a\+Velocity }\end{DoxyParamCaption}) const}
+
+
+
+Generate a frame shared pointer based on current state input. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Position} & A position vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Velocity} & A velocity vector\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to the frame created 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a651d1a2cdb53c4884fcba82035146e7b}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a651d1a2cdb53c4884fcba82035146e7b}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!getProviderType@{getProviderType}}
+\index{getProviderType@{getProviderType}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{getProviderType()}{getProviderType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider_a0622a7a71418e856d6ed1e8bb4f7c62c}{Local\+Orbital\+Frame\+Transform\+Provider\+::\+Type}} ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::get\+Provider\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get type. 
+
+\begin{DoxyReturn}{Returns}
+Type 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a990fdc99d8a9c4f77554eee7b37a6801}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a990fdc99d8a9c4f77554eee7b37a6801}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily bool ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if local orbital frame factory is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if local orbital frame factory is defined 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a542b44117a73f5038dee6860c4817f02}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a542b44117a73f5038dee6860c4817f02}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!LVLH@{LVLH}}
+\index{LVLH@{LVLH}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{LVLH()}{LVLH()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+L\+V\+LH (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+L\+V\+LH Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a03aea6a2fce261f84e1965738a8b0c22}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a03aea6a2fce261f84e1965738a8b0c22}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!NED@{NED}}
+\index{NED@{NED}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{NED()}{NED()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+N\+ED (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+N\+ED Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ad49fc226882b07e278ebadb1053c33cc}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ad49fc226882b07e278ebadb1053c33cc}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!QSW@{QSW}}
+\index{QSW@{QSW}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{QSW()}{QSW()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+Q\+SW (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Q\+SW Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ae57661a83667c24565082c32057e3b69}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_ae57661a83667c24565082c32057e3b69}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!TNW@{TNW}}
+\index{TNW@{TNW}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{TNW()}{TNW()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+T\+NW (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+T\+NW Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a39995f851b56afcc995e3db4d2fe4b28}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a39995f851b56afcc995e3db4d2fe4b28}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!Undefined@{Undefined}}
+\index{Undefined@{Undefined}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{Undefined()}{Undefined()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+Undefined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Undefined local orbital frame factory constructor. 
+
+\begin{DoxyReturn}{Returns}
+Undefined local orbital frame factory shared pointer 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a0a43eb1dee4e0abd66f8d814a0a0e3f4}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a0a43eb1dee4e0abd66f8d814a0a0e3f4}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!VNC@{VNC}}
+\index{VNC@{VNC}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{VNC()}{VNC()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+V\+NC (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+V\+NC Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a09ab39c69117d548db2dbaf1d6a72e8c}\label{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory_a09ab39c69117d548db2dbaf1d6a72e8c}} 
+\index{ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}!VVLH@{VVLH}}
+\index{VVLH@{VVLH}!ostk::astro::trajectory::LocalOrbitalFrameFactory@{ostk::astro::trajectory::LocalOrbitalFrameFactory}}
+\doxysubsubsection{\texorpdfstring{VVLH()}{VVLH()}}
+{\footnotesize\ttfamily Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} $>$ ostk\+::astro\+::trajectory\+::\+Local\+Orbital\+Frame\+Factory\+::\+V\+V\+LH (\begin{DoxyParamCaption}\item[{const Shared$<$ const Frame $>$ \&}]{a\+Parent\+Frame }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+V\+V\+LH Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Parent\+Frame} & A parent frame\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to a \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_factory}{Local\+Orbital\+Frame\+Factory}} 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\mbox{\hyperlink{_local_orbital_frame_factory_8hpp}{Local\+Orbital\+Frame\+Factory.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Trajectory/\mbox{\hyperlink{_local_orbital_frame_factory_8cpp}{Local\+Orbital\+Frame\+Factory.\+cpp}}\end{DoxyCompactItemize}
