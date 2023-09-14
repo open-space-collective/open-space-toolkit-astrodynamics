@@ -45,38 +45,38 @@ using ostk::astro::trajectory::State;
 class Thruster : public Dynamics
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
-    /// @param              [in] aName A name
+    /// @param                  [in] aName A name
 
     Thruster(const SatelliteSystem& aSatelliteSystem, const String& aName = String::Empty());
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     virtual ~Thruster() = 0;
 
-    /// @brief              Check if thruster is defined
+    /// @brief                  Check if thruster is defined
     ///
-    /// @return             True if thruster is defined
+    /// @return                 True if thruster is defined
 
     virtual bool isDefined() const = 0;
 
-    /// @brief              Get name
+    /// @brief                  Get name
     ///
-    /// @return             Name of thruster
+    /// @return                 Name of thruster
 
     String getName() const;
 
-    /// @brief              Get satellite system
+    /// @brief                  Get satellite system
     ///
-    /// @return             Satellite system
+    /// @return                 Satellite system
 
     SatelliteSystem getSatelliteSystem() const;
 
-    /// @brief              Print thruster
+    /// @brief                  Print thruster
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
