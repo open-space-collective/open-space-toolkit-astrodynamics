@@ -43,6 +43,7 @@ def earth() -> Earth:
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
 
+
 @pytest.fixture
 def dry_mass() -> float:
     return 100.0

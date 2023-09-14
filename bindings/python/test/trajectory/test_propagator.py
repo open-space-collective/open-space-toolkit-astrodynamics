@@ -140,9 +140,7 @@ def central_body_gravity() -> CentralBodyGravity:
 
 @pytest.fixture
 def atmospheric_drag(environment, satellite_system) -> AtmosphericDrag:
-    return AtmosphericDrag(
-        environment.access_celestial_object_with_name("Earth")
-    )
+    return AtmosphericDrag(environment.access_celestial_object_with_name("Earth"))
 
 
 @pytest.fixture
