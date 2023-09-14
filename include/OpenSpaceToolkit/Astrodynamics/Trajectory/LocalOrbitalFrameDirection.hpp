@@ -64,7 +64,9 @@ class LocalOrbitalFrameDirection
     /// @param                  [in] aLocalOrbitalFrameDirection A local orbital frame direction
     /// @return                 A reference to output stream
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection);
+    friend std::ostream& operator<<(
+        std::ostream& anOutputStream, const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection
+    );
 
     /// @brief                  Check if local orbital frame direction is defined
     ///
