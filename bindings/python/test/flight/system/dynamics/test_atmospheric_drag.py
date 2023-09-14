@@ -48,13 +48,15 @@ def earth() -> Earth:
 def dry_mass() -> float:
     return 100.0
 
+
 @pytest.fixture
 def surface_area() -> float:
-    return 1.0
+    return 500.0
+
 
 @pytest.fixture
 def drag_coefficient() -> float:
-    return 2.2
+    return 2.1
 
 
 @pytest.fixture
@@ -73,6 +75,7 @@ def coordinates_broker() -> CoordinatesBroker:
             CoordinatesSubset.drag_coefficient(),
         ]
     )
+
 
 @pytest.fixture
 def instant() -> Instant:
@@ -99,8 +102,11 @@ def state(
     drag_coefficient: float,
     coordinates_broker: CoordinatesBroker,
 ) -> State:
-    wet_mass = dry_mass + 10.0
-    coordinates = position_coordinates + velocity_coordinates + [wet_mass, surface_area, drag_coefficient]
+    coordinates = (
+        position_coordinates
+        + velocity_coordinates
+        + [dry_mass, surface_area, drag_coefficient]
+    )
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 
@@ -121,5 +127,5 @@ class TestAtmosphericDrag:
 
         assert len(contribution) == 3
         assert contribution == pytest.approx(
-            [0.0, -2.53370345e-05, 3.57473816e-12], abs=5e-11
+            [0.0, -0.0000278707803890, -0.0000000000197640], abs=5e-11
         )

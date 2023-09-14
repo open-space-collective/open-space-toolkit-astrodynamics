@@ -69,7 +69,7 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
     )
     inertia_tensor = np.identity(3)
     surface_area = 0.8
-    drag_coefficient = 2.2
+    drag_coefficient = 0.0
 
     return SatelliteSystem(
         mass,
@@ -106,20 +106,40 @@ def coordinates_broker():
         ]
     )
 
+
 @pytest.fixture
 def state(
     satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    
-    propellant_mass: float = 10.0
-    area: float  = satellite_system.get_surface_area()
-    cd: float = satellite_system.get_drag_coefficient()
 
-    coordinates = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass, area, cd]
+    propellant_mass: float = 10.0
 
     coordinates: list = [
         7500000.0,
+        0.0,
+        0.0,
+        0.0,
+        5335.865450622126,
+        5335.865450622126,
+        satellite_system.get_mass().in_kilograms() + propellant_mass,
+    ]
+
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+
+
+@pytest.fixture
+def state_low_altitude(
+    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+) -> State:
+    instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+
+    propellant_mass: float = 10.0
+    area: float = satellite_system.get_cross_sectional_surface_area()
+    cd: float = satellite_system.get_drag_coefficient()
+
+    coordinates: list = [
+        7000000.0,
         0.0,
         0.0,
         0.0,
@@ -168,9 +188,8 @@ def constant_thrust(
 def dynamics(
     position_derivative: PositionDerivative,
     central_body_gravity: CentralBodyGravity,
-    atmospheric_drag: AtmosphericDrag,
 ) -> list:
-    return [position_derivative, central_body_gravity, atmospheric_drag]
+    return [position_derivative, central_body_gravity]
 
 
 @pytest.fixture
@@ -223,21 +242,21 @@ class TestPropagator:
         assert propagator.get_dynamics() == dynamics
 
     def test_set_dynamics(self, propagator: Propagator, dynamics: list):
-        assert len(propagator.get_dynamics()) == 3
+        assert len(propagator.get_dynamics()) == 2
 
         propagator.set_dynamics(dynamics + dynamics)
 
-        assert len(propagator.get_dynamics()) == 6
+        assert len(propagator.get_dynamics()) == 4
 
     def test_add_dynamics(
         self, propagator: Propagator, central_body_gravity: CentralBodyGravity
     ):
-        assert len(propagator.get_dynamics()) == 3
+        assert len(propagator.get_dynamics()) == 2
 
         propagator.add_dynamics(central_body_gravity)
         propagator.add_dynamics(central_body_gravity)
 
-        assert len(propagator.get_dynamics()) == 5
+        assert len(propagator.get_dynamics()) == 4
 
     def test_clear_dynamics(self, propagator: Propagator):
         assert len(propagator.get_dynamics()) >= 1
@@ -246,15 +265,13 @@ class TestPropagator:
 
         assert len(propagator.get_dynamics()) == 0
 
-    def test_calculate_state_at(
-        self, propagator: Propagator, state: State, coordinates_broker: CoordinatesBroker
-    ):
+    def test_calculate_state_at(self, propagator: Propagator, state: State):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
         propagator_state = propagator.calculate_state_at(state, instant)
 
         propagator_state_position_ref = np.array(
-            [62652.25765909, 30270.94961259, 30259.72137468]
+            [6265892.25765909, 3024770.94961259, 3024359.72137468]
         )
         propagator_state_velocity_ref = np.array(
             [-3974.49168221, 4468.16996776, 4466.19232746]
@@ -307,6 +324,26 @@ class TestPropagator:
         with pytest.raises(RuntimeError):
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
+
+    def test_calculate_states_at_with_drag(
+        self,
+        numerical_solver: NumericalSolver,
+        dynamics: list[Dynamics],
+        atmospheric_drag: AtmosphericDrag,
+        state_low_altitude: State,
+    ):
+        propagator: Propagator = Propagator(
+            numerical_solver, dynamics + [atmospheric_drag]
+        )
+
+        instant_array = [
+            Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC),
+        ]
+
+        _ = propagator.calculate_states_at(state_low_altitude, instant_array)
 
     def test_calculate_states_at_with_thrust(
         self,

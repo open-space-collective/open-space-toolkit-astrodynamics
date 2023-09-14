@@ -2604,7 +2604,7 @@ TEST_P(
 
     Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
-    Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem);
+    Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(), centralBodyGravitySPtr, atmosphericDragSPtr, thrusterDynamicsSPtr
