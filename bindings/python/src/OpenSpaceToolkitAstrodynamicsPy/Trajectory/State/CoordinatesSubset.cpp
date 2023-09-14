@@ -125,6 +125,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesSubset(p
         )
 
         .def_static("mass", &CoordinatesSubset::Mass)
+        .def_static("surface_area", &CoordinatesSubset::SurfaceArea)
+        .def_static("drag_coefficient", &CoordinatesSubset::DragCoefficient)
 
         ;
 

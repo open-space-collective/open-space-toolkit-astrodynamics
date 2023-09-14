@@ -31,7 +31,6 @@ from ostk.astrodynamics.trajectory.state.coordinates_subset import (
     CartesianPosition,
     CartesianVelocity,
 )
-from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 
@@ -44,34 +43,22 @@ def earth() -> Earth:
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
 
-
 @pytest.fixture
 def dry_mass() -> float:
     return 100.0
 
+@pytest.fixture
+def surface_area() -> float:
+    return 1.0
 
 @pytest.fixture
-def satellite_system(dry_mass: float) -> SatelliteSystem:
-    mass = Mass(dry_mass, Mass.Unit.Kilogram)
-    satellite_geometry = Composite(
-        Cuboid(
-            Point(0.0, 0.0, 0.0),
-            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
-            [1.0, 0.0, 0.0],
-        )
-    )
-    inertia_tensor = np.ndarray(shape=(3, 3))
-    surface_area = 500.0
-    drag_coefficient = 2.1
-
-    return SatelliteSystem(
-        mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
-    )
+def drag_coefficient() -> float:
+    return 2.2
 
 
 @pytest.fixture
-def dynamics(earth: Earth, satellite_system: SatelliteSystem) -> AtmosphericDrag:
-    return AtmosphericDrag(earth, satellite_system)
+def dynamics(earth: Earth) -> AtmosphericDrag:
+    return AtmosphericDrag(earth)
 
 
 @pytest.fixture
@@ -81,6 +68,8 @@ def coordinates_broker() -> CoordinatesBroker:
             CartesianPosition.default(),
             CartesianVelocity.default(),
             CoordinatesSubset.mass(),
+            CoordinatesSubset.surface_area(),
+            CoordinatesSubset.drag_coefficient(),
         ]
     )
 
@@ -105,10 +94,12 @@ def state(
     position_coordinates: list,
     velocity_coordinates: list,
     dry_mass: float,
+    surface_area: float,
+    drag_coefficient: float,
     coordinates_broker: CoordinatesBroker,
 ) -> State:
     wet_mass = dry_mass + 10.0
-    coordinates = position_coordinates + velocity_coordinates + [wet_mass]
+    coordinates = position_coordinates + velocity_coordinates + [wet_mass, surface_area, drag_coefficient]
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 

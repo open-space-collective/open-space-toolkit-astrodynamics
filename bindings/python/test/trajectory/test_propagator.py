@@ -101,19 +101,8 @@ def coordinates_broker():
             CartesianPosition.default(),
             CartesianVelocity.default(),
             CoordinatesSubset.mass(),
-            CoordinatesSubset("Surface Area", 1),
-            CoordinatesSubset("Drag Coefficient", 1),
-        ]
-    )
-
-
-@pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
-    return CoordinatesBroker(
-        [
-            CartesianPosition.default(),
-            CartesianVelocity.default(),
-            CoordinatesSubset.mass(),
+            CoordinatesSubset.surface_area(),
+            CoordinatesSubset.drag_coefficient(),
         ]
     )
 
@@ -124,8 +113,8 @@ def state(
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
     
     propellant_mass: float = 10.0
-    area: float  = 1
-    cd: float = 2.2
+    area: float  = satellite_system.get_surface_area()
+    cd: float = satellite_system.get_drag_coefficient()
 
     coordinates = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass, area, cd]
 
@@ -152,7 +141,7 @@ def central_body_gravity() -> CentralBodyGravity:
 @pytest.fixture
 def atmospheric_drag(environment, satellite_system) -> AtmosphericDrag:
     return AtmosphericDrag(
-        environment.access_celestial_object_with_name("Earth"), satellite_system
+        environment.access_celestial_object_with_name("Earth")
     )
 
 
@@ -236,21 +225,21 @@ class TestPropagator:
         assert propagator.get_dynamics() == dynamics
 
     def test_set_dynamics(self, propagator: Propagator, dynamics: list):
-        assert len(propagator.get_dynamics()) == 2
+        assert len(propagator.get_dynamics()) == 3
 
         propagator.set_dynamics(dynamics + dynamics)
 
-        assert len(propagator.get_dynamics()) == 4
+        assert len(propagator.get_dynamics()) == 6
 
     def test_add_dynamics(
         self, propagator: Propagator, central_body_gravity: CentralBodyGravity
     ):
-        assert len(propagator.get_dynamics()) == 2
+        assert len(propagator.get_dynamics()) == 3
 
         propagator.add_dynamics(central_body_gravity)
         propagator.add_dynamics(central_body_gravity)
 
-        assert len(propagator.get_dynamics()) == 4
+        assert len(propagator.get_dynamics()) == 5
 
     def test_clear_dynamics(self, propagator: Propagator):
         assert len(propagator.get_dynamics()) >= 1
@@ -260,7 +249,7 @@ class TestPropagator:
         assert len(propagator.get_dynamics()) == 0
 
     def test_calculate_state_at(
-        self, propagator: Propagator, state: State, coordinates_broker
+        self, propagator: Propagator, state: State, coordinates_broker: CoordinatesBroker
     ):
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
