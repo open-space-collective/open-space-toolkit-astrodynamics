@@ -79,7 +79,7 @@ void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPt
     segments_.add(TrajectorySegment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
 }
 
-void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Dynamics>& aThruster)
+void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster)
 {
     segments_.add(TrajectorySegment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_)
     );

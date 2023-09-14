@@ -156,6 +156,7 @@ std::function<Real(const State&)> COECondition::GenerateEvaluator(
         const Velocity velocityInFrame = stateInFrame.getVelocity();
 
         const COE coe = COE::Cartesian({positionInFrame, velocityInFrame}, aGravitationalParameter);
+        // std::cout << coe << std::endl;
 
         switch (anElement)
         {

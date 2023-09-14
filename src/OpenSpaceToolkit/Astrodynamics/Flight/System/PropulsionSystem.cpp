@@ -181,6 +181,14 @@ PropulsionSystem PropulsionSystem::Undefined()
     };
 }
 
+PropulsionSystem PropulsionSystem::Default()
+{
+    return {
+        Scalar(1.0, thrustSIUnit),
+        Scalar(1000.0, specificImpulseSIUnit),
+    };
+}
+
 }  // namespace system
 }  // namespace flight
 }  // namespace astro

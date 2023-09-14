@@ -25,6 +25,7 @@ using ostk::physics::Environment;
 using ostk::astro::trajectory::TrajectorySegment;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::flight::system::dynamics::Thruster;
 
 /// @brief                      Represents a sequence of trajectory segments executed in order.
 
@@ -119,7 +120,7 @@ class Sequence
     /// @param                  [in] anEventConditionSPtr An event condition.
     /// @param                  [in] aThruster A thruster dynamics.
 
-    void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Dynamics>& aThruster);
+    void addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster);
 
     /// @brief                  Solve the sequence given an initial state.
     ///

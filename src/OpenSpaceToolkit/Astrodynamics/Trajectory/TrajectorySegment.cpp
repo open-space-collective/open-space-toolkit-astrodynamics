@@ -162,13 +162,11 @@ TrajectorySegment TrajectorySegment::Coast(
 TrajectorySegment TrajectorySegment::Maneuver(
     const String& aName,
     const Shared<EventCondition>& anEventConditionSPtr,
-    const Shared<Dynamics>& aThrusterDynamics,
+    const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
 {
-    throw ostk::core::error::runtime::ToBeImplemented("TrajectorySegment::Maneuver");
-
     return {
         aName,
         TrajectorySegment::Type::Maneuver,

@@ -144,6 +144,23 @@ SatelliteSystem SatelliteSystem::Undefined()
     };
 }
 
+SatelliteSystem SatelliteSystem::Default()
+{
+    const Composite satelliteGeometry(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
+        {1.0, 2.0, 3.0}
+    ));
+
+    return {
+        Mass(1000.0, Mass::Unit::Kilogram),
+        satelliteGeometry,
+        Matrix3d::Identity(),
+        1.0,
+        2.1,
+        PropulsionSystem::Default(),
+    };
+}
+
 }  // namespace system
 }  // namespace flight
 }  // namespace astro

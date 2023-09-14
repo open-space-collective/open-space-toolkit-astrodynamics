@@ -167,7 +167,25 @@ class SatelliteSystem : public System
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
+    /// @brief                  Undefined satellite system
+    ///
+    /// @code
+    ///                         SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
+    /// @endcode
+    ///
+    /// @return                 Undefined satellite system
+
     static SatelliteSystem Undefined();
+
+    /// @brief                  Default satellite system
+    ///
+    /// @code
+    ///                         SatelliteSystem satelliteSystem = SatelliteSystem::Default();
+    /// @endcode
+    ///
+    /// @return                 Default satellite system
+
+    static SatelliteSystem Default();
 
    private:
     Matrix3d inertiaTensor_;

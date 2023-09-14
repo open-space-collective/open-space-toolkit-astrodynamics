@@ -12,6 +12,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -32,6 +33,7 @@ using ostk::physics::time::Duration;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
+using ostk::astro::flight::system::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
 /// @brief                                  Represent a propagation segment for astrodynamics purposes
@@ -145,7 +147,7 @@ class TrajectorySegment
     static TrajectorySegment Maneuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
-        const Shared<Dynamics>& aThrusterDynamics,  // TBM: This should be specifically ThrusterDynamics parent
+        const Shared<Thruster>& aThrusterDynamics,
         const Array<Shared<Dynamics>>& aDynamicsArray,
         const NumericalSolver& aNumericalSolver
     );
