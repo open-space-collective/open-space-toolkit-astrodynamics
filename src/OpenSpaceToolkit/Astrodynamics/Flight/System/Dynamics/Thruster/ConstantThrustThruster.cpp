@@ -93,10 +93,10 @@ VectorXd ConstantThrustThruster::computeContribution(
     const Vector3d velocityCoordinates = {x[3], x[4], x[5]};
 
     // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to Requested Frame
-    Shared<const Frame> frameSPtr = this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
+    Shared<const Frame> localOrbitalFrameSPtr = this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
         anInstant, positionCoordinates, velocityCoordinates
     );  // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
-    Quaternion q_requestedFrame_LOF = frameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
+    Quaternion q_requestedFrame_LOF = localOrbitalFrameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
 
     const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
 
