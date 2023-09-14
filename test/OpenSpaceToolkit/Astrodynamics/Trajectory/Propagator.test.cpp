@@ -187,7 +187,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
     const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
-    const Mass satelliteWetMass_ = Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
+    const Mass satelliteWetMass_ =
+        Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
     Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
@@ -2126,8 +2127,7 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrust> thrusterDynamicsSPtr =
-        std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
@@ -2675,8 +2675,7 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrust> thrusterDynamicsSPtr =
-        std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
     Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem);
 

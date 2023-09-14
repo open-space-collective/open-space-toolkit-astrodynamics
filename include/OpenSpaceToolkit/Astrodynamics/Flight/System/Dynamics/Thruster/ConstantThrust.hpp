@@ -55,7 +55,8 @@ class ConstantThrust : public Thruster
     ///                     const SatelliteSystem aSatelliteSystem = { ... };
     ///                     const LocalOrbitalFrameDirection aThrustDirection = { ... };
     ///                     const String aName = { ... };
-    ///                     ConstantThrust constantThrustThrusterDynamics = { aSatelliteSystem, aThrustDirection, aName };
+    ///                     ConstantThrust constantThrustThrusterDynamics = { aSatelliteSystem, aThrustDirection, aName
+    ///                     };
     /// @endcode
     ///
     /// @param              [in] aSatelliteSystem A satellite system
@@ -92,9 +93,7 @@ class ConstantThrust : public Thruster
     /// @param              [in] aThruster A constant thrust thruster dynamics
     /// @return             A reference to output stream
 
-    friend std::ostream& operator<<(
-        std::ostream& anOutputStream, const ConstantThrust& aConstantThrust
-    );
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aConstantThrust);
 
     /// @brief              Check if constant thrust thruster dynamics is defined
     ///
@@ -147,7 +146,7 @@ class ConstantThrust : public Thruster
 
    private:
     LocalOrbitalFrameDirection
-        localOrbitalFrameDirection_; // TBI: Local Orbital Frame Direction definition only for thrust direction.
+        localOrbitalFrameDirection_;  // TBI: Local Orbital Frame Direction definition only for thrust direction.
 };
 
 }  // namespace thruster

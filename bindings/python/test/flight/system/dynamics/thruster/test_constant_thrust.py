@@ -109,9 +109,7 @@ class TestConstantThrust:
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
-    def test_compute_contribution_success(
-        self, dynamics: ConstantThrust, state: State
-    ):
+    def test_compute_contribution_success(self, dynamics: ConstantThrust, state: State):
         contribution = dynamics.compute_contribution(
             state.get_instant(), state.get_coordinates(), state.get_frame()
         )

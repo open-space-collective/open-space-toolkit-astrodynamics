@@ -101,9 +101,8 @@ def state(
     position_coordinates: list,
     velocity_coordinates: list,
     dry_mass: float,
-    coordinates_broker: CoordinatesBroker
+    coordinates_broker: CoordinatesBroker,
 ) -> State:
-
     wet_mass = dry_mass + 10.0
     coordinates = position_coordinates + velocity_coordinates + [wet_mass]
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)

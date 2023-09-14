@@ -98,12 +98,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
         this->satelliteSystem_ = {
-            satelliteDryMass_,
-            satelliteGeometry,
-            Matrix3d::Identity(),
-            1.2,
-            2.1,
-            propulsionSystem_
+            satelliteDryMass_, satelliteGeometry, Matrix3d::Identity(), 1.2, 2.1, propulsionSystem_
         };
 
         startStateVector_.resize(7);
@@ -154,9 +149,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     }
 
     {
-        EXPECT_NO_THROW(
-            ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_)
-        );
+        EXPECT_NO_THROW(ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_));
     }
 }
 
