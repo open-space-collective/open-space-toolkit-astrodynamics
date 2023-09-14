@@ -58,11 +58,26 @@ class LocalOrbitalFrameDirection
 
     bool operator!=(const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection) const;
 
+    /// @brief                  Output stream operator
+    ///
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] aLocalOrbitalFrameDirection A local orbital frame direction
+    /// @return                 A reference to output stream
+
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection);
+
     /// @brief                  Check if local orbital frame direction is defined
     ///
     /// @return                 True if local orbital frame direction is defined
 
     bool isDefined() const;
+
+    /// @brief                  Print local orbital frame direction
+    ///
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
+
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     /// @brief                  Access local orbital frame factory
     ///

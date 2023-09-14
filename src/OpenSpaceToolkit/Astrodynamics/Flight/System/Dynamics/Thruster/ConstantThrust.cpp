@@ -126,11 +126,15 @@ VectorXd ConstantThrust::computeContribution(
 
 void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "ConstantThrust Dynamics") : void();
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "ConstantThrust Thruster Dynamics") : void();
 
-    // satelliteSystem_.print(anOutputStream, false);
+    Dynamics::print(anOutputStream, false);
 
-    // TBI: Print direction
+    ostk::core::utils::Print::Separator(anOutputStream, "Satellite System");
+    this->getSatelliteSystem().print(anOutputStream, false);
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Thrust Direction");
+    localOrbitalFrameDirection_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
