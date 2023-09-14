@@ -39,11 +39,11 @@ class AtmosphericDrag : public Dynamics
     /// @brief                  Constructor
     ///
     /// @code
-    ///                     const Celestial = { ... };
-    ///                     AtmosphericDrag atmosphericDrag = { aCelestial };
+    ///                         const Celestial = { ... };
+    ///                         AtmosphericDrag atmosphericDrag = { aCelestial };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A celestial object
+    /// @param                  [in] aCelestial A celestial object
 
     AtmosphericDrag(const Shared<const Celestial>& aCelestial);
 
@@ -55,8 +55,8 @@ class AtmosphericDrag : public Dynamics
     ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aName };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A celestial object
-    /// @param              [in] aName A name
+    /// @param                  [in] aCelestial A celestial object
+    /// @param                  [in] aName A name
 
     AtmosphericDrag(const Shared<const Celestial>& aCelestial, const String& aName);
 
