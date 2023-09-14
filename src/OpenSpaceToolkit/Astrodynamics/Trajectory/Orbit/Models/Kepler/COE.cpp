@@ -409,7 +409,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     Real raan_rad = 0.0;  // [rad] Right Ascension of the Ascending Node (RAAN)
     Real aop_rad = 0.0;   // [rad] Argument Of Periapsis (AOP)
-    Real nu_rad = 0.0;    // [rad] True anomaly
+    Real nu_rad = 0.0;    // [rad] True anomaly (Nu)
 
     if ((e >= tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance))))  // Non-circular, inclined
     {
@@ -425,14 +425,14 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
             raan_rad = Real::TwoPi() - raan_rad;
         }
 
-        aop_rad = std::acos((nodeVector.dot(eccentricityVector)) / (node * e));
+        aop_rad = std::acos(std::clamp((double)(nodeVector.dot(eccentricityVector) / (node * e)), -1.0, 1.0));
 
         if (eccentricityVector(2) < 0.0)
         {
             aop_rad = Real::TwoPi() - aop_rad;
         }
 
-        nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position));
+        nu_rad = std::acos(std::clamp((double)(eccentricityVector.dot(positionVector) / (e * position)), -1.0, 1.0));
 
         if (positionVector.dot(velocityVector) < 0.0)
         {
@@ -460,7 +460,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
             aop_rad = aop_rad + Real::TwoPi();
         }
 
-        nu_rad = std::acos((eccentricityVector.dot(positionVector)) / (e * position));
+        nu_rad = std::acos(std::clamp((double)(eccentricityVector.dot(positionVector) / (e * position)), -1.0, 1.0));
 
         if (positionVector.dot(velocityVector) < 0.0)
         {
@@ -483,7 +483,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
         aop_rad = 0.0;
 
-        nu_rad = std::acos((nodeVector.dot(positionVector)) / (node * position));
+        nu_rad = std::acos(std::clamp((double)(nodeVector.dot(positionVector) / (node * position)), -1.0, 1.0));
 
         if (positionVector(2) < 0.0)
         {

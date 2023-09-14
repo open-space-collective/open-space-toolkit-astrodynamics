@@ -43,6 +43,7 @@ using ostk::astro::trajectory::Sequence;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::eventcondition::COECondition;
+using ostk::astro::eventcondition::AngularCondition;
 using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
@@ -75,8 +76,8 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         1.0e-12,
     };
 
-    const Shared<COECondition> defaultCondition_ = std::make_shared<COECondition>(COECondition::TrueAnomaly(
-        COECondition::Criterion::AnyCrossing,
+    const Shared<AngularCondition> defaultCondition_ = std::make_shared<AngularCondition>(COECondition::TrueAnomaly(
+        AngularCondition::Criterion::AnyCrossing,
         Frame::GCRF(),
         Angle::Degrees(0.0),
         EarthGravitationalModel::EGM2008.gravitationalParameter_
@@ -163,7 +164,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
     {
         EXPECT_TRUE(segmentSolution.states.getSize() > 0);
         const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
-        EXPECT_NEAR(targetAngle, defaultCondition_->getTarget(), 1e-7);
+        EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
     }
 }
 
@@ -198,15 +199,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 
 //     // segments
 //     const Array<TrajectorySegment> segments = {
-//         TrajectorySegment::Coast(
-//             std::make_shared<InstantCondition>(InstantCondition::Criteria::AnyCrossing, Duration::Minutes(15.0))
-//         ),
-//         TrajectorySegment::Coast(
-//             std::make_shared<COECondition>(COECondition::SemiMajorAxis(6371)))
-//         ),
-//         TrajectorySegment::Coast(
-//             std::make_shared<InstantCondition>(InstantCondition::Criteria::AnyCrossing, Duration::Minutes(15.0))
-//         ),
+//         TrajectorySegment::Coast(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+//             RealCondition::Criterion::AnyCrossing,
+//             Frame::GCRF(),
+//             Length.kilometers(6995.0),
+//             EarthGravitationalModel::EGM2008.gravitationalParameter_
+//         ))),
+//         // do burn
 //     };
 // }
 

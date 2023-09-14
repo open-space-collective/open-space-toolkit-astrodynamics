@@ -128,11 +128,11 @@ void TrajectorySegment::print(std::ostream& anOutputStream, bool displayDecorato
     }
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    eventCondition_->print(anOutputStream, false);
+    eventCondition_->print(anOutputStream, true);
     ostk::core::utils::Print::Line(anOutputStream);
     for (const auto& dynamics : dynamics_)
     {
-        dynamics->print(anOutputStream, false);
+        dynamics->print(anOutputStream, true);
     }
     ostk::core::utils::Print::Line(anOutputStream);
     ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;

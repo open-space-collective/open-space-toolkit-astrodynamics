@@ -60,6 +60,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::tes
         1e-2,
         1.0e-15,
         1.0e-15,
+        {100u, 1e-3}
     };
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
         InstantCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(15.0)

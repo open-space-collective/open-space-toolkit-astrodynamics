@@ -92,16 +92,12 @@ Sequence::Solution Sequence::solve(const State& aState) const
     State initialState = aState;
     State finalState = State::Undefined();
 
-    std::cout << "Sequence::solve: " << initialState << std::endl;
-
     for (Size i = 0; i < repetitionCount_; ++i)
     {
         for (const TrajectorySegment& segment : segments_)
         {
-            std::cout << "Sequence::solve: " << i << ": " << segment << std::endl;
             TrajectorySegment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
-            std::cout << "solved" << std::endl;
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
 
