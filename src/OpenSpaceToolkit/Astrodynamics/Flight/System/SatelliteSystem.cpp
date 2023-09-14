@@ -82,7 +82,7 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
         << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
-    propulsionSystem_.print(anOutputStream, false);
+    propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

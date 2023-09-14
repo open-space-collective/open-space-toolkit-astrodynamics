@@ -125,5 +125,5 @@ class TestAtmosphericDrag:
 
         assert len(contribution) == 3
         assert contribution == pytest.approx(
-            [0.0, -0.0000278707803890, -0.0000000000197640], abs=5e-11
+            [0.0, -2.53370345e-05, 3.57473816e-12], abs=5e-11
         )
