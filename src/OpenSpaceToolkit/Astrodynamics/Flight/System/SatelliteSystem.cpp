@@ -15,14 +15,14 @@ namespace system
 {
 
 SatelliteSystem::SatelliteSystem(
-    const Mass& aMass,
+    const Mass& aDryMass,
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
     const Real& aCrossSectionalSurfaceArea,
     const Real& aDragCoefficient,
     const PropulsionSystem& aPropulsionSystem
 )
-    : System(aMass, aSatelliteGeometry),
+    : System(aDryMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient),

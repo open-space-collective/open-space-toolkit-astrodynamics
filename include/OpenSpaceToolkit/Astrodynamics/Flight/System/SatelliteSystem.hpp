@@ -56,7 +56,7 @@ class SatelliteSystem : public System
     ///                     dragCoefficient, propulsionSystem } ;
     /// @endcode
     ///
-    /// @param              [in] aMass A mass
+    /// @param              [in] aDryMass A dry mass (without propellant)
     /// @param              [in] aCompositeGeometry A composite geometry
     /// @param              [in] anInertiaTensor An inertia tensor
     /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
@@ -64,7 +64,7 @@ class SatelliteSystem : public System
     /// @param              [in] aPropulsionSystem A propulsion system (optional)
 
     SatelliteSystem(
-        const Mass& aMass,
+        const Mass& aDryMass,
         const Composite& aSatelliteGeometry,
         const Matrix3d& anInertiaTensor,
         const Real& aCrossSectionalSurfaceArea,

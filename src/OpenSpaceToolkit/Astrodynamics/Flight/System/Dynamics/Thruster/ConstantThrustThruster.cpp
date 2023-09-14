@@ -98,12 +98,13 @@ VectorXd ConstantThrustThruster::computeContribution(
     );  // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
     Quaternion q_requestedFrame_LOF = frameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
 
-    if (x[6] <= this->getSatelliteSystem().getMass().getValue())
+    const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
+
+    if (x[6] <= satelliteSystem.getMass().getValue()) // We compare against the dry mass of the Satellite
     {
         throw ostk::core::error::RuntimeError("Out of fuel.");
     }
 
-    const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
     const PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem();
 
     const Vector3d acceleration_LOF = propulsionSystem.getAcceleration(Mass::Kilograms(x[6])).getValue() *
