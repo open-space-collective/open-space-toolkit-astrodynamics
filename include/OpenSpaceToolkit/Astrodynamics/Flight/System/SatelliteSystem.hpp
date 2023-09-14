@@ -43,25 +43,25 @@ using ostk::astro::flight::system::PropulsionSystem;
 class SatelliteSystem : public System
 {
    public:
-    /// @brief              Constructor
+    /// @brief                  Constructor
     ///
     /// @code
-    ///                     Mass mass = { ... } ;
-    ///                     Composite composite ( ... ) ;
-    ///                     Matrix3d intertiaTensor ( ... ) ;
-    ///                     Real crossSectionalSurfaceArea = 0.8 ;
-    ///                     Real dragCoefficient = 2.2 ;
-    ///                     PropulsionSystem propulsionSystem = { ... } ;
-    ///                     System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
-    ///                     dragCoefficient, propulsionSystem } ;
+    ///                         Mass mass = { ... } ;
+    ///                         Composite composite ( ... ) ;
+    ///                         Matrix3d intertiaTensor ( ... ) ;
+    ///                         Real crossSectionalSurfaceArea = 0.8 ;
+    ///                         Real dragCoefficient = 2.2 ;
+    ///                         PropulsionSystem propulsionSystem = { ... } ;
+    ///                         System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
+    ///                         dragCoefficient, propulsionSystem } ;
     /// @endcode
     ///
-    /// @param              [in] aDryMass A dry mass (without propellant)
-    /// @param              [in] aCompositeGeometry A composite geometry
-    /// @param              [in] anInertiaTensor An inertia tensor
-    /// @param              [in] aCrossSectionalSurfaceArea A cross sectional surface area
-    /// @param              [in] aDragCoefficient A drag coefficient
-    /// @param              [in] aPropulsionSystem A propulsion system (optional)
+    /// @param                  [in] aDryMass A dry mass (without propellant)
+    /// @param                  [in] aCompositeGeometry A composite geometry
+    /// @param                  [in] anInertiaTensor An inertia tensor
+    /// @param                  [in] aCrossSectionalSurfaceArea A cross sectional surface area
+    /// @param                  [in] aDragCoefficient A drag coefficient
+    /// @param                  [in] aPropulsionSystem A propulsion system (optional)
 
     SatelliteSystem(
         const Mass& aDryMass,
@@ -72,98 +72,98 @@ class SatelliteSystem : public System
         const PropulsionSystem& aPropulsionSystem = PropulsionSystem::Undefined()
     );
 
-    /// @brief              Destructor
+    /// @brief                  Destructor
 
     virtual ~SatelliteSystem() override;
 
-    /// @brief              Clone satellite system
+    /// @brief                  Clone satellite system
     ///
-    /// @return             Pointer to cloned satellite system
+    /// @return                 Pointer to cloned satellite system
 
     SatelliteSystem* clone() const;
 
-    /// @brief              Equal to operator
+    /// @brief                  Equal to operator
     ///
-    /// @param              [in] aSatelliteSystem A satellite system
-    /// @return             True if satellite systems are equal
+    /// @param                  [in] aSatelliteSystem A satellite system
+    /// @return                 True if satellite systems are equal
 
     bool operator==(const SatelliteSystem& aSatelliteSystem) const;
 
-    /// @brief              Not equal to operator
+    /// @brief                  Not equal to operator
     ///
-    /// @param              [in] aSatelliteSystem A satellite system
-    /// @return             True if satellite systems are not equal
+    /// @param                  [in] aSatelliteSystem A satellite system
+    /// @return                 True if satellite systems are not equal
 
     bool operator!=(const SatelliteSystem& aSatelliteSystem) const;
 
-    /// @brief              Output stream operator
+    /// @brief                  Output stream operator
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] aSatelliteSystem A satellite system
-    /// @return             A reference to output stream
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] aSatelliteSystem A satellite system
+    /// @return                 A reference to output stream
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aSatelliteSystem);
 
-    /// @brief              Check if satellite system is defined
+    /// @brief                  Check if satellite system is defined
     ///
-    /// @return             True if satellite system is defined
+    /// @return                 True if satellite system is defined
 
     virtual bool isDefined() const override;
 
-    /// @brief              Access satellite system's propulsion model
+    /// @brief                  Access satellite system's propulsion system
     ///
     /// @code
-    ///                     PropulsionSystem propulsionModel = satelliteSystem.accessPropulsionSystem() ;
+    ///                         PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem() ;
     /// @endcode
     ///
-    /// @return             PropulsionSystem
+    /// @return                 PropulsionSystem
 
     const PropulsionSystem& accessPropulsionSystem() const;
 
-    /// @brief              Get satellite system's inertia tensor
+    /// @brief                  Get satellite system's inertia tensor
     ///
     /// @code
-    ///                     Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
+    ///                         Matrix3d inertiaTensor = satelliteSystem.getInertiaTensor() ;
     /// @endcode
     ///
-    /// @return             Matrix3d
+    /// @return                 Matrix3d
 
     Matrix3d getInertiaTensor() const;
 
-    /// @brief              Get satellite system's surface area
+    /// @brief                  Get satellite system's surface area
     ///
     /// @code
-    ///                     Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
+    ///                         Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return                 Real
 
     Real getCrossSectionalSurfaceArea() const;
 
-    /// @brief              Get satellite system's drag coefficient
+    /// @brief                  Get satellite system's drag coefficient
     ///
     /// @code
-    ///                     Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
+    ///                         Real dragCoefficient = satelliteSystem.getDragCoefficient() ;
     /// @endcode
     ///
-    /// @return             Real
+    /// @return                 Real
 
     Real getDragCoefficient() const;
 
-    /// @brief              Get satellite system's propulsion model
+    /// @brief                  Get satellite system's propulsion system
     ///
     /// @code
-    ///                     PropulsionSystem propulsionModel = satelliteSystem.getPropulsionSystem() ;
+    ///                         PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem() ;
     /// @endcode
     ///
-    /// @return             PropulsionSystem
+    /// @return                 PropulsionSystem
 
     PropulsionSystem getPropulsionSystem() const;
 
-    /// @brief              Print satellite system
+    /// @brief                  Print satellite system
     ///
-    /// @param              [in] anOutputStream An output stream
-    /// @param              [in] (optional) displayDecorators If true, display decorators
+    /// @param                  [in] anOutputStream An output stream
+    /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
 
@@ -173,7 +173,7 @@ class SatelliteSystem : public System
     Matrix3d inertiaTensor_;
     Real crossSectionalSurfaceArea_;
     Real dragCoefficient_;
-    PropulsionSystem propulsionModel_;
+    PropulsionSystem propulsionSystem_;
 };
 
 }  // namespace system

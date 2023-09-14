@@ -26,7 +26,7 @@ SatelliteSystem::SatelliteSystem(
       inertiaTensor_(anInertiaTensor),
       crossSectionalSurfaceArea_(aCrossSectionalSurfaceArea),
       dragCoefficient_(aDragCoefficient),
-      propulsionModel_(aPropulsionSystem)
+      propulsionSystem_(aPropulsionSystem)
 {
 }
 
@@ -82,19 +82,19 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
         << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
-    propulsionModel_.print(anOutputStream, false);
+    propulsionSystem_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
 {
-    if (!propulsionModel_.isDefined())
+    if (!propulsionSystem_.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("PropulsionSystem");
     }
 
-    return this->propulsionModel_;
+    return this->propulsionSystem_;
 }
 
 Matrix3d SatelliteSystem::getInertiaTensor() const
