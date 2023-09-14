@@ -92,6 +92,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
         ));
 
         const Mass satelliteDryMass = Mass::Kilograms(100.0);
+        const Mass propellantMass = Mass::Kilograms(0.0);
 
         satelliteSystem_ = {
             satelliteDryMass,
@@ -101,8 +102,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_AtmosphericDrag : pu
             2.1,
         };
 
-        startStateVector_.resize(7);  // include satellite mass
-        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, satelliteDryMass.inKilograms();
+        startStateVector_.resize(7);
+        startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, satelliteDryMass.inKilograms() + propellantMass.inKilograms();
 
         earthSPtr_ = std::make_shared<Celestial>(earth_);
     }

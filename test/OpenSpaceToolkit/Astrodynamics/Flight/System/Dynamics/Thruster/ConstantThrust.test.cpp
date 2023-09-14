@@ -94,32 +94,20 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
             {1.0, 2.0, 3.0}
         ));
 
-        const Scalar thrust_ = Scalar(0.1, PropulsionSystem::thrustSIUnit);
-        const Scalar specificImpulse_ = Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit);
+        localOrbitalFrameDirection_ =
+            LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
-        satelliteDryMass_ = Mass::Kilograms(100.0);
-
-        propulsionSystem_ = PropulsionSystem(
-            thrust_,          // Thrust
-            specificImpulse_  // Isp
-        );
-
-        satelliteSystem_ = {
+        this->satelliteSystem_ = {
             satelliteDryMass_,
             satelliteGeometry,
             Matrix3d::Identity(),
             1.2,
             2.1,
-            propulsionSystem_,
+            propulsionSystem_
         };
-
-        localOrbitalFrameDirection_ =
-            LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()));
 
         startStateVector_.resize(7);
         startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
-
-        earthSPtr_ = std::make_shared<Celestial>(earth_);
     }
 
     // Current state and instant setup, choose equinox as instant to make geometry simple
@@ -142,13 +130,19 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
 
     LocalOrbitalFrameDirection localOrbitalFrameDirection_ = LocalOrbitalFrameDirection::Undefined();
 
-    Mass satelliteDryMass_ = Mass::Undefined();
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
+    const Scalar thrust_ = Scalar(0.1, PropulsionSystem::thrustSIUnit);
+    const Scalar specificImpulse_ = Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit);
+
+    const Mass satelliteDryMass_ = Mass::Kilograms(100.0);
+
+    const PropulsionSystem propulsionSystem_ = PropulsionSystem(
+        thrust_,          // Thrust
+        specificImpulse_  // Isp
+    );
 
     NumericalSolver::StateVector startStateVector_;
-
-    Shared<Celestial> earthSPtr_ = nullptr;
+    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
+    Shared<Celestial> earthSPtr_ = std::make_shared<Celestial>(earth_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Constructor)

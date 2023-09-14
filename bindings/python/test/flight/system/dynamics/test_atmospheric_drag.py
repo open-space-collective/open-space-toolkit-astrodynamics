@@ -41,8 +41,13 @@ def earth() -> Earth:
 
 
 @pytest.fixture
-def satellite_system() -> SatelliteSystem:
-    mass = Mass(100.0, Mass.Unit.Kilogram)
+def dry_mass() -> float:
+    return 100.0
+
+
+@pytest.fixture
+def satellite_system(dry_mass: float) -> SatelliteSystem:
+    mass = Mass(dry_mass, Mass.Unit.Kilogram)
     satellite_geometry = Composite(
         Cuboid(
             Point(0.0, 0.0, 0.0),
@@ -76,10 +81,31 @@ def coordinates_broker() -> CoordinatesBroker:
 
 
 @pytest.fixture
-def state(coordinates_broker: CoordinatesBroker) -> State:
-    instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
-    coordinates: list = [7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 100.0]
+def instant() -> Instant:
+    return Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
 
+
+@pytest.fixture
+def position_coordinates() -> list:
+    return [7000000.0, 0.0, 0.0]
+
+
+@pytest.fixture
+def velocity_coordinates() -> list:
+    return [0.0, 7546.05329, 0.0]
+
+
+@pytest.fixture
+def state(
+    instant: Instant,
+    position_coordinates: list,
+    velocity_coordinates: list,
+    dry_mass: float,
+    coordinates_broker: CoordinatesBroker
+) -> State:
+
+    wet_mass = dry_mass + 10.0
+    coordinates = position_coordinates + velocity_coordinates + [wet_mass]
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 

@@ -137,13 +137,11 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
             Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit),
         };
 
-        this->satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
-
         this->satelliteGeometry_ = satelliteGeometry;
         this->propulsionSystem_ = propulsionSystem;
 
         this->satelliteSystem_ = {
-            satelliteDryMass_,
+            this->satelliteDryMass_,
             satelliteGeometry_,
             Matrix3d::Identity(),
             1.0,
@@ -187,7 +185,9 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
-    Mass satelliteDryMass_ = Mass::Undefined();
+    const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
+    const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
+    const Mass satelliteWetMass_ = Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
     Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
@@ -1990,6 +1990,9 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
         1.0e-15,
     };
 
+    const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
+    const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
+
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
@@ -2078,13 +2081,11 @@ TEST_P(
             CoordinatesSubset::Mass(),
         }));
 
-    // Setup initila state
-    const Real initialPropellantMassInKilograms = 15.0;
-
+    // Setup initial state
     VectorXd initialCoordinates(7);
 
     initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-        initialPropellantMassInKilograms + satelliteDryMassReal;
+        propellantMass_.inKilograms() + satelliteDryMassReal;
 
     const State initialState = {
         instantArray[0],
@@ -2530,6 +2531,9 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
         1.0e-15,
     };
 
+    const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
+    const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
+
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
     Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
@@ -2626,13 +2630,11 @@ TEST_P(
             CoordinatesSubset::Mass(),
         }));
 
-    // Setup initila state
-    const Real initialPropellantMassInKilograms = 15.0;
-
+    // Setup initial state
     VectorXd initialCoordinates(7);
 
     initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-        initialPropellantMassInKilograms + satelliteDryMassReal;
+        propellantMass_.inKilograms() + satelliteDryMassReal;
 
     const State initialState = {
         instantArray[0],

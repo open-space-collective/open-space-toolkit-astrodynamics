@@ -108,14 +108,14 @@ VectorXd ConstantThrust::computeContribution(
     const PropulsionSystem propulsionSystem = satelliteSystem.getPropulsionSystem();
 
     const Vector3d acceleration_LOF = propulsionSystem.getAcceleration(Mass::Kilograms(x[6])).getValue() *
-                                      this->localOrbitalFrameDirection_.getValue();
+                                      this->localOrbitalFrameDirection_.getValue(); // TBI: Can be optimized to not convert to Mass and back by doing the calculation inline here in SI units
 
     const Vector3d acceleration_requestedFrame = q_requestedFrame_LOF.rotateVector(acceleration_LOF);
 
     // Compute contribution
     VectorXd contribution(4);
     contribution << acceleration_requestedFrame[0], acceleration_requestedFrame[1], acceleration_requestedFrame[2],
-        -propulsionSystem.getMassFlowRate().getValue();
+        -propulsionSystem.getMassFlowRate().getValue(); // TBI: Can be optimized to cache the SI value as a Real
 
     return contribution;
 }

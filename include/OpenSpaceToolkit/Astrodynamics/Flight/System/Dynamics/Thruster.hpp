@@ -82,8 +82,7 @@ class Thruster : public Dynamics
 
    private:
     const String name_;
-    SatelliteSystem satelliteSystem_;  // TBI: Might want to use PropulsionSystem instead and populate it under the hood
-                                       // for constant thrust case
+    SatelliteSystem satelliteSystem_;
 };
 
 }  // namespace dynamics
