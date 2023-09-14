@@ -6,7 +6,7 @@
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/Quaternion.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
@@ -36,7 +36,7 @@ using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 
-ConstantThrustThruster::ConstantThrustThruster(
+ConstantThrust::ConstantThrust(
     const SatelliteSystem& aSatelliteSystem, const LocalOrbitalFrameDirection& aThrustDirection, const String& aName
 )
     : Thruster(aSatelliteSystem, aName),
@@ -44,21 +44,21 @@ ConstantThrustThruster::ConstantThrustThruster(
 {
 }
 
-ConstantThrustThruster::~ConstantThrustThruster() {}
+ConstantThrust::~ConstantThrust() {}
 
-std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrustThruster& aConstantThrustThruster)
+std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aConstantThrust)
 {
-    aConstantThrustThruster.print(anOutputStream);
+    aConstantThrust.print(anOutputStream);
 
     return anOutputStream;
 }
 
-bool ConstantThrustThruster::isDefined() const
+bool ConstantThrust::isDefined() const
 {
     return localOrbitalFrameDirection_.isDefined();
 }
 
-Scalar ConstantThrustThruster::getThrust() const
+Scalar ConstantThrust::getThrust() const
 {
     if (!this->isDefined())
     {
@@ -68,7 +68,7 @@ Scalar ConstantThrustThruster::getThrust() const
     return this->getSatelliteSystem().getPropulsionSystem().getThrust();
 }
 
-Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getReadCoordinatesSubsets() const
+Array<Shared<const CoordinatesSubset>> ConstantThrust::getReadCoordinatesSubsets() const
 {
     return {
         CartesianPosition::Default(),
@@ -77,7 +77,7 @@ Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getReadCoordinate
     };
 }
 
-Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getWriteCoordinatesSubsets() const
+Array<Shared<const CoordinatesSubset>> ConstantThrust::getWriteCoordinatesSubsets() const
 {
     return {
         CartesianVelocity::Default(),
@@ -85,7 +85,7 @@ Array<Shared<const CoordinatesSubset>> ConstantThrustThruster::getWriteCoordinat
     };
 }
 
-VectorXd ConstantThrustThruster::computeContribution(
+VectorXd ConstantThrust::computeContribution(
     const Instant& anInstant, const VectorXd& x, const Shared<const Frame>& aFrameSPtr
 ) const
 {
@@ -120,9 +120,9 @@ VectorXd ConstantThrustThruster::computeContribution(
     return contribution;
 }
 
-void ConstantThrustThruster::print(std::ostream& anOutputStream, bool displayDecorator) const
+void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "ConstantThrustThruster Dynamics") : void();
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "ConstantThrust Dynamics") : void();
 
     // satelliteSystem_.print(anOutputStream, false);
 

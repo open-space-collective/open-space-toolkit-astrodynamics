@@ -27,7 +27,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Mass.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
@@ -76,14 +76,14 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::thruster::ConstantThrustThruster;
+using ostk::astro::flight::system::dynamics::thruster::ConstantThrust;
 
 using namespace boost::numeric::odeint;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster : public ::testing::Test
+class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust : public ::testing::Test
 {
    protected:
     void SetUp() override
@@ -151,25 +151,25 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
     Shared<Celestial> earthSPtr_ = nullptr;
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Constructor)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Constructor)
 {
     {
-        EXPECT_NO_THROW(ConstantThrustThruster constantThrustThrusterDynamics(
+        EXPECT_NO_THROW(ConstantThrust constantThrustThrusterDynamics(
             satelliteSystem_, localOrbitalFrameDirection_, "aThrusterDynamicsName"
         ));
     }
 
     {
         EXPECT_NO_THROW(
-            ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_)
+            ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_)
         );
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, StreamOperator)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, StreamOperator)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
@@ -179,18 +179,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, IsDefined)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, IsDefined)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
         EXPECT_TRUE(constantThrustThrusterDynamics.isDefined());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Print)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Print)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
@@ -200,10 +200,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, Getters)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Getters)
 {
     {
-        ConstantThrustThruster constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == String::Empty());
         EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
         EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
@@ -211,7 +211,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 
     {
         const String thrusterDynamicsName = "aThrusterDynamicsName";
-        ConstantThrustThruster constantThrustThrusterDynamics(
+        ConstantThrust constantThrustThrusterDynamics(
             satelliteSystem_, localOrbitalFrameDirection_, thrusterDynamicsName
         );
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
@@ -221,7 +221,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 }
 
 /* Contribution computation validation test */
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster, ComputeContribution)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, ComputeContribution)
 {
     {
         // Test Case (thrust direction, local orbital frame, reference data)
@@ -254,8 +254,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
             // Define constant thrust thruster dynamics
             LocalOrbitalFrameDirection localOrbitalFrameDirection =
                 LocalOrbitalFrameDirection(localOrbitalFrameThrustVector, localOrbitalFrameFactory);
-            Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
-                std::make_shared<ConstantThrustThruster>(satelliteSystem_, localOrbitalFrameDirection);
+            Shared<ConstantThrust> thrusterDynamicsSPtr =
+                std::make_shared<ConstantThrust>(satelliteSystem_, localOrbitalFrameDirection);
 
             // Reference data setup
             const Table referenceData = Table::Load(

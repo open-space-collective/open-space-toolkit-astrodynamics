@@ -2,7 +2,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/Thruster/ConstantThrustThruster.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics/Thruster/ConstantThrust.cpp>
 
 using namespace pybind11;
 
@@ -91,5 +91,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster(pybi
     thruster.attr("__path__") = "ostk.astrodynamics.flight.system.dynamics.thruster";
 
     // Add objects to "thruster" submodule
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_ConstantThrustThruster(thruster);
+    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_ConstantThrust(thruster);
 }

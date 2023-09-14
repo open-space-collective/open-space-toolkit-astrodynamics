@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster__
-#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrustThruster__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust__
+#define __OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust__
 
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
 
@@ -46,7 +46,7 @@ using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 /// @brief                      Define the acceleration experienced by a point mass due to a constant thrust thruster
 /// dynamics
 
-class ConstantThrustThruster : public Thruster
+class ConstantThrust : public Thruster
 {
    public:
     /// @brief              Constructor
@@ -55,7 +55,7 @@ class ConstantThrustThruster : public Thruster
     ///                     const LocalOrbitalFrameDirection aThrustDirection = { ... };
     ///                     const SatelliteSystem aSatelliteSystem = { ... };
     ///                     const String aName = { ... };
-    ///                     ConstantThrustThruster constantThrustThrusterDynamics = { aName, aSatelliteSystem,
+    ///                     ConstantThrust constantThrustThrusterDynamics = { aName, aSatelliteSystem,
     ///                     aThrustDirection};
     /// @endcode
     ///
@@ -63,7 +63,7 @@ class ConstantThrustThruster : public Thruster
     /// @param              [in] aThrustDirection A local orbital frame thrust direction
     /// @param              [in] aName A name
 
-    ConstantThrustThruster(
+    ConstantThrust(
         const SatelliteSystem& aSatelliteSystem,
         const LocalOrbitalFrameDirection& aThrustDirection,
         const String& aName = String::Empty()
@@ -71,21 +71,21 @@ class ConstantThrustThruster : public Thruster
 
     /// @brief              Destructor
 
-    virtual ~ConstantThrustThruster() override;
+    virtual ~ConstantThrust() override;
 
     /// @brief              Equal to operator
     ///
-    /// @param              [in] aConstantThrustThruster A constant thrust thruster dynamics
+    /// @param              [in] aConstantThrust A constant thrust thruster dynamics
     /// @return             True if constant thrust thruster dynamics are equal
 
-    bool operator==(const ConstantThrustThruster& aConstantThrustThruster) const;
+    bool operator==(const ConstantThrust& aConstantThrust) const;
 
     /// @brief              Not equal to operator
     ///
     /// @param              [in] aThruster A constant thrust thruster dynamics
     /// @return             True if constant thrust thruster dynamics are not equal
 
-    bool operator!=(const ConstantThrustThruster& aConstantThrustThruster) const;
+    bool operator!=(const ConstantThrust& aConstantThrust) const;
 
     /// @brief              Output stream operator
     ///
@@ -94,7 +94,7 @@ class ConstantThrustThruster : public Thruster
     /// @return             A reference to output stream
 
     friend std::ostream& operator<<(
-        std::ostream& anOutputStream, const ConstantThrustThruster& aConstantThrustThruster
+        std::ostream& anOutputStream, const ConstantThrust& aConstantThrust
     );
 
     /// @brief              Check if constant thrust thruster dynamics is defined

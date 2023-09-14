@@ -41,7 +41,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrustThruster.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -115,7 +115,7 @@ using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
 using ostk::astro::flight::system::dynamics::AtmosphericDrag;
-using ostk::astro::flight::system::dynamics::thruster::ConstantThrustThruster;
+using ostk::astro::flight::system::dynamics::thruster::ConstantThrust;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, ostk::physics::units::Time::Unit::Second);
@@ -2000,7 +2000,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
 
 TEST_P(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster,
-    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster
+    PropAccuracy_TwoBody_Newtonian_ConstantThrust
 )
 {
     // Improvements:
@@ -2125,8 +2125,8 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
-        std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrust> thrusterDynamicsSPtr =
+        std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
@@ -2256,7 +2256,7 @@ TEST_P(
 
 // TBI: Agree on a format to version Orekit validation files
 INSTANTIATE_TEST_SUITE_P(
-    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster,
+    PropAccuracy_TwoBody_Newtonian_ConstantThrust,
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster,
     ::testing::Values(
         // Test Case 0
@@ -2540,7 +2540,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
 
 TEST_P(
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential,
-    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Drag_Exponential
+    PropAccuracy_TwoBody_Newtonian_ConstantThrust_Drag_Exponential
 )
 {
     // Setup environment
@@ -2673,8 +2673,8 @@ TEST_P(
     );
     const Shared<Celestial> earthSPtr = std::make_shared<Celestial>(earth);
 
-    Shared<ConstantThrustThruster> thrusterDynamicsSPtr =
-        std::make_shared<ConstantThrustThruster>(satelliteSystem, thrustDirection);
+    Shared<ConstantThrust> thrusterDynamicsSPtr =
+        std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
     Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem);
 
@@ -2797,7 +2797,7 @@ TEST_P(
 
 // TBI: Agree on a format to version Orekit validation files
 INSTANTIATE_TEST_SUITE_P(
-    PropAccuracy_TwoBody_Newtonian_ConstantThrustThruster_Drag_Exponential,
+    PropAccuracy_TwoBody_Newtonian_ConstantThrust_Drag_Exponential,
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential,
     ::testing::Values(
         // Test Case 0

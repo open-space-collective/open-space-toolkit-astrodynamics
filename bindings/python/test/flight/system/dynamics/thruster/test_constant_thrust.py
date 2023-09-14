@@ -28,7 +28,7 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
 from ostk.astrodynamics.flight.system import Dynamics
-from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrustThruster
+from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
 
 
 @pytest.fixture
@@ -75,8 +75,8 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 def dynamics(
     satellite_system: SatelliteSystem,
     local_orbital_frame_direction: LocalOrbitalFrameDirection,
-) -> ConstantThrustThruster:
-    return ConstantThrustThruster(
+) -> ConstantThrust:
+    return ConstantThrust(
         satellite_system,
         local_orbital_frame_direction,
         "Constant Thrust Thruster Dynamics",
@@ -102,15 +102,15 @@ def state(coordinates_broker: CoordinatesBroker) -> State:
     return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
 
 
-class TestConstantThrustThruster:
-    def test_constructors(self, dynamics: ConstantThrustThruster):
+class TestConstantThrust:
+    def test_constructors(self, dynamics: ConstantThrust):
         assert dynamics is not None
-        assert isinstance(dynamics, ConstantThrustThruster)
+        assert isinstance(dynamics, ConstantThrust)
         assert isinstance(dynamics, Dynamics)
         assert dynamics.is_defined()
 
     def test_compute_contribution_success(
-        self, dynamics: ConstantThrustThruster, state: State
+        self, dynamics: ConstantThrust, state: State
     ):
         contribution = dynamics.compute_contribution(
             state.get_instant(), state.get_coordinates(), state.get_frame()
@@ -125,7 +125,7 @@ class TestConstantThrustThruster:
         self,
         satellite_system: SatelliteSystem,
         coordinates_broker: CoordinatesBroker,
-        dynamics: ConstantThrustThruster,
+        dynamics: ConstantThrust,
     ):
         instant: Instant = Instant.date_time(DateTime(2021, 3, 20, 12, 0, 0), Scale.UTC)
         coordinates: list = [
