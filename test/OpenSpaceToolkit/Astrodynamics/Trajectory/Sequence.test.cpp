@@ -9,16 +9,16 @@
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
 
 #include <Global.test.hpp>
@@ -206,8 +206,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
 
     SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
     const Composite satelliteGeometry(Cuboid(
-        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-        {1.0, 2.0, 3.0}
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
     const Scalar thrust = Scalar(1.0, PropulsionSystem::thrustSIUnit);
@@ -229,7 +228,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
     };
 
-    const LocalOrbitalFrameDirection lofDirection = {{1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()),};
+    const LocalOrbitalFrameDirection lofDirection = {
+        {1.0, 0.0, 0.0},
+        LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
+    };
 
     Sequence sequence = {
         defaultRepetitionCount_,

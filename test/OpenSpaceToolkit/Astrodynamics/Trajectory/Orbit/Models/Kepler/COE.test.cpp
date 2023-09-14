@@ -521,12 +521,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
 
         const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
 
-        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(),7087442.844884155, 1e-6);
-        EXPECT_NEAR(coe.getEccentricity(),0.010880490113017855, Real::Epsilon());
-        EXPECT_NEAR(coe.getInclination().inRadians(),0.0008726646260034904, Real::Epsilon());
-        EXPECT_NEAR(coe.getRaan().inRadians(),6.283185307179586, Real::Epsilon());
-        EXPECT_NEAR(coe.getAop().inRadians(),0.06816523492423941, Real::Epsilon());
-        EXPECT_NEAR(coe.getTrueAnomaly().inRadians(),0.0, Real::Epsilon());
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), 7087442.844884155, 1e-6);
+        EXPECT_NEAR(coe.getEccentricity(), 0.010880490113017855, Real::Epsilon());
+        EXPECT_NEAR(coe.getInclination().inRadians(), 0.0008726646260034904, Real::Epsilon());
+        EXPECT_NEAR(coe.getRaan().inRadians(), 6.283185307179586, Real::Epsilon());
+        EXPECT_NEAR(coe.getAop().inRadians(), 0.06816523492423941, Real::Epsilon());
+        EXPECT_NEAR(coe.getTrueAnomaly().inRadians(), 0.0, Real::Epsilon());
     }
 
     {

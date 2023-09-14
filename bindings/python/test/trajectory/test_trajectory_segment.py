@@ -78,11 +78,6 @@ def name() -> str:
 
 
 @pytest.fixture
-def name() -> str:
-    return "A Segment"
-
-
-@pytest.fixture
 def coast_duration_segment(
     name: str,
     instant_condition: InstantCondition,
