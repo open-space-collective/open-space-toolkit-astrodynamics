@@ -46,11 +46,6 @@ ConstantThrustThruster::ConstantThrustThruster(
 
 ConstantThrustThruster::~ConstantThrustThruster() {}
 
-ConstantThrustThruster* ConstantThrustThruster::clone() const
-{
-    return new ConstantThrustThruster(*this);
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrustThruster& aConstantThrustThruster)
 {
     aConstantThrustThruster.print(anOutputStream);

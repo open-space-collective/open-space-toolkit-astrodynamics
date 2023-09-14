@@ -73,12 +73,6 @@ class ConstantThrustThruster : public Thruster
 
     virtual ~ConstantThrustThruster() override;
 
-    /// @brief              Clone constant thrust thruster dynamics
-    ///
-    /// @return             Pointer to cloned constant thrust thruster dynamics
-
-    virtual ConstantThrustThruster* clone() const override;
-
     /// @brief              Equal to operator
     ///
     /// @param              [in] aConstantThrustThruster A constant thrust thruster dynamics

@@ -55,12 +55,6 @@ class Thruster : public Dynamics
 
     virtual ~Thruster() = 0;
 
-    /// @brief              Clone thruster
-    ///
-    /// @return             Pointer to cloned thruster dynamics
-
-    virtual Thruster* clone() const = 0;
-
     /// @brief              Check if thruster is defined
     ///
     /// @return             True if thruster is defined
