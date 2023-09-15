@@ -2640,13 +2640,15 @@ TEST_P(
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinatesSubset::Mass(),
+            CoordinatesSubset::SurfaceArea(),
+            CoordinatesSubset::DragCoefficient(),
         }));
 
-    // Setup initial state
-    VectorXd initialCoordinates(7);
+    // Setup initial conditions
+    VectorXd initialCoordinates(9);
 
     initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-        propellantMass_.inKilograms() + satelliteDryMassReal;
+        propellantMass_.inKilograms() + satelliteDryMassReal, crossSectionReal, dragCoefficientReal;
 
     const State initialState = {
         instantArray[0],
