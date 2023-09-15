@@ -1921,8 +1921,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
-            ASSERT_GT(4e-3, positionErrorGCRF); // TBI: Investigate wrt 500km case
-            ASSERT_GT(5e-6, velocityErrorGCRF); // TBI: Investigate wrt 500km case
+            ASSERT_GT(4e-3, positionErrorGCRF);  // TBI: Investigate wrt 500km case
+            ASSERT_GT(5e-6, velocityErrorGCRF);  // TBI: Investigate wrt 500km case
 
             // Results console output
 
