@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1694794295367,
+  "lastUpdate": 1695166391082,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 4138966373.3999953,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4138210500.0000024 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "kyle.ray.cochran@gmail.com",
+            "name": "kyle-cochran",
+            "username": "kyle-cochran"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "660a6be0169a877463094e9b88660945ba96452f",
+          "message": "feat: make atmospheric drag vary with mass, area, and Cd (#222)\n\n* feat: first working version of bc in atmospheric drag dynamics\r\n\r\n* refactor: make atmospheric drag dynamics depend on all three of mass, area, and Cd\r\n\r\n* refactor: remove Satellite System from atmospheric drag and modify input state vector in tests to take mass, area, cd\r\n\r\n* refactor: python bindings and tests for atmospheric drag to include drag in state\r\n\r\n* style: formatting\r\n\r\n* fix: failing tests after rebase\r\n\r\n* style: spacing and remove debug stuff\r\n\r\n* fix: oops accidentally deleted a test in the rebase\r\n\r\n* test: test was named after inverseBC, changed to be more correct\r\n\r\n* fix: add drag parameters to one of hte thrust testts\r\n\r\n* fix: update thrust tests drag acceleration calculation to use correct input state\r\n\r\n* refactor: adress some MR comments\r\n\r\n* test: try to fix drag validation tests...\r\n\r\n* fix: ninja underscore was ruining my life\r\n\r\n* style: formatting\r\n\r\n* refactor: remove redundant test",
+          "timestamp": "2023-09-19T15:58:51-07:00",
+          "tree_id": "643cca3a22feab5643ca01a6f2f07b7f2d04ab11",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/660a6be0169a877463094e9b88660945ba96452f"
+        },
+        "date": 1695166390051,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 726666640.2000113,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 726575780 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1637494255.3000095,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1637331109.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4166507282.899994,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4166155699.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4166729635.7999983,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4166377830.0000014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4165735756.300012,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4165412339.9999976 ns\nthreads: 1"
           }
         ]
       }
