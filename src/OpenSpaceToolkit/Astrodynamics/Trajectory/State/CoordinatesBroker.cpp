@@ -133,7 +133,7 @@ Index CoordinatesBroker::getSubsetIndex(const String& anId) const
 
     if (search == this->coordinatesSubsetsIndexMap_.end())
     {
-        throw ostk::core::error::runtime::Wrong("Coordinates subset not found");
+        throw ostk::core::error::RuntimeError("Coordinates subset [{}] not found", anId);
     }
 
     return search->second;

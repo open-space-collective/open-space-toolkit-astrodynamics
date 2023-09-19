@@ -31,7 +31,7 @@ using ostk::physics::time::Instant;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::Dynamics;
 
-/// @brief                      Define the acceleration experienced by a point mass due to atmospheric drag
+/// @brief                      Define the acceleration experienced by a spacecraft due to atmospheric drag
 
 class AtmosphericDrag : public Dynamics
 {
@@ -40,31 +40,25 @@ class AtmosphericDrag : public Dynamics
     ///
     /// @code
     ///                         const Celestial = { ... };
-    ///                         const SatelliteSystem = { ... };
-    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem };
+    ///                         AtmosphericDrag atmosphericDrag = { aCelestial };
     /// @endcode
     ///
     /// @param                  [in] aCelestial A celestial object
-    /// @param                  [in] aSatelliteSystem A satellite system
 
-    AtmosphericDrag(const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem);
+    AtmosphericDrag(const Shared<const Celestial>& aCelestial);
 
     /// @brief                  Constructor
     ///
     /// @code
     ///                         const Celestial = { ... };
-    ///                         const SatelliteSystem = { ... };
     ///                         const aName = { ... };
-    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aSatelliteSystem, aName };
+    ///                         AtmosphericDrag atmosphericDrag = { aCelestial, aName };
     /// @endcode
     ///
-    /// @param              [in] aCelestial A celestial object
-    /// @param              [in] aSatelliteSystem A satellite system
-    /// @param              [in] aName A name
+    /// @param                  [in] aCelestial A celestial object
+    /// @param                  [in] aName A name
 
-    AtmosphericDrag(
-        const Shared<const Celestial>& aCelestial, const SatelliteSystem& aSatelliteSystem, const String& aName
-    );
+    AtmosphericDrag(const Shared<const Celestial>& aCelestial, const String& aName);
 
     /// @brief                  Destructor
 
@@ -89,12 +83,6 @@ class AtmosphericDrag : public Dynamics
     /// @return                 A celestial object
 
     Shared<const Celestial> getCelestial() const;
-
-    /// @brief                  Get satellite system
-    ///
-    /// @return                 A satellite system
-
-    SatelliteSystem getSatelliteSystem() const;
 
     /// @brief                  Return the coordinates subsets that the instance reads from
     ///
@@ -131,7 +119,6 @@ class AtmosphericDrag : public Dynamics
 
    private:
     Shared<const Celestial> celestialObjectSPtr_;
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
 };
 
 }  // namespace dynamics

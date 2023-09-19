@@ -19,9 +19,9 @@
 #include <OpenSpaceToolkit/Physics/Data/Scalar.hpp>
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth.hpp>
-#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/CSSISpaceWeather.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Exponential.hpp>
+#include <OpenSpaceToolkit/Physics/Environment/Atmospheric/Earth/Manager.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Ephemerides/Analytical.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Environment/Magnetic/Earth.hpp>
@@ -102,10 +102,10 @@ using ostk::physics::environment::atmospheric::earth::CSSISpaceWeather;
 
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::NumericalSolver;
+using ostk::astro::trajectory::state::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 using ostk::astro::trajectory::state::NumericalSolver;
@@ -199,12 +199,13 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator : public
     Shared<Celestial> earthSpherical_ = nullptr;
     Propagator defaultPropagator_ = Propagator::Undefined();
 
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr_ =
-        std::make_shared<CoordinatesBroker>(CoordinatesBroker({
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-            CoordinatesSubset::Mass(),
-        }));
+    const Shared<CoordinatesBroker> dragCoordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>(CoordinatesBroker(
+        {CartesianPosition::Default(),
+         CartesianVelocity::Default(),
+         CoordinatesSubset::Mass(),
+         CoordinatesSubset::SurfaceArea(),
+         CoordinatesSubset::DragCoefficient()}
+    ));
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Constructor)
@@ -620,14 +621,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, OrekitExponential)
 {
-    VectorXd initialCoordinates(7);
-    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.053290, 0.0, satelliteDryMass_.inKilograms();
+    const Real mass = satelliteDryMass_.inKilograms();
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
 
+    VectorXd initialStateVector(9);
+    initialStateVector << 7000000.0, 0.0, 0.0, 0.0, 7546.053290, 0.0, mass, surfaceArea, dragCoefficient;
+
+    // Current state and instant setup
     const State state = {
         Instant::DateTime(DateTime(2023, 1, 1, 0, 0, 0), Scale::UTC),
-        initialCoordinates,
+        initialStateVector,
         gcrfSPtr_,
-        coordinatesBrokerSPtr_,
+        dragCoordinatesBrokerSPtr_
     };
 
     // Setup Propagator
@@ -642,20 +648,22 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Orekit
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
     };
     const Propagator propagator = {defaultNumericalSolver_, dynamics};
 
     const State finalState = propagator.calculateStateAt(state, state.getInstant() + Duration::Seconds(60.0 * 60.0));
 
-    VectorXd expectedCoordinates(7);
+    VectorXd expectedCoordinates(9);
     expectedCoordinates << -5172889.585695211000, -4716058.453899897000, 0000000.000008572841, 05083.947538266920,
-        -05576.414764013522, -00000.000000010687, satelliteDryMass_.inKilograms();
+        -05576.414764013522, -00000.000000010687, satelliteDryMass_.inKilograms(), surfaceArea, dragCoefficient;
 
-    VectorXd actualCoordinates(7);
+    VectorXd actualCoordinates(9);
     actualCoordinates.segment(0, 3) = finalState.extractCoordinates(CartesianPosition::Default());
     actualCoordinates.segment(3, 3) = finalState.extractCoordinates(CartesianVelocity::Default());
     actualCoordinates.segment(6, 1) = finalState.extractCoordinates(CoordinatesSubset::Mass());
+    actualCoordinates.segment(7, 1) = finalState.extractCoordinates(CoordinatesSubset::SurfaceArea());
+    actualCoordinates.segment(8, 1) = finalState.extractCoordinates(CoordinatesSubset::DragCoefficient());
 
     const VectorXd residuals = actualCoordinates - expectedCoordinates;
 
@@ -1811,15 +1819,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+            std::make_shared<AtmosphericDrag>(earthSPtr),
         };
 
-        // Setup initial conditions
-        VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-            satelliteDryMass_.inKilograms();
+        const Real mass = satelliteSystem_.getMass().inKilograms();
+        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
 
-        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+        VectorXd initialStateVector(9);
+        initialStateVector << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], mass, surfaceArea,
+            dragCoefficient;
+
+        // Current state and instant setup
+        const State state = {instantArray[0], initialStateVector, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
@@ -1896,32 +1908,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+            std::make_shared<AtmosphericDrag>(earthSPtr),
         };
 
-        // Setup initial conditions
-        VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-            satelliteDryMass_.inKilograms();
+        const Real mass = satelliteSystem_.getMass().inKilograms();
+        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
 
-        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+        // Setup initial conditions
+        VectorXd initialCoordinates(9);
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], mass, surfaceArea,
+            dragCoefficient;
+
+        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
 
         // Propagate all states
         const Array<State> propagatedStateArray = propagator.calculateStatesAt(state, instantArray);
-
         // Validation loop
         for (size_t i = 0; i < instantArray.getSize(); i++)
         {
             // GCRF Compare
             const Position positionGCRF = propagatedStateArray[i].getPosition();
             const Velocity velocityGCRF = propagatedStateArray[i].getVelocity();
-
             const double positionErrorGCRF = (positionGCRF.accessCoordinates() - referencePositionArrayGCRF[i]).norm();
             const double velocityErrorGCRF = (velocityGCRF.accessCoordinates() - referenceVelocityArrayGCRF[i]).norm();
-
             ASSERT_EQ(*Frame::GCRF(), *positionGCRF.accessFrame());
             ASSERT_EQ(*Frame::GCRF(), *velocityGCRF.accessFrame());
 
@@ -1929,7 +1942,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
             ASSERT_GT(5e-6, velocityErrorGCRF);  // TBI: Investigate wrt 500km case
 
             // Results console output
-
             // std::cout << "**************************************" << std::endl;
             // std::cout.setf(std::ios::scientific,std::ios::floatfield);
             // std::cout << "Instant is: " << instantArray[i] << std::endl;
@@ -2018,15 +2030,20 @@ TEST_F(
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
+            std::make_shared<AtmosphericDrag>(earthSPtr),
         };
 
         // Setup initial conditions
-        VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-            satelliteDryMass_.inKilograms();
+        const Real mass = satelliteDryMass_.inKilograms();
+        const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem.getDragCoefficient();
 
-        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+        // Setup initial conditions
+        VectorXd initialCoordinates(9);
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], mass, surfaceArea,
+            dragCoefficient;
+
+        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
@@ -2142,15 +2159,20 @@ TEST_F(
         const Array<Shared<Dynamics>> dynamics = {
             std::make_shared<PositionDerivative>(),
             std::make_shared<CentralBodyGravity>(earthSPtr),
-            std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
+            std::make_shared<AtmosphericDrag>(earthSPtr),
         };
 
         // Setup initial conditions
-        VectorXd initialCoordinates(7);
-        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-            satelliteDryMass_.inKilograms();
+        const Real mass = satelliteDryMass_.inKilograms();
+        const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem.getDragCoefficient();
 
-        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+        // Setup initial conditions
+        VectorXd initialCoordinates(9);
+        initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0], mass, surfaceArea,
+            dragCoefficient;
+
+        const State state = {instantArray[0], initialCoordinates, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
         // Setup Propagator model and orbit
         const Propagator propagator = {defaultRK4_, dynamics};
@@ -2193,7 +2215,7 @@ TEST_F(
 // error: 'testing::Test' is an ambiguous base
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     : public ::testing::TestWithParam<
-          Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
+          Tuple<std::string, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
 {
    protected:
     void SetUp() override
@@ -2723,7 +2745,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential
     : public ::testing::TestWithParam<Tuple<
-          String,
+          std::string,
           Shared<const LocalOrbitalFrameFactory>,
           Vector3d,
           Real,
@@ -2876,13 +2898,15 @@ TEST_P(
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinatesSubset::Mass(),
+            CoordinatesSubset::SurfaceArea(),
+            CoordinatesSubset::DragCoefficient(),
         }));
 
-    // Setup initial state
-    VectorXd initialCoordinates(7);
+    // Setup initial conditions
+    VectorXd initialCoordinates(9);
 
     initialCoordinates << referencePositionArrayGCRF[0], referenceVelocityArrayGCRF[0],
-        propellantMass_.inKilograms() + satelliteDryMassReal;
+        propellantMass_.inKilograms() + satelliteDryMassReal, crossSectionReal, dragCoefficientReal;
 
     const State initialState = {
         instantArray[0],
@@ -2925,7 +2949,7 @@ TEST_P(
 
     Shared<ConstantThrust> thrusterDynamicsSPtr = std::make_shared<ConstantThrust>(satelliteSystem, thrustDirection);
     Shared<CentralBodyGravity> centralBodyGravitySPtr = std::make_shared<CentralBodyGravity>(earthSPtr);
-    Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem);
+    Shared<AtmosphericDrag> atmosphericDragSPtr = std::make_shared<AtmosphericDrag>(earthSPtr);
 
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(), centralBodyGravitySPtr, atmosphericDragSPtr, thrusterDynamicsSPtr
@@ -2945,8 +2969,9 @@ TEST_P(
         const Velocity velocityGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getVelocity();
         const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
 
-        VectorXd OSTkStateCoordinatesGCRF(7);
-        OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass;
+        VectorXd OSTkStateCoordinatesGCRF(9);
+        OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass,
+            crossSectionReal, dragCoefficientReal;
 
         const VectorXd maneuverContributionGCRF =
             thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
@@ -3504,7 +3529,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEn
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Success
     : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, std::string>>
 {
 };
 
@@ -3543,12 +3568,16 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
     const Instant endInstant = std::get<1>(parameters);
     const Duration step = std::get<2>(parameters);
 
-    // Setup initial conditions
-    VectorXd initialCoordinates(7);
-    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126,
-        satelliteDryMass_.inKilograms();
+    const Real mass = satelliteDryMass_.inKilograms();
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
 
-    const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+    VectorXd initialStateVector(9);
+    initialStateVector << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, mass, surfaceArea,
+        dragCoefficient;
+
+    // Current state and instant setup
+    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,
@@ -3569,7 +3598,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
     };
 
     // Setup Propagator model and orbit
@@ -3584,7 +3613,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure
     : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, std::string>>
 {
 };
 
@@ -3621,12 +3650,16 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Fa
     Instant endInstant = std::get<1>(parameters);
     Duration step = std::get<2>(parameters);
 
-    // Setup initial conditions
-    VectorXd initialCoordinates(7);
-    initialCoordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126,
-        satelliteDryMass_.inKilograms();
+    const Real mass = satelliteDryMass_.inKilograms();
+    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
 
-    const State state = {startInstant, initialCoordinates, gcrfSPtr_, coordinatesBrokerSPtr_};
+    VectorXd initialStateVector(9);
+    initialStateVector << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, mass, surfaceArea,
+        dragCoefficient;
+
+    // Current state and instant setup
+    const State state = {startInstant, initialStateVector, gcrfSPtr_, dragCoordinatesBrokerSPtr_};
 
     const NumericalSolver RK4 = {
         NumericalSolver::LogType::NoLog,
@@ -3647,7 +3680,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Fa
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem_),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
     };
 
     // Setup Propagator model and orbit

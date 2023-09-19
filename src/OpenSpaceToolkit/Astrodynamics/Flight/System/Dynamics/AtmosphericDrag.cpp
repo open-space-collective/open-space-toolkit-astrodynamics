@@ -5,6 +5,7 @@
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
@@ -28,34 +29,25 @@ using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using ostk::physics::coord::Position;
 
+using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem)
-    : AtmosphericDrag(
-          aCelestialSPtr, aSatelliteSystem, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName())
-      )
+AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr)
+    : AtmosphericDrag(aCelestialSPtr, String::Format("Atmospheric Drag [{}]", aCelestialSPtr->getName()))
 {
 }
 
-AtmosphericDrag::AtmosphericDrag(
-    const Shared<const Celestial>& aCelestialSPtr, const SatelliteSystem& aSatelliteSystem, const String& aName
-)
+AtmosphericDrag::AtmosphericDrag(const Shared<const Celestial>& aCelestialSPtr, const String& aName)
     : Dynamics(aName),
-      celestialObjectSPtr_(aCelestialSPtr),
-      satelliteSystem_(aSatelliteSystem)
+      celestialObjectSPtr_(aCelestialSPtr)
 {
     if (!celestialObjectSPtr_ || !celestialObjectSPtr_->atmosphericModelIsDefined())
     {
         throw ostk::core::error::runtime::Undefined("Atmospheric Model");
-    }
-
-    if (!satelliteSystem_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite System");
     }
 }
 
@@ -70,7 +62,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& an
 
 bool AtmosphericDrag::isDefined() const
 {
-    return celestialObjectSPtr_->isDefined() && satelliteSystem_.isDefined();
+    return celestialObjectSPtr_->isDefined();
 }
 
 Shared<const Celestial> AtmosphericDrag::getCelestial() const
@@ -83,22 +75,14 @@ Shared<const Celestial> AtmosphericDrag::getCelestial() const
     return celestialObjectSPtr_;
 }
 
-SatelliteSystem AtmosphericDrag::getSatelliteSystem() const
-{
-    if (!satelliteSystem_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Satellite System");
-    }
-
-    return satelliteSystem_;
-}
-
 Array<Shared<const CoordinatesSubset>> AtmosphericDrag::getReadCoordinatesSubsets() const
 {
     return {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
         CoordinatesSubset::Mass(),
+        CoordinatesSubset::SurfaceArea(),
+        CoordinatesSubset::DragCoefficient(),
     };
 }
 
@@ -115,6 +99,9 @@ VectorXd AtmosphericDrag::computeContribution(
 {
     Vector3d positionCoordinates = Vector3d(x[0], x[1], x[2]);
     Vector3d velocityCoordinates = Vector3d(x[3], x[4], x[5]);
+    const Real mass = x[6];         // kg
+    const Real surfaceArea = x[7];  // m^2
+    const Real dragCoefficient = x[8];
 
     // Get atmospheric density
     const Real atmosphericDensity =
@@ -127,13 +114,9 @@ VectorXd AtmosphericDrag::computeContribution(
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 
-    const Real mass = x[6];
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-
     // Compute drag contribution to state derivative
     const Vector3d dragAccelerationSI =
-        -(0.5 / mass) * dragCoefficient * surfaceArea * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
+        -(0.5 / mass) * surfaceArea * dragCoefficient * atmosphericDensity * relativeVelocity.norm() * relativeVelocity;
 
     // Compute contribution
     VectorXd contribution(3);
@@ -150,8 +133,6 @@ void AtmosphericDrag::print(std::ostream& anOutputStream, bool displayDecorator)
 
     // TBI: Print Celestial once there is a print method in OSTk physics
     ostk::core::utils::Print::Line(anOutputStream) << "Celestial:" << celestialObjectSPtr_->getName();
-
-    ostk::core::utils::Print::Line(anOutputStream) << "Satellite System:" << satelliteSystem_;
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }

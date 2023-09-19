@@ -17,7 +17,10 @@ from ostk.physics.time import Duration
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
+from ostk.physics.environment.objects.celestial_bodies import Earth, Sun
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
+from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
@@ -34,7 +37,13 @@ from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
 from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
+from ostk.astrodynamics.flight.system.dynamics import AtmosphericDrag
 from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset, CoordinatesBroker
+from ostk.astrodynamics.trajectory.state.coordinates_subset import (
+    CartesianPosition,
+    CartesianVelocity,
+)
 from ostk.astrodynamics.trajectory import Propagator
 
 from ostk.astrodynamics.event_condition import InstantCondition
@@ -73,17 +82,30 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
 
 
 @pytest.fixture
-def environment() -> Environment:
-    return Environment.default()
+def earth() -> Earth:
+    return Earth.from_models(
+        EarthGravitationalModel(EarthGravitationalModel.Type.EGM96),
+        EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+        EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
+    )
 
 
 @pytest.fixture
-def coordinates_broker() -> CoordinatesBroker:
+def environment(earth) -> Environment:
+    sun = Sun.default()
+
+    return Environment(Instant.J2000(), [earth, sun])
+
+
+@pytest.fixture
+def coordinates_broker():
     return CoordinatesBroker(
         [
             CartesianPosition.default(),
             CartesianVelocity.default(),
             CoordinatesSubset.mass(),
+            CoordinatesSubset.surface_area(),
+            CoordinatesSubset.drag_coefficient(),
         ]
     )
 
@@ -93,7 +115,9 @@ def state(
     satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+
     propellant_mass: float = 10.0
+
     coordinates: list = [
         7500000.0,
         0.0,
@@ -108,8 +132,38 @@ def state(
 
 
 @pytest.fixture
+def state_low_altitude(
+    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+) -> State:
+    instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+
+    propellant_mass: float = 10.0
+    area: float = satellite_system.get_cross_sectional_surface_area()
+    cd: float = satellite_system.get_drag_coefficient()
+
+    coordinates: list = [
+        7000000.0,
+        0.0,
+        0.0,
+        0.0,
+        5335.865450622126,
+        5335.865450622126,
+        satellite_system.get_mass().in_kilograms() + propellant_mass,
+        area,
+        cd,
+    ]
+
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+
+
+@pytest.fixture
 def central_body_gravity() -> CentralBodyGravity:
     return CentralBodyGravity(Earth.WGS84(20, 0))
+
+
+@pytest.fixture
+def atmospheric_drag(environment, satellite_system) -> AtmosphericDrag:
+    return AtmosphericDrag(environment.access_celestial_object_with_name("Earth"))
 
 
 @pytest.fixture
@@ -135,7 +189,8 @@ def constant_thrust(
 
 @pytest.fixture
 def dynamics(
-    position_derivative: PositionDerivative, central_body_gravity: CentralBodyGravity
+    position_derivative: PositionDerivative,
+    central_body_gravity: CentralBodyGravity,
 ) -> list:
     return [position_derivative, central_body_gravity]
 
@@ -272,6 +327,26 @@ class TestPropagator:
         with pytest.raises(RuntimeError):
             instant_array.reverse()
             propagator.calculate_states_at(state, instant_array)
+
+    def test_calculate_states_at_with_drag(
+        self,
+        numerical_solver: NumericalSolver,
+        dynamics: list[Dynamics],
+        atmospheric_drag: AtmosphericDrag,
+        state_low_altitude: State,
+    ):
+        propagator: Propagator = Propagator(
+            numerical_solver, dynamics + [atmospheric_drag]
+        )
+
+        instant_array = [
+            Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 20, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 30, 0), Scale.UTC),
+            Instant.date_time(DateTime(2018, 1, 1, 0, 40, 0), Scale.UTC),
+        ]
+
+        _ = propagator.calculate_states_at(state_low_altitude, instant_array)
 
     def test_calculate_states_at_with_thrust(
         self,

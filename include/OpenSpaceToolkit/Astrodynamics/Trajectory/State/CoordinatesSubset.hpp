@@ -145,6 +145,18 @@ class CoordinatesSubset
 
     static Shared<const CoordinatesSubset> Mass();
 
+    /// @brief              Return a default Surface Area instance
+    ///
+    /// @return             The default Surface Area shared pointer instance
+
+    static Shared<const CoordinatesSubset> SurfaceArea();
+
+    /// @brief              Return a default DragCoefficient instance
+    ///
+    /// @return             The default DragCoefficient shared pointer instance
+
+    static Shared<const CoordinatesSubset> DragCoefficient();
+
    private:
     String name_;
     Size size_;
