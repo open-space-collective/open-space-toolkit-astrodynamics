@@ -2035,8 +2035,8 @@ TEST_F(
 
         // Setup initial conditions
         const Real mass = satelliteDryMass_.inKilograms();
-        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-        const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+        const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem.getDragCoefficient();
 
         // Setup initial conditions
         VectorXd initialCoordinates(9);
@@ -2164,8 +2164,8 @@ TEST_F(
 
         // Setup initial conditions
         const Real mass = satelliteDryMass_.inKilograms();
-        const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-        const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+        const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+        const Real dragCoefficient = satelliteSystem.getDragCoefficient();
 
         // Setup initial conditions
         VectorXd initialCoordinates(9);
