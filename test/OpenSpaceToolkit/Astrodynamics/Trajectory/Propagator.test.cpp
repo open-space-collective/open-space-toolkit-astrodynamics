@@ -98,8 +98,6 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::Propagator;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::state::CoordinatesSubset;

@@ -80,16 +80,17 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
         propulsion_system,
     )
 
-
 @pytest.fixture
-def environment() -> Environment:
-    sun = Sun.default()
-
-    earth: Earth = Earth.from_models(
+def earth() -> Earth:
+    return Earth.from_models(
         EarthGravitationalModel(EarthGravitationalModel.Type.EGM96),
         EarthMagneticModel(EarthMagneticModel.Type.Undefined),
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
+
+@pytest.fixture
+def environment(earth) -> Environment:
+    sun = Sun.default()
 
     return Environment(Instant.J2000(), [earth, sun])
 
@@ -296,7 +297,7 @@ class TestPropagator:
         )
         assert propagator_state.get_instant() == instant
 
-    def test_calculate_state_at2(
+    def test_calculate_state_at(
         self,
         conditional_numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
