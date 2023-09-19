@@ -151,7 +151,7 @@ SatelliteSystem SatelliteSystem::Default()
     ));
 
     return {
-        Mass(100.0, Mass::Unit::Kilogram),
+        Mass::Kilograms(100.0),
         satelliteGeometry,
         Matrix3d::Identity(),
         1.0,

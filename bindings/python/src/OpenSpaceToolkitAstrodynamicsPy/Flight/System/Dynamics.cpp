@@ -19,7 +19,6 @@ using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 
