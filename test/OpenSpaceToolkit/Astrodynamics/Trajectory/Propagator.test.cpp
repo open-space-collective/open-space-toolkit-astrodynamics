@@ -1957,7 +1957,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
 // error: 'testing::Test' is an ambiguous base
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster
     : public ::testing::TestWithParam<
-          Tuple<String, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
+          Tuple<std::string, Shared<const LocalOrbitalFrameFactory>, Vector3d, Real, Real, Real, Real, Real, Real>>
 {
    protected:
     void SetUp() override
@@ -2487,7 +2487,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Thruster_Drag_Exponential
     : public ::testing::TestWithParam<Tuple<
-          String,
+          std::string,
           Shared<const LocalOrbitalFrameFactory>,
           Vector3d,
           Real,
@@ -2711,8 +2711,9 @@ TEST_P(
         const Velocity velocityGCRF = propagatedStateArray[i].inFrame(gcrfSPtr_).getVelocity();
         const double mass = propagatedStateArray[i].extractCoordinates(CoordinatesSubset::Mass())[0];
 
-        VectorXd OSTkStateCoordinatesGCRF(7);
-        OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass;
+        VectorXd OSTkStateCoordinatesGCRF(9);
+        OSTkStateCoordinatesGCRF << positionGCRF.accessCoordinates(), velocityGCRF.accessCoordinates(), mass,
+            crossSectionReal, dragCoefficientReal;
 
         const VectorXd maneuverContributionGCRF =
             thrusterDynamicsSPtr->computeContribution(instantArray[i], OSTkStateCoordinatesGCRF, gcrfSPtr_);
@@ -3361,7 +3362,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEn
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Success
     : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, std::string>>
 {
 };
 
@@ -3445,7 +3446,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Su
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator_Data_Failure
     : public OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator,
-      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, String>>
+      public ::testing::WithParamInterface<Tuple<Instant, Instant, Duration, std::string>>
 {
 };
 
