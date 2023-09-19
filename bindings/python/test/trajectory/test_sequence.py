@@ -50,8 +50,32 @@ def propulsion_system() -> PropulsionSystem:
 
 
 @pytest.fixture
-def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
-    mass = Mass.kilograms(100.0)
+def dry_mass() -> Mass:
+    return Mass.kilograms(100.0)
+
+
+@pytest.fixture
+def wet_mass() -> Mass:
+    return Mass.kilograms(10.0)
+
+
+@pytest.fixture
+def cross_sectional_surface_area() -> float:
+    return 1.0
+
+
+@pytest.fixture
+def drag_coefficient() -> float:
+    return 2.2
+
+
+@pytest.fixture
+def satellite_system(
+    dry_mass: Mass,
+    cross_sectional_surface_area: float,
+    drag_coefficient: float,
+    propulsion_system: PropulsionSystem,
+) -> SatelliteSystem:
     satellite_geometry = Composite(
         Cuboid(
             Point(0.0, 0.0, 0.0),
@@ -60,14 +84,12 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
         )
     )
     inertia_tensor = np.ndarray(shape=(3, 3))
-    surface_area = 1.0
-    drag_coefficient = 2.2
 
     return SatelliteSystem(
-        mass,
+        dry_mass,
         satellite_geometry,
         inertia_tensor,
-        surface_area,
+        cross_sectional_surface_area,
         drag_coefficient,
         propulsion_system,
     )
@@ -94,14 +116,41 @@ def coordinates_broker() -> CoordinatesBroker:
             CartesianPosition.default(),
             CartesianVelocity.default(),
             CoordinatesSubset.mass(),
+            CoordinatesSubset.surface_area(),
+            CoordinatesSubset.drag_coefficient(),
         ]
     )
 
 
 @pytest.fixture
-def state(coordinates_broker: CoordinatesBroker) -> State:
+def cartesian_coordinates() -> list[float]:
+    return [
+        717094.039086306,
+        -6872433.2241124,
+        46175.9696673281,
+        -970.650826004612,
+        -45.4598114773158,
+        7529.82424886455,
+    ]
+
+
+@pytest.fixture
+def state(
+    cartesian_coordinates: list[float],
+    dry_mass: Mass,
+    wet_mass: Mass,
+    cross_sectional_surface_area: float,
+    drag_coefficient: float,
+    coordinates_broker: CoordinatesBroker,
+) -> State:
     frame: Frame = Frame.GCRF()
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
+    coordinates = [
+        *cartesian_coordinates,
+        dry_mass.in_kilograms() + wet_mass.in_kilograms(),
+        cross_sectional_surface_area,
+        drag_coefficient,
+    ]
 
     return State(
         instant,
@@ -112,7 +161,9 @@ def state(coordinates_broker: CoordinatesBroker) -> State:
             -970.650826004612,
             -45.4598114773158,
             7529.82424886455,
-            110.0,
+            dry_mass.in_kilograms() + wet_mass.in_kilograms(),
+            cross_sectional_surface_area,
+            drag_coefficient,
         ],
         frame,
         coordinates_broker,
@@ -120,8 +171,8 @@ def state(coordinates_broker: CoordinatesBroker) -> State:
 
 
 @pytest.fixture
-def dynamics(environment: Environment, satellite_system: SatelliteSystem) -> list:
-    return Dynamics.from_environment(environment, satellite_system)
+def dynamics(environment: Environment) -> list:
+    return Dynamics.from_environment(environment)
 
 
 @pytest.fixture

@@ -3482,7 +3482,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Defaul
     {
         Environment environment = Environment::Default();
         EXPECT_NO_THROW(Propagator::Default(environment));
-        EXPECT_NO_THROW(Propagator::Default(environment, satelliteSystem_));
     }
 }
 
@@ -3514,8 +3513,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, FromEn
             std::make_shared<Sun>(Sun::Default()),
         };
         Environment environment = Environment(Instant::J2000(), celestials);
-        const Propagator propagator =
-            Propagator::FromEnvironment(defaultNumericalSolver_, environment, satelliteSystem_);
+        const Propagator propagator = Propagator::FromEnvironment(defaultNumericalSolver_, environment);
 
         EXPECT_TRUE(propagator.getDynamics().getSize() == 5);
 

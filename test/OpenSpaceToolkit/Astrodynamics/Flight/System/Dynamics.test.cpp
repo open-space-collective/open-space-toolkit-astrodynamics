@@ -17,6 +17,7 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
@@ -78,5 +79,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, Getters)
 {
     {
         EXPECT_EQ(defaultName_, defaultDynamics_.getName());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics, FromEnvironment)
+{
+    {
+        EXPECT_NO_THROW(Dynamics::FromEnvironment(Environment::Default()));
     }
 }

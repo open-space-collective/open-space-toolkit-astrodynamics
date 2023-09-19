@@ -208,21 +208,20 @@ class Propagator
 
     /// @brief              Default from environment
     ///
+    /// @param              [in] anEnvironment An environment
+    ///
     /// @return             A default propagator from environment
 
-    static Propagator Default(
-        const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
-    );
+    static Propagator Default(const Environment& anEnvironment);
 
     /// @brief              From environment
     ///
+    /// @param              [in] aNumericalSolver A numerical solver
+    /// @param              [in] anEnvironment An environment
+    ///
     /// @return             A propagator from environment
 
-    static Propagator FromEnvironment(
-        const NumericalSolver& aNumericalSolver,
-        const Environment& anEnvironment,
-        const SatelliteSystem& aSatelliteSystem = SatelliteSystem::Undefined()
-    );
+    static Propagator FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment);
 
    private:
     Shared<CoordinatesBroker> coordinatesBrokerSPtr_ = std::make_shared<CoordinatesBroker>();

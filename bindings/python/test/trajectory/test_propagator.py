@@ -372,16 +372,9 @@ class TestPropagator:
         self,
         numerical_solver: NumericalSolver,
         environment: Environment,
-        satellite_system: SatelliteSystem,
     ):
         assert Propagator.from_environment(numerical_solver, environment) is not None
 
-        assert (
-            Propagator.from_environment(numerical_solver, environment, satellite_system)
-            is not None
-        )
-
-    def test_default(self, environment: Environment, satellite_system: SatelliteSystem):
+    def test_default(self, environment: Environment):
         assert Propagator.default()
         assert Propagator.default(environment) is not None
-        assert Propagator.default(environment, satellite_system) is not None

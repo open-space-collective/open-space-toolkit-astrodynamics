@@ -83,12 +83,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
         .def("get_write_coordinates_subsets", &Dynamics::getWriteCoordinatesSubsets)
         .def("compute_contribution", &Dynamics::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
 
-        .def_static(
-            "from_environment",
-            &Dynamics::FromEnvironment,
-            arg("environment"),
-            arg("satellite_system") = SatelliteSystem::Undefined()
-        )
+        .def_static("from_environment", &Dynamics::FromEnvironment, arg("environment"))
 
         ;
 

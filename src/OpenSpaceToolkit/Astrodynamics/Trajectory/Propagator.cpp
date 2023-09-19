@@ -296,18 +296,16 @@ Propagator Propagator::Default()
     };
 }
 
-Propagator Propagator::Default(const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem)
+Propagator Propagator::Default(const Environment& anEnvironment)
 {
-    return Propagator::FromEnvironment(NumericalSolver::Default(), anEnvironment, aSatelliteSystem);
+    return Propagator::FromEnvironment(NumericalSolver::Default(), anEnvironment);
 }
 
-Propagator Propagator::FromEnvironment(
-    const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
-)
+Propagator Propagator::FromEnvironment(const NumericalSolver& aNumericalSolver, const Environment& anEnvironment)
 {
     return {
         aNumericalSolver,
-        Dynamics::FromEnvironment(anEnvironment, aSatelliteSystem),
+        Dynamics::FromEnvironment(anEnvironment),
     };
 }
 

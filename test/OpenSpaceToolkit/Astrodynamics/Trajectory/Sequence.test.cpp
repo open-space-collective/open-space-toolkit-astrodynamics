@@ -283,10 +283,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         propulsionSystem,
     };
 
+    const Real mass = satelliteSystem.getMass().inKilograms();
+    const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+    const Real dragCoefficient = satelliteSystem.getDragCoefficient();
+
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(),
         std::make_shared<CentralBodyGravity>(earthSPtr),
-        std::make_shared<AtmosphericDrag>(earthSPtr, satelliteSystem),
+        std::make_shared<AtmosphericDrag>(earthSPtr),
     };
 
     const LocalOrbitalFrameDirection lofDirection = {
@@ -326,8 +330,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             CoordinatesSubset::Mass(),
         }));
 
-    VectorXd coordinates(7);
-    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, 200.0;
+    VectorXd coordinates(9);
+    coordinates << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass + 100.0, surfaceArea, dragCoefficient;
     const State state = {
         Instant::J2000(),
         coordinates,

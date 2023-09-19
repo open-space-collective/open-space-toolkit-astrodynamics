@@ -148,9 +148,7 @@ void Dynamics::applyContribution(
     }
 }
 
-Array<Shared<Dynamics>> Dynamics::FromEnvironment(
-    const Environment& anEnvironment
-)
+Array<Shared<Dynamics>> Dynamics::FromEnvironment(const Environment& anEnvironment)
 {
     const auto getDynamics = [](const Shared<const Celestial>& aCelestial) -> Array<Shared<Dynamics>>
     {
