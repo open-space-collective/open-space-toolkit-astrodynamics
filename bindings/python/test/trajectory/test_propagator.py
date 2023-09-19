@@ -80,6 +80,7 @@ def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
         propulsion_system,
     )
 
+
 @pytest.fixture
 def earth() -> Earth:
     return Earth.from_models(
@@ -87,6 +88,7 @@ def earth() -> Earth:
         EarthMagneticModel(EarthMagneticModel.Type.Undefined),
         EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
     )
+
 
 @pytest.fixture
 def environment(earth) -> Environment:

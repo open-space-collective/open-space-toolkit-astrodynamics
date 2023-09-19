@@ -126,4 +126,3 @@ class TestAtmosphericDrag:
         )
 
         assert len(contribution) == 3
-
