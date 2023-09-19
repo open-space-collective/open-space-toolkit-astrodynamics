@@ -14,6 +14,7 @@
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
+#include <OpenSpaceToolkit/Physics/Environment.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
@@ -38,6 +39,7 @@ using ostk::core::types::String;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
@@ -142,6 +144,14 @@ class Dynamics
     static NumericalSolver::SystemOfEquationsWrapper GetSystemOfEquations(
         const Array<Context>& aContextArray, const Instant& anInstant, const Shared<const Frame>& aFrameSPtr
     );
+
+    /// @brief                  Get a list of dynamics from the envrionment
+    ///
+    /// @param                  [in] anEnvironment An environment
+    ///
+    /// @return                A list of dynamics
+
+    static Array<Shared<Dynamics>> FromEnvironment(const Environment& anEnvironment);
 
    private:
     const String name_;

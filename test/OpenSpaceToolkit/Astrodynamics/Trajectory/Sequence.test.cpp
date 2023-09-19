@@ -15,11 +15,11 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
 
 #include <Global.test.hpp>
 
@@ -56,7 +56,7 @@ using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
-using ostk::astro::trajectory::TrajectorySegment;
+using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::Sequence;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
@@ -75,11 +75,6 @@ using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Test
 {
-    void SetUp() override
-    {
-        defaultSequence_.addSegment(coastSegment_);
-    }
-
    protected:
     const State defaultState_ = {
         Instant::DateTime(DateTime(2021, 3, 20, 12, 0, 0), Scale::UTC),
@@ -110,14 +105,14 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence : public ::testing::Tes
         EarthGravitationalModel::EGM2008.gravitationalParameter_
     ));
 
-    const TrajectorySegment coastSegment_ =
-        TrajectorySegment::Coast("Coast", defaultCondition_, defaultDynamics_, defaultNumericalSolver_);
+    const Segment coastSegment_ = Segment::Coast("Coast", defaultCondition_, defaultDynamics_, defaultNumericalSolver_);
 
-    const Array<TrajectorySegment> segments_ = {coastSegment_};
+    const Array<Segment> defaultSegments_ = {coastSegment_};
 
     const Size defaultRepetitionCount_ = 2;
     const Duration defaultMaximumPropagationDuration_ = Duration::Days(7.0);
     Sequence defaultSequence_ = {
+        defaultSegments_,
         defaultRepetitionCount_,
         defaultNumericalSolver_,
         defaultDynamics_,
@@ -132,20 +127,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Constructor)
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultRepetitionCount_));
+        EXPECT_NO_THROW(Sequence sequence(defaultSegments_));
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultRepetitionCount_, defaultNumericalSolver_));
+        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_));
     }
 
     {
-        EXPECT_NO_THROW(Sequence sequence(defaultRepetitionCount_, defaultNumericalSolver_, defaultDynamics_));
+        EXPECT_NO_THROW(Sequence sequence(defaultSegments_, defaultRepetitionCount_, defaultNumericalSolver_));
+    }
+
+    {
+        EXPECT_NO_THROW(
+            Sequence sequence(defaultSegments_, defaultRepetitionCount_, defaultNumericalSolver_, defaultDynamics_)
+        );
     }
 
     {
         EXPECT_NO_THROW(Sequence sequence(
-            defaultRepetitionCount_, defaultNumericalSolver_, defaultDynamics_, defaultMaximumPropagationDuration_
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            defaultMaximumPropagationDuration_
         ));
     }
 }
@@ -163,7 +168,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, StreamOperator)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetSegments)
 {
-    EXPECT_EQ(segments_.getSize(), defaultSequence_.getSegments().getSize());
+    EXPECT_EQ(defaultSegments_.getSize(), defaultSequence_.getSegments().getSize());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetNumericalSolver)
@@ -181,18 +186,77 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, GetMaximumPropagation
     EXPECT_EQ(defaultMaximumPropagationDuration_, defaultSequence_.getMaximumPropagationDuration());
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddSegment)
+{
+    {
+        EXPECT_NO_THROW(defaultSequence_.addSegment(coastSegment_));
+    }
+
+    {
+        EXPECT_NO_THROW(defaultSequence_.addSegment({coastSegment_, coastSegment_}));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddCoastSegment)
+{
+    {
+        const Size segmentsCount = defaultSequence_.getSegments().getSize();
+
+        defaultSequence_.addCoastSegment(std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+            RealCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            Length::Kilometers(6999.5),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        )));
+
+        EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
+{
+    {
+        const Size segmentsCount = defaultSequence_.getSegments().getSize();
+
+        const LocalOrbitalFrameDirection lofDirection = {
+            {1.0, 0.0, 0.0},
+            LocalOrbitalFrameFactory::VNC(Frame::GCRF()),
+        };
+
+        defaultSequence_.addManeuverSegment(
+            std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
+                RealCondition::Criterion::AnyCrossing,
+                Frame::GCRF(),
+                Length::Kilometers(7000.0),
+                EarthGravitationalModel::EGM2008.gravitationalParameter_
+            )),
+            std::make_shared<ConstantThrust>(SatelliteSystem::Default(), lofDirection)
+        );
+
+        EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 {
     Sequence::Solution solution = defaultSequence_.solve(defaultState_);
 
-    EXPECT_TRUE(solution.segmentSolutions.getSize() == 1 * defaultRepetitionCount_);
+    EXPECT_TRUE(
+        solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
+    );
 
-    for (const TrajectorySegment::Solution& segmentSolution : solution.segmentSolutions)
+    Size statesSize = 0;
+    for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
     {
         EXPECT_TRUE(segmentSolution.states.getSize() > 0);
+
         const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
         EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
+
+        statesSize += segmentSolution.states.getSize();
     }
+
+    EXPECT_TRUE(solution.getStates().getSize() == statesSize);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
@@ -204,16 +268,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
     ));
 
-    SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
     const Composite satelliteGeometry(Cuboid(
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
-    const Scalar thrust = Scalar(1.0, PropulsionSystem::thrustSIUnit);
-    const Scalar specificImpulse = Scalar(1500.0, PropulsionSystem::specificImpulseSIUnit);
-    const PropulsionSystem propulsionSystem = PropulsionSystem(thrust, specificImpulse);
+    const PropulsionSystem propulsionSystem = PropulsionSystem(1.0, 1500.0);
 
-    satelliteSystem = {
+    const SatelliteSystem satelliteSystem = {
         Mass::Kilograms(100.0),
         satelliteGeometry,
         Matrix3d::Identity(),
@@ -234,6 +295,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
     };
 
     Sequence sequence = {
+        Array<Segment>::Empty(),
         defaultRepetitionCount_,
         defaultNumericalSolver_,
         dynamics,
@@ -246,6 +308,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         Length::Kilometers(6999.5),
         EarthGravitationalModel::EGM2008.gravitationalParameter_
     )));
+
     sequence.addManeuverSegment(
         std::make_shared<RealCondition>(COECondition::SemiMajorAxis(
             RealCondition::Criterion::AnyCrossing,
@@ -256,7 +319,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         std::make_shared<ConstantThrust>(satelliteSystem, lofDirection)
     );
 
-    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr_ =
+    const Shared<const CoordinatesBroker> coordinatesBrokerSPtr =
         std::make_shared<CoordinatesBroker>(CoordinatesBroker({
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
@@ -269,7 +332,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         Instant::J2000(),
         coordinates,
         Frame::GCRF(),
-        coordinatesBrokerSPtr_,
+        coordinatesBrokerSPtr,
     };
 
     Sequence::Solution solution = sequence.solve(state);

@@ -13,7 +13,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
 
     using ostk::physics::time::Duration;
 
-    using ostk::astro::NumericalSolver;
+    using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::trajectory::Sequence;
     using ostk::astro::trajectory::Segment;
     using ostk::astro::flight::system::Dynamics;
@@ -36,7 +36,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     const NumericalSolver&,
                     const Array<Shared<Dynamics>>&,
                     const Duration&>(),
-                arg("segments"),
+                arg("segments") = Array<Segment>::Empty(),
                 arg("repetition_count") = 1,
                 arg("numerical_solver") = NumericalSolver::DefaultConditional(),
                 arg("dynamics") = Array<Shared<Dynamics>>::Empty(),
@@ -47,9 +47,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
             .def("__repr__", &(shiftToString<Sequence>))
 
             .def("get_segments", &Sequence::getSegments)
-            .def("get_dynamics", &Sequence::getDynamics)
             .def("get_numerical_solver", &Sequence::getNumericalSolver)
+            .def("get_dynamics", &Sequence::getDynamics)
             .def("get_maximum_propagation_duration", &Sequence::getMaximumPropagationDuration)
+
+            .def("add_segment", overload_cast<const Segment&>(&Sequence::addSegment), arg("segment"))
+            .def("add_segment", overload_cast<const Array<Segment>&>(&Sequence::addSegment), arg("segments"))
+            .def("add_coast_segment", &Sequence::addCoastSegment, arg("event_condition"))
+            .def(
+                "add_maneuver_segment", &Sequence::addManeuverSegment, arg("event_condition"), arg("thruster_dynamics")
+            )
 
             .def("solve", &Sequence::solve, arg("state"))
 

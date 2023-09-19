@@ -38,7 +38,7 @@ using ostk::astro::EventCondition;
 
 /// @brief                                  Represent a propagation segment for astrodynamics purposes
 
-class TrajectorySegment
+class Segment
 {
    public:
     enum class Type
@@ -60,10 +60,10 @@ class TrajectorySegment
     /// @brief                  Output stream operator
     ///
     /// @param                  [in] anOutputStream An output stream
-    /// @param                  [in] aSegment A TrajectorySegment
+    /// @param                  [in] aSegment A Segment
     /// @return                 An output stream
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const TrajectorySegment& aSegment);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment);
 
     /// @brief                  Get name
     /// @return                 Name of the segment
@@ -126,9 +126,9 @@ class TrajectorySegment
     /// @param                  [in] anEventConditionSPtr An event condition
     /// @param                  [in] aDynamicsArray Array of dynamics
     /// @param                  [in] aNumericalSolver Numerical solver
-    /// @return                 A TrajectorySegment for coasting
+    /// @return                 A Segment for coasting
 
-    static TrajectorySegment Coast(
+    static Segment Coast(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Array<Shared<Dynamics>>& aDynamicsArray,
@@ -142,9 +142,9 @@ class TrajectorySegment
     /// @param                  [in] aThrusterDynamics Dynamics for the thruster
     /// @param                  [in] aDynamicsArray Array of dynamics
     /// @param                  [in] aNumericalSolver Numerical solver
-    /// @return                 A TrajectorySegment for maneuvering
+    /// @return                 A Segment for maneuvering
 
-    static TrajectorySegment Maneuver(
+    static Segment Maneuver(
         const String& aName,
         const Shared<EventCondition>& anEventConditionSPtr,
         const Shared<Thruster>& aThrusterDynamics,
@@ -159,7 +159,7 @@ class TrajectorySegment
     Array<Shared<Dynamics>> dynamics_;
     NumericalSolver numericalSolver_;
 
-    TrajectorySegment(
+    Segment(
         const String& aName,
         const Type& aType,
         const Shared<EventCondition>& anEventConditionSPtr,

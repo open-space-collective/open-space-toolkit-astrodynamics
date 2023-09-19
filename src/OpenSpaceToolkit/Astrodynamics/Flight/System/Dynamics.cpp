@@ -1,6 +1,12 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Physics/Environment/Objects/Celestial.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/AtmosphericDrag.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/ThirdBodyGravity.hpp>
 
 namespace ostk
 {
@@ -17,6 +23,12 @@ using ostk::core::types::Index;
 using ostk::core::types::Size;
 
 using ostk::physics::time::Duration;
+using ostk::physics::env::obj::Celestial;
+
+using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::flight::system::dynamics::ThirdBodyGravity;
+using ostk::astro::flight::system::dynamics::AtmosphericDrag;
+using ostk::astro::flight::system::dynamics::PositionDerivative;
 
 Dynamics::Context::Context(
     const Shared<Dynamics>& aDynamicsSPtr,
@@ -134,6 +146,48 @@ void Dynamics::applyContribution(
         dxdt.segment(subsetOffset, subsetSize) += contribution.segment(offset, subsetSize);
         offset += subsetSize;
     }
+}
+
+Array<Shared<Dynamics>> Dynamics::FromEnvironment(
+    const Environment& anEnvironment
+)
+{
+    const auto getDynamics = [](const Shared<const Celestial>& aCelestial) -> Array<Shared<Dynamics>>
+    {
+        Array<Shared<Dynamics>> dynamics = Array<Shared<Dynamics>>::Empty();
+
+        if (aCelestial->gravitationalModelIsDefined())
+        {
+            if (aCelestial->getName() == "Earth")
+            {
+                dynamics.add(std::make_shared<CentralBodyGravity>(aCelestial));
+            }
+            else
+            {
+                dynamics.add(std::make_shared<ThirdBodyGravity>(aCelestial));
+            }
+        }
+
+        if (aCelestial->atmosphericModelIsDefined())
+        {
+            dynamics.add(std::make_shared<AtmosphericDrag>(aCelestial));
+        }
+
+        return dynamics;
+    };
+
+    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
+
+    for (const String& name : anEnvironment.getObjectNames())
+    {
+        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
+
+        dynamicsArray.add(getDynamics(celestialSPtr));
+    }
+
+    dynamicsArray.add(std::make_shared<PositionDerivative>());
+
+    return dynamicsArray;
 }
 
 }  // namespace system

@@ -305,44 +305,9 @@ Propagator Propagator::FromEnvironment(
     const NumericalSolver& aNumericalSolver, const Environment& anEnvironment, const SatelliteSystem& aSatelliteSystem
 )
 {
-    const auto getDynamics = [aSatelliteSystem](const Shared<const Celestial>& aCelestial) -> Array<Shared<Dynamics>>
-    {
-        Array<Shared<Dynamics>> dynamics = Array<Shared<Dynamics>>::Empty();
-
-        if (aCelestial->gravitationalModelIsDefined())
-        {
-            if (aCelestial->getName() == "Earth")
-            {
-                dynamics.add(std::make_shared<CentralBodyGravity>(aCelestial));
-            }
-            else
-            {
-                dynamics.add(std::make_shared<ThirdBodyGravity>(aCelestial));
-            }
-        }
-
-        if (aCelestial->atmosphericModelIsDefined())
-        {
-            dynamics.add(std::make_shared<AtmosphericDrag>(aCelestial));
-        }
-
-        return dynamics;
-    };
-
-    Array<Shared<Dynamics>> dynamicsArray = Array<Shared<Dynamics>>::Empty();
-
-    for (const String& name : anEnvironment.getObjectNames())
-    {
-        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
-
-        dynamicsArray.add(getDynamics(celestialSPtr));
-    }
-
-    dynamicsArray.add(std::make_shared<PositionDerivative>());
-
     return {
         aNumericalSolver,
-        dynamicsArray,
+        Dynamics::FromEnvironment(anEnvironment, aSatelliteSystem),
     };
 }
 

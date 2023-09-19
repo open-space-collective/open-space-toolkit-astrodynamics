@@ -190,3 +190,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Undefined)
         EXPECT_NO_THROW(PropulsionSystem::Undefined());
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Default)
+{
+    {
+        EXPECT_NO_THROW(PropulsionSystem::Default());
+    }
+}

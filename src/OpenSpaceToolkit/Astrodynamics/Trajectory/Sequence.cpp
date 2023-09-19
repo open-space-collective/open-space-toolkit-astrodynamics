@@ -15,7 +15,7 @@ Array<State> Sequence::Solution::getStates() const
 {
     Array<State> states = Array<State>::Empty();
 
-    for (const TrajectorySegment::Solution& segmentSolution : segmentSolutions)
+    for (const Segment::Solution& segmentSolution : segmentSolutions)
     {
         states.add(segmentSolution.states);
     }
@@ -24,12 +24,13 @@ Array<State> Sequence::Solution::getStates() const
 }
 
 Sequence::Sequence(
+    const Array<Segment>& aSegmentArray,
     const Size& aRepetitionCount,
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const Duration& maximumPropagationDuration
 )
-    : segments_(Array<TrajectorySegment>::Empty()),
+    : segments_(aSegmentArray),
       repetitionCount_(aRepetitionCount),
       numericalSolver_(aNumericalSolver),
       dynamics_(aDynamicsArray),
@@ -44,7 +45,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence
     return anOutputStream;
 }
 
-Array<TrajectorySegment> Sequence::getSegments() const
+Array<Segment> Sequence::getSegments() const
 {
     return segments_;
 }
@@ -64,39 +65,38 @@ Duration Sequence::getMaximumPropagationDuration() const
     return maximumPropagationDuration_;
 }
 
-void Sequence::addSegment(const TrajectorySegment& aSegment)
+void Sequence::addSegment(const Segment& aSegment)
 {
     segments_.add(aSegment);
 }
 
-void Sequence::addSegment(const Array<TrajectorySegment>& someSegments)
+void Sequence::addSegment(const Array<Segment>& someSegments)
 {
     segments_.add(someSegments);
 }
 
 void Sequence::addCoastSegment(const Shared<EventCondition>& anEventConditionSPtr)
 {
-    segments_.add(TrajectorySegment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
+    segments_.add(Segment::Coast("Coast", anEventConditionSPtr, dynamics_, numericalSolver_));
 }
 
 void Sequence::addManeuverSegment(const Shared<EventCondition>& anEventConditionSPtr, const Shared<Thruster>& aThruster)
 {
-    segments_.add(TrajectorySegment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_)
-    );
+    segments_.add(Segment::Maneuver("Maneuver", anEventConditionSPtr, aThruster, dynamics_, numericalSolver_));
 }
 
 Sequence::Solution Sequence::solve(const State& aState) const
 {
-    Array<TrajectorySegment::Solution> segmentSolutions;
+    Array<Segment::Solution> segmentSolutions;
 
     State initialState = aState;
     State finalState = State::Undefined();
 
     for (Size i = 0; i < repetitionCount_; ++i)
     {
-        for (const TrajectorySegment& segment : segments_)
+        for (const Segment& segment : segments_)
         {
-            TrajectorySegment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
+            Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
@@ -117,10 +117,14 @@ void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const
         ostk::core::utils::Print::Header(anOutputStream, "Sequence");
     }
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Segments:" << segments_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Default Numerical Solver:" << numericalSolver_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Common Dynamics:" << dynamics_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Maximum Propagation Duration:" << maximumPropagationDuration_;
+    ostk::core::utils::Print::Separator(anOutputStream, "Segments");
+    ostk::core::utils::Print::Line(anOutputStream) << segments_;
+    ostk::core::utils::Print::Separator(anOutputStream, "Default Numerical Solver");
+    ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;
+    ostk::core::utils::Print::Separator(anOutputStream, "Common Dynamics");
+    ostk::core::utils::Print::Line(anOutputStream) << dynamics_;
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Maximum Propagation Duration:" << maximumPropagationDuration_.toString();
 
     if (displayDecorator)
     {

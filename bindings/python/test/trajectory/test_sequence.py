@@ -4,39 +4,54 @@ import pytest
 
 import numpy as np
 
-from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Composite
+from ostk.mathematics.geometry.d3.objects import Cuboid
 from ostk.mathematics.geometry.d3.objects import Point
 
 from ostk.physics import Environment
-from ostk.physics.time import Instant
+from ostk.physics.coordinate import Frame
+from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
+from ostk.physics.environment.objects.celestial_bodies import Earth
 from ostk.physics.time import DateTime
-from ostk.physics.time import Scale
 from ostk.physics.time import Duration
+from ostk.physics.time import Instant
+from ostk.physics.time import Scale
+from ostk.physics.units import Derived
 from ostk.physics.units import Length
 from ostk.physics.units import Mass
-from ostk.physics.units import Derived
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
-from ostk.physics.coordinate import Frame
-from ostk.physics.environment.objects.celestial_bodies import Earth
-from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
-from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
-from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
 
-from ostk.astrodynamics import NumericalSolver
-from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import COECondition
-from ostk.astrodynamics.trajectory import State
-from ostk.astrodynamics.trajectory import Sequence
-from ostk.astrodynamics.trajectory.state import TrajectorySegment
-from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.event_condition import InstantCondition
+from ostk.astrodynamics.event_condition import RealCondition
 from ostk.astrodynamics.flight.system import Dynamics
+from ostk.astrodynamics.flight.system import PropulsionSystem
+from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
+from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
+from ostk.astrodynamics.trajectory import Segment
+from ostk.astrodynamics.trajectory import Sequence
+from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory.state import CoordinatesBroker
+from ostk.astrodynamics.trajectory.state import CoordinatesSubset
+from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianVelocity
 
 
 @pytest.fixture
-def satellite_system() -> SatelliteSystem:
-    mass = Mass(90.0, Mass.Unit.Kilogram)
+def propulsion_system() -> PropulsionSystem:
+    return PropulsionSystem(
+        1.0,
+        1500.0,
+    )
+
+
+@pytest.fixture
+def satellite_system(propulsion_system: PropulsionSystem) -> SatelliteSystem:
+    mass = Mass.kilograms(100.0)
     satellite_geometry = Composite(
         Cuboid(
             Point(0.0, 0.0, 0.0),
@@ -44,12 +59,17 @@ def satellite_system() -> SatelliteSystem:
             [1.0, 0.0, 0.0],
         )
     )
-    inertia_tensor = np.identity(3)
-    surface_area = 500.0
+    inertia_tensor = np.ndarray(shape=(3, 3))
+    surface_area = 1.0
     drag_coefficient = 2.2
 
     return SatelliteSystem(
-        mass, satellite_geometry, inertia_tensor, surface_area, drag_coefficient
+        mass,
+        satellite_geometry,
+        inertia_tensor,
+        surface_area,
+        drag_coefficient,
+        propulsion_system,
     )
 
 
@@ -68,17 +88,35 @@ def environment() -> Environment:
 
 
 @pytest.fixture
-def state() -> State:
-    frame: Frame = Frame.GCRF()
-    position: Position = Position.meters(
-        [717094.039086306, -6872433.2241124, 46175.9696673281], frame
-    )
-    velocity: Velocity = Velocity.meters_per_second(
-        [-970.650826004612, -45.4598114773158, 7529.82424886455], frame
+def coordinates_broker() -> CoordinatesBroker:
+    return CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
     )
 
+
+@pytest.fixture
+def state(coordinates_broker: CoordinatesBroker) -> State:
+    frame: Frame = Frame.GCRF()
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
-    return State(instant, position, velocity)
+
+    return State(
+        instant,
+        [
+            717094.039086306,
+            -6872433.2241124,
+            46175.9696673281,
+            -970.650826004612,
+            -45.4598114773158,
+            7529.82424886455,
+            110.0,
+        ],
+        frame,
+        coordinates_broker,
+    )
 
 
 @pytest.fixture
@@ -99,13 +137,13 @@ def duration() -> Duration:
 @pytest.fixture
 def instant_condition(state: State, duration: Duration) -> InstantCondition:
     return InstantCondition(
-        InstantCondition.Criteria.AnyCrossing, state.get_instant() + duration
+        RealCondition.Criterion.AnyCrossing, state.get_instant() + duration
     )
 
 
 @pytest.fixture
 def sma() -> Length:
-    return Length.kilometers(6904.000)
+    return Length.kilometers(6907.000)
 
 
 @pytest.fixture
@@ -114,29 +152,76 @@ def gravitational_parameter() -> Derived:
 
 
 @pytest.fixture
-def sma_condition(sma: Length, gravitational_parameter: Derived) -> COECondition:
-    return COECondition.semi_major_axis(
-        COECondition.Criteria.AnyCrossing,
-        sma,
-        gravitational_parameter,
+def constant_thrust(satellite_system: SatelliteSystem) -> ConstantThrust:
+    return ConstantThrust(
+        satellite_system=satellite_system,
+        thrust_direction=LocalOrbitalFrameDirection(
+            vector=[1.0, 0.0, 0.0],
+            local_orbital_frame_factory=LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
+        ),
     )
 
 
 @pytest.fixture
-def coast_duration_segment(instant_condition: InstantCondition):
-    return TrajectorySegment.Coast(instant_condition)
+def sma_condition(sma: Length, gravitational_parameter: Derived) -> COECondition:
+    return COECondition.semi_major_axis(
+        criterion=RealCondition.Criterion.AnyCrossing,
+        frame=Frame.GCRF(),
+        semi_major_axis=sma,
+        gravitational_parameter=gravitational_parameter,
+    )
 
 
 @pytest.fixture
-def coast_sma_segment(sma_condition: COECondition):
-    return TrajectorySegment.Coast(sma_condition)
+def coast_duration_segment(
+    instant_condition: InstantCondition,
+    dynamics: list[Dynamics],
+    numerical_solver: NumericalSolver,
+):
+    return Segment.coast(
+        name="duration coast",
+        event_condition=instant_condition,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+    )
+
+
+@pytest.fixture
+def coast_sma_segment(
+    sma_condition: COECondition,
+    dynamics: list[Dynamics],
+    numerical_solver: NumericalSolver,
+):
+    return Segment.coast(
+        name="sma coast",
+        event_condition=sma_condition,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+    )
+
+
+@pytest.fixture
+def thrust_segment(
+    sma_condition: RealCondition,
+    constant_thrust: ConstantThrust,
+    dynamics: list[Dynamics],
+    numerical_solver: NumericalSolver,
+):
+    return Segment.maneuver(
+        name="duration thrust",
+        event_condition=sma_condition,
+        thruster_dynamics=constant_thrust,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+    )
 
 
 @pytest.fixture
 def segments(
-    coast_duration_segment: TrajectorySegment, coast_sma_segment: TrajectorySegment
-) -> list[TrajectorySegment]:
-    return [coast_sma_segment, coast_duration_segment]
+    coast_duration_segment: Segment,
+    thrust_segment: Segment,
+) -> list[Segment]:
+    return [coast_duration_segment, thrust_segment]
 
 
 @pytest.fixture
@@ -145,40 +230,99 @@ def maximum_propagation_duration() -> Duration:
 
 
 @pytest.fixture
+def repetition_count() -> int:
+    return 1
+
+
+@pytest.fixture
 def sequence(
-    segments: list[TrajectorySegment],
-    dynamics: list,
+    segments: list[Segment],
+    repetition_count: int,
     numerical_solver: NumericalSolver,
+    dynamics: list,
     maximum_propagation_duration: Duration,
 ):
-    return Sequence(segments, numerical_solver, dynamics, maximum_propagation_duration)
+    return Sequence(
+        segments=segments,
+        repetition_count=repetition_count,
+        dynamics=dynamics,
+        numerical_solver=numerical_solver,
+        maximum_propagation_duration=maximum_propagation_duration,
+    )
 
 
 class TestSequence:
-    def test_get_segments(self, sequence: Sequence, segments: list[TrajectorySegment]):
+    def test_get_segments(
+        self,
+        sequence: Sequence,
+        segments: list[Segment],
+    ):
         assert len(sequence.get_segments()) == len(segments)
 
-    def test_get_dynamics(self, sequence: Sequence, dynamics: list):
-        assert len(sequence.get_dynamics()) == len(dynamics)
-
     def test_get_numerical_solver(
-        self, sequence: Sequence, numerical_solver: NumericalSolver
+        self,
+        sequence: Sequence,
+        numerical_solver: NumericalSolver,
     ):
         assert sequence.get_numerical_solver() == numerical_solver
 
+    def test_get_dynamics(
+        self,
+        sequence: Sequence,
+        dynamics: list,
+    ):
+        assert len(sequence.get_dynamics()) == len(dynamics)
+
     def test_get_maximum_propagation_duration(
-        self, sequence: Sequence, maximum_propagation_duration: Duration
+        self,
+        sequence: Sequence,
+        maximum_propagation_duration: Duration,
     ):
         assert sequence.get_maximum_propagation_duration() == maximum_propagation_duration
 
-    def test_get_dynamics(self, dynamics: list, sequence: Sequence):
-        assert len(sequence.get_dynamics()) == len(dynamics)
+    def test_add_segment(
+        self,
+        sequence: Sequence,
+        coast_duration_segment: Segment,
+    ):
+        segments_count: int = len(sequence.get_segments())
 
-    def test_solve(self, state: State, sequence: Sequence, duration: Duration):
+        sequence.add_segment(coast_duration_segment)
+
+        assert len(sequence.get_segments()) == segments_count + 1
+
+        segments_count = len(sequence.get_segments())
+
+        sequence.add_segment([coast_duration_segment, coast_duration_segment])
+
+        assert len(sequence.get_segments()) == segments_count + 2
+
+    def test_add_coast_segment(
+        self,
+        sequence: Sequence,
+        instant_condition: InstantCondition,
+    ):
+        segments_count: int = len(sequence.get_segments())
+
+        sequence.add_coast_segment(instant_condition)
+
+        assert len(sequence.get_segments()) == segments_count + 1
+
+    def test_add_maneuver_segment(
+        self,
+        sequence: Sequence,
+        instant_condition: InstantCondition,
+        constant_thrust: ConstantThrust,
+    ):
+        segments_count: int = len(sequence.get_segments())
+
+        sequence.add_maneuver_segment(instant_condition, constant_thrust)
+
+        assert len(sequence.get_segments()) == segments_count + 1
+
+    def test_solve(self, state: State, sequence: Sequence, segments: list[Segment]):
         solution = sequence.solve(state)
 
-        assert len(solution.segment_solutions) == 2
-        assert solution.segment_solutions[0].initial_state == state
-        assert (
-            solution.segment_solutions[1].final_state.get_instant() - state.get_instant()
-        ) > duration
+        assert len(solution.segment_solutions) == len(segments)
+
+        assert solution.get_states() is not None

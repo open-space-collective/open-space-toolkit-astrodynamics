@@ -8,8 +8,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Propagator.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Segment.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/TrajectorySegment.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {
@@ -59,4 +60,5 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(trajectory);
 }

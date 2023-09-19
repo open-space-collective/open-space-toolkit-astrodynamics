@@ -8,8 +8,8 @@
 #include <OpenSpaceToolkit/Physics/Environment.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
 
 namespace ostk
 {
@@ -22,7 +22,7 @@ using ostk::core::ctnr::Array;
 
 using ostk::physics::Environment;
 
-using ostk::astro::trajectory::TrajectorySegment;
+using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::dynamics::Thruster;
@@ -34,7 +34,7 @@ class Sequence
    public:
     struct Solution
     {
-        Array<TrajectorySegment::Solution> segmentSolutions;
+        Array<Segment::Solution> segmentSolutions;
 
         Array<State> getStates() const;
     };
@@ -53,12 +53,14 @@ class Sequence
     ///
     /// @endcode
     ///
-    /// @param                  [in] aRepetitionCount A repetition count.
+    /// @param                  [in] aSegmentArray An array of segments. Defaults to empty.
+    /// @param                  [in] aRepetitionCount A repetition count. Defaults to 1.
     /// @param                  [in] aNumericalSolver A Numerical Solver. Defaults to Undefined.
-    /// @param                  [in] aDynamicsArray Optional array of shared dynamics.
+    /// @param                  [in] aDynamicsArray An array of shared dynamics. Defaults to empty.
     /// @param                  [in] maximumPropagationDuration Maximum duration for propagation. Defaults to 7.0 days.
 
     Sequence(
+        const Array<Segment>& aSegmentArray = Array<Segment>::Empty(),
         const Size& aRepetitionCount = 1,
         const NumericalSolver& aNumericalSolver = NumericalSolver::Undefined(),
         const Array<Shared<Dynamics>>& aDynamicsArray = Array<Shared<Dynamics>>::Empty(),
@@ -77,7 +79,7 @@ class Sequence
     ///
     /// @return                 Array of segments.
 
-    Array<TrajectorySegment> getSegments() const;
+    Array<Segment> getSegments() const;
 
     /// @brief                  Get numerical solver.
     ///
@@ -101,13 +103,13 @@ class Sequence
     ///
     /// @param                  [in] aTrajectorySegment A trajectory segment.
 
-    void addSegment(const TrajectorySegment& aTrajectorySegment);
+    void addSegment(const Segment& aTrajectorySegment);
 
     /// @brief                  Add multiple segments.
     ///
     /// @param                  [in] aTrajectorySegmentArray An array of trajectory segments.
 
-    void addSegment(const Array<TrajectorySegment>& aTrajectorySegmentArray);
+    void addSegment(const Array<Segment>& aTrajectorySegmentArray);
 
     /// @brief                  Add a coast segment.
     ///
@@ -137,7 +139,7 @@ class Sequence
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
    private:
-    Array<TrajectorySegment> segments_;
+    Array<Segment> segments_;
     Size repetitionCount_;
     NumericalSolver numericalSolver_;
     Array<Shared<Dynamics>> dynamics_;
