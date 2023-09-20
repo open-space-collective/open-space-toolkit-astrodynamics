@@ -169,23 +169,31 @@ $(document).ready(function(){initNavTree('_coordinates_subset_8hpp_source.html',
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">static</span> Shared&lt;const CoordinatesSubset&gt; <a class="code" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a8faedc2387293553c635d15b366ec018">Mass</a>();</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    String name_;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    Size size_;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    String id_;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;};</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">static</span> Shared&lt;const CoordinatesSubset&gt; <a class="code" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#afeda94f106873b120e3c072ec0771c06">SurfaceArea</a>();</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}  <span class="comment">// namespace state</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;}  <span class="comment">// namespace trajectory</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;}  <span class="comment">// namespace astro</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}  <span class="comment">// namespace ostk</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keyword">static</span> Shared&lt;const CoordinatesSubset&gt; <a class="code" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#af85187aa5554d67cf1cda4a03053c533">DragCoefficient</a>();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;   <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    String name_;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    Size size_;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    String id_;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;};</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}  <span class="comment">// namespace state</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}  <span class="comment">// namespace trajectory</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}  <span class="comment">// namespace astro</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}  <span class="comment">// namespace ostk</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">ostk::astro::trajectory::state::CoordinatesSubset</a></div><div class="ttdoc">State coordinates subset. It contains information related to a particular group of coordinates....</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.hpp:38</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_a45305e29e0e31f9dc346713352f8e778"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a45305e29e0e31f9dc346713352f8e778">ostk::astro::trajectory::state::CoordinatesSubset::inFrame</a></div><div class="ttdeci">virtual VectorXd inFrame(const Instant &amp;anInstant, const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const Frame &gt; &amp;fromFrameSPtr, const Shared&lt; const Frame &gt; &amp;toFrameSPtr, const Shared&lt; const CoordinatesBroker &gt; &amp;aCoordinatesBrokerSPtr) const</div><div class="ttdoc">Transform the coordinate subset from one frame to another.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:82</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_ad20dbe8a07f3591b5d7ee6467ca4197b"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ad20dbe8a07f3591b5d7ee6467ca4197b">ostk::astro::trajectory::state::CoordinatesSubset::getName</a></div><div class="ttdeci">String getName() const</div><div class="ttdoc">Return the name of the instance.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:48</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_af85187aa5554d67cf1cda4a03053c533"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#af85187aa5554d67cf1cda4a03053c533">ostk::astro::trajectory::state::CoordinatesSubset::DragCoefficient</a></div><div class="ttdeci">static Shared&lt; const CoordinatesSubset &gt; DragCoefficient()</div><div class="ttdoc">Return a default DragCoefficient instance.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:107</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_afeda94f106873b120e3c072ec0771c06"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#afeda94f106873b120e3c072ec0771c06">ostk::astro::trajectory::state::CoordinatesSubset::SurfaceArea</a></div><div class="ttdeci">static Shared&lt; const CoordinatesSubset &gt; SurfaceArea()</div><div class="ttdoc">Return a default Surface Area instance.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:101</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_a8400f8968ba03028278b0b0e81861ac2"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#a8400f8968ba03028278b0b0e81861ac2">ostk::astro::trajectory::state::CoordinatesSubset::getId</a></div><div class="ttdeci">String getId() const</div><div class="ttdoc">Return the unique identifier of the instance.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:43</div></div>
 <div class="ttc" id="anamespaceostk_html"><div class="ttname"><a href="namespaceostk.html">ostk</a></div><div class="ttdoc">Apache License 2.0.</div><div class="ttdef"><b>Definition:</b> Generator.hpp:23</div></div>
 <div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset_html_affc65fb1429cbe580b41c64e9b67e671"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#affc65fb1429cbe580b41c64e9b67e671">ostk::astro::trajectory::state::CoordinatesSubset::operator==</a></div><div class="ttdeci">bool operator==(const CoordinatesSubset &amp;aCoordinatesSubset) const</div><div class="ttdoc">Equal to operator.</div><div class="ttdef"><b>Definition:</b> CoordinatesSubset.cpp:33</div></div>

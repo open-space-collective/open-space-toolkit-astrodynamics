@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a207fe7685dd5fc09da968e53670cb683":[4,0,0,0,3,1,0,3,1],
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a25971c7a871c3c4a1bf443510173a765":[4,0,0,0,3,1,0,3,0],
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a3860c4b65ae4e2841e13716595bdbfe9":[4,0,0,0,3,1,0,3,4],
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7d9b302e022c8b31063a4a7e9fb2ef31":[4,0,0,0,3,1,0,3,6],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a0bf8a9e67aadee231938cadd6e85d369":[4,0,0,0,5,1,1,2,0,2],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a6adf97f83acf6453d4a6a4b1070f3754":[4,0,0,0,5,1,1,2,0,0],
 "classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a3750f9177ff06a1938826e2c2881d5a9a7f132d501fb9863844ab51697900d494":[4,0,0,0,5,1,1,2,0,1],
-"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4c74402d5483a51e5e0fe1920cd52ec4":[4,0,0,0,5,1,1,2,14]
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4c74402d5483a51e5e0fe1920cd52ec4":[4,0,0,0,5,1,1,2,14],
+"classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1_kepler.html#a4de0c3d7a2b37c1c2ab4d6e207339809":[4,0,0,0,5,1,1,2,4]
 };

@@ -2,7 +2,7 @@
 \label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag}\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
 
 
-Define the acceleration experienced by a point mass due to atmospheric drag.  
+Define the acceleration experienced by a spacecraft due to atmospheric drag.  
 
 
 
@@ -18,9 +18,9 @@ Inheritance diagram for ostk\+::astro\+::flight\+::system\+::dynamics\+::Atmosph
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System)
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a642b53de6e859be07146d3f1f135fb9d}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const String \&a\+Name)
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a8337ffe964011f0132ff3140bb72b769}{Atmospheric\+Drag}} (const Shared$<$ const Celestial $>$ \&a\+Celestial, const String \&a\+Name)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 virtual \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a142ccd348126de8325d940101d53c8c5}{$\sim$\+Atmospheric\+Drag}} () override
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
@@ -28,8 +28,6 @@ virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics
 \begin{DoxyCompactList}\small\item\em Check if atmospheric drag dynamics is defined. \end{DoxyCompactList}\item 
 Shared$<$ const Celestial $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a888e94eb49465f345f65d73928328337}{get\+Celestial}} () const
 \begin{DoxyCompactList}\small\item\em Get celestial. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}{get\+Satellite\+System}} () const
-\begin{DoxyCompactList}\small\item\em Get satellite system. \end{DoxyCompactList}\item 
 virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6da1f0ae0221d5cdc9d421711530c73d}{get\+Read\+Coordinates\+Subsets}} () const override
 \begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
 virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a645abdc0fc1f2fce2824db69c57c785e}{get\+Write\+Coordinates\+Subsets}} () const override
@@ -47,14 +45,14 @@ std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dyn
 
 
 \doxysubsection{Detailed Description}
-Define the acceleration experienced by a point mass due to atmospheric drag. 
+Define the acceleration experienced by a spacecraft due to atmospheric drag. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a642b53de6e859be07146d3f1f135fb9d}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a642b53de6e859be07146d3f1f135fb9d}} 
 \index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!AtmosphericDrag@{AtmosphericDrag}}
 \index{AtmosphericDrag@{AtmosphericDrag}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
 \doxysubsubsection{\texorpdfstring{AtmosphericDrag()}{AtmosphericDrag()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial }\end{DoxyParamCaption})}
 
 
 
@@ -63,8 +61,7 @@ Constructor.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keyword}{const} Celestial = \{ ... \};}
-\DoxyCodeLine{\textcolor{keyword}{const} SatelliteSystem = \{ ... \};}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial, aSatelliteSystem \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a642b53de6e859be07146d3f1f135fb9d}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial \};}
 \end{DoxyCode}
 
 
@@ -72,14 +69,12 @@ Constructor.
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em a\+Celestial} & A celestial object \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
-\hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a10010287987931403b78a6e2be225637}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a8337ffe964011f0132ff3140bb72b769}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a8337ffe964011f0132ff3140bb72b769}} 
 \index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!AtmosphericDrag@{AtmosphericDrag}}
 \index{AtmosphericDrag@{AtmosphericDrag}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
 \doxysubsubsection{\texorpdfstring{AtmosphericDrag()}{AtmosphericDrag()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::\+Atmospheric\+Drag (\begin{DoxyParamCaption}\item[{const Shared$<$ const Celestial $>$ \&}]{a\+Celestial,  }\item[{const String \&}]{a\+Name }\end{DoxyParamCaption})}
 
 
 
@@ -88,17 +83,14 @@ Constructor.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keyword}{const} Celestial = \{ ... \};}
-\DoxyCodeLine{\textcolor{keyword}{const} SatelliteSystem = \{ ... \};}
 \DoxyCodeLine{\textcolor{keyword}{const} aName = \{ ... \};}
-\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a48246b5695d0a98b03d8b8fcdd349814}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial, aSatelliteSystem, aName \};}
+\DoxyCodeLine{\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a642b53de6e859be07146d3f1f135fb9d}{AtmosphericDrag}} atmosphericDrag = \{ aCelestial, aName \};}
 \end{DoxyCode}
 
 
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em a\+Celestial} & A celestial object \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
 \hline
 \mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
 \hline
@@ -172,19 +164,6 @@ The coordinates subsets that the instance reads from
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a4227a9bf26bde9932c0d818a67972076}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
-\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a6f9a57f33b5cf0aad22b00c32729e4f2}} 
-\index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!getSatelliteSystem@{getSatelliteSystem}}
-\index{getSatelliteSystem@{getSatelliteSystem}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
-\doxysubsubsection{\texorpdfstring{getSatelliteSystem()}{getSatelliteSystem()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag\+::get\+Satellite\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-
-
-Get satellite system. 
-
-\begin{DoxyReturn}{Returns}
-A satellite system 
-\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a645abdc0fc1f2fce2824db69c57c785e}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a645abdc0fc1f2fce2824db69c57c785e}} 
 \index{ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
 \index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::flight::system::dynamics::AtmosphericDrag@{ostk::astro::flight::system::dynamics::AtmosphericDrag}}
