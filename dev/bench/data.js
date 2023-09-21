@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695320656286,
+  "lastUpdate": 1695330281966,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -54,6 +54,60 @@ window.BENCHMARK_DATA = {
             "value": 4144032487.699997,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4143234150.0000024 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vishwa2710@gmail.com",
+            "name": "Vishwa Shah",
+            "username": "vishwa2710"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "6e065ee7e3601ba2fb047e0aab314310e7793456",
+          "message": "feat: add Sequence class (#223)\n\n* feat: simplify interface as suggested by Kyle\r\n\r\n* feat: fix tests\r\n\r\n* feat: simplify interface as suggested by Kyle\r\n\r\n* feat: first cut at Sequence\r\n\r\n* feat: update tests\r\n\r\n* fix: COE true anomaly calculation\r\n\r\n* feat: add more tests\r\n\r\n* chore: style\r\n\r\n* feat: address comments, add tests for bindings\r\n\r\n* feat: rebase from main MR\r\n\r\n* chore: missed a few spots\r\n\r\n* feat: fix tests",
+          "timestamp": "2023-09-21T20:28:49Z",
+          "tree_id": "54f087408faff8d2b7d554a50edf8e7dbbbc7633",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/6e065ee7e3601ba2fb047e0aab314310e7793456"
+        },
+        "date": 1695330281340,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 694118355.7000158,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 694050890.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1477272626.8999918,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1476629690.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4137402579.7000113,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4136464990 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4137277530.4999833,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4136482049.9999976 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4141471053.2999945,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4140899680.000001 ns\nthreads: 1"
           }
         ]
       }
