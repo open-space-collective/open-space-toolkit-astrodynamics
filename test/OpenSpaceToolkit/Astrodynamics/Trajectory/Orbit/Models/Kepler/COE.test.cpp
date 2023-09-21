@@ -512,10 +512,52 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
         );
     }
 
+    // test edge case where true anomly is nan without std::clamp
     {
-        // const Array
+        // Non-circular, inclined
+        {
+            const COE::CartesianState cartesianState = {
+                Position::Meters({6994047.553724454, 477490.53731528745, 416.6892069390969}, Frame::GCRF()),
+                Velocity::MetersPerSecond({-516.3880965905739, 7563.794200060748, 6.600657312278296}, Frame::GCRF()),
+            };
 
-        // [TBI] Add more tests
+            const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
+
+            EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), 7087442.844884155, 1e-6);
+            EXPECT_NEAR(coe.getEccentricity(), 0.010880490113017855, Real::Epsilon());
+            EXPECT_NEAR(coe.getInclination().inRadians(), 0.0008726646260034904, Real::Epsilon());
+            EXPECT_NEAR(coe.getRaan().inRadians(), 6.283185307179586, Real::Epsilon());
+            EXPECT_NEAR(coe.getAop().inRadians(), 0.06816523492423941, Real::Epsilon());
+            EXPECT_NEAR(coe.getTrueAnomaly().inRadians(), 0.0, Real::Epsilon());
+        }
+
+        // Circular, inclined
+        {
+            const Length semiMajorAxis = Length::Kilometers(7000.0);
+            const Real eccentricity = 0.0;
+            const Angle inclination = Angle::Degrees(97.0);
+            const Angle raan = Angle::Degrees(0.0);
+            const Angle aop = Angle::Degrees(0.0);
+            const Angle trueAnomaly = Angle::Degrees(0.0);
+
+            const COE referenceCoe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+            const COE::CartesianState cartesianState =
+                referenceCoe.getCartesianState(Earth::EGM2008.gravitationalParameter_, Frame::GCRF());
+
+            const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
+
+            EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
+            EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
+            EXPECT_TRUE(
+                coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon())
+            );
+            EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), Real::Epsilon()));
+            EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), Real::Epsilon()));
+            EXPECT_TRUE(
+                coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon())
+            );
+        }
     }
 
     {

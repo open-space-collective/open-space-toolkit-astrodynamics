@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 
 namespace ostk
 {
@@ -14,7 +14,7 @@ using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::Propagator;
 
-TrajectorySegment::Solution::Solution(
+Segment::Solution::Solution(
     const String& aName, const Array<Shared<Dynamics>>& aDynamicsArray, const Array<State>& aStates
 )
     : name(aName),
@@ -23,9 +23,9 @@ TrajectorySegment::Solution::Solution(
 {
 }
 
-TrajectorySegment::TrajectorySegment(
+Segment::Segment(
     const String& aName,
-    const TrajectorySegment::Type& aType,
+    const Segment::Type& aType,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
@@ -52,55 +52,54 @@ TrajectorySegment::TrajectorySegment(
     }
 }
 
-std::ostream& operator<<(std::ostream& anOutputStream, const TrajectorySegment& aSegment)
+std::ostream& operator<<(std::ostream& anOutputStream, const Segment& aSegment)
 {
     aSegment.print(anOutputStream, false);
 
     return anOutputStream;
 }
 
-String TrajectorySegment::getName() const
+String Segment::getName() const
 {
     return name_;
 }
 
-Shared<EventCondition> TrajectorySegment::getEventCondition() const
+Shared<EventCondition> Segment::getEventCondition() const
 {
     return accessEventCondition();
 }
 
-Array<Shared<Dynamics>> TrajectorySegment::getDynamics() const
+Array<Shared<Dynamics>> Segment::getDynamics() const
 {
     return accessDynamics();
 }
 
-NumericalSolver TrajectorySegment::getNumericalSolver() const
+NumericalSolver Segment::getNumericalSolver() const
 {
     return accessNumericalSolver();
 }
 
-TrajectorySegment::Type TrajectorySegment::getType() const
+Segment::Type Segment::getType() const
 {
     return type_;
 }
 
-const Shared<EventCondition>& TrajectorySegment::accessEventCondition() const
+const Shared<EventCondition>& Segment::accessEventCondition() const
 {
     return eventCondition_;
 }
 
-const Array<Shared<Dynamics>>& TrajectorySegment::accessDynamics() const
+const Array<Shared<Dynamics>>& Segment::accessDynamics() const
 {
     return dynamics_;
 }
 
-const NumericalSolver& TrajectorySegment::accessNumericalSolver() const
+const NumericalSolver& Segment::accessNumericalSolver() const
 {
     return numericalSolver_;
 }
 
-TrajectorySegment::Solution TrajectorySegment::solve(const State& aState, const Duration& maximumPropagationDuration)
-    const
+Segment::Solution Segment::solve(const State& aState, const Duration& maximumPropagationDuration) const
 {
     const Propagator propagator = {
         numericalSolver_,
@@ -120,16 +119,21 @@ TrajectorySegment::Solution TrajectorySegment::solve(const State& aState, const 
     };
 }
 
-void TrajectorySegment::print(std::ostream& anOutputStream, bool displayDecorator) const
+void Segment::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     if (displayDecorator)
     {
-        ostk::core::utils::Print::Header(anOutputStream, "TrajectorySegment");
+        ostk::core::utils::Print::Header(anOutputStream, "Segment");
     }
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    eventCondition_->print(anOutputStream, false);
-    ostk::core::utils::Print::Line(anOutputStream) << dynamics_;
+    eventCondition_->print(anOutputStream, true);
+    ostk::core::utils::Print::Line(anOutputStream);
+    for (const auto& dynamics : dynamics_)
+    {
+        dynamics->print(anOutputStream, true);
+    }
+    ostk::core::utils::Print::Line(anOutputStream);
     ostk::core::utils::Print::Line(anOutputStream) << numericalSolver_;
 
     if (displayDecorator)
@@ -138,7 +142,7 @@ void TrajectorySegment::print(std::ostream& anOutputStream, bool displayDecorato
     }
 }
 
-TrajectorySegment TrajectorySegment::Coast(
+Segment Segment::Coast(
     const String& aName,
     const Shared<EventCondition>& anEventConditionSPtr,
     const Array<Shared<Dynamics>>& aDynamicsArray,
@@ -147,26 +151,24 @@ TrajectorySegment TrajectorySegment::Coast(
 {
     return {
         aName,
-        TrajectorySegment::Type::Coast,
+        Segment::Type::Coast,
         anEventConditionSPtr,
         aDynamicsArray,
         aNumericalSolver,
     };
 }
 
-TrajectorySegment TrajectorySegment::Maneuver(
+Segment Segment::Maneuver(
     const String& aName,
     const Shared<EventCondition>& anEventConditionSPtr,
-    const Shared<Dynamics>& aThrusterDynamics,
+    const Shared<Thruster>& aThrusterDynamics,
     const Array<Shared<Dynamics>>& aDynamicsArray,
     const NumericalSolver& aNumericalSolver
 )
 {
-    throw ostk::core::error::runtime::ToBeImplemented("TrajectorySegment::Maneuver");
-
     return {
         aName,
-        TrajectorySegment::Type::Maneuver,
+        Segment::Type::Maneuver,
         anEventConditionSPtr,
         aDynamicsArray + Array<Shared<Dynamics>> {aThrusterDynamics},
         aNumericalSolver,

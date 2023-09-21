@@ -11,8 +11,9 @@
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/TrajectorySegment.hpp>
 
 #include <Global.test.hpp>
 
@@ -32,7 +33,11 @@ using ostk::physics::coord::Velocity;
 
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::Dynamics;
-using ostk::astro::trajectory::TrajectorySegment;
+using ostk::astro::flight::system::SatelliteSystem;
+using ostk::astro::flight::system::dynamics::thruster::ConstantThrust;
+using ostk::astro::trajectory::Segment;
+using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::flight::system::dynamics::CentralBodyGravity;
 using ostk::astro::flight::system::dynamics::PositionDerivative;
 using ostk::astro::eventcondition::InstantCondition;
@@ -64,37 +69,39 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::tes
     const Shared<InstantCondition> defaultInstantCondition_ = std::make_shared<InstantCondition>(
         InstantCondition::Criterion::AnyCrossing, defaultState_.accessInstant() + Duration::Minutes(15.0)
     );
-    const TrajectorySegment defaultCoastSegment_ =
-        TrajectorySegment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
+    const Shared<ConstantThrust> defaultConstantThrust_ = std::make_shared<ConstantThrust>(
+        SatelliteSystem::Default(),
+        LocalOrbitalFrameDirection({1.0, 0.0, 0.0}, LocalOrbitalFrameFactory::VNC(Frame::GCRF()))
+    );
+    const Segment defaultCoastSegment_ =
+        Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_);
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Coast)
 {
     {
         EXPECT_NO_THROW(
-            TrajectorySegment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_)
+            Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, defaultNumericalSolver_)
         );
     }
 
     {
         EXPECT_THROW(
-            TrajectorySegment::Coast(defaultName_, nullptr, defaultDynamics_, NumericalSolver::Undefined()),
+            Segment::Coast(defaultName_, nullptr, defaultDynamics_, NumericalSolver::Undefined()),
             ostk::core::error::runtime::Undefined
         );
     }
 
     {
         EXPECT_THROW(
-            TrajectorySegment::Coast(defaultName_, defaultInstantCondition_, {}, NumericalSolver::Undefined()),
+            Segment::Coast(defaultName_, defaultInstantCondition_, {}, NumericalSolver::Undefined()),
             ostk::core::error::runtime::Undefined
         );
     }
 
     {
         EXPECT_THROW(
-            TrajectorySegment::Coast(
-                defaultName_, defaultInstantCondition_, defaultDynamics_, NumericalSolver::Undefined()
-            ),
+            Segment::Coast(defaultName_, defaultInstantCondition_, defaultDynamics_, NumericalSolver::Undefined()),
             ostk::core::error::runtime::Undefined
         );
     }
@@ -103,8 +110,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Coast)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Maneuver)
 {
     {
-        EXPECT_ANY_THROW(TrajectorySegment::Maneuver(
-            defaultName_, defaultInstantCondition_, defaultDynamics_[0], defaultDynamics_, defaultNumericalSolver_
+        EXPECT_NO_THROW(Segment::Maneuver(
+            defaultName_, defaultInstantCondition_, defaultConstantThrust_, defaultDynamics_, defaultNumericalSolver_
         ));
     }
 }
@@ -131,7 +138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetNumerical
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, GetType)
 {
-    EXPECT_EQ(TrajectorySegment::Type::Coast, defaultCoastSegment_.getType());
+    EXPECT_EQ(Segment::Type::Coast, defaultCoastSegment_.getType());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, AccessEventCondition)
@@ -163,7 +170,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, StreamOperat
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Solve)
 {
     {
-        TrajectorySegment::Solution solution = defaultCoastSegment_.solve(defaultState_);
+        Segment::Solution solution = defaultCoastSegment_.solve(defaultState_);
 
         EXPECT_LT(
             (solution.states.accessLast().getInstant() - defaultInstantCondition_->getInstant()).inSeconds(), 1e-7

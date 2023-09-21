@@ -48,6 +48,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(pybin
             // .def("get_mass_flow_rate", &PropulsionSystem::getMassFlowRate) Scalar output
             // .def("get_acceleration", &PropulsionSystem::getAcceleration, arg("mass"))
 
-            .def_static("undefined", &PropulsionSystem::Undefined);
+            .def_static("undefined", &PropulsionSystem::Undefined)
+            .def_static("default", &PropulsionSystem::Default)
+
+            ;
     }
 }

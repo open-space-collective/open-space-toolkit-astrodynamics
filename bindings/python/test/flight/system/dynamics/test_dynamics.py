@@ -2,6 +2,8 @@
 
 import pytest
 
+from ostk.physics import Environment
+
 from ostk.astrodynamics.flight.system import Dynamics
 from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosition
 
@@ -9,6 +11,11 @@ from ostk.astrodynamics.trajectory.state.coordinates_subset import CartesianPosi
 @pytest.fixture
 def name() -> str:
     return "MyDynamics"
+
+
+@pytest.fixture
+def environment() -> Environment:
+    return Environment.default()
 
 
 @pytest.fixture
@@ -35,3 +42,9 @@ class TestDynamics:
 
     def test_get_name(self, dynamics: Dynamics, name: str):
         assert dynamics.get_name() == name
+
+    def test_from_environment(self, environment: Environment):
+        dynamics: list[Dynamics] = Dynamics.from_environment(environment)
+
+        assert dynamics is not None
+        assert isinstance(dynamics, list)

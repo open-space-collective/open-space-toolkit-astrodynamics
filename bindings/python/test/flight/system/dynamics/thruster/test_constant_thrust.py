@@ -12,8 +12,6 @@ from ostk.physics.units import Mass
 from ostk.physics.time import Instant
 from ostk.physics.time import DateTime
 from ostk.physics.time import Scale
-from ostk.physics.coordinate import Position
-from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
@@ -34,8 +32,8 @@ from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
 @pytest.fixture
 def local_orbital_frame_direction() -> LocalOrbitalFrameDirection:
     return LocalOrbitalFrameDirection(
-        [1.0, 0.0, 0.0],
-        LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
+        vector=[1.0, 0.0, 0.0],
+        local_orbital_frame_factory=LocalOrbitalFrameFactory.VNC(Frame.GCRF()),
     )
 
 
@@ -77,9 +75,9 @@ def dynamics(
     local_orbital_frame_direction: LocalOrbitalFrameDirection,
 ) -> ConstantThrust:
     return ConstantThrust(
-        satellite_system,
-        local_orbital_frame_direction,
-        "Constant Thrust Thruster Dynamics",
+        satellite_system=satellite_system,
+        thrust_direction=local_orbital_frame_direction,
+        name="Constant Thrust Thruster Dynamics",
     )
 
 

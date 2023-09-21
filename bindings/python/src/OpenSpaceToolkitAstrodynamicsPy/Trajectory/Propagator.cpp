@@ -57,17 +57,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def("calculate_states_at", &Propagator::calculateStatesAt, arg("state"), arg("instant_array"))
 
         .def_static("default", overload_cast<>(&Propagator::Default))
-        .def_static(
-            "default",
-            overload_cast<const Environment&, const SatelliteSystem&>(&Propagator::Default),
-            arg("environment"),
-            arg("satellite_system") = SatelliteSystem::Undefined()
-        )
-        .def_static(
-            "from_environment",
-            &Propagator::FromEnvironment,
-            arg("numerical_solver"),
-            arg("environment"),
-            arg("satellite_system") = SatelliteSystem::Undefined()
-        );
+        .def_static("default", overload_cast<const Environment&>(&Propagator::Default), arg("environment"))
+        .def_static("from_environment", &Propagator::FromEnvironment, arg("numerical_solver"), arg("environment"));
 }

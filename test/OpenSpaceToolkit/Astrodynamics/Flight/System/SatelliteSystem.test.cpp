@@ -354,3 +354,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Undefined)
         EXPECT_NO_THROW(SatelliteSystem::Undefined());
     }
 }
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, Default)
+{
+    {
+        EXPECT_NO_THROW(SatelliteSystem::Default());
+    }
+}

@@ -2,7 +2,6 @@
 
 import pytest
 
-from ostk.physics.time import Instant
 from ostk.physics.coordinate import Frame
 
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
@@ -25,8 +24,8 @@ def local_orbital_frame_direction(
     local_orbital_frame_factory: LocalOrbitalFrameFactory,
 ) -> LocalOrbitalFrameDirection:
     return LocalOrbitalFrameDirection(
-        direction_vector,
-        local_orbital_frame_factory,
+        vector=direction_vector,
+        local_orbital_frame_factory=local_orbital_frame_factory,
     )
 
 

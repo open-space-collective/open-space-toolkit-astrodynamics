@@ -66,6 +66,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Construct
     EXPECT_NO_THROW(AngularCondition::WithinRange(defaultName_, defaultEvaluator_, defaultTargetRange_));
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Print)
+{
+    {
+        testing::internal::CaptureStdout();
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, true));
+        EXPECT_NO_THROW(defaultCondition_.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    {
+        testing::internal::CaptureStdout();
+        const AngularCondition angularCondition =
+            AngularCondition::WithinRange(defaultName_, defaultEvaluator_, defaultTargetRange_);
+        EXPECT_NO_THROW(angularCondition.print(std::cout, true));
+        EXPECT_NO_THROW(angularCondition.print(std::cout, false));
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Getters)
 {
     {

@@ -101,7 +101,7 @@ class PropulsionSystem
     /// @brief              Get propulsion system's thrust
     ///
     /// @code
-    ///                     Scalar thrust = propulsionSystem.getThrust() ;
+    ///                     Scalar thrust = propulsionSystem.getThrust();
     /// @endcode
     ///
     /// @return             Scalar
@@ -112,7 +112,7 @@ class PropulsionSystem
     ///                     https://en.wikipedia.org/wiki/Specific_impulse
     ///
     /// @code
-    ///                     Scalar specificImpulse = propulsionSystem.getSpecificImpulse() ;
+    ///                     Scalar specificImpulse = propulsionSystem.getSpecificImpulse();
     /// @endcode
     ///
     /// @return             Scalar
@@ -122,7 +122,7 @@ class PropulsionSystem
     /// @brief              Get propulsion system's mass flow rate
     ///
     /// @code
-    ///                     Scalar massFlowRate = propulsionSystem.getMassFlowRate() ;
+    ///                     Scalar massFlowRate = propulsionSystem.getMassFlowRate();
     /// @endcode
     ///
     /// @return             Scalar
@@ -132,14 +132,32 @@ class PropulsionSystem
     /// @brief              Get propulsion system's acceleration
     ///
     /// @code
-    ///                     Scalar acceleration = propulsionSystem.getAcceleration() ;
+    ///                     Scalar acceleration = propulsionSystem.getAcceleration();
     /// @endcode
     ///
     /// @return             Scalar
 
     Scalar getAcceleration(const Mass& aMass) const;
 
+    /// @brief              Undefined propulsion system
+    ///
+    /// @code
+    ///                     PropulsionSystem propulsionSystem = PropulsionSystem::Undefined();
+    /// @endcode
+    ///
+    /// @return             An undefined propulsion system
+
     static PropulsionSystem Undefined();
+
+    /// @brief              Default propulsion system
+    ///
+    /// @code
+    ///                     PropulsionSystem propulsionSystem = PropulsionSystem::Default();
+    /// @endcode
+    ///
+    /// @return             A default propulsion system
+
+    static PropulsionSystem Default();
 
    private:
     Scalar thrust_ = Scalar::Undefined();           /// Thrust [N]

@@ -69,12 +69,13 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
     if (target_.isDefined())
     {
-        ostk::core::utils::Print::Line(anOutputStream) << "Target: " << getTargetAngle();
+        ostk::core::utils::Print::Line(anOutputStream) << "Target: \n" << getTargetAngle();
     }
     else
     {
-        ostk::core::utils::Print::Line(anOutputStream)
-            << "Target Range: " << getTargetRange().first << " - " << getTargetRange().second;
+        ostk::core::utils::Print::Line(anOutputStream) << "Target Range: \n"
+                                                       << getTargetRange().first << "\n"
+                                                       << getTargetRange().second;
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();

@@ -14,6 +14,7 @@ using ostk::core::types::Shared;
 
 using ostk::math::obj::VectorXd;
 
+using ostk::physics::Environment;
 using ostk::physics::time::Instant;
 using ostk::physics::coord::Frame;
 
@@ -80,6 +81,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(pybind11::mod
         .def("get_read_coordinates_subsets", &Dynamics::getReadCoordinatesSubsets)
         .def("get_write_coordinates_subsets", &Dynamics::getWriteCoordinatesSubsets)
         .def("compute_contribution", &Dynamics::computeContribution, arg("instant"), arg("state_vector"), arg("frame"))
+
+        .def_static("from_environment", &Dynamics::FromEnvironment, arg("environment"))
 
         ;
 
