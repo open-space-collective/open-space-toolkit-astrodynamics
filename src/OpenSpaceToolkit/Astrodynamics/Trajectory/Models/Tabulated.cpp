@@ -5,6 +5,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Models/Tabulated.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+
 namespace ostk
 {
 namespace astro
@@ -42,14 +44,13 @@ Tabulated::Tabulated(const Array<State>& aStateArray, const InterpolationType& a
     lastState_ = aStateArray.accessLast();
 
     VectorXd timestamps(stateArray.getSize());
-    MatrixXd coordinates(stateArray.getSize(), 6);
+    MatrixXd coordinates(stateArray.getSize(), firstState_.getSize());
 
     for (Index i = 0; i < stateArray.getSize(); ++i)
     {
-        timestamps(i) = (stateArray[i].accessInstant() - stateArray[0].accessInstant()).inSeconds();
+        timestamps(i) = (stateArray[i].accessInstant() - firstState_.accessInstant()).inSeconds();
 
-        coordinates.row(i).segment<3>(0) = stateArray[i].getPosition().accessCoordinates();
-        coordinates.row(i).segment<3>(3) = stateArray[i].getVelocity().accessCoordinates();
+        coordinates.row(i) = stateArray[i].accessCoordinates();
     }
 
     interpolators_.reserve(coordinates.cols());
@@ -144,6 +145,8 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
     using ostk::core::types::Index;
     using ostk::core::types::String;
 
+    using ostk::astro::trajectory::state::CoordinatesBroker;
+
     if (!anInstant.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Instant");
@@ -171,12 +174,14 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
     }
 
-    const Shared<const Frame> frame = firstState_.getPosition().accessFrame();
+    const Shared<const Frame>& frame = firstState_.accessFrame();
+    const Shared<const CoordinatesBroker>& coordinatesBroker = firstState_.accessCoordinatesBroker();
 
     return State(
         anInstant,
-        Position::Meters(interpolatedCoordinates.segment<3>(0), frame),
-        Velocity::MetersPerSecond(interpolatedCoordinates.segment<3>(3), frame)
+        interpolatedCoordinates,
+        frame,
+        coordinatesBroker
     );
 }
 
