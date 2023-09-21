@@ -21,11 +21,15 @@ var dir_487c49ff17ded48b6f4eeef50bd2df5e =
     [ "Propagator.hpp", "_propagator_8hpp.html", [
       [ "Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", "classostk_1_1astro_1_1trajectory_1_1_propagator" ]
     ] ],
+    [ "Segment.hpp", "_segment_8hpp.html", [
+      [ "Segment", "classostk_1_1astro_1_1trajectory_1_1_segment.html", "classostk_1_1astro_1_1trajectory_1_1_segment" ],
+      [ "Solution", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution" ]
+    ] ],
+    [ "Sequence.hpp", "_sequence_8hpp.html", [
+      [ "Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html", "classostk_1_1astro_1_1trajectory_1_1_sequence" ],
+      [ "Solution", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution" ]
+    ] ],
     [ "State.hpp", "_trajectory_2_state_8hpp.html", [
       [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ]
-    ] ],
-    [ "TrajectorySegment.hpp", "_trajectory_segment_8hpp.html", [
-      [ "TrajectorySegment", "classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html", "classostk_1_1astro_1_1trajectory_1_1_trajectory_segment" ],
-      [ "Solution", "structostk_1_1astro_1_1trajectory_1_1_trajectory_segment_1_1_solution.html", "structostk_1_1astro_1_1trajectory_1_1_trajectory_segment_1_1_solution" ]
     ] ]
 ];

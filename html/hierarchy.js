@@ -63,10 +63,13 @@ var hierarchy =
     [ "ostk::astro::flight::system::PropulsionSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system.html", null ],
     [ "ostk::astro::conjunction::messages::ccsds::CDM::RelativeMetadata", "structostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m_1_1_relative_metadata.html", null ],
     [ "ostk::astro::RootSolver", "classostk_1_1astro_1_1_root_solver.html", null ],
+    [ "ostk::astro::trajectory::Segment", "classostk_1_1astro_1_1trajectory_1_1_segment.html", null ],
+    [ "ostk::astro::trajectory::Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html", null ],
+    [ "ostk::astro::trajectory::Sequence::Solution", "structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html", null ],
     [ "ostk::astro::RootSolver::Solution", "structostk_1_1astro_1_1_root_solver_1_1_solution.html", null ],
-    [ "ostk::astro::trajectory::TrajectorySegment::Solution", "structostk_1_1astro_1_1trajectory_1_1_trajectory_segment_1_1_solution.html", null ],
-    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
+    [ "ostk::astro::trajectory::Segment::Solution", "structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html", null ],
     [ "ostk::astro::flight::profile::State", "classostk_1_1astro_1_1flight_1_1profile_1_1_state.html", null ],
+    [ "ostk::astro::trajectory::State", "classostk_1_1astro_1_1trajectory_1_1_state.html", null ],
     [ "ostk::astro::flight::System", "classostk_1_1astro_1_1flight_1_1_system.html", [
       [ "ostk::astro::flight::system::SatelliteSystem", "classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system.html", null ]
     ] ],
@@ -75,7 +78,6 @@ var hierarchy =
     [ "ostk::astro::Trajectory", "classostk_1_1astro_1_1_trajectory.html", [
       [ "ostk::astro::trajectory::Orbit", "classostk_1_1astro_1_1trajectory_1_1_orbit.html", null ]
     ] ],
-    [ "ostk::astro::trajectory::TrajectorySegment", "classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html", null ],
     [ "Provider", null, [
       [ "ostk::astro::trajectory::LocalOrbitalFrameTransformProvider", "classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_transform_provider.html", null ]
     ] ]

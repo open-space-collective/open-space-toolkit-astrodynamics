@@ -24,10 +24,12 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_orbit}{Orbit}}
 \begin{DoxyCompactList}\small\item\em Gravitationally curved trajectory of an object. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}}
 \begin{DoxyCompactList}\small\item\em Define a propagator to be used for numerical propagation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}}
+\begin{DoxyCompactList}\small\item\em Represent a propagation segment for astrodynamics purposes. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence}{Sequence}}
+\begin{DoxyCompactList}\small\item\em Represents a sequence of trajectory segments executed in order. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} state. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_trajectory_segment}{Trajectory\+Segment}}
-\begin{DoxyCompactList}\small\item\em Represent a propagation segment for astrodynamics purposes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} state. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -42,9 +44,11 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_af26a26e
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a461afe0bd4dc6af7cd2623a8c6101856}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator)
 \item 
-std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a59bebb823f66be1052f4f1e3078fd9c2}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} \&a\+Segment)
 \item 
-std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a312c625f4be4c619ba2c1eed7436ba33}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_trajectory_segment}{Trajectory\+Segment}} \&a\+Segment)
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a5a75c60375662fb84c339aafd4391c46}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence}{Sequence}} \&a\+Sequence)
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State)
 \end{DoxyCompactItemize}
 
 
@@ -61,7 +65,7 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1trajectory_a312c625
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_aef87cd49fe650a3ce037981bbc7ebf0c}\label{namespaceostk_1_1astro_1_1trajectory_aef87cd49fe650a3ce037981bbc7ebf0c}} 
 \index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \&}]{a\+Local\+Orbital\+Frame\+Direction }\end{DoxyParamCaption})}
 
 
@@ -77,13 +81,13 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_af26a26e9fbf975e9b2a79b7f064ede6b}\label{namespaceostk_1_1astro_1_1trajectory_af26a26e9fbf975e9b2a79b7f064ede6b}} 
 \index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_model}{Model}} \&}]{a\+Model }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a461afe0bd4dc6af7cd2623a8c6101856}\label{namespaceostk_1_1astro_1_1trajectory_a461afe0bd4dc6af7cd2623a8c6101856}} 
 \index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&}]{a\+Propagator }\end{DoxyParamCaption})}
 
 
@@ -96,25 +100,41 @@ A reference to output stream
 \begin{DoxyReturn}{Returns}
 A reference to output stream 
 \end{DoxyReturn}
-\mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}\label{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}} 
+\mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a59bebb823f66be1052f4f1e3078fd9c2}\label{namespaceostk_1_1astro_1_1trajectory_a59bebb823f66be1052f4f1e3078fd9c2}} 
 \index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
-{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a312c625f4be4c619ba2c1eed7436ba33}\label{namespaceostk_1_1astro_1_1trajectory_a312c625f4be4c619ba2c1eed7436ba33}} 
-\index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
-{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_trajectory_segment}{Trajectory\+Segment}} \&}]{a\+Segment }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} \&}]{a\+Segment }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
 \hline
-\mbox{\texttt{ in}}  & {\em a\+Segment} & A \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_trajectory_segment}{Trajectory\+Segment}} \\
+\mbox{\texttt{ in}}  & {\em a\+Segment} & A \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 An output stream 
 \end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a5a75c60375662fb84c339aafd4391c46}\label{namespaceostk_1_1astro_1_1trajectory_a5a75c60375662fb84c339aafd4391c46}} 
+\index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence}{Sequence}} \&}]{a\+Sequence }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Sequence} & A sequence. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An output stream. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}\label{namespaceostk_1_1astro_1_1trajectory_a995329a575cfbec97abc14f605cf5cfa}} 
+\index{ostk::astro::trajectory@{ostk::astro::trajectory}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::trajectory@{ostk::astro::trajectory}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
+

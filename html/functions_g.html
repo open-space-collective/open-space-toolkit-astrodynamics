@@ -200,7 +200,8 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getDynamics()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#ac7a67afb98328043eb4496a60f7c5aad">ostk::astro::trajectory::Propagator</a>
-, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#ad2f00d943965c709b47183c9941d4da1">ostk::astro::trajectory::TrajectorySegment</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#aa1d6651d629d63ec6291c9fdfaa66058">ostk::astro::trajectory::Segment</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#a35256e8158329b6e5a5df6bfae26ea34">ostk::astro::trajectory::Sequence</a>
 </li>
 <li>getEccentricAnomaly()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a63227bc5369988d4dfa8e1e30fb994dd">ostk::astro::trajectory::orbit::models::kepler::COE</a>
@@ -231,7 +232,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 , <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_real_condition.html#a8ad0fb78151e60e0796d77330feb90a5">ostk::astro::eventcondition::RealCondition</a>
 </li>
 <li>getEventCondition()
-: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#ad6ead97f6aa62bf929ea46aa02566f00">ostk::astro::trajectory::TrajectorySegment</a>
+: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#afc705c159dc881e6264a16914be8c15a">ostk::astro::trajectory::Segment</a>
 </li>
 <li>getEventConditions()
 : <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#aab9c41f8d984d91f568f7fcc2fc18e29">ostk::astro::eventcondition::LogicalCondition</a>
@@ -314,6 +315,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classostk_1_1astro_1_1_root_solver.html#a0ac1ca26dda8a792a48d0f76a6dde171">ostk::astro::RootSolver</a>
 , <a class="el" href="classostk_1_1astro_1_1solvers_1_1_temporal_condition_solver.html#aa07c73ba5042b84d2bc0e06d269cf3ce">ostk::astro::solvers::TemporalConditionSolver</a>
 </li>
+<li>getMaximumPropagationDuration()
+: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#ac2478f61e88757fa4017eefc7225ed9b">ostk::astro::trajectory::Sequence</a>
+</li>
 <li>getMeanAnomaly()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#ab82e0224409b81f27adf1f0943e7c838">ostk::astro::trajectory::orbit::models::kepler::COE</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#ab5c418aedbbfb5b0bc9b401a6d850623">ostk::astro::trajectory::orbit::models::sgp4::TLE</a>
@@ -344,8 +348,8 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classostk_1_1astro_1_1_event_condition.html#a4059c751030da6877a63a6cff90576e7">ostk::astro::EventCondition</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a66734583c7858726da890f6e91273b8b">ostk::astro::flight::system::Dynamics</a>
 , <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_thruster.html#a2e5970ceb7f90eafce2cdeccd21c4e1c">ostk::astro::flight::system::dynamics::Thruster</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#a4ab81b2992738db09f40c8a941c24e1b">ostk::astro::trajectory::Segment</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#ad20dbe8a07f3591b5d7ee6467ca4197b">ostk::astro::trajectory::state::CoordinatesSubset</a>
-, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#ad745eb46b84ca7eeb11f272ba0aeb616">ostk::astro::trajectory::TrajectorySegment</a>
 </li>
 <li>getNumberOfCoordinates()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a143da259d23e0beb3689d0325d0668bf">ostk::astro::trajectory::Propagator</a>
@@ -355,7 +359,8 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a36dff592ad238f4043ff6bf6dcdcd8db">ostk::astro::trajectory::state::CoordinatesBroker</a>
 </li>
 <li>getNumericalSolver()
-: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#aa4df0340950e0f68a354ab2731f03e84">ostk::astro::trajectory::TrajectorySegment</a>
+: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#ad97177b2d5c858657d610a0453bdaf22">ostk::astro::trajectory::Segment</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#abf62a706c2f778a63e760e364079fde8">ostk::astro::trajectory::Sequence</a>
 </li>
 <li>getObjectCovarianceMatrix()
 : <a class="el" href="classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#aeb251c6893a475cf33a9d90ffa433423">ostk::astro::conjunction::messages::ccsds::CDM</a>
@@ -483,6 +488,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 <li>getSecondLineChecksum()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1sgp4_1_1_t_l_e.html#a66f25eab1f7e8f7e511ad0a77da90de7">ostk::astro::trajectory::orbit::models::sgp4::TLE</a>
 </li>
+<li>getSegments()
+: <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#ab501a80ed836c99dfeaac8a24f693681">ostk::astro::trajectory::Sequence</a>
+</li>
 <li>getSemiMajorAxis()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler_1_1_c_o_e.html#a4ef3444242660722bd7b4d81df81e04f">ostk::astro::trajectory::orbit::models::kepler::COE</a>
 </li>
@@ -499,6 +507,9 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 </li>
 <li>getStateFilter()
 : <a class="el" href="classostk_1_1astro_1_1access_1_1_generator.html#ad3cac4445f845c77ab45ae5d2c6eab9b">ostk::astro::access::Generator</a>
+</li>
+<li>getStates()
+: <a class="el" href="structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html#ad5ef95c14d68e2706f5de8a9b38e6ac7">ostk::astro::trajectory::Sequence::Solution</a>
 </li>
 <li>GetStatesAt()
 : <a class="el" href="classostk_1_1astro_1_1access_1_1_generator_context.html#af24cf3609f57fe5aeebef9cc1c1514ff">ostk::astro::access::GeneratorContext</a>
@@ -556,7 +567,7 @@ $(document).ready(function(){initNavTree('functions_g.html',''); initResizable()
 : <a class="el" href="classostk_1_1astro_1_1_access.html#aa88d0d19a9386b9748f87263289195a2">ostk::astro::Access</a>
 , <a class="el" href="classostk_1_1astro_1_1eventcondition_1_1_logical_condition.html#afb23a1cb522cbed81db776fd8b00c3f4">ostk::astro::eventcondition::LogicalCondition</a>
 , <a class="el" href="classostk_1_1astro_1_1trajectory_1_1orbit_1_1_pass.html#a059f8209971303cc8961a747e690258e">ostk::astro::trajectory::orbit::Pass</a>
-, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#a1ff870d6c4817a77e1170eff1871ede4">ostk::astro::trajectory::TrajectorySegment</a>
+, <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_segment.html#a1bc02118b66b98f9f69ef4c5876a9d99">ostk::astro::trajectory::Segment</a>
 </li>
 <li>getValue()
 : <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction.html#ade245816038b56adb075c4861c9799e0">ostk::astro::trajectory::LocalOrbitalFrameDirection</a>

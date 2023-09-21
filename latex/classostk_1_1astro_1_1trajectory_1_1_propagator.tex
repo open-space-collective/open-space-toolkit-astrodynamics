@@ -49,9 +49,9 @@ static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propaga
 \begin{DoxyCompactList}\small\item\em Undefined. \end{DoxyCompactList}\item 
 static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a518b0833d3387322c3619c131124f006}{Default}} ()
 \begin{DoxyCompactList}\small\item\em Default. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}{Default}} (const Environment \&an\+Environment, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System=\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}())
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ae623fb1925d68fed211406d86fbfd814}{Default}} (const Environment \&an\+Environment)
 \begin{DoxyCompactList}\small\item\em Default from environment. \end{DoxyCompactList}\item 
-static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}{From\+Environment}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Environment \&an\+Environment, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System=\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}())
+static \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a610561d9b797e99dab072e80409c5be6}{From\+Environment}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Environment \&an\+Environment)
 \begin{DoxyCompactList}\small\item\em From environment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -239,29 +239,41 @@ Default.
 \begin{DoxyReturn}{Returns}
 A default propagator (with position derivative dynamics included) 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a2b994abb858da0b8abe00fcb791d0bbd}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_ae623fb1925d68fed211406d86fbfd814}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_ae623fb1925d68fed211406d86fbfd814}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Default@{Default}}
 \index{Default@{Default}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{Default()}{Default()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Default (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Default (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 Default from environment. 
 
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\hline
+\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 A default propagator from environment 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a10fbabe96e609f8f30132907c0936670}} 
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a610561d9b797e99dab072e80409c5be6}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a610561d9b797e99dab072e80409c5be6}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!FromEnvironment@{FromEnvironment}}
 \index{FromEnvironment@{FromEnvironment}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{FromEnvironment()}{FromEnvironment()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+From\+Environment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Environment \&}]{an\+Environment,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System = {\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system_a71f5822114d8ff43d11a33bdf982aaa7}{Satellite\+System\+::\+Undefined}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} ostk\+::astro\+::trajectory\+::\+Propagator\+::\+From\+Environment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
 From environment. 
 
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Numerical\+Solver} & A numerical solver \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\hline
+\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 A propagator from environment 
 \end{DoxyReturn}

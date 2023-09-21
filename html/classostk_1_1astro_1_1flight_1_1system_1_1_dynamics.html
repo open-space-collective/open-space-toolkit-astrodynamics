@@ -147,6 +147,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad080ac5f6418af347f74db186052e2f6"><td class="memItemLeft" align="right" valign="top">static NumericalSolver::SystemOfEquationsWrapper&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">GetSystemOfEquations</a> (const Array&lt; <a class="el" href="structostk_1_1astro_1_1flight_1_1system_1_1_dynamics_1_1_context.html">Context</a> &gt; &amp;aContextArray, const Instant &amp;anInstant, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</td></tr>
 <tr class="memdesc:ad080ac5f6418af347f74db186052e2f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get system of equations wrapper.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#ad080ac5f6418af347f74db186052e2f6">More...</a><br /></td></tr>
 <tr class="separator:ad080ac5f6418af347f74db186052e2f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a554093b8cf15787e1f9ec7bf336c9a1c"><td class="memItemLeft" align="right" valign="top">static Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a554093b8cf15787e1f9ec7bf336c9a1c">FromEnvironment</a> (const Environment &amp;anEnvironment)</td></tr>
+<tr class="memdesc:a554093b8cf15787e1f9ec7bf336c9a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of dynamics from the envrionment.  <a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a554093b8cf15787e1f9ec7bf336c9a1c">More...</a><br /></td></tr>
+<tr class="separator:a554093b8cf15787e1f9ec7bf336c9a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -263,6 +266,41 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The reduced derivative state vector (this vector must follow the structure determined by the 'write' coordinate subsets) expressed in the given frame </dd></dl>
 
 <p>Implemented in <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a822a9a48aaab3647475f5c007ed61ca8">ostk::astro::flight::system::dynamics::thruster::ConstantThrust</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag.html#a427bf34a0302a40163a913c659f230bf">ostk::astro::flight::system::dynamics::AtmosphericDrag</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#a5975eec1a620758e4c3171ad6b683fad">ostk::astro::flight::system::dynamics::CentralBodyGravity</a>, <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity.html#a37f33dc52ed8be334e64ead1aceff384">ostk::astro::flight::system::dynamics::ThirdBodyGravity</a>, and <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a7da63a2068fddf10429a2f0d935e15e6">ostk::astro::flight::system::dynamics::PositionDerivative</a>.</p>
+
+</div>
+</div>
+<a id="a554093b8cf15787e1f9ec7bf336c9a1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a554093b8cf15787e1f9ec7bf336c9a1c">&#9670;&nbsp;</a></span>FromEnvironment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html">Dynamics</a> &gt; &gt; ostk::astro::flight::system::Dynamics::FromEnvironment </td>
+          <td>(</td>
+          <td class="paramtype">const Environment &amp;&#160;</td>
+          <td class="paramname"><em>anEnvironment</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a list of dynamics from the envrionment. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEnvironment</td><td>An environment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of dynamics </dd></dl>
 
 </div>
 </div>
@@ -530,7 +568,7 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a3af17a36f06f2518e4a686148d40691c"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">ostk::astro::flight::system::Dynamics::Dynamics</a></div><div class="ttdeci">Dynamics(const String &amp;aName=String::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:37</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1flight_1_1system_1_1_dynamics_html_a3af17a36f06f2518e4a686148d40691c"><div class="ttname"><a href="classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c">ostk::astro::flight::system::Dynamics::Dynamics</a></div><div class="ttdeci">Dynamics(const String &amp;aName=String::Empty())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> Dynamics.cpp:49</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

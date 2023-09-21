@@ -61,7 +61,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('_trajectory_segment_8hpp.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('_sequence_8hpp.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -84,27 +84,23 @@ $(document).ready(function(){initNavTree('_trajectory_segment_8hpp.html',''); in
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">TrajectorySegment.hpp File Reference</div>  </div>
+<div class="title">Sequence.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;OpenSpaceToolkit/Core/Containers/Array.hpp&gt;</code><br />
-<code>#include &lt;OpenSpaceToolkit/Core/Types/Shared.hpp&gt;</code><br />
-<code>#include &lt;OpenSpaceToolkit/Core/Types/String.hpp&gt;</code><br />
-<code>#include &lt;OpenSpaceToolkit/Physics/Time/Duration.hpp&gt;</code><br />
-<code>#include &lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="_event_condition_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_dynamics_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp</a>&gt;</code><br />
+<code>#include &lt;OpenSpaceToolkit/Physics/Environment.hpp&gt;</code><br />
+<code>#include &lt;<a class="el" href="_satellite_system_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_segment_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="_trajectory_2_state_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_numerical_solver_8hpp_source.html">OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp</a>&gt;</code><br />
 </div>
-<p><a href="_trajectory_segment_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="_sequence_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html">ostk::astro::trajectory::TrajectorySegment</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represent a propagation segment for astrodynamics purposes.  <a href="classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_sequence.html">ostk::astro::trajectory::Sequence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a sequence of trajectory segments executed in order.  <a href="classostk_1_1astro_1_1trajectory_1_1_sequence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_trajectory_segment_1_1_solution.html">ostk::astro::trajectory::TrajectorySegment::Solution</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_sequence_1_1_solution.html">ostk::astro::trajectory::Sequence::Solution</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -123,7 +119,7 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_0135578efc1637a0e0841daccc698f8a.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_63b6b1ec5d4fb1381aa2ced999c67fda.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_487c49ff17ded48b6f4eeef50bd2df5e.html">Trajectory</a></li><li class="navelem"><a class="el" href="_trajectory_segment_8hpp.html">TrajectorySegment.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_0135578efc1637a0e0841daccc698f8a.html">OpenSpaceToolkit</a></li><li class="navelem"><a class="el" href="dir_63b6b1ec5d4fb1381aa2ced999c67fda.html">Astrodynamics</a></li><li class="navelem"><a class="el" href="dir_487c49ff17ded48b6f4eeef50bd2df5e.html">Trajectory</a></li><li class="navelem"><a class="el" href="_sequence_8hpp.html">Sequence.hpp</a></li>
   </ul>
 </div>
 </body>

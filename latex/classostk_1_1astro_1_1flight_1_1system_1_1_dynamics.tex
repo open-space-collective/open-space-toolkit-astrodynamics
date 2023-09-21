@@ -43,7 +43,9 @@ virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_d
 \begin{DoxyCompactItemize}
 \item 
 static Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_ad080ac5f6418af347f74db186052e2f6}{Get\+System\+Of\+Equations}} (const Array$<$ \mbox{\hyperlink{structostk_1_1astro_1_1flight_1_1system_1_1_dynamics_1_1_context}{Context}} $>$ \&a\+Context\+Array, const Instant \&an\+Instant, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr)
-\begin{DoxyCompactList}\small\item\em Get system of equations wrapper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get system of equations wrapper. \end{DoxyCompactList}\item 
+static Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a554093b8cf15787e1f9ec7bf336c9a1c}{From\+Environment}} (const Environment \&an\+Environment)
+\begin{DoxyCompactList}\small\item\em Get a list of dynamics from the envrionment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -109,6 +111,24 @@ The reduced derivative state vector (this vector must follow the structure deter
 
 Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a822a9a48aaab3647475f5c007ed61ca8}{ostk\+::astro\+::flight\+::system\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_atmospheric_drag_a427bf34a0302a40163a913c659f230bf}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity_a5975eec1a620758e4c3171ad6b683fad}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_third_body_gravity_a37f33dc52ed8be334e64ead1aceff384}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative_a7da63a2068fddf10429a2f0d935e15e6}{ostk\+::astro\+::flight\+::system\+::dynamics\+::\+Position\+Derivative}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a554093b8cf15787e1f9ec7bf336c9a1c}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a554093b8cf15787e1f9ec7bf336c9a1c}} 
+\index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!FromEnvironment@{FromEnvironment}}
+\index{FromEnvironment@{FromEnvironment}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}
+\doxysubsubsection{\texorpdfstring{FromEnvironment()}{FromEnvironment()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ ostk\+::astro\+::flight\+::system\+::\+Dynamics\+::\+From\+Environment (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get a list of dynamics from the envrionment. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of dynamics 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a66734583c7858726da890f6e91273b8b}\label{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a66734583c7858726da890f6e91273b8b}} 
 \index{ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}!getName@{getName}}
 \index{getName@{getName}!ostk::astro::flight::system::Dynamics@{ostk::astro::flight::system::Dynamics}}

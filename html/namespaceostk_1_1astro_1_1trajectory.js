@@ -9,6 +9,7 @@ var namespaceostk_1_1astro_1_1trajectory =
     [ "Model", "classostk_1_1astro_1_1trajectory_1_1_model.html", "classostk_1_1astro_1_1trajectory_1_1_model" ],
     [ "Orbit", "classostk_1_1astro_1_1trajectory_1_1_orbit.html", "classostk_1_1astro_1_1trajectory_1_1_orbit" ],
     [ "Propagator", "classostk_1_1astro_1_1trajectory_1_1_propagator.html", "classostk_1_1astro_1_1trajectory_1_1_propagator" ],
-    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ],
-    [ "TrajectorySegment", "classostk_1_1astro_1_1trajectory_1_1_trajectory_segment.html", "classostk_1_1astro_1_1trajectory_1_1_trajectory_segment" ]
+    [ "Segment", "classostk_1_1astro_1_1trajectory_1_1_segment.html", "classostk_1_1astro_1_1trajectory_1_1_segment" ],
+    [ "Sequence", "classostk_1_1astro_1_1trajectory_1_1_sequence.html", "classostk_1_1astro_1_1trajectory_1_1_sequence" ],
+    [ "State", "classostk_1_1astro_1_1trajectory_1_1_state.html", "classostk_1_1astro_1_1trajectory_1_1_state" ]
 ];

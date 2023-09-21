@@ -1,5 +1,9 @@
 var NAVTREEINDEX1 =
 {
+"classostk_1_1astro_1_1_trajectory.html#ab0c02a9844e584b50da35df710b71e81":[4,0,0,0,9,6],
+"classostk_1_1astro_1_1_trajectory.html#abb524dcee260456d546f5e01ee9c228c":[4,0,0,0,9,7],
+"classostk_1_1astro_1_1_trajectory.html#aef0327f0240dc2d71eca34dc287f88ea":[4,0,0,0,9,11],
+"classostk_1_1astro_1_1access_1_1_generator.html":[4,0,0,0,0,0],
 "classostk_1_1astro_1_1access_1_1_generator.html#a009da655bc3cc6232cd9986275cc5731":[4,0,0,0,0,0,0],
 "classostk_1_1astro_1_1access_1_1_generator.html#a1fa5d363b74c6badf4f925174affd91c":[4,0,0,0,0,0,7],
 "classostk_1_1astro_1_1access_1_1_generator.html#a2e67d180ec17450e460be15f24a1d84d":[4,0,0,0,0,0,12],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#a75a51e71e513bac4ab6009ef40a09c15":[4,0,0,0,3,1,0,2,4],
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#aaba16b08934dbccf0dacbf88fad31013":[4,0,0,0,3,1,0,2,1],
 "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#ac3c0f63c901827bdcff58359c2081c66":[4,0,0,0,3,1,0,2,7],
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#ac3f486b78da8729947b5ed5faa18cc1f":[4,0,0,0,3,1,0,2,5],
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#af189772468e7e8600ceaf4b333daa251":[4,0,0,0,3,1,0,2,9],
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html":[4,0,0,0,3,1,0,3],
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a0a08e4a5d4c4c456465367b59e0fecb1":[4,0,0,0,3,1,0,3,7],
-"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_position_derivative.html#a207fe7685dd5fc09da968e53670cb683":[4,0,0,0,3,1,0,3,1]
+"classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1_central_body_gravity.html#ac3f486b78da8729947b5ed5faa18cc1f":[4,0,0,0,3,1,0,2,5]
 };
