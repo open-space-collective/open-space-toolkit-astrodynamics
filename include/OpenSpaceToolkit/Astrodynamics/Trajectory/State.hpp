@@ -92,10 +92,10 @@ class State
     Velocity getVelocity() const;
 
     VectorXd getCoordinates() const;
+    
+    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
     VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const;
-
-    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 

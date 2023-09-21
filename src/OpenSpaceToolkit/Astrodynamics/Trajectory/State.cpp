@@ -248,16 +248,6 @@ const Shared<const CoordinatesBroker>& State::accessCoordinatesBroker() const
     return this->coordinatesBrokerSPtr_;
 }
 
-const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
-    return this->coordinatesBrokerSPtr_->getSubsets();
-}
-
 Size State::getSize() const
 {
     if (!this->isDefined())
@@ -301,6 +291,16 @@ Velocity State::getVelocity() const
 VectorXd State::getCoordinates() const
 {
     return this->accessCoordinates();
+}
+
+const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
 VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const
