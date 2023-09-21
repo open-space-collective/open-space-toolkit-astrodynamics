@@ -102,6 +102,7 @@ class TestState:
         position: Position,
         velocity: Velocity,
         frame: Frame,
+        coordinates_broker: CoordinatesBroker,
     ):
         assert state.get_instant() == instant
         assert state.get_position() == position
@@ -111,6 +112,7 @@ class TestState:
             state.get_coordinates()
             == np.append(position.get_coordinates(), velocity.get_coordinates())
         ).all()
+        assert state.get_coordinates_subsets() == coordinates_broker.get_subsets()
 
     def test_in_frame(
         self,

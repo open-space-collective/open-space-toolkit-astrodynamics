@@ -7,6 +7,7 @@
 #include <Global.test.hpp>
 
 using ostk::core::types::Shared;
+using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
 
@@ -809,6 +810,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_EQ(position, state.getPosition());
         EXPECT_EQ(velocity, state.getVelocity());
         EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(state.getCoordinatesSubsets(), brokerSPtr->getSubsets());
         EXPECT_EQ(Frame::GCRF(), state.getFrame());
     }
 
@@ -852,6 +854,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Getters)
         EXPECT_ANY_THROW(State::Undefined().getPosition());
         EXPECT_ANY_THROW(State::Undefined().getVelocity());
         EXPECT_ANY_THROW(State::Undefined().getCoordinates());
+        EXPECT_ANY_THROW(State::Undefined().getCoordinatesSubsets());
         EXPECT_ANY_THROW(State::Undefined().getFrame());
     }
 }

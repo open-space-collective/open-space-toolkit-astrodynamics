@@ -293,6 +293,16 @@ VectorXd State::getCoordinates() const
     return this->accessCoordinates();
 }
 
+const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    return this->coordinatesBrokerSPtr_->getSubsets();
+}
+
 VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const
 {
     return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubetSPtr);

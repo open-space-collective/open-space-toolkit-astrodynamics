@@ -46,6 +46,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         .def("get_position", &State::getPosition)
         .def("get_velocity", &State::getVelocity)
         .def("get_coordinates", &State::getCoordinates)
+        .def("get_coordinates_subsets", &State::getCoordinatesSubsets)
         .def("get_frame", &State::getFrame)
 
         .def("extract_coordinates", &State::extractCoordinates, arg("coordinates_subset"))
