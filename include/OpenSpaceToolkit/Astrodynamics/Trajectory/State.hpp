@@ -3,6 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
 
+#include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
@@ -25,6 +26,7 @@ namespace trajectory
 
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
+using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
 
@@ -92,6 +94,8 @@ class State
     VectorXd getCoordinates() const;
 
     VectorXd extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const;
+
+    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
     State inFrame(const Shared<const Frame>& aFrameSPtr) const;
 
