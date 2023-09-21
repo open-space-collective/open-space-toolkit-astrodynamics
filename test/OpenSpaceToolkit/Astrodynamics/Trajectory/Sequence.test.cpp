@@ -328,6 +328,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
             CartesianPosition::Default(),
             CartesianVelocity::Default(),
             CoordinatesSubset::Mass(),
+            CoordinatesSubset::SurfaceArea(),
+            CoordinatesSubset::DragCoefficient(),
         }));
 
     VectorXd coordinates(9);
