@@ -30,6 +30,8 @@ virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics
 \begin{DoxyCompactList}\small\item\em Check if constant thrust thruster dynamics is defined. \end{DoxyCompactList}\item 
 Scalar \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0227cf6a7c3ac759a0f85deab2039a2f}{get\+Thrust}} () const
 \begin{DoxyCompactList}\small\item\em Get thrust. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0a0966e2a2095d2173458bad0c3fe49d}{get\+Local\+Thrust\+Direction}} () const
+\begin{DoxyCompactList}\small\item\em Get local thrust direction. \end{DoxyCompactList}\item 
 virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_aabb7d62591b4babf94ed2ad080c4cff6}{get\+Read\+Coordinates\+Subsets}} () const override
 \begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
 virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_af06c119a12a2576579aba69a75d7d7d9}{get\+Write\+Coordinates\+Subsets}} () const override
@@ -38,12 +40,16 @@ virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dy
 \begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\item 
 virtual void \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a893856d92c1b34e9007b7549209d7ec8}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const override
 \begin{DoxyCompactList}\small\item\em Print constant thrust constant thrust thruster dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust}{Constant\+Thrust}} \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0c75ba6baf1b371a96c61289fc288774}{Intrack}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const bool \&velocity\+Direction=true, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr=Frame\+::\+G\+C\+RF())
+\begin{DoxyCompactList}\small\item\em Intrack Constant thrust dynamics. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
 std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a1a30dcef3ba9ec25eccf8ef5a72657be}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust}{Constant\+Thrust}} \&a\+Constant\+Thrust)
 \begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
@@ -119,6 +125,25 @@ The reduced derivative state vector (this vector must follow the structure deter
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a945e44635ba9038b1a3a198deb1b1184}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0a0966e2a2095d2173458bad0c3fe49d}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0a0966e2a2095d2173458bad0c3fe49d}} 
+\index{ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}!getLocalThrustDirection@{getLocalThrustDirection}}
+\index{getLocalThrustDirection@{getLocalThrustDirection}!ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}}
+\doxysubsubsection{\texorpdfstring{getLocalThrustDirection()}{getLocalThrustDirection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_local_orbital_frame_direction}{Local\+Orbital\+Frame\+Direction}} ostk\+::astro\+::flight\+::system\+::dynamics\+::thruster\+::\+Constant\+Thrust\+::get\+Local\+Thrust\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get local thrust direction. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{LocalOrbitalFrameDirection localThrustDirection = constantThrustThruster.getLocalThrustDirection();}
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Local orbital frame direction 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_aabb7d62591b4babf94ed2ad080c4cff6}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_aabb7d62591b4babf94ed2ad080c4cff6}} 
 \index{ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
 \index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}}
@@ -172,6 +197,28 @@ The coordinates subsets that the instance writes to
 
 Implements \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics_a0f64bb21af5bc827763a8c3c422d0dbb}{ostk\+::astro\+::flight\+::system\+::\+Dynamics}}.
 
+\mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0c75ba6baf1b371a96c61289fc288774}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_a0c75ba6baf1b371a96c61289fc288774}} 
+\index{ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}!Intrack@{Intrack}}
+\index{Intrack@{Intrack}!ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}}
+\doxysubsubsection{\texorpdfstring{Intrack()}{Intrack()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust}{Constant\+Thrust}} ostk\+::astro\+::flight\+::system\+::dynamics\+::thruster\+::\+Constant\+Thrust\+::\+Intrack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const bool \&}]{velocity\+Direction = {\ttfamily true},  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr = {\ttfamily Frame\+:\+:GCRF()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Intrack Constant thrust dynamics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Satellite\+System} & A satellite system \\
+\hline
+\mbox{\texttt{ in}}  & {\em velocity\+Direction} & A bool representing the direction of the thrust. Defaults to true. \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & A frame. Defaults to G\+C\+RF.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Constant Thrust dynamics 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_ad4841b0ee3d279cd7fac05a2cdb7ec03}\label{classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust_ad4841b0ee3d279cd7fac05a2cdb7ec03}} 
 \index{ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}!isDefined@{isDefined}}
 \index{isDefined@{isDefined}!ostk::astro::flight::system::dynamics::thruster::ConstantThrust@{ostk::astro::flight::system::dynamics::thruster::ConstantThrust}}

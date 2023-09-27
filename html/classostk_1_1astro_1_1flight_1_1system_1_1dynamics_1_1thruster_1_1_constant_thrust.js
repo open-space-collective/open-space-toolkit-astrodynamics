@@ -3,6 +3,7 @@ var classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_
     [ "ConstantThrust", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a4004c139353a60799bfc04f38fe6ee83", null ],
     [ "~ConstantThrust", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#abaea3e72cb3f3500726b71282329a8e6", null ],
     [ "computeContribution", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a822a9a48aaab3647475f5c007ed61ca8", null ],
+    [ "getLocalThrustDirection", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a0a0966e2a2095d2173458bad0c3fe49d", null ],
     [ "getReadCoordinatesSubsets", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#aabb7d62591b4babf94ed2ad080c4cff6", null ],
     [ "getThrust", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#a0227cf6a7c3ac759a0f85deab2039a2f", null ],
     [ "getWriteCoordinatesSubsets", "classostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster_1_1_constant_thrust.html#af06c119a12a2576579aba69a75d7d7d9", null ],
