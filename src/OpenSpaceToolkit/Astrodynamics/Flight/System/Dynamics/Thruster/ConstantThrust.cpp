@@ -55,7 +55,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
 
 bool ConstantThrust::isDefined() const
 {
-    return localOrbitalFrameDirection_.isDefined();
+    return getSatelliteSystem().isDefined() && localOrbitalFrameDirection_.isDefined();
 }
 
 Scalar ConstantThrust::getThrust() const

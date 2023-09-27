@@ -144,24 +144,24 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Constructor)
 {
     {
-        EXPECT_NO_THROW(ConstantThrust constantThrustThrusterDynamics(
+        EXPECT_NO_THROW(ConstantThrust constantThrust(
             satelliteSystem_, localOrbitalFrameDirection_, "aThrusterDynamicsName"
         ));
     }
 
     {
-        EXPECT_NO_THROW(ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_));
+        EXPECT_NO_THROW(ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_));
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, StreamOperator)
 {
     {
-        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(std::cout << constantThrustThrusterDynamics << std::endl);
+        EXPECT_NO_THROW(std::cout << constantThrust << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -170,20 +170,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, IsDefined)
 {
     {
-        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
-        EXPECT_TRUE(constantThrustThrusterDynamics.isDefined());
+        ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_);
+        EXPECT_TRUE(constantThrust.isDefined());
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Print)
 {
     {
-        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
+        ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_);
 
         testing::internal::CaptureStdout();
 
-        EXPECT_NO_THROW(constantThrustThrusterDynamics.print(std::cout, true));
-        EXPECT_NO_THROW(constantThrustThrusterDynamics.print(std::cout, false));
+        EXPECT_NO_THROW(constantThrust.print(std::cout, true));
+        EXPECT_NO_THROW(constantThrust.print(std::cout, false));
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
 }
@@ -191,21 +191,26 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Getters)
 {
     {
-        ConstantThrust constantThrustThrusterDynamics(satelliteSystem_, localOrbitalFrameDirection_);
-        EXPECT_TRUE(constantThrustThrusterDynamics.getName() == String::Empty());
-        EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
-        EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
-        EXPECT_TRUE(constantThrustThrusterDynamics.getLocalThrustDirection() == localOrbitalFrameDirection_);
+        ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_);
+        EXPECT_TRUE(constantThrust.getName() == String::Empty());
+        EXPECT_TRUE(constantThrust.getSatelliteSystem() == satelliteSystem_);
+        EXPECT_TRUE(constantThrust.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
+        EXPECT_TRUE(constantThrust.getLocalThrustDirection() == localOrbitalFrameDirection_);
     }
 
     {
         const String thrusterDynamicsName = "aThrusterDynamicsName";
-        ConstantThrust constantThrustThrusterDynamics(
+        ConstantThrust constantThrust(
             satelliteSystem_, localOrbitalFrameDirection_, thrusterDynamicsName
         );
-        EXPECT_TRUE(constantThrustThrusterDynamics.getName() == thrusterDynamicsName);
-        EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
-        EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
+        EXPECT_TRUE(constantThrust.getName() == thrusterDynamicsName);
+    }
+
+    {
+        ConstantThrust constantThrust(SatelliteSystem::Undefined(), LocalOrbitalFrameDirection::Undefined());
+        EXPECT_THROW(constantThrust.getSatelliteSystem(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(constantThrust.getThrust(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(constantThrust.getLocalThrustDirection(), ostk::core::error::runtime::Undefined);
     }
 }
 
