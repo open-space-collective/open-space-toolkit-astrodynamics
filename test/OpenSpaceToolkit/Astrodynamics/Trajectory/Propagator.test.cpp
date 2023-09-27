@@ -1350,6 +1350,39 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAc
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropSpeed)
+{
+    // EGM96 180x180, 90x90, 45x45 perturbation only self comparison
+    {
+        // Current state and instant setup
+        const Instant startInstant = Instant::DateTime(DateTime::Parse("2021-03-20 00:00:00.000"), Scale::UTC);
+
+        const Array<Instant> instantArray =
+            Interval::Closed(startInstant, startInstant + Duration::Days(1.0)).generateGrid(Duration::Seconds(60.0));
+
+        // Setup initial conditions
+        const State state = {
+            startInstant,
+            Position::Meters({-1514.668940810250, -192.084121491400, 6831.711458436870}, gcrfSPtr_),
+            Velocity::MetersPerSecond({-6.348079187605, 3.867582492698, -1.297176104429}, gcrfSPtr_),
+        };
+
+        // Create dynamics
+        const Shared<Celestial> earth_90 = std::make_shared<Celestial>(Earth::EGM96(90, 90));
+
+        const Array<Shared<Dynamics>> EGM96Dynamics_90 = {
+            std::make_shared<PositionDerivative>(),
+            std::make_shared<CentralBodyGravity>(earth_90),
+        };
+
+        // Setup Propagator
+        const Propagator propagator_90 = {defaultNumericalSolver_, EGM96Dynamics_90};
+
+        // Propagate all states
+        const Array<State> propagatedStateArray_90 = propagator_90.calculateStatesAt(state, instantArray);
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, PropAccuracy_EGM84)
 {
     // EGM84 70x70 perturbation only vs STK EGM84

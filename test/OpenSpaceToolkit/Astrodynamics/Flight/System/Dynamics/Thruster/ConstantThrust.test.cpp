@@ -72,6 +72,7 @@ using EarthAtmosphericModel = ostk::physics::environment::atmospheric::Earth;
 
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
+using ostk::astro::trajectory::LocalOrbitalFrameTransformProvider;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::flight::system::SatelliteSystem;
 using ostk::astro::flight::system::PropulsionSystem;
@@ -194,6 +195,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
         EXPECT_TRUE(constantThrustThrusterDynamics.getName() == String::Empty());
         EXPECT_TRUE(constantThrustThrusterDynamics.getSatelliteSystem() == satelliteSystem_);
         EXPECT_TRUE(constantThrustThrusterDynamics.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
+        EXPECT_TRUE(constantThrustThrusterDynamics.getLocalThrustDirection() == localOrbitalFrameDirection_);
     }
 
     {
@@ -327,4 +329,30 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
             }
         }
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantThrust, Intrack)
+{
+    {
+        EXPECT_NO_THROW(ConstantThrust::Intrack(satelliteSystem_));
+    }
+
+    {
+        ConstantThrust constantThrust = ConstantThrust::Intrack(satelliteSystem_, true);
+        Vector3d direction = {1.0, 0.0, 0.0};
+        EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
+        EXPECT_TRUE(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() == LocalOrbitalFrameTransformProvider::Type::VNC);
+    }
+
+    {
+        Vector3d direction = {-1.0, 0.0, 0.0};
+        ConstantThrust constantThrust = ConstantThrust::Intrack(satelliteSystem_, false);
+        EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
+        EXPECT_TRUE(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory()->getProviderType() == LocalOrbitalFrameTransformProvider::Type::VNC);
+    }
+
+    {
+        EXPECT_NO_THROW(ConstantThrust::Intrack(satelliteSystem_, true, Frame::GCRF()));
+    }
+
 }

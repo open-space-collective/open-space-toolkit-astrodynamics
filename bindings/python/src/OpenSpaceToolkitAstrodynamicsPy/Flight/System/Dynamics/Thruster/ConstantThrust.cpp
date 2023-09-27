@@ -31,6 +31,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics_Thruster_Cons
             .def("is_defined", &ConstantThrust::isDefined)
 
             // .def("get_thrust", &ConstantThrust::getThrust)
+            .def("get_local_thrust_direction", &ConstantThrust::getLocalThrustDirection)
 
             .def("get_read_coordinates_subsets", &ConstantThrust::getReadCoordinatesSubsets)
             .def("get_write_coordinates_subsets", &ConstantThrust::getWriteCoordinatesSubsets)
