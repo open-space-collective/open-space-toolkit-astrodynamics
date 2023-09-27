@@ -55,17 +55,27 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ConstantThrust& aCo
 
 bool ConstantThrust::isDefined() const
 {
-    return localOrbitalFrameDirection_.isDefined();
+    return getSatelliteSystem().isDefined() && localOrbitalFrameDirection_.isDefined();
 }
 
 Scalar ConstantThrust::getThrust() const
 {
     if (!this->isDefined())
     {
-        throw ostk::core::error::runtime::Undefined("Constant Thrust Thruster");
+        throw ostk::core::error::runtime::Undefined("Constant Thrust");
     }
 
     return this->getSatelliteSystem().getPropulsionSystem().getThrust();
+}
+
+LocalOrbitalFrameDirection ConstantThrust::getLocalThrustDirection() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("Constant Thrust");
+    }
+
+    return localOrbitalFrameDirection_;
 }
 
 Array<Shared<const CoordinatesSubset>> ConstantThrust::getReadCoordinatesSubsets() const
@@ -93,11 +103,11 @@ VectorXd ConstantThrust::computeContribution(
     const Vector3d velocityCoordinates = {x[3], x[4], x[5]};
 
     // Get Rotation Matrix from Direction Local Orbital Frame (LOF) to Requested Frame
-    Shared<const Frame> localOrbitalFrameSPtr =
+    const Shared<const Frame> localOrbitalFrameSPtr =
         this->localOrbitalFrameDirection_.accessLocalOrbitalFrameFactory()->generateFrame(
             anInstant, positionCoordinates, velocityCoordinates
         );  // TBI: Assumes x is given in GCRF (which also must be the parentFrame for the LOFFactory definition)
-    Quaternion q_requestedFrame_LOF =
+    const Quaternion q_requestedFrame_LOF =
         localOrbitalFrameSPtr->getTransformTo(aFrameSPtr, anInstant).getOrientation().normalize();
 
     const SatelliteSystem satelliteSystem = this->getSatelliteSystem();
@@ -126,7 +136,7 @@ VectorXd ConstantThrust::computeContribution(
 
 void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
-    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "ConstantThrust Thruster Dynamics") : void();
+    displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Constant Thrust Dynamics") : void();
 
     Dynamics::print(anOutputStream, false);
 
@@ -137,6 +147,17 @@ void ConstantThrust::print(std::ostream& anOutputStream, bool displayDecorator) 
     localOrbitalFrameDirection_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+ConstantThrust ConstantThrust::Intrack(
+    const SatelliteSystem& aSatelliteSystem, const bool& velocityDirection, const Shared<const Frame>& aFrameSPtr
+)
+{
+    const Vector3d direction = velocityDirection ? 1.0 * Vector3d::UnitX() : -1.0 * Vector3d::UnitX();
+    const LocalOrbitalFrameDirection localOrbitalFrameDirection =
+        LocalOrbitalFrameDirection(direction, LocalOrbitalFrameFactory::VNC(aFrameSPtr));
+
+    return ConstantThrust(aSatelliteSystem, localOrbitalFrameDirection, "Intrack");
 }
 
 }  // namespace thruster

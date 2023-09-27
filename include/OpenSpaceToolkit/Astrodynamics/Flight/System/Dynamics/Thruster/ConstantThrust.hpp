@@ -112,6 +112,16 @@ class ConstantThrust : public Thruster
 
     Scalar getThrust() const;
 
+    /// @brief                  Get local thrust direction
+    ///
+    /// @code
+    ///                         LocalOrbitalFrameDirection localThrustDirection = constantThrustThruster.getLocalThrustDirection();
+    /// @endcode
+    ///
+    /// @return                 Local orbital frame direction
+
+    LocalOrbitalFrameDirection getLocalThrustDirection() const;
+
     /// @brief                  Return the coordinates subsets that the instance reads from
     ///
     /// @return                 The coordinates subsets that the instance reads from
@@ -144,6 +154,18 @@ class ConstantThrust : public Thruster
     /// @param                  [in] (optional) displayDecorators If true, display decorators
 
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
+
+    /// @brief                  Intrack Constant thrust dynamics
+    ///
+    /// @param                  [in] aSatelliteSystem A satellite system
+    /// @param                  [in] velocityDirection A bool representing the direction of the thrust. Defaults to true.
+    /// @param                  [in] aFrameSPtr A frame. Defaults to GCRF.
+    ///
+    /// @return                 Constant Thrust dynamics
+
+    static ConstantThrust Intrack(
+        const SatelliteSystem& aSatelliteSystem, const bool& velocityDirection = true, const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+    );
 
    private:
     LocalOrbitalFrameDirection
