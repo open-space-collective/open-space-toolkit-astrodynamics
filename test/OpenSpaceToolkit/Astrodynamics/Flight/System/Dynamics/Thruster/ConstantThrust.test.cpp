@@ -193,7 +193,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
     {
         ConstantThrust constantThrust(satelliteSystem_, localOrbitalFrameDirection_);
         EXPECT_TRUE(constantThrust.getName() == String::Empty());
-        EXPECT_TRUE(constantThrust.getSatelliteSystem() == satelliteSystem_);
         EXPECT_TRUE(constantThrust.getThrust() == satelliteSystem_.getPropulsionSystem().getThrust());
         EXPECT_TRUE(constantThrust.getLocalThrustDirection() == localOrbitalFrameDirection_);
     }
@@ -208,7 +207,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_Dynamics_Thruster_ConstantTh
 
     {
         ConstantThrust constantThrust(SatelliteSystem::Undefined(), LocalOrbitalFrameDirection::Undefined());
-        EXPECT_THROW(constantThrust.getSatelliteSystem(), ostk::core::error::runtime::Undefined);
         EXPECT_THROW(constantThrust.getThrust(), ostk::core::error::runtime::Undefined);
         EXPECT_THROW(constantThrust.getLocalThrustDirection(), ostk::core::error::runtime::Undefined);
     }
