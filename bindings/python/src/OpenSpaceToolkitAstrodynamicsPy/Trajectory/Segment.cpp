@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Segment(pybind11::module&
 
     using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::trajectory::Segment;
-    using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::Dynamics;
 
     class_<Segment::Solution>(aModule, "SegmentSolution")
 

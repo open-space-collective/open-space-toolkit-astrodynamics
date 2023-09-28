@@ -25,10 +25,10 @@ from ostk.physics.units import Mass
 from ostk.astrodynamics.event_condition import COECondition
 from ostk.astrodynamics.event_condition import InstantCondition
 from ostk.astrodynamics.event_condition import RealCondition
-from ostk.astrodynamics.flight.system import Dynamics
+from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.flight.system import PropulsionSystem
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
+from ostk.astrodynamics.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import Segment

@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
 
     using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::EventCondition;
-    using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::Dynamics;
     using ostk::astro::flight::system::SatelliteSystem;
     using ostk::astro::trajectory::Propagator;
     using ostk::astro::trajectory::State;

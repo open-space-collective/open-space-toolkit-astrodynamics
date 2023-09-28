@@ -9,9 +9,9 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -31,9 +31,9 @@ using ostk::physics::time::Scale;
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;
-using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::Dynamics;
+using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamics::CentralBodyGravity;
 
 static const int DEFAULT_ITERATIONS = 10;
 

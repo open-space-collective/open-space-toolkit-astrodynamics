@@ -25,7 +25,7 @@ using ostk::physics::Environment;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::State;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::dynamics::Thruster;
+using ostk::astro::dynamics::Thruster;
 
 /// @brief                      Represents a sequence of trajectory segments executed in order.
 

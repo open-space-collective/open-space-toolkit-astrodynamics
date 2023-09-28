@@ -10,9 +10,9 @@
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -32,8 +32,8 @@ using ostk::physics::time::Duration;
 
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::Thruster;
+using ostk::astro::Dynamics;
+using ostk::astro::dynamics::Thruster;
 using ostk::astro::EventCondition;
 
 /// @brief                                  Represent a propagation segment for astrodynamics purposes

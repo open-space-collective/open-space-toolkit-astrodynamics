@@ -2,7 +2,6 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/Dynamics.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/PropulsionSystem.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp>
 
@@ -46,5 +45,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
     // Add objects to "system" submodule
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_PropulsionSystem(system);
     OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(system);
-    OpenSpaceToolkitAstrodynamicsPy_Flight_System_Dynamics(system);
 }

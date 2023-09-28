@@ -21,8 +21,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Propagated.hpp>
@@ -60,9 +60,9 @@ using ostk::physics::units::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::Dynamics;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
+using ostk::astro::Dynamics;
+using ostk::astro::dynamics::PositionDerivative;
+using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::trajectory::Orbit;
 using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::Propagator;

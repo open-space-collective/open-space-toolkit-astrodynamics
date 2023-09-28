@@ -16,7 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
     using ostk::astro::trajectory::state::NumericalSolver;
     using ostk::astro::trajectory::Sequence;
     using ostk::astro::trajectory::Segment;
-    using ostk::astro::flight::system::Dynamics;
+    using ostk::astro::Dynamics;
     using ostk::astro::flight::system::SatelliteSystem;
 
     class_<Sequence::Solution>(aModule, "SequenceSolution")

@@ -8,10 +8,10 @@
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Scale.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/CentralBodyGravity.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/PositionDerivative.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Flight/System/Dynamics/Thruster/ConstantThrust.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
@@ -32,14 +32,14 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 
 using ostk::astro::trajectory::state::NumericalSolver;
-using ostk::astro::flight::system::Dynamics;
+using ostk::astro::Dynamics;
 using ostk::astro::flight::system::SatelliteSystem;
-using ostk::astro::flight::system::dynamics::thruster::ConstantThrust;
+using ostk::astro::dynamics::thruster::ConstantThrust;
 using ostk::astro::trajectory::Segment;
 using ostk::astro::trajectory::LocalOrbitalFrameDirection;
 using ostk::astro::trajectory::LocalOrbitalFrameFactory;
-using ostk::astro::flight::system::dynamics::CentralBodyGravity;
-using ostk::astro::flight::system::dynamics::PositionDerivative;
+using ostk::astro::dynamics::CentralBodyGravity;
+using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::eventcondition::InstantCondition;
 using ostk::astro::trajectory::State;
 

@@ -16,9 +16,9 @@ from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory import Orbit
 from ostk.astrodynamics.trajectory import Propagator
-from ostk.astrodynamics.flight.system import Dynamics
-from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
-from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
+from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics.dynamics import CentralBodyGravity
+from ostk.astrodynamics.dynamics import PositionDerivative
 from ostk.astrodynamics.trajectory.orbit.models import Propagated
 
 
