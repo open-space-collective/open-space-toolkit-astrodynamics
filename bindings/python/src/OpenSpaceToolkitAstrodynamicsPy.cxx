@@ -10,6 +10,7 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Dynamics.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/EventCondition.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/RootSolver.cpp>
@@ -40,6 +41,7 @@ PYBIND11_MODULE(OpenSpaceToolkitAstrodynamicsPy, m)
 
     // Add python submodules to OpenSpaceToolkitAstrodynamicsPy
     OpenSpaceToolkitAstrodynamicsPy_Flight(m);
+    OpenSpaceToolkitAstrodynamicsPy_Dynamics(m);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory(m);
     OpenSpaceToolkitAstrodynamicsPy_Access(m);
     OpenSpaceToolkitAstrodynamicsPy_Conjunction(m);

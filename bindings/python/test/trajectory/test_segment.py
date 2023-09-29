@@ -14,9 +14,9 @@ from ostk.physics.environment.objects.celestial_bodies import Earth
 
 from ostk.astrodynamics.trajectory.state import NumericalSolver
 from ostk.astrodynamics.flight.system import SatelliteSystem
-from ostk.astrodynamics.flight.system.dynamics import CentralBodyGravity
-from ostk.astrodynamics.flight.system.dynamics import PositionDerivative
-from ostk.astrodynamics.flight.system.dynamics.thruster import ConstantThrust
+from ostk.astrodynamics.dynamics import CentralBodyGravity
+from ostk.astrodynamics.dynamics import PositionDerivative
+from ostk.astrodynamics.dynamics.thruster import ConstantThrust
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameDirection
 from ostk.astrodynamics.trajectory import LocalOrbitalFrameFactory
 from ostk.astrodynamics.trajectory import State
