@@ -62,6 +62,13 @@ class COE
         EccentricAnomaly
     };
 
+    enum class AnomalyType
+    {
+        True,
+        Mean,
+        Eccentric,
+    };
+
     typedef Pair<Position, Velocity> CartesianState;
 
     COE(const Length& aSemiMajorAxis,
@@ -95,18 +102,26 @@ class COE
 
     Angle getEccentricAnomaly() const;
 
-    Derived getMeanMotion(const Derived& aGravitationalParameter) const;
+    Length getPeriapsisRadius() const;
+
+    Length getApoapsisRadius() const;
+
+    Derived getMeanMotion(const Derived &aGravitationalParameter) const;
 
     Duration getOrbitalPeriod(const Derived& aGravitationalParameter) const;
 
     COE::CartesianState getCartesianState(const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr)
         const;
 
+    Vector6d asVector() const;
+
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     static COE Undefined();
 
     static COE Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter);
+
+    static COE FromVector(const Vector6d &aCOEVector, const AnomalyType &anAnomalyType);
 
     static Angle EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity);
 
@@ -117,6 +132,10 @@ class COE
     static Angle EccentricAnomalyFromMeanAnomaly(
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
+
+    static Angle TrueAnomalyFromMeanAnomaly(const Angle &aMeanAnomly, const Real &anEccentricity, const Real &aTolerance);
+
+    static Angle ParseAnomaly(const Angle &anAnomaly, const AnomalyType &anAnomalyType);
 
     /// @brief                  Convert element to string
     ///
