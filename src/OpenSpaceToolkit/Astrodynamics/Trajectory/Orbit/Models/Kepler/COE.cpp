@@ -156,6 +156,26 @@ Angle COE::getEccentricAnomaly() const
     return COE::EccentricAnomalyFromTrueAnomaly(trueAnomaly_, eccentricity_);
 }
 
+Length COE::getPeriapsisRadius() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return this->semiMajorAxis_ * (1.0 - this->eccentricity_);
+}
+
+Length COE::getApoapsisRadius() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    return this->semiMajorAxis_ * this->eccentricity_;
+}
+
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 {
     using ostk::physics::units::Mass;
@@ -276,6 +296,18 @@ COE::CartesianState COE::getCartesianState(
 
         throw anException;
     }
+}
+
+Vector6d COE::asVector(const COE::AnomalyType& anAnomalyType) const
+{
+    return {
+        semiMajorAxis_.inMeters(),
+        eccentricity_,
+        inclination_.inRadians(),
+        raan_.inRadians(),
+        aop_.inRadians(),
+        COE::ParseAnomaly(trueAnomaly_, eccentricity_, anAnomalyType).inRadians(),
+    };
 }
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -523,6 +555,18 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     };
 }
 
+COE COE::FromVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType)
+{
+    return {
+        Length::Meters(aCOEVector[0]),
+        aCOEVector[1],
+        Angle::Radians(aCOEVector[2]),
+        Angle::Radians(aCOEVector[3]),
+        Angle::Radians(aCOEVector[4]),
+        COE::ParseAnomaly(Angle::Radians(aCOEVector[5]), aCOEVector[1], anAnomalyType),
+    };
+}
+
 Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity)
 {
     if (!aTrueAnomaly.isDefined())
@@ -727,6 +771,28 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     }
 
     return Angle::Radians(E);
+}
+
+Angle COE::TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance)
+{
+    return TrueAnomalyFromEccentricAnomaly(
+        EccentricAnomalyFromMeanAnomaly(aMeanAnomly, anEccentricity, aTolerance), anEccentricity
+    );
+}
+
+Angle COE::ParseAnomaly(const Angle& anAnomaly, const Real& anEccentricity, const AnomalyType& anAnomalyType)
+{
+    if (anAnomalyType == AnomalyType::Eccentric)
+    {
+        return TrueAnomalyFromEccentricAnomaly(anAnomaly, anEccentricity);
+    }
+
+    if (anAnomalyType == AnomalyType::Mean)
+    {
+        return TrueAnomalyFromMeanAnomaly(anAnomaly, anEccentricity, 1e-12);
+    }
+
+    return anAnomaly;
 }
 
 String COE::StringFromElement(const COE::Element& anElement)
