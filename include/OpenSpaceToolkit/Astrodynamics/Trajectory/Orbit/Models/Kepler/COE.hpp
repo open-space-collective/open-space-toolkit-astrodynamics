@@ -34,6 +34,8 @@ using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
+using Vector6d = Eigen::Matrix<double, 1, 6>;
+
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -60,6 +62,13 @@ class COE
         TrueAnomaly,
         MeanAnomaly,
         EccentricAnomaly
+    };
+
+    enum class AnomalyType
+    {
+        True,
+        Mean,
+        Eccentric,
     };
 
     typedef Pair<Position, Velocity> CartesianState;
@@ -95,6 +104,10 @@ class COE
 
     Angle getEccentricAnomaly() const;
 
+    Length getPeriapsisRadius() const;
+
+    Length getApoapsisRadius() const;
+
     Derived getMeanMotion(const Derived& aGravitationalParameter) const;
 
     Duration getOrbitalPeriod(const Derived& aGravitationalParameter) const;
@@ -102,11 +115,15 @@ class COE
     COE::CartesianState getCartesianState(const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr)
         const;
 
+    Vector6d asVector(const AnomalyType& anAnomalyType) const;
+
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
     static COE Undefined();
 
     static COE Cartesian(const COE::CartesianState& aCartesianState, const Derived& aGravitationalParameter);
+
+    static COE FromVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType);
 
     static Angle EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity);
 
@@ -117,6 +134,12 @@ class COE
     static Angle EccentricAnomalyFromMeanAnomaly(
         const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
     );
+
+    static Angle TrueAnomalyFromMeanAnomaly(
+        const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance
+    );
+
+    static Angle ParseAnomaly(const Angle& anAnomaly, const Real& anEccentricity, const AnomalyType& anAnomalyType);
 
     /// @brief                  Convert element to string
     ///
