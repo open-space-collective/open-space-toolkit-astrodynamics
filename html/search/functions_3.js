@@ -4,5 +4,5 @@ var searchData=
   ['defaultconditional_843',['DefaultConditional',['../classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver.html#a3c9780b5f76d152ee95bbe72445b693b',1,'ostk::astro::trajectory::state::NumericalSolver']]],
   ['dictionary_844',['Dictionary',['../classostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds_1_1_c_d_m.html#ac7cef63b8d05b25f645498278e46c8d6',1,'ostk::astro::conjunction::messages::ccsds::CDM::Dictionary()'],['../classostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex_1_1_o_p_m.html#a1cd4c53e5959572f27a3f77a0d8c0db3',1,'ostk::astro::trajectory::orbit::messages::spacex::OPM::Dictionary()']]],
   ['dragcoefficient_845',['DragCoefficient',['../classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html#af85187aa5554d67cf1cda4a03053c533',1,'ostk::astro::trajectory::state::CoordinatesSubset']]],
-  ['dynamics_846',['Dynamics',['../classostk_1_1astro_1_1flight_1_1system_1_1_dynamics.html#a3af17a36f06f2518e4a686148d40691c',1,'ostk::astro::flight::system::Dynamics']]]
+  ['dynamics_846',['Dynamics',['../classostk_1_1astro_1_1_dynamics.html#a7f186c02659534b19b6321c4d301d204',1,'ostk::astro::Dynamics']]]
 ];

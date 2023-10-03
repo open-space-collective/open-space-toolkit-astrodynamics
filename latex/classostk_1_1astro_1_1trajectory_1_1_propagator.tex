@@ -12,7 +12,7 @@ Define a propagator to be used for numerical propagation.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}{Propagator}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array=Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$\+::Empty())
+\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a6e34bb630b6a9531603899e4844035aa}{Propagator}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&a\+Numerical\+Solver, const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array=Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$\+::Empty())
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa16a98d76cd120299dd62e2f1e1c9bb9}{operator==}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator}{Propagator}} \&a\+Propagator) const
 \begin{DoxyCompactList}\small\item\em Equal to operator. \end{DoxyCompactList}\item 
@@ -26,11 +26,11 @@ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_s
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_access}{Access}} the numerical solver. \end{DoxyCompactList}\item 
 Size \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a143da259d23e0beb3689d0325d0668bf}{get\+Number\+Of\+Coordinates}} () const
 \begin{DoxyCompactList}\small\item\em Get the number of propagated coordinates. \end{DoxyCompactList}\item 
-Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}{get\+Dynamics}} () const
+Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_ac7a67afb98328043eb4496a60f7c5aad}{get\+Dynamics}} () const
 \begin{DoxyCompactList}\small\item\em Get the dynamics array. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}{set\+Dynamics}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array)
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a49606c38f9d2bec6c821e201393361b3}{set\+Dynamics}} (const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&a\+Dynamics\+Array)
 \begin{DoxyCompactList}\small\item\em Set the dynamics array. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}{add\+Dynamics}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics\+S\+Ptr)
+void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aaf35305843856d8c5c4a693702e79ed9}{add\+Dynamics}} (const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&a\+Dynamics\+S\+Ptr)
 \begin{DoxyCompactList}\small\item\em Add a dynamics to the array of shared pointers to dynamics. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}{clear\+Dynamics}} ()
 \begin{DoxyCompactList}\small\item\em Clear the dynamics array. \end{DoxyCompactList}\item 
@@ -73,7 +73,7 @@ Define a propagator to be used for numerical propagation.
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!Propagator@{Propagator}}
 \index{Propagator@{Propagator}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{Propagator()}{Propagator()}}
-{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Propagator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array = {\ttfamily Array$<$Shared$<$\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}}$>$$>$\+:\+:Empty()} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily ostk\+::astro\+::trajectory\+::\+Propagator\+::\+Propagator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver}{Numerical\+Solver}} \&}]{a\+Numerical\+Solver,  }\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array = {\ttfamily Array$<$Shared$<$\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}}$>$$>$\+:\+:Empty()} }\end{DoxyParamCaption})}
 
 
 
@@ -125,7 +125,7 @@ The numerical solver
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!addDynamics@{addDynamics}}
 \index{addDynamics@{addDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{addDynamics()}{addDynamics()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::add\+Dynamics (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics\+S\+Ptr }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::add\+Dynamics (\begin{DoxyParamCaption}\item[{const Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ \&}]{a\+Dynamics\+S\+Ptr }\end{DoxyParamCaption})}
 
 
 
@@ -137,7 +137,7 @@ Add a dynamics to the array of shared pointers to dynamics.
 \end{DoxyCode}
  
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & A Dynamics shared pointer \\
+\mbox{\texttt{ in}}  & {\em a\+Dynamics\+S\+Ptr} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} shared pointer \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
@@ -281,7 +281,7 @@ A propagator from environment
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!getDynamics@{getDynamics}}
 \index{getDynamics@{getDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{getDynamics()}{getDynamics()}}
-{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$ $>$ ostk\+::astro\+::trajectory\+::\+Propagator\+::get\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ $>$ ostk\+::astro\+::trajectory\+::\+Propagator\+::get\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 
 
@@ -377,7 +377,7 @@ Print propagator.
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!setDynamics@{setDynamics}}
 \index{setDynamics@{setDynamics}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
 \doxysubsubsection{\texorpdfstring{setDynamics()}{setDynamics()}}
-{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::set\+Dynamics (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void ostk\+::astro\+::trajectory\+::\+Propagator\+::set\+Dynamics (\begin{DoxyParamCaption}\item[{const Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$$>$ \&}]{a\+Dynamics\+Array }\end{DoxyParamCaption})}
 
 
 

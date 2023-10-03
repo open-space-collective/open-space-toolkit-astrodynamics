@@ -1,23 +1,14 @@
 \hypertarget{namespaceostk_1_1astro_1_1flight_1_1system}{}\doxysection{ostk\+::astro\+::flight\+::system Namespace Reference}
 \label{namespaceostk_1_1astro_1_1flight_1_1system}\index{ostk::astro::flight::system@{ostk::astro::flight::system}}
-\doxysubsection*{Namespaces}
-\begin{DoxyCompactItemize}
-\item 
- \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics}{dynamics}}
-\end{DoxyCompactItemize}
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}}
-\begin{DoxyCompactList}\small\item\em Define a dynamical system subject to equations of motion. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}}
 \begin{DoxyCompactList}\small\item\em Define a propulsion system (constant thrust, constant Isp for now) \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}}
 \begin{DoxyCompactList}\small\item\em Define the dynamics system who\textquotesingle{}s motion is being studied, in particular this is a satellite system. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight_1_1system_aebbccd56b26dd7619ddca3dcbf80bb59}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} \&a\+Dynamics)
 \item 
 std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight_1_1system_af3fe1649daf2806bc7100764bdef1f3b}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&a\+Propulsion\+System)
 \item 
@@ -26,32 +17,10 @@ std\+::ostream \& \mbox{\hyperlink{namespaceostk_1_1astro_1_1flight_1_1system_a1
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{namespaceostk_1_1astro_1_1flight_1_1system_aebbccd56b26dd7619ddca3dcbf80bb59}\label{namespaceostk_1_1astro_1_1flight_1_1system_aebbccd56b26dd7619ddca3dcbf80bb59}} 
-\index{ostk::astro::flight::system@{ostk::astro::flight::system}!operator$<$$<$@{operator$<$$<$}}
-\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system@{ostk::astro::flight::system}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::flight\+::system\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} \&}]{a\+Dynamics }\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{std::cout << Dynamics(...) ;}
-\end{DoxyCode}
-
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
-\hline
-\mbox{\texttt{ in}}  & {\em a\+Dynamics} & A \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_dynamics}{Dynamics}} \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A reference to output stream 
-\end{DoxyReturn}
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1flight_1_1system_af3fe1649daf2806bc7100764bdef1f3b}\label{namespaceostk_1_1astro_1_1flight_1_1system_af3fe1649daf2806bc7100764bdef1f3b}} 
 \index{ostk::astro::flight::system@{ostk::astro::flight::system}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system@{ostk::astro::flight::system}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::flight\+::system\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_propulsion_system}{Propulsion\+System}} \&}]{a\+Propulsion\+System }\end{DoxyParamCaption})}
 
 
@@ -67,7 +36,7 @@ A reference to output stream
 \mbox{\Hypertarget{namespaceostk_1_1astro_1_1flight_1_1system_a170560632b71f8d3ec7f36e6c021d123}\label{namespaceostk_1_1astro_1_1flight_1_1system_a170560632b71f8d3ec7f36e6c021d123}} 
 \index{ostk::astro::flight::system@{ostk::astro::flight::system}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!ostk::astro::flight::system@{ostk::astro::flight::system}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::flight\+::system\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System }\end{DoxyParamCaption})}
 
 

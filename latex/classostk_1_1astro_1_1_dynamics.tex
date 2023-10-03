@@ -1,0 +1,273 @@
+\hypertarget{classostk_1_1astro_1_1_dynamics}{}\doxysection{ostk\+::astro\+::Dynamics Class Reference}
+\label{classostk_1_1astro_1_1_dynamics}\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+
+
+Define a dynamical system subject to equations of motion.  
+
+
+
+
+{\ttfamily \#include $<$Dynamics.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::Dynamics\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.226277cm]{classostk_1_1astro_1_1_dynamics}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structostk_1_1astro_1_1_dynamics_1_1_context}{Context}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a7f186c02659534b19b6321c4d301d204}{Dynamics}} (const String \&a\+Name=String\+::\+Empty())
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_ac40f08ea4bd324c8828e8ae60421a808}{$\sim$\+Dynamics}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a9302bdfcf5b79afe591b76af2eda7974}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get name. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print dynamics. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}{is\+Defined}} () const =0
+\begin{DoxyCompactList}\small\item\em Check if dynamics is defined (pure virtual) \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abad8ede80d4404db1adf272f137760b0}{get\+Read\+Coordinates\+Subsets}} () const =0
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance reads from. \end{DoxyCompactList}\item 
+virtual Array$<$ Shared$<$ const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_abd3fe0e2bb0feb82e109d569d39cafff}{get\+Write\+Coordinates\+Subsets}} () const =0
+\begin{DoxyCompactList}\small\item\em Return the coordinates subsets that the instance writes to. \end{DoxyCompactList}\item 
+virtual Vector\+Xd \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a625e6436f0874734702c9ace5674a924}{compute\+Contribution}} (const Instant \&an\+Instant, const Vector\+Xd \&x, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr) const =0
+\begin{DoxyCompactList}\small\item\em Compute the contribution to the state derivative. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_af1bf40db40b1059efa15873d8ca645fb}{Get\+System\+Of\+Equations}} (const Array$<$ \mbox{\hyperlink{structostk_1_1astro_1_1_dynamics_1_1_context}{Context}} $>$ \&a\+Context\+Array, const Instant \&an\+Instant, const Shared$<$ const Frame $>$ \&a\+Frame\+S\+Ptr)
+\begin{DoxyCompactList}\small\item\em Get system of equations wrapper. \end{DoxyCompactList}\item 
+static Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ $>$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a6155745266cb6fc7b22a3becb5ae0e40}{From\+Environment}} (const Environment \&an\+Environment)
+\begin{DoxyCompactList}\small\item\em Get a list of dynamics from the envrionment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_aad1f02b40439704299193e464ba6e579}{operator$<$$<$}} (std\+::ostream \&an\+Output\+Stream, const \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \&a\+Dynamics)
+\begin{DoxyCompactList}\small\item\em Output stream operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Define a dynamical system subject to equations of motion. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a7f186c02659534b19b6321c4d301d204}\label{classostk_1_1astro_1_1_dynamics_a7f186c02659534b19b6321c4d301d204}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!Dynamics@{Dynamics}}
+\index{Dynamics@{Dynamics}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{Dynamics()}{Dynamics()}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Dynamics\+::\+Dynamics (\begin{DoxyParamCaption}\item[{const String \&}]{a\+Name = {\ttfamily String\+:\+:Empty()} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_ac40f08ea4bd324c8828e8ae60421a808}\label{classostk_1_1astro_1_1_dynamics_ac40f08ea4bd324c8828e8ae60421a808}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!````~Dynamics@{$\sim$Dynamics}}
+\index{````~Dynamics@{$\sim$Dynamics}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{$\sim$Dynamics()}{~Dynamics()}}
+{\footnotesize\ttfamily ostk\+::astro\+::\+Dynamics\+::$\sim$\+Dynamics (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a625e6436f0874734702c9ace5674a924}\label{classostk_1_1astro_1_1_dynamics_a625e6436f0874734702c9ace5674a924}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!computeContribution@{computeContribution}}
+\index{computeContribution@{computeContribution}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{computeContribution()}{computeContribution()}}
+{\footnotesize\ttfamily virtual Vector\+Xd ostk\+::astro\+::\+Dynamics\+::compute\+Contribution (\begin{DoxyParamCaption}\item[{const Instant \&}]{an\+Instant,  }\item[{const Vector\+Xd \&}]{x,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Compute the contribution to the state derivative. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em an\+Instant} & An instant \\
+\hline
+{\em x} & The reduced state vector (this vector will follow the structure determined by the \textquotesingle{}read\textquotesingle{} coordinate subsets) \\
+\hline
+{\em a\+Frame\+S\+Ptr} & The frame in which the state vector is expressed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The reduced derivative state vector (this vector must follow the structure determined by the \textquotesingle{}write\textquotesingle{} coordinate subsets) expressed in the given frame 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a9c993e6ef4c6c96d1b2b6b6aba30a99b}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a864795902a6b6b4c17410c903c63384c}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_adbab512d3cd1466165a2388aeb75131c}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_a533154f87a8d7b88258ccae70843f60c}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_a668efb685ad318986dbcab15f7187ca8}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a6155745266cb6fc7b22a3becb5ae0e40}\label{classostk_1_1astro_1_1_dynamics_a6155745266cb6fc7b22a3becb5ae0e40}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!FromEnvironment@{FromEnvironment}}
+\index{FromEnvironment@{FromEnvironment}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{FromEnvironment()}{FromEnvironment()}}
+{\footnotesize\ttfamily Array$<$ Shared$<$ \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} $>$ $>$ ostk\+::astro\+::\+Dynamics\+::\+From\+Environment (\begin{DoxyParamCaption}\item[{const Environment \&}]{an\+Environment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get a list of dynamics from the envrionment. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Environment} & An environment\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of dynamics 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a9302bdfcf5b79afe591b76af2eda7974}\label{classostk_1_1astro_1_1_dynamics_a9302bdfcf5b79afe591b76af2eda7974}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!getName@{getName}}
+\index{getName@{getName}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::\+Dynamics\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get name. 
+
+\begin{DoxyReturn}{Returns}
+Name of \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_abad8ede80d4404db1adf272f137760b0}\label{classostk_1_1astro_1_1_dynamics_abad8ede80d4404db1adf272f137760b0}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!getReadCoordinatesSubsets@{getReadCoordinatesSubsets}}
+\index{getReadCoordinatesSubsets@{getReadCoordinatesSubsets}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{getReadCoordinatesSubsets()}{getReadCoordinatesSubsets()}}
+{\footnotesize\ttfamily virtual Array$<$Shared$<$const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}}$>$ $>$ ostk\+::astro\+::\+Dynamics\+::get\+Read\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return the coordinates subsets that the instance reads from. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance reads from 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a6cc180835cf899dd7e4b3842b5e38303}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a236972339073c8483983b9a42db3d8a9}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_adc6cb61d6ee19dfaa914d82be0fb6712}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_a68628fa328b2799b93c6fd05a81498c8}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_a690e18ea04ae18ec283f7dc19ae9cd41}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_af1bf40db40b1059efa15873d8ca645fb}\label{classostk_1_1astro_1_1_dynamics_af1bf40db40b1059efa15873d8ca645fb}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!GetSystemOfEquations@{GetSystemOfEquations}}
+\index{GetSystemOfEquations@{GetSystemOfEquations}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{GetSystemOfEquations()}{GetSystemOfEquations()}}
+{\footnotesize\ttfamily Numerical\+Solver\+::\+System\+Of\+Equations\+Wrapper ostk\+::astro\+::\+Dynamics\+::\+Get\+System\+Of\+Equations (\begin{DoxyParamCaption}\item[{const Array$<$ \mbox{\hyperlink{structostk_1_1astro_1_1_dynamics_1_1_context}{Context}} $>$ \&}]{a\+Context\+Array,  }\item[{const Instant \&}]{an\+Instant,  }\item[{const Shared$<$ const Frame $>$ \&}]{a\+Frame\+S\+Ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get system of equations wrapper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Context\+Array} & An array of \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} Information \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Frame\+S\+Ptr} & The reference frame in which dynamic equations are resolved\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::function$<$void(const std\+::vector$<$double$>$\&, std\+::vector$<$double$>$\&, const double)$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_abd3fe0e2bb0feb82e109d569d39cafff}\label{classostk_1_1astro_1_1_dynamics_abd3fe0e2bb0feb82e109d569d39cafff}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}}
+\index{getWriteCoordinatesSubsets@{getWriteCoordinatesSubsets}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{getWriteCoordinatesSubsets()}{getWriteCoordinatesSubsets()}}
+{\footnotesize\ttfamily virtual Array$<$Shared$<$const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset}{Coordinates\+Subset}}$>$ $>$ ostk\+::astro\+::\+Dynamics\+::get\+Write\+Coordinates\+Subsets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Return the coordinates subsets that the instance writes to. 
+
+\begin{DoxyReturn}{Returns}
+The coordinates subsets that the instance writes to 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a84de6d1175d4b32ede2e12aa015d42f1}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a5873af593b64ce337fed031b9b186f3d}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_a9bc3a27d7abc1c0ae0efc5b27cf58996}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_a5f8b006a7fe6d1859b3a01dfe72dedcf}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_a0738486daea7904ebc95962032f9577b}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}\label{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily virtual bool ostk\+::astro\+::\+Dynamics\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Check if dynamics is defined (pure virtual) 
+
+\begin{DoxyReturn}{Returns}
+True if dynamics is defined 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a7e3613937ad9641db16854d9681e539e}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a8cd7da63d6416e7208393903ffb40ba3}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_ad8009887dd5ff11a1e0be78f949c3317}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_af8dd288ea8d53c2ad3af6af8b47ae97f}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_ad0d1367f1436871298e39b44b8771f03}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}{ostk\+::astro\+::dynamics\+::\+Thruster}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}\label{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!print@{print}}
+\index{print@{print}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::\+Dynamics\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print dynamics. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a1f322fa8185a9ada4baa94a7ae7ec578}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_atmospheric_drag_a64f2ae87c856bc2bd977e54328751dea}{ostk\+::astro\+::dynamics\+::\+Atmospheric\+Drag}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_central_body_gravity_a4345c57c92945e06a8dfb09b908d3353}{ostk\+::astro\+::dynamics\+::\+Central\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_third_body_gravity_a70e243034149c75f9a79585dcf6bcb7d}{ostk\+::astro\+::dynamics\+::\+Third\+Body\+Gravity}}, \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_position_derivative_a4eaa05bf516919c5ac750e630fd4f66e}{ostk\+::astro\+::dynamics\+::\+Position\+Derivative}}, and \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}{ostk\+::astro\+::dynamics\+::\+Thruster}}.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1_dynamics_aad1f02b40439704299193e464ba6e579}\label{classostk_1_1astro_1_1_dynamics_aad1f02b40439704299193e464ba6e579}} 
+\index{ostk::astro::Dynamics@{ostk::astro::Dynamics}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!ostk::astro::Dynamics@{ostk::astro::Dynamics}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \&}]{a\+Dynamics }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Output stream operator. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a7f186c02659534b19b6321c4d301d204}{Dynamics}}(...) ;}
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+Dynamics} & A \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics}{Dynamics}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to output stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_dynamics_8hpp}{Dynamics.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\mbox{\hyperlink{_dynamics_8cpp}{Dynamics.\+cpp}}\end{DoxyCompactItemize}

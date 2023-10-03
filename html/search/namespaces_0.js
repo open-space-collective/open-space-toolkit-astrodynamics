@@ -5,7 +5,7 @@ var searchData=
   ['ccsds_665',['ccsds',['../namespaceostk_1_1astro_1_1conjunction_1_1messages_1_1ccsds.html',1,'ostk::astro::conjunction::messages']]],
   ['conjunction_666',['conjunction',['../namespaceostk_1_1astro_1_1conjunction.html',1,'ostk::astro']]],
   ['coordinatessubsets_667',['coordinatessubsets',['../namespaceostk_1_1astro_1_1trajectory_1_1state_1_1coordinatessubsets.html',1,'ostk::astro::trajectory::state']]],
-  ['dynamics_668',['dynamics',['../namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics.html',1,'ostk::astro::flight::system']]],
+  ['dynamics_668',['dynamics',['../namespaceostk_1_1astro_1_1dynamics.html',1,'ostk::astro']]],
   ['eventcondition_669',['eventcondition',['../namespaceostk_1_1astro_1_1eventcondition.html',1,'ostk::astro']]],
   ['flight_670',['flight',['../namespaceostk_1_1astro_1_1flight.html',1,'ostk::astro']]],
   ['kepler_671',['kepler',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1models_1_1kepler.html',1,'ostk::astro::trajectory::orbit::models']]],
@@ -19,6 +19,6 @@ var searchData=
   ['spacex_679',['spacex',['../namespaceostk_1_1astro_1_1trajectory_1_1orbit_1_1messages_1_1spacex.html',1,'ostk::astro::trajectory::orbit::messages']]],
   ['state_680',['state',['../namespaceostk_1_1astro_1_1trajectory_1_1state.html',1,'ostk::astro::trajectory']]],
   ['system_681',['system',['../namespaceostk_1_1astro_1_1flight_1_1system.html',1,'ostk::astro::flight']]],
-  ['thruster_682',['thruster',['../namespaceostk_1_1astro_1_1flight_1_1system_1_1dynamics_1_1thruster.html',1,'ostk::astro::flight::system::dynamics']]],
+  ['thruster_682',['thruster',['../namespaceostk_1_1astro_1_1dynamics_1_1thruster.html',1,'ostk::astro::dynamics']]],
   ['trajectory_683',['trajectory',['../namespaceostk_1_1astro_1_1trajectory.html',1,'ostk::astro']]]
 ];

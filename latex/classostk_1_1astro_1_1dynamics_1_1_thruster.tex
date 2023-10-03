@@ -1,0 +1,145 @@
+\hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster}{}\doxysection{ostk\+::astro\+::dynamics\+::Thruster Class Reference}
+\label{classostk_1_1astro_1_1dynamics_1_1_thruster}\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+
+
+Define the acceleration experienced by a point mass due to thrust.  
+
+
+
+
+{\ttfamily \#include $<$Thruster.\+hpp$>$}
+
+Inheritance diagram for ostk\+::astro\+::dynamics\+::Thruster\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classostk_1_1astro_1_1dynamics_1_1_thruster}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}{Thruster}} (const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&a\+Satellite\+System, const String \&a\+Name=String\+::\+Empty())
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}{$\sim$\+Thruster}} ()=0
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}{is\+Defined}} () const =0
+\begin{DoxyCompactList}\small\item\em Check if thruster is defined. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Get name. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}{get\+Satellite\+System}} () const
+\begin{DoxyCompactList}\small\item\em Get satellite system. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}{print}} (std\+::ostream \&an\+Output\+Stream, bool display\+Decorator=true) const
+\begin{DoxyCompactList}\small\item\em Print thruster. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Define the acceleration experienced by a point mass due to thrust. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a2010b04f846ce1b413384c5a29bbfbf1}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!Thruster@{Thruster}}
+\index{Thruster@{Thruster}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{Thruster()}{Thruster()}}
+{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::\+Thruster (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} \&}]{a\+Satellite\+System,  }\item[{const String \&}]{a\+Name = {\ttfamily String\+:\+:Empty()} }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+Name} & A name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a76cfada8b1c7e00fda60b9d71ac25f83}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!````~Thruster@{$\sim$Thruster}}
+\index{````~Thruster@{$\sim$Thruster}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{$\sim$Thruster()}{~Thruster()}}
+{\footnotesize\ttfamily ostk\+::astro\+::dynamics\+::\+Thruster\+::$\sim$\+Thruster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a7e0fde2be011b784a71147a059c027b4}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getName@{getName}}
+\index{getName@{getName}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily String ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get name. 
+
+\begin{DoxyReturn}{Returns}
+Name of thruster 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_aa2fb1513fee69124f28a99fea26b6a04}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!getSatelliteSystem@{getSatelliteSystem}}
+\index{getSatelliteSystem@{getSatelliteSystem}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{getSatelliteSystem()}{getSatelliteSystem()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1flight_1_1system_1_1_satellite_system}{Satellite\+System}} ostk\+::astro\+::dynamics\+::\+Thruster\+::get\+Satellite\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get satellite system. 
+
+\begin{DoxyReturn}{Returns}
+Satellite system 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_a79ddcf70714352f810a175e085b4a71e}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!isDefined@{isDefined}}
+\index{isDefined@{isDefined}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{isDefined()}{isDefined()}}
+{\footnotesize\ttfamily virtual bool ostk\+::astro\+::dynamics\+::\+Thruster\+::is\+Defined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Check if thruster is defined. 
+
+\begin{DoxyReturn}{Returns}
+True if thruster is defined 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a41b321dd678aa88df95f8a7c9fb5eba8}{ostk\+::astro\+::\+Dynamics}}.
+
+
+
+Implemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a7e3613937ad9641db16854d9681e539e}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}.
+
+\mbox{\Hypertarget{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}\label{classostk_1_1astro_1_1dynamics_1_1_thruster_ad1e2825fcd6c49c44718ddd592b23011}} 
+\index{ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}!print@{print}}
+\index{print@{print}!ostk::astro::dynamics::Thruster@{ostk::astro::dynamics::Thruster}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void ostk\+::astro\+::dynamics\+::\+Thruster\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{bool}]{display\+Decorator = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print thruster. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & An output stream \\
+\hline
+\mbox{\texttt{ in}}  & {\em (optional)} & display\+Decorators If true, display decorators \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classostk_1_1astro_1_1_dynamics_a91aded9e46ede32da8eaf958b7e3f08e}{ostk\+::astro\+::\+Dynamics}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{classostk_1_1astro_1_1dynamics_1_1thruster_1_1_constant_thrust_a1f322fa8185a9ada4baa94a7ae7ec578}{ostk\+::astro\+::dynamics\+::thruster\+::\+Constant\+Thrust}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics/\mbox{\hyperlink{_thruster_8hpp}{Thruster.\+hpp}}\item 
+src/\+Open\+Space\+Toolkit/\+Astrodynamics/\+Dynamics/\mbox{\hyperlink{_thruster_8cpp}{Thruster.\+cpp}}\end{DoxyCompactItemize}
