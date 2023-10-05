@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+// #include <Eigen/Core>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -354,10 +356,22 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Position:" << (this->isDefined() ? this->getPosition().toString(12) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Velocity:" << (this->isDefined() ? this->getVelocity().toString(12) : "Undefined");
+        << "Frame:" << (this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
 
+    if (!this->isDefined())
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Coordinates: Undefined";
+    }
+    else
+    {
+        const Array<Shared<const CoordinatesSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+
+        for (const auto& subset : subsets)
+        {
+            ostk::core::utils::Print::Line(anOutputStream)
+                << subset->getName() << this->extractCoordinates(subset).toString(4);
+        }
+    }
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
