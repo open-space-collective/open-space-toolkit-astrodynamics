@@ -366,9 +366,6 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
     {
         const Array<Shared<const CoordinatesSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
-        ostk::core::utils::Print::Line(anOutputStream) << "Coordinates: " << this->accessCoordinates().toString(4);
-
-        ostk::core::utils::Print::Line(anOutputStream) << "Where:";
         for (const auto& subset : subsets)
         {
             ostk::core::utils::Print::Line(anOutputStream)
