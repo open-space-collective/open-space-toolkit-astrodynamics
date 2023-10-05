@@ -355,6 +355,8 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Frame:" << (this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
 
     if (!this->isDefined())
     {
