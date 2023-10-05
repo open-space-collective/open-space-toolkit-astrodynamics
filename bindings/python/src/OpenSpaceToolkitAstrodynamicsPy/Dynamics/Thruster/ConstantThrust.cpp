@@ -9,12 +9,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(pyb
     using ostk::core::types::String;
     using ostk::core::types::Shared;
 
-    using ostk::astro::flight::system::SatelliteSystem;
-    using ostk::astro::trajectory::LocalOrbitalFrameDirection;
+    using ostk::physics::coord::Frame;
 
     using ostk::astro::Dynamics;
+    using ostk::astro::trajectory::LocalOrbitalFrameDirection;
     using ostk::astro::dynamics::Thruster;
     using ostk::astro::dynamics::thruster::ConstantThrust;
+    using ostk::astro::flight::system::SatelliteSystem;
 
     {
         class_<ConstantThrust, Thruster, Shared<ConstantThrust>>(aModule, "ConstantThrust")
@@ -36,6 +37,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_Thruster_ConstantThrust(pyb
             .def("get_read_coordinates_subsets", &ConstantThrust::getReadCoordinatesSubsets)
             .def("get_write_coordinates_subsets", &ConstantThrust::getWriteCoordinatesSubsets)
 
-            .def("compute_contribution", &ConstantThrust::computeContribution, arg("instant"), arg("x"), arg("frame"));
+            .def("compute_contribution", &ConstantThrust::computeContribution, arg("instant"), arg("x"), arg("frame"))
+
+            .def_static(
+                "intrack",
+                &ConstantThrust::Intrack,
+                arg("satellite_system"),
+                arg("velocity_direction") = true,
+                arg("frame") = Frame::GCRF()
+            )
+
+            ;
     }
 }
