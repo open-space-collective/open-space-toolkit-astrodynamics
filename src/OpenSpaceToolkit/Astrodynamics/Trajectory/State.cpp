@@ -369,7 +369,7 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
         ostk::core::utils::Print::Line(anOutputStream) << "Coordinates: " << this->accessCoordinates().toString(4);
 
         ostk::core::utils::Print::Line(anOutputStream) << "Where:";
-        for (auto subset : subsets)
+        for (const auto& subset : subsets)
         {
             ostk::core::utils::Print::Line(anOutputStream)
                 << subset->getName() << this->extractCoordinates(subset).toString(4);
