@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 
@@ -113,6 +114,28 @@ VectorXd CoordinatesBroker::extractCoordinates(
     return aFullCoordinatesVector.segment(
         this->getSubsetIndex(aCoordinatesSubset.getId()), aCoordinatesSubset.getSize()
     );
+}
+
+VectorXd CoordinatesBroker::extractCoordinates(
+    const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+) const
+{
+    Size coordinatesSubsetsSize = 0;
+    for (const auto subset : aCoordinatesSubsetsArray)
+    {
+        coordinatesSubsetsSize += subset->getSize();
+    }
+
+    VectorXd coordinatesSubsetsVector(coordinatesSubsetsSize);
+
+    int startIndex = 0;
+    for (const auto subset : aCoordinatesSubsetsArray)
+    {
+        coordinatesSubsetsVector.segment(startIndex, subset->getSize()) =
+            aFullCoordinatesVector.segment(this->getSubsetIndex(subset->getId()), subset->getSize());
+        startIndex += subset->getSize();
+    }
+    return coordinatesSubsetsVector;
 }
 
 VectorXd CoordinatesBroker::extractCoordinates(
