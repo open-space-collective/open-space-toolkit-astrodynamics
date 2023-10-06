@@ -40,12 +40,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const NumericalSolver::StepperType&,
                     const Real&,
                     const Real&,
-                    const Real&>(),
+                    const Real&,
+                    const std::function<void(const State& aState)>&>(),
                 arg("log_type"),
                 arg("stepper_type"),
                 arg("time_step"),
                 arg("relative_tolerance"),
-                arg("absolute_tolerance")
+                arg("absolute_tolerance"),
+                arg("state_logger") = nullptr
             )
 
             .def(self == self)
@@ -136,6 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
             .def_static("default", &NumericalSolver::Default)
             .def_static("undefined", &NumericalSolver::Undefined)
             .def_static("default_conditional", &NumericalSolver::DefaultConditional)
+            .def_static("conditional", &NumericalSolver::Conditional)
 
             ;
     }

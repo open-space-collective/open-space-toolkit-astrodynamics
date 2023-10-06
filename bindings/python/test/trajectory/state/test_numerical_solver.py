@@ -67,27 +67,55 @@ def custom_condition() -> RealCondition:
 
 
 @pytest.fixture
-def numerical_solver_default_inputs() -> (
-    tuple[NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float]
-):
-    log_type = NumericalSolver.LogType.NoLog
-    stepper_type = NumericalSolver.StepperType.RungeKuttaCashKarp54
-    initial_time_step = 5.0
-    relative_tolerance = 1.0e-15
-    absolute_tolerance = 1.0e-15
-
-    return (
-        log_type,
-        stepper_type,
-        initial_time_step,
-        relative_tolerance,
-        absolute_tolerance,
-    )
+def log_type() -> NumericalSolver.LogType:
+    return NumericalSolver.LogType.NoLog
 
 
 @pytest.fixture
-def numerical_solver(numerical_solver_default_inputs) -> NumericalSolver:
-    return NumericalSolver(*numerical_solver_default_inputs)
+def stepper_type() -> NumericalSolver.StepperType:
+    return NumericalSolver.StepperType.RungeKuttaCashKarp54
+
+
+@pytest.fixture
+def initial_time_step() -> float:
+    return 5.0
+
+
+@pytest.fixture
+def relative_tolerance() -> float:
+    return 1.0e-15
+
+
+@pytest.fixture
+def absolute_tolerance() -> float:
+    return 1.0e-15
+
+
+@pytest.fixture
+def state_logger() -> callable:
+    def log_state(state: State) -> None:
+        print(state.get_coordinates())
+
+    return log_state
+
+
+@pytest.fixture
+def numerical_solver(
+    log_type: NumericalSolver.LogType,
+    stepper_type: NumericalSolver.StepperType,
+    initial_time_step: float,
+    relative_tolerance: float,
+    absolute_tolerance: float,
+    state_logger: callable,
+) -> NumericalSolver:
+    return NumericalSolver(
+        log_type=log_type,
+        stepper_type=stepper_type,
+        time_step=initial_time_step,
+        relative_tolerance=relative_tolerance,
+        absolute_tolerance=absolute_tolerance,
+        state_logger=state_logger,
+    )
 
 
 @pytest.fixture
@@ -113,19 +141,13 @@ class TestNumericalSolver:
 
     def test_get_types(
         self,
-        numerical_solver_default_inputs: tuple[
-            NumericalSolver.LogType, NumericalSolver.StepperType, float, float, float
-        ],
+        log_type: NumericalSolver.LogType,
+        stepper_type: NumericalSolver.StepperType,
+        initial_time_step: float,
+        relative_tolerance: float,
+        absolute_tolerance: float,
         numerical_solver: NumericalSolver,
     ):
-        (
-            log_type,
-            stepper_type,
-            initial_time_step,
-            relative_tolerance,
-            absolute_tolerance,
-        ) = numerical_solver_default_inputs
-
         assert numerical_solver.get_log_type() == log_type
         assert numerical_solver.get_stepper_type() == stepper_type
         assert numerical_solver.get_time_step() == initial_time_step
@@ -231,6 +253,29 @@ class TestNumericalSolver:
         assert 5e-9 >= abs(state_vector[0] - math.sin(time))
         assert 5e-9 >= abs(state_vector[1] - math.cos(time))
 
+    def test_integrate_conditional_with_logger(
+        self,
+        initial_state: State,
+        state_logger: callable,
+        custom_condition: RealCondition,
+        capsys,
+    ):
+        numerical_solver: NumericalSolver = NumericalSolver.conditional(
+            5.0,
+            1.0e-15,
+            1.0e-15,
+            state_logger,
+        )
+        end_time: float = initial_state.get_instant() + Duration.seconds(10.0)
+
+        numerical_solver.integrate_time(
+            initial_state, end_time, oscillator, custom_condition
+        )
+
+        captured = capsys.readouterr()
+
+        assert captured.out != ""
+
     def test_default(self):
         assert NumericalSolver.default() is not None
 
@@ -240,3 +285,11 @@ class TestNumericalSolver:
     def test_undefined(self):
         assert NumericalSolver.undefined() is not None
         assert NumericalSolver.undefined().is_defined() is False
+
+    def test_conditional(self):
+        assert (
+            NumericalSolver.conditional(
+                initial_time_step, relative_tolerance, absolute_tolerance, state_logger
+            )
+            is not None
+        )
