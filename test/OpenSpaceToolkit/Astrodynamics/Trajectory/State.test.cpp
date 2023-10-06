@@ -974,7 +974,8 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
         EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(velocitySubset));
 
         const Array<Shared<const CoordinatesSubset>> positionAndVelocitySubset = {
-            CartesianPosition::Default(), CartesianVelocity::Default()
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
         };
         EXPECT_EQ(coordinates, aState.extractCoordinates(positionAndVelocitySubset));
     }

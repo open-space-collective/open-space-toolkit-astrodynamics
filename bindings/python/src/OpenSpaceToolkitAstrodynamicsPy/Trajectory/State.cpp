@@ -57,7 +57,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         .def(
             "extract_coordinates",
             overload_cast<const Array<Shared<const CoordinatesSubset>>&>(&State::extractCoordinates, const_),
-            arg("coordinates_subset_array")
+            arg("coordinates_subsets")
         )
 
         .def("in_frame", &State::inFrame, arg("frame"))

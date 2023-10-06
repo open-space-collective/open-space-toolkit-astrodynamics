@@ -121,7 +121,7 @@ VectorXd CoordinatesBroker::extractCoordinates(
 ) const
 {
     Size coordinatesSubsetsSize = 0;
-    for (const auto subset : aCoordinatesSubsetsArray)
+    for (const auto& subset : aCoordinatesSubsetsArray)
     {
         coordinatesSubsetsSize += subset->getSize();
     }
@@ -129,12 +129,14 @@ VectorXd CoordinatesBroker::extractCoordinates(
     VectorXd coordinatesSubsetsVector(coordinatesSubsetsSize);
 
     int startIndex = 0;
-    for (const auto subset : aCoordinatesSubsetsArray)
+    for (const auto& subset : aCoordinatesSubsetsArray)
     {
         coordinatesSubsetsVector.segment(startIndex, subset->getSize()) =
             aFullCoordinatesVector.segment(this->getSubsetIndex(subset->getId()), subset->getSize());
+
         startIndex += subset->getSize();
     }
+
     return coordinatesSubsetsVector;
 }
 
