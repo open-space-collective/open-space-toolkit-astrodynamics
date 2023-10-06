@@ -142,6 +142,7 @@ class State
     /// @brief                  Get the instant associated with the State.
     ///
     /// @return                 The instant
+
     Instant getInstant() const;
 
     /// @brief                  Get the reference frame associated with the State.
@@ -165,6 +166,7 @@ class State
     /// @brief                  Get the coordinates of the State.
     ///
     /// @return                 The coordinates
+
     VectorXd getCoordinates() const;
 
     /// @brief                  Get the coordinates subsets of the State.
