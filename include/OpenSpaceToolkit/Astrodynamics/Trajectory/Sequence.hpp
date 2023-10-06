@@ -35,6 +35,7 @@ class Sequence
     struct Solution
     {
         Array<Segment::Solution> segmentSolutions;
+        bool sequenceIsComplete;
 
         Array<State> getStates() const;
     };

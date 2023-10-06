@@ -103,11 +103,16 @@ Sequence::Solution Sequence::solve(const State& aState) const
 
             segmentSolutions.add(segmentSolution);
 
+            if (!segmentSolution.conditionIsSatisfied)
+            {
+                return {segmentSolutions, false};
+            }
+
             initialState = segmentSolution.states.accessLast();
         }
     }
 
-    return {segmentSolutions};
+    return {segmentSolutions, true};
 }
 
 void Sequence::print(std::ostream& anOutputStream, bool displayDecorator) const

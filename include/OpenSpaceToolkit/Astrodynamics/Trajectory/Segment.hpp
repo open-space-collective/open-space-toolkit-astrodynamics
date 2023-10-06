@@ -50,11 +50,17 @@ class Segment
     struct Solution
     {
        public:
-        Solution(const String& aName, const Array<Shared<Dynamics>>& aDynamicsArray, const Array<State>& aStates);
+        Solution(
+            const String& aName,
+            const Array<Shared<Dynamics>>& aDynamicsArray,
+            const Array<State>& aStates,
+            const bool& aConditionIsSatisfied
+        );
 
         String name;                       /// Name of the segment.
         Array<Shared<Dynamics>> dynamics;  /// List of dynamics used.
         Array<State> states;               /// Array of states for the segment.
+        bool conditionIsSatisfied;         /// True if the event condition is satisfied.
     };
 
     /// @brief                  Output stream operator
