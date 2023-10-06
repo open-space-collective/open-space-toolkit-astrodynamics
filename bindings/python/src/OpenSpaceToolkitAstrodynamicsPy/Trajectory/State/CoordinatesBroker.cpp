@@ -45,6 +45,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinatesBroker(p
             arg("coordinates"),
             arg("coordinates_subset")
         )
+        .def(
+            "extract_coordinates",
+            overload_cast<const VectorXd&, const Array<Shared<const CoordinatesSubset>>&>(
+                &CoordinatesBroker::extractCoordinates, const_
+            ),
+            arg("coordinates"),
+            arg("coordinates_subsets")
+        )
 
         ;
 }

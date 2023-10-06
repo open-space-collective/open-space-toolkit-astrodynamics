@@ -49,7 +49,16 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         .def("get_coordinates_subsets", &State::getCoordinatesSubsets)
         .def("get_frame", &State::getFrame)
 
-        .def("extract_coordinates", &State::extractCoordinates, arg("coordinates_subset"))
+        .def(
+            "extract_coordinates",
+            overload_cast<const Shared<const CoordinatesSubset>&>(&State::extractCoordinates, const_),
+            arg("coordinates_subset")
+        )
+        .def(
+            "extract_coordinates",
+            overload_cast<const Array<Shared<const CoordinatesSubset>>&>(&State::extractCoordinates, const_),
+            arg("coordinates_subset_array")
+        )
 
         .def("in_frame", &State::inFrame, arg("frame"))
 

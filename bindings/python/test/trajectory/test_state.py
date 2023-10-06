@@ -128,7 +128,14 @@ class TestState:
     ):
         position_coordinates = state.extract_coordinates(CartesianPosition.default())
         velocity_coordinates = state.extract_coordinates(CartesianVelocity.default())
-        len(position_coordinates) == 3
-        len(velocity_coordinates) == 3
+
+        assert len(position_coordinates) == 3
+        assert len(velocity_coordinates) == 3
         assert (position_coordinates == state.get_position().get_coordinates()).all()
         assert (velocity_coordinates == state.get_velocity().get_coordinates()).all()
+
+        pv_coordinates = state.extract_coordinates(
+            [CartesianPosition.default(), CartesianVelocity.default()]
+        )
+        assert len(pv_coordinates) == 6
+        assert (pv_coordinates == state.get_coordinates()).all()
