@@ -235,28 +235,49 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
     }
+
+    {
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 {
-    Sequence::Solution solution = defaultSequence_.solve(defaultState_);
-
-    EXPECT_TRUE(
-        solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
-    );
-
-    Size statesSize = 0;
-    for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
     {
-        EXPECT_TRUE(segmentSolution.states.getSize() > 0);
+        const Sequence::Solution solution = defaultSequence_.solve(defaultState_);
 
-        const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
-        EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
+        EXPECT_TRUE(
+            solution.segmentSolutions.getSize() == defaultSequence_.getSegments().getSize() * defaultRepetitionCount_
+        );
 
-        statesSize += segmentSolution.states.getSize();
+        Size statesSize = 0;
+        for (const Segment::Solution& segmentSolution : solution.segmentSolutions)
+        {
+            EXPECT_TRUE(segmentSolution.states.getSize() > 0);
+
+            const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
+            EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
+
+            statesSize += segmentSolution.states.getSize();
+        }
+
+        EXPECT_TRUE(solution.getStates().getSize() == statesSize);
     }
 
-    EXPECT_TRUE(solution.getStates().getSize() == statesSize);
+    {
+        const Sequence sequence = {
+            defaultSegments_,
+            defaultRepetitionCount_,
+            defaultNumericalSolver_,
+            defaultDynamics_,
+            Duration::Seconds(1.0),
+        };
+
+        const Sequence::Solution solution = sequence.solve(defaultState_);
+
+        EXPECT_FALSE(solution.sequenceIsComplete);
+        EXPECT_TRUE(solution.segmentSolutions.getSize() == 1);
+        EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
@@ -341,7 +362,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         coordinatesBrokerSPtr,
     };
 
-    Sequence::Solution solution = sequence.solve(state);
+    const Sequence::Solution solution = sequence.solve(state);
 
     EXPECT_TRUE(solution.segmentSolutions.getSize() == 2 * defaultRepetitionCount_);
 }

@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster/ConstantThrust.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/EventCondition/COECondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/InstantCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
@@ -30,6 +31,7 @@ using ostk::physics::env::obj::celest::Earth;
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astro::trajectory::state::NumericalSolver;
 using ostk::astro::Dynamics;
@@ -41,6 +43,8 @@ using ostk::astro::trajectory::LocalOrbitalFrameFactory;
 using ostk::astro::dynamics::CentralBodyGravity;
 using ostk::astro::dynamics::PositionDerivative;
 using ostk::astro::eventcondition::InstantCondition;
+using ostk::astro::eventcondition::COECondition;
+using ostk::astro::eventcondition::RealCondition;
 using ostk::astro::trajectory::State;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment : public ::testing::Test
@@ -170,12 +174,29 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, StreamOperat
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_TrajectorySegment, Solve)
 {
     {
-        Segment::Solution solution = defaultCoastSegment_.solve(defaultState_);
+        const Segment::Solution solution = defaultCoastSegment_.solve(defaultState_);
 
         EXPECT_LT(
             (solution.states.accessLast().getInstant() - defaultInstantCondition_->getInstant()).inSeconds(), 1e-7
         );
         EXPECT_TRUE(solution.states.getSize() > 0);
+    }
+
+    {
+        const Shared<RealCondition> eventCondition = std::make_shared<RealCondition>(COECondition::Eccentricity(
+            RealCondition::Criterion::AnyCrossing,
+            Frame::GCRF(),
+            0.5,
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+
+        const Segment segment =
+            Segment::Coast("SMA condition", eventCondition, defaultDynamics_, defaultNumericalSolver_);
+
+        const Segment::Solution solution = segment.solve(defaultState_, Duration::Minutes(1.0));
+
+        EXPECT_TRUE(solution.states.getSize() > 0);
+        EXPECT_FALSE(solution.conditionIsSatisfied);
     }
 }
 
