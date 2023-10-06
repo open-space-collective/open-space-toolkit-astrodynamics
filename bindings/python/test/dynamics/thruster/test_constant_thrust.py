@@ -110,6 +110,26 @@ class TestConstantThrust:
     def test_getters(self, dynamics: ConstantThrust):
         assert dynamics.get_local_thrust_direction() is not None
 
+    def test_static_constructors(self, satellite_system: SatelliteSystem, frame: Frame):
+        assert ConstantThrust.intrack(satellite_system=satellite_system) is not None
+
+        assert (
+            ConstantThrust.intrack(
+                satellite_system=satellite_system,
+                velocity_direction=False,
+            )
+            is not None
+        )
+
+        assert (
+            ConstantThrust.intrack(
+                satellite_system=satellite_system,
+                velocity_direction=True,
+                frame=frame,
+            )
+            is not None
+        )
+
     def test_compute_contribution_success(self, dynamics: ConstantThrust, state: State):
         contribution = dynamics.compute_contribution(
             state.get_instant(), state.get_coordinates(), state.get_frame()
