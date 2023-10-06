@@ -299,7 +299,7 @@ class TestPropagator:
         )
         assert propagator_state.get_instant() == instant
 
-    def test_calculate_state_at(
+    def test_calculate_state_to_condition(
         self,
         conditional_numerical_solver: NumericalSolver,
         dynamics: list[Dynamics],
@@ -310,7 +310,11 @@ class TestPropagator:
 
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
-        solution = propagator.calculate_state_at(state, instant, event_condition)
+        solution = propagator.calculate_state_to_condition(
+            state=state,
+            instant=instant,
+            event_condition=event_condition,
+        )
 
         assert solution.condition_is_satisfied
         assert pytest.approx(42.0, abs=1e-3) == float(
@@ -337,7 +341,8 @@ class TestPropagator:
         state_low_altitude: State,
     ):
         propagator: Propagator = Propagator(
-            numerical_solver, dynamics + [atmospheric_drag]
+            numerical_solver,
+            dynamics + [atmospheric_drag],
         )
 
         instant_array = [
@@ -357,7 +362,8 @@ class TestPropagator:
         state: State,
     ):
         propagator: Propagator = Propagator(
-            numerical_solver, dynamics + [constant_thrust]
+            numerical_solver,
+            dynamics + [constant_thrust],
         )
 
         instant_array = [

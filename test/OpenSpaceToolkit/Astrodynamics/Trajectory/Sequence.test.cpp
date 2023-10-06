@@ -235,9 +235,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, AddManeuverSegment)
 
         EXPECT_TRUE(defaultSequence_.getSegments().getSize() == segmentsCount + 1);
     }
-
-    {
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
@@ -274,7 +271,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
 
         const Sequence::Solution solution = sequence.solve(defaultState_);
 
-        EXPECT_FALSE(solution.sequenceIsComplete);
+        EXPECT_FALSE(solution.executionIsComplete);
         EXPECT_TRUE(solution.segmentSolutions.getSize() == 1);
         EXPECT_FALSE(solution.segmentSolutions[0].conditionIsSatisfied);
     }

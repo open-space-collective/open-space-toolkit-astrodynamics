@@ -113,7 +113,7 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
     const Instant startInstant = aState.getInstant();
 
     const NumericalSolver::ConditionSolution conditionSolution =
-        propagator.calculateStateAt(aState, startInstant + maximumPropagationDuration, *eventCondition_);
+        propagator.calculateStateToCondition(aState, startInstant + maximumPropagationDuration, *eventCondition_);
 
     return {
         name_,

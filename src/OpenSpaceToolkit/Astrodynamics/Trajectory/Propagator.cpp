@@ -157,7 +157,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     );
 }
 
-NumericalSolver::ConditionSolution Propagator::calculateStateAt(
+NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
 ) const
 {

@@ -423,7 +423,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
         const Propagator propagator = {defaultRKD5_, defaultDynamics_};
 
         const NumericalSolver::ConditionSolution conditionSolution =
-            propagator.calculateStateAt(state, endInstant, condition);
+            propagator.calculateStateToCondition(state, endInstant, condition);
 
         const State endState = conditionSolution.state;
 
@@ -436,7 +436,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Propagator, Calcul
             state.accessInstant() + Duration::Seconds(7000.0),
         };
 
-        EXPECT_FALSE(propagator.calculateStateAt(state, endInstant, failureCondition).conditionIsSatisfied);
+        EXPECT_FALSE(propagator.calculateStateToCondition(state, endInstant, failureCondition).conditionIsSatisfied);
     }
 }
 

@@ -377,4 +377,4 @@ class TestSequence:
         assert len(solution.segment_solutions) == len(segments)
 
         assert solution.get_states() is not None
-        assert solution.sequence_is_complete
+        assert solution.execution_is_complete

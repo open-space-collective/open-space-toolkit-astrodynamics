@@ -176,7 +176,7 @@ class Propagator
     /// @param              [in] anEventCondition An event condition
     /// @return             NumericalSolver::ConditionSolution
 
-    NumericalSolver::ConditionSolution calculateStateAt(
+    NumericalSolver::ConditionSolution calculateStateToCondition(
         const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
     ) const;
 
