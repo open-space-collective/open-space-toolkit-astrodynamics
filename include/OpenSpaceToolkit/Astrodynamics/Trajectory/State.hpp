@@ -35,8 +35,8 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
-using ostk::astro::trajectory::State::CoordinatesBroker;
-using ostk::astro::trajectory::State::CoordinatesSubset;
+using ostk::astro::trajectory::state::CoordinatesBroker;
+using ostk::astro::trajectory::state::CoordinatesSubset;
 
 /// @brief                      Trajectory State
 
