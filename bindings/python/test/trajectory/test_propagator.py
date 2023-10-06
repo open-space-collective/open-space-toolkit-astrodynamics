@@ -310,10 +310,11 @@ class TestPropagator:
 
         instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC)
 
-        propagator_state = propagator.calculate_state_at(state, instant, event_condition)
+        solution = propagator.calculate_state_at(state, instant, event_condition)
 
+        assert solution.condition_is_satisfied
         assert pytest.approx(42.0, abs=1e-3) == float(
-            (propagator_state.get_instant() - state.get_instant()).in_seconds()
+            (solution.state.get_instant() - state.get_instant()).in_seconds()
         )
 
     def test_calculate_states_at(self, propagator: Propagator, state: State):
