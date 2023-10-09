@@ -45,7 +45,7 @@ BMLOE::BMLOE(
 {
 }
 
-Vector6d BMLOE::asVector() const
+Vector6d BMLOE::getVector() const
 {
     return {
         semiMajorAxis_.inMeters(),
@@ -57,208 +57,28 @@ Vector6d BMLOE::asVector() const
     };
 }
 
-// BMLOE BMLOE::Cartesian(const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter)
-// {
-//     const COE coe = COE::Cartesian(aCartesianState, aGravitationalParameter);
-
-//     Vector6d cartesian;
-//     cartesian.segment(0, 3) = aCartesianState.first.accessCoordinates();
-//     cartesian.segment(3, 3) = aCartesianState.second.accessCoordinates();
-
-//     const Real perigee = coe.getPeriapsisRadius().inMeters();
-
-//     if (perigee < 3000000.0)
-//     {
-//         throw ostk::core::error::runtime::Wrong("Perigee must be larger than 3000.0 km.");
-//     }
-
-//     if (coe.getInclination().inDegrees() > 180.0)
-//     {
-//         throw ostk::core::error::runtime::Wrong("Inclination must be lesser than 180.0 degrees.");
-//     }
-
-//     const auto getAeq = [](const Vector6d &aCOEVector) -> Vector6d
-//     {
-//         return {
-//             aCOEVector[0],
-//             aCOEVector[1] * std::sin(aCOEVector[3] + aCOEVector[4]),
-//             aCOEVector[1] * std::cos(aCOEVector[3] + aCOEVector[4]),
-//             std::sin(aCOEVector[2] / 2.0) * std::sin(aCOEVector[3]),
-//             std::sin(aCOEVector[2] / 2.0) * std::cos(aCOEVector[3]),
-//             aCOEVector[2] + aCOEVector[3] + aCOEVector[4],
-//         };
-//     };
-
-//     const auto getBLMeanFromAeq = [](const Vector6d &anAeqVector) -> Vector6d
-//     {
-//         Real meanInc = Real::Undefined();
-
-//         if ((anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]) <= 1.0)
-//         {
-//             meanInc = std::acos(1.0 - 2.0 * (anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]));
-//         }
-//         else
-//         {
-//             meanInc = std::acos(1.0 - 2.0 * 1.0);
-//         }
-
-//         Real meanRaan = std::atan2(anAeqVector[3], anAeqVector[4]);
-//         if (meanRaan < 0.0)
-//         {
-//             meanRaan = meanRaan + Real::TwoPi();
-//         }
-
-//         return {
-//             anAeqVector[0],
-//             std::sqrt(anAeqVector[1] * anAeqVector[1] + anAeqVector[2] * anAeqVector[2]),
-//             meanInc,
-//             meanRaan,
-//             std::atan2(anAeqVector[1], anAeqVector[2]) - meanRaan,
-//             anAeqVector[5] - std::atan2(anAeqVector[1], anAeqVector[2]),
-//         };
-//     };
-
-//     Vector6d coeVector = coe.asVector(COE::AnomalyType::Mean);
-//     std::cout << coeVector << std::endl;
-
-//     Vector6d aeq = getAeq(coeVector);
-
-//     Vector6d coeVector2 = BMLOE::FromVector(coeVector).toCOE().asVector(COE::AnomalyType::Mean);
-//     std::cout << coeVector2 << std::endl;
-
-//     Vector6d aeq2 = getAeq(coeVector2);
-
-//     Vector6d aeqMean = getAeq(coeVector);
-
-//     Vector6d aeqMean2 = aeqMean + (aeq - aeq2);
-
-//     Real emag = 0.9;
-//     Real emag_old = 10.0;
-//     Size iter = 0;
-//     Vector6d tmp;
-//     Vector6d cartesian2;
-//     Vector6d blmean2;
-
-//     const Real cartesianNorm = cartesian.norm();
-
-//     while (emag > 1e-8)
-//     {
-//         blmean2 = getBLMeanFromAeq(aeqMean2);
-
-//         coeVector2 = BMLOE::FromVector(blmean2).toCOE().asVector(COE::AnomalyType::Mean);
-//         std::cout << "blmean2: " << blmean2 << std::endl;
-//         std::cout << "coeVector2: " << coeVector2 << std::endl;
-//         const COE::CartesianState cartesianState = COE::FromVector(coeVector2, COE::AnomalyType::Mean)
-//                                                        .getCartesianState(aGravitationalParameter, Frame::GCRF());
-//         cartesian2.segment(0, 3) = cartesianState.first.accessCoordinates();
-//         cartesian2.segment(3, 3) = cartesianState.second.accessCoordinates();
-
-//         tmp = cartesian - cartesian2;
-//         emag = tmp.norm() / cartesianNorm;
-
-//         std::cout << "cartesian: " << cartesian << std::endl;
-//         std::cout << "cartesian2: " << cartesian2 << std::endl;
-//         std::cout << "tmp: " << tmp << std::endl;
-//         std::cout << "norms: " << tmp.norm() << " " << cartesian.norm() << std::endl;
-//         std::cout << "emag: " << emag << " " << emag_old << std::endl;
-
-//         if (emag_old > emag)
-//         {
-//             emag_old = emag;
-//             // blmean	= blmean2;
-
-//             // blmean2= blmean + (kep - kep2);
-//             aeq2 = getAeq(coeVector2);
-//             aeqMean = aeqMean2;
-//             aeqMean2 = aeqMean + (aeq - aeq2);
-//         }
-//         else
-//         {
-//             throw ostk::core::error::RuntimeError("Brouwer mean long algorithm cannot converge due to emag.");
-//         }
-//         if (iter > 75)
-//         {
-//             throw ostk::core::error::RuntimeError(
-//                 "Iteration limit reached. Brouwer mean long algorithm cannot converge."
-//             );
-//         }
-//         ++iter;
-//     }
-
-//     blmean2 = getBLMeanFromAeq(aeqMean);
-
-//     // if (pseudostate != 0)
-//     // {
-//     //     blmean2[2] = 180.0 - blmean2[2];
-//     //     blmean2[3] = -blmean2[3];
-//     // }
-
-//     blmean2[3] = std::fmod(blmean2[3], Real::TwoPi());
-//     blmean2[4] = std::fmod(blmean2[4], Real::TwoPi());
-//     blmean2[5] = std::fmod(blmean2[5], Real::TwoPi());
-//     if (blmean2[3] < 0.0)
-//     {
-//         blmean2[3] = blmean2[3] + Real::TwoPi();
-//     }
-//     if (blmean2[4] < 0.0)
-//     {
-//         blmean2[4] = blmean2[4] + Real::TwoPi();
-//     }
-//     if (blmean2[5] < 0.0)
-//     {
-//         blmean2[5] = blmean2[5] + Real::TwoPi();
-//     }
-
-//     return {
-//         Length::Meters(blmean2[0]),
-//         blmean2[1],
-//         Angle::Radians(blmean2[2]),
-//         Angle::Radians(blmean2[3]),
-//         Angle::Radians(blmean2[4]),
-//         Angle::Radians(blmean2[5]),
-//     };
-// }
-
 BMLOE BMLOE::Cartesian(const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter)
 {
-    Real tol = 1.0E-8;
-    Integer maxiter = 75;
-
     const COE coe = COE::Cartesian(aCartesianState, aGravitationalParameter);
-
-    Vector6d cartesian;
-    cartesian.segment(0, 3) = aCartesianState.first.accessCoordinates();
-    cartesian.segment(3, 3) = aCartesianState.second.accessCoordinates();
 
     bool possibleInaccuracyLongWritten = false;
     bool inaccuracyCriticalAngleWritten = false;
 
-    Vector6d kep = coe.asVector(COE::AnomalyType::Mean);
-    std::cout.precision(16);
-    std::cout << kep << std::endl;
+    if ((coe.getEccentricity() > 0.99) || (coe.getEccentricity() < 0.0))
+    {
+        throw ostk::core::error::RuntimeError(
+            String::Format("BrouwerMeanLong is applicable only if 0.0 < Ecc: [{}] < 0.99.", coe.getEccentricity())
+        );
+    }
 
-    if ((kep[1] > 0.99) || (kep[1] < 0.0))
+    const Real perigee = coe.getPeriapsisRadius().inMeters();
+    if (perigee < 3000000.0)
     {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " While converting from the Cartesian to";
-        errmsg << " the BrouwerMeanLong, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if 0.0 < ECC < 0.99." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
+        throw ostk::core::error::RuntimeError(
+            String::Format("BrouwerMeanLong is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee)
+        );
     }
-    Real radper = (kep[0] * (1.0 - kep[1]));
-    if (radper < 3000.0)
-    {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " While converting from the Cartesian to";
-        errmsg << " the BrouwerMeanLong, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if RadPer is larger than  3000km." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
-    }
-    if (radper < 6378.0)
+    if (perigee < 6378000.0)
     {
         if (!possibleInaccuracyLongWritten)
         {
@@ -268,18 +88,17 @@ BMLOE BMLOE::Cartesian(const COE::CartesianState &aCartesianState, const Derived
             possibleInaccuracyLongWritten = true;
         }
     }
-    if (kep[2] > Real::Pi())
+
+    const Real inclination_degrees = coe.getInclination().inDegrees();
+    if (inclination_degrees > 180.0)
     {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " While converting from the Cartesian to";
-        errmsg << " the BrouwerMeanLong, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if inclination is smaller than 180 DEG." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
+        throw ostk::core::error::RuntimeError(String::Format(
+            "BrouwerMeanLong is applicable only if inclination: [{}] < 180.0 degrees.", inclination_degrees
+        ));
     }
 
-    if ((58.80 < kep[2] && kep[2] < 65.78) || (114.22 < kep[2] && kep[2] < 121.2))
+    if ((58.80 < inclination_degrees && inclination_degrees < 65.78) ||
+        (114.22 < inclination_degrees && inclination_degrees < 121.2))
     {
         if (!inaccuracyCriticalAngleWritten)
         {
@@ -291,109 +110,111 @@ BMLOE BMLOE::Cartesian(const COE::CartesianState &aCartesianState, const Derived
         }
     }
 
+    Vector6d cartesian;
+    cartesian.segment(0, 3) = aCartesianState.first.accessCoordinates();
+    cartesian.segment(3, 3) = aCartesianState.second.accessCoordinates();
+
+    Vector6d coeVector = coe.getVector(COE::AnomalyType::Mean);
+
     Integer pseudostate = 0;
-    // if (kep[2] > 175.0)
-    // {
-    // kep[2] = Real::Pi() - kep[2];  // INC = 180 - INC
-    // kep[3] = -kep[3];         // RAAN = - RAAN
-    // cartesian = KeplerianToCartesian(mu, kep, type);
-    // pseudostate = 1;
-    // }
+    if (coeVector[2] > 3.0543261909900763)
+    {
+        coeVector[2] = Real::Pi() - coeVector[2];  // INC = 180 - INC
+        coeVector[3] = -coeVector[3];              // RAAN = - RAAN
+        Position position = Position::Undefined();
+        Velocity velocity = Velocity::Undefined();
+        std::tie(position, velocity) =
+            COE::FromVector(coeVector, COE::AnomalyType::True)
+                .getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
+        cartesian.segment(0, 3) = position.getCoordinates();
+        cartesian.segment(3, 3) = velocity.getCoordinates();
 
-    Vector6d blmean = kep;
-    Vector6d kep2 = BMLOE::FromVector(kep).toCOE().asVector(COE::AnomalyType::Mean);
-    std::cout << "kep2: " << kep2 << std::endl;
+        pseudostate = 1;
+    }
 
-    Vector6d blmean2;
+    // TBI: Can make this a static method to convert to Modified Equinoctial elements
+    const auto getAeq = [](const Vector6d &aCOEVector) -> Vector6d
+    {
+        return {
+            aCOEVector[0],
+            aCOEVector[1] * std::sin(aCOEVector[3] + aCOEVector[4]),
+            aCOEVector[1] * std::cos(aCOEVector[3] + aCOEVector[4]),
+            std::sin(aCOEVector[2] / 2.0) * std::sin(aCOEVector[3]),
+            std::sin(aCOEVector[2] / 2.0) * std::cos(aCOEVector[3]),
+            aCOEVector[3] + aCOEVector[4] + aCOEVector[5],
+        };
+    };
 
-    // blmean2= blmean + (kep - kep2);
-    Vector6d aeq;
-    Vector6d aeq2;
-    Vector6d aeqmean;
-    Vector6d aeqmean2;
+    // TBI: Same as above
+    const auto getBLMeanFromAeq = [](const Vector6d &anAeqVector) -> Vector6d
+    {
+        Real meanInc = Real::Undefined();
 
-    aeq[0] = kep[0];
-    aeq[1] = kep[1] * std::sin((kep[4] + kep[3]));
-    aeq[2] = kep[1] * std::cos((kep[4] + kep[3]));
-    aeq[3] = std::sin(kep[2] / 2.0) * std::sin(kep[3]);
-    aeq[4] = std::sin(kep[2] / 2.0) * std::cos(kep[3]);
-    aeq[5] = kep[3] + kep[4] + kep[5];
+        if ((anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]) <= 1.0)
+        {
+            meanInc = std::acos(1.0 - 2.0 * (anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]));
+        }
+        else
+        {
+            meanInc = std::acos(1.0 - 2.0 * 1.0);
+        }
 
-    aeq2[0] = kep2[0];
-    aeq2[1] = kep2[1] * std::sin((kep2[4] + kep2[3]));
-    aeq2[2] = kep2[1] * std::cos((kep2[4] + kep2[3]));
-    aeq2[3] = std::sin(kep2[2] / 2.0) * std::sin(kep2[3]);
-    aeq2[4] = std::sin(kep2[2] / 2.0) * std::cos(kep2[3]);
-    aeq2[5] = kep2[3] + kep2[4] + kep2[5];
+        Real meanRaan = std::atan2(anAeqVector[3], anAeqVector[4]);
+        if (meanRaan < 0.0)
+        {
+            meanRaan = meanRaan + Real::TwoPi();
+        }
 
-    aeqmean[0] = blmean[0];
-    aeqmean[1] = blmean[1] * std::sin((blmean[4] + blmean[3]));
-    aeqmean[2] = blmean[1] * std::cos((blmean[4] + blmean[3]));
-    aeqmean[3] = std::sin(blmean[2] / 2.0) * std::sin(blmean[3]);
-    aeqmean[4] = std::sin(blmean[2] / 2.0) * std::cos(blmean[3]);
-    aeqmean[5] = blmean[3] + blmean[4] + blmean[5];
+        return {
+            anAeqVector[0],
+            std::sqrt(anAeqVector[1] * anAeqVector[1] + anAeqVector[2] * anAeqVector[2]),
+            meanInc,
+            meanRaan,
+            std::atan2(anAeqVector[1], anAeqVector[2]) - meanRaan,
+            anAeqVector[5] - std::atan2(anAeqVector[1], anAeqVector[2]),
+        };
+    };
 
-    aeqmean2 = aeqmean + (aeq - aeq2);
+    Vector6d aeq = getAeq(coeVector);
+
+    Vector6d coeVector_2 = BMLOE::FromVector(coeVector).toCOE().getVector(COE::AnomalyType::Mean);
+    Vector6d aeq_2 = getAeq(coeVector_2);
+
+    Vector6d aeqMean = aeq;
+    Vector6d aeqMean_2 = aeqMean + (aeq - aeq_2);
+
+    Vector6d blMean;
+
     Real emag = 0.9;
     Real emag_old = 1.0;
-    Integer ii = 0;
-    Vector6d tmp;
-    Vector6d cart2;
+    Integer iter = 0;
+    Vector6d cartesian_2;
+
+    const Real tol = 1.0E-8;
+    const Integer maxiter = 75;
     while (emag > tol)
     {
-        blmean2[0] = aeqmean2[0];
-        blmean2[1] = std::sqrt(aeqmean2[1] * aeqmean2[1] + aeqmean2[2] * aeqmean2[2]);
-        if ((aeqmean2[3] * aeqmean2[3] + aeqmean2[4] * aeqmean2[4]) <= 1.0)
-            blmean2[2] = std::acos(1.0 - 2.0 * (aeqmean2[3] * aeqmean2[3] + aeqmean2[4] * aeqmean2[4]));
-        if ((aeqmean2[3] * aeqmean2[3] + aeqmean2[4] * aeqmean2[4]) > 1.0)
-            blmean2[2] = std::acos(1.0 - 2.0 * 1.0);
+        blMean = getBLMeanFromAeq(aeqMean_2);
+        coeVector_2 = BMLOE::FromVector(blMean).toCOE().getVector(COE::AnomalyType::Mean);
 
-        blmean2[3] = std::atan2(aeqmean2[3], aeqmean2[4]);
-        if (blmean2[3] < 0.0)
-        {
-            blmean2[3] = blmean2[3] + Real::TwoPi();
-        }
-        blmean2[4] = std::atan2(aeqmean2[1], aeqmean2[2]) - blmean2[3];
-        blmean2[5] = aeqmean2[5] - std::atan2(aeqmean2[1], aeqmean2[2]);
-
-        kep2 = BMLOE::FromVector(blmean2).toCOE().asVector(COE::AnomalyType::Mean);
-        std::cout << "kep2: " << kep2 << std::endl;
-
-        const COE coe2 = COE::FromVector(kep2, COE::AnomalyType::Mean);
+        const COE coe_2 = COE::FromVector(coeVector_2, COE::AnomalyType::Mean);
         Position position2 = Position::Undefined();
         Velocity velocity2 = Velocity::Undefined();
         std::tie(position2, velocity2) =
-            coe2.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
-        cart2.segment(0, 3) = position2.getCoordinates();
-        cart2.segment(3, 3) = velocity2.getCoordinates();
+            coe_2.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
+        cartesian_2.segment(0, 3) = position2.getCoordinates();
+        cartesian_2.segment(3, 3) = velocity2.getCoordinates();
 
-        tmp = cartesian - cart2;
+        const Vector6d delta = cartesian - cartesian_2;
 
-        emag = std::sqrt(
-                   std::pow(tmp[0], 2.0) + std::pow(tmp[1], 2.0) + std::pow(tmp[2], 2.0) + std::pow(tmp[3], 2.0) +
-                   std::pow(tmp[4], 2.0) + std::pow(tmp[5], 2.0)
-               ) /
-               std::sqrt(
-                   std::pow(cartesian[0], 2.0) + std::pow(cartesian[1], 2.0) + std::pow(cartesian[2], 2.0) +
-                   std::pow(cartesian[3], 2.0) + std::pow(cartesian[4], 2.0) + std::pow(cartesian[5], 2.0)
-               );
+        emag = delta.norm() / cartesian.norm();
 
         if (emag_old > emag)
         {
             emag_old = emag;
-            // blmean	= blmean2;
-
-            // blmean2= blmean + (kep - kep2);
-
-            aeq2[0] = kep2[0];
-            aeq2[1] = kep2[1] * std::sin((kep2[4] + kep2[3]));
-            aeq2[2] = kep2[1] * std::cos((kep2[4] + kep2[3]));
-            aeq2[3] = std::sin(kep2[2] / 2.0) * std::sin(kep2[3]);
-            aeq2[4] = std::sin(kep2[2] / 2.0) * std::cos(kep2[3]);
-            aeq2[5] = kep2[3] + kep2[4] + kep2[5];
-
-            aeqmean = aeqmean2;
-            aeqmean2 = aeqmean + (aeq - aeq2);
+            aeq_2 = getAeq(coeVector_2);
+            aeqMean = aeqMean_2;
+            aeqMean_2 = aeqMean + (aeq - aeq_2);
         }
         else
         {
@@ -405,59 +226,24 @@ BMLOE BMLOE::Cartesian(const COE::CartesianState &aCartesianState, const Derived
             );
             break;
         }
-        if (ii > maxiter)
+        if (iter > maxiter)
         {
             std::cout << "Warning: Maximum iteration number has been reached. There is a possible inaccuracy.\n";
             break;
         }
-        ii = ii + 1;
+
+        ++iter;
     }
 
-    blmean[0] = aeqmean[0];
-    blmean[1] = std::sqrt(aeqmean[1] * aeqmean[1] + aeqmean[2] * aeqmean[2]);
-    if ((aeqmean[3] * aeqmean[3] + aeqmean[4] * aeqmean[4]) <= 1.0)
-        blmean[2] = std::acos(1.0 - 2.0 * (aeqmean[3] * aeqmean[3] + aeqmean[4] * aeqmean[4]));
-    if ((aeqmean[3] * aeqmean[3] + aeqmean[4] * aeqmean[4]) > 1.0)
-        blmean[2] = std::acos(1.0 - 2.0 * 1.0);
-
-    blmean[3] = std::atan2(aeqmean[3], aeqmean[4]);
-    if (blmean[3] < 0.0)
-    {
-        blmean[3] = blmean[3] + Real::TwoPi();
-    }
-    blmean[4] = std::atan2(aeqmean[1], aeqmean[2]) - blmean[3];
-    blmean[5] = aeqmean[5] - std::atan2(aeqmean[1], aeqmean[2]);
+    blMean = getBLMeanFromAeq(aeqMean);
 
     if (pseudostate != 0)
     {
-        blmean[2] = Real::Pi() - blmean[2];
-        blmean[3] = -blmean[3];
+        blMean[2] = Real::Pi() - blMean[2];
+        blMean[3] = -blMean[3];
     }
 
-    blmean[3] = std::fmod(blmean[3], Real::TwoPi());
-    blmean[4] = std::fmod(blmean[4], Real::TwoPi());
-    blmean[5] = std::fmod(blmean[5], Real::TwoPi());
-    if (blmean[3] < 0.0)
-    {
-        blmean[3] = blmean[3] + Real::TwoPi();
-    }
-    if (blmean[4] < 0.0)
-    {
-        blmean[4] = blmean[4] + Real::TwoPi();
-    }
-    if (blmean[5] < 0.0)
-    {
-        blmean[5] = blmean[5] + Real::TwoPi();
-    }
-
-    return {
-        Length::Meters(blmean[0]),
-        blmean[1],
-        Angle::Radians(blmean[2]),
-        Angle::Radians(blmean[3]),
-        Angle::Radians(blmean[4]),
-        Angle::Radians(blmean[5]),
-    };
+    return BMLOE::FromVector(blMean);
 }
 
 COE BMLOE::toCOE() const
@@ -469,43 +255,44 @@ COE BMLOE::toCOE() const
     bool possibleInaccuracyLongWritten = false;
     bool criticalInclinationWritten = false;
 
+    // Real	 re		 = 6378.1363; // Earth radius
+    const Real re = EarthGravitationalModel::EGM2008.equatorialRadius_.inMeters();
     const Real j2 = 1.082626925638815E-03;
     const Real j3 = -0.2532307818191774E-5;
     const Real j4 = -0.1620429990000000E-5;
     const Real j5 = -0.2270711043920343E-6;
     const Real ae = 1.0;
-    Real smadp = semiMajorAxis_.inMeters() / equatorialRadius;
+    Real smadp = semiMajorAxis_.inMeters() / re;
     Real eccdp = eccentricity_;
     Real incdp = inclination_.inRadians();
     Real raandp = raan_.inRadians(0.0, Real::TwoPi());
     Real aopdp = aop_.inRadians(0.0, Real::TwoPi());
     Real meanAnom = meanAnomaly_.inRadians(0.0, Real::TwoPi());
 
-    // TBI: Case for inclination > 175.0
-    if (eccdp > 0.99)
+    if (incdp > 3.0543261909900763)
     {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " while converting from the BrouwerMeanLong to";
-        errmsg << " the Cartesian, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if mean ECC is smaller than 0.99." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
+        incdp = Real::TwoPi() / 2.0 - incdp;
+        raandp = -raandp;
+        pseudostate = 1;
     }
 
-    Real radper = (semiMajorAxis_.inMeters() * (1.0 - eccdp));
-    std::cout << semiMajorAxis_.inMeters() << " " << eccdp << " " << radper << std::endl;
-    if (radper < 3000000.0)
+    // negative eccentricity aviodance lines
+    if (eccdp > 0.99)
     {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " While converting from the BrouwerMeanLong to";
-        errmsg << " the Cartesian, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if RadPer is larger than 3000km." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
+        throw ostk::core::error::RuntimeError(
+            String::Format("BrouwerMeanLong is applicable only if 0.0 < Ecc: [{}] < 0.99.", eccdp)
+        );
     }
-    if (radper < 6378000.0)
+
+    // TBI: Use method inherited from parent.
+    const Real perigee = (semiMajorAxis_.inMeters() * (1.0 - eccdp));
+    if (perigee < 3000000.0)
+    {
+        throw ostk::core::error::RuntimeError(
+            String::Format("BrouwerMeanLong is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee)
+        );
+    }
+    if (perigee < 6378000.0)
     {
         if (!possibleInaccuracyLongWritten)
         {
@@ -518,30 +305,10 @@ COE BMLOE::toCOE() const
 
     if (incdp > Real::Pi())
     {
-        std::stringstream errmsg("");
-        errmsg.precision(21);
-        errmsg << " While converting from the BrouwerMeanLong to";
-        errmsg << " the Cartesian, an error has been encountered.";
-        errmsg << " BrouwerMeanLong is applicable";
-        errmsg << " only if inclination is smaller than 180 DEG." << std::endl;
-        throw ostk::core::error::RuntimeError(errmsg.str());
-    }
-
-    raandp = std::fmod(raandp, Real::TwoPi());
-    aopdp = std::fmod(aopdp, Real::TwoPi());
-    meanAnom = std::fmod(meanAnom, Real::TwoPi());
-
-    if (raandp < 0.0)
-    {
-        raandp = raandp + Real::TwoPi();
-    }
-    if (aopdp < 0.0)
-    {
-        aopdp = aopdp + Real::TwoPi();
-    }
-    if (meanAnom < 0.0)
-    {
-        meanAnom = meanAnom + Real::TwoPi();
+        throw ostk::core::error::RuntimeError(String::Format(
+            "BrouwerMeanLong is applicable only if inclination: [{}] < 180.0 degrees.",
+            Angle::Radians(incdp).inDegrees()
+        ));
     }
 
     const Real bk2 = (1.0 / 2.0) * (j2 * ae * ae);
@@ -573,8 +340,12 @@ COE BMLOE::toCOE() const
     const Real sinraandp = std::sin(raandp);
     const Real cosraandp = std::cos(raandp);
 
-    // True anomaly (double primed)
-    const Real tadp = COE::TrueAnomalyFromMeanAnomaly(meanAnomaly_, eccdp, 1e-12).inRadians();
+    //-------------------------------------I
+    // COMPUTE TRUE ANOMALY(DOUBLE PRIMED) I
+    //-------------------------------------I
+    // Need to loosen tolerance to 1e-12 for GMT-4446 fix (LOJ: 2014.03.18)
+    // Real	tadp		= MeanToTrueAnomaly(meanAnom, eccdp, 0.5E-15);
+    const Real tadp = COE::TrueAnomalyFromMeanAnomaly(meanAnomaly_, eccentricity_, 1e-12).inRadians();
 
     const Real rp = smadp * (1.0 - eccdp * eccdp) / (1.0 + eccdp * std::cos(tadp));
     const Real adr = smadp / rp;
@@ -643,7 +414,9 @@ COE BMLOE::toCOE() const
         -((80.0 * a17 + 32.0 * a16 + 5.0) * (a22 * eccdp * sinI * sinI * (35.0 / 576.0) * g5dg2) +
           (a8 * a21 * (35.0 / 1152.0)));
 
-    // Semi-Major Axis
+    //----------------------------I
+    // COMPUTE (SEMI-MAJOR AXIS)  I
+    //----------------------------I
     const Real sma =
         smadp * (1.0 + gm2 * ((3.0 * theta2 - 1.0) * (eccdp2 / (cn2 * cn2 * cn2)) * (cn + (1.0 / (1.0 + cn))) +
                               ((3.0 * theta2 - 1.0) / (cn2 * cn2 * cn2)) * (eccdp * costa) *
@@ -661,7 +434,9 @@ COE BMLOE::toCOE() const
     const Real sinGD = std::sin(aopdp);
     const Real cosGD = std::cos(aopdp);
 
-    // L + G + H primed
+    //------------------------I
+    // COMPUTE (L+G+H) PRIMED I
+    //------------------------I
     const Real bisubc = std::pow((1.0 - 5.0 * theta2), -2.0) * ((25.0 * theta4 * theta) * (gmp2 * eccdp2));
     Real blghp = 0.0;
     Real eccdpdl = 0.0;
@@ -700,7 +475,9 @@ COE BMLOE::toCOE() const
                    (6.0 * (eccdp * sinta - meanAnom + tadp) - (3.0 * (sn2gta + eccdp * snf2gd) + eccdp * sn3fgd)))));
     }
 
-    // L + G + H
+    //-----------------I
+    // COMPUTE (L+G+H) I
+    //-----------------I
     Real blgh =
         blghp +
         ((1.0 / (cn + 1.0)) * (1.0 / 4.0) * eccdp * gmp2 * cn2 *
@@ -708,10 +485,10 @@ COE BMLOE::toCOE() const
           2.0 * sinta * (3.0 * theta2 - 1.0) * (adr2 * cn2 + adr + 1.0))) +
         gmp2 * (3.0 / 2.0) * ((-2.0 * theta - 1.0 + 5.0 * theta2) * (eccdp * sinta + tadp - meanAnom)) +
         (3.0 + 2.0 * theta - 5.0 * theta2) * (gmp2 * (1.0 / 4.0) * (eccdp * sn3fgd + 3.0 * (sn2gta + eccdp * snf2gd)));
-    blgh = std::fmod(blgh, Real::TwoPi());
+    blgh = std::fmod(blgh, (Real::TwoPi()));
     if (blgh < 0.0)
     {
-        blgh = blgh + Real::TwoPi();
+        blgh = blgh + (Real::TwoPi());
     }
 
     const Real dlte =
@@ -725,17 +502,23 @@ COE BMLOE::toCOE() const
     const Real eccdpdl2 = eccdpdl * eccdpdl;
     const Real eccdpde2 = (eccdp + dlte) * (eccdp + dlte);
 
-    // Eccentricity
-    const Real ecc = std::sqrt(eccdpdl2 + eccdpde2);
+    //-------------------------I
+    // COMPUTE ECC             I
+    //-------------------------I
+    const Real ecc = sqrt(eccdpdl2 + eccdpde2);
     const Real sinDH2 = sinDH * sinDH;
     const Real squar = (dltI * cosI2 * (1.0 / 2.0) + sinI2) * (dltI * cosI2 * (1.0 / 2.0) + sinI2);
-    const Real sqrI = std::sqrt(sinDH2 + squar);
+    const Real sqrI = sqrt(sinDH2 + squar);
 
-    // Inclination
+    //--------------------------I
+    // COMPUTE (INCLINATION) I
+    //--------------------------I
     Real inc = 2 * std::asin(sqrI);
-    inc = std::fmod(inc, Real::TwoPi());
+    inc = std::fmod(inc, (Real::TwoPi()));
 
-    // Mean anomaly (longitude of ascending node and Argument of perigee)
+    //-------------------------I
+    // COMPUTE (MEAN ANOMALY), (LONGITUDE OF ASCENDING NODE) and (ARGUMENT  OF PERIGEE) I
+    //-------------------------I
     Real ma = Real::Undefined();
     Real raan = Real::Undefined();
     Real aop = Real::Undefined();
@@ -757,8 +540,8 @@ COE BMLOE::toCOE() const
     }
     else
     {
-        const Real arg1 = eccdpdl * cosMADP + (eccdp + dlte) * sinMADP;
-        const Real arg2 = (eccdp + dlte) * cosMADP - (eccdpdl * sinMADP);
+        Real arg1 = eccdpdl * cosMADP + (eccdp + dlte) * sinMADP;
+        Real arg2 = (eccdp + dlte) * cosMADP - (eccdpdl * sinMADP);
         ma = std::atan2(arg1, arg2);
         ma = std::fmod(ma, (Real::TwoPi()));
 
@@ -769,27 +552,27 @@ COE BMLOE::toCOE() const
         }
         else
         {
-            const Real arg1 = sinDH * cosraandp + sinraandp * ((1.0 / 2.0) * dltI * cosI2 + sinI2);
-            const Real arg2 = cosraandp * ((1.0 / 2.0) * dltI * cosI2 + sinI2) - (sinDH * sinraandp);
+            arg1 = sinDH * cosraandp + sinraandp * ((1.0 / 2.0) * dltI * cosI2 + sinI2);
+            arg2 = cosraandp * ((1.0 / 2.0) * dltI * cosI2 + sinI2) - (sinDH * sinraandp);
             raan = std::atan2(arg1, arg2);
             aop = blgh - ma - raan;
         }
     }
     if (ma < 0.0)
     {
-        ma = ma + Real::TwoPi();
+        ma += Real::TwoPi();
     }
 
     raan = std::fmod(raan, (Real::TwoPi()));
     if (raan < 0.0)
     {
-        raan = raan + (Real::TwoPi());
+        raan += (Real::TwoPi());
     }
 
     aop = std::fmod(aop, (Real::TwoPi()));
     if (aop < 0.0)
     {
-        aop = aop + Real::TwoPi();
+        aop += Real::TwoPi();
     }
 
     if (pseudostate != 0)

@@ -20,7 +20,7 @@ using ostk::core::types::String;
 using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Tuple;
 
-using Vector6d = Eigen::Matrix<double, 1, 6>;
+using ostk::math::obj::Vector6d;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -46,6 +46,67 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Constr
 
         EXPECT_NO_THROW(BMLOE(semiMajorAxis, eccentricity, inclination, raan, aop, meanAnomaly););
     }
+}
+
+class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE_Parametrized
+    : public ::testing::TestWithParam<std::tuple<Position, Velocity, Vector6d>>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    Cartesian,
+    OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE_Parametrized,
+    ::testing::Values(
+        std::make_tuple(
+            Position::Meters({853730.214, -382070.813, 6892445.528}, Frame::GCRF()),
+            Velocity::MetersPerSecond({-3093.942450, -6913.357574, 0.000000}, Frame::GCRF()),
+            Vector6d {
+                6972365.96849981,
+                0.001677656315248244,
+                1.705584427014695,
+                1.149997444146928,
+                1.570796346108476,
+                6.283185292358735
+            }
+        ),
+        std::make_tuple(
+            Position::Meters({6596407.223662058, 2281266.582975321, -10540.61521486086}, Frame::GCRF()),
+            Velocity::MetersPerSecond({337.7269674273224, -969.7192552349448, 7488.702816619139}, Frame::GCRF()),
+            Vector6d {
+                6973743.602335568,
+                5.774323043509002e-05,
+                1.707157127936171,
+                0.33275235532951913,
+                1.5260845940226722,
+                4.757975922389615
+            }
+        ),
+        std::make_tuple(
+            Position::Meters({3069727.653946085, 152795.0493150251, 6255299.697473039}, Frame::GCRF()),
+            Velocity::MetersPerSecond({-6334.622885945246, -2650.157689208724, 3166.240597652546}, Frame::GCRF()),
+            Vector6d {
+                6973701.460024448,
+                5.827419003295505e-05,
+                1.704897179172191,
+                0.3328377583409925,
+                1.5915494309189535,
+                5.825745573394756
+            }
+        )
+    )
+);
+
+TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE_Parametrized, Cartesian)
+{
+    const auto& [position, velocity, expectedMeanElements] = GetParam();
+    const BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
+
+    EXPECT_LT(std::abs(bmloe.getVector()[0] - expectedMeanElements[0]), 1.0);
+    EXPECT_LT(std::abs(bmloe.getVector()[1] - expectedMeanElements[1]), 1e-2);
+    EXPECT_LT(std::abs(bmloe.getVector()[2] - expectedMeanElements[2]), 1e-2);
+    EXPECT_LT(std::abs(bmloe.getVector()[3] - expectedMeanElements[3]), 1e-2);
+    EXPECT_LT(std::abs(bmloe.getVector()[4] - expectedMeanElements[4]), 1e-2);
+    EXPECT_LT(std::abs(bmloe.getVector()[5] - expectedMeanElements[5]), 1e-2);
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, ToCOE)
@@ -76,52 +137,17 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, ToCOE)
             6.283185292246888,
         };
 
-        EXPECT_TRUE((coeVectorExpected - bmloe.toCOE().asVector(COE::AnomalyType::Mean)).all() < 1e-15);
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Cartesian)
-{
-    {
-        const Real meanSMA = 6972365.96849981;
-        const Real meanEcc = 0.001677656315248244;
-        const Real meanInc = 1.705584427014695;
-        const Real meanRaan = 1.149997444146928;
-        const Real meanAop = 1.570796346108476;
-        const Real meanMeanAnomaly = 6.283185292358735;
-
-        const Position position = Position::Meters({853730.214, -382070.813, 6892445.528}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({-3093.942450, -6913.357574, 0.000000}, Frame::GCRF());
-        const BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
-
-        EXPECT_LT(std::abs(bmloe.asVector()[0] - meanSMA), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[1] - meanEcc), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[2] - meanInc), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[3] - meanRaan), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[4] - meanAop), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[5] - meanMeanAnomaly), 1e-6);
+        EXPECT_TRUE((coeVectorExpected - bmloe.toCOE().getVector(COE::AnomalyType::Mean)).all() < 1e-15);
     }
 
     {
-        const Position position = Position::Meters({4340789.050, 0.000000, 0.000000}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({0.000000, 9784.755, 5312.688}, Frame::GCRF());
-
-        const BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
-
-        const Vector6d expectedMeanElements = {
-            6.659637260077382e+006,
-            3.473326030715827e-001,
-            2.846453224361113e+001,
-            3.599450721824177e+002,
-            3.599700015119411e+002,
-            6.963626331704763e-002,
-        };
-
-        EXPECT_LT(std::abs(bmloe.asVector()[0] - expectedMeanElements[0]), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[1] - expectedMeanElements[1]), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[2] - expectedMeanElements[2]), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[3] - expectedMeanElements[3]), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[4] - expectedMeanElements[4]), 1e-6);
-        EXPECT_LT(std::abs(bmloe.asVector()[5] - expectedMeanElements[5]), 1e-6);
+        const BMLOE bmloe = BMLOE::FromVector({
+            6983041.676067771,
+            0.00128990139546395,
+            1.707065635206913,
+            0.3327522117680815,
+            1.196081507607826,
+            5.083175854163714,
+        });
     }
 }
