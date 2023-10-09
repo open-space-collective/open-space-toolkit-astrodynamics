@@ -32,6 +32,7 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::BMLOE;
+using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Constructor)
 {
@@ -47,19 +48,51 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Constr
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, ToCOE)
+{
+    {
+        const Length semiMajorAxis = Length::Meters(6972365.96849981);
+        const Real eccentricity = 0.001677656315248244;
+        const Angle inclination = Angle::Radians(1.705584427014695);
+        const Angle raan = Angle::Radians(1.149997444146928);
+        const Angle aop = Angle::Radians(1.570796346108476);
+        const Angle meanAnomaly = Angle::Radians(6.283185292358735);
+
+        const BMLOE bmloe = {
+            semiMajorAxis,
+            eccentricity,
+            inclination,
+            raan,
+            aop,
+            meanAnomaly,
+        };
+
+        const Vector6d coeVectorExpected = {
+            6963000.047336794,
+            0.001060006293925325,
+            1.705675370985273,
+            1.149997444147743,
+            1.570796346211503,
+            6.283185292246888,
+        };
+
+        EXPECT_TRUE((coeVectorExpected - bmloe.toCOE().asVector(COE::AnomalyType::Mean)).all() < 1e-15);
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Cartesian)
 {
     {
-        const Real meanSMA = 6972365.90155841;
-        const Real meanEcc = 0.00167736;
-        const Real meanInc = Angle::Degrees(97.72278930).inRadians();
-        const Real meanRaan = Angle::Degrees(65.89000000).inRadians();
-        const Real meanAop = Angle::Degrees(90.0).inRadians();
-        const Real meanMeanAnomaly = Angle::Degrees(0.0).inRadians();
+        const Real meanSMA = 6972365.96849981;
+        const Real meanEcc = 0.001677656315248244;
+        const Real meanInc = 1.705584427014695;
+        const Real meanRaan = 1.149997444146928;
+        const Real meanAop = 1.570796346108476;
+        const Real meanMeanAnomaly = 6.283185292358735;
 
         const Position position = Position::Meters({853730.214, -382070.813, 6892445.528}, Frame::GCRF());
         const Velocity velocity = Velocity::MetersPerSecond({-3093.942450, -6913.357574, 0.000000}, Frame::GCRF());
-        BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM96.gravitationalParameter_);
+        const BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
 
         EXPECT_LT(std::abs(bmloe.asVector()[0] - meanSMA), 1e-6);
         EXPECT_LT(std::abs(bmloe.asVector()[1] - meanEcc), 1e-6);
@@ -70,16 +103,25 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE, Cartes
     }
 
     {
-        const Position position = Position::Meters({4340.789050, -0.000000, -0.000000}, Frame::GCRF());
-        const Velocity velocity = Velocity::MetersPerSecond({-0.000000, 9.784755, 5.312688}, Frame::GCRF());
+        const Position position = Position::Meters({4340789.050, 0.000000, 0.000000}, Frame::GCRF());
+        const Velocity velocity = Velocity::MetersPerSecond({0.000000, 9784.755, 5312.688}, Frame::GCRF());
+
+        const BMLOE bmloe = BMLOE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
 
         const Vector6d expectedMeanElements = {
-            6.659637260077382e+003,
+            6.659637260077382e+006,
             3.473326030715827e-001,
             2.846453224361113e+001,
             3.599450721824177e+002,
             3.599700015119411e+002,
             6.963626331704763e-002,
         };
+
+        EXPECT_LT(std::abs(bmloe.asVector()[0] - expectedMeanElements[0]), 1e-6);
+        EXPECT_LT(std::abs(bmloe.asVector()[1] - expectedMeanElements[1]), 1e-6);
+        EXPECT_LT(std::abs(bmloe.asVector()[2] - expectedMeanElements[2]), 1e-6);
+        EXPECT_LT(std::abs(bmloe.asVector()[3] - expectedMeanElements[3]), 1e-6);
+        EXPECT_LT(std::abs(bmloe.asVector()[4] - expectedMeanElements[4]), 1e-6);
+        EXPECT_LT(std::abs(bmloe.asVector()[5] - expectedMeanElements[5]), 1e-6);
     }
 }
