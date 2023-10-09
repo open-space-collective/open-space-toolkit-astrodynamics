@@ -8,6 +8,8 @@
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Types/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
+
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -34,7 +36,7 @@ using ostk::core::types::Real;
 using ostk::core::types::Shared;
 using ostk::core::types::String;
 
-using Vector6d = Eigen::Matrix<double, 1, 6>;
+using ostk::math::obj::Vector6d;
 
 using ostk::physics::coord::Frame;
 using ostk::physics::coord::Position;
@@ -115,7 +117,7 @@ class COE
     COE::CartesianState getCartesianState(const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr)
         const;
 
-    Vector6d asVector(const AnomalyType& anAnomalyType) const;
+    Vector6d getVector(const AnomalyType& anAnomalyType) const;
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
@@ -139,7 +141,13 @@ class COE
         const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance
     );
 
-    static Angle ParseAnomaly(const Angle& anAnomaly, const Real& anEccentricity, const AnomalyType& anAnomalyType);
+    static Angle ConvertAnomaly(
+        const Angle& anAnomaly,
+        const Real& anEccentricity,
+        const AnomalyType& fromAnomalyType,
+        const AnomalyType& toAnomalyType,
+        const Real& aTolerance
+    );
 
     /// @brief                  Convert element to string
     ///
