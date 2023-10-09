@@ -10,6 +10,7 @@
 using ostk::core::types::Shared;
 using ostk::core::types::Size;
 using ostk::core::types::String;
+using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
 
@@ -345,5 +346,56 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinatesBroker, Extrac
         EXPECT_EQ(5.0, subset_3_coordinates(2));
 
         EXPECT_ANY_THROW(broker.extractCoordinates(fullCoordinatesVector, subset_4));
+    }
+
+    {
+        CoordinatesBroker broker = CoordinatesBroker();
+        broker.addSubset(subset_1);
+        broker.addSubset(subset_2);
+        broker.addSubset(subset_3);
+
+        VectorXd fullCoordinatesVector(6);
+        fullCoordinatesVector << 0.0, 1.0, 2.0, 3.0, 4.0, 5.0;
+
+        Array<Shared<const CoordinatesSubset>> subsets_1 = {subset_1};
+        const VectorXd subset_1_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_1);
+        EXPECT_EQ(1, subset_1_coordinates.size());
+        EXPECT_EQ(0.0, subset_1_coordinates(0));
+
+        Array<Shared<const CoordinatesSubset>> subsets_12 = {subset_1, subset_2};
+        const VectorXd subset_12_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_12);
+        EXPECT_EQ(3, subset_12_coordinates.size());
+        EXPECT_EQ(0.0, subset_12_coordinates(0));
+        EXPECT_EQ(1.0, subset_12_coordinates(1));
+        EXPECT_EQ(2.0, subset_12_coordinates(2));
+
+        Array<Shared<const CoordinatesSubset>> subsets_13 = {subset_1, subset_3};
+        const VectorXd subset_13_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_13);
+        EXPECT_EQ(4, subset_13_coordinates.size());
+        EXPECT_EQ(0.0, subset_13_coordinates(0));
+        EXPECT_EQ(3.0, subset_13_coordinates(1));
+        EXPECT_EQ(4.0, subset_13_coordinates(2));
+        EXPECT_EQ(5.0, subset_13_coordinates(3));
+
+        Array<Shared<const CoordinatesSubset>> subsets_31 = {subset_3, subset_1};
+        const VectorXd subset_31_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_31);
+        EXPECT_EQ(4, subset_31_coordinates.size());
+        EXPECT_EQ(3.0, subset_31_coordinates(0));
+        EXPECT_EQ(4.0, subset_31_coordinates(1));
+        EXPECT_EQ(5.0, subset_31_coordinates(2));
+        EXPECT_EQ(0.0, subset_31_coordinates(3));
+
+        Array<Shared<const CoordinatesSubset>> subsets_123 = {subset_1, subset_2, subset_3};
+        const VectorXd subset_123_coordinates = broker.extractCoordinates(fullCoordinatesVector, subsets_123);
+        EXPECT_EQ(6, subset_123_coordinates.size());
+        EXPECT_EQ(0.0, subset_123_coordinates(0));
+        EXPECT_EQ(1.0, subset_123_coordinates(1));
+        EXPECT_EQ(2.0, subset_123_coordinates(2));
+        EXPECT_EQ(3.0, subset_123_coordinates(3));
+        EXPECT_EQ(4.0, subset_123_coordinates(4));
+        EXPECT_EQ(5.0, subset_123_coordinates(5));
+
+        Array<Shared<const CoordinatesSubset>> subsets_14 = {subset_1, subset_4};
+        EXPECT_ANY_THROW(broker.extractCoordinates(fullCoordinatesVector, subsets_14));
     }
 }

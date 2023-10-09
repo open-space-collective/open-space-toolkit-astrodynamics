@@ -305,9 +305,14 @@ const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() cons
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
-VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubetSPtr) const
+VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubetSPtr);
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubsetSPtr);
+}
+
+VectorXd State::extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const
+{
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aCoordinatesSubsetsArray);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const

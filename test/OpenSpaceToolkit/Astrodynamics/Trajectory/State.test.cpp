@@ -957,6 +957,28 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, ExtractCoordinates)
         EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinates(CartesianPosition::Default()));
         EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(CartesianVelocity::Default()));
     }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+        const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+
+        const Array<Shared<const CoordinatesSubset>> positionSubset = {CartesianPosition::Default()};
+        EXPECT_EQ(coordinates.segment(0, 3), aState.extractCoordinates(positionSubset));
+
+        const Array<Shared<const CoordinatesSubset>> velocitySubset = {CartesianVelocity::Default()};
+        EXPECT_EQ(coordinates.segment(3, 3), aState.extractCoordinates(velocitySubset));
+
+        const Array<Shared<const CoordinatesSubset>> positionAndVelocitySubset = {
+            CartesianPosition::Default(),
+            CartesianVelocity::Default(),
+        };
+        EXPECT_EQ(coordinates, aState.extractCoordinates(positionAndVelocitySubset));
+    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, InFrame)
