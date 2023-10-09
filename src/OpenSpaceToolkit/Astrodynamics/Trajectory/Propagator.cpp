@@ -157,7 +157,7 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
     );
 }
 
-State Propagator::calculateStateAt(
+NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     const State& aState, const Instant& anInstant, const EventCondition& anEventCondition
 ) const
 {
@@ -182,12 +182,7 @@ State Propagator::calculateStateAt(
         anEventCondition
     );
 
-    if (!conditionSolution.conditionIsSatisfied)
-    {
-        throw ostk::core::error::RuntimeError("Condition not satisfied.");
-    }
-
-    return conditionSolution.state;
+    return conditionSolution;
 }
 
 Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Instant>& anInstantArray) const

@@ -15,11 +15,15 @@ using ostk::physics::time::Duration;
 using ostk::astro::trajectory::Propagator;
 
 Segment::Solution::Solution(
-    const String& aName, const Array<Shared<Dynamics>>& aDynamicsArray, const Array<State>& aStates
+    const String& aName,
+    const Array<Shared<Dynamics>>& aDynamicsArray,
+    const Array<State>& aStates,
+    const bool& aConditionIsSatisfied
 )
     : name(aName),
       dynamics(aDynamicsArray),
-      states(aStates)
+      states(aStates),
+      conditionIsSatisfied(aConditionIsSatisfied)
 {
 }
 
@@ -108,14 +112,14 @@ Segment::Solution Segment::solve(const State& aState, const Duration& maximumPro
 
     const Instant startInstant = aState.getInstant();
 
-    // TBI: Handle the case where the condition is not met
-    const State finalState =
-        propagator.calculateStateAt(aState, startInstant + maximumPropagationDuration, *eventCondition_);
+    const NumericalSolver::ConditionSolution conditionSolution =
+        propagator.calculateStateToCondition(aState, startInstant + maximumPropagationDuration, *eventCondition_);
 
     return {
         name_,
         dynamics_,
         propagator.accessNumericalSolver().accessObservedStates(),
+        conditionSolution.conditionIsSatisfied,
     };
 }
 

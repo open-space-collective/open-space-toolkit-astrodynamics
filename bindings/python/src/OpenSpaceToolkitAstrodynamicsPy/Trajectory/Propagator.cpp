@@ -40,15 +40,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def("add_dynamics", &Propagator::addDynamics, arg("dynamics"))
         .def("clear_dynamics", &Propagator::clearDynamics)
 
+        .def("calculate_state_at", &Propagator::calculateStateAt, arg("state"), arg("instant"))
         .def(
-            "calculate_state_at",
-            overload_cast<const State&, const Instant&>(&Propagator::calculateStateAt, const_),
-            arg("state"),
-            arg("instant")
-        )
-        .def(
-            "calculate_state_at",
-            overload_cast<const State&, const Instant&, const EventCondition&>(&Propagator::calculateStateAt, const_),
+            "calculate_state_to_condition",
+            &Propagator::calculateStateToCondition,
             arg("state"),
             arg("instant"),
             arg("event_condition")

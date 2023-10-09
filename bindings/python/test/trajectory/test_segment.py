@@ -175,3 +175,4 @@ class TestSegment:
             == 0.0
         )
         assert len(solution.states) > 0
+        assert solution.condition_is_satisfied
