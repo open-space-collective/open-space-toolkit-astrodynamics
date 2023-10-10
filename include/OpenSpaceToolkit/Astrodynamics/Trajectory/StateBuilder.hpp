@@ -4,7 +4,10 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -22,8 +25,11 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 
 using ostk::math::obj::VectorXd;
 
@@ -64,6 +70,13 @@ class StateBuilder
     /// @param                  [in] aStateBuilder The StateBuilder to compare to
     /// @return                 True if the  StateBuilders are equal, false otherwise
 
+    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
+
+    /// @brief                  Inequality operator.
+    ///
+    /// @param                  [in] aStateBuilder The StateBuilder to compare to
+    /// @return                 True if the  StateBuilders are not equal, false otherwise
+
     bool operator==(const StateBuilder& aStateBuilder) const;
 
     /// @brief                  Inequality operator.
@@ -73,19 +86,11 @@ class StateBuilder
 
     bool operator!=(const StateBuilder& aStateBuilder) const;
 
-    /// @brief                  Stream insertion operator.
-    ///
-    /// @param                  [in] anOutputStream The output stream to insert into
-    /// @param                  [in] aStateBuilder The StateBuilder to insert
-    /// @return                 The output stream with the StateBuilder inserted
-
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
-
     /// @brief                  Check if the StateBuilder is defined.
     ///
     /// @return                 True if the StateBuilder is defined, false otherwise
 
-    bool isDefined() const;
+    // const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
     /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
     ///
@@ -93,21 +98,38 @@ class StateBuilder
 
     const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
+    /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
+    ///
+    /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
+
+    const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
+
+    const State build(
+        const State& aState,
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd>& anAdditionalCoordinatesMap
+    ) const;
+
     /// @brief                  Accessor for the reference frame.
     ///
     /// @return                 The reference frame
 
-    const Shared<const Frame> accessFrame() const;
+    // bool isDefined() const;
 
     /// @brief                  Access the coordinates broker associated with the  StateBuilder.
     ///
     /// @return                 The coordinates broker associated to the State
 
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    // const Shared<const Frame> accessFrame() const;
 
     /// @brief                  Get the reference frame associated with the  StateBuilder.
     ///
     /// @return                 The reference frame
+
+    const Shared<const Frame> accessFrame() const;
+
+    /// @brief                  Get the coordinates subsets of the  StateBuilder.
+    ///
+    /// @return                 The coordinates subsets
 
     Shared<const Frame> getFrame() const;
 
@@ -117,16 +139,32 @@ class StateBuilder
 
     const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
-    /// @brief Print the StateBuilder to an output stream.
+    /// @brief                  Print the StateBuilder to an output stream.
     ///
-    /// @param [in] anOutputStream The output stream to print to
-    /// @param [in] displayDecorator Whether or not to display the decorator
+    /// @param                  [in] anOutputStream The output stream to print to
+    /// @param                  [in] displayDecorator Whether or not to display the decorator
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Get an undefined StateBuilder.
+    /// @brief                  Return a new StateBuilder with the additional CoordinatesSubset.
     ///
-    /// @return An undefined StateBuilder
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to append
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder expand(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                   Return a new StateBuilder without the given CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                  Get an undefined StateBuilder.
+    ///
+    /// @return                 An undefined StateBuilder
 
     static StateBuilder Undefined();
 
