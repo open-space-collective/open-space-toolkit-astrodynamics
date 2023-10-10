@@ -29,7 +29,7 @@ class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_segment}{Segment}}
 class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_sequence}{Sequence}}
 \begin{DoxyCompactList}\small\item\em Represents a sequence of trajectory segments executed in order. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classostk_1_1astro_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -138,3 +138,13 @@ An output stream.
 \doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
 {\footnotesize\ttfamily std\+::ostream\& ostk\+::astro\+::trajectory\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{an\+Output\+Stream,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State }\end{DoxyParamCaption})}
 
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em an\+Output\+Stream} & The output stream to insert into \\
+\hline
+\mbox{\texttt{ in}}  & {\em a\+State} & The \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} to insert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The output stream with the \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} inserted 
+\end{DoxyReturn}

@@ -134,9 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0fde78b62924b7cf1eb81bf80bff165"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa0fde78b62924b7cf1eb81bf80bff165">calculateStateAt</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState, const Instant &amp;anInstant) const</td></tr>
 <tr class="memdesc:aa0fde78b62924b7cf1eb81bf80bff165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state at an instant, given initial state.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#aa0fde78b62924b7cf1eb81bf80bff165">More...</a><br /></td></tr>
 <tr class="separator:aa0fde78b62924b7cf1eb81bf80bff165"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0789937aa6b2b7a238989a2f787662cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a0789937aa6b2b7a238989a2f787662cf">calculateStateAt</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState, const Instant &amp;anInstant, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;anEventCondition) const</td></tr>
-<tr class="memdesc:a0789937aa6b2b7a238989a2f787662cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state subject to an Event Condition, given initial state and maximum end time.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a0789937aa6b2b7a238989a2f787662cf">More...</a><br /></td></tr>
-<tr class="separator:a0789937aa6b2b7a238989a2f787662cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9262f9e1e20e1e48149a9057f5feb1e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution.html">NumericalSolver::ConditionSolution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a9262f9e1e20e1e48149a9057f5feb1e2">calculateStateToCondition</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState, const Instant &amp;anInstant, const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;anEventCondition) const</td></tr>
+<tr class="memdesc:a9262f9e1e20e1e48149a9057f5feb1e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the state subject to an Event Condition, given initial state and maximum end time.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#a9262f9e1e20e1e48149a9057f5feb1e2">More...</a><br /></td></tr>
+<tr class="separator:a9262f9e1e20e1e48149a9057f5feb1e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af61cfbdfeff89b32300f36c4346beee1"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#af61cfbdfeff89b32300f36c4346beee1">calculateStatesAt</a> (const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;aState, const Array&lt; Instant &gt; &amp;anInstantArray) const</td></tr>
 <tr class="memdesc:af61cfbdfeff89b32300f36c4346beee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the states at an array of instants, given an initial state.  <a href="classostk_1_1astro_1_1trajectory_1_1_propagator.html#af61cfbdfeff89b32300f36c4346beee1">More...</a><br /></td></tr>
 <tr class="separator:af61cfbdfeff89b32300f36c4346beee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -280,7 +280,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="aa0fde78b62924b7cf1eb81bf80bff165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0fde78b62924b7cf1eb81bf80bff165">&#9670;&nbsp;</a></span>calculateStateAt() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0fde78b62924b7cf1eb81bf80bff165">&#9670;&nbsp;</a></span>calculateStateAt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,53 +314,7 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> </dd></dl>
-
-</div>
-</div>
-<a id="a0789937aa6b2b7a238989a2f787662cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0789937aa6b2b7a238989a2f787662cf">&#9670;&nbsp;</a></span>calculateStateAt() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> ostk::astro::trajectory::Propagator::calculateStateAt </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
-          <td class="paramname"><em>aState</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Instant &amp;&#160;</td>
-          <td class="paramname"><em>anInstant</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;&#160;</td>
-          <td class="paramname"><em>anEventCondition</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calculate the state subject to an Event Condition, given initial state and maximum end time. </p>
-<div class="fragment"><div class="line">State state = propagator.calculateStateAt(aState, anInstant, anEventCondition);</div>
-</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> </dd></dl>
 
 </div>
 </div>
@@ -399,6 +353,53 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Array&lt;State&gt; </dd></dl>
+
+</div>
+</div>
+<a id="a9262f9e1e20e1e48149a9057f5feb1e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9262f9e1e20e1e48149a9057f5feb1e2">&#9670;&nbsp;</a></span>calculateStateToCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution.html">NumericalSolver::ConditionSolution</a> ostk::astro::trajectory::Propagator::calculateStateToCondition </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &amp;&#160;</td>
+          <td class="paramname"><em>aState</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Instant &amp;&#160;</td>
+          <td class="paramname"><em>anInstant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classostk_1_1astro_1_1_event_condition.html">EventCondition</a> &amp;&#160;</td>
+          <td class="paramname"><em>anEventCondition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate the state subject to an Event Condition, given initial state and maximum end time. </p>
+<div class="fragment"><div class="line">NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,</div>
+<div class="line">anEventCondition);</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aState</td><td>An initial state </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anInstant</td><td>An instant </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">anEventCondition</td><td>An event condition </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NumericalSolver::ConditionSolution </dd></dl>
 
 </div>
 </div>

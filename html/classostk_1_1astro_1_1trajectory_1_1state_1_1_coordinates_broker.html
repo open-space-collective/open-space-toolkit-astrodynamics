@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('classostk_1_1astro_1_1trajectory_1_1st
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> coordinates broker.  
+<p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> coordinates broker.  
  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_coordinates_broker_8hpp_source.html">CoordinatesBroker.hpp</a>&gt;</code></p>
@@ -131,9 +131,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a40d2d28eae16fd0a281be43671541e5a"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a40d2d28eae16fd0a281be43671541e5a">extractCoordinates</a> (const VectorXd &amp;aFullCoordinatesVector, const Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt; &amp;aCoordinatesSubsetSPtr) const</td></tr>
 <tr class="memdesc:a40d2d28eae16fd0a281be43671541e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates of a given subset from the full coordinates vector.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a40d2d28eae16fd0a281be43671541e5a">More...</a><br /></td></tr>
 <tr class="separator:a40d2d28eae16fd0a281be43671541e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa1b99bf633d1ed89d02066b75a1a12"><td class="memItemLeft" align="right" valign="top">VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#aafa1b99bf633d1ed89d02066b75a1a12">extractCoordinates</a> (const VectorXd &amp;aFullCoordinatesVector, const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;aCoordinatesSubsetsArray) const</td></tr>
+<tr class="memdesc:aafa1b99bf633d1ed89d02066b75a1a12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the coordinates of an array of subsets from the full coordinates vector.  <a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#aafa1b99bf633d1ed89d02066b75a1a12">More...</a><br /></td></tr>
+<tr class="separator:aafa1b99bf633d1ed89d02066b75a1a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory state.">State</a> coordinates broker. </p>
+<div class="textblock"><p><a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html" title="Trajectory State.">State</a> coordinates broker. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a84f9661ce5f2b9583f6455180a07e61e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84f9661ce5f2b9583f6455180a07e61e">&#9670;&nbsp;</a></span>CoordinatesBroker() <span class="overload">[1/2]</span></h2>
@@ -230,8 +233,46 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aafa1b99bf633d1ed89d02066b75a1a12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa1b99bf633d1ed89d02066b75a1a12">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd ostk::astro::trajectory::state::CoordinatesBroker::extractCoordinates </td>
+          <td>(</td>
+          <td class="paramtype">const VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>aFullCoordinatesVector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Array&lt; Shared&lt; const <a class="el" href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_subset.html">CoordinatesSubset</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>aCoordinatesSubsetsArray</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extract the coordinates of an array of subsets from the full coordinates vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aFullCoordinatesVector</td><td>the full coordinates vecctor </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aCoordinatesSubsetsArray</td><td>the array of coordinates subsets of interest</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The coordinates of the array of subsets in the same order as the input subsets </dd></dl>
+
+</div>
+</div>
 <a id="ac70cf8114aae0dc2510d1b66be875507"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac70cf8114aae0dc2510d1b66be875507">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac70cf8114aae0dc2510d1b66be875507">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +310,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a40d2d28eae16fd0a281be43671541e5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a40d2d28eae16fd0a281be43671541e5a">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a40d2d28eae16fd0a281be43671541e5a">&#9670;&nbsp;</a></span>extractCoordinates() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -453,7 +494,7 @@ Public Member Functions</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_html_a84f9661ce5f2b9583f6455180a07e61e"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a84f9661ce5f2b9583f6455180a07e61e">ostk::astro::trajectory::state::CoordinatesBroker::CoordinatesBroker</a></div><div class="ttdeci">CoordinatesBroker()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> CoordinatesBroker.cpp:16</div></div>
+<div class="ttc" id="aclassostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker_html_a84f9661ce5f2b9583f6455180a07e61e"><div class="ttname"><a href="classostk_1_1astro_1_1trajectory_1_1state_1_1_coordinates_broker.html#a84f9661ce5f2b9583f6455180a07e61e">ostk::astro::trajectory::state::CoordinatesBroker::CoordinatesBroker</a></div><div class="ttdeci">CoordinatesBroker()</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> CoordinatesBroker.cpp:17</div></div>
 <!-- HTML footer for doxygen 1.8.7-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -36,7 +36,7 @@ void \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a
 \begin{DoxyCompactList}\small\item\em Clear the dynamics array. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}{calculate\+State\+At}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Instant \&an\+Instant) const
 \begin{DoxyCompactList}\small\item\em Calculate the state at an instant, given initial state. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a0789937aa6b2b7a238989a2f787662cf}{calculate\+State\+At}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Instant \&an\+Instant, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&an\+Event\+Condition) const
+\mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution}{Numerical\+Solver\+::\+Condition\+Solution}} \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_a9262f9e1e20e1e48149a9057f5feb1e2}{calculate\+State\+To\+Condition}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Instant \&an\+Instant, const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&an\+Event\+Condition) const
 \begin{DoxyCompactList}\small\item\em Calculate the state subject to an Event Condition, given initial state and maximum end time. \end{DoxyCompactList}\item 
 Array$<$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} $>$ \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_propagator_af61cfbdfeff89b32300f36c4346beee1}{calculate\+States\+At}} (const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&a\+State, const Array$<$ Instant $>$ \&an\+Instant\+Array) const
 \begin{DoxyCompactList}\small\item\em Calculate the states at an array of instants, given an initial state. \end{DoxyCompactList}\item 
@@ -143,7 +143,7 @@ Add a dynamics to the array of shared pointers to dynamics.
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_aa0fde78b62924b7cf1eb81bf80bff165}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!calculateStateAt@{calculateStateAt}}
 \index{calculateStateAt@{calculateStateAt}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
-\doxysubsubsection{\texorpdfstring{calculateStateAt()}{calculateStateAt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{calculateStateAt()}{calculateStateAt()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} ostk\+::astro\+::trajectory\+::\+Propagator\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Instant \&}]{an\+Instant }\end{DoxyParamCaption}) const}
 
 
@@ -159,32 +159,6 @@ Calculate the state at an instant, given initial state.
 \mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
 \hline
 \mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a0789937aa6b2b7a238989a2f787662cf}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a0789937aa6b2b7a238989a2f787662cf}} 
-\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!calculateStateAt@{calculateStateAt}}
-\index{calculateStateAt@{calculateStateAt}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
-\doxysubsubsection{\texorpdfstring{calculateStateAt()}{calculateStateAt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} ostk\+::astro\+::trajectory\+::\+Propagator\+::calculate\+State\+At (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Instant \&}]{an\+Instant,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&}]{an\+Event\+Condition }\end{DoxyParamCaption}) const}
-
-
-
-Calculate the state subject to an Event Condition, given initial state and maximum end time. 
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{State state = propagator.calculateStateAt(aState, anInstant, anEventCondition);}
-\end{DoxyCode}
- 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
-\hline
-\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
-\hline
-\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -211,6 +185,33 @@ Can only be used with sorted instants array
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Array$<$\+State$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a9262f9e1e20e1e48149a9057f5feb1e2}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a9262f9e1e20e1e48149a9057f5feb1e2}} 
+\index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!calculateStateToCondition@{calculateStateToCondition}}
+\index{calculateStateToCondition@{calculateStateToCondition}!ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}}
+\doxysubsubsection{\texorpdfstring{calculateStateToCondition()}{calculateStateToCondition()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structostk_1_1astro_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution}{Numerical\+Solver\+::\+Condition\+Solution}} ostk\+::astro\+::trajectory\+::\+Propagator\+::calculate\+State\+To\+Condition (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1trajectory_1_1_state}{State}} \&}]{a\+State,  }\item[{const Instant \&}]{an\+Instant,  }\item[{const \mbox{\hyperlink{classostk_1_1astro_1_1_event_condition}{Event\+Condition}} \&}]{an\+Event\+Condition }\end{DoxyParamCaption}) const}
+
+
+
+Calculate the state subject to an Event Condition, given initial state and maximum end time. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{NumericalSolver::ConditionSolution state = propagator.calculateStateAt(aState, anInstant,}
+\DoxyCodeLine{anEventCondition);}
+\end{DoxyCode}
+ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a\+State} & An initial state \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Instant} & An instant \\
+\hline
+\mbox{\texttt{ in}}  & {\em an\+Event\+Condition} & An event condition \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Numerical\+Solver\+::\+Condition\+Solution 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}\label{classostk_1_1astro_1_1trajectory_1_1_propagator_a162a6389a7bc9a54fb9e14f6973641d0}} 
 \index{ostk::astro::trajectory::Propagator@{ostk::astro::trajectory::Propagator}!clearDynamics@{clearDynamics}}

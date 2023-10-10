@@ -93,8 +93,8 @@ $(document).ready(function(){initNavTree('structostk_1_1astro_1_1trajectory_1_1_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad84d2c39f27567de53a1a4adfcd82bfb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#ad84d2c39f27567de53a1a4adfcd82bfb">Solution</a> (const String &amp;aName, const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aStates)</td></tr>
-<tr class="separator:ad84d2c39f27567de53a1a4adfcd82bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a918865a08e92e82544e390e81e16f053"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a918865a08e92e82544e390e81e16f053">Solution</a> (const String &amp;aName, const Array&lt; Shared&lt; <a class="el" href="classostk_1_1astro_1_1_dynamics.html">Dynamics</a> &gt;&gt; &amp;aDynamicsArray, const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;aStates, const bool &amp;aConditionIsSatisfied)</td></tr>
+<tr class="separator:a918865a08e92e82544e390e81e16f053"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -106,10 +106,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2f9de7f970a194c241e2eeeda3517a45"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a2f9de7f970a194c241e2eeeda3517a45">states</a></td></tr>
 <tr class="memdesc:a2f9de7f970a194c241e2eeeda3517a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of dynamics used.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#a2f9de7f970a194c241e2eeeda3517a45">More...</a><br /></td></tr>
 <tr class="separator:a2f9de7f970a194c241e2eeeda3517a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa7dceeff8352cdf6639244b47498357"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aaa7dceeff8352cdf6639244b47498357">conditionIsSatisfied</a></td></tr>
+<tr class="memdesc:aaa7dceeff8352cdf6639244b47498357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of states for the segment.  <a href="structostk_1_1astro_1_1trajectory_1_1_segment_1_1_solution.html#aaa7dceeff8352cdf6639244b47498357">More...</a><br /></td></tr>
+<tr class="separator:aaa7dceeff8352cdf6639244b47498357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad84d2c39f27567de53a1a4adfcd82bfb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad84d2c39f27567de53a1a4adfcd82bfb">&#9670;&nbsp;</a></span>Solution()</h2>
+<a id="a918865a08e92e82544e390e81e16f053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a918865a08e92e82544e390e81e16f053">&#9670;&nbsp;</a></span>Solution()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -130,7 +133,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Array&lt; <a class="el" href="classostk_1_1astro_1_1trajectory_1_1_state.html">State</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>aStates</em>&#160;</td>
+          <td class="paramname"><em>aStates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool &amp;&#160;</td>
+          <td class="paramname"><em>aConditionIsSatisfied</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -143,6 +152,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="aaa7dceeff8352cdf6639244b47498357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa7dceeff8352cdf6639244b47498357">&#9670;&nbsp;</a></span>conditionIsSatisfied</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ostk::astro::trajectory::Segment::Solution::conditionIsSatisfied</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Array of states for the segment. </p>
+
+</div>
+</div>
 <a id="a197e80ddb416f4a837ba4a18332bc4dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a197e80ddb416f4a837ba4a18332bc4dd">&#9670;&nbsp;</a></span>dynamics</h2>
 
