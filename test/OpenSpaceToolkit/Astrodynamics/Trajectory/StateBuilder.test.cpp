@@ -12,13 +12,11 @@ using ostk::core::ctnr::Array;
 using ostk::math::obj::VectorXd;
 
 using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
 using ostk::physics::time::DateTime;
 using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
-using ostk::physics::units::Length;
 
+using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
@@ -228,6 +226,67 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
         EXPECT_NO_THROW(std::cout << StateBuilder::Undefined() << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, BuildState)
+{
+    {
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state = stateBuilder.buildState(instant, coordinates);
+
+        EXPECT_EQ(instant, state.accessInstant());
+        EXPECT_EQ(coordinates, state.accessCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.accessFrame());
+        EXPECT_EQ(posVelBrokerSPtr, state.accessCoordinatesBroker());
+
+        EXPECT_EQ(stateBuilder.accessFrame(), state.accessFrame());
+        EXPECT_EQ(stateBuilder.accessCoordinatesBroker(), state.accessCoordinatesBroker());
+    }
+
+    {
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+
+        const Instant instant1 = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates1(6);
+        coordinates1 << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const State state1 = stateBuilder.buildState(instant1, coordinates1);
+
+        const Instant instant2 = Instant::DateTime(DateTime(2019, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates2(6);
+        coordinates2 << 2.0, 3.0, 4.0, 5.0, 6.0, 7.0;
+
+        const State state2 = stateBuilder.buildState(instant2, coordinates2);
+
+        EXPECT_NE(state1.accessInstant(), state2.accessInstant());
+        EXPECT_NE(state1.accessCoordinates(), state2.accessCoordinates());
+
+        EXPECT_EQ(state1.accessFrame(), state2.accessFrame());
+        EXPECT_EQ(state1.accessCoordinatesBroker(), state2.accessCoordinatesBroker());
+    }
+
+    {
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(3);
+        coordinates << 1.0, 2.0, 3.0;
+
+        EXPECT_ANY_THROW(stateBuilder.buildState(instant, coordinates));
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        EXPECT_ANY_THROW(StateBuilder::Undefined().buildState(instant, coordinates));
     }
 }
 

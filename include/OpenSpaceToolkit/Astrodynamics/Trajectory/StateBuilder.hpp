@@ -5,13 +5,10 @@
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
-#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
-#include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
@@ -26,14 +23,12 @@ namespace trajectory
 {
 
 using ostk::core::types::Shared;
-using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
 
 using ostk::physics::coord::Frame;
-using ostk::physics::coord::Position;
-using ostk::physics::coord::Velocity;
+
 using ostk::physics::time::Instant;
 
 using ostk::astro::trajectory::State;
@@ -60,21 +55,21 @@ class StateBuilder
     ///
     /// @param                  [in] aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param                  [in] aCoordinatesBroker Shared pointer to an existing Coordinates Brokers
+    /// @param                  [in] aCoordinatesBroker Shared pointer to an existing Coordinates Broker
 
     StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
 
     /// @brief                  Equality operator.
     ///
     /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    /// @return                 True if the States are equal, false otherwise
+    /// @return                 True if the  StateBuilders are equal, false otherwise
 
     bool operator==(const StateBuilder& aStateBuilder) const;
 
     /// @brief                  Inequality operator.
     ///
     /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    /// @return                 True if the States are not equal, false otherwise
+    /// @return                 True if the  StateBuilders are not equal, false otherwise
 
     bool operator!=(const StateBuilder& aStateBuilder) const;
 
@@ -86,17 +81,17 @@ class StateBuilder
 
     friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
 
-    // /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
-    // ///
-    // /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder.
-
-    // const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
-
     /// @brief                  Check if the StateBuilder is defined.
     ///
     /// @return                 True if the StateBuilder is defined, false otherwise
 
     bool isDefined() const;
+
+    /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
+    ///
+    /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
+
+    const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
     /// @brief                  Accessor for the reference frame.
     ///
@@ -104,19 +99,19 @@ class StateBuilder
 
     const Shared<const Frame> accessFrame() const;
 
-    /// @brief                  Access the coordinates broker associated with the State.
+    /// @brief                  Access the coordinates broker associated with the  StateBuilder.
     ///
     /// @return                 The coordinates broker associated to the State
 
     const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
 
-    /// @brief                  Get the reference frame associated with the State.
+    /// @brief                  Get the reference frame associated with the  StateBuilder.
     ///
     /// @return                 The reference frame
 
     Shared<const Frame> getFrame() const;
 
-    /// @brief                  Get the coordinates subsets of the State.
+    /// @brief                  Get the coordinates subsets of the  StateBuilder.
     ///
     /// @return                 The coordinates subsets
 

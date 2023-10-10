@@ -1,11 +1,7 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
@@ -14,10 +10,6 @@ namespace astro
 {
 namespace trajectory
 {
-
-using ostk::core::types::Index;
-
-using ostk::astro::trajectory::state::CoordinatesSubset;
 
 StateBuilder::StateBuilder(
     const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
@@ -81,6 +73,16 @@ std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStat
 bool StateBuilder::isDefined() const
 {
     return (this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
+}
+
+const State StateBuilder::buildState(const Instant& anInstant, const VectorXd& aCoordinates) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    return {anInstant, aCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
 const Shared<const Frame> StateBuilder::accessFrame() const
