@@ -54,88 +54,99 @@ class StateBuilder
         const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
     );
 
-    /// @brief                  Equality operator.
+    /// @brief                  Constructor.
     ///
-    /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    /// @return                 True if the States are equal, false otherwise
+    /// @param                  [in] aFrameSPtr The reference frame in which the coordinates are referenced to and
+    /// resolved in
+    /// @param                  [in] aCoordinatesBroker Shared pointer to an existing Coordinates Brokers
 
-    bool operator==(const StateBuilder& aStateBuilder) const;
+    StateBuilder(
+        const Shared<const Frame>& aFrameSPtr,
+        const Shared<const CoordinatesBroker>>& aCoordinatesBroker
+    );
 
-    /// @brief                  Inequality operator.
-    ///
-    /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    /// @return                 True if the States are not equal, false otherwise
+    // /// @brief                  Equality operator.
+    // ///
+    // /// @param                  [in] aStateBuilder The StateBuilder to compare to
+    // /// @return                 True if the States are equal, false otherwise
 
-    bool operator!=(const StateBuilder& aStateBuilder) const;
+    // bool operator==(const StateBuilder& aStateBuilder) const;
 
-    /// @brief                  Stream insertion operator.
-    ///
-    /// @param                  [in] anOutputStream The output stream to insert into
-    /// @param                  [in] aStateBuilder The StateBuilder to insert
-    /// @return                 The output stream with the StateBuilder inserted
+    // /// @brief                  Inequality operator.
+    // ///
+    // /// @param                  [in] aStateBuilder The StateBuilder to compare to
+    // /// @return                 True if the States are not equal, false otherwise
 
-    friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
+    // bool operator!=(const StateBuilder& aStateBuilder) const;
 
-    /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
-    ///
-    /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder.
+    // /// @brief                  Stream insertion operator.
+    // ///
+    // /// @param                  [in] anOutputStream The output stream to insert into
+    // /// @param                  [in] aStateBuilder The StateBuilder to insert
+    // /// @return                 The output stream with the StateBuilder inserted
 
-    const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
+    // friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
 
-    /// @brief                  Check if the StateBuilder is defined.
-    ///
-    /// @return                 True if the StateBuilder is defined, false otherwise
+    // /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
+    // ///
+    // /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder.
 
-    bool isDefined() const;
+    // const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
-    /// @brief                  Accessor for the reference frame.
-    ///
-    /// @return                 The reference frame
+    // /// @brief                  Check if the StateBuilder is defined.
+    // ///
+    // /// @return                 True if the StateBuilder is defined, false otherwise
 
-    const Shared<const Frame> accessFrame() const;
+    // bool isDefined() const;
 
-    /// @brief                  Access the coordinates broker associated with the State.
-    ///
-    /// @return                 The coordinates broker associated to the State
+    // /// @brief                  Accessor for the reference frame.
+    // ///
+    // /// @return                 The reference frame
 
-    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    // const Shared<const Frame> accessFrame() const;
 
-    /// @brief                  Get the size of the State.
-    ///
-    /// @return                 The size of the State
+    // /// @brief                  Access the coordinates broker associated with the State.
+    // ///
+    // /// @return                 The coordinates broker associated to the State
 
-    Size getSize() const;
+    // const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
 
-    /// @brief                  Get the reference frame associated with the State.
-    ///
-    /// @return                 The reference frame
+    // /// @brief                  Get the size of the State.
+    // ///
+    // /// @return                 The size of the State
 
-    Shared<const Frame> getFrame() const;
+    // Size getSize() const;
 
-    /// @brief                  Get the coordinates of the State.
-    ///
-    /// @return                 The coordinates
+    // /// @brief                  Get the reference frame associated with the State.
+    // ///
+    // /// @return                 The reference frame
 
-    VectorXd getCoordinates() const;
+    // Shared<const Frame> getFrame() const;
 
-    /// @brief                  Get the coordinates subsets of the State.
-    ///
-    /// @return                 The coordinates subsets
+    // /// @brief                  Get the coordinates of the State.
+    // ///
+    // /// @return                 The coordinates
 
-    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
+    // VectorXd getCoordinates() const;
 
-    /// @brief Print the StateBuilder to an output stream.
-    ///
-    /// @param [in] anOutputStream The output stream to print to
-    /// @param [in] displayDecorator Whether or not to display the decorator
+    // /// @brief                  Get the coordinates subsets of the State.
+    // ///
+    // /// @return                 The coordinates subsets
 
-    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+    // const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
-    /// @brief Get an undefined StateBuilder.
-    ///
-    /// @return An undefined StateBuilder
+    // /// @brief Print the StateBuilder to an output stream.
+    // ///
+    // /// @param [in] anOutputStream The output stream to print to
+    // /// @param [in] displayDecorator Whether or not to display the decorator
 
-    static StateBuilder Undefined();
+    // void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
+
+    // /// @brief Get an undefined StateBuilder.
+    // ///
+    // /// @return An undefined StateBuilder
+
+    // static StateBuilder Undefined();
 
    private:
     Shared<const Frame> frameSPtr_;
