@@ -145,8 +145,8 @@ State Propagator::calculateStateAt(const State& aState, const Instant& anInstant
 
     const State state = {
         aState.accessInstant(),
-        extractCoordinatesFromState(aState.inFrame(Propagator::IntegrationFrameSPtr)),
-        aState.accessFrame(),
+        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
+        Propagator::IntegrationFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
 
@@ -170,8 +170,8 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
 
     const State state = {
         aState.accessInstant(),
-        extractCoordinatesFromState(aState.inFrame(Propagator::IntegrationFrameSPtr)),
-        aState.accessFrame(),
+        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
+        Propagator::IntegrationFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
 
@@ -212,8 +212,8 @@ Array<State> Propagator::calculateStatesAt(const State& aState, const Array<Inst
 
     const State state = {
         aState.accessInstant(),
-        extractCoordinatesFromState(aState.inFrame(Propagator::IntegrationFrameSPtr)),
-        aState.accessFrame(),
+        aState.inFrame(Propagator::IntegrationFrameSPtr).extractCoordinates(this->coordinatesBrokerSPtr_->getSubsets()),
+        Propagator::IntegrationFrameSPtr,
         this->coordinatesBrokerSPtr_,
     };
 
@@ -325,23 +325,6 @@ void Propagator::registerDynamicsContext(const Shared<Dynamics>& aDynamicsSPtr)
     }
 
     this->dynamicsContexts_.add({aDynamicsSPtr, readInfo, writeInfo});
-}
-
-NumericalSolver::StateVector Propagator::extractCoordinatesFromState(const State& aState) const
-{
-    const State state = aState.inFrame(Propagator::IntegrationFrameSPtr);
-
-    Index offset = 0;
-    NumericalSolver::StateVector extractedStateVector = NumericalSolver::StateVector(this->getNumberOfCoordinates());
-
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
-    {
-        const Size subsetSize = subset->getSize();
-        extractedStateVector.segment(offset, subsetSize) = state.extractCoordinates(subset);
-        offset += subsetSize;
-    }
-
-    return extractedStateVector;
 }
 
 }  // namespace trajectory
