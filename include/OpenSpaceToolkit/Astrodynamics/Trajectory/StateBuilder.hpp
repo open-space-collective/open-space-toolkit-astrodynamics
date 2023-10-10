@@ -14,9 +14,9 @@
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -49,11 +49,11 @@ class StateBuilder
     ///
     /// @param                  [in] aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
-    /// @param                  [in] aCoordinatesSubsetsArray The array of coordinates subsets defining the output States
+    /// @param                  [in] aCoordinatesSubsetsArray The array of coordinates subsets defining the output
+    /// States
 
     StateBuilder(
-        const Shared<const Frame>& aFrameSPtr,
-        const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+        const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
     );
 
     /// @brief                  Constructor.
@@ -62,10 +62,7 @@ class StateBuilder
     /// resolved in
     /// @param                  [in] aCoordinatesBroker Shared pointer to an existing Coordinates Brokers
 
-    StateBuilder(
-        const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
-    );
+    StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
 
     /// @brief                  Equality operator.
     ///

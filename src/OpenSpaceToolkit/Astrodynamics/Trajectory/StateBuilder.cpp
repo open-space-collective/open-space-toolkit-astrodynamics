@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
 {
@@ -20,28 +20,23 @@ using ostk::core::types::Index;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
 StateBuilder::StateBuilder(
-    const Shared<const Frame>& aFrameSPtr,
-    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    const Shared<const Frame>& aFrameSPtr, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
 )
-    : 
-      frameSPtr_(aFrameSPtr),
+    : frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinatesSubsetsArray)))
 {
 }
 
 StateBuilder::StateBuilder(
-    const Shared<const Frame>& aFrameSPtr,
-    const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
+    const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
 )
-    : 
-      frameSPtr_(aFrameSPtr),
+    : frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(aCoordinatesBrokerSPtr)
 {
 }
 
 bool StateBuilder::operator==(const StateBuilder& aStateBuilder) const
 {
-
     if ((!this->isDefined()) || (!aStateBuilder.isDefined()))
     {
         return false;

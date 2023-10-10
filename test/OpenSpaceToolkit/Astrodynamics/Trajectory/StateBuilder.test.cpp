@@ -1,8 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
 
@@ -25,13 +25,11 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
 using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
 
-
 class OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder : public ::testing::Test
 {
    protected:
     const Array<Shared<const CoordinatesSubset>> posVelSubsets = {
-        CartesianPosition::Default(),
-        CartesianVelocity::Default()
+        CartesianPosition::Default(), CartesianVelocity::Default()
     };
 
     const Array<Shared<const CoordinatesSubset>> posVelMassSubsets = {
@@ -40,19 +38,17 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder : public ::testing:
         CoordinatesSubset::Mass(),
     };
 
-    const Shared<const CoordinatesBroker> posVelBrokerSPtr = std::make_shared<CoordinatesBroker>(
-        CoordinatesBroker(posVelSubsets)
-    );
+    const Shared<const CoordinatesBroker> posVelBrokerSPtr =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(posVelSubsets));
 
-    const Shared<const CoordinatesBroker> posVelMassBrokerSPtr = std::make_shared<CoordinatesBroker>(
-        CoordinatesBroker(posVelMassSubsets)
-    );
+    const Shared<const CoordinatesBroker> posVelMassBrokerSPtr =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(posVelMassSubsets));
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Constructor)
 {
     {
-        EXPECT_NO_THROW(StateBuilder builder(Frame::GCRF(), posVelBrokerSPtr));  
+        EXPECT_NO_THROW(StateBuilder builder(Frame::GCRF(), posVelBrokerSPtr));
     }
 
     {
@@ -214,7 +210,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, NotEqualToOperato
     }
 }
 
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
 {
     {
@@ -239,14 +234,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Accessors)
 {
     {
-        const  StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
         EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
         EXPECT_EQ(posVelBrokerSPtr, stateBuilder.accessCoordinatesBroker());
     }
 
     {
-        const  StateBuilder stateBuilder = {Frame::GCRF(), posVelSubsets};
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelSubsets};
 
         EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
         EXPECT_EQ(posVelSubsets, stateBuilder.accessCoordinatesBroker()->getSubsets());
