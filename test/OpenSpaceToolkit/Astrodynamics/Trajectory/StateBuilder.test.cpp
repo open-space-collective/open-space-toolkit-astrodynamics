@@ -1,6 +1,8 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubsets/CartesianVelocity.hpp>
 
 #include <Global.test.hpp>
 
@@ -17,28 +19,40 @@ using ostk::physics::time::Instant;
 using ostk::physics::time::Scale;
 using ostk::physics::units::Length;
 
+using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
-using ostk::astro::trajectory::State;
-using ostk::astro::trajectory::StateBuilder;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianPosition;
+using ostk::astro::trajectory::state::coordinatessubsets::CartesianVelocity;
+
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder : public ::testing::Test
 {
    protected:
-    const Array<Shared<CoordinatesSubset>> posVelSubsets = {
+    const Array<Shared<const CoordinatesSubset>> posVelSubsets = {
+        CartesianPosition::Default(),
+        CartesianVelocity::Default()
+    };
+
+    const Array<Shared<const CoordinatesSubset>> posVelMassSubsets = {
         CartesianPosition::Default(),
         CartesianVelocity::Default(),
-    }
+        CoordinatesSubset::Mass(),
+    };
 
-    const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
+    const Shared<const CoordinatesBroker> posVelBrokerSPtr = std::make_shared<CoordinatesBroker>(
         CoordinatesBroker(posVelSubsets)
+    );
+
+    const Shared<const CoordinatesBroker> posVelMassBrokerSPtr = std::make_shared<CoordinatesBroker>(
+        CoordinatesBroker(posVelMassSubsets)
     );
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Constructor)
 {
     {
-        EXPECT_NO_THROW(StateBuilder builder(Frame::GCRF(), brokerSPtr));  
+        EXPECT_NO_THROW(StateBuilder builder(Frame::GCRF(), posVelBrokerSPtr));  
     }
 
     {
@@ -46,662 +60,253 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Constructor)
     }
 }
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
+{
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         EXPECT_TRUE(aState == anotherState);
-//     }
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelSubsets};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::ITRF(), posVelBrokerSPtr};
 
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
+        EXPECT_FALSE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelMassBrokerSPtr};
 
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
+        EXPECT_FALSE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         EXPECT_TRUE(aState == anotherState);
-//     }
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//     {
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+        const Shared<const CoordinatesBroker> posVelBrokerSPtr2 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
 
-//         const Instant anInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr2};
 
-//         const State aState = {anInstant, coordinates, Frame::GCRF(), brokerSPtr};
+        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         const Instant anotherInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC);
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State anotherState = {anotherInstant, coordinates, Frame::GCRF(), brokerSPtr};
+        const Shared<const CoordinatesBroker> velPosBrokerSPtr = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianVelocity::Default(), CartesianPosition::Default()})
+        );
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), velPosBrokerSPtr};
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+    }
 
-//         VectorXd aCoordinates(6);
-//         aCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+    {
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State aState = {instant, aCoordinates, Frame::GCRF(), brokerSPtr};
+        EXPECT_TRUE(stateBuilder == stateBuilder);
+    }
 
-//         VectorXd anotherCoordinates(6);
-//         anotherCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+    }
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
+        EXPECT_FALSE(StateBuilder::Undefined() == aStateBuilder);
+        EXPECT_FALSE(aStateBuilder == StateBuilder::Undefined());
+        EXPECT_FALSE(StateBuilder::Undefined() == StateBuilder::Undefined());
+    }
+}
 
-//         const State anotherState = {instant, coordinates, Frame::ITRF(), brokerSPtr};
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, NotEqualToOperator)
+{
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+    }
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelSubsets};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+    }
 
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::ITRF(), posVelBrokerSPtr};
 
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+        EXPECT_TRUE(aStateBuilder != anotherStateBuilder);
+    }
 
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelMassBrokerSPtr};
 
-//         EXPECT_TRUE(aState == anotherState);
-//     }
+        EXPECT_TRUE(aStateBuilder != anotherStateBuilder);
+    }
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
+        const Shared<const CoordinatesBroker> posVelBrokerSPtr2 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
 
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr2};
 
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianVelocity::Default(), CartesianPosition::Default()})
-//         );
+        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+    }
 
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        const Shared<const CoordinatesBroker> velPosBrokerSPtr = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianVelocity::Default(), CartesianPosition::Default()})
+        );
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), velPosBrokerSPtr};
 
-//         const State state = {instant, position, velocity};
+        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+    }
 
-//         EXPECT_TRUE(state == state);
-//     }
+    {
+        const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//     {
-//         const Position position = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        EXPECT_FALSE(stateBuilder != stateBuilder);
+    }
 
-//         const State aState = {instant, position, velocity};
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State anotherState = {instant, position, velocity};
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         EXPECT_TRUE(aState == anotherState);
-//     }
+        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+    }
 
-//     {
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const Instant anInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        EXPECT_TRUE(StateBuilder::Undefined() != aStateBuilder);
+        EXPECT_TRUE(aStateBuilder != StateBuilder::Undefined());
+        EXPECT_TRUE(StateBuilder::Undefined() != StateBuilder::Undefined());
+    }
+}
 
-//         const State aState = {anInstant, position, velocity};
 
-//         const Instant anotherInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC);
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
+{
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         const State anotherState = {anotherInstant, position, velocity};
+        testing::internal::CaptureStdout();
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        EXPECT_NO_THROW(std::cout << aStateBuilder << std::endl);
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
 
-//         const Position aPosition = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
+    {
+        testing::internal::CaptureStdout();
 
-//         const State aState = {instant, aPosition, velocity};
+        EXPECT_NO_THROW(std::cout << StateBuilder::Undefined() << std::endl);
 
-//         const Position anotherPosition = Position::Meters({1001.0, 2001.0, 3001.0}, Frame::GCRF());
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
 
-//         const State anotherState = {instant, anotherPosition, velocity};
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Accessors)
+{
+    {
+        const  StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
+        EXPECT_EQ(posVelBrokerSPtr, stateBuilder.accessCoordinatesBroker());
+    }
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
+    {
+        const  StateBuilder stateBuilder = {Frame::GCRF(), posVelSubsets};
 
-//         const Position aPosition = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
+        EXPECT_EQ(posVelSubsets, stateBuilder.accessCoordinatesBroker()->getSubsets());
+    }
 
-//         const State aState = {instant, aPosition, velocity};
+    {
+        EXPECT_ANY_THROW(StateBuilder::Undefined().accessFrame());
+        EXPECT_ANY_THROW(StateBuilder::Undefined().accessCoordinatesBroker());
+    }
+}
 
-//         const Position anotherPosition = aPosition.inUnit(Length::Unit::Foot);
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
+{
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
 
-//         const State anotherState = {instant, anotherPosition, velocity};
+        EXPECT_EQ(stateBuilder.getCoordinatesSubsets(), posVelBrokerSPtr->getSubsets());
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
+    }
 
-//         EXPECT_TRUE(aState == anotherState);
-//     }
+    {
+        EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinatesSubsets());
+        EXPECT_ANY_THROW(StateBuilder::Undefined().getFrame());
+    }
+}
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, IsDefined)
+{
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
 
-//         const Velocity aVelocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
+        EXPECT_TRUE(stateBuilder.isDefined());
+    }
 
-//         const State aState = {instant, position, aVelocity};
+    {
+        const StateBuilder stateBuilder = StateBuilder(nullptr, posVelBrokerSPtr);
 
-//         const Velocity anotherVelocity = Velocity::MetersPerSecond({11, 21, 31}, Frame::GCRF());
+        EXPECT_FALSE(stateBuilder.isDefined());
+    }
 
-//         const State anotherState = {instant, position, anotherVelocity};
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::Undefined(), posVelBrokerSPtr);
 
-//         EXPECT_FALSE(aState == anotherState);
-//     }
+        EXPECT_FALSE(stateBuilder.isDefined());
+    }
 
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), nullptr);
 
-//         const State state = {instant, position, velocity};
+        EXPECT_FALSE(stateBuilder.isDefined());
+    }
 
-//         EXPECT_FALSE(StateBuilder::Undefined() == state);
-//         EXPECT_FALSE(state == StateBuilder::Undefined());
-//         EXPECT_FALSE(StateBuilder::Undefined() == StateBuilder::Undefined());
-//     }
-// }
+    {
+        EXPECT_FALSE(StateBuilder::Undefined().isDefined());
+    }
+}
 
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, NotEqualToOperator)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         EXPECT_FALSE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
-
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
-
-//         EXPECT_FALSE(aState != anotherState);
-//     }
-
-//     {
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         CoordinatesBroker broker = CoordinatesBroker();
-//         broker.addSubset(CartesianPosition::Default());
-//         broker.addSubset(CartesianVelocity::Default());
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<const CoordinatesBroker>(broker);
-
-//         const Instant anInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-
-//         const State aState = {anInstant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         const Instant anotherInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC);
-
-//         const State anotherState = {anotherInstant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         CoordinatesBroker broker = CoordinatesBroker();
-//         broker.addSubset(CartesianPosition::Default());
-//         broker.addSubset(CartesianVelocity::Default());
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<const CoordinatesBroker>(broker);
-
-//         VectorXd aCoordinates(6);
-//         aCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const State aState = {instant, aCoordinates, Frame::GCRF(), brokerSPtr};
-
-//         VectorXd anotherCoordinates(6);
-//         anotherCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-
-//         const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         const State anotherState = {instant, coordinates, Frame::ITRF(), brokerSPtr};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
-
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
-
-//         EXPECT_FALSE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
-
-//         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianVelocity::Default(), CartesianPosition::Default()})
-//         );
-
-//         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr2};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position, velocity};
-
-//         EXPECT_FALSE(state != state);
-//     }
-
-//     {
-//         const Position position = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-
-//         const State aState = {instant, position, velocity};
-
-//         const State anotherState = {instant, position, velocity};
-
-//         EXPECT_FALSE(aState != anotherState);
-//     }
-
-//     {
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const Instant anInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-
-//         const State aState = {anInstant, position, velocity};
-
-//         const Instant anotherInstant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC);
-
-//         const State anotherState = {anotherInstant, position, velocity};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
-
-//         const Position aPosition = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
-
-//         const State aState = {instant, aPosition, velocity};
-
-//         const Position anotherPosition = Position::Meters({1001.0, 2001.0, 3001.0}, Frame::GCRF());
-
-//         const State anotherState = {instant, anotherPosition, velocity};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Velocity velocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
-
-//         const Position aPosition = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
-
-//         const State aState = {instant, aPosition, velocity};
-
-//         const Position anotherPosition = aPosition.inUnit(Length::Unit::Foot);
-
-//         const State anotherState = {instant, anotherPosition, velocity};
-
-//         EXPECT_FALSE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1000.0, 2000.0, 3000.0}, Frame::GCRF());
-
-//         const Velocity aVelocity = Velocity::MetersPerSecond({10, 20, 30}, Frame::GCRF());
-
-//         const State aState = {instant, position, aVelocity};
-
-//         const Velocity anotherVelocity = Velocity::MetersPerSecond({11, 21, 31}, Frame::GCRF());
-
-//         const State anotherState = {instant, position, anotherVelocity};
-
-//         EXPECT_TRUE(aState != anotherState);
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position, velocity};
-
-//         EXPECT_TRUE(StateBuilder::Undefined() != state);
-//         EXPECT_TRUE(state != StateBuilder::Undefined());
-//         EXPECT_TRUE(StateBuilder::Undefined() != StateBuilder::Undefined());
-//     }
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position, velocity};
-
-//         testing::internal::CaptureStdout();
-
-//         EXPECT_NO_THROW(std::cout << state << std::endl);
-
-//         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-//     }
-
-//     {
-//         testing::internal::CaptureStdout();
-
-//         EXPECT_NO_THROW(std::cout << StateBuilder::Undefined() << std::endl);
-
-//         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-//     }
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Accessors)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State state = {instant, coordinates, Frame::GCRF(), brokerSPtr};
-
-//         EXPECT_EQ(instant, state.accessInstant());
-//         EXPECT_EQ(coordinates, state.accessCoordinates());
-//         EXPECT_EQ(Frame::GCRF(), state.accessFrame());
-//         EXPECT_EQ(brokerSPtr, state.accessCoordinatesBroker());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
-
-//         EXPECT_TRUE(position.accessCoordinates().isApprox(state.getPosition().accessCoordinates(), 1e-16));
-//     }
-
-//     {
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().accessInstant());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().accessCoordinates());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().accessFrame());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().accessCoordinatesBroker());
-//     }
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State state = State(instant, coordinates, Frame::GCRF(), brokerSPtr);
-
-//         EXPECT_EQ(6, state.getSize());
-//         EXPECT_EQ(instant, state.getInstant());
-//         EXPECT_EQ(position, state.getPosition());
-//         EXPECT_EQ(velocity, state.getVelocity());
-//         EXPECT_EQ(coordinates, state.getCoordinates());
-//         EXPECT_EQ(state.getCoordinatesSubsets(), brokerSPtr->getSubsets());
-//         EXPECT_EQ(Frame::GCRF(), state.getFrame());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const State state = {instant, position, velocity};
-
-//         EXPECT_EQ(6, state.getSize());
-//         EXPECT_EQ(instant, state.getInstant());
-//         EXPECT_EQ(position, state.getPosition());
-//         EXPECT_EQ(velocity, state.getVelocity());
-//         EXPECT_EQ(coordinates, state.getCoordinates());
-//         EXPECT_EQ(Frame::GCRF(), state.getFrame());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.0, 2.0, 3.0}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({4.0, 5.0, 6.0}, Frame::GCRF());
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const State state = {instant, position.inUnit(Length::Unit::Foot), velocity};
-
-//         EXPECT_EQ(6, state.getSize());
-//         EXPECT_EQ(instant, state.getInstant());
-//         EXPECT_TRUE(position.getCoordinates().isApprox(state.getPosition().getCoordinates(), 1e-12));
-//         EXPECT_EQ(velocity, state.getVelocity());
-//         EXPECT_TRUE(coordinates.isApprox(state.getCoordinates(), 1e-12));
-//         EXPECT_EQ(Frame::GCRF(), state.getFrame());
-//     }
-
-//     {
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getSize());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getInstant());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getPosition());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getVelocity());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinates());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinatesSubsets());
-//         EXPECT_ANY_THROW(StateBuilder::Undefined().getFrame());
-//     }
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, IsDefined)
-// {
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State state = State(instant, coordinates, Frame::GCRF(), brokerSPtr);
-
-//         EXPECT_TRUE(state.isDefined());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State state = State(instant, coordinates, nullptr, brokerSPtr);
-
-//         EXPECT_FALSE(state.isDefined());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-//         const Shared<const CoordinatesBroker> brokerSPtr = std::make_shared<CoordinatesBroker>(
-//             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
-//         );
-
-//         const State state = State(instant, coordinates, Frame::Undefined(), brokerSPtr);
-
-//         EXPECT_FALSE(state.isDefined());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         VectorXd coordinates(6);
-//         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-//         const State state = State(instant, coordinates, Frame::GCRF(), nullptr);
-
-//         EXPECT_FALSE(state.isDefined());
-//     }
-
-//     {
-//         const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position, velocity};
-
-//         EXPECT_TRUE(state.isDefined());
-//     }
-
-//     {
-//         const Instant instant = Instant::Undefined();
-//         const Position position = Position::Meters({1.2, 3.4, 5.6}, Frame::GCRF());
-//         const Velocity velocity = Velocity::MetersPerSecond({7.8, 9.0, 1.2}, Frame::GCRF());
-
-//         const State state = {instant, position, velocity};
-
-//         EXPECT_FALSE(state.isDefined());
-//     }
-
-//     {
-//         EXPECT_FALSE(StateBuilder::Undefined().isDefined());
-//     }
-// }
-
-// TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Undefined)
-// {
-//     {
-//         EXPECT_NO_THROW(StateBuilder::Undefined());
-//     }
-// }
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Undefined)
+{
+    {
+        EXPECT_NO_THROW(StateBuilder::Undefined());
+    }
+}

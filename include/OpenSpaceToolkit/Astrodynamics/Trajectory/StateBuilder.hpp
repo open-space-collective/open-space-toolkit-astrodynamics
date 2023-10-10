@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_State__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
@@ -16,6 +16,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 
 namespace ostk
 {
@@ -35,6 +36,7 @@ using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
 using ostk::physics::time::Instant;
 
+using ostk::astro::trajectory::State;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
@@ -62,30 +64,30 @@ class StateBuilder
 
     StateBuilder(
         const Shared<const Frame>& aFrameSPtr,
-        const Shared<const CoordinatesBroker>>& aCoordinatesBroker
+        const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
-    // /// @brief                  Equality operator.
-    // ///
-    // /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    // /// @return                 True if the States are equal, false otherwise
+    /// @brief                  Equality operator.
+    ///
+    /// @param                  [in] aStateBuilder The StateBuilder to compare to
+    /// @return                 True if the States are equal, false otherwise
 
-    // bool operator==(const StateBuilder& aStateBuilder) const;
+    bool operator==(const StateBuilder& aStateBuilder) const;
 
-    // /// @brief                  Inequality operator.
-    // ///
-    // /// @param                  [in] aStateBuilder The StateBuilder to compare to
-    // /// @return                 True if the States are not equal, false otherwise
+    /// @brief                  Inequality operator.
+    ///
+    /// @param                  [in] aStateBuilder The StateBuilder to compare to
+    /// @return                 True if the States are not equal, false otherwise
 
-    // bool operator!=(const StateBuilder& aStateBuilder) const;
+    bool operator!=(const StateBuilder& aStateBuilder) const;
 
-    // /// @brief                  Stream insertion operator.
-    // ///
-    // /// @param                  [in] anOutputStream The output stream to insert into
-    // /// @param                  [in] aStateBuilder The StateBuilder to insert
-    // /// @return                 The output stream with the StateBuilder inserted
+    /// @brief                  Stream insertion operator.
+    ///
+    /// @param                  [in] anOutputStream The output stream to insert into
+    /// @param                  [in] aStateBuilder The StateBuilder to insert
+    /// @return                 The output stream with the StateBuilder inserted
 
-    // friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
+    friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
 
     // /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
     // ///
@@ -93,60 +95,48 @@ class StateBuilder
 
     // const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
-    // /// @brief                  Check if the StateBuilder is defined.
-    // ///
-    // /// @return                 True if the StateBuilder is defined, false otherwise
+    /// @brief                  Check if the StateBuilder is defined.
+    ///
+    /// @return                 True if the StateBuilder is defined, false otherwise
 
-    // bool isDefined() const;
+    bool isDefined() const;
 
-    // /// @brief                  Accessor for the reference frame.
-    // ///
-    // /// @return                 The reference frame
+    /// @brief                  Accessor for the reference frame.
+    ///
+    /// @return                 The reference frame
 
-    // const Shared<const Frame> accessFrame() const;
+    const Shared<const Frame> accessFrame() const;
 
-    // /// @brief                  Access the coordinates broker associated with the State.
-    // ///
-    // /// @return                 The coordinates broker associated to the State
+    /// @brief                  Access the coordinates broker associated with the State.
+    ///
+    /// @return                 The coordinates broker associated to the State
 
-    // const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
+    const Shared<const CoordinatesBroker>& accessCoordinatesBroker() const;
 
-    // /// @brief                  Get the size of the State.
-    // ///
-    // /// @return                 The size of the State
+    /// @brief                  Get the reference frame associated with the State.
+    ///
+    /// @return                 The reference frame
 
-    // Size getSize() const;
+    Shared<const Frame> getFrame() const;
 
-    // /// @brief                  Get the reference frame associated with the State.
-    // ///
-    // /// @return                 The reference frame
+    /// @brief                  Get the coordinates subsets of the State.
+    ///
+    /// @return                 The coordinates subsets
 
-    // Shared<const Frame> getFrame() const;
+    const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
-    // /// @brief                  Get the coordinates of the State.
-    // ///
-    // /// @return                 The coordinates
+    /// @brief Print the StateBuilder to an output stream.
+    ///
+    /// @param [in] anOutputStream The output stream to print to
+    /// @param [in] displayDecorator Whether or not to display the decorator
 
-    // VectorXd getCoordinates() const;
+    void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    // /// @brief                  Get the coordinates subsets of the State.
-    // ///
-    // /// @return                 The coordinates subsets
+    /// @brief Get an undefined StateBuilder.
+    ///
+    /// @return An undefined StateBuilder
 
-    // const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
-
-    // /// @brief Print the StateBuilder to an output stream.
-    // ///
-    // /// @param [in] anOutputStream The output stream to print to
-    // /// @param [in] displayDecorator Whether or not to display the decorator
-
-    // void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    // /// @brief Get an undefined StateBuilder.
-    // ///
-    // /// @return An undefined StateBuilder
-
-    // static StateBuilder Undefined();
+    static StateBuilder Undefined();
 
    private:
     Shared<const Frame> frameSPtr_;

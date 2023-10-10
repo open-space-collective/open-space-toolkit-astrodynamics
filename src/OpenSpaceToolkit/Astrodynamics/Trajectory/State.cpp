@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-// #include <Eigen/Core>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -321,11 +319,6 @@ const Array<Shared<const CoordinatesSubset>> State::getCoordinatesSubsets() cons
 VectorXd State::extractCoordinates(const Shared<const CoordinatesSubset>& aSubsetSPtr) const
 {
     return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aSubsetSPtr);
-}
-
-VectorXd State::extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const
-{
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aCoordinatesSubsetsArray);
 }
 
 VectorXd State::extractCoordinates(const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray) const
