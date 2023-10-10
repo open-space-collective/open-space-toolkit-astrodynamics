@@ -11,6 +11,7 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Segment.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Sequence.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/StateBuilder.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule)
 {
@@ -56,6 +57,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(trajectory);
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(trajectory);
+    OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(trajectory);
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(trajectory);
