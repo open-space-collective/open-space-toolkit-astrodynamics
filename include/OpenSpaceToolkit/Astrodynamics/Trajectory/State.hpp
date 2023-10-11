@@ -43,11 +43,10 @@ using ostk::astro::trajectory::state::CoordinatesSubset;
 class State
 {
    public:
-    /// @brief                  Constructor.
+    /// @brief                  Constructor with a pre-defined Coordinates Broker.
     ///
     /// @param                  [in] anInstant An instant
-    /// @param                  [in] aCoordinates The {cartesian-position, cartesian-velocity} coordinates at the
-    /// instant in International System of Units
+    /// @param                  [in] aCoordinates The coordinates at the instant in International System of Units
     /// @param                  [in] aFrameSPtr The reference frame in which the coordinates are referenced to and
     /// resolved in
     /// @param                  [in] aCoordinatesBrokerSPtr The coordinates broker associated to the coordinates
@@ -59,7 +58,24 @@ class State
         const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr
     );
 
-    /// @brief                  Constructor.
+    /// @brief                  Constructor. This constructor makes a new Coordinates Broker under the hood for every
+    /// State. When possible, users should prefer passing in an existing Coordinates Broker or using a StateBuilder to
+    /// reduce memory footprint when constructing many states.
+    ///
+    /// @param                  [in] anInstant An instant
+    /// @param                  [in] aCoordinates The coordinates at the instant in International System of Units
+    /// @param                  [in] aFrameSPtr The reference frame in which the coordinates are referenced to and
+    /// resolved in
+    /// @param                  [in] aCoordinatesSubsetsArray The coordinates subsets associated to the coordinates
+
+    State(
+        const Instant& anInstant,
+        const VectorXd& aCoordinates,
+        const Shared<const Frame>& aFrameSPtr,
+        const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+    );
+
+    /// @brief                  Utility constructor for Position/Velocity only.
     ///
     /// @param                  [in] anInstant An instant
     /// @param                  [in] aPosition The cartesian position at the instant in International System of Units

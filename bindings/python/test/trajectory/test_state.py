@@ -87,6 +87,24 @@ class TestState:
         assert isinstance(state, State)
         assert state.is_defined()
 
+    def test_subsets_constructor(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+        frame: Frame,
+    ):
+        state = State(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        assert state is not None
+        assert isinstance(state, State)
+        assert state.is_defined()
+
     def test_comparators(self, state: State):
         assert (state == state) is True
         assert (state != state) is False
