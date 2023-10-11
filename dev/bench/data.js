@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1696980311680,
+  "lastUpdate": 1697058221198,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -108,6 +108,60 @@ window.BENCHMARK_DATA = {
             "value": 4106929186.799999,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4106630000.0000014 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "kyle.ray.cochran@gmail.com",
+            "name": "kyle-cochran",
+            "username": "kyle-cochran"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "da64bbaf375a2de0017d62e0f1605b3f2df0d30e",
+          "message": "feat: add State constructor with Array of Subsets (#238)\n\n* feat: add State constructor with Array of Subsets\r\n\r\n* refactor: adress MR comments",
+          "timestamp": "2023-10-11T13:27:37-07:00",
+          "tree_id": "8d4f3bb23b8613cc05c28d1cbfd87fdf74da62dc",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/da64bbaf375a2de0017d62e0f1605b3f2df0d30e"
+        },
+        "date": 1697058219849,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 697642028.100006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 697083469.9999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1484717112.6999853,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1484578939.9999998 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4141488179.60002,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4141253600.0000014 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4142242701.699996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4142003049.9999986 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4142194365.400019,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4141949289.9999976 ns\nthreads: 1"
           }
         ]
       }
