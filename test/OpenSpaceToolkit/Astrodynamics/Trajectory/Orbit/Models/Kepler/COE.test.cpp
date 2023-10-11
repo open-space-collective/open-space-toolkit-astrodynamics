@@ -21,6 +21,7 @@ using ostk::core::ctnr::Array;
 using ostk::core::ctnr::Tuple;
 
 using ostk::math::obj::Vector3d;
+using ostk::math::obj::Vector6d;
 
 using ostk::physics::coord::Position;
 using ostk::physics::coord::Velocity;
@@ -478,6 +479,31 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetCarte
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetVector)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(180.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(45.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        const Vector6d coeVector = {
+            semiMajorAxis.inMeters(),
+            eccentricity,
+            inclination.inRadians(),
+            raan.inRadians(),
+            aop.inRadians(),
+            trueAnomaly.inRadians(),
+        };
+
+        EXPECT_TRUE(((coeVector - coe.getVector(COE::AnomalyType::True)).sum() < 1e-15));
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Undefined)
 {
     {
@@ -564,6 +590,46 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
         EXPECT_ANY_THROW(COE::Cartesian(
             COE::CartesianState({Position::Undefined(), Velocity::Undefined()}), Earth::EGM2008.gravitationalParameter_
         ));
+    }
+
+    {
+        const Position position =
+            Position::Meters({6596065.624114551, 2282234.953292401, -18030.93992064121}, Frame::GCRF());
+        const Velocity velocity =
+            Velocity::MetersPerSecond({345.4716519563907, -967.0404288726759, 7488.686029827369}, Frame::GCRF());
+        const COE coe = COE::Cartesian({position, velocity}, Earth::EGM2008.gravitationalParameter_);
+
+        EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), 6983041.667517853, 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 0.001288522395593299, 1e-10);
+        EXPECT_NEAR(coe.getInclination().inDegrees(), 97.80765762597238, 1e-10);
+        EXPECT_NEAR(coe.getRaan().inDegrees(), 19.06529544678578, 1e-10);
+        EXPECT_NEAR(coe.getAop().inDegrees(), 68.50632506660459, 1e-10);
+        EXPECT_NEAR(coe.getMeanAnomaly().inDegrees(), 291.4817543658902, 1e-10);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromVector)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.0;
+        const Angle inclination = Angle::Degrees(180.0);
+        const Angle raan = Angle::Degrees(0.0);
+        const Angle aop = Angle::Degrees(0.0);
+        const Angle trueAnomaly = Angle::Degrees(45.0);
+
+        const Vector6d coeVector = {
+            semiMajorAxis.inMeters(),
+            eccentricity,
+            inclination.inRadians(),
+            raan.inRadians(),
+            aop.inRadians(),
+            trueAnomaly.inRadians(),
+        };
+
+        const COE coeFromVector = COE::FromVector(coeVector, COE::AnomalyType::True);
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+        EXPECT_TRUE(coeFromVector == coe);
     }
 }
 
@@ -672,6 +738,19 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Eccentri
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(Angle::Undefined(), eccentricity, tolerance));
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, Real::Undefined(), tolerance));
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, Real::Undefined()));
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, TrueAnomalyFromMeanAnomaly)
+{
+    {
+        const Angle meanAnomaly = Angle::Radians(5.08731632317414);
+        const Real eccentricity = 0.001288522395593299;
+        const Real tolerance = 1e-15;
+
+        const Angle trueAnomaly = COE::TrueAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance);
+
+        EXPECT_NEAR(trueAnomaly.inRadians(), 5.084916881853494, tolerance);
     }
 }
 

@@ -100,11 +100,11 @@ class COE
 
     Angle getAop() const;
 
-    Angle getTrueAnomaly() const;
+    virtual Angle getTrueAnomaly() const;
 
-    Angle getMeanAnomaly() const;
+    virtual Angle getMeanAnomaly() const;
 
-    Angle getEccentricAnomaly() const;
+    virtual Angle getEccentricAnomaly() const;
 
     Length getPeriapsisRadius() const;
 
@@ -141,14 +141,6 @@ class COE
         const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance
     );
 
-    static Angle ConvertAnomaly(
-        const Angle& anAnomaly,
-        const Real& anEccentricity,
-        const AnomalyType& fromAnomalyType,
-        const AnomalyType& toAnomalyType,
-        const Real& aTolerance
-    );
-
     /// @brief                  Convert element to string
     ///
     /// @param                  [in] anElement An element
@@ -157,13 +149,31 @@ class COE
 
     static String StringFromElement(const COE::Element& anElement);
 
-   private:
+   protected:
     Length semiMajorAxis_;
     Real eccentricity_;
     Angle inclination_;
     Angle raan_;
     Angle aop_;
-    Angle trueAnomaly_;
+    Angle anomaly_;
+    AnomalyType anomalyType_;
+
+    COE(const Length& aSemiMajorAxis,
+        const Real& anEccentricity,
+        const Angle& anInclination,
+        const Angle& aRaan,
+        const Angle& anAop,
+        const Angle& anAnomaly,
+        const AnomalyType& anAnomalyType);
+
+   private:
+    static Angle ConvertAnomaly(
+        const Angle& anAnomaly,
+        const Real& anEccentricity,
+        const AnomalyType& fromAnomalyType,
+        const AnomalyType& toAnomalyType,
+        const Real& aTolerance
+    );
 };
 
 }  // namespace kepler

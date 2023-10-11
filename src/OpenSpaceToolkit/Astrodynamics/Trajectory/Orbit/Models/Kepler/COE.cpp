@@ -42,7 +42,8 @@ COE::COE(
       inclination_(anInclination),
       raan_(aRaan),
       aop_(anAop),
-      trueAnomaly_(aTrueAnomaly)
+      anomaly_(aTrueAnomaly),
+      anomalyType_(COE::AnomalyType::True)
 {
 }
 
@@ -55,7 +56,7 @@ bool COE::operator==(const COE& aCOE) const
 
     return (semiMajorAxis_ == aCOE.semiMajorAxis_) && (eccentricity_ == aCOE.eccentricity_) &&
            (inclination_ == aCOE.inclination_) && (raan_ == aCOE.raan_) && (aop_ == aCOE.aop_) &&
-           (trueAnomaly_ == aCOE.trueAnomaly_);
+           (anomaly_ == aCOE.anomaly_) && (anomalyType_ == aCOE.anomalyType_);
 }
 
 bool COE::operator!=(const COE& aCOE) const
@@ -73,7 +74,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const COE& aCOE)
 bool COE::isDefined() const
 {
     return semiMajorAxis_.isDefined() && eccentricity_.isDefined() && inclination_.isDefined() && raan_.isDefined() &&
-           aop_.isDefined() && trueAnomaly_.isDefined();
+           aop_.isDefined() && anomaly_.isDefined();
 }
 
 Length COE::getSemiMajorAxis() const
@@ -133,7 +134,7 @@ Angle COE::getTrueAnomaly() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return trueAnomaly_;
+    return anomaly_;
 }
 
 Angle COE::getMeanAnomaly() const
@@ -153,7 +154,7 @@ Angle COE::getEccentricAnomaly() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return COE::EccentricAnomalyFromTrueAnomaly(trueAnomaly_, eccentricity_);
+    return COE::EccentricAnomalyFromTrueAnomaly(anomaly_, eccentricity_);
 }
 
 Length COE::getPeriapsisRadius() const
@@ -252,7 +253,7 @@ COE::CartesianState COE::getCartesianState(
     const Real inclination_rad = inclination_.inRadians();
     const Real raan_rad = raan_.inRadians();
     const Real aop_rad = aop_.inRadians();
-    const Real nu_rad = trueAnomaly_.inRadians();
+    const Real nu_rad = anomaly_.inRadians();
     const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     const Real p_m = a_m * (1.0 - eccentricity_ * eccentricity_);
@@ -306,7 +307,7 @@ Vector6d COE::getVector(const COE::AnomalyType& anAnomalyType) const
         inclination_.inRadians(),
         raan_.inRadians(),
         aop_.inRadians(),
-        COE::ConvertAnomaly(trueAnomaly_, eccentricity_, AnomalyType::True, anAnomalyType, 1e-12).inRadians(),
+        COE::ConvertAnomaly(anomaly_, eccentricity_, AnomalyType::True, anAnomalyType, 1e-12).inRadians(),
     };
 }
 
@@ -331,10 +332,24 @@ void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Argument of periapsis:"
         << (aop_.isDefined() ? String::Format("{} [deg]", aop_.inDegrees(0.0, 360.0).toString()) : "Undefined");
+    String anomalyType = String::Empty();
+    switch (anomalyType_)
+    {
+        case COE::AnomalyType::True:
+            anomalyType = "True";
+            break;
+        case COE::AnomalyType::Mean:
+            anomalyType = "Mean";
+            break;
+        case COE::AnomalyType::Eccentric:
+            anomalyType = "Eccentric";
+            break;
+        default:
+            throw ostk::core::error::runtime::Wrong("Anomaly type");
+    }
     ostk::core::utils::Print::Line(anOutputStream)
-        << "True anomaly:"
-        << (trueAnomaly_.isDefined() ? String::Format("{} [deg]", trueAnomaly_.inDegrees(0.0, 360.0).toString())
-                                     : "Undefined");
+        << String::Format("{} anomaly:", anomalyType)
+        << (anomaly_.isDefined() ? String::Format("{} [deg]", anomaly_.inDegrees(0.0, 360.0).toString()) : "Undefined");
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -563,7 +578,7 @@ COE COE::FromVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType
         Angle::Radians(aCOEVector[2]),
         Angle::Radians(aCOEVector[3]),
         Angle::Radians(aCOEVector[4]),
-        COE::ConvertAnomaly(Angle::Radians(aCOEVector[5]), aCOEVector[1], anAnomalyType, AnomalyType::True, 1e-12),
+        COE::ConvertAnomaly(Angle::Radians(aCOEVector[5]), aCOEVector[1], anAnomalyType, AnomalyType::True, 1e-15),
     };
 }
 
@@ -780,6 +795,50 @@ Angle COE::TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, const Real& anEc
     );
 }
 
+String COE::StringFromElement(const COE::Element& anElement)
+{
+    switch (anElement)
+    {
+        case COE::Element::SemiMajorAxis:
+            return "SemiMajorAxis";
+        case COE::Element::Eccentricity:
+            return "Eccentricity";
+        case COE::Element::Inclination:
+            return "Inclination";
+        case COE::Element::Aop:
+            return "Aop";
+        case COE::Element::Raan:
+            return "Raan";
+        case COE::Element::TrueAnomaly:
+            return "TrueAnomaly";
+        case COE::Element::MeanAnomaly:
+            return "MeanAnomaly";
+        case COE::Element::EccentricAnomaly:
+            return "EccentricAnomaly";
+    }
+
+    throw ostk::core::error::runtime::Wrong("Element");
+}
+
+COE::COE(
+    const Length& aSemiMajorAxis,
+    const Real& anEccentricity,
+    const Angle& anInclination,
+    const Angle& aRaan,
+    const Angle& anAop,
+    const Angle& anAnomaly,
+    const AnomalyType& anAnomalyType
+)
+    : semiMajorAxis_(aSemiMajorAxis),
+      eccentricity_(anEccentricity),
+      inclination_(anInclination),
+      raan_(aRaan),
+      aop_(anAop),
+      anomaly_(anAnomaly),
+      anomalyType_(anAnomalyType)
+{
+}
+
 Angle COE::ConvertAnomaly(
     const Angle& anAnomaly,
     const Real& anEccentricity,
@@ -840,31 +899,6 @@ Angle COE::ConvertAnomaly(
         default:
             throw ostk::core::error::runtime::Wrong("From Anomaly type");
     }
-}
-
-String COE::StringFromElement(const COE::Element& anElement)
-{
-    switch (anElement)
-    {
-        case COE::Element::SemiMajorAxis:
-            return "SemiMajorAxis";
-        case COE::Element::Eccentricity:
-            return "Eccentricity";
-        case COE::Element::Inclination:
-            return "Inclination";
-        case COE::Element::Aop:
-            return "Aop";
-        case COE::Element::Raan:
-            return "Raan";
-        case COE::Element::TrueAnomaly:
-            return "TrueAnomaly";
-        case COE::Element::MeanAnomaly:
-            return "MeanAnomaly";
-        case COE::Element::EccentricAnomaly:
-            return "EccentricAnomaly";
-    }
-
-    throw ostk::core::error::runtime::Wrong("Element");
 }
 
 }  // namespace kepler
