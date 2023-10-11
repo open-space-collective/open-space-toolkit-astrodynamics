@@ -529,7 +529,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, contract)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Contract)
 {
     {
         const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
