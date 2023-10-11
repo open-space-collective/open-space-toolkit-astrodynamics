@@ -117,16 +117,31 @@ class StateBuilder
 
     const Array<Shared<const CoordinatesSubset>> getCoordinatesSubsets() const;
 
-    /// @brief Print the StateBuilder to an output stream.
+    /// @brief                  Print the StateBuilder to an output stream.
     ///
-    /// @param [in] anOutputStream The output stream to print to
-    /// @param [in] displayDecorator Whether or not to display the decorator
+    /// @param                  [in] anOutputStream The output stream to print to
+    /// @param                  [in] displayDecorator Whether or not to display the decorator
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Get an undefined StateBuilder.
+    /// @brief                  Return a new StateBuilder with the additional CoordinatesSubset.
     ///
-    /// @return An undefined StateBuilder
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to append
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder expand(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                   Return a new StateBuilder without the given CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
+    ///
+    /// @return                 A new StateBuilder
+    const StateBuilder contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                  Get an undefined StateBuilder.
+    ///
+    /// @return                 An undefined StateBuilder
 
     static StateBuilder Undefined();
 

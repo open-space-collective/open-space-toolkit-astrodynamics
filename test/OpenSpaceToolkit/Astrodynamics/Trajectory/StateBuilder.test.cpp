@@ -358,6 +358,74 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, IsDefined)
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
+{
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
+        const StateBuilder expandedStateBuilder = stateBuilder.expand(CoordinatesSubset::Mass());
+
+        EXPECT_FALSE(stateBuilder == expandedStateBuilder);
+
+        const Array<Shared<const CoordinatesSubset>> subsets = stateBuilder.accessCoordinatesBroker()->accessSubsets();
+        EXPECT_EQ(2, subsets.size());
+        EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
+        EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
+
+        const Array<Shared<const CoordinatesSubset>> expandedSubsets =
+            expandedStateBuilder.accessCoordinatesBroker()->accessSubsets();
+        EXPECT_EQ(3, expandedSubsets.size());
+        EXPECT_EQ(CartesianPosition::Default(), expandedSubsets[0]);
+        EXPECT_EQ(CartesianVelocity::Default(), expandedSubsets[1]);
+        EXPECT_EQ(CoordinatesSubset::Mass(), expandedSubsets[2]);
+    }
+
+    {
+        const StateBuilder stateBuilder = StateBuilder::Undefined();
+
+        EXPECT_ANY_THROW(stateBuilder.expand(CartesianPosition::Default()));
+    }
+
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
+
+        EXPECT_ANY_THROW(stateBuilder.expand(CartesianPosition::Default()));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, contract)
+{
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
+        const StateBuilder contractedStateBuilder = stateBuilder.contract(CartesianVelocity::Default());
+
+        EXPECT_FALSE(stateBuilder == contractedStateBuilder);
+
+        const Array<Shared<const CoordinatesSubset>> subsets = stateBuilder.accessCoordinatesBroker()->accessSubsets();
+        EXPECT_EQ(3, subsets.size());
+        EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
+        EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
+        EXPECT_EQ(CoordinatesSubset::Mass(), subsets[2]);
+
+        const Array<Shared<const CoordinatesSubset>> contractedSubsets =
+            contractedStateBuilder.accessCoordinatesBroker()->accessSubsets();
+        EXPECT_EQ(2, contractedSubsets.size());
+        EXPECT_EQ(CartesianPosition::Default(), contractedSubsets[0]);
+        EXPECT_EQ(CoordinatesSubset::Mass(), contractedSubsets[1]);
+    }
+
+    {
+        const StateBuilder stateBuilder = StateBuilder::Undefined();
+
+        EXPECT_ANY_THROW(stateBuilder.expand(CartesianPosition::Default()));
+    }
+
+    {
+        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
+
+        EXPECT_ANY_THROW(stateBuilder.contract(CoordinatesSubset::Mass()));
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Undefined)
 {
     {

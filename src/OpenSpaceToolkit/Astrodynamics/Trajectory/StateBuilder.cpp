@@ -134,6 +134,52 @@ void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) co
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
+const StateBuilder StateBuilder::expand(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    {
+        throw ostk::core::error::runtime::Wrong("CoordinatesSubset");
+    }
+
+    Array<Shared<const CoordinatesSubset>> expandedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
+    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
+    {
+        expandedSubsets.add(subset);
+    }
+    expandedSubsets.add(aCoordinatesSubsetSPtr);
+
+    return StateBuilder(this->frameSPtr_, expandedSubsets);
+}
+
+const StateBuilder StateBuilder::contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    {
+        throw ostk::core::error::runtime::Wrong("CoordinatesSubset");
+    }
+
+    Array<Shared<const CoordinatesSubset>> contractedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
+    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
+    {
+        if (subset != aCoordinatesSubsetSPtr)
+        {
+            contractedSubsets.add(subset);
+        }
+    }
+
+    return StateBuilder(this->frameSPtr_, contractedSubsets);
+}
+
 StateBuilder StateBuilder::Undefined()
 {
     return {Frame::Undefined(), nullptr};
