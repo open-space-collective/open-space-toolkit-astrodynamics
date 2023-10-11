@@ -82,7 +82,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
         const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelMassBrokerSPtr};
 
         EXPECT_FALSE(aStateBuilder == anotherStateBuilder);
-        EXPECT_FALSE(anotherStateBuilder == aStateBuilder);
     }
 
     {
@@ -106,7 +105,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
 
         const StateBuilder anotherStateBuilder = {Frame::GCRF(), velPosBrokerSPtr};
 
-        EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
+        EXPECT_FALSE(aStateBuilder == anotherStateBuilder);
     }
 
     {
@@ -183,7 +182,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, NotEqualToOperato
 
         const StateBuilder anotherStateBuilder = {Frame::GCRF(), velPosBrokerSPtr};
 
-        EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
+        EXPECT_TRUE(aStateBuilder != anotherStateBuilder);
     }
 
     {

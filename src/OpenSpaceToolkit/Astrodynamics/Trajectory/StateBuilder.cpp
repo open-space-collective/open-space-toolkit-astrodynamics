@@ -39,20 +39,9 @@ bool StateBuilder::operator==(const StateBuilder& aStateBuilder) const
         return false;
     }
 
-    for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    if ((*this->coordinatesBrokerSPtr_) != (*aStateBuilder.coordinatesBrokerSPtr_))
     {
-        if (!aStateBuilder.coordinatesBrokerSPtr_->hasSubset(subset))
-        {
-            return false;
-        }
-    }
-
-    for (const Shared<const CoordinatesSubset>& subset : aStateBuilder.coordinatesBrokerSPtr_->accessSubsets())
-    {
-        if (!this->coordinatesBrokerSPtr_->hasSubset(subset))
-        {
-            return false;
-        }
+        return false;
     }
 
     return true;
