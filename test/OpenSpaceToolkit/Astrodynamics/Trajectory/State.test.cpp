@@ -47,6 +47,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
             CartesianPosition::Default(), CartesianVelocity::Default()
         };
         EXPECT_NO_THROW(State state(instant, coordinates, Frame::GCRF(), subsets));
+
+        const State state(instant, coordinates, Frame::GCRF(), subsets);
+
+        EXPECT_EQ(state.extractCoordinates(CartesianPosition::Default()), coordinates.segment(0, 3));
+        EXPECT_EQ(state.extractCoordinates(CartesianVelocity::Default()), coordinates.segment(3, 3));
     }
 
     {

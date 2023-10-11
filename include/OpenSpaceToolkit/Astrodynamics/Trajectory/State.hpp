@@ -59,7 +59,8 @@ class State
     );
 
     /// @brief                  Constructor. This constructor makes a new Coordinates Broker under the hood for every
-    /// State.
+    /// State. When possible, users should prefer passing in an existing Coordinates Broker or using a StateBuilder to
+    /// reduce memory footprint when constructing many states.
     ///
     /// @param                  [in] anInstant An instant
     /// @param                  [in] aCoordinates The coordinates at the instant in International System of Units
