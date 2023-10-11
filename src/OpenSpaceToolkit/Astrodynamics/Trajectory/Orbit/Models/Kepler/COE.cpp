@@ -174,7 +174,7 @@ Length COE::getApoapsisRadius() const
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    return this->semiMajorAxis_ * this->eccentricity_;
+    return this->semiMajorAxis_ * (1.0 + this->eccentricity_);
 }
 
 Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
