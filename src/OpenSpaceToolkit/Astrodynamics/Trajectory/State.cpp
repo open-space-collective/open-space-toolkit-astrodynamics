@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-// #include <Eigen/Core>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
@@ -34,6 +32,10 @@ State::State(
       frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(aCoordinatesBrokerSPtr)
 {
+    if (coordinatesBrokerSPtr_ && (Size)coordinates_.size() != coordinatesBrokerSPtr_->getNumberOfCoordinates())
+    {
+        throw ostk::core::error::runtime::Wrong("Number of Coordinates");
+    }
 }
 
 State::State(

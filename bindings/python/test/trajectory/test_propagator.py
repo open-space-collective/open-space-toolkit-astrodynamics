@@ -98,7 +98,18 @@ def environment(earth) -> Environment:
 
 
 @pytest.fixture
-def coordinates_broker():
+def coordinates_broker_7d():
+    return CoordinatesBroker(
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinatesSubset.mass(),
+        ]
+    )
+
+
+@pytest.fixture
+def coordinates_broker_9d():
     return CoordinatesBroker(
         [
             CartesianPosition.default(),
@@ -112,7 +123,7 @@ def coordinates_broker():
 
 @pytest.fixture
 def state(
-    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinates_broker_7d: CoordinatesBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
@@ -128,12 +139,12 @@ def state(
         satellite_system.get_mass().in_kilograms() + propellant_mass,
     ]
 
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker_7d)
 
 
 @pytest.fixture
 def state_low_altitude(
-    satellite_system: SatelliteSystem, coordinates_broker: CoordinatesBroker
+    satellite_system: SatelliteSystem, coordinates_broker_9d: CoordinatesBroker
 ) -> State:
     instant: Instant = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
 
@@ -153,7 +164,7 @@ def state_low_altitude(
         cd,
     ]
 
-    return State(instant, coordinates, Frame.GCRF(), coordinates_broker)
+    return State(instant, coordinates, Frame.GCRF(), coordinates_broker_9d)
 
 
 @pytest.fixture

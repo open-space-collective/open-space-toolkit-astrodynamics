@@ -13,6 +13,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesBroker.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinatesSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 #include <Global.test.hpp>
 
@@ -28,6 +30,7 @@ using ostk::physics::coord::Frame;
 
 using ostk::astro::eventcondition::BooleanCondition;
 using ostk::astro::trajectory::State;
+using ostk::astro::trajectory::StateBuilder;
 using ostk::astro::trajectory::state::CoordinatesBroker;
 using ostk::astro::trajectory::state::CoordinatesSubset;
 
@@ -52,12 +55,17 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
     const Shared<const CoordinatesBroker> defaultCoordinatesBroker_ =
         std::make_shared<CoordinatesBroker>(CoordinatesBroker(Array<Shared<const CoordinatesSubset>>::Empty()));
 
+    const Array<Shared<const CoordinatesSubset>> defaultSubsets_ = {
+        std::make_shared<CoordinatesSubset>(CoordinatesSubset("ANGLE", 1))
+    };
+    const StateBuilder defaultStateBuilder_ = StateBuilder(defaultFrame_, defaultSubsets_);
+
     const State generateState(const Real& coordinate)
     {
-        VectorXd coordinates;
-        coordinates.resize(1);
+        VectorXd coordinates(1);
         coordinates << coordinate;
-        return State(defaultInstant_, coordinates, defaultFrame_, defaultCoordinatesBroker_);
+
+        return defaultStateBuilder_.buildState(defaultInstant_, coordinates);
     }
 };
 
