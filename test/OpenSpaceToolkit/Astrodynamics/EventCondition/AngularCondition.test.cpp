@@ -61,7 +61,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
         VectorXd coordinates(1);
         coordinates << coordinate;
 
-        return defaultStateBuilder_.buildState(Instant::J2000(), coordinates);
+        return defaultStateBuilder_.build(Instant::J2000(), coordinates);
     }
 };
 

@@ -79,6 +79,22 @@ class StateBuilder
 
     bool operator!=(const StateBuilder& aStateBuilder) const;
 
+    /// @brief                  Return a new StateBuilder with the additional CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to append
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder operator+(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                  Return a new StateBuilder without the given CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder operator-(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
     /// @brief                  Stream insertion operator.
     ///
     /// @param                  [in] anOutputStream The output stream to insert into
@@ -95,14 +111,26 @@ class StateBuilder
 
     /// @brief                  Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
     ///
+    /// @param                  [in] anInstant The unique Instant of the State
+    /// @param                  [in] aCoordinates The unique coordinates of the State
     /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
 
-    const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
+    const State build(const Instant& anInstant, const VectorXd& aCoordinates) const;
 
-    const State build(
-        const State& aState,
-        const Map<const Shared<const CoordinatesSubset>, const VectorXd>& anAdditionalCoordinatesMap
-    ) const;
+    /// @brief                  Expand a lower dimensional input State to match the coordinates subsets of the StateBuilder, using default coordinates to fill the values not present in the input State. 
+    ///
+    /// @param                  [in] aState The input State to be expanded
+    /// @param                  [in] aDefaultCoordinates The default coordinates to fill the values not present in the input State
+    /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
+
+    const State expand(const State& aState, const VectorXd& aDefaultCoordinates) const;
+
+    /// @brief                  Reduce an higher dimensional input State to match the coordinates subsets of the StateBuilder.
+    ///
+    /// @param                  [in] aState The input State to be reduced
+    /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
+
+    const State reduce(const State& aState) const;
 
     /// @brief                  Accessor for the reference frame.
     ///
@@ -134,22 +162,6 @@ class StateBuilder
     /// @param                  [in] displayDecorator Whether or not to display the decorator
 
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief                  Return a new StateBuilder with the additional CoordinatesSubset.
-    ///
-    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to append
-    ///
-    /// @return                 A new StateBuilder
-
-    const StateBuilder expand(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
-
-    /// @brief                   Return a new StateBuilder without the given CoordinatesSubset.
-    ///
-    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
-    ///
-    /// @return                 A new StateBuilder
-
-    const StateBuilder contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
     /// @brief                  Get an undefined StateBuilder.
     ///

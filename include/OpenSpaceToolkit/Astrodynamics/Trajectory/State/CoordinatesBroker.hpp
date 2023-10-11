@@ -133,7 +133,7 @@ class CoordinatesBroker
 
     /// @brief                  Extract the coordinates of an array of subsets from the full coordinates vector
     ///
-    /// @param                  [in] aFullCoordinatesVector the full coordinates vecctor
+    /// @param                  [in] aFullCoordinatesVector the full coordinates vector
     /// @param                  [in] aCoordinatesSubsetsArray the array of coordinates subsets of interest
     ///
     /// @return                 The coordinates of the array of subsets in the same order as the input subsets
@@ -142,13 +142,27 @@ class CoordinatesBroker
         const VectorXd& aFullCoordinatesVector, const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
     ) const;
 
+    /// @brief                  Get the index in the coordinates array by subset ID
+    ///
+    /// @param                  [in] anId the subset ID
+    ///
+    /// @return                 The Index of the subset in the coordinates array
+
+    Index getSubsetIndex(const String& anId) const;
+
+    /// @brief                  Return True if the subset exists in the coordinates map
+    ///
+    /// @param                  [in] anId the subset ID
+    ///
+    /// @return                 True if the subset exists
+
+    bool hasSubset(const String& anId) const;
+
    private:
     Index nextCoordinatesSubsetIndex_;
     Array<Shared<const CoordinatesSubset>> coordinatesSubsets_;
     Map<String, Index> coordinatesSubsetsIndexMap_;
-
-    bool hasSubset(const String& anId) const;
-    Index getSubsetIndex(const String& anId) const;
+    
 };
 
 }  // namespace state

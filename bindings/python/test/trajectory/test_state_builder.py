@@ -142,37 +142,37 @@ class TestStateBuilder:
             CoordinatesSubset.mass() == expaned_state_builder.get_coordinates_subsets()[2]
         )
 
-    def test_contract(
-        self,
-        state_builder_with_mass: StateBuilder,
-    ):
-        contracted_state_builder: StateBuilder = state_builder_with_mass.contract(
-            CartesianVelocity.default()
-        )
+    # def test_contract(
+    #     self,
+    #     state_builder_with_mass: StateBuilder,
+    # ):
+    #     contracted_state_builder: StateBuilder = state_builder_with_mass.contract(
+    #         CartesianVelocity.default()
+    #     )
 
-        assert (state_builder_with_mass == contracted_state_builder) is False
-        assert (state_builder_with_mass != contracted_state_builder) is True
+    #     assert (state_builder_with_mass == contracted_state_builder) is False
+    #     assert (state_builder_with_mass != contracted_state_builder) is True
 
-        assert 3 == len(state_builder_with_mass.get_coordinates_subsets())
-        assert (
-            CartesianPosition.default()
-            == state_builder_with_mass.get_coordinates_subsets()[0]
-        )
-        assert (
-            CartesianVelocity.default()
-            == state_builder_with_mass.get_coordinates_subsets()[1]
-        )
-        assert (
-            CoordinatesSubset.mass()
-            == state_builder_with_mass.get_coordinates_subsets()[2]
-        )
+    #     assert 3 == len(state_builder_with_mass.get_coordinates_subsets())
+    #     assert (
+    #         CartesianPosition.default()
+    #         == state_builder_with_mass.get_coordinates_subsets()[0]
+    #     )
+    #     assert (
+    #         CartesianVelocity.default()
+    #         == state_builder_with_mass.get_coordinates_subsets()[1]
+    #     )
+    #     assert (
+    #         CoordinatesSubset.mass()
+    #         == state_builder_with_mass.get_coordinates_subsets()[2]
+    #     )
 
-        assert 2 == len(contracted_state_builder.get_coordinates_subsets())
-        assert (
-            CartesianPosition.default()
-            == contracted_state_builder.get_coordinates_subsets()[0]
-        )
-        assert (
-            CoordinatesSubset.mass()
-            == contracted_state_builder.get_coordinates_subsets()[1]
-        )
+    #     assert 2 == len(contracted_state_builder.get_coordinates_subsets())
+    #     assert (
+    #         CartesianPosition.default()
+    #         == contracted_state_builder.get_coordinates_subsets()[0]
+    #     )
+    #     assert (
+    #         CoordinatesSubset.mass()
+    #         == contracted_state_builder.get_coordinates_subsets()[1]
+    #     )

@@ -52,6 +52,48 @@ bool StateBuilder::operator!=(const StateBuilder& aStateBuilder) const
     return !((*this) == aStateBuilder);
 }
 
+const StateBuilder StateBuilder::operator+(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    {
+        throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
+    }
+
+    Array<Shared<const CoordinatesSubset>> expandedSubsets = coordinatesBrokerSPtr_->getSubsets();
+    expandedSubsets.add(aCoordinatesSubsetSPtr);
+
+    return StateBuilder(this->frameSPtr_, expandedSubsets);
+}
+
+const StateBuilder StateBuilder::operator-(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
+    {
+        throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
+    }
+
+    Array<Shared<const CoordinatesSubset>> contractedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
+    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
+    {
+        if (subset != aCoordinatesSubsetSPtr)
+        {
+            contractedSubsets.add(subset);
+        }
+    }
+
+    return StateBuilder(this->frameSPtr_, contractedSubsets);
+}
+
 std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder)
 {
     aStateBuilder.print(anOutputStream);
@@ -64,7 +106,7 @@ bool StateBuilder::isDefined() const
     return (this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
 }
 
-const State StateBuilder::buildState(const Instant& anInstant, const VectorXd& aCoordinates) const
+const State StateBuilder::build(const Instant& anInstant, const VectorXd& aCoordinates) const
 {
     if (!this->isDefined())
     {
@@ -74,8 +116,8 @@ const State StateBuilder::buildState(const Instant& anInstant, const VectorXd& a
     return {anInstant, aCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
-const State StateBuilder::build(
-    const State& aState, const Map<const Shared<const CoordinatesSubset>, const VectorXd>& anAdditionalCoordinatesMap
+const State StateBuilder::expand(
+    const State& aState, const VectorXd& aDefaultCoordinates
 ) const
 {
     if (!this->isDefined())
@@ -93,47 +135,61 @@ const State StateBuilder::build(
         throw ostk::core::error::runtime::Wrong("Frame");
     }
 
-    VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
-    Integer nextIndex = 0;
+    if ((Size) aDefaultCoordinates.size() != this->coordinatesBrokerSPtr_->getNumberOfCoordinates()){
+        throw ostk::core::error::RuntimeError(
+            "Expected default coordinates size [{}]. Got [{}].", 
+            this->coordinatesBrokerSPtr_->getNumberOfCoordinates(), 
+            aDefaultCoordinates.size()
+        );
+    }
+
+    // this does a deep copy
+    VectorXd output_coordinates = aDefaultCoordinates;
 
     for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
-        Integer subsetDetections = 0;
-        VectorXd subsetCoordinates;
-
+        // If the subset can be found in the input state, use that
         if (aState.accessCoordinatesBroker()->hasSubset(subset))
         {
-            subsetDetections++;
-            subsetCoordinates = aState.extractCoordinates(subset);
-        }
-
-        const auto coordinatesMapIterator = anAdditionalCoordinatesMap.find(subset);
-        if (coordinatesMapIterator != anAdditionalCoordinatesMap.end())
-        {
-            subsetDetections++;
-            subsetCoordinates = coordinatesMapIterator->second;
-        }
-
-        if (subsetDetections == 0)
-        {
-            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", subset->getName());
-        }
-
-        if (subsetDetections > 1)
-        {
-            throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", subset->getName());
-        }
-
-        if (Size(subsetCoordinates.size()) != subset->getSize())
-        {
-            throw ostk::core::error::runtime::Wrong("CoordinatesSubset coordinates size");
-        }
-
-        coordinates.segment(nextIndex, subsetCoordinates.size()) = subsetCoordinates;
-        nextIndex += subsetCoordinates.size();
+            output_coordinates.segment(
+                this->coordinatesBrokerSPtr_->getSubsetIndex(subset->getId()),
+                subset->getSize()
+            ) = aState.extractCoordinates(subset);
+        } 
     }
 
-    return this->buildState(aState.accessInstant(), coordinates);
+    return this->build(aState.accessInstant(), output_coordinates);
+}
+
+const State StateBuilder::reduce(const State& aState) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (!aState.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    if (aState.accessFrame() != this->frameSPtr_)
+    {
+        throw ostk::core::error::runtime::Wrong("Frame");
+    }
+
+    // this does a deep copy
+    VectorXd output_coordinates(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
+
+    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
+    {
+        output_coordinates.segment(
+            this->coordinatesBrokerSPtr_->getSubsetIndex(subset->getId()),
+            subset->getSize()
+        ) = aState.extractCoordinates(subset);
+    }
+
+    return this->build(aState.accessInstant(), output_coordinates);
 }
 
 const Shared<const Frame> StateBuilder::accessFrame() const
@@ -194,48 +250,6 @@ void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) co
         }
     }
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-const StateBuilder StateBuilder::expand(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
-    if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
-    {
-        throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
-    }
-
-    Array<Shared<const CoordinatesSubset>> expandedSubsets = coordinatesBrokerSPtr_->getSubsets();
-    expandedSubsets.add(aCoordinatesSubsetSPtr);
-
-    return StateBuilder(this->frameSPtr_, expandedSubsets);
-}
-
-const StateBuilder StateBuilder::contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
-    if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
-    {
-        throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
-    }
-
-    Array<Shared<const CoordinatesSubset>> contractedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
-    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
-    {
-        if (subset != aCoordinatesSubsetSPtr)
-        {
-            contractedSubsets.add(subset);
-        }
-    }
-
-    return StateBuilder(this->frameSPtr_, contractedSubsets);
 }
 
 StateBuilder StateBuilder::Undefined()
