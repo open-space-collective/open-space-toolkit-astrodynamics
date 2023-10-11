@@ -116,12 +116,12 @@ const State StateBuilder::build(
 
         if (subsetDetections == 0)
         {
-            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset");
+            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", subset->getName());
         }
 
         if (subsetDetections > 1)
         {
-            throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset");
+            throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", subset->getName());
         }
 
         if (Size(subsetCoordinates.size()) != subset->getSize())
@@ -205,7 +205,7 @@ const StateBuilder StateBuilder::expand(const Shared<const CoordinatesSubset>& a
 
     if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
     {
-        throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset");
+        throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
     }
 
     Array<Shared<const CoordinatesSubset>> expandedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
@@ -227,7 +227,7 @@ const StateBuilder StateBuilder::contract(const Shared<const CoordinatesSubset>&
 
     if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinatesSubsetSPtr))
     {
-        throw ostk::core::error::RuntimeError("Missing CoordinatesSubset");
+        throw ostk::core::error::RuntimeError("Missing CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
     }
 
     Array<Shared<const CoordinatesSubset>> contractedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
