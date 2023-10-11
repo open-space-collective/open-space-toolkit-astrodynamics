@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697058221198,
+  "lastUpdate": 1697061167837,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -162,6 +162,60 @@ window.BENCHMARK_DATA = {
             "value": 4142194365.400019,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4141949289.9999976 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "kyle.ray.cochran@gmail.com",
+            "name": "kyle-cochran",
+            "username": "kyle-cochran"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "b12aadb2857a6e41793754d87073f0fcf016d162",
+          "message": "feat: add StateBuilder (#237)\n\n* chore: rebase conflicts\r\n\r\n* feat: add bindings (and fix typo bug\r\n\r\n* chore: remove artifact from rebase\r\n\r\n* feat: add functions to State and CoordinatesBroker to extract multiple subsets at once.\r\n\r\n* feat: add bindings (and fix typo bug\r\n\r\n* feat: initial commit to add StateBuilder hpp/cpp\r\n\r\n* test: cleanup and add test file\r\n\r\n* feat: add and test the rest of the boilerplate except for State generation function\r\n\r\n* style: formatting\r\n\r\n* feat: fully functional cpp code\r\n\r\n* feat: add python bindings\r\n\r\n* fix: several tests that started failing due to the new coordinates size constraint on State construction\r\n\r\n* refactor: rename state method in python to build_state\r\n\r\n* refactor: improve equality operator from MR comments",
+          "timestamp": "2023-10-11T14:17:20-07:00",
+          "tree_id": "d6a4d1a947778c6fdb3e2b97245949db0d627ccb",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/b12aadb2857a6e41793754d87073f0fcf016d162"
+        },
+        "date": 1697061166661,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 739273186.1000016,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 738990160 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1647771255.1000025,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1647465730.0000005 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4105645095.599993,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4104805800.000001 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4050756573.600006,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4050076789.999995 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4040458196.7999887,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4040174150 ns\nthreads: 1"
           }
         ]
       }
