@@ -300,6 +300,46 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetTrueA
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetPeriapsisRadius)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.1;
+        const Angle inclination = Angle::Degrees(10.0);
+        const Angle raan = Angle::Degrees(20.0);
+        const Angle aop = Angle::Degrees(30.0);
+        const Angle trueAnomaly = Angle::Degrees(40.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        EXPECT_DOUBLE_EQ(semiMajorAxis.inMeters() * (1.0 - eccentricity), coe.getPeriapsisRadius().inMeters());
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getTrueAnomaly());
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetApoapsisRadius)
+{
+    {
+        const Length semiMajorAxis = Length::Kilometers(7000.0);
+        const Real eccentricity = 0.1;
+        const Angle inclination = Angle::Degrees(10.0);
+        const Angle raan = Angle::Degrees(20.0);
+        const Angle aop = Angle::Degrees(30.0);
+        const Angle trueAnomaly = Angle::Degrees(40.0);
+
+        const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
+
+        EXPECT_DOUBLE_EQ(semiMajorAxis.inMeters() * (1.0 + eccentricity), coe.getApoapsisRadius().inMeters());
+    }
+
+    {
+        EXPECT_ANY_THROW(COE::Undefined().getTrueAnomaly());
+    }
+}
+
 // TEST (OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetMeanAnomaly)
 // {
 
