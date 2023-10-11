@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BMLOE__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong__
 
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
@@ -18,6 +18,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -49,15 +50,18 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
 
-/// @brief                      Brouwer Mean Long Orbital Elements (BMLOE)
+/// @brief                      Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
+/// averaged.
 ///
-/// TBI: add ref
+/// @ref
+/// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l
 
-class BMLOE
+class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
 {
    public:
-    BMLOE(
+    BrouwerLyddaneMeanLong(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
         const Angle &anInclination,
@@ -66,58 +70,16 @@ class BMLOE
         const Angle &aMeanAnomaly
     );
 
-    // bool operator==(const BMLOE &aBMLOE) const;
+    virtual COE toCOE() const override;
 
-    // bool operator!=(const BMLOE &aBMLOE) const;
+    static BrouwerLyddaneMeanLong Cartesian(
+        const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
+    );
 
-    // friend std::ostream &operator<<(std::ostream &anOutputStream, const COE &aCOE);
-
-    // bool isDefined() const;
-
-    // Length getSemiMajorAxis() const;
-
-    // Real getEccentricity() const;
-
-    // Angle getInclination() const;
-
-    // Angle getRaan() const;
-
-    // Angle getAop() const;
-
-    // Angle getMeanAnomaly() const;
-
-    // Angle getEccentricAnomaly() const;
-
-    // Length getPeriapsisRadius() const;
-
-    // Length getApoapsisRadius() const;
-
-    // Derived getMeanMotion(const Derived &aGravitationalParameter) const;
-
-    // Duration getOrbitalPeriod(const Derived &aGravitationalParameter) const;
-
-    // COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame>
-    // &aFrameSPtr) const;
-
-    Vector6d getVector() const;
-
-    // void print(std::ostream &anOutputStream, bool displayDecorator = true) const;
-
-    // static BMLOE Undefined();
-
-    COE toCOE() const;
-
-    static BMLOE Cartesian(const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter);
-
-    static BMLOE FromVector(const Vector6d &aCOEVector);
+    static BrouwerLyddaneMeanLong Undefined();
 
    private:
-    Length semiMajorAxis_;
-    Real eccentricity_;
-    Angle inclination_;
-    Angle raan_;
-    Angle aop_;
-    Angle meanAnomaly_;
+    static BrouwerLyddaneMeanLong FromVector(const Vector6d &aVector);
 };
 
 }  // namespace kepler
