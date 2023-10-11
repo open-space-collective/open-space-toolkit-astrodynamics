@@ -79,7 +79,7 @@ class TestState:
         state_builder: StateBuilder,
     ):
         coordinates = [1, 2, 3, 1, 2, 3]
-        state: State = state_builder.state(instant, coordinates)
+        state: State = state_builder.build_state(instant, coordinates)
 
         assert state is not None
         assert isinstance(state, State)

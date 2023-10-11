@@ -82,6 +82,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
         const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelMassBrokerSPtr};
 
         EXPECT_FALSE(aStateBuilder == anotherStateBuilder);
+        EXPECT_FALSE(anotherStateBuilder == aStateBuilder);
     }
 
     {
