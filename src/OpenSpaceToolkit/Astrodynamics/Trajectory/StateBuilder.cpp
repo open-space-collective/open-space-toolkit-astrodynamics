@@ -74,6 +74,68 @@ const State StateBuilder::buildState(const Instant& anInstant, const VectorXd& a
     return {anInstant, aCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
+const State StateBuilder::build(
+    const State& aState, const Map<const Shared<const CoordinatesSubset>, const VectorXd>& anAdditionalCoordinatesMap
+) const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    if (!aState.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("State");
+    }
+
+    if (aState.accessFrame() != this->frameSPtr_)
+    {
+        throw ostk::core::error::runtime::Wrong("Frame");
+    }
+
+    VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
+    Integer nextIndex = 0;
+
+    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
+    {
+        Integer subsetDetections = 0;
+        VectorXd subsetCoordinates;
+
+        if (aState.accessCoordinatesBroker()->hasSubset(subset))
+        {
+            subsetDetections++;
+            subsetCoordinates = aState.extractCoordinates(subset);
+        }
+
+        const auto coordinatesMapIterator = anAdditionalCoordinatesMap.find(subset);
+        if (coordinatesMapIterator != anAdditionalCoordinatesMap.end())
+        {
+            subsetDetections++;
+            subsetCoordinates = coordinatesMapIterator->second;
+        }
+
+        if (subsetDetections == 0)
+        {
+            throw ostk::core::error::RuntimeError("Missing CoordinatesSubset");
+        }
+
+        if (subsetDetections > 1)
+        {
+            throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset");
+        }
+
+        if (Size(subsetCoordinates.size()) != subset->getSize())
+        {
+            throw ostk::core::error::runtime::Wrong("CoordinatesSubset coordinates size");
+        }
+
+        coordinates.segment(nextIndex, subsetCoordinates.size()) = subsetCoordinates;
+        nextIndex += subsetCoordinates.size();
+    }
+
+    return this->buildState(aState.accessInstant(), coordinates);
+}
+
 const Shared<const Frame> StateBuilder::accessFrame() const
 {
     if (!this->isDefined())

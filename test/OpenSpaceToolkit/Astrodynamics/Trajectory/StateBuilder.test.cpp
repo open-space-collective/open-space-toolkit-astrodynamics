@@ -8,6 +8,7 @@
 
 using ostk::core::types::Shared;
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 
 using ostk::math::obj::VectorXd;
 
@@ -36,11 +37,19 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder : public ::testing:
         CoordinatesSubset::Mass(),
     };
 
+    const Array<Shared<const CoordinatesSubset>> massPosSubsets = {
+        CoordinatesSubset::Mass(),
+        CartesianPosition::Default(),
+    };
+
     const Shared<const CoordinatesBroker> posVelBrokerSPtr =
         std::make_shared<CoordinatesBroker>(CoordinatesBroker(posVelSubsets));
 
     const Shared<const CoordinatesBroker> posVelMassBrokerSPtr =
         std::make_shared<CoordinatesBroker>(CoordinatesBroker(posVelMassSubsets));
+
+    const Shared<const CoordinatesBroker> massPosBrokerSPtr =
+        std::make_shared<CoordinatesBroker>(CoordinatesBroker(massPosSubsets));
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Constructor)
@@ -229,7 +238,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, BuildState)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, BuildFromCoordinates)
 {
     {
         const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
@@ -287,6 +296,134 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, BuildState)
         coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
 
         EXPECT_ANY_THROW(StateBuilder::Undefined().buildState(instant, coordinates));
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, BuildFromState)
+{
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        VectorXd massCoordinates(1);
+        massCoordinates << 100.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates}
+        };
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), massPosBrokerSPtr};
+
+        const State anotherState = anotherStateBuilder.build(aState, additionalCoordinatesMap);
+
+        VectorXd expectedAnotherCoordinates(4);
+        expectedAnotherCoordinates << 100.0, 1.0, 2.0, 3.0;
+
+        EXPECT_FALSE(aState == anotherState);
+        EXPECT_EQ(aState.accessFrame(), anotherState.accessFrame());
+        EXPECT_EQ(coordinates, aState.accessCoordinates());
+        EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
+    }
+
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        VectorXd massCoordinates(1);
+        massCoordinates << 100.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates}
+        };
+        const StateBuilder anotherStateBuilder = StateBuilder::Undefined();  // Undefined should cause an error
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
+    }
+
+    {
+        const State aState = State::Undefined();  // Undefined should cause the error
+
+        VectorXd massCoordinates(1);
+        massCoordinates << 100.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates}
+        };
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), massPosBrokerSPtr};
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
+    }
+
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        VectorXd massCoordinates(1);
+        massCoordinates << 100.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates}
+        };
+        const StateBuilder anotherStateBuilder = {
+            Frame::ITRF(), massPosBrokerSPtr
+        };  // Different Frame should cause an error
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
+    }
+
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+        };  // Missing mass should cause an error
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), massPosBrokerSPtr};
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
+    }
+
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        VectorXd massCoordinates(1);
+        massCoordinates << 100.0;
+        VectorXd posCoordinates(3);
+        posCoordinates << -1.0, -2.0, -3.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates},
+            {CartesianPosition::Default(), posCoordinates}  // Duplicate Cartesian position should cause an error
+        };
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), massPosBrokerSPtr};
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
+    }
+
+    {
+        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+        const State aState = aStateBuilder.buildState(instant, coordinates);
+
+        VectorXd massCoordinates(2);  // Mass coordinates size should cause an error
+        massCoordinates << 100.0, 200.0;
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd> additionalCoordinatesMap = {
+            {CoordinatesSubset::Mass(), massCoordinates}
+        };
+        const StateBuilder anotherStateBuilder = {Frame::GCRF(), massPosBrokerSPtr};
+
+        EXPECT_ANY_THROW(anotherStateBuilder.build(aState, additionalCoordinatesMap));
     }
 }
 

@@ -4,7 +4,10 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Containers/Map.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -22,8 +25,11 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
+using ostk::core::ctnr::Map;
 
 using ostk::math::obj::VectorXd;
 
@@ -92,6 +98,11 @@ class StateBuilder
     /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
 
     const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
+
+    const State build(
+        const State& aState,
+        const Map<const Shared<const CoordinatesSubset>, const VectorXd>& anAdditionalCoordinatesMap
+    ) const;
 
     /// @brief                  Accessor for the reference frame.
     ///
