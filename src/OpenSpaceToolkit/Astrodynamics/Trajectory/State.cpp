@@ -36,6 +36,19 @@ State::State(
 {
 }
 
+State::State(
+    const Instant& anInstant,
+    const VectorXd& aCoordinates,
+    const Shared<const Frame>& aFrameSPtr,
+    const Array<Shared<const CoordinatesSubset>>& aCoordinatesSubsetsArray
+)
+    : instant_(anInstant),
+      coordinates_(aCoordinates),
+      frameSPtr_(aFrameSPtr),
+      coordinatesBrokerSPtr_(std::make_shared<CoordinatesBroker>(CoordinatesBroker(aCoordinatesSubsetsArray)))
+{
+}
+
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
 {
