@@ -416,7 +416,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, contract)
     {
         const StateBuilder stateBuilder = StateBuilder::Undefined();
 
-        EXPECT_ANY_THROW(stateBuilder.expand(CartesianPosition::Default()));
+        EXPECT_ANY_THROW(stateBuilder.contract(CartesianPosition::Default()));
     }
 
     {

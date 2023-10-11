@@ -137,6 +137,7 @@ class StateBuilder
     /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
     ///
     /// @return                 A new StateBuilder
+
     const StateBuilder contract(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
     /// @brief                  Get an undefined StateBuilder.
