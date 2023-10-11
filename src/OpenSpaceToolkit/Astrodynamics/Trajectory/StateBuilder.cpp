@@ -208,11 +208,7 @@ const StateBuilder StateBuilder::expand(const Shared<const CoordinatesSubset>& a
         throw ostk::core::error::RuntimeError("Duplicate CoordinatesSubset: [{}]", aCoordinatesSubsetSPtr->getName());
     }
 
-    Array<Shared<const CoordinatesSubset>> expandedSubsets = Array<Shared<const CoordinatesSubset>>::Empty();
-    for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
-    {
-        expandedSubsets.add(subset);
-    }
+    Array<Shared<const CoordinatesSubset>> expandedSubsets = coordinatesBrokerSPtr_->getSubsets();
     expandedSubsets.add(aCoordinatesSubsetSPtr);
 
     return StateBuilder(this->frameSPtr_, expandedSubsets);
