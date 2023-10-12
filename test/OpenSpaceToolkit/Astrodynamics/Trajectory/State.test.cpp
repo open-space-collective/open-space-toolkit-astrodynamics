@@ -114,7 +114,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, Constructor)
         );
 
         State state(instant, coordinates, Frame::GCRF(), brokerSPtr);
-        
+
         EXPECT_NO_THROW(State anotherState(state));
 
         const State anotherState(state);

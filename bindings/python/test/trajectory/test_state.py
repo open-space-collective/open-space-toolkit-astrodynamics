@@ -104,7 +104,7 @@ class TestState:
         assert state is not None
         assert isinstance(state, State)
         assert state.is_defined()
-    
+
     def test_custom_class_generator(
         self,
         instant: Instant,
