@@ -11,7 +11,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory import State
+from ostk.astrodynamics.trajectory import State, StateBuilder
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 from ostk.astrodynamics.trajectory.state.coordinates_subset import (
     CartesianPosition,
@@ -104,6 +104,38 @@ class TestState:
         assert state is not None
         assert isinstance(state, State)
         assert state.is_defined()
+    
+    def test_custom_class_generator(
+        self,
+        instant: Instant,
+        position: Position,
+        velocity: Velocity,
+        frame: Frame,
+    ):
+        state = State(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        MySuperFunState: type = State.template(
+            frame,
+            [CartesianPosition.default(), CartesianVelocity.default()],
+        )
+
+        custom_state: MySuperFunState = MySuperFunState(
+            instant,
+            np.append(position.get_coordinates(), velocity.get_coordinates()),
+        )
+
+        assert custom_state is not None
+        assert isinstance(custom_state, MySuperFunState)
+        assert isinstance(state, State)
+        assert custom_state.is_defined()
+
+        assert custom_state == state
+        assert custom_state is not state
 
     def test_comparators(self, state: State):
         assert (state == state) is True
