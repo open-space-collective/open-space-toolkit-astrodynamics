@@ -59,11 +59,29 @@ using ostk::astro::trajectory::orbit::models::kepler::COE;
 class BrouwerLyddaneMean : public COE
 {
    public:
+    /// @brief                  Get Mean anomaly
+    ///
+    /// @return                 Mean anomaly
+
     virtual Angle getMeanAnomaly() const override;
+
+    /// @brief                  Get True anomaly
+    ///
+    /// @return                 True anomaly
 
     virtual Angle getTrueAnomaly() const override;
 
+    /// @brief                  Get Eccentric anomaly
+    ///
+    /// @return                 Eccentric anomaly
+
     virtual Angle getEccentricAnomaly() const override;
+
+    /// @brief                  Get cartesian state
+    ///
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aFrameSPtr A frame
+    /// @return                 Cartesian state
 
     COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame> &aFrameSPtr)
         const;
@@ -71,6 +89,15 @@ class BrouwerLyddaneMean : public COE
     virtual COE toCOE() const = 0;
 
    protected:
+    /// @brief                  Constructor
+    ///
+    /// @param                  [in] aSemiMajorAxis A semi-major axis
+    /// @param                  [in] anEccentricity An eccentricity
+    /// @param                  [in] anInclination An inclination
+    /// @param                  [in] aRaan A raan
+    /// @param                  [in] anAop An aop
+    /// @param                  [in] aMeanAnomaly A mean anomaly
+
     BrouwerLyddaneMean(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
@@ -79,6 +106,12 @@ class BrouwerLyddaneMean : public COE
         const Angle &anAop,
         const Angle &aMeanAnomaly
     );
+
+    /// @brief                  Convert cartesian state to Vector
+    ///
+    /// @param                  [in] aCartesianState A cartesian state
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] toCOEVector A converting function
 
     static Vector6d Cartesian(
         const COE::CartesianState &aCartesianState,
