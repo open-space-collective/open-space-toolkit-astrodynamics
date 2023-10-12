@@ -7,13 +7,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
     using namespace pybind11;
 
     using ostk::core::types::Real;
+    using ostk::core::types::Shared;
 
     using ostk::physics::units::Angle;
     using ostk::physics::units::Length;
 
     using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-    class_<COE> coe(aModule, "COE");
+    class_<COE, Shared<COE>> coe(aModule, "COE");
 
     coe
 
