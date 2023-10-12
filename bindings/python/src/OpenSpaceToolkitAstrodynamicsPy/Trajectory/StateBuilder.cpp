@@ -14,6 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
     using ostk::astro::trajectory::State;
     using ostk::astro::trajectory::StateBuilder;
     using ostk::astro::trajectory::state::CoordinatesBroker;
+    using ostk::astro::trajectory::state::CoordinatesSubset;
 
     class_<StateBuilder>(aModule, "StateBuilder")
 
@@ -27,22 +28,38 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             arg("frame"),
             arg("coordinates_broker")
         )
+        .def(init<const State&>(), arg("state"))
 
         .def(self == self)
         .def(self != self)
+        .def(
+            "__add__",
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            {
+                return aStateBuilder + aCoordinatesSubsetSPtr;
+            },
+            is_operator()
+        )
+        .def(
+            "__sub__",
+            [](const StateBuilder& aStateBuilder, const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr)
+            {
+                return aStateBuilder - aCoordinatesSubsetSPtr;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<StateBuilder>))
         .def("__repr__", &(shiftToString<StateBuilder>))
 
         .def("is_defined", &StateBuilder::isDefined)
 
-        .def("build_state", &StateBuilder::buildState)
+        .def("build", &StateBuilder::build)
+        .def("reduce", &StateBuilder::reduce)
+        .def("expand", &StateBuilder::expand)
 
         .def("get_coordinates_subsets", &StateBuilder::getCoordinatesSubsets)
         .def("get_frame", &StateBuilder::getFrame)
-
-        .def("expand", &StateBuilder::expand)
-        .def("contract", &StateBuilder::contract)
 
         .def_static("undefined", &StateBuilder::Undefined)
 

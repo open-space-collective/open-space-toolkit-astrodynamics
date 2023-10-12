@@ -101,6 +101,11 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
+    if (this->getSize() != aState.getSize())
+    {
+        return false;
+    }
+
     for (const Shared<const CoordinatesSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
     {
         if (!aState.coordinatesBrokerSPtr_->hasSubset(subset))

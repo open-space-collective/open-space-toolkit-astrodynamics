@@ -133,6 +133,28 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, EqualToOperator)
 
         const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
 
+        VectorXd anotherCoordinates(7);
+        anotherCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 100.0;
+        const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()})
+        );
+
+        const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr2};
+
+        EXPECT_FALSE(aState == anotherState);
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+
+        const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
+
         const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
             CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
         );
@@ -344,6 +366,28 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, NotEqualToOperator)
         const State anotherState = {instant, coordinates, Frame::GCRF(), brokerSPtr};
 
         EXPECT_FALSE(aState != anotherState);
+    }
+
+    {
+        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
+        VectorXd coordinates(6);
+        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
+
+        const Shared<const CoordinatesBroker> brokerSPtr1 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default()})
+        );
+
+        const State aState = {instant, coordinates, Frame::GCRF(), brokerSPtr1};
+
+        VectorXd anotherCoordinates(7);
+        anotherCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 100.0;
+        const Shared<const CoordinatesBroker> brokerSPtr2 = std::make_shared<CoordinatesBroker>(
+            CoordinatesBroker({CartesianPosition::Default(), CartesianVelocity::Default(), CoordinatesSubset::Mass()})
+        );
+
+        const State anotherState = {instant, anotherCoordinates, Frame::GCRF(), brokerSPtr2};
+
+        EXPECT_TRUE(aState != anotherState);
     }
 
     {
