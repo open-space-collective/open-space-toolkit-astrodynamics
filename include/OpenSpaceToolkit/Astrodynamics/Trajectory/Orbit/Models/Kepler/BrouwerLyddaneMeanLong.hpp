@@ -61,6 +61,15 @@ using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
 class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
 {
    public:
+    /// @brief                  Constructor
+    ///
+    /// @param                  [in] aSemiMajorAxis A semi-major axis
+    /// @param                  [in] anEccentricity An eccentricity
+    /// @param                  [in] anInclination An inclination
+    /// @param                  [in] aRaan A raan
+    /// @param                  [in] anAop An aop
+    /// @param                  [in] aMeanAnomaly A mean anomaly
+
     BrouwerLyddaneMeanLong(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
@@ -70,16 +79,33 @@ class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
         const Angle &aMeanAnomaly
     );
 
+    /// @brief                  Convert BrouwerLyddaneMeanLong to COE
+    ///
+    /// @return                 COE
+
     virtual COE toCOE() const override;
+
+    /// @brief                  Constructor
+    ///
+    /// @param                  [in] aCartesianState A cartesian state
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
 
     static BrouwerLyddaneMeanLong Cartesian(
         const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
     );
 
+    /// @brief                  Construct an undefined BrouwerLyddaneMeanLong
+    ///
+    /// @return                 Undefined BrouwerLyddaneMeanLong
+
     static BrouwerLyddaneMeanLong Undefined();
 
    private:
-    static BrouwerLyddaneMeanLong FromVector(const Vector6d &aVector);
+    /// @brief                  Constructor
+    ///
+    /// @param                  [in] aVector A vector
+
+    static BrouwerLyddaneMeanLong FromSIVector(const Vector6d &aVector);
 };
 
 }  // namespace kepler

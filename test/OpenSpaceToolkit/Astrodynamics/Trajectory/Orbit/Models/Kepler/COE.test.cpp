@@ -11,6 +11,8 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 #include <Global.test.hpp>
@@ -33,6 +35,8 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanLong;
+using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanShort;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Constructor)
 {
@@ -540,7 +544,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetVecto
             trueAnomaly.inRadians(),
         };
 
-        EXPECT_TRUE(((coeVector - coe.getVector(COE::AnomalyType::True)).sum() < 1e-15));
+        EXPECT_TRUE(((coeVector - coe.getSIVector(COE::AnomalyType::True)).sum() < 1e-15));
     }
 }
 
@@ -648,7 +652,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, Cartesia
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromVector)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromSIVector)
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
@@ -667,9 +671,61 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, FromVect
             trueAnomaly.inRadians(),
         };
 
-        const COE coeFromVector = COE::FromVector(coeVector, COE::AnomalyType::True);
+        const COE coeFromVector = COE::FromSIVector(coeVector, COE::AnomalyType::True);
         const COE coe = {semiMajorAxis, eccentricity, inclination, raan, aop, trueAnomaly};
         EXPECT_TRUE(coeFromVector == coe);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, ToBrouwerLyddaneMeanShort)
+{
+    {
+        const COE coe = COE::FromSIVector(
+            {
+                6973741.699984478,
+                0.001199999999844802,
+                1.7064084094998029,
+                0.3385938748853645,
+                1.5707969061472655,
+                4.7144827961294755,
+            },
+            COE::AnomalyType::Mean
+        );
+
+        const BrouwerLyddaneMeanShort blmsoe = coe.toBrouwerLyddaneMeanShort();
+
+        EXPECT_NEAR(6964438.445277286, blmsoe.getSemiMajorAxis().inMeters(), 1e-2);
+        EXPECT_NEAR(0.001288698830945117, blmsoe.getEccentricity(), 1e-5);
+        EXPECT_NEAR(1.7064996355392392, blmsoe.getInclination().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(0.33859455527023724, blmsoe.getRaan().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(1.9439702698998091, blmsoe.getAop().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(4.34130730475872, blmsoe.getMeanAnomaly().inRadians(0.0, Real::TwoPi()), 1e-5);
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, ToBrouwerLyddaneMeanLong)
+{
+    {
+        const COE coe = COE::FromSIVector(
+            {
+                6973741.699984478,
+                0.001199999999844802,
+                1.7064084094998029,
+                0.3385938748853645,
+                1.5707969061472655,
+                4.7144827961294755,
+            },
+            COE::AnomalyType::Mean
+        );
+
+        const BrouwerLyddaneMeanLong blmloe = coe.toBrouwerLyddaneMeanLong();
+
+        EXPECT_NEAR(6964438.543901746, blmloe.getSemiMajorAxis().inMeters(), 1e-2);
+        EXPECT_NEAR(0.000473008790410975, blmloe.getEccentricity(), 1e-5);
+        EXPECT_NEAR(1.7064996261909862, blmloe.getInclination().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(0.3385940722800471, blmloe.getRaan().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(3.028029950209483, blmloe.getAop().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(3.2572466384121426, blmloe.getMeanAnomaly().inRadians(0.0, Real::TwoPi()), 1e-5);
     }
 }
 
@@ -820,19 +876,21 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, ConvertA
 {
     {
         EXPECT_DOUBLE_EQ(
-            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::True).getTrueAnomaly().inDegrees(), 0.0
+            COE::FromSIVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::True).getTrueAnomaly().inDegrees(),
+            0.0
         );
     }
 
     {
         EXPECT_DOUBLE_EQ(
-            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Mean).getMeanAnomaly().inDegrees(), 0.0
+            COE::FromSIVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Mean).getMeanAnomaly().inDegrees(),
+            0.0
         );
     }
 
     {
         EXPECT_DOUBLE_EQ(
-            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Eccentric)
+            COE::FromSIVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Eccentric)
                 .getEccentricAnomaly()
                 .inDegrees(),
             0.0

@@ -22,6 +22,18 @@ namespace kepler
 using ostk::core::types::Size;
 using ostk::core::types::Integer;
 
+BrouwerLyddaneMean::BrouwerLyddaneMean(
+    const Length &aSemiMajorAxis,
+    const Real &anEccentricity,
+    const Angle &anInclination,
+    const Angle &aRaan,
+    const Angle &anAop,
+    const Angle &aMeanAnomaly
+)
+    : COE(aSemiMajorAxis, anEccentricity, anInclination, aRaan, anAop, aMeanAnomaly, COE::AnomalyType::Mean)
+{
+}
+
 Angle BrouwerLyddaneMean::getMeanAnomaly() const
 {
     if (!this->isDefined())
@@ -58,18 +70,6 @@ COE::CartesianState BrouwerLyddaneMean::getCartesianState(
 {
     const COE coe = this->toCOE();
     return coe.getCartesianState(aGravitationalParameter, aFrameSPtr);
-}
-
-BrouwerLyddaneMean::BrouwerLyddaneMean(
-    const Length &aSemiMajorAxis,
-    const Real &anEccentricity,
-    const Angle &anInclination,
-    const Angle &aRaan,
-    const Angle &anAop,
-    const Angle &aMeanAnomaly
-)
-    : COE(aSemiMajorAxis, anEccentricity, anInclination, aRaan, anAop, aMeanAnomaly, COE::AnomalyType::Mean)
-{
 }
 
 Vector6d BrouwerLyddaneMean::Cartesian(
@@ -133,7 +133,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     cartesian.segment(0, 3) = aCartesianState.first.accessCoordinates();
     cartesian.segment(3, 3) = aCartesianState.second.accessCoordinates();
 
-    Vector6d coeVector = coe.getVector(COE::AnomalyType::Mean);
+    Vector6d coeVector = coe.getSIVector(COE::AnomalyType::Mean);
 
     Integer pseudoState = 0;
     if (coeVector[2] > 3.0543261909900763)  // 175.0 degrees
@@ -142,7 +142,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         coeVector[3] = -coeVector[3];              // RAAN = - RAAN
         Position position = Position::Undefined();
         Velocity velocity = Velocity::Undefined();
-        std::tie(position, velocity) = COE::FromVector(coeVector, COE::AnomalyType::Mean)
+        std::tie(position, velocity) = COE::FromSIVector(coeVector, COE::AnomalyType::Mean)
                                            .getCartesianState(aGravitationalParameter, Frame::GCRF());
         cartesian.segment(0, 3) = position.getCoordinates();
         cartesian.segment(3, 3) = velocity.getCoordinates();
@@ -217,7 +217,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         brouwerLyddaneMean = brouwerLyddaneMeanFromMEE(modifiedEquinoctialElementsMean_2);
         coeVector_2 = toCOEVector(brouwerLyddaneMean);
 
-        const COE coe_2 = COE::FromVector(coeVector_2, COE::AnomalyType::Mean);
+        const COE coe_2 = COE::FromSIVector(coeVector_2, COE::AnomalyType::Mean);
         Position position2 = Position::Undefined();
         Velocity velocity2 = Velocity::Undefined();
         std::tie(position2, velocity2) = coe_2.getCartesianState(aGravitationalParameter, Frame::GCRF());

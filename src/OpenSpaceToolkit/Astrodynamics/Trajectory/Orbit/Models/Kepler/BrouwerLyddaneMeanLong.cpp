@@ -377,7 +377,7 @@ COE BrouwerLyddaneMeanLong::toCOE() const
         raan = Real::TwoPi() - raan;
     }
 
-    return COE::FromVector(
+    return COE::FromSIVector(
         {
             sma * equatorialRadius,
             ecc,
@@ -396,10 +396,10 @@ BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::Cartesian(
 {
     const auto toCOEVector = [](const Vector6d &aVector) -> Vector6d
     {
-        return BrouwerLyddaneMeanLong::FromVector(aVector).toCOE().getVector(COE::AnomalyType::Mean);
+        return BrouwerLyddaneMeanLong::FromSIVector(aVector).toCOE().getSIVector(COE::AnomalyType::Mean);
     };
 
-    return BrouwerLyddaneMeanLong::FromVector(
+    return BrouwerLyddaneMeanLong::FromSIVector(
         BrouwerLyddaneMean::Cartesian(aCartesianState, aGravitationalParameter, toCOEVector)
     );
 }
@@ -416,7 +416,7 @@ BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::Undefined()
     };
 }
 
-BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::FromVector(const Vector6d &aVector)
+BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::FromSIVector(const Vector6d &aVector)
 {
     return {
         Length::Meters(aVector[0]),

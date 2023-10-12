@@ -6,6 +6,10 @@
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Transformations/Rotations/RotationMatrix.hpp>
 
+#include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
+
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -24,6 +28,10 @@ namespace kepler
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
+using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
+
+using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanShort;
+using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanLong;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -299,7 +307,7 @@ COE::CartesianState COE::getCartesianState(
     }
 }
 
-Vector6d COE::getVector(const COE::AnomalyType& anAnomalyType) const
+Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
 {
     return {
         semiMajorAxis_.inMeters(),
@@ -309,6 +317,32 @@ Vector6d COE::getVector(const COE::AnomalyType& anAnomalyType) const
         aop_.inRadians(),
         COE::ConvertAnomaly(anomaly_, eccentricity_, AnomalyType::True, anAnomalyType, 1e-12).inRadians(),
     };
+}
+
+BrouwerLyddaneMeanShort COE::toBrouwerLyddaneMeanShort() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    const COE::CartesianState cartesianState =
+        this->getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
+
+    return BrouwerLyddaneMeanShort::Cartesian(cartesianState, EarthGravitationalModel::EGM2008.gravitationalParameter_);
+}
+
+BrouwerLyddaneMeanLong COE::toBrouwerLyddaneMeanLong() const
+{
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    const COE::CartesianState cartesianState =
+        this->getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
+
+    return BrouwerLyddaneMeanLong::Cartesian(cartesianState, EarthGravitationalModel::EGM2008.gravitationalParameter_);
 }
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -570,7 +604,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     };
 }
 
-COE COE::FromVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType)
+COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType)
 {
     return {
         Length::Meters(aCOEVector[0]),
