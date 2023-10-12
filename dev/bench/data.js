@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1697133887044,
+  "lastUpdate": 1697146388171,
   "repoUrl": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics",
   "entries": {
     "Benchmark": [
@@ -270,6 +270,60 @@ window.BENCHMARK_DATA = {
             "value": 4160366323.500023,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 4159170170 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65550121+phc1990@users.noreply.github.com",
+            "name": "Pau Hebrero",
+            "username": "phc1990"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e93ad8562022f7fcd7cdf7677be2a622c0b065ca",
+          "message": "feat: enrich StateBuilder capabilities (#239)\n\n* parent b12aadb2857a6e41793754d87073f0fcf016d162\r\nauthor Kyle Cochran <kyle.cochran@loftorbital.com> 1696962698 +0000\r\ncommitter Pau Hebrero <pau.hebrero@gmail.com> 1697119993 +0000\r\n\r\nchore: rebase\r\n\r\n* feat: StateBuilder operators, reduction and expansion\r\n\r\n---------\r\n\r\nCo-authored-by: Kyle Cochran <kyle.cochran@loftorbital.com>\r\nCo-authored-by: Pau Hebrero <pau.hebrero@gmail.com>",
+          "timestamp": "2023-10-12T13:58:18-07:00",
+          "tree_id": "d8916c41d5b79bb69b637001eca6e5aacc71d561",
+          "url": "https://github.com/open-space-collective/open-space-toolkit-astrodynamics/commit/e93ad8562022f7fcd7cdf7677be2a622c0b065ca"
+        },
+        "date": 1697146387505,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "Access | Ground Station <> TLE/iterations:10",
+            "value": 792161667.0999981,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 791825260.0000002 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | Spherical/iterations:10",
+            "value": 1785379546.099989,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 1784831100 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1984 {100, 100}/iterations:10",
+            "value": 4580002477.799996,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4579146840 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM1996 {100, 100}/iterations:10",
+            "value": 4628492726.000008,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4623984419.999999 ns\nthreads: 1"
+          },
+          {
+            "name": "Propagation | Numerical | EGM2008 {100, 100}/iterations:10",
+            "value": 4601207011.299999,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 4600515240.000003 ns\nthreads: 1"
           }
         ]
       }
