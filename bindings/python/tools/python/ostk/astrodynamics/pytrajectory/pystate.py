@@ -9,10 +9,18 @@ from ostk.physics.time import Instant
 
 from ostk.astrodynamics.trajectory import State, StateBuilder
 
-
+@staticmethod
 def custom_class_generator(frame: Frame, coordinates_subsets: list) -> type:
     """
-        Custom class type generator for States. This is meta-programming syntactic sugar on top of the StateBuilder class.
+        Emit a custom class type for States. This is meta-programming syntactic sugar on top of the StateBuilder class.
+    
+        StateType = State.template(frame, coordinates_subsets)
+        state = StateType(instant, coordinates)
+
+        is equivalent to 
+
+        state_builder = StateBuilder(frame, coordinates_subsets)
+        state = state_builder.build(instant, coordinates)
     """
 
     class StateTemplateType(State):
