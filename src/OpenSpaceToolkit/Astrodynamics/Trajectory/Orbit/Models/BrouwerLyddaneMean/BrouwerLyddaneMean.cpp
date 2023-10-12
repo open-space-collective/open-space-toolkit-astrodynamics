@@ -4,7 +4,7 @@
 #include <OpenSpaceToolkit/Core/Types/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utilities.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
 
 namespace ostk
 {
@@ -16,7 +16,7 @@ namespace orbit
 {
 namespace models
 {
-namespace kepler
+namespace blm
 {
 
 using ostk::core::types::Size;
@@ -266,7 +266,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     return brouwerLyddaneMean;
 }
 
-}  // namespace kepler
+}  // namespace blm
 }  // namespace models
 }  // namespace orbit
 }  // namespace trajectory

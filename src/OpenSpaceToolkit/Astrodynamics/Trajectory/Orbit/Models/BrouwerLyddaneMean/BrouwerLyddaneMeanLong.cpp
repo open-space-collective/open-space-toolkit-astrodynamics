@@ -6,7 +6,7 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanLong.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanLong.hpp>
 
 namespace ostk
 {
@@ -18,7 +18,7 @@ namespace orbit
 {
 namespace models
 {
-namespace kepler
+namespace blm
 {
 
 using ostk::core::types::Size;
@@ -390,6 +390,19 @@ COE BrouwerLyddaneMeanLong::toCOE() const
     );
 }
 
+BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::COE(const classicalOE &aCOE)
+{
+    if (!aCOE.isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("COE");
+    }
+
+    const classicalOE::CartesianState cartesianState =
+        aCOE.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
+
+    return BrouwerLyddaneMeanLong::Cartesian(cartesianState, EarthGravitationalModel::EGM2008.gravitationalParameter_);
+}
+
 BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::Cartesian(
     const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
 )
@@ -428,7 +441,7 @@ BrouwerLyddaneMeanLong BrouwerLyddaneMeanLong::FromSIVector(const Vector6d &aVec
     };
 }
 
-}  // namespace kepler
+}  // namespace blm
 }  // namespace models
 }  // namespace orbit
 }  // namespace trajectory

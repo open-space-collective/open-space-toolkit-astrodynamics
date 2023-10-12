@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_BrouwerLyddaneMean_BrouwerLyddaneMean__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_BrouwerLyddaneMean_BrouwerLyddaneMean__
 
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
@@ -18,7 +18,6 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -31,7 +30,7 @@ namespace orbit
 {
 namespace models
 {
-namespace kepler
+namespace blm
 {
 
 using ostk::core::ctnr::Pair;
@@ -50,17 +49,16 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
 using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
 
-/// @brief                      Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
+/// @brief                      Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
+/// averaged.
 ///
 /// @ref
 /// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l
 
-class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
+class BrouwerLyddaneMean : public COE
 {
    public:
-
     /// @brief                  Constructor
     ///
     /// @param                  [in] aSemiMajorAxis A semi-major axis
@@ -70,7 +68,7 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
     /// @param                  [in] anAop An aop
     /// @param                  [in] aMeanAnomaly A mean anomaly
 
-    BrouwerLyddaneMeanShort(
+    BrouwerLyddaneMean(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
         const Angle &anInclination,
@@ -79,37 +77,50 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
         const Angle &aMeanAnomaly
     );
 
-    /// @brief                  Convert BrouwerLyddaneMeanLong to COE
+    /// @brief                  Get Mean anomaly
     ///
-    /// @return                 COE
+    /// @return                 Mean anomaly
 
-    virtual COE toCOE() const override;
+    virtual Angle getMeanAnomaly() const override;
 
-    /// @brief                  Constructor
+    /// @brief                  Get True anomaly
+    ///
+    /// @return                 True anomaly
+
+    virtual Angle getTrueAnomaly() const override;
+
+    /// @brief                  Get Eccentric anomaly
+    ///
+    /// @return                 Eccentric anomaly
+
+    virtual Angle getEccentricAnomaly() const override;
+
+    /// @brief                  Get cartesian state
+    ///
+    /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] aFrameSPtr A frame
+    /// @return                 Cartesian state
+
+    COE::CartesianState getCartesianState(const Derived &aGravitationalParameter, const Shared<const Frame> &aFrameSPtr)
+        const;
+
+    virtual COE toCOE() const = 0;
+
+   protected:
+    /// @brief                  Convert cartesian state to Vector
     ///
     /// @param                  [in] aCartesianState A cartesian state
     /// @param                  [in] aGravitationalParameter A gravitational parameter
+    /// @param                  [in] toCOEVector A converting function
 
-    static BrouwerLyddaneMeanShort Cartesian(
-        const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
+    static Vector6d Cartesian(
+        const COE::CartesianState &aCartesianState,
+        const Derived &aGravitationalParameter,
+        std::function<Vector6d(const Vector6d &)> toCOEVector
     );
-
-    /// @brief                  Construct an undefined BrouwerLyddaneMeanShort
-    ///
-    /// @return                 Undefined BrouwerLyddaneMeanLong
-
-    static BrouwerLyddaneMeanShort Undefined();
-
-   private:
-
-    /// @brief                  Constructor
-    ///
-    /// @param                  [in] aVector A vector
-
-    static BrouwerLyddaneMeanShort FromSIVector(const Vector6d &aVector);
 };
 
-}  // namespace kepler
+}  // namespace blm
 }  // namespace models
 }  // namespace orbit
 }  // namespace trajectory

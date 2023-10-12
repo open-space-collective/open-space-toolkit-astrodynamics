@@ -10,7 +10,10 @@ from ostk.physics.coordinate import Frame
 from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 
-from ostk.astrodynamics.trajectory.orbit.models.kepler import BrouwerLyddaneMeanShort
+from ostk.astrodynamics.trajectory.orbit.models.kepler import COE
+from ostk.astrodynamics.trajectory.orbit.models.brouwerLyddaneMean import (
+    BrouwerLyddaneMeanShort,
+)
 
 
 @pytest.fixture
@@ -44,6 +47,18 @@ def mean_anomaly() -> Angle:
 
 
 @pytest.fixture
+def coe(
+    semi_major_axis: Length,
+    eccentricity: float,
+    inclination: Angle,
+    raan: Angle,
+    aop: Angle,
+    mean_anomaly: Angle,
+) -> COE:
+    return COE(semi_major_axis, eccentricity, inclination, raan, aop, mean_anomaly)
+
+
+@pytest.fixture
 def cartesian_state() -> tuple[Position, Velocity]:
     return (
         Position.meters(
@@ -72,6 +87,9 @@ def brouwer_lyddane_mean_short(
 class TestBrouwerLyddaneMeanShort:
     def test_to_coe(self, brouwer_lyddane_mean_short: BrouwerLyddaneMeanShort):
         assert brouwer_lyddane_mean_short.to_coe().is_defined()
+
+    def test_coe(self, coe: COE) -> COE:
+        assert BrouwerLyddaneMeanShort.COE(coe).is_defined()
 
     def test_cartesian(
         self, cartesian_state: tuple[Position, Velocity], gravitational_parameter

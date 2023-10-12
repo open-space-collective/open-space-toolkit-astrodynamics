@@ -13,7 +13,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,7 +31,7 @@ using ostk::physics::coord::Velocity;
 using ostk::physics::units::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
+using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 class BrouwerLyddaneMeanMock : public BrouwerLyddaneMean

@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong__
-#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong__
+#ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort__
+#define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort__
 
 #include <OpenSpaceToolkit/Core/Containers/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Types/Real.hpp>
@@ -18,7 +18,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -31,7 +31,7 @@ namespace orbit
 {
 namespace models
 {
-namespace kepler
+namespace blm
 {
 
 using ostk::core::ctnr::Pair;
@@ -49,16 +49,15 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::trajectory::orbit::models::kepler::COE;
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
+using classicalOE = ostk::astro::trajectory::orbit::models::kepler::COE;
+using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMean;
 
-/// @brief                      Brouwer-Lyddane Mean Orbital Elements. Short and/or secular periodic variations are
-/// averaged.
+/// @brief                      Brouwer-Lyddane Mean Short Orbital Elements. Short periodic variations are averaged.
 ///
 /// @ref
 /// https://space.stackexchange.com/questions/22151/whats-a-brouwer-lyddane-mean-semi-major-axis-or-any-other-for-an-orbit-in-a-l
 
-class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
+class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
 {
    public:
     /// @brief                  Constructor
@@ -70,7 +69,7 @@ class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
     /// @param                  [in] anAop An aop
     /// @param                  [in] aMeanAnomaly A mean anomaly
 
-    BrouwerLyddaneMeanLong(
+    BrouwerLyddaneMeanShort(
         const Length &aSemiMajorAxis,
         const Real &anEccentricity,
         const Angle &anInclination,
@@ -79,36 +78,43 @@ class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
         const Angle &aMeanAnomaly
     );
 
-    /// @brief                  Convert BrouwerLyddaneMeanLong to COE
+    /// @brief                  Construct from a COE
+    ///
+    /// @param                  [in] aCOE A COE
+    /// @return                 Brouwer-Lyddane Mean Short
+
+    static BrouwerLyddaneMeanShort COE(const classicalOE &aCOE);
+
+    /// @brief                  Convert Brouwer-Lyddane Mean Short to COE
     ///
     /// @return                 COE
 
-    virtual COE toCOE() const override;
+    virtual classicalOE toCOE() const override;
 
     /// @brief                  Constructor
     ///
     /// @param                  [in] aCartesianState A cartesian state
     /// @param                  [in] aGravitationalParameter A gravitational parameter
 
-    static BrouwerLyddaneMeanLong Cartesian(
+    static BrouwerLyddaneMeanShort Cartesian(
         const COE::CartesianState &aCartesianState, const Derived &aGravitationalParameter
     );
 
-    /// @brief                  Construct an undefined BrouwerLyddaneMeanLong
+    /// @brief                  Construct an undefined BrouwerLyddaneMeanShort
     ///
     /// @return                 Undefined BrouwerLyddaneMeanLong
 
-    static BrouwerLyddaneMeanLong Undefined();
+    static BrouwerLyddaneMeanShort Undefined();
 
    private:
     /// @brief                  Constructor
     ///
     /// @param                  [in] aVector A vector
 
-    static BrouwerLyddaneMeanLong FromSIVector(const Vector6d &aVector);
+    static BrouwerLyddaneMeanShort FromSIVector(const Vector6d &aVector);
 };
 
-}  // namespace kepler
+}  // namespace blm
 }  // namespace models
 }  // namespace orbit
 }  // namespace trajectory

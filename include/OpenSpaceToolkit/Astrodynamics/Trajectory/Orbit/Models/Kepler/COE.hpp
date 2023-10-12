@@ -216,18 +216,6 @@ class COE
 
     Vector6d getSIVector(const AnomalyType& anAnomalyType) const;
 
-    /// @brief                  Get Brouwer-Lyddane Mean short orbital elements
-    ///
-    /// @return                 Brouwer-Lyddane Mean short orbital elements
-
-    BrouwerLyddaneMeanShort toBrouwerLyddaneMeanShort() const;
-
-    /// @brief                  Get Brouwer-Lyddane Mean long orbital elements
-    ///
-    /// @return                 Brouwer-Lyddane Mean long orbital elements
-
-    BrouwerLyddaneMeanLong toBrouwerLyddaneMeanLong() const;
-
     /// @brief                  Print COE
     ///
     /// @param                  [in] anOutputStream An output stream

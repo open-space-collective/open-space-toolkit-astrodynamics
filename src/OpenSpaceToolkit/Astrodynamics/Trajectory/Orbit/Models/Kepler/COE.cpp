@@ -8,8 +8,6 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanLong.hpp>
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/COE.hpp>
 
 namespace ostk
@@ -29,9 +27,6 @@ using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 using ostk::physics::units::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
-
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanShort;
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanLong;
 
 static const Real Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit =
@@ -317,32 +312,6 @@ Vector6d COE::getSIVector(const COE::AnomalyType& anAnomalyType) const
         aop_.inRadians(),
         COE::ConvertAnomaly(anomaly_, eccentricity_, AnomalyType::True, anAnomalyType, 1e-12).inRadians(),
     };
-}
-
-BrouwerLyddaneMeanShort COE::toBrouwerLyddaneMeanShort() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("COE");
-    }
-
-    const COE::CartesianState cartesianState =
-        this->getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
-
-    return BrouwerLyddaneMeanShort::Cartesian(cartesianState, EarthGravitationalModel::EGM2008.gravitationalParameter_);
-}
-
-BrouwerLyddaneMeanLong COE::toBrouwerLyddaneMeanLong() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("COE");
-    }
-
-    const COE::CartesianState cartesianState =
-        this->getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
-
-    return BrouwerLyddaneMeanLong::Cartesian(cartesianState, EarthGravitationalModel::EGM2008.gravitationalParameter_);
 }
 
 void COE::print(std::ostream& anOutputStream, bool displayDecorator) const

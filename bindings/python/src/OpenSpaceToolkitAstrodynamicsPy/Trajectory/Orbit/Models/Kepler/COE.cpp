@@ -45,7 +45,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         .def("get_mean_anomaly", &COE::getMeanAnomaly)
         .def("get_eccentric_anomaly", &COE::getEccentricAnomaly)
         .def("get_periapsis_radius", &COE::getPeriapsisRadius)
-        .def("get_periapsis_altitude", &COE::getPeriapsisRadius)
+        .def("get_apoapsis_radius", &COE::getApoapsisRadius)
         .def("get_SI_vector", &COE::getSIVector, arg("anomaly_type"))
 
         .def("get_mean_motion", &COE::getMeanMotion, arg("gravitational_parameter"))
@@ -53,9 +53,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         .def("get_orbital_period", &COE::getOrbitalPeriod, arg("gravitational_parameter"))
 
         .def("get_cartesian_state", &COE::getCartesianState, arg("gravitational_parameter"), arg("frame"))
-
-        .def("to_brouwer_lyddane_mean_long", &COE::toBrouwerLyddaneMeanLong)
-        .def("to_brouwer_lyddane_mean_short", &COE::toBrouwerLyddaneMeanShort)
 
         .def_static("undefined", &COE::Undefined)
 

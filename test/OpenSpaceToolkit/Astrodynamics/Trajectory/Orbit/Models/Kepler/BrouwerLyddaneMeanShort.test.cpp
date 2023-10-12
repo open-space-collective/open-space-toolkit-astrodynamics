@@ -11,7 +11,7 @@
 #include <OpenSpaceToolkit/Physics/Units/Derived/Angle.hpp>
 #include <OpenSpaceToolkit/Physics/Units/Length.hpp>
 
-#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 
 #include <Global.test.hpp>
 
@@ -31,7 +31,7 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
-using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanShort;
+using ostk::astro::trajectory::orbit::models::blm::BrouwerLyddaneMeanShort;
 using ostk::astro::trajectory::orbit::models::kepler::COE;
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, Constructor)
@@ -45,6 +45,32 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
         const Angle meanAnomaly = Angle::Degrees(40.0);
 
         EXPECT_NO_THROW(BrouwerLyddaneMeanShort(semiMajorAxis, eccentricity, inclination, raan, aop, meanAnomaly););
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort, ToBrouwerLyddaneMeanShort)
+{
+    {
+        const COE coe = COE::FromSIVector(
+            {
+                6973741.699984478,
+                0.001199999999844802,
+                1.7064084094998029,
+                0.3385938748853645,
+                1.5707969061472655,
+                4.7144827961294755,
+            },
+            COE::AnomalyType::Mean
+        );
+
+        const BrouwerLyddaneMeanShort blmsoe = BrouwerLyddaneMeanShort::COE(coe);
+
+        EXPECT_NEAR(6964438.445277286, blmsoe.getSemiMajorAxis().inMeters(), 1e-2);
+        EXPECT_NEAR(0.001288698830945117, blmsoe.getEccentricity(), 1e-5);
+        EXPECT_NEAR(1.7064996355392392, blmsoe.getInclination().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(0.33859455527023724, blmsoe.getRaan().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(1.9439702698998091, blmsoe.getAop().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(4.34130730475872, blmsoe.getMeanAnomaly().inRadians(0.0, Real::TwoPi()), 1e-5);
     }
 }
 

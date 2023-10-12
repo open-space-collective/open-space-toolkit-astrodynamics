@@ -101,16 +101,9 @@ class TestCOE:
         assert coe.get_orbital_period(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_periapsis_radius() is not None
         assert coe.get_apoapsis_radius() is not None
-        assert coe.get_si_vector(COE.AnomalyType.TrueAnomaly) is not None
-        assert coe.get_si_vector(COE.AnomalyType.MeanAnomaly) is not None
-        assert coe.get_si_vector(COE.AnomalyType.EccentricAnomaly) is not None
-
-    def test_to_brouwer_lyddane_mean(
-        self,
-        coe: COE,
-    ):
-        assert coe.to_brouwer_lyddane_mean_long() is not None
-        assert coe.to_brouwer_lyddane_mean_short() is not None
+        assert coe.get_SI_vector(COE.AnomalyType.TrueAnomaly) is not None
+        assert coe.get_SI_vector(COE.AnomalyType.MeanAnomaly) is not None
+        assert coe.get_SI_vector(COE.AnomalyType.EccentricAnomaly) is not None
 
     def test_anomaly_conversions(self):
         assert (
@@ -138,12 +131,15 @@ class TestCOE:
         true_anomaly: Angle,
     ):
         assert coe == COE.from_SI_vector(
-            semi_major_axis.inMeters(),
-            eccentricity,
-            inclination.inRadians(),
-            raan.inRadians(),
-            aop.inRadians(),
-            true_anomaly.inRadians(),
+            [
+                semi_major_axis.in_meters(),
+                eccentricity,
+                inclination.in_radians(),
+                raan.in_radians(),
+                aop.in_radians(),
+                true_anomaly.in_radians(),
+            ],
+            COE.AnomalyType.TrueAnomaly,
         )
 
     def test_string_from_element(self):

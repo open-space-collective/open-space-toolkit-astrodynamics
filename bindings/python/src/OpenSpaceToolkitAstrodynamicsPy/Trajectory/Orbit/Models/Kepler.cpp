@@ -2,10 +2,8 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler.hpp>
 
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMean.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.cpp>
-#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanLong.cpp>
+#include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Models/Kepler/COE.cpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybind11::module& aModule)
 {
@@ -92,7 +90,4 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler(pybin
     kepler.attr("__path__") = "ostk.astrodynamics.trajectory.orbit.models.kepler";
 
     OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(kepler);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean(kepler);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort(kepler);
-    OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong(kepler);
 }
