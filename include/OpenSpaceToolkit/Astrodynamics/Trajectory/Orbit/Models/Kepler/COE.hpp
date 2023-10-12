@@ -46,6 +46,9 @@ using ostk::physics::units::Angle;
 using ostk::physics::units::Derived;
 using ostk::physics::units::Length;
 
+class BrouwerLyddaneMeanLong;   // Forward declaration
+class BrouwerLyddaneMeanShort;  // Forward declaration
+
 /// @brief                      Classical Orbital Elements (COE)
 ///
 /// @ref                        https://en.wikipedia.org/wiki/Orbital_elements
@@ -206,12 +209,24 @@ class COE
     COE::CartesianState getCartesianState(const Derived& aGravitationalParameter, const Shared<const Frame>& aFrameSPtr)
         const;
 
-    /// @brief                  Get vector
+    /// @brief                  Get vector of elements in SI units
     ///
     /// @param                  [in] anAnomalyType An anomaly type
     /// @return                 Vector
 
-    Vector6d getVector(const AnomalyType& anAnomalyType) const;
+    Vector6d getSIVector(const AnomalyType& anAnomalyType) const;
+
+    /// @brief                  Get Brouwer-Lyddane Mean short orbital elements
+    ///
+    /// @return                 Brouwer-Lyddane Mean short orbital elements
+
+    BrouwerLyddaneMeanShort toBrouwerLyddaneMeanShort() const;
+
+    /// @brief                  Get Brouwer-Lyddane Mean long orbital elements
+    ///
+    /// @return                 Brouwer-Lyddane Mean long orbital elements
+
+    BrouwerLyddaneMeanLong toBrouwerLyddaneMeanLong() const;
 
     /// @brief                  Print COE
     ///
@@ -244,7 +259,7 @@ class COE
     /// @param                  [in] anAnomalyType An anomaly type
     /// @return                 COE
 
-    static COE FromVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType);
+    static COE FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyType);
 
     /// @brief                  Convert True anomaly to Eccentric anomaly
     ///
@@ -328,7 +343,6 @@ class COE
         const AnomalyType& anAnomalyType);
 
    private:
-
     /// @brief                  Convert anomaly
     ///
     /// @param                  [in] anAnomaly An anomaly

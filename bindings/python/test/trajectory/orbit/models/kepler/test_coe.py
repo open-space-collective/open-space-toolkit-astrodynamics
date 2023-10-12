@@ -1,5 +1,7 @@
 # Apache License 2.0
 
+import pytest
+
 from ostk.physics.units import Length
 from ostk.physics.units import Angle
 from ostk.physics.environment.gravitational import Earth
@@ -97,16 +99,51 @@ class TestCOE:
         assert coe.get_eccentric_anomaly() is not None
         assert coe.get_mean_motion(Earth.EGM2008.gravitational_parameter) is not None
         assert coe.get_orbital_period(Earth.EGM2008.gravitational_parameter) is not None
+        assert coe.get_periapsis_radius() is not None
+        assert coe.get_apoapsis_radius() is not None
+        assert coe.get_si_vector(COE.AnomalyType.TrueAnomaly) is not None
+        assert coe.get_si_vector(COE.AnomalyType.MeanAnomaly) is not None
+        assert coe.get_si_vector(COE.AnomalyType.EccentricAnomaly) is not None
 
-    def test_static_constructors(
-        self
+    def test_to_brouwer_lyddane_mean(
+        self,
+        coe: COE,
     ):
+        assert coe.to_brouwer_lyddane_mean_long() is not None
+        assert coe.to_brouwer_lyddane_mean_short() is not None
 
-        assert COE.eccentric_anomaly_from_true_anomaly(Angle.degrees(0.0), 0.0) is not None
-        assert COE.true_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
-        assert COE.mean_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
+    def test_anomaly_conversions(self):
         assert (
-            COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0) is not None
+            COE.eccentric_anomaly_from_true_anomaly(Angle.degrees(0.0), 0.0) is not None
+        )
+        assert (
+            COE.true_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
+        )
+        assert (
+            COE.mean_anomaly_from_eccentric_anomaly(Angle.degrees(0.0), 0.0) is not None
+        )
+        assert (
+            COE.eccentric_anomaly_from_mean_anomaly(Angle.degrees(0.0), 0.0, 0.0)
+            is not None
+        )
+
+    def test_from_SI_vector(
+        self,
+        coe: COE,
+        semi_major_axis: Length,
+        eccentricity: float,
+        inclination: Angle,
+        raan: Angle,
+        aop: Angle,
+        true_anomaly: Angle,
+    ):
+        assert coe == COE.from_SI_vector(
+            semi_major_axis.inMeters(),
+            eccentricity,
+            inclination.inRadians(),
+            raan.inRadians(),
+            aop.inRadians(),
+            true_anomaly.inRadians(),
         )
 
     def test_string_from_element(self):

@@ -2,7 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Models/Kepler/BrouwerLyddaneMeanShort.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanShort(
+    pybind11::module& aModule
+)
 {
     using namespace pybind11;
 
@@ -13,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_Brouw
 
     using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMeanShort;
 
-    class_<BrouwerLyddaneMeanShort, BrouwerLyddaneMean, Shared<BrouwerLyddaneMeanShort>> brouwerLyddaneMeanShort(aModule, "BrouwerLyddaneMeanShort");
+    class_<BrouwerLyddaneMeanShort, BrouwerLyddaneMean> brouwerLyddaneMeanShort(aModule, "BrouwerLyddaneMeanShort");
 
     brouwerLyddaneMeanShort
 
@@ -25,17 +27,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_Brouw
             arg("raan"),
             arg("aop"),
             arg("mean_anomaly")
-        );
-
-        .def_static(
-            "cartesian",
-            &BrouwerLyddaneMeanLong::Cartesian,
-            arg("cartersian_state"),
-            arg("gravitational_parameter")
         )
 
+        .def("to_coe", &BrouwerLyddaneMeanShort::toCOE)
+
         .def_static(
-            "undefined",
-            &BrouwerLyddaneMeanLong::Undefined
-        );
+            "cartesian", &BrouwerLyddaneMeanShort::Cartesian, arg("cartersian_state"), arg("gravitational_parameter")
+        )
+
+        .def_static("undefined", &BrouwerLyddaneMeanShort::Undefined);
 }

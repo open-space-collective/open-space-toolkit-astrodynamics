@@ -14,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
     using ostk::astro::trajectory::orbit::models::kepler::COE;
 
-    class_<COE, Shared<COE>> coe(aModule, "COE");
+    class_<COE> coe(aModule, "COE");
 
     coe
 
@@ -44,6 +44,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         .def("get_true_anomaly", &COE::getTrueAnomaly)
         .def("get_mean_anomaly", &COE::getMeanAnomaly)
         .def("get_eccentric_anomaly", &COE::getEccentricAnomaly)
+        .def("get_periapsis_radius", &COE::getPeriapsisRadius)
+        .def("get_periapsis_altitude", &COE::getPeriapsisRadius)
+        .def("get_SI_vector", &COE::getSIVector, arg("anomaly_type"))
 
         .def("get_mean_motion", &COE::getMeanMotion, arg("gravitational_parameter"))
 
@@ -51,9 +54,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
 
         .def("get_cartesian_state", &COE::getCartesianState, arg("gravitational_parameter"), arg("frame"))
 
+        .def("to_brouwer_lyddane_mean_long", &COE::toBrouwerLyddaneMeanLong)
+        .def("to_brouwer_lyddane_mean_short", &COE::toBrouwerLyddaneMeanShort)
+
         .def_static("undefined", &COE::Undefined)
 
         .def_static("cartesian", &COE::Cartesian, arg("cartesian_state"), arg("gravitational_parameter"))
+
+        .def_static("from_SI_vector", &COE::FromSIVector, arg("vector"), arg("anomaly_type"))
 
         .def_static(
             "eccentric_anomaly_from_true_anomaly",
@@ -84,6 +92,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
             arg("tolerance")
         )
 
+        .def_static(
+            "true_anomaly_from_mean_anomaly",
+            &COE::TrueAnomalyFromMeanAnomaly,
+            arg("mean_anomaly"),
+            arg("eccentricity"),
+            arg("tolerance")
+        )
+
         .def_static("string_from_element", &COE::StringFromElement, arg("element"))
 
         ;
@@ -98,6 +114,14 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Models_Kepler_COE(p
         .value("TrueAnomaly", COE::Element::TrueAnomaly)
         .value("MeanAnomaly", COE::Element::MeanAnomaly)
         .value("EccentricAnomaly", COE::Element::EccentricAnomaly)
+
+        ;
+
+    enum_<COE::AnomalyType>(coe, "AnomalyType")
+
+        .value("TrueAnomaly", COE::AnomalyType::True)
+        .value("MeanAnomaly", COE::AnomalyType::Mean)
+        .value("EccentricAnomaly", COE::AnomalyType::Eccentric)
 
         ;
 }

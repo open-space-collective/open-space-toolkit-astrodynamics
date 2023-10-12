@@ -106,7 +106,7 @@ class BrouwerLyddaneMeanShort : public BrouwerLyddaneMean
     ///
     /// @param                  [in] aVector A vector
 
-    static BrouwerLyddaneMeanShort FromVector(const Vector6d &aVector);
+    static BrouwerLyddaneMeanShort FromSIVector(const Vector6d &aVector);
 };
 
 }  // namespace kepler

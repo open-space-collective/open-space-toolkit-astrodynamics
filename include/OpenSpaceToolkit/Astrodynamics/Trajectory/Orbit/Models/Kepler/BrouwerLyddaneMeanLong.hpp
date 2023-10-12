@@ -61,7 +61,6 @@ using ostk::astro::trajectory::orbit::models::kepler::BrouwerLyddaneMean;
 class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
 {
    public:
-
     /// @brief                  Constructor
     ///
     /// @param                  [in] aSemiMajorAxis A semi-major axis
@@ -102,12 +101,11 @@ class BrouwerLyddaneMeanLong : public BrouwerLyddaneMean
     static BrouwerLyddaneMeanLong Undefined();
 
    private:
-
     /// @brief                  Constructor
     ///
     /// @param                  [in] aVector A vector
 
-    static BrouwerLyddaneMeanLong FromVector(const Vector6d &aVector);
+    static BrouwerLyddaneMeanLong FromSIVector(const Vector6d &aVector);
 };
 
 }  // namespace kepler
