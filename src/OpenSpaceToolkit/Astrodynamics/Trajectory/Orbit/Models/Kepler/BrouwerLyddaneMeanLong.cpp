@@ -40,6 +40,9 @@ BrouwerLyddaneMeanLong::BrouwerLyddaneMeanLong(
 
 COE BrouwerLyddaneMeanLong::toCOE() const
 {
+    // ref:
+    // https://github.com/ChristopherRabotin/GMAT/blob/37201a6290e7f7b941bc98ee973a527a5857104b/src/base/util/StateConversionUtil.cpp#L4206
+
     const auto mod = [](const Real &value, const Real &bound) -> Real
     {
         return value - bound * std::floor(value / bound);
@@ -48,7 +51,7 @@ COE BrouwerLyddaneMeanLong::toCOE() const
     // TBM: Make configurable?
     const Real equatorialRadius = EarthGravitationalModel::EGM2008.equatorialRadius_.inMeters();
 
-    Integer pseudostate = 0;
+    Integer pseudoState = 0;
     bool possibleInaccuracyLongWritten = false;
     bool criticalInclinationWritten = false;
 
@@ -69,7 +72,7 @@ COE BrouwerLyddaneMeanLong::toCOE() const
     {
         incdp = Real::Pi() - incdp;
         raandp = -raandp;
-        pseudostate = 1;
+        pseudoState = 1;
     }
 
     // negative eccentricity aviodance lines
@@ -368,7 +371,7 @@ COE BrouwerLyddaneMeanLong::toCOE() const
         aop += Real::TwoPi();
     }
 
-    if (pseudostate != 0)
+    if (pseudoState != 0)
     {
         inc = Real::Pi() - inc;
         raan = Real::TwoPi() - raan;

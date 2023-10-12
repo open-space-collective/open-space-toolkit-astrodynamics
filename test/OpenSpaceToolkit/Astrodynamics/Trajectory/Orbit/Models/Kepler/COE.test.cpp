@@ -316,7 +316,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetPeria
     }
 
     {
-        EXPECT_ANY_THROW(COE::Undefined().getTrueAnomaly());
+        EXPECT_ANY_THROW(COE::Undefined().getPeriapsisRadius());
     }
 }
 
@@ -336,7 +336,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, GetApoap
     }
 
     {
-        EXPECT_ANY_THROW(COE::Undefined().getTrueAnomaly());
+        EXPECT_ANY_THROW(COE::Undefined().getApoapsisRadius());
     }
 }
 

@@ -53,6 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydda
 {
 };
 
+// Values taken from GMAT
 INSTANTIATE_TEST_SUITE_P(
     Cartesian,
     OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMean_Parametrized,
@@ -111,7 +112,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydd
     EXPECT_LT(std::abs(brouwerMeanLongOE.getMeanAnomaly().inRadians() - expectedMeanElements[5]), 1e-5);
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Cartesian)
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Cartesian_EdgeCases)
 {
     {
         const COE coe = {
@@ -166,6 +167,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
     }
 }
 
+// Values taken from GMAT
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, ToCOE)
 {
     {

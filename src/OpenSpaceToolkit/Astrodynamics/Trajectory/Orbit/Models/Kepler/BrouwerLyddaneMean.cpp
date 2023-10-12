@@ -135,8 +135,8 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
     Vector6d coeVector = coe.getVector(COE::AnomalyType::Mean);
 
-    Integer pseudostate = 0;
-    if (coeVector[2] > 3.0543261909900763)
+    Integer pseudoState = 0;
+    if (coeVector[2] > 3.0543261909900763)  // 175.0 degrees
     {
         coeVector[2] = Real::Pi() - coeVector[2];  // INC = 180 - INC
         coeVector[3] = -coeVector[3];              // RAAN = - RAAN
@@ -147,7 +147,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         cartesian.segment(0, 3) = position.getCoordinates();
         cartesian.segment(3, 3) = velocity.getCoordinates();
 
-        pseudostate = 1;
+        pseudoState = 1;
     }
 
     // TBI: Can make this a static method to convert to Modified Equinoctial elements
@@ -257,30 +257,13 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
     brouwerLyddaneMean = brouwerLyddaneMeanFromMEE(modifiedEquinoctialElementsMean);
 
-    if (pseudostate != 0)
+    if (pseudoState != 0)
     {
         brouwerLyddaneMean[2] = Real::Pi() - brouwerLyddaneMean[2];
         brouwerLyddaneMean[3] = -brouwerLyddaneMean[3];
     }
 
     return brouwerLyddaneMean;
-}
-
-Vector6d BrouwerLyddaneMean::getVector() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("BrouwerLyddaneMean");
-    }
-
-    return {
-        semiMajorAxis_.inMeters(),
-        eccentricity_,
-        inclination_.inRadians(),
-        raan_.inRadians(),
-        aop_.inRadians(),
-        anomaly_.inRadians(),
-    };
 }
 
 }  // namespace kepler
