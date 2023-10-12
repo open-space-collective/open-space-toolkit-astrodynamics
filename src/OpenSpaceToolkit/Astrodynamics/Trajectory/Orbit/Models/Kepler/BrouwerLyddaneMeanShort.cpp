@@ -52,7 +52,6 @@ COE BrouwerLyddaneMeanShort::toCOE() const
     bool possibleInaccuracyLongWritten = false;
     bool brouwerSmallEccentricityWritten = false;
 
-    // Real	 re		 = 6378.1363; // Earth radius
     const Real re = EarthGravitationalModel::EGM2008.equatorialRadius_.inMeters();
     const Real j2 = 1.082626925638815E-03;
     const Real ae = 1.0;

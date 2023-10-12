@@ -815,3 +815,27 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, StringFr
         EXPECT_EQ(COE::StringFromElement(element), expectedString);
     }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_COE, ConvertAnomaly)
+{
+    {
+        EXPECT_DOUBLE_EQ(
+            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::True).getTrueAnomaly().inDegrees(), 0.0
+        );
+    }
+
+    {
+        EXPECT_DOUBLE_EQ(
+            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Mean).getMeanAnomaly().inDegrees(), 0.0
+        );
+    }
+
+    {
+        EXPECT_DOUBLE_EQ(
+            COE::FromVector({7.0e6, 0.0, 0.0, 0.0, 0.0, 0.0}, COE::AnomalyType::Eccentric)
+                .getEccentricAnomaly()
+                .inDegrees(),
+            0.0
+        );
+    }
+}
