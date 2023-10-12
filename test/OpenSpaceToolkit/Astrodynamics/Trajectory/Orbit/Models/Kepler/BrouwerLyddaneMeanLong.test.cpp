@@ -111,6 +111,61 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydd
     EXPECT_LT(std::abs(brouwerMeanLongOE.getMeanAnomaly().inRadians() - expectedMeanElements[5]), 1e-5);
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Cartesian)
+{
+    {
+        const COE coe = {
+            Length::Meters(6983041.66751785),
+            1.0,
+            Angle::Degrees(97.80765762597238),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        };
+
+        EXPECT_ANY_THROW(BrouwerLyddaneMeanLong::Cartesian(
+            coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    }
+
+    {
+        const COE coe = {
+            Length::Meters(2000000.0),
+            0.1,
+            Angle::Degrees(97.80765762597238),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        };
+
+        EXPECT_ANY_THROW(BrouwerLyddaneMeanLong::Cartesian(
+            coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        ));
+    }
+
+    {
+        const COE coe = {
+            Length::Meters(5000000.0),
+            0.1,
+            Angle::Degrees(97.80765762597238),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        };
+
+        testing::internal::CaptureStdout();
+
+        BrouwerLyddaneMeanLong::Cartesian(
+            coe.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF()),
+            EarthGravitationalModel::EGM2008.gravitationalParameter_
+        );
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, ToCOE)
 {
     {
@@ -131,6 +186,49 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
         EXPECT_NEAR(19.0652692183025, coe.getRaan().inDegrees(), 1e-6);
         EXPECT_NEAR(68.06017615493676, coe.getAop().inDegrees(), 1e-6);
         EXPECT_NEAR(291.9278181964628, coe.getMeanAnomaly().inDegrees(), 1e-6);
+    }
+
+    {
+        const BrouwerLyddaneMeanLong brouwerMeanLongOE = BrouwerLyddaneMeanLong({
+            Length::Meters(6983041.66751785),
+            1.0,
+            Angle::Degrees(179.0),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        });
+
+        EXPECT_ANY_THROW(brouwerMeanLongOE.toCOE());
+    }
+
+    {
+        const BrouwerLyddaneMeanLong brouwerMeanLongOE = BrouwerLyddaneMeanLong({
+            Length::Meters(6178000.66751785),
+            0.001288522395593299,
+            Angle::Degrees(179.0),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        });
+
+        testing::internal::CaptureStdout();
+
+        brouwerMeanLongOE.toCOE();
+
+        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+    }
+
+    {
+        const BrouwerLyddaneMeanLong brouwerMeanLongOE = BrouwerLyddaneMeanLong({
+            Length::Meters(200000.66751785),
+            0.001288522395593299,
+            Angle::Degrees(181.0),
+            Angle::Degrees(19.06529544678578),
+            Angle::Degrees(68.50632506660459),
+            Angle::Degrees(291.4817543658902),
+        });
+
+        EXPECT_ANY_THROW(brouwerMeanLongOE.toCOE());
     }
 }
 
@@ -194,5 +292,12 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddan
             brouwerLyddaneMeanLongConverted.getMeanAnomaly().inRadians(),
             1e-6
         );
+    }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLyddaneMeanLong, Undefined)
+{
+    {
+        EXPECT_NO_THROW(BrouwerLyddaneMeanLong::Undefined());
     }
 }

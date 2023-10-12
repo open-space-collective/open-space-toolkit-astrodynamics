@@ -268,6 +268,11 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
 Vector6d BrouwerLyddaneMean::getVector() const
 {
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("BrouwerLyddaneMean");
+    }
+
     return {
         semiMajorAxis_.inMeters(),
         eccentricity_,

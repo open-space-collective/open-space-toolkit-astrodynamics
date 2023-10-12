@@ -22,6 +22,7 @@ using ostk::core::types::Index;
 using ostk::core::ctnr::Tuple;
 
 using ostk::math::obj::Vector3d;
+using ostk::math::obj::Vector6d;
 
 using ostk::physics::units::Angle;
 using ostk::physics::coord::Frame;
@@ -89,5 +90,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Models_Kepler_BrouwerLydd
             brouwerLyddaneMean_.getEccentricAnomaly() ==
             COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly_, eccentricity_, 1e-15)
         );
+    }
+
+    {
+        const BrouwerLyddaneMeanMock brouwerLyddaneMeanMock(
+            Length::Undefined(), eccentricity_, inclination_, raan_, aop_, meanAnomaly_
+        );
+        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getMeanAnomaly());
+        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getTrueAnomaly());
+        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getEccentricAnomaly());
     }
 }
