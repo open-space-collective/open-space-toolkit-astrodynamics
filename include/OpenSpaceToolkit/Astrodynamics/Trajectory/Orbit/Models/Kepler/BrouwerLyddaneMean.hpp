@@ -85,8 +85,6 @@ class BrouwerLyddaneMean : public COE
         const Derived &aGravitationalParameter,
         std::function<Vector6d(const Vector6d &)> toCOEVector
     );
-
-    Vector6d getVector() const;
 };
 
 }  // namespace kepler
