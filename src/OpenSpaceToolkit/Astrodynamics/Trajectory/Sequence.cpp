@@ -1,5 +1,9 @@
 /// Apache License 2.0
 
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/trivial.hpp>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 namespace ostk
@@ -76,7 +80,8 @@ Sequence::Sequence(
     const Size& aRepetitionCount,
     const NumericalSolver& aNumericalSolver,
     const Array<Shared<Dynamics>>& aDynamicsArray,
-    const Duration& maximumPropagationDuration
+    const Duration& maximumPropagationDuration,
+    const Integer& verbose
 )
     : segments_(aSegmentArray),
       repetitionCount_(aRepetitionCount),
@@ -84,6 +89,30 @@ Sequence::Sequence(
       dynamics_(aDynamicsArray),
       maximumPropagationDuration_(maximumPropagationDuration)
 {
+    if (verbose == 0)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::trace);
+    }
+    else if (verbose == 1)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::debug);
+    }
+    else if (verbose == 2)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::info);
+    }
+    else if (verbose == 3)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::warning);
+    }
+    else if (verbose == 4)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::error);
+    }
+    else if (verbose == 5)
+    {
+        boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::fatal);
+    }
 }
 
 std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence)
@@ -144,10 +173,21 @@ Sequence::Solution Sequence::solve(const State& aState) const
     {
         for (const Segment& segment : segments_)
         {
+            BOOST_LOG_TRIVIAL(debug) << String::Format("Solving Segment [{}]: ", i) << segment << std::endl;
+
             Segment::Solution segmentSolution = segment.solve(initialState, maximumPropagationDuration_);
 
             segmentSolution.name =
                 String::Format("{} - {} - {}", segmentSolution.name, segment.getEventCondition()->getName(), i);
+
+            BOOST_LOG_TRIVIAL(debug) << "Segment Solved: " << segmentSolution.name << std::endl;
+            BOOST_LOG_TRIVIAL(debug) << String::Format(
+                                            "Propagation duration: {}",
+                                            (segmentSolution.states.accessLast().accessInstant() -
+                                             segmentSolution.states.accessFirst().accessInstant())
+                                                .toString()
+                                        )
+                                     << std::endl;
 
             segmentSolutions.add(segmentSolution);
 
