@@ -11,7 +11,7 @@ from ostk.physics.coordinate import Position
 from ostk.physics.coordinate import Velocity
 from ostk.physics.coordinate import Frame
 
-from ostk.astrodynamics.trajectory import State, StateBuilder
+from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.trajectory.state import CoordinatesBroker
 from ostk.astrodynamics.trajectory.state.coordinates_subset import (
     CartesianPosition,
