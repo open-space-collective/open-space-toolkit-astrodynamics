@@ -92,6 +92,18 @@ State::State(const State& aState)
 {
 }
 
+State& State::operator=(const State& aState)
+{
+    if (this != &aState)
+    {
+        instant_ = aState.instant_;
+        coordinates_ = aState.coordinates_;
+        frameSPtr_ = aState.frameSPtr_;
+        coordinatesBrokerSPtr_ = aState.coordinatesBrokerSPtr_;
+    }
+    return *this;
+}
+
 bool State::operator==(const State& aState) const
 {
     if ((!this->isDefined()) || (!aState.isDefined()))
