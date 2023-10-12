@@ -67,10 +67,10 @@ COE BrouwerLyddaneMeanShort::toCOE() const
 
     if ((incp < 0.0) || (incp > Real::Pi()))
     {
-        throw ostk::core::error::RuntimeError(String::Format(
+        throw ostk::core::error::RuntimeError(
             "BrouwerLyddaneMeanShort is applicable only if 0.0 < inclination: [{}] < 180.0 degrees.",
             Angle::Radians(incp).inDegrees()
-        ));
+        );
     }
 
     if (incp > 3.0543261909900763)
@@ -98,7 +98,7 @@ COE BrouwerLyddaneMeanShort::toCOE() const
     if (eccp > 0.99)
     {
         throw ostk::core::error::RuntimeError(
-            String::Format("BrouwerLyddaneMeanShort is applicable only if 0.0 < Ecc: [{}] < 0.99.", eccp)
+            "BrouwerLyddaneMeanShort is applicable only if 0.0 < Ecc: [{}] < 0.99.", eccp
         );
     }
 
@@ -106,7 +106,7 @@ COE BrouwerLyddaneMeanShort::toCOE() const
     if (perigee < 3000000.0)
     {
         throw ostk::core::error::RuntimeError(
-            String::Format("BrouwerLyddaneMeanShort is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee)
+            "BrouwerLyddaneMeanShort is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee
         );
     }
     if (perigee < 6378000.0)

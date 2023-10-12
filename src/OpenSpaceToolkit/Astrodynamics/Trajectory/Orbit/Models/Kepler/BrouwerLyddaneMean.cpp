@@ -86,7 +86,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     if ((coe.getEccentricity() > 0.99) || (coe.getEccentricity() < 0.0))
     {
         throw ostk::core::error::RuntimeError(
-            String::Format("BrouwerLyddaneMean is applicable only if 0.0 < Ecc: [{}] < 0.99.", coe.getEccentricity())
+            "BrouwerLyddaneMean is applicable only if 0.0 < Ecc: [{}] < 0.99.", coe.getEccentricity()
         );
     }
 
@@ -94,7 +94,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     if (perigee < 3000000.0)
     {
         throw ostk::core::error::RuntimeError(
-            String::Format("BrouwerLyddaneMean is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee)
+            "BrouwerLyddaneMean is applicable only if Perigee radius: [{}] > 3000000.0 m.", perigee
         );
     }
     if (perigee < 6378000.0)
@@ -111,9 +111,9 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     const Real inclination_degrees = coe.getInclination().inDegrees();
     if (inclination_degrees > 180.0)
     {
-        throw ostk::core::error::RuntimeError(String::Format(
+        throw ostk::core::error::RuntimeError(
             "BrouwerLyddaneMean is applicable only if inclination: [{}] < 180.0 degrees.", inclination_degrees
-        ));
+        );
     }
 
     if ((58.80 < inclination_degrees && inclination_degrees < 65.78) ||
