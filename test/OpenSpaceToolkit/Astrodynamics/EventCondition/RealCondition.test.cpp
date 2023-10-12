@@ -60,7 +60,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
         VectorXd coordinates(1);
         coordinates << coordinate;
 
-        return defaultStateBuilder_.buildState(defaultInstant_, coordinates);
+        return defaultStateBuilder_.build(defaultInstant_, coordinates);
     }
 };
 

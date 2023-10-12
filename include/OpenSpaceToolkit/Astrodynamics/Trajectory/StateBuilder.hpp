@@ -4,7 +4,9 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder__
 
 #include <OpenSpaceToolkit/Core/Containers/Array.hpp>
+#include <OpenSpaceToolkit/Core/Types/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Types/Shared.hpp>
+#include <OpenSpaceToolkit/Core/Types/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Objects/Vector.hpp>
 
@@ -22,7 +24,9 @@ namespace astro
 namespace trajectory
 {
 
+using ostk::core::types::Integer;
 using ostk::core::types::Shared;
+using ostk::core::types::Size;
 using ostk::core::ctnr::Array;
 
 using ostk::math::obj::VectorXd;
@@ -59,6 +63,12 @@ class StateBuilder
 
     StateBuilder(const Shared<const Frame>& aFrameSPtr, const Shared<const CoordinatesBroker>& aCoordinatesBrokerSPtr);
 
+    /// @brief                  Constructor.
+    ///
+    /// @param                  [in] aState The state to be used as a template
+
+    StateBuilder(const State& aState);
+
     /// @brief                  Equality operator.
     ///
     /// @param                  [in] aStateBuilder The StateBuilder to compare to
@@ -72,6 +82,22 @@ class StateBuilder
     /// @return                 True if the  StateBuilders are not equal, false otherwise
 
     bool operator!=(const StateBuilder& aStateBuilder) const;
+
+    /// @brief                  Return a new StateBuilder with the additional CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to append
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder operator+(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
+
+    /// @brief                  Return a new StateBuilder without the given CoordinatesSubset.
+    ///
+    /// @param                  [in] aCoordinatesSubsetSPtr The CoordinatesSubset to remove
+    ///
+    /// @return                 A new StateBuilder
+
+    const StateBuilder operator-(const Shared<const CoordinatesSubset>& aCoordinatesSubsetSPtr) const;
 
     /// @brief                  Stream insertion operator.
     ///
@@ -91,7 +117,22 @@ class StateBuilder
     ///
     /// @return                 A State linked to the Frame and Coordinates Broker of the StateBuilder
 
-    const State buildState(const Instant& anInstant, const VectorXd& aCoordinates) const;
+    const State build(const Instant& anInstant, const VectorXd& aCoordinates) const;
+
+    /// @brief                  Produce a State with the CoordinatesSubsets specified by the StateBuilder.
+    ///
+    /// @param                  [in] aState the state from which the coordinates will be taken.
+    /// @return                 A State with the CoordinatesSubsets of the StateBuilder.
+
+    const State reduce(const State& aState) const;
+
+    /// @brief                  Produce a State with the CoordinatesSubsets specified by the StateBuilder.
+    ///
+    /// @param                  [in] aState the state from which the coordinates will be taken.
+    /// @param                  [in] defaultState the state from which missing coordinates will be taken.
+    /// @return                 A State with the CoordinatesSubsets of the StateBuilder.
+
+    const State expand(const State& aState, const State& defaultState) const;
 
     /// @brief                  Accessor for the reference frame.
     ///
