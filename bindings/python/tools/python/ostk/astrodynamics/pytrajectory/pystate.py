@@ -29,7 +29,7 @@ def custom_class_generator(frame: Frame, coordinates_subsets: list) -> type:
 
         def __init__(self, instant: Instant, coordinates: np.ndarray):
             super().__init__(
-                StateTemplateType.state_builder.build_state(instant, coordinates)
+                StateTemplateType.state_builder.build(instant, coordinates)
             )
 
     return StateTemplateType

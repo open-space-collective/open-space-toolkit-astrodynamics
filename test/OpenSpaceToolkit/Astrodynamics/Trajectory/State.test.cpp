@@ -136,6 +136,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_State, CopyAssignmentOperator)
 
     // Copy the state
     State anotherState = State::Undefined();
+
+    // Check that the two states are no longer equal
+    EXPECT_NE(aState, anotherState);
+
     anotherState = aState;
 
     // Check that the two states are equal
